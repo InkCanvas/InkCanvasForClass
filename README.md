@@ -1,13 +1,13 @@
 <div align="center">
 
-[![LOGO](Ink-Canvas-For-Annotation/Resources/Ink-Canvas-For-Annotation.png?raw=true "LOGO")](# "LOGO")
+[![LOGO](Ink%20Canvas/Resources/Ink-Canvas-For-Annotation.png?raw=true "LOGO")](# "LOGO")
 
 # Ink-Canvas-For-Annotation
 
 [![UPSTREAM](https://img.shields.io/badge/UpStream-WXRIW%2FInk--Canvas-red.svg "LICENSE")](https://github.com/WXRIW/Ink-Canvas)
 [![LICENSE](https://img.shields.io/badge/License-GPL--3.0-red.svg "LICENSE")](./LICENSE)
-[![Latest release](https://img.shields.io/github/release/ChangSakura/Ink-Canvas-For-Annotation.svg?style=shield)](https://github.com/ChangSakura/Ink-Canvas-For-Annotation/releases/latest)
-[![GitHub issues](https://img.shields.io/github/issues/ChangSakura/Ink-Canvas-For-Annotation?logo=github)](https://github.com/ChangSakura/Ink-Canvas-For-Annotation/issues)
+[![Latest release](https://img.shields.io/github/release/ChangSakura/Ink-Canvas.svg?style=shield)](https://github.com/ChangSakura/Ink-Canvas/releases/latest)
+[![GitHub issues](https://img.shields.io/github/issues/ChangSakura/Ink-Canvas?logo=github)](https://github.com/ChangSakura/Ink-Canvas/issues)
 
 ![Screenshot-1](./Images/Ink-Canvas-For-Annotation%20Screenshot.png)
 
@@ -17,7 +17,7 @@
 
 使用和分发本软件前，请您应当且务必知晓相关开源协议，本软件基于 https://github.com/WXRIW/Ink-Canvas 修改而成，增添了包括但不限于隐藏到侧边栏等功能，更改了相关操作逻辑。对于墨迹功能的相关 issue 提出，应优先查阅 https://github.com/WXRIW/Ink-Canvas/issues 。
 
-[直接下载](https://github.com/ChangSakura/Ink-Canvas-For-Annotation/releases/latest "Latest Releases")
+[直接下载](https://github.com/ChangSakura/Ink-Canvas/releases/latest "Latest Releases")
 ——该安装包使用 Inno Setup Compiler 打包，V4.0.0 之后版本安装时不会替换 Settings.json 文件，默认推荐设置适配希沃六代机的使用。
 
 ---
