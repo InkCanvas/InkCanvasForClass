@@ -19,7 +19,7 @@ namespace Ink_Canvas.Helpers
             {
                 string localVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
                 string remoteAddress = proxy;
-                remoteAddress += "https://raw.githubusercontent.com/ChangSakura/Ink-Canvas/main/AutomaticUpdateVersionControl.txt";
+                remoteAddress += "https://raw.githubusercontent.com/ChangSakura/Ink-Canvas/master/AutomaticUpdateVersionControl.txt";
                 string remoteVersion = await GetRemoteVersion(remoteAddress);
 
                 if (remoteVersion != null)

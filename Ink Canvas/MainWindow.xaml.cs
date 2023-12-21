@@ -2693,7 +2693,7 @@ namespace Ink_Canvas {
         }
 
         private async void BtnCheckAutoUpdateProxyReturnedData_Click(object sender, RoutedEventArgs e) {
-            string ProxyReturnedData = await AutoUpdateHelper.GetRemoteVersion(Settings.Startup.AutoUpdateProxy + "https://raw.githubusercontent.com/ChangSakura/Ink-Canvas/main/AutomaticUpdateVersionControl.txt");
+            string ProxyReturnedData = await AutoUpdateHelper.GetRemoteVersion(Settings.Startup.AutoUpdateProxy + "https://raw.githubusercontent.com/ChangSakura/Ink-Canvas/master/AutomaticUpdateVersionControl.txt");
             ShowNotification(ProxyReturnedData);
         }
 
