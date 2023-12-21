@@ -170,21 +170,9 @@
                     <Border x:Name="BorderStopTime" Background="#E8EAF0" Margin="0,23,0,0"
                             Height="18" CornerRadius="9"
                             VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <ui:SimpleStackPanel Margin="3,0" Spacing="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Image>
-                                <Image.Source>
-                                    <DrawingImage>
-                                        <DrawingImage.Drawing>
-                                            <DrawingGroup ClipGeometry="M0,0 V64 H64 V0 H0 Z">
-                                                <DrawingGroup Opacity="1">
-                                                    <GeometryDrawing Brush="#FF231F20" Geometry="F1 M64,64z M0,0z M45.5,41L45.5,43.25 36.5,43.25C36.5,43.871 36.383,44.454 36.148,44.999 35.913,45.544 35.591,46.021 35.181,46.432 34.771,46.843 34.293,47.164 33.748,47.399 33.203,47.634 32.621,47.75 32,47.75 31.379,47.75 30.796,47.633 30.251,47.398 29.706,47.163 29.229,46.841 28.818,46.431 28.407,46.021 28.086,45.543 27.851,44.998 27.616,44.453 27.5,43.871 27.5,43.25L18.5,43.25 18.5,41 20.75,41 20.75,27.5C20.75,26.469 20.885,25.473 21.154,24.512 21.423,23.551 21.801,22.655 22.288,21.823 22.775,20.991 23.36,20.232 24.046,19.547 24.732,18.862 25.49,18.276 26.322,17.789 27.154,17.302 28.051,16.925 29.011,16.655 29.971,16.385 30.969,16.25 32,16.25 33.031,16.25 34.027,16.385 34.988,16.654 35.949,16.923 36.845,17.301 37.677,17.788 38.509,18.275 39.268,18.86 39.953,19.546 40.638,20.232 41.224,20.99 41.711,21.822 42.198,22.654 42.575,23.551 42.845,24.511 43.115,25.471 43.249,26.468 43.249,27.499L43.249,41 45.5,41z M41,41L41,27.5C41,26.258 40.763,25.092 40.288,24.002 39.813,22.912 39.169,21.96 38.354,21.146 37.539,20.332 36.587,19.687 35.498,19.212 34.409,18.737 33.242,18.5 32,18.5 30.758,18.5 29.592,18.737 28.502,19.212 27.412,19.687 26.46,20.331 25.646,21.146 24.832,21.961 24.187,22.913 23.712,24.002 23.237,25.091 23,26.258 23,27.5L23,41 41,41z M32,45.5C32.316,45.5 32.609,45.441 32.879,45.324 33.149,45.207 33.386,45.046 33.591,44.841 33.796,44.636 33.957,44.399 34.074,44.129 34.191,43.859 34.25,43.567 34.25,43.25L29.75,43.25C29.75,43.566 29.809,43.859 29.926,44.129 30.043,44.399 30.204,44.636 30.409,44.841 30.614,45.046 30.851,45.207 31.121,45.324 31.391,45.441 31.684,45.5 32,45.5z" />
-                                                </DrawingGroup>
-                                            </DrawingGroup>
-                                        </DrawingImage.Drawing>
-                                    </DrawingImage>
-                                </Image.Source>
-                            </Image>
-                            <TextBlock Name="TextBlockStopTime" Text="12:30 PM" FontSize="9" Margin="-1,-1,4,0" VerticalAlignment="Center"/>
+                        <ui:SimpleStackPanel Margin="6,0" Spacing="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Image Margin="0,0,2,0" Source="/Resources/Icons-Fluent/ic_fluent_clock_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="10" Width="10"/>
+                            <TextBlock Name="TextBlockStopTime" Text="12:30 PM" FontSize="9" VerticalAlignment="Center"/>
                         </ui:SimpleStackPanel>
                     </Border>
                     <ui:SimpleStackPanel Visibility="{Binding ElementName=ProcessBarTime, Path=Visibility}" Spacing="10" Orientation="Horizontal" Height="30" HorizontalAlignment="Center" VerticalAlignment="Bottom">

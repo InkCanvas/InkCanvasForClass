@@ -1,5 +1,4 @@
-﻿using AutoUpdaterDotNET;
-using Ink_Canvas.Helpers;
+﻿using Ink_Canvas.Helpers;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -32,7 +31,7 @@ namespace Ink_Canvas
 
         void App_Startup(object sender, StartupEventArgs e)
         {
-            if (!StoreHelper.IsStoreApp) RootPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            /*if (!StoreHelper.IsStoreApp) */RootPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
 
             LogHelper.NewLog(string.Format("Ink Canvas Starting (Version: {0})", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
@@ -48,15 +47,6 @@ namespace Ink_Canvas
             }
 
             StartArgs = e.Args;
-
-            if (!StoreHelper.IsStoreApp)
-            {
-                AutoUpdater.Start($"http://ink.wxriw.cn:1957/update");
-                AutoUpdater.ApplicationExitEvent += () =>
-                {
-                    Environment.Exit(0);
-                };
-            }
         }
 
         private void ScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
@@ -72,13 +62,9 @@ namespace Ink_Canvas
                         SenderScrollViewer.ScrollToVerticalOffset(SenderScrollViewer.VerticalOffset - e.Delta * 10 * System.Windows.Forms.SystemInformation.MouseWheelScrollLines / (double)120);
                         e.Handled = true;
                     }
-                    catch
-                    {
-                    }
+                    catch {  }
             }
-            catch
-            {
-            }
+            catch {  }
         }
     }
 }

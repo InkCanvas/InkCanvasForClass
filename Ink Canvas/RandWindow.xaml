@@ -8,7 +8,7 @@
         ui:ThemeManager.RequestedTheme="Light" Topmost="True" Background="Transparent"
         mc:Ignorable="d" WindowStyle="None" AllowsTransparency="True" Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
-        Title="抽奖 WPF by WXRIW (XY Wang)" Height="500" Width="900">
+        Title="Ink Canvas 抽奖" Height="500" Width="900">
     <Border Background="#F0F3F9" CornerRadius="10" BorderThickness="1" BorderBrush="#0066BF" Margin="0">
         <Grid>
             <Grid.ColumnDefinitions>

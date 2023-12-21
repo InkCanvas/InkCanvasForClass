@@ -8,7 +8,7 @@
     <ProjectGuid>{8D0EDFC7-F974-4571-BC49-6F3A6653FE81}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Ink_Canvas</RootNamespace>
-    <AssemblyName>Ink Canvas</AssemblyName>
+    <AssemblyName>Ink Canvas Annotation</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -54,7 +54,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\InkCanvas.ico</ApplicationIcon>
+    <ApplicationIcon>Ink Canvas Annotation.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -144,6 +144,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -154,21 +156,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\AutoUpdateHelper.cs" />
+    <Compile Include="Helpers\ForegroundWindowInfo.cs" />
     <Compile Include="ChangeLogWindow.xaml.cs">
       <DependentUpon>ChangeLogWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ClickSensitiveGrid.xaml.cs">
-      <DependentUpon>ClickSensitiveGrid.xaml</DependentUpon>
+    <Compile Include="OperatingGuideWindow.xaml.cs">
+      <DependentUpon>OperatingGuideWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CycleProcessBar.xaml.cs">
       <DependentUpon>CycleProcessBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AnimationHelper.cs" />
     <Compile Include="Helpers\InkRecognizeHelper.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Helpers\MultiTouchInput.cs" />
-    <Compile Include="Helpers\StoreHelper.cs" />
+    <Compile Include="Helpers\SoftwareLauncher.cs" />
     <Compile Include="Helpers\TimeMachine.cs" />
     <Compile Include="Helpers\Converters.cs" />
+    <Compile Include="Helpers\WinTabWindowsChecker.cs" />
     <Compile Include="NamesInputWindow.xaml.cs">
       <DependentUpon>NamesInputWindow.xaml</DependentUpon>
     </Compile>
@@ -185,16 +191,13 @@
     <Compile Include="CountdownTimerWindow.xaml.cs">
       <DependentUpon>CountdownTimerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WelcomeWindow.xaml.cs">
-      <DependentUpon>WelcomeWindow.xaml</DependentUpon>
-    </Compile>
     <Page Include="ChangeLogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ClickSensitiveGrid.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="OperatingGuideWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="CycleProcessBar.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -253,10 +256,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WelcomeWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -287,9 +286,6 @@
   </ItemGroup>
   <!-- When Office is not installed -->
   <ItemGroup>
-    <PackageReference Include="Autoupdater.NET.Official">
-      <Version>1.8.1</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.Office.Interop.PowerPoint">
       <Version>15.0.4420.1018</Version>
     </PackageReference>
@@ -359,19 +355,6 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\InkCanvas.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\logo.png" />
-    <Resource Include="Resources\text.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\textCN.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\logo2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
@@ -385,6 +368,129 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\TimerDownNotice.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\check-box-background.png" />
+    <Resource Include="Resources\Icons-png\eraser-line.png" />
+    <Resource Include="Resources\Icons-png\eraser-outline.png" />
+    <Resource Include="Resources\Icons-png\playCircle.png" />
+    <Resource Include="Resources\Icons-png\redo.png" />
+    <Resource Include="Resources\Icons-png\setting.png" />
+    <Resource Include="Resources\Icons-png\undo.png" />
+    <Resource Include="Resources\Icons-png\minimize.png" />
+    <Resource Include="Resources\Icons-png\penUpright.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\twoFingelMove-Blue.png" />
+    <Resource Include="Resources\Icons-png\twoFingelMove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\close-circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Ink Canvas Annotation.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DeveloperAvatars\ChangSakura.png" />
+    <Resource Include="Resources\DeveloperAvatars\clover-yan.png" />
+    <Resource Include="Resources\DeveloperAvatars\CN-Ironegg.jpg" />
+    <Resource Include="Resources\DeveloperAvatars\jiajiaxd.jpg" />
+    <Resource Include="Resources\DeveloperAvatars\kengwang.png" />
+    <Resource Include="Resources\DeveloperAvatars\Raspberry-Monster.jpg" />
+    <Resource Include="Resources\DeveloperAvatars\STBBRD.png" />
+    <Resource Include="Resources\DeveloperAvatars\WXRIW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\down.png" />
+    <Resource Include="Resources\Icons-png\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\EasiCamera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\Desmos.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_cursor_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_lasso_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_settings_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_whiteboard_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_dark_theme_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_dual_screen_span_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_timer_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_delete_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_cursorWITHdelete_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_arrow_circle_left_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_arrow_circle_right_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_weather_moon_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_weather_sunny_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_signature_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_save_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_camera_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_copy_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_copy_add_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_add_circle_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_flip_horizontal_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_flip_vertical_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_edit_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_folder_open_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_people_money_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_person_money_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_arrow_rotate_clockwise_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_scale_fit_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_scales_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_arrow_clockwise_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_calendar_sync_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_dismiss_circle_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_drag_24_regular.png" />
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_shapes_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_power_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_clock_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_book_question_mark_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_keyboard_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_control_button_24_regular.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

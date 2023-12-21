@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Ink_Canvas.Helpers;
+using System.IO;
 using System.Windows;
 
 namespace Ink_Canvas
@@ -11,6 +12,7 @@ namespace Ink_Canvas
         public NamesInputWindow()
         {
             InitializeComponent();
+            AnimationHelper.ShowWithSlideFromBottomAndFade(this, 0.25);
         }
 
         string originText = "";

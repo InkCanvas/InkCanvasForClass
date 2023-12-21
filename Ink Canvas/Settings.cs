@@ -20,6 +20,8 @@ namespace Ink_Canvas
         public InkToShape InkToShape { get; set; } = new InkToShape();
         [JsonProperty("startup")]
         public Startup Startup { get; set; } = new Startup();
+        [JsonProperty("randSettings")]
+        public RandSettings RandSettings { get; set; } = new RandSettings();
     }
 
     public class Canvas
@@ -55,27 +57,54 @@ namespace Ink_Canvas
     {
         [JsonIgnore]
         public bool IsEnableTwoFingerGesture => IsEnableTwoFingerZoom || IsEnableTwoFingerTranslate || IsEnableTwoFingerRotation;
+        [JsonIgnore]
+        public bool IsEnableTwoFingerGestureTranslateOrRotation => IsEnableTwoFingerTranslate || IsEnableTwoFingerRotation;
         [JsonProperty("isEnableTwoFingerZoom")]
         public bool IsEnableTwoFingerZoom { get; set; } = true;
         [JsonProperty("isEnableTwoFingerTranslate")]
         public bool IsEnableTwoFingerTranslate { get; set; } = true;
+        [JsonProperty("AutoSwitchTwoFingerGesture")]
+        public bool AutoSwitchTwoFingerGesture { get; set; } = true;
         [JsonProperty("isEnableTwoFingerRotation")]
         public bool IsEnableTwoFingerRotation { get; set; } = false;
         [JsonProperty("isEnableTwoFingerRotationOnSelection")]
         public bool IsEnableTwoFingerRotationOnSelection { get; set; } = false;
-
     }
 
     public class Startup
     {
+        [JsonProperty("isAutoUpdate")]
+        public bool IsAutoUpdate { get; set; } = true;
+        [JsonProperty("isAutoUpdateWithProxy")]
+        public bool IsAutoUpdateWithProxy { get; set; } = false;
+        [JsonProperty("autoUpdateProxy")]
+        public string AutoUpdateProxy { get; set; } = "https://mirror.ghproxy.com/";
+        [JsonProperty("isAutoUpdateWithSilence")]
+        public bool IsAutoUpdateWithSilence { get; set; } = false;
+        [JsonProperty("isAutoUpdateWithSilenceStartTime")]
+        public string AutoUpdateWithSilenceStartTime { get; set; } = "00:00";
+        [JsonProperty("isAutoUpdateWithSilenceEndTime")]
+        public string AutoUpdateWithSilenceEndTime { get; set; } = "00:00";
+
+        [JsonProperty("isEnableNibMode")]
+        public bool IsEnableNibMode { get; set; } = false;
+        /*
         [JsonProperty("isAutoHideCanvas")]
         public bool IsAutoHideCanvas { get; set; } = true;
         [JsonProperty("isAutoEnterModeFinger")]
-        public bool IsAutoEnterModeFinger { get; set; } = false;
+        public bool IsAutoEnterModeFinger { get; set; } = false;*/
     }
 
     public class Appearance
     {
+        [JsonProperty("isEnableDisPlayNibModeToggler")]
+        public bool IsEnableDisPlayNibModeToggler { get; set; } = true;
+        [JsonProperty("isColorfulViewboxFloatingBar")]
+        public bool IsColorfulViewboxFloatingBar { get; set; } = false;
+        [JsonProperty("enableViewboxFloatingBarScaleTransform")]
+        public bool EnableViewboxFloatingBarScaleTransform { get; set; } = false;
+        [JsonProperty("enableViewboxBlackBoardScaleTransform")]
+        public bool EnableViewboxBlackBoardScaleTransform { get; set; } = false;
         [JsonProperty("isTransparentButtonBackground")]
         public bool IsTransparentButtonBackground { get; set; } = true;
         [JsonProperty("isShowExitButton")]
@@ -96,6 +125,10 @@ namespace Ink_Canvas
     {
         [JsonProperty("isShowPPTNavigation")]
         public bool IsShowPPTNavigation { get; set; } = true;
+        [JsonProperty("isShowBottomPPTNavigationPanel")]
+        public bool IsShowBottomPPTNavigationPanel { get; set; } = true;
+        [JsonProperty("isShowSidePPTNavigationPanel")]
+        public bool IsShowSidePPTNavigationPanel { get; set; } = true;
         [JsonProperty("powerPointSupport")]
         public bool PowerPointSupport { get; set; } = true;
         [JsonProperty("isShowCanvasAtNewSlideShow")]
@@ -122,6 +155,52 @@ namespace Ink_Canvas
 
     public class Automation
     {
+        [JsonIgnore]
+        public bool IsEnableAutoFold => 
+            IsAutoFoldInEasiNote
+            || IsAutoFoldInEasiCamera
+            || IsAutoFoldInEasiNote3C
+            || IsAutoFoldInSeewoPincoTeacher
+            || IsAutoFoldInHiteTouchPro
+            || IsAutoFoldInHiteCamera
+            || IsAutoFoldInWxBoardMain
+            || IsAutoFoldInOldZyBoard
+            || IsAutoFoldInPPTSlideShow
+            || IsAutoFoldInMSWhiteboard;
+
+        [JsonProperty("isAutoFoldInEasiNote")]
+        public bool IsAutoFoldInEasiNote { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInEasiCamera")]
+        public bool IsAutoFoldInEasiCamera { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInEasiNote3C")]
+        public bool IsAutoFoldInEasiNote3C { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInSeewoPincoTeacher")]
+        public bool IsAutoFoldInSeewoPincoTeacher { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInHiteTouchPro")]
+        public bool IsAutoFoldInHiteTouchPro { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInHiteCamera")]
+        public bool IsAutoFoldInHiteCamera { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInWxBoardMain")]
+        public bool IsAutoFoldInWxBoardMain { get; set; } = false;
+        /*
+        [JsonProperty("isAutoFoldInZySmartBoard")]
+        public bool IsAutoFoldInZySmartBoard { get; set; } = false;
+        */
+        [JsonProperty("isAutoFoldInOldZyBoard")]
+        public bool IsAutoFoldInOldZyBoard { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInMSWhiteboard")]
+        public bool IsAutoFoldInMSWhiteboard { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInPPTSlideShow")]
+        public bool IsAutoFoldInPPTSlideShow { get; set; } = false;
+
         [JsonProperty("isAutoKillPptService")]
         public bool IsAutoKillPptService { get; set; } = false;
 
@@ -149,19 +228,39 @@ namespace Ink_Canvas
     {
         [JsonProperty("isSpecialScreen")]
         public bool IsSpecialScreen { get; set; } = false;
+
         [JsonProperty("isQuadIR")]
         public bool IsQuadIR { get; set; } = false;
+
         [JsonProperty("touchMultiplier")]
         public double TouchMultiplier { get; set; } = 0.25;
+
+        [JsonProperty("nibModeBoundsWidth")]
+        public int NibModeBoundsWidth { get; set; } = 10;
+
+        [JsonProperty("fingerModeBoundsWidth")]
+        public int FingerModeBoundsWidth { get; set; } = 30;
+
         [JsonProperty("eraserBindTouchMultiplier")]
         public bool EraserBindTouchMultiplier { get; set; } = false;
+
         [JsonProperty("isLogEnabled")]
         public bool IsLogEnabled { get; set; } = true;
+
+        [JsonProperty("isSecondConfimeWhenShutdownApp")]
+        public bool IsSecondConfimeWhenShutdownApp { get; set; } = false;
     }
 
     public class InkToShape
     {
         [JsonProperty("isInkToShapeEnabled")]
         public bool IsInkToShapeEnabled { get; set; } = true;
+    }
+
+    public class RandSettings {
+        [JsonProperty("peopleCount")]
+        public int PeopleCount { get; set; } = 60;
+        [JsonProperty("isNotRepeatName")]
+        public bool IsNotRepeatName { get; set; } = false;
     }
 }

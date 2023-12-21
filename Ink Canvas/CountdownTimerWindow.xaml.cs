@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ink_Canvas.Helpers;
+using System;
 using System.Media;
 using System.Timers;
 using System.Windows;
@@ -15,6 +16,7 @@ namespace Ink_Canvas
         public CountdownTimerWindow()
         {
             InitializeComponent();
+            AnimationHelper.ShowWithSlideFromBottomAndFade(this, 0.25);
 
             timer.Elapsed += Timer_Elapsed;
             timer.Interval = 50;
