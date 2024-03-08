@@ -12,7 +12,7 @@ namespace Ink_Canvas
         public OperatingGuideWindow()
         {
             InitializeComponent();
-            AnimationHelper.ShowWithSlideFromBottomAndFade(this, 0.25);
+            AnimationsHelper.ShowWithSlideFromBottomAndFade(this, 0.25);
         }
 
         private void BtnClose_MouseUp(object sender, MouseButtonEventArgs e)
@@ -28,10 +28,10 @@ namespace Ink_Canvas
         private void BtnFullscreen_MouseUp(object sender, MouseButtonEventArgs e) {
             if (WindowState == WindowState.Normal) {
                 WindowState = WindowState.Maximized;
-                SymbolIconFullscreen.Symbol = ModernWpf.Controls.Symbol.BackToWindow;
+                SymbolIconFullscreen.Symbol = iNKORE.UI.WPF.Modern.Controls.Symbol.BackToWindow;
             } else {
                 WindowState = WindowState.Normal;
-                SymbolIconFullscreen.Symbol = ModernWpf.Controls.Symbol.FullScreen;
+                SymbolIconFullscreen.Symbol = iNKORE.UI.WPF.Modern.Controls.Symbol.FullScreen;
             }
         }
 

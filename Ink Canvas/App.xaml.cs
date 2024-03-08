@@ -1,8 +1,10 @@
 ﻿using Ink_Canvas.Helpers;
+using iNKORE.UI.WPF.Modern.Controls;
 using System;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using MessageBox = iNKORE.UI.WPF.Modern.Controls.MessageBox;
 
 namespace Ink_Canvas
 {
@@ -58,7 +60,7 @@ namespace Ink_Canvas
                 else
                     try
                     {
-                        System.Windows.Controls.ScrollViewer SenderScrollViewer = (System.Windows.Controls.ScrollViewer)sender;
+                        ScrollViewerEx SenderScrollViewer = (ScrollViewerEx)sender;
                         SenderScrollViewer.ScrollToVerticalOffset(SenderScrollViewer.VerticalOffset - e.Delta * 10 * System.Windows.Forms.SystemInformation.MouseWheelScrollLines / (double)120);
                         e.Handled = true;
                     }

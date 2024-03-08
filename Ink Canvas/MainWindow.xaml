@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ink_Canvas"
-        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
         xmlns:c="clr-namespace:Ink_Canvas.Converter" xmlns:Controls="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
         mc:Ignorable="d"
         AllowsTransparency="True"
@@ -20,7 +20,7 @@
         Closing="Window_Closing"
         Closed="Window_Closed"
         PreviewKeyDown="Main_Grid_PreviewKeyDown"
-        Height="6000" Width="1440"
+        Height="6500" Width="1440"
         FontFamily="Microsoft YaHei UI"
         MouseWheel="Window_MouseWheel"
         Foreground="Black"
@@ -143,73 +143,73 @@
                   PreviewTouchUp="GridInkCanvasSelectionCover_PreviewTouchUp"
                   TouchDown="GridInkCanvasSelectionCover_TouchDown"
                   TouchUp="GridInkCanvasSelectionCover_TouchUp"
-                  Background="#01FFFFFF" Opacity="0.01" Visibility="Visible"/>
+                  Background="#01FFFFFF" Opacity="0.01" Visibility="Visible" Margin="1,0,-1,0"/>
             <Border Name="BorderStrokeSelectionControl"
                     HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,900,0,0"
                     CornerRadius="5" Height="80"
-                    Background="{DynamicResource ToolBarBackground}" Visibility="{Binding ElementName=GridInkCanvasSelectionCover, Path=Visibility}"
-                    BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                    Background="{DynamicResource FloatBarBackground}" Visibility="{Binding ElementName=GridInkCanvasSelectionCover, Path=Visibility}"
+                    BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                 <Viewbox Margin="0,-2.5">
                     <ui:SimpleStackPanel Orientation="Horizontal" Spacing="10" Height="60">
                         <Border Name="BorderStrokeSelectionClone" Margin="0,2,-9,2" Background="Transparent" CornerRadius="{Binding ElementName=BorderStrokeSelectionControl, Path=CornerRadius}"
                                 Width="40" MouseDown="Border_MouseDown" MouseUp="BorderStrokeSelectionClone_MouseUp">
                             <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_copy_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25"/>
-                                <TextBlock Text="克隆" FontSize="10" Foreground="{DynamicResource ToolBarForeground}" HorizontalAlignment="Center"/>
+                                <TextBlock Text="克隆" FontSize="10" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Center"/>
                             </ui:SimpleStackPanel>
                         </Border>
                         <Border Name="BorderStrokeSelectionCloneToNewBoard" Margin="0,2,-9,2" Background="Transparent" CornerRadius="{Binding ElementName=BorderStrokeSelectionControl, Path=CornerRadius}"
                                 Width="40" MouseDown="Border_MouseDown" MouseUp="BorderStrokeSelectionCloneToNewBoard_MouseUp" Visibility="{Binding Visibility, ElementName=GridBackgroundCover}">
                             <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_copy_add_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25"/>
-                                <TextBlock Text="克隆至新页" FontSize="8" Foreground="{DynamicResource ToolBarForeground}" HorizontalAlignment="Center"/>
+                                <TextBlock Text="克隆至新页" FontSize="8" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Center"/>
                             </ui:SimpleStackPanel>
                         </Border>
-                        <Border Width="1" Height="45" BorderBrush="{DynamicResource ToolBarForeground}" Background="{DynamicResource ToolBarForeground}"/>
+                        <Border Width="1" Height="45" BorderBrush="{DynamicResource FloatBarForeground}" Background="{DynamicResource FloatBarForeground}"/>
                         <Border CornerRadius="{Binding ElementName=BorderStrokeSelectionControl, Path=CornerRadius}" Height="40">
                             <ui:SimpleStackPanel VerticalAlignment="Center" Spacing="5" Margin="0,-10">
                                 <ui:SimpleStackPanel Orientation="Horizontal" Spacing="10">
                                     <Image Source="{DynamicResource Rotate45DrawingImage}" Height="22" MouseDown="Border_MouseDown" MouseUp="ImageRotate45_MouseUp"/>
                                     <Image Source="{DynamicResource Rotate90DrawingImage}" Height="22" MouseDown="Border_MouseDown" MouseUp="ImageRotate90_MouseUp"/>
                                 </ui:SimpleStackPanel>
-                                <TextBlock Text="旋转" FontSize="10" HorizontalAlignment="Center" Foreground="{DynamicResource ToolBarForeground}"/>
+                                <TextBlock Text="旋转" FontSize="10" HorizontalAlignment="Center" Foreground="{DynamicResource FloatBarForeground}"/>
                             </ui:SimpleStackPanel>
                         </Border>
-                        <Border Width="1" Height="45" BorderBrush="{DynamicResource ToolBarForeground}" Background="{DynamicResource ToolBarForeground}"/>
+                        <Border Width="1" Height="45" BorderBrush="{DynamicResource FloatBarForeground}" Background="{DynamicResource FloatBarForeground}"/>
                         <Border CornerRadius="{Binding ElementName=BorderStrokeSelectionControl, Path=CornerRadius}" Height="40">
                             <ui:SimpleStackPanel VerticalAlignment="Center" Margin="0,-10">
                                 <ui:SimpleStackPanel Orientation="Horizontal">
                                     <Image MouseDown="Border_MouseDown" MouseUp="ImageFlipHorizontal_MouseUp" Source="/Resources/Icons-Fluent/ic_fluent_flip_horizontal_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="30" Width="30"/>
                                     <Image MouseDown="Border_MouseDown" MouseUp="ImageFlipVertical_MouseUp" Source="/Resources/Icons-Fluent/ic_fluent_flip_vertical_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="30" Width="30"/>
                                 </ui:SimpleStackPanel>
-                                <TextBlock Text="翻转" FontSize="10" HorizontalAlignment="Center" Foreground="{DynamicResource ToolBarForeground}"/>
+                                <TextBlock Text="翻转" FontSize="10" HorizontalAlignment="Center" Foreground="{DynamicResource FloatBarForeground}"/>
                             </ui:SimpleStackPanel>
                         </Border>
-                        <Border Width="1" Height="45" BorderBrush="{DynamicResource ToolBarForeground}" Background="{DynamicResource ToolBarForeground}"/>
+                        <Border Width="1" Height="45" BorderBrush="{DynamicResource FloatBarForeground}" Background="{DynamicResource FloatBarForeground}"/>
                         <Border CornerRadius="{Binding ElementName=BorderStrokeSelectionControl, Path=CornerRadius}" Height="40">
                             <ui:SimpleStackPanel VerticalAlignment="Center" Spacing="5" Margin="0,-10">
                                 <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5">
                                     <Grid MouseDown="Border_MouseDown" MouseUp="GridPenWidthDecrease_MouseUp">
                                         <Image Source="/Resources/Icons-Fluent/ic_fluent_edit_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25"/>
-                                        <TextBlock Text="-"  Foreground="{DynamicResource ToolBarForeground}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-2,-7" FontSize="15"/>
+                                        <TextBlock Text="-"  Foreground="{DynamicResource FloatBarForeground}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-2,-7" FontSize="15"/>
                                     </Grid>
                                     <Grid MouseDown="Border_MouseDown" MouseUp="GridPenWidthIncrease_MouseUp">
                                         <Image Source="/Resources/Icons-Fluent/ic_fluent_edit_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25"/>
-                                        <TextBlock Text="+"  Foreground="{DynamicResource ToolBarForeground}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-3,-4" FontSize="11"/>
+                                        <TextBlock Text="+"  Foreground="{DynamicResource FloatBarForeground}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-3,-4" FontSize="11"/>
                                     </Grid>
                                     <Grid MouseDown="Border_MouseDown" MouseUp="GridPenWidthRestore_MouseUp">
                                         <Image Source="/Resources/Icons-Fluent/ic_fluent_edit_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25"/>
                                         <Image Source="{DynamicResource AndroidRefreshDrawingImage}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-2,-2" Width="8"/>
                                     </Grid>
                                 </ui:SimpleStackPanel>
-                                <TextBlock Text="画笔粗细" FontSize="10" HorizontalAlignment="Center" Foreground="{DynamicResource ToolBarForeground}"/>
+                                <TextBlock Text="画笔粗细" FontSize="10" HorizontalAlignment="Center" Foreground="{DynamicResource FloatBarForeground}"/>
                             </ui:SimpleStackPanel>
                         </Border>
-                        <Border Width="1" Height="45" BorderBrush="{DynamicResource ToolBarForeground}" Background="{DynamicResource ToolBarForeground}"/>
+                        <Border Width="1" Height="45" BorderBrush="{DynamicResource FloatBarForeground}" Background="{DynamicResource FloatBarForeground}"/>
                         <Border Margin="-8,0,0,0" CornerRadius="{Binding ElementName=BorderStrokeSelectionControl, Path=CornerRadius}" Width="40" MouseDown="Border_MouseDown" MouseUp="BorderStrokeSelectionDelete_MouseUp">
                             <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_delete_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25"/>
-                                <TextBlock Margin="0,5,0,0" Text="删除" FontSize="10" Foreground="{DynamicResource ToolBarForeground}" HorizontalAlignment="Center"/>
+                                <TextBlock Margin="0,5,0,0" Text="删除" FontSize="10" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Center"/>
                             </ui:SimpleStackPanel>
                         </Border>
                     </ui:SimpleStackPanel>
@@ -221,17 +221,17 @@
             <Grid Visibility="{Binding ElementName=GridBackgroundCoverHolder, Path=Visibility}">
                 <Viewbox Margin="10" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                     <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5">
-                        <Border Width="36" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                        <Border Width="36" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                             <Grid Margin="6" MouseUp="GridPPTControlPrevious_MouseUp">
                                 <Image Source="{DynamicResource ResourceKey=SeewoImageSource.HorizontalPreviousSlideNormal}"/>
                             </Grid>
                         </Border>
-                        <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" Width="36" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                        <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" Width="36" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                             <Grid MouseUp="PPTNavigationBtn_Click">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding ElementName=PptNavigationTextBlock, Path=Foreground}" FontSize="{Binding ElementName=PptNavigationTextBlock, Path=FontSize}" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}" />
                             </Grid>
                         </Border>
-                        <Border Width="36" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                        <Border Width="36" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                             <Grid Margin="6" MouseUp="GridPPTControlNext_MouseUp">
                                 <Image Source="{DynamicResource ResourceKey=SeewoImageSource.HorizontalNextSlideNormal}"/>
                             </Grid>
@@ -278,9 +278,9 @@
                             </Grid>
                         </Border>
                         <!--
-                        <Border Width="36" Height="36" MouseDown="Border_MouseDown" MouseUp="BorderMultiTouchMode_MouseUp" CornerRadius="5" Background="White" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                        <Border Width="36" Height="36" MouseDown="Border_MouseDown" MouseUp="BorderMultiTouchMode_MouseUp" CornerRadius="5" Background="White" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                             <Viewbox Margin="8">
-                                <ui:SymbolIcon Name="SymbolIconMultiTouchMode" Symbol="People" Foreground="{DynamicResource ToolBarForeground}" />
+                                <ui:SymbolIcon Name="SymbolIconMultiTouchMode" Symbol="People" Foreground="{DynamicResource FloatBarForeground}" />
                             </Viewbox>
                         </Border>
                         -->
@@ -303,20 +303,20 @@
                         <Grid Margin="0,0,0,5" Width="0">
                             <Border Name="BoardTwoFingerGestureBorder" Margin="-115,-125,-55,54" CornerRadius="5" Background="LightGray" Opacity="0.85" BorderBrush="Black" BorderThickness="1">
                                 <ui:SimpleStackPanel Margin="13">
-                                    <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <ui:SimpleStackPanel  Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Image Source="/Resources/Icons-Fluent/ic_fluent_drag_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"/>
                                         <Label Content="双指移动" FontSize="15" VerticalAlignment="Center"/>
-                                        <ui:ToggleSwitch Width="42" Name="BoardToggleSwitchEnableTwoFingerTranslate" FontFamily="Microsoft YaHei UI" IsOn="False" Toggled="ToggleSwitchEnableTwoFingerTranslate_Toggled"/>
+                                        <ui:ToggleSwitch MinWidth="0" Width="42" Name="BoardToggleSwitchEnableTwoFingerTranslate" FontFamily="Microsoft YaHei UI" IsOn="False" OnContent="" OffContent="" Toggled="ToggleSwitchEnableTwoFingerTranslate_Toggled"/>
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Image Source="/Resources/Icons-Fluent/ic_fluent_scale_fit_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"/>
                                         <Label Content="双指缩放" FontSize="15" VerticalAlignment="Center"/>
-                                        <ui:ToggleSwitch Width="42" Name="BoardToggleSwitchEnableTwoFingerZoom" FontFamily="Microsoft YaHei UI" IsOn="False" Toggled="ToggleSwitchEnableTwoFingerZoom_Toggled"/>
+                                        <ui:ToggleSwitch MinWidth="0" Width="42" Name="BoardToggleSwitchEnableTwoFingerZoom" FontFamily="Microsoft YaHei UI" IsOn="False" OnContent="" OffContent="" Toggled="ToggleSwitchEnableTwoFingerZoom_Toggled"/>
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Image Source="/Resources/Icons-Fluent/ic_fluent_arrow_rotate_clockwise_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"/>
                                         <Label Content="双指旋转" FontSize="15" VerticalAlignment="Center"/>
-                                        <ui:ToggleSwitch Width="42" Name="BoardToggleSwitchEnableTwoFingerRotation" FontFamily="Microsoft YaHei UI" Toggled="ToggleSwitchEnableTwoFingerRotation_Toggled"/>
+                                        <ui:ToggleSwitch MinWidth="0" Width="42" Name="BoardToggleSwitchEnableTwoFingerRotation" FontFamily="Microsoft YaHei UI" OnContent="" OffContent="" Toggled="ToggleSwitchEnableTwoFingerRotation_Toggled"/>
                                     </ui:SimpleStackPanel>
                                 </ui:SimpleStackPanel>
                             </Border>
@@ -349,7 +349,7 @@
                                                 <ui:SimpleStackPanel>
                                                     <Controls:UniformGrid Columns="2" Width="300" Height="55">
                                                         <ui:SimpleStackPanel Orientation="Horizontal" Height="35">
-                                                            <Label Content="笔锋" Margin="0,0,12,0" Foreground="{DynamicResource ToolBarForeground}" FontSize="15" VerticalAlignment="Center"/>
+                                                            <Label Content="笔锋" Margin="0,0,12,0" Foreground="{DynamicResource FloatBarForeground}" FontSize="15" VerticalAlignment="Center"/>
                                                             <ComboBox Height="30" VerticalAlignment="Center" Name="BoardComboBoxPenStyle" FontFamily="Microsoft YaHei UI" SelectedIndex="0" SelectionChanged="ComboBoxPenStyle_SelectionChanged">
                                                                 <ComboBoxItem Content="抬笔笔锋" FontFamily="Microsoft YaHei UI"/>
                                                                 <ComboBoxItem Content="速度笔锋" FontFamily="Microsoft YaHei UI"/>
@@ -359,19 +359,18 @@
                                                         <ui:SimpleStackPanel Margin="0,-5,0,-5" VerticalAlignment="Center">
                                                             <ui:SimpleStackPanel x:Name="BoardNibModeSimpleStackPanel" Orientation="Horizontal" Width="140">
                                                                 <Label Content="笔尖模式" FontSize="15" VerticalAlignment="Center"/>
-                                                                <ui:ToggleSwitch x:Name="ToggleSwitchBoardEnableNibMode" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关" Margin="10,0,0,0" Toggled="ToggleSwitchEnableNibMode_Toggled" IsOn="True"/>
+                                                                <ui:ToggleSwitch x:Name="ToggleSwitchBoardEnableNibMode" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关" MinWidth="0" Margin="10,0,0,0" Toggled="ToggleSwitchEnableNibMode_Toggled" IsOn="True"/>
                                                             </ui:SimpleStackPanel>
                                                             <ui:SimpleStackPanel Orientation="Horizontal" Width="140">
-                                                                <Label Margin="0,0,10,0" Content="墨迹识别" Foreground="{DynamicResource ToolBarForeground}" FontSize="15" VerticalAlignment="Center"/>
-                                                                <ui:ToggleSwitch Foreground="{DynamicResource ToolBarForeground}" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关"
-                             Toggled="ToggleSwitchEnableInkToShape_Toggled" IsOn="{Binding ElementName=ToggleSwitchEnableInkToShape, Path=IsOn}"/>
+                                                                <Label Margin="0,0,10,0" Content="墨迹识别" Foreground="{DynamicResource FloatBarForeground}" FontSize="15" VerticalAlignment="Center"/>
+                                                                <ui:ToggleSwitch Foreground="{DynamicResource FloatBarForeground}" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关" MinWidth="0" Toggled="ToggleSwitchEnableInkToShape_Toggled" IsOn="{Binding ElementName=ToggleSwitchEnableInkToShape, Path=IsOn}"/>
                                                             </ui:SimpleStackPanel>
                                                         </ui:SimpleStackPanel>
                                                     </Controls:UniformGrid>
 
 
                                                     <StackPanel Orientation="Horizontal" Height="30">
-                                                        <Label Margin="0,0,10,0" Content="粗细" Foreground="{DynamicResource ToolBarForeground}" FontSize="15" VerticalAlignment="Center"/>
+                                                        <Label Margin="0,0,10,0" Content="粗细" Foreground="{DynamicResource FloatBarForeground}" FontSize="15" VerticalAlignment="Center"/>
                                                         <Slider x:Name="BoardInkWidthSlider" Minimum="1" Maximum="15" Width="230" FontFamily="Microsoft YaHei UI" 
                                                             FontSize="20" IsSnapToTickEnabled="True" Value="5" TickFrequency="1" TickPlacement="None" ValueChanged="InkWidthSlider_ValueChanged"/>
                                                         <TextBlock Text="{Binding Value, ElementName=BoardInkWidthSlider, Mode=OneWay}" VerticalAlignment="Bottom" Margin="10,0,0,8" FontSize="14"/>
@@ -471,16 +470,16 @@
                             <Border x:Name="BoardBorderDrawShape" Visibility="Visible" Background="LightGray" Opacity="0.85" BorderBrush="Black" BorderThickness="1" CornerRadius="8" Margin="-147,-286,-89,59">
                                 <Viewbox>
                                     <ui:SimpleStackPanel Spacing="-8" Orientation="Vertical">
-                                        <TextBlock FontSize="16" Foreground="{DynamicResource ToolBarForeground}" HorizontalAlignment="Left" Margin="10,8">
+                                        <TextBlock FontSize="16" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Left" Margin="10,8">
                                             <Run Text="图形"/>
                                             <Run Text="(第一行支持长按保持选中)" FontSize="10"/>
                                         </TextBlock>
-                                        <ui:SymbolIcon Margin="0,-20,8,15" Symbol="Pin" MouseDown="Border_MouseDown" MouseUp="SymbolIconPinBorderDrawShape_MouseUp" Foreground="{DynamicResource ToolBarForeground}" HorizontalAlignment="Right"/>
+                                        <ui:SymbolIcon Margin="0,-20,8,15" Symbol="Pin" MouseDown="Border_MouseDown" MouseUp="SymbolIconPinBorderDrawShape_MouseUp" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Right"/>
                                         <ui:SimpleStackPanel Margin="20,0,0,0" Orientation="Horizontal">
                                             <ui:SimpleStackPanel Visibility="Collapsed" Margin="58,6,5,6" Width="54">
-                                                <Label Margin="0,0,0,-2" Content="自动隐藏" Foreground="{DynamicResource ToolBarForeground}" FontSize="13" VerticalAlignment="Center"/>
+                                                <Label Margin="0,0,0,-2" Content="自动隐藏" Foreground="{DynamicResource FloatBarForeground}" FontSize="13" VerticalAlignment="Center"/>
                                                 <Viewbox Height="25">
-                                                    <ui:ToggleSwitch Name="ToggleSwitchDrawShapeBorderAutoHide" Foreground="{DynamicResource ToolBarForeground}" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关" IsOn="True"/>
+                                                    <ui:ToggleSwitch Name="ToggleSwitchDrawShapeBorderAutoHide" Foreground="{DynamicResource FloatBarForeground}" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关" IsOn="True"/>
                                                 </Viewbox>
                                             </ui:SimpleStackPanel>
                                         </ui:SimpleStackPanel>
@@ -724,10 +723,10 @@
                     </Image>
                 </Button>
                 <Button Name="BtnWhiteBoardDelete" Click="BtnWhiteBoardDelete_Click"
-        FontFamily="Microsoft YaHei UI" Width="50" Height="48" FontSize="26"
-        Foreground="{Binding ElementName=BtnExit, Path=Foreground}"
-        Background="{Binding ElementName=BtnExit, Path=Background}"
-        IsEnabled="False">
+                        FontFamily="Microsoft YaHei UI" Width="50" Height="48" FontSize="26"
+                        Foreground="{Binding ElementName=BtnExit, Path=Foreground}"
+                        Background="{Binding ElementName=BtnExit, Path=Background}"
+                        IsEnabled="False">
                     <ui:SymbolIcon Symbol="Delete" />
                 </Button>
             </ui:SimpleStackPanel>
@@ -737,7 +736,7 @@
                 BorderThickness="1" CornerRadius="5" ui:ThemeManager.RequestedTheme="Light"
                 Width="440" HorizontalAlignment="Center" Margin="0,150,0,350" Visibility="Visible">
             <Grid>
-                <ScrollViewer Margin="0,60,0,50" VerticalScrollBarVisibility="Auto"
+                <ui:ScrollViewerEx Margin="0,60,0,50" VerticalScrollBarVisibility="Auto"
                               PanningMode="VerticalOnly" ui:ThemeManager.RequestedTheme="Light"
                               ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback">
                     <StackPanel Margin="20,20,20,20">
@@ -753,7 +752,7 @@
                                                 <Label FontSize="16" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontWeight="Bold">重启软件</Label>
                                             </ui:SimpleStackPanel>
                                         </Button>
-                                        <Button Width="168" Height="45" Background="LightPink" BorderBrush="IndianRed" BorderThickness="1.5" FontFamily="Microsoft YaHei UI" Click="BtnExit_Click">
+                                        <Button Width="168" Height="45" Background="#ffbfb6" BorderBrush="IndianRed" BorderThickness="1.5" FontFamily="Microsoft YaHei UI" Click="BtnExit_Click">
                                             <ui:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="0">
                                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_power_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="26"/>
                                                 <Label FontSize="16" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontWeight="Bold">关闭软件</Label>
@@ -764,7 +763,7 @@
                                         <Button Background="FloralWhite" BorderBrush="RosyBrown" BorderThickness="1.5" Width="358" Height="40" FontFamily="Microsoft YaHei UI" FontWeight="Bold" Click="BtnResetToSuggestion_Click" Margin="0,0,0,0">
                                             <ui:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="0">
                                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_calendar_sync_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="26"/>
-                                                <Label FontSize="16" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontWeight="Bold">重置设置为希沃六代机推荐设置</Label>
+                                                <Label Margin="3,0,0,0" FontSize="16" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontWeight="Bold">重置设置为希沃六代机推荐设置</Label>
                                             </ui:SimpleStackPanel>
                                         </Button>
                                     </ui:SimpleStackPanel>
@@ -838,9 +837,9 @@
                                     <ComboBoxItem Content="无笔锋"  FontFamily="Microsoft YaHei UI"/>
                                 </ComboBox>
                                 <ui:ToggleSwitch x:Name="ToggleSwitchModeFinger" Header="手指模式" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关"/>
-                                -->
+                                
                                 <TextBlock Text="# 此选项仅适用于可获取触摸面积的屏幕" TextWrapping="Wrap" Foreground="#666666"/>
-                                <!--
+                                
                                 <TextBlock Text="橡皮模式"  FontFamily="Microsoft YaHei UI" FontSize="14"/>
                                 <ComboBox Name="ComboBoxEraserType" FontFamily="Microsoft YaHei UI" SelectedIndex="0" SelectionChanged="ComboBoxEraserType_OnSelectionChanged">
                                     <ComboBoxItem Content="交替切换" FontFamily="Microsoft YaHei UI"/>
@@ -856,27 +855,27 @@
                                     <ComboBoxItem Content="较大"  FontFamily="Microsoft YaHei UI"/>
                                     <ComboBoxItem Content="大"  FontFamily="Microsoft YaHei UI"/>
                                 </ComboBox>
-                                <TextBlock Text="# 开启 退出画板模式后隐藏墨迹 选项后，进入 PPT 模式时未处于批注模式时不会显示墨迹。" TextWrapping="Wrap" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchHideStrokeWhenSelecting" Header="退出画板模式后隐藏墨迹" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchHideStrokeWhenSelecting_Toggled"/>
+                                <TextBlock Text="# 开启 退出画板模式后隐藏墨迹 选项后，进入 PPT 模式时未处于批注模式时不会显示墨迹。" TextWrapping="Wrap" Foreground="#666666"/>
                                 <!--
                                 <ui:ToggleSwitch Name="ToggleSwitchUsingWhiteboard" Header="使用白板 (白色背景)" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchUsingWhiteboard_Toggled"/>
                                 -->
-                                <TextBlock Text="# 请注意，若不保留双曲线渐近线会有 TimeMachine 相关的 BUG 影响使用。" TextWrapping="Wrap" Foreground="#666666"/>
                                 <TextBlock Text="保留双曲线渐近线" FontFamily="Microsoft YaHei UI" FontSize="14"/>
                                 <ComboBox Name="ComboBoxHyperbolaAsymptoteOption" FontFamily="Microsoft YaHei UI" SelectedIndex="0" SelectionChanged="ComboBoxHyperbolaAsymptoteOption_SelectionChanged">
                                     <ComboBoxItem Content="是" FontFamily="Microsoft YaHei UI"/>
                                     <ComboBoxItem Content="否" FontFamily="Microsoft YaHei UI"/>
                                     <ComboBoxItem Content="每次询问" FontFamily="Microsoft YaHei UI"/>
                                 </ComboBox>
+                                <TextBlock Text="# 请注意，若不保留双曲线渐近线可能会有遇到撤回相关的 BUG 影响用。" TextWrapping="Wrap" Foreground="#666666"/>
                             </ui:SimpleStackPanel>
                         </GroupBox>
                         <GroupBox Header="手势">
                             <ui:SimpleStackPanel Spacing="12">
-                                <TextBlock Text="# 开启 自动开关两指缩放功能 后退出画板模式时自动关闭双指移动手势，进入画板模式时自动开启双指移动手势" TextWrapping="Wrap" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoSwitchTwoFingerGesture" Header="自动开关两指缩放功能" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoSwitchTwoFingerGesture_Toggled"/>
+                                <TextBlock Text="# 开启 自动开关两指缩放功能 后退出画板模式时自动关闭双指移动手势，进入画板模式时自动开启双指移动手势" TextWrapping="Wrap" Foreground="#666666"/>
 
-                                <TextBlock Text="# 允许选中墨迹后对墨迹进行双指或多指缩放操作（此设置不受“允许双指旋转”设置的影响）" TextWrapping="Wrap" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchEnableTwoFingerRotationOnSelection" Header="允许双指旋转选中的墨迹" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchEnableTwoFingerRotation_Toggled"/>
+                                <TextBlock Text="# 允许选中墨迹后对墨迹进行双指或多指缩放操作（此设置不受“允许双指旋转”设置的影响）" TextWrapping="Wrap" Foreground="#666666"/>
                             </ui:SimpleStackPanel>
                         </GroupBox>
                         <GroupBox Name="GroupBoxInkRecognition" Header="墨迹识别">
@@ -911,16 +910,16 @@
                             <ui:SimpleStackPanel Spacing="12">
                                 <TextBlock Text="# 此部分的设置项将会在幻灯片播放时使用，优先级高于其他设置项" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchSupportPowerPoint" Header="Microsoft PowerPoint 支持" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchSupportPowerPoint_Toggled"/>
-                                <TextBlock Text="# 不推荐使用 WPS Office，鉴于其对于触摸设备的较差支持及其自身的兼容性问题，对 WPS Office 支持时会导致 WPS Office 关闭时卡顿。" TextWrapping="Wrap" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchSupportWPS" Header="WPS Office 支持" IsOn="True" IsEnabled="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchSupportWPS_Toggled"/>
+                                <TextBlock Text="# 不推荐使用 WPS Office，鉴于其对于触摸设备的较差支持及其自身的兼容性问题，对 WPS Office 支持时会导致 WPS Office 关闭时卡顿。" TextWrapping="Wrap" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchShowCanvasAtNewSlideShow" Header="进入 PPT 放映时自动进入批注模式" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchShowCanvasAtNewSlideShow_Toggled"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchEnableTwoFingerGestureInPresentationMode" Header="允许幻灯片模式下的双指手势" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchEnableTwoFingerGestureInPresentationMode_Toggled"/>
-                                <TextBlock Text="# 允许开启画板时使用手指手势进行幻灯片翻页（启用后，在幻灯片放映模式下，当画板无墨迹时，使用手指（笔尖或手掌无法识别）左右滑动即可控制幻灯片翻页。）" TextWrapping="Wrap" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchEnableFingerGestureSlideShowControl" Header="允许使用手指手势进行幻灯片翻页" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" IsOn="False" Toggled="ToggleSwitchEnableFingerGestureSlideShowControl_Toggled"/>
-                                <TextBlock Text="#开启 自动幻灯片截屏 后将会在幻灯片有墨迹时翻页自动截屏" TextWrapping="Wrap" Foreground="#666666"/>
+                                <TextBlock Text="# 允许开启画板时使用手指手势进行幻灯片翻页（启用后，在幻灯片放映模式下，当画板无墨迹时，使用手指（笔尖或手掌无法识别）左右滑动即可控制幻灯片翻页。）" TextWrapping="Wrap" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoSaveScreenShotInPowerPoint" Header="自动幻灯片截屏" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoSaveScreenShotInPowerPoint_Toggled"/>
-                                <TextBlock Text="#开启 自动保存幻灯片墨迹 后将在结束幻灯片放映时自动将保存已有墨迹，并在下次打开时自动加载（文件名和幻灯片页数都要相同）" TextWrapping="Wrap" Foreground="#666666"/>
+                                <TextBlock Text="#开启 自动幻灯片截屏 后将会在幻灯片有墨迹时翻页自动截屏" TextWrapping="Wrap" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoSaveStrokesInPowerPoint" Header="自动保存幻灯片墨迹" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoSaveStrokesInPowerPoint_Toggled"/>
+                                <TextBlock Text="#开启 自动保存幻灯片墨迹 后将在结束幻灯片放映时自动将保存已有墨迹，并在下次打开时自动加载（文件名和幻灯片页数都要相同）" TextWrapping="Wrap" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchNotifyPreviousPage" Header="记忆并提示上次播放位置" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchNotifyPreviousPage_Toggled"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchNotifyHiddenPage" Header="提示隐藏幻灯片" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchNotifyHiddenPage_Toggled"/>
                                 <!--
@@ -975,12 +974,14 @@
 
                                 <ui:ToggleSwitch Name="ToggleSwitchIsQuadIR" Header="四边红外模式" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchIsQuadIR_Toggled"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchIsLogEnabled" Header="记录日志" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" IsOn="True" Toggled="ToggleSwitchIsLogEnabled_Toggled"/>
+                                <TextBlock Text="# 日志文件超过 512 KB 时会自动删除。" TextWrapping="Wrap" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchIsSecondConfimeWhenShutdownApp" Header="关闭软件时二次弹窗确认" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" IsOn="False" Toggled="ToggleSwitchIsSecondConfimeWhenShutdownApp_Toggled"/>
                             </ui:SimpleStackPanel>
                         </GroupBox>
                         <GroupBox Header="自动">
                             <ui:SimpleStackPanel Spacing="12">
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInEasiNote" Header="进入“希沃白板”时自动收纳至侧边栏" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInEasiNote_Toggled"/>
+                                <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInEasiNoteIgnoreDesktopAnno" Header="“希沃白板”自动收纳忽略桌面 EN 批注窗口 (BETA)" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInEasiNoteIgnoreDesktopAnno_Toggled"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInEasiCamera" Header="进入“希沃视频展台”时自动收纳至侧边栏" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInEasiCamera_Toggled"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInEasiNote3C" Header="进入“希沃轻白板”时自动收纳至侧边栏" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInEasiNote3C_Toggled"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInSeewoPincoTeacher" Header="进入“希沃品课”时自动收纳至侧边栏" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInSeewoPincoTeacher_Toggled"/>
@@ -1120,7 +1121,7 @@
                             </ui:SimpleStackPanel>
                         </GroupBox>
                     </StackPanel>
-                </ScrollViewer>
+                </ui:ScrollViewerEx>
                 <Grid Background="White" Margin="20" Height="40" VerticalAlignment="Top">
                     <ui:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <Image Source="/Resources/Icons-Fluent/ic_fluent_settings_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="30" Width="30">
@@ -1137,7 +1138,7 @@
                                 </EventTrigger>
                             </Image.Triggers>
                         </Image>
-                        <TextBlock Margin="10,-2,0,0" Text="设置 | Settings" FontSize="26"/>
+                        <TextBlock Margin="10,-2,0,0" Text="详细设置" FontSize="26"/>
                     </ui:SimpleStackPanel>
                 </Grid>
                 <Grid VerticalAlignment="Bottom" Height="50">
@@ -1254,18 +1255,18 @@
             <Grid Visibility="{Binding ElementName=StackPanelPPTControls, Path=Visibility}">
                 <Viewbox Name="BottomViewboxPPTSidesControl" Visibility="Visible" Opacity="0.5" Margin="5" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                     <ui:SimpleStackPanel Orientation="Horizontal" Spacing="3.5">
-                        <Border Width="36" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                        <Border Width="36" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                             <Grid Margin="6">
                                 <Image Name="ImagePPTControlPreviousPressed" Visibility="Collapsed" Source="{DynamicResource ResourceKey=SeewoImageSource.HorizontalPreviousSlideSelected}"/>
                                 <Image Source="{DynamicResource ResourceKey=SeewoImageSource.HorizontalPreviousSlideNormal}"/>
                             </Grid>
                         </Border>
-                        <Border x:Name="PptNavigationBtn" Width="36" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                        <Border x:Name="PptNavigationBtn" Width="36" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                             <Grid MouseUp="PPTNavigationBtn_Click" MouseDown="Border_MouseDown">
-                                <TextBlock Name="PptNavigationTextBlock" FontSize="9" Foreground="{DynamicResource ToolBarForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="0/0" />
+                                <TextBlock Name="PptNavigationTextBlock" FontSize="9" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="0/0" />
                             </Grid>
                         </Border>
-                        <Border Width="36" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                        <Border Width="36" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                             <Grid Margin="6">
                                 <Image Name="ImagePPTControlNextPressed" Visibility="Collapsed" Source="{DynamicResource ResourceKey=SeewoImageSource.HorizontalNextSlideSelected}"/>
                                 <Image Source="{DynamicResource ResourceKey=SeewoImageSource.HorizontalNextSlideNormal}"/>
@@ -1275,17 +1276,17 @@
                 </Viewbox>
                 <Viewbox Visibility="{Binding ElementName=BottomViewboxPPTSidesControl, Path=Visibility}" Opacity="0.5" Margin="5" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                     <ui:SimpleStackPanel Orientation="Horizontal" Spacing="3.5">
-                        <Border Width="36" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                        <Border Width="36" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                             <Grid Margin="6">
                                 <Image Source="{DynamicResource ResourceKey=SeewoImageSource.HorizontalPreviousSlideNormal}"/>
                             </Grid>
                         </Border>
-                        <Border Width="36" Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                        <Border Width="36" Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                             <Grid MouseUp="PPTNavigationBtn_Click">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="Border_MouseDown" Foreground="{Binding ElementName=PptNavigationTextBlock, Path=Foreground}" FontSize="{Binding ElementName=PptNavigationTextBlock, Path=FontSize}" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}" />
                             </Grid>
                         </Border>
-                        <Border Width="36" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                        <Border Width="36" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                             <Grid Margin="6">
                                 <Image Source="{DynamicResource ResourceKey=SeewoImageSource.HorizontalNextSlideNormal}"/>
                             </Grid>
@@ -1298,17 +1299,17 @@
         <!--// PPT 侧边翻页按钮 //-->
         <Viewbox x:Name="LeftSidePanelForPPTNavigation" Visibility="Visible" Margin="6,0,0,0" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center">
             <ui:SimpleStackPanel Orientation="Vertical" Spacing="5" Opacity="0.4">
-                <Border Width="36" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                <Border Width="36" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                     <Grid Margin="6">
                         <Image Source="/Resources/Icons-png/up.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Grid>
                 </Border>
-                <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" MouseUp="PPTNavigationBtn_Click" MouseDown="Border_MouseDown" Width="36" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" MouseUp="PPTNavigationBtn_Click" MouseDown="Border_MouseDown" Width="36" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                     <Grid>
-                        <TextBlock FontSize="9" Foreground="{DynamicResource ToolBarForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}"/>
+                        <TextBlock FontSize="9" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}"/>
                     </Grid>
                 </Border>
-                <Border Width="36" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                <Border Width="36" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                     <Grid Margin="6">
                         <Image Source="/Resources/Icons-png/down.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Grid>
@@ -1317,17 +1318,17 @@
         </Viewbox>
         <Viewbox x:Name="RightSidePanelForPPTNavigation" Visibility="Visible" Margin="0,0,6,0" Width="40" HorizontalAlignment="Right" VerticalAlignment="Center">
             <ui:SimpleStackPanel Orientation="Vertical" Spacing="5" Opacity="0.4">
-                <Border Width="36" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                <Border Width="36" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                     <Grid Margin="6">
                         <Image Source="/Resources/Icons-png/up.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Grid>
                 </Border>
-                <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" MouseUp="PPTNavigationBtn_Click" MouseDown="Border_MouseDown" Width="36" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" MouseUp="PPTNavigationBtn_Click" MouseDown="Border_MouseDown" Width="36" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                     <Grid>
-                        <TextBlock FontSize="9" Foreground="{DynamicResource ToolBarForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}"/>
+                        <TextBlock FontSize="9" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}"/>
                     </Grid>
                 </Border>
-                <Border Width="36" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                <Border Width="36" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                     <Grid Margin="6">
                         <Image Source="/Resources/Icons-png/down.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Grid>
@@ -1341,14 +1342,14 @@
                 <ScaleTransform x:Name="ViewboxFloatingBarScaleTransform" ScaleX="1" ScaleY="1"/>
             </Viewbox.LayoutTransform>
             <ui:SimpleStackPanel Orientation="Horizontal">
-                <Border x:Name="BorderFloatingBarMoveControls" Width="36" Height="36" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}"
+                <Border x:Name="BorderFloatingBarMoveControls" Width="36" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}"
                         MouseDown="SymbolIconEmoji_MouseDown" MouseUp="SymbolIconEmoji_MouseUp">
                     <ui:SimpleStackPanel Margin="0,5,0,5" Orientation="Horizontal"
                                          HorizontalAlignment="Center">
-                        <ui:SymbolIcon Name="SymbolIconEmoji" Symbol="Emoji2" Foreground="{DynamicResource ToolBarForeground}"/>
+                        <ui:SymbolIcon Name="SymbolIconEmoji" Symbol="Emoji2" Foreground="{DynamicResource FloatBarForeground}"/>
                     </ui:SimpleStackPanel>
                 </Border>
-                <Border Padding="2" Margin="2,0,0,0" Visibility="Visible" Height="36" Name="BorderFloatingBarMainControls" Background="{DynamicResource ToolBarBackground}" CornerRadius="5" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                <Border Padding="2" Margin="2,0,0,0" Visibility="Visible" Height="36" Name="BorderFloatingBarMainControls" Background="{DynamicResource FloatBarBackground}" CornerRadius="5" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                     <ui:SimpleStackPanel Margin="2,0" Name="StackPanelFloatingBar" Orientation="Horizontal">
                         <ui:SimpleStackPanel Name="Cursor_Icon" MouseDown="Border_MouseDown" MouseUp="CursorIcon_Click"
                                              Background="Transparent" Orientation="Horizontal" HorizontalAlignment="Center" Width="28">
@@ -1367,7 +1368,7 @@
                         <ui:SimpleStackPanel Name="StackPanelCanvasControls" Visibility="Visible" Orientation="{Binding ElementName=StackPanelFloatingBar, Path=Orientation}">
                             <ui:SimpleStackPanel Width="0" Orientation="{Binding ElementName=StackPanelFloatingBar, Path=Orientation}">
                                 <Grid Margin="0,5,0,5" Width="0" RenderTransformOrigin="0.5,0.5">
-                                    <Border x:Name="PenPalette" Visibility="Visible" Background="white" Opacity="0.9" BorderBrush="{DynamicResource ToolBarBorderBrush}" BorderThickness="1" CornerRadius="8" Margin="-160,-190,-70,35">
+                                    <Border x:Name="PenPalette" Visibility="Visible" Background="white" Opacity="0.9" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1" CornerRadius="8" Margin="-160,-190,-70,35">
 
                                         <Viewbox>
                                             <StackPanel Margin="20 10">
@@ -1375,7 +1376,7 @@
                                                     <ui:SimpleStackPanel>
                                                         <Controls:UniformGrid Columns="2" Width="300" Height="55">
                                                             <ui:SimpleStackPanel Orientation="Horizontal" Height="35">
-                                                                <Label Content="笔锋" Margin="0,0,12,0" Foreground="{DynamicResource ToolBarForeground}" FontSize="15" VerticalAlignment="Center"/>
+                                                                <Label Content="笔锋" Margin="0,0,12,0" Foreground="{DynamicResource FloatBarForeground}" FontSize="15" VerticalAlignment="Center"/>
                                                                 <ComboBox Height="30" VerticalAlignment="Center" Name="ComboBoxPenStyle" FontFamily="Microsoft YaHei UI" SelectedIndex="0" SelectionChanged="ComboBoxPenStyle_SelectionChanged">
                                                                     <ComboBoxItem Content="抬笔笔锋" FontFamily="Microsoft YaHei UI"/>
                                                                     <ComboBoxItem Content="速度笔锋" FontFamily="Microsoft YaHei UI"/>
@@ -1385,19 +1386,19 @@
                                                             <ui:SimpleStackPanel Margin="0,-5,0,-5" VerticalAlignment="Center">
                                                                 <ui:SimpleStackPanel x:Name="NibModeSimpleStackPanel" Orientation="Horizontal" Width="140">
                                                                     <Label Content="笔尖模式" FontSize="15" VerticalAlignment="Center"/>
-                                                                    <ui:ToggleSwitch x:Name="ToggleSwitchEnableNibMode" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关" Margin="10,0,0,0" Toggled="ToggleSwitchEnableNibMode_Toggled" IsOn="True"/>
+                                                                    <ui:ToggleSwitch x:Name="ToggleSwitchEnableNibMode" MinWidth="0" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关" Margin="10,0,0,0" Toggled="ToggleSwitchEnableNibMode_Toggled" IsOn="True"/>
                                                                 </ui:SimpleStackPanel>
                                                                 <ui:SimpleStackPanel Orientation="Horizontal" Width="140">
-                                                                    <Label Margin="0,0,10,0" Content="墨迹识别" Foreground="{DynamicResource ToolBarForeground}" FontSize="15" VerticalAlignment="Center"/>
-                                                                    <ui:ToggleSwitch Foreground="{DynamicResource ToolBarForeground}" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关"
-                                                                                     Toggled="ToggleSwitchEnableInkToShape_Toggled" IsOn="{Binding ElementName=ToggleSwitchEnableInkToShape, Path=IsOn}"/>
+                                                                    <Label Margin="0,0,10,0" Content="墨迹识别" Foreground="{DynamicResource FloatBarForeground}" FontSize="15" VerticalAlignment="Center"/>
+                                                                    <ui:ToggleSwitch Foreground="{DynamicResource FloatBarForeground}" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关"
+                                                                                     Toggled="ToggleSwitchEnableInkToShape_Toggled" MinWidth="0" IsOn="{Binding ElementName=ToggleSwitchEnableInkToShape, Path=IsOn}"/>
                                                                 </ui:SimpleStackPanel>
                                                             </ui:SimpleStackPanel>
                                                         </Controls:UniformGrid>
 
 
                                                         <StackPanel Orientation="Horizontal" Height="30">
-                                                            <Label Margin="0,0,10,0" Content="粗细" Foreground="{DynamicResource ToolBarForeground}" FontSize="15" VerticalAlignment="Center"/>
+                                                            <Label Margin="0,0,10,0" Content="粗细" Foreground="{DynamicResource FloatBarForeground}" FontSize="15" VerticalAlignment="Center"/>
                                                             <Slider x:Name="InkWidthSlider" Minimum="1" Maximum="15" Width="230" FontFamily="Microsoft YaHei UI"
                                                                     FontSize="20" IsSnapToTickEnabled="True" Value="5" TickFrequency="1" TickPlacement="None" ValueChanged="InkWidthSlider_ValueChanged"/>
                                                             <TextBlock Text="{Binding Value, ElementName=InkWidthSlider, Mode=OneWay}" VerticalAlignment="Bottom" Margin="10,0,0,8" FontSize="14"/>
@@ -1480,15 +1481,15 @@
                             </ui:SimpleStackPanel>
 
                             <Grid Width="0">
-                                <Border x:Name="BorderDrawShape" Visibility="Visible" Background="White" Opacity="0.9" BorderBrush="{DynamicResource ToolBarBorderBrush}" BorderThickness="1"
+                                <Border x:Name="BorderDrawShape" Visibility="Visible" Background="White" Opacity="0.9" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1"
                                     CornerRadius="8" Margin="-112,-262,-88,27" Height="240">
                                     <Viewbox>
                                         <ui:SimpleStackPanel Spacing="-8" Orientation="Vertical">
-                                            <TextBlock FontSize="16" Foreground="{DynamicResource ToolBarForeground}" HorizontalAlignment="Left" Margin="10,8">
+                                            <TextBlock FontSize="16" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Left" Margin="10,8">
                                                 <Run Text="图形"/>
                                                 <Run Text="(第一行支持长按保持选中)" FontSize="10"/>
                                             </TextBlock>
-                                            <ui:SymbolIcon Margin="0,-20,8,15" Symbol="Pin" MouseDown="Border_MouseDown" MouseUp="SymbolIconPinBorderDrawShape_MouseUp" Foreground="{DynamicResource ToolBarForeground}" HorizontalAlignment="Right"/>
+                                            <ui:SymbolIcon Margin="0,-20,8,15" Symbol="Pin" MouseDown="Border_MouseDown" MouseUp="SymbolIconPinBorderDrawShape_MouseUp" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Right"/>
                                             <ui:SimpleStackPanel Height="50" Spacing="14" Orientation="Horizontal">
                                                 <Image Name="BoardImageDrawLine" Margin="16,12,0,12" MouseDown="Image_MouseDown" MouseUp="BtnDrawLine_Click" Source="{DynamicResource DrawShapeImageSource.Line}"/>
                                                 <Image Name="BoardImageDrawDashedLine" Margin="0,12,0,12" MouseDown="Image_MouseDown" MouseUp="BtnDrawDashedLine_Click" Source="{DynamicResource DrawShapeImageSource.DashedLine}"/>
@@ -1569,11 +1570,11 @@
                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_dual_screen_span_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="22" Width="28"/>
                             </ui:SimpleStackPanel>
                             <Grid Width="0">
-                                <Border Name="BorderTools" Margin="-117,-148,-35,40" CornerRadius="5" Background="White" Opacity="0.9" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}">
+                                <Border Name="BorderTools" Margin="-117,-148,-35,40" CornerRadius="5" Background="White" Opacity="0.9" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                                     <ui:SimpleStackPanel>
                                         <Image HorizontalAlignment="Right" Margin="0,2,2,-27" Source="/Resources/Icons-png/close-circle.png" RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25" MouseDown="Border_MouseDown" MouseUp="CloseBordertools_MouseUp"/>
                                         <ui:SimpleStackPanel Margin="10">
-                                            <Label Content="倒计时   抽选   单次抽选" FontSize="9.5" Foreground="{DynamicResource ToolBarForeground}" HorizontalAlignment="Left"/>
+                                            <Label Content="倒计时   抽选   单次抽选" FontSize="9.5" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Left"/>
                                             <ui:SimpleStackPanel Margin="2.5,0,0,2" Height="25" Spacing="13" Orientation="Horizontal">
                                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_timer_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="22" Width="22" MouseDown="Border_MouseDown" MouseUp="ImageCountdownTimer_MouseUp"/>
                                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_people_money_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20" MouseDown="Border_MouseDown" MouseUp="SymbolIconRand_MouseUp"/>
@@ -1601,7 +1602,7 @@
                 </Border>
 
 
-                <Border Margin="2,0,0,0" x:Name="EnableTwoFingerGestureBorder" Visibility="Visible" Width="36" Height="36" MouseUp="TwoFingerGestureBorder_MouseUp" CornerRadius="5" Background="{DynamicResource ToolBarBackground}" BorderBrush="{DynamicResource ToolBarBorderBrush}" BorderThickness="1" >
+                <Border Margin="2,0,0,0" x:Name="EnableTwoFingerGestureBorder" Visibility="Visible" Width="36" Height="36" MouseUp="TwoFingerGestureBorder_MouseUp" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1" >
                     <Image x:Name="EnableTwoFingerGestureBtn" Source="/Resources/Icons-png/twoFingelMove.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="30"/>
                 </Border>
                 <Grid Width="0">
@@ -1627,7 +1628,7 @@
                 </Grid>
 
                 <Border x:Name="BorderFloatingBarExitPPTBtn" Margin="2,0,0,0" Width="34" Height="36" MouseDown="Border_MouseDown" MouseUp="ImagePPTControlEnd_MouseUp"
-                        Background="{DynamicResource ToolBarBackground}" CornerRadius="4" BorderThickness="1" BorderBrush="{DynamicResource ToolBarBorderBrush}"
+                        Background="{DynamicResource FloatBarBackground}" CornerRadius="4" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}"
                         Visibility="{Binding ElementName=BtnPPTSlideShowEnd, Path=Visibility}">
                     <Grid>
                         <Image Source="{DynamicResource ResourceKey=SeewoImageSource.PPTExitNormal}" Visibility="{Binding ElementName=BtnPPTSlideShowEnd, Path=Visibility}" Height="20" Width="30" />

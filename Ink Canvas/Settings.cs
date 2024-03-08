@@ -171,6 +171,9 @@ namespace Ink_Canvas
         [JsonProperty("isAutoFoldInEasiNote")]
         public bool IsAutoFoldInEasiNote { get; set; } = false;
 
+        [JsonProperty("isAutoFoldInEasiNoteIgnoreDesktopAnno")]
+        public bool IsAutoFoldInEasiNoteIgnoreDesktopAnno { get; set; } = false;
+
         [JsonProperty("isAutoFoldInEasiCamera")]
         public bool IsAutoFoldInEasiCamera { get; set; } = false;
 

@@ -1,6 +1,6 @@
 ﻿using Ink_Canvas.Helpers;
 using Microsoft.VisualBasic;
-using ModernWpf.Controls;
+using iNKORE.UI.WPF.Modern.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +16,7 @@ namespace Ink_Canvas {
     public partial class RandWindow : Window {
         public RandWindow() {
             InitializeComponent();
-            AnimationHelper.ShowWithSlideFromBottomAndFade(this, 0.25);
+            AnimationsHelper.ShowWithSlideFromBottomAndFade(this, 0.25);
         }
 
         public RandWindow(bool IsAutoClose) {

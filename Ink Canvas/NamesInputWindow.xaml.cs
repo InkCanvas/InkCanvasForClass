@@ -12,7 +12,7 @@ namespace Ink_Canvas
         public NamesInputWindow()
         {
             InitializeComponent();
-            AnimationHelper.ShowWithSlideFromBottomAndFade(this, 0.25);
+            AnimationsHelper.ShowWithSlideFromBottomAndFade(this, 0.25);
         }
 
         string originText = "";
