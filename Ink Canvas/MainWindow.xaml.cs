@@ -31,6 +31,7 @@ using MessageBox = iNKORE.UI.WPF.Modern.Controls.MessageBox;
 using Path = System.IO.Path;
 using Point = System.Windows.Point;
 using Timer = System.Timers.Timer;
+using iNKORE.UI.WPF.Modern.Helpers;
 using iNKORE.UI.WPF.Helpers;
 
 namespace Ink_Canvas {
@@ -88,7 +89,7 @@ namespace Ink_Canvas {
                             File.Delete("Log.txt");
                             LogHelper.WriteLogToFile("The Log.txt file has been successfully deleted. Original file size: " + fileSizeInKB + " KB", LogHelper.LogType.Info);
                         } catch (Exception ex) {
-                            LogHelper.WriteLogToFile("Can not delete the Log.txt file. File size: " + fileSizeInKB + " KB", LogHelper.LogType.Error);
+                            LogHelper.WriteLogToFile(ex + " | Can not delete the Log.txt file. File size: " + fileSizeInKB + " KB", LogHelper.LogType.Error);
                         }
                     }
                 }
@@ -371,7 +372,7 @@ namespace Ink_Canvas {
         }
 
         private void KeyCapture(object sender, ExecutedRoutedEventArgs e) {
-            BtnScreenshot_Click(sender, e);
+            SaveScreenShotToDesktop();
         }
 
         private void KeyDrawLine(object sender, ExecutedRoutedEventArgs e) {
@@ -468,7 +469,7 @@ namespace Ink_Canvas {
             loadPenCanvas();
 
             //加载设置
-            LoadSettings();
+            LoadSettings(true);
             if (Environment.Is64BitProcess) {
                 GroupBoxInkRecognition.Visibility = Visibility.Collapsed;
             }
@@ -525,7 +526,7 @@ namespace Ink_Canvas {
             }
         }
 
-        private void LoadSettings(bool isStartup = true) {
+        private void LoadSettings(bool isStartup = false) {
             AppVersionTextBlock.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             try {
                 if (File.Exists(App.RootPath + settingsFileName)) {
@@ -539,241 +540,13 @@ namespace Ink_Canvas {
             } catch (Exception ex) {
                 LogHelper.WriteLogToFile(ex.ToString(), LogHelper.LogType.Error);
             }
-
+            // Startup
             if (isStartup) {
                 CursorIcon_Click(null, null);
-            }
-
-            /*
-            BtnHideInkCanvas_Click(BtnHideInkCanvas, null);/*
-            if (Settings.Startup.IsAutoHideCanvas)
-            {
-                if (isStartup)
-                {
-                    BtnHideInkCanvas_Click(BtnHideInkCanvas, null);
-                }
-                ToggleSwitchAutoHideCanvas.IsOn = true;
-            }
-            else
-            {
-                if (isStartup)
-                {
-                    BtnHideInkCanvas_Click(BtnHideInkCanvas, null);
-                    BtnHideInkCanvas_Click(BtnHideInkCanvas, null);
-                }
-                ToggleSwitchAutoHideCanvas.IsOn = false;
-            }
-
-            if (Settings.Appearance.IsShowEraserButton)
-            {
-                BtnErase.Visibility = Visibility.Visible;
-                ToggleSwitchShowButtonEraser.IsOn = true;
-            }
-            else
-            {
-                BtnErase.Visibility = Visibility.Collapsed;
-                ToggleSwitchShowButtonEraser.IsOn = false;
-            }
-            if (Settings.Appearance.IsShowExitButton)
-            {
-                BtnExit.Visibility = Visibility.Visible;
-                ToggleSwitchShowButtonExit.IsOn = true;
-            }
-            else
-            {
-                BtnExit.Visibility = Visibility.Collapsed;
-                ToggleSwitchShowButtonExit.IsOn = false;
-            }
-            */
-
-            if (Settings.Startup.IsEnableNibMode) {
-                ToggleSwitchEnableNibMode.IsOn = true;
-                ToggleSwitchBoardEnableNibMode.IsOn = true;
-                BoundsWidth = Settings.Advanced.NibModeBoundsWidth;
-            } else {
-                ToggleSwitchEnableNibMode.IsOn = false;
-                ToggleSwitchBoardEnableNibMode.IsOn = false;
-                BoundsWidth = Settings.Advanced.FingerModeBoundsWidth;
-            }
-            if (!Settings.Appearance.IsEnableDisPlayNibModeToggler) {
-                NibModeSimpleStackPanel.Visibility = Visibility.Collapsed;
-                BoardNibModeSimpleStackPanel.Visibility = Visibility.Collapsed;
-            } else {
-                NibModeSimpleStackPanel.Visibility = Visibility.Visible;
-                BoardNibModeSimpleStackPanel.Visibility = Visibility.Visible;
-            }
-
-            if (Settings.Appearance.IsColorfulViewboxFloatingBar) // 浮动工具栏背景色
-            {
-                LinearGradientBrush gradientBrush = new LinearGradientBrush();
-
-                gradientBrush.StartPoint = new Point(0, 0);
-                gradientBrush.EndPoint = new Point(1, 1);
-                GradientStop blueStop = new GradientStop(Color.FromArgb(0x95, 0x80, 0xB0, 0xFF), 0);
-                GradientStop greenStop = new GradientStop(Color.FromArgb(0x95, 0xC0, 0xFF, 0xC0), 1);
-                gradientBrush.GradientStops.Add(blueStop);
-                gradientBrush.GradientStops.Add(greenStop);
-
-                EnableTwoFingerGestureBorder.Background = gradientBrush;
-                BorderFloatingBarMainControls.Background = gradientBrush;
-                BorderFloatingBarMoveControls.Background = gradientBrush;
-                BorderFloatingBarExitPPTBtn.Background = gradientBrush;
-
-                ToggleSwitchColorfulViewboxFloatingBar.IsOn = true;
-            } else {
-                EnableTwoFingerGestureBorder.Background = (Brush)FindResource("FloatBarBackground");
-                BorderFloatingBarMainControls.Background = (Brush)FindResource("FloatBarBackground");
-                BorderFloatingBarMoveControls.Background = (Brush)FindResource("FloatBarBackground");
-                BorderFloatingBarExitPPTBtn.Background = (Brush)FindResource("FloatBarBackground");
-
-                ToggleSwitchColorfulViewboxFloatingBar.IsOn = false;
-            }
-            if (Settings.Appearance.EnableViewboxFloatingBarScaleTransform) // 浮动工具栏 UI 缩放 85%
-            {
-                ViewboxFloatingBarScaleTransform.ScaleX = 0.85;
-                ViewboxFloatingBarScaleTransform.ScaleY = 0.85;
-
-                ToggleSwitchEnableViewboxFloatingBarScaleTransform.IsOn = true;
-            } else {
-                ViewboxFloatingBarScaleTransform.ScaleX = 1;
-                ViewboxFloatingBarScaleTransform.ScaleY = 1;
-
-                ToggleSwitchEnableViewboxFloatingBarScaleTransform.IsOn = false;
-            }
-            if (Settings.Appearance.EnableViewboxBlackBoardScaleTransform) // 画板 UI 缩放 80%
-            {
-                ViewboxBlackboardLeftSideScaleTransform.ScaleX = 0.8;
-                ViewboxBlackboardLeftSideScaleTransform.ScaleY = 0.8;
-                ViewboxBlackboardCenterSideScaleTransform.ScaleX = 0.8;
-                ViewboxBlackboardCenterSideScaleTransform.ScaleY = 0.8;
-                ViewboxBlackboardRightSideScaleTransform.ScaleX = 0.8;
-                ViewboxBlackboardRightSideScaleTransform.ScaleY = 0.8;
-
-                ToggleSwitchEnableViewboxBlackBoardScaleTransform.IsOn = true;
-            } else {
-                ViewboxBlackboardLeftSideScaleTransform.ScaleX = 1;
-                ViewboxBlackboardLeftSideScaleTransform.ScaleY = 1;
-                ViewboxBlackboardCenterSideScaleTransform.ScaleX = 1;
-                ViewboxBlackboardCenterSideScaleTransform.ScaleY = 1;
-                ViewboxBlackboardRightSideScaleTransform.ScaleX = 1;
-                ViewboxBlackboardRightSideScaleTransform.ScaleY = 1;
-
-                ToggleSwitchEnableViewboxBlackBoardScaleTransform.IsOn = false;
-            }
-
-            PptNavigationBtn.Visibility =
-                Settings.PowerPointSettings.IsShowPPTNavigation ? Visibility.Visible : Visibility.Collapsed;
-
-            ToggleSwitchShowButtonPPTNavigation.IsOn = Settings.PowerPointSettings.IsShowPPTNavigation;
-            ToggleSwitchShowBottomPPTNavigationPanel.IsOn = Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel;
-            ToggleSwitchShowSidePPTNavigationPanel.IsOn = Settings.PowerPointSettings.IsShowSidePPTNavigationPanel;
-
-            if (Settings.Appearance.IsTransparentButtonBackground) {
-                BtnExit.Background = new SolidColorBrush(StringToColor("#7F909090"));
-            } else {
-                if (BtnSwitchTheme.Content.ToString() == "深色") {
-                    //Light
-                    BtnExit.Background = new SolidColorBrush(StringToColor("#FFCCCCCC"));
-                } else {
-                    //Dark
-                    BtnExit.Background = new SolidColorBrush(StringToColor("#FF555555"));
+                if (Settings.Automation.AutoDelSavedFiles) {
+                    DelAutoSavedFiles.DeleteFilesOlder(Settings.Automation.AutoSavedStrokesLocation, Settings.Automation.AutoDelSavedFilesDaysThreshold);
                 }
             }
-
-            if (Settings.PowerPointSettings.PowerPointSupport) {
-                ToggleSwitchSupportPowerPoint.IsOn = true;
-                timerCheckPPT.Start();
-            } else {
-                ToggleSwitchSupportPowerPoint.IsOn = false;
-                timerCheckPPT.Stop();
-            }
-            if (Settings.PowerPointSettings.IsShowCanvasAtNewSlideShow) {
-                ToggleSwitchShowCanvasAtNewSlideShow.IsOn = true;
-            } else {
-                ToggleSwitchShowCanvasAtNewSlideShow.IsOn = false;
-            }
-
-            if (Settings.Gesture == null) {
-                Settings.Gesture = new Gesture();
-            }
-            if (Settings.Gesture.IsEnableTwoFingerZoom) {
-                ToggleSwitchEnableTwoFingerZoom.IsOn = true;
-                BoardToggleSwitchEnableTwoFingerZoom.IsOn = true;
-            } else {
-                ToggleSwitchEnableTwoFingerZoom.IsOn = false;
-                BoardToggleSwitchEnableTwoFingerZoom.IsOn = false;
-            }
-            if (Settings.Gesture.IsEnableTwoFingerTranslate) {
-                ToggleSwitchEnableTwoFingerTranslate.IsOn = true;
-                BoardToggleSwitchEnableTwoFingerTranslate.IsOn = true;
-            } else {
-                ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
-                BoardToggleSwitchEnableTwoFingerTranslate.IsOn = false;
-            }
-            if (Settings.Gesture.IsEnableTwoFingerRotation) {
-                ToggleSwitchEnableTwoFingerRotation.IsOn = true;
-                BoardToggleSwitchEnableTwoFingerRotation.IsOn = true;
-            } else {
-                ToggleSwitchEnableTwoFingerRotation.IsOn = false;
-                BoardToggleSwitchEnableTwoFingerRotation.IsOn = false;
-            }
-            if (Settings.Gesture.AutoSwitchTwoFingerGesture) {
-                ToggleSwitchAutoSwitchTwoFingerGesture.IsOn = true;
-            } else {
-                ToggleSwitchAutoSwitchTwoFingerGesture.IsOn = false;
-            }
-            if (Settings.Gesture.IsEnableTwoFingerRotation) {
-                ToggleSwitchEnableTwoFingerRotation.IsOn = true;
-            } else {
-                ToggleSwitchEnableTwoFingerRotation.IsOn = false;
-            }
-            if (Settings.Gesture.IsEnableTwoFingerRotationOnSelection) {
-                ToggleSwitchEnableTwoFingerRotationOnSelection.IsOn = true;
-            } else {
-                ToggleSwitchEnableTwoFingerRotationOnSelection.IsOn = false;
-            }
-            if (Settings.Gesture.AutoSwitchTwoFingerGesture) {
-                if (Topmost) {
-                    ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
-                    BoardToggleSwitchEnableTwoFingerTranslate.IsOn = false;
-                    Settings.Gesture.IsEnableTwoFingerTranslate = false;
-                } else {
-                    ToggleSwitchEnableTwoFingerTranslate.IsOn = true;
-                    BoardToggleSwitchEnableTwoFingerTranslate.IsOn = true;
-                    Settings.Gesture.IsEnableTwoFingerTranslate = true;
-                }
-            }
-            CheckEnableTwoFingerGestureBtnColorPrompt();
-            if (Settings.PowerPointSettings.IsEnableTwoFingerGestureInPresentationMode) {
-                ToggleSwitchEnableTwoFingerGestureInPresentationMode.IsOn = true;
-            } else {
-                ToggleSwitchEnableTwoFingerGestureInPresentationMode.IsOn = false;
-            }
-            if (Settings.PowerPointSettings.IsEnableFingerGestureSlideShowControl) {
-                ToggleSwitchEnableFingerGestureSlideShowControl.IsOn = true;
-            } else {
-                ToggleSwitchEnableFingerGestureSlideShowControl.IsOn = false;
-            }
-
-
-            if (Settings.Startup.IsAutoUpdate) {
-                ToggleSwitchIsAutoUpdate.IsOn = true;
-                AutoUpdate();
-            }
-            ToggleSwitchIsAutoUpdateWithProxy.IsOn = Settings.Startup.IsAutoUpdateWithProxy;
-            AutoUpdateWithProxy_Title.Visibility = Settings.Startup.IsAutoUpdateWithProxy ? Visibility.Visible : Visibility.Collapsed;
-            AutoUpdateProxyTextBox.Text = Settings.Startup.AutoUpdateProxy;
-
-            ToggleSwitchIsAutoUpdateWithSilence.Visibility = Settings.Startup.IsAutoUpdate ? Visibility.Visible : Visibility.Collapsed;
-            if (Settings.Startup.IsAutoUpdateWithSilence) {
-                ToggleSwitchIsAutoUpdateWithSilence.IsOn = true;
-            }
-            AutoUpdateTimePeriodBlock.Visibility = Settings.Startup.IsAutoUpdateWithSilence ? Visibility.Visible : Visibility.Collapsed;
-
-            AutoUpdateWithSilenceTimeComboBox.InitializeAutoUpdateWithSilenceTimeComboBoxOptions(AutoUpdateWithSilenceStartTimeComboBox, AutoUpdateWithSilenceEndTimeComboBox);
-            AutoUpdateWithSilenceStartTimeComboBox.SelectedItem = Settings.Startup.AutoUpdateWithSilenceStartTime;
-            AutoUpdateWithSilenceEndTimeComboBox.SelectedItem = Settings.Startup.AutoUpdateWithSilenceEndTime;
-
             try {
                 if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "\\Ink Canvas Annotation.lnk")) {
                     ToggleSwitchRunAtStartup.IsOn = true;
@@ -781,7 +554,246 @@ namespace Ink_Canvas {
             } catch (Exception ex) {
                 LogHelper.WriteLogToFile(ex.ToString(), LogHelper.LogType.Error);
             }
+            if (Settings.Startup != null) {
+                if (Settings.Startup.IsEnableNibMode) {
+                    ToggleSwitchEnableNibMode.IsOn = true;
+                    ToggleSwitchBoardEnableNibMode.IsOn = true;
+                    BoundsWidth = Settings.Advanced.NibModeBoundsWidth;
+                } else {
+                    ToggleSwitchEnableNibMode.IsOn = false;
+                    ToggleSwitchBoardEnableNibMode.IsOn = false;
+                    BoundsWidth = Settings.Advanced.FingerModeBoundsWidth;
+                }
+                if (Settings.Startup.IsAutoUpdate) {
+                    ToggleSwitchIsAutoUpdate.IsOn = true;
+                    AutoUpdate();
+                }
+                ToggleSwitchIsAutoUpdateWithProxy.IsOn = Settings.Startup.IsAutoUpdateWithProxy;
+                AutoUpdateWithProxy_Title.Visibility = Settings.Startup.IsAutoUpdateWithProxy ? Visibility.Visible : Visibility.Collapsed;
+                AutoUpdateProxyTextBox.Text = Settings.Startup.AutoUpdateProxy;
+                ToggleSwitchIsAutoUpdateWithSilence.Visibility = Settings.Startup.IsAutoUpdate ? Visibility.Visible : Visibility.Collapsed;
+                if (Settings.Startup.IsAutoUpdateWithSilence) {
+                    ToggleSwitchIsAutoUpdateWithSilence.IsOn = true;
+                }
+                AutoUpdateTimePeriodBlock.Visibility = Settings.Startup.IsAutoUpdateWithSilence ? Visibility.Visible : Visibility.Collapsed;
 
+                AutoUpdateWithSilenceTimeComboBox.InitializeAutoUpdateWithSilenceTimeComboBoxOptions(AutoUpdateWithSilenceStartTimeComboBox, AutoUpdateWithSilenceEndTimeComboBox);
+                AutoUpdateWithSilenceStartTimeComboBox.SelectedItem = Settings.Startup.AutoUpdateWithSilenceStartTime;
+                AutoUpdateWithSilenceEndTimeComboBox.SelectedItem = Settings.Startup.AutoUpdateWithSilenceEndTime;
+            } else {
+                Settings.Startup = new Startup();
+            }
+            // Appearance
+            if (Settings.Appearance != null) {
+                if (!Settings.Appearance.IsEnableDisPlayNibModeToggler) {
+                    NibModeSimpleStackPanel.Visibility = Visibility.Collapsed;
+                    BoardNibModeSimpleStackPanel.Visibility = Visibility.Collapsed;
+                } else {
+                    NibModeSimpleStackPanel.Visibility = Visibility.Visible;
+                    BoardNibModeSimpleStackPanel.Visibility = Visibility.Visible;
+                }
+                if (Settings.Appearance.IsColorfulViewboxFloatingBar) // 浮动工具栏背景色
+                {
+                    LinearGradientBrush gradientBrush = new LinearGradientBrush();
+                    gradientBrush.StartPoint = new Point(0, 0);
+                    gradientBrush.EndPoint = new Point(1, 1);
+                    GradientStop blueStop = new GradientStop(Color.FromArgb(0x95, 0x80, 0xB0, 0xFF), 0);
+                    GradientStop greenStop = new GradientStop(Color.FromArgb(0x95, 0xC0, 0xFF, 0xC0), 1);
+                    gradientBrush.GradientStops.Add(blueStop);
+                    gradientBrush.GradientStops.Add(greenStop);
+                    EnableTwoFingerGestureBorder.Background = gradientBrush;
+                    BorderFloatingBarMainControls.Background = gradientBrush;
+                    BorderFloatingBarMoveControls.Background = gradientBrush;
+                    BorderFloatingBarExitPPTBtn.Background = gradientBrush;
+
+                    ToggleSwitchColorfulViewboxFloatingBar.IsOn = true;
+                } else {
+                    EnableTwoFingerGestureBorder.Background = (Brush)FindResource("FloatBarBackground");
+                    BorderFloatingBarMainControls.Background = (Brush)FindResource("FloatBarBackground");
+                    BorderFloatingBarMoveControls.Background = (Brush)FindResource("FloatBarBackground");
+                    BorderFloatingBarExitPPTBtn.Background = (Brush)FindResource("FloatBarBackground");
+
+                    ToggleSwitchColorfulViewboxFloatingBar.IsOn = false;
+                }
+                if (Settings.Appearance.EnableViewboxFloatingBarScaleTransform) // 浮动工具栏 UI 缩放 85%
+                {
+                    ViewboxFloatingBarScaleTransform.ScaleX = 0.85;
+                    ViewboxFloatingBarScaleTransform.ScaleY = 0.85;
+
+                    ToggleSwitchEnableViewboxFloatingBarScaleTransform.IsOn = true;
+                } else {
+                    ViewboxFloatingBarScaleTransform.ScaleX = 1;
+                    ViewboxFloatingBarScaleTransform.ScaleY = 1;
+
+                    ToggleSwitchEnableViewboxFloatingBarScaleTransform.IsOn = false;
+                }
+                if (Settings.Appearance.EnableViewboxBlackBoardScaleTransform) // 画板 UI 缩放 80%
+                {
+                    ViewboxBlackboardLeftSideScaleTransform.ScaleX = 0.8;
+                    ViewboxBlackboardLeftSideScaleTransform.ScaleY = 0.8;
+                    ViewboxBlackboardCenterSideScaleTransform.ScaleX = 0.8;
+                    ViewboxBlackboardCenterSideScaleTransform.ScaleY = 0.8;
+                    ViewboxBlackboardRightSideScaleTransform.ScaleX = 0.8;
+                    ViewboxBlackboardRightSideScaleTransform.ScaleY = 0.8;
+
+                    ToggleSwitchEnableViewboxBlackBoardScaleTransform.IsOn = true;
+                } else {
+                    ViewboxBlackboardLeftSideScaleTransform.ScaleX = 1;
+                    ViewboxBlackboardLeftSideScaleTransform.ScaleY = 1;
+                    ViewboxBlackboardCenterSideScaleTransform.ScaleX = 1;
+                    ViewboxBlackboardCenterSideScaleTransform.ScaleY = 1;
+                    ViewboxBlackboardRightSideScaleTransform.ScaleX = 1;
+                    ViewboxBlackboardRightSideScaleTransform.ScaleY = 1;
+
+                    ToggleSwitchEnableViewboxBlackBoardScaleTransform.IsOn = false;
+                }
+                if (Settings.Appearance.IsTransparentButtonBackground) {
+                    BtnExit.Background = new SolidColorBrush(StringToColor("#7F909090"));
+                } else {
+                    if (BtnSwitchTheme.Content.ToString() == "深色") {
+                        //Light
+                        BtnExit.Background = new SolidColorBrush(StringToColor("#FFCCCCCC"));
+                    } else {
+                        //Dark
+                        BtnExit.Background = new SolidColorBrush(StringToColor("#FF555555"));
+                    }
+                }
+            } else {
+                Settings.Appearance = new Appearance();
+            }
+            // PowerPointSettings
+            if (Settings.PowerPointSettings != null) {
+                PptNavigationBtn.Visibility = Settings.PowerPointSettings.IsShowPPTNavigation ? Visibility.Visible : Visibility.Collapsed;
+                ToggleSwitchShowButtonPPTNavigation.IsOn = Settings.PowerPointSettings.IsShowPPTNavigation;
+                ToggleSwitchShowBottomPPTNavigationPanel.IsOn = Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel;
+                ToggleSwitchShowSidePPTNavigationPanel.IsOn = Settings.PowerPointSettings.IsShowSidePPTNavigationPanel;
+                if (Settings.PowerPointSettings.PowerPointSupport) {
+                    ToggleSwitchSupportPowerPoint.IsOn = true;
+                    timerCheckPPT.Start();
+                } else {
+                    ToggleSwitchSupportPowerPoint.IsOn = false;
+                    timerCheckPPT.Stop();
+                }
+                if (Settings.PowerPointSettings.IsShowCanvasAtNewSlideShow) {
+                    ToggleSwitchShowCanvasAtNewSlideShow.IsOn = true;
+                } else {
+                    ToggleSwitchShowCanvasAtNewSlideShow.IsOn = false;
+                }
+                if (Settings.PowerPointSettings.IsEnableTwoFingerGestureInPresentationMode) {
+                    ToggleSwitchEnableTwoFingerGestureInPresentationMode.IsOn = true;
+                } else {
+                    ToggleSwitchEnableTwoFingerGestureInPresentationMode.IsOn = false;
+                }
+                if (Settings.PowerPointSettings.IsEnableFingerGestureSlideShowControl) {
+                    ToggleSwitchEnableFingerGestureSlideShowControl.IsOn = true;
+                } else {
+                    ToggleSwitchEnableFingerGestureSlideShowControl.IsOn = false;
+                }
+
+
+                if (Settings.PowerPointSettings.IsAutoSaveStrokesInPowerPoint) {
+                    ToggleSwitchAutoSaveStrokesInPowerPoint.IsOn = true;
+                } else {
+                    ToggleSwitchAutoSaveStrokesInPowerPoint.IsOn = false;
+                }
+
+                if (Settings.PowerPointSettings.IsNotifyPreviousPage) {
+                    ToggleSwitchNotifyPreviousPage.IsOn = true;
+                } else {
+                    ToggleSwitchNotifyPreviousPage.IsOn = false;
+                }
+
+                if (Settings.PowerPointSettings.IsNotifyHiddenPage) {
+                    ToggleSwitchNotifyHiddenPage.IsOn = true;
+                } else {
+                    ToggleSwitchNotifyHiddenPage.IsOn = false;
+                }
+                /*
+                if (Settings.PowerPointSettings.IsNoClearStrokeOnSelectWhenInPowerPoint)
+                {
+                    ToggleSwitchNoStrokeClearInPowerPoint.IsOn = true;
+                }
+                else
+                {
+                    ToggleSwitchNoStrokeClearInPowerPoint.IsOn = false;
+                }
+
+                if (Settings.PowerPointSettings.IsShowStrokeOnSelectInPowerPoint)
+                {
+                    ToggleSwitchShowStrokeOnSelectInPowerPoint.IsOn = true;
+                }
+                else
+                {
+                    ToggleSwitchShowStrokeOnSelectInPowerPoint.IsOn = false;
+                }
+                */
+                if (Settings.PowerPointSettings.IsSupportWPS) {
+                    ToggleSwitchSupportWPS.IsOn = true;
+                } else {
+                    ToggleSwitchSupportWPS.IsOn = false;
+                }
+                if (Settings.PowerPointSettings.IsAutoSaveScreenShotInPowerPoint) {
+                    ToggleSwitchAutoSaveScreenShotInPowerPoint.IsOn = true;
+                } else {
+                    ToggleSwitchAutoSaveScreenShotInPowerPoint.IsOn = false;
+                }
+            } else {
+                Settings.PowerPointSettings = new PowerPointSettings();
+            }
+            // Gesture
+            if (Settings.Gesture != null) {
+                if (Settings.Gesture.IsEnableTwoFingerZoom) {
+                    ToggleSwitchEnableTwoFingerZoom.IsOn = true;
+                    BoardToggleSwitchEnableTwoFingerZoom.IsOn = true;
+                } else {
+                    ToggleSwitchEnableTwoFingerZoom.IsOn = false;
+                    BoardToggleSwitchEnableTwoFingerZoom.IsOn = false;
+                }
+                if (Settings.Gesture.IsEnableTwoFingerTranslate) {
+                    ToggleSwitchEnableTwoFingerTranslate.IsOn = true;
+                    BoardToggleSwitchEnableTwoFingerTranslate.IsOn = true;
+                } else {
+                    ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
+                    BoardToggleSwitchEnableTwoFingerTranslate.IsOn = false;
+                }
+                if (Settings.Gesture.IsEnableTwoFingerRotation) {
+                    ToggleSwitchEnableTwoFingerRotation.IsOn = true;
+                    BoardToggleSwitchEnableTwoFingerRotation.IsOn = true;
+                } else {
+                    ToggleSwitchEnableTwoFingerRotation.IsOn = false;
+                    BoardToggleSwitchEnableTwoFingerRotation.IsOn = false;
+                }
+                if (Settings.Gesture.AutoSwitchTwoFingerGesture) {
+                    ToggleSwitchAutoSwitchTwoFingerGesture.IsOn = true;
+                } else {
+                    ToggleSwitchAutoSwitchTwoFingerGesture.IsOn = false;
+                }
+                if (Settings.Gesture.IsEnableTwoFingerRotation) {
+                    ToggleSwitchEnableTwoFingerRotation.IsOn = true;
+                } else {
+                    ToggleSwitchEnableTwoFingerRotation.IsOn = false;
+                }
+                if (Settings.Gesture.IsEnableTwoFingerRotationOnSelection) {
+                    ToggleSwitchEnableTwoFingerRotationOnSelection.IsOn = true;
+                } else {
+                    ToggleSwitchEnableTwoFingerRotationOnSelection.IsOn = false;
+                }
+                if (Settings.Gesture.AutoSwitchTwoFingerGesture) {
+                    if (Topmost) {
+                        ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
+                        BoardToggleSwitchEnableTwoFingerTranslate.IsOn = false;
+                        Settings.Gesture.IsEnableTwoFingerTranslate = false;
+                    } else {
+                        ToggleSwitchEnableTwoFingerTranslate.IsOn = true;
+                        BoardToggleSwitchEnableTwoFingerTranslate.IsOn = true;
+                        Settings.Gesture.IsEnableTwoFingerTranslate = true;
+                    }
+                }
+                CheckEnableTwoFingerGestureBtnColorPrompt();
+            } else {
+                Settings.Gesture = new Gesture();
+            }
+            // Canvas
             if (Settings.Canvas != null) {
                 drawingAttributes.Height = Settings.Canvas.InkWidth;
                 drawingAttributes.Width = Settings.Canvas.InkWidth;
@@ -808,13 +820,65 @@ namespace Ink_Canvas {
                 BoardComboBoxPenStyle.SelectedIndex = Settings.Canvas.InkStyle;
 
                 ComboBoxEraserSize.SelectedIndex = Settings.Canvas.EraserSize;
+
+                if (Settings.Canvas.HideStrokeWhenSelecting) {
+                    ToggleSwitchHideStrokeWhenSelecting.IsOn = true;
+                } else {
+                    ToggleSwitchHideStrokeWhenSelecting.IsOn = false;
+                }
             } else {
                 Settings.Canvas = new Canvas();
             }
+            // Advanced
+            if (Settings.Advanced != null) {
+                TouchMultiplierSlider.Value = Settings.Advanced.TouchMultiplier;
+                FingerModeBoundsWidthSlider.Value = Settings.Advanced.FingerModeBoundsWidth;
+                NibModeBoundsWidthSlider.Value = Settings.Advanced.NibModeBoundsWidth;
+                if (Settings.Advanced.IsLogEnabled) {
+                    ToggleSwitchIsLogEnabled.IsOn = true;
+                } else {
+                    ToggleSwitchIsLogEnabled.IsOn = false;
+                }
+                if (Settings.Advanced.IsSecondConfimeWhenShutdownApp) {
+                    ToggleSwitchIsSecondConfimeWhenShutdownApp.IsOn = true;
+                } else {
+                    ToggleSwitchIsSecondConfimeWhenShutdownApp.IsOn = false;
+                }
+                if (Settings.Advanced.EraserBindTouchMultiplier) {
+                    ToggleSwitchEraserBindTouchMultiplier.IsOn = true;
+                } else {
+                    ToggleSwitchEraserBindTouchMultiplier.IsOn = false;
+                }
 
+                if (Settings.Advanced.IsSpecialScreen) {
+                    ToggleSwitchIsSpecialScreen.IsOn = true;
+                } else {
+                    ToggleSwitchIsSpecialScreen.IsOn = false;
+                }
+                TouchMultiplierSlider.Visibility = ToggleSwitchIsSpecialScreen.IsOn ? Visibility.Visible : Visibility.Collapsed;
+
+                ToggleSwitchIsQuadIR.IsOn = Settings.Advanced.IsQuadIR;
+            } else {
+                Settings.Advanced = new Advanced();
+            }
+            // InkToShape
+            if (Settings.InkToShape != null) {
+                if (Settings.InkToShape.IsInkToShapeEnabled) {
+                    ToggleSwitchEnableInkToShape.IsOn = true;
+                } else {
+                    ToggleSwitchEnableInkToShape.IsOn = false;
+                }
+            } else {
+                Settings.InkToShape = new InkToShape();
+            }
+            // RandSettings
+            if (Settings.RandSettings != null) {
+            } else {
+                Settings.RandSettings = new RandSettings();
+            }
+            // Automation
             if (Settings.Automation != null) {
                 StartOrStoptimerCheckAutoFold();
-
                 if (Settings.Automation.IsAutoFoldInEasiNote) {
                     ToggleSwitchAutoFoldInEasiNote.IsOn = true;
                 } else {
@@ -917,134 +981,15 @@ namespace Ink_Canvas {
                 } else {
                     ToggleSwitchAutoSaveStrokesAtScreenshot.IsOn = false;
                 }
-
-                if (Settings.PowerPointSettings.IsAutoSaveStrokesInPowerPoint) {
-                    ToggleSwitchAutoSaveStrokesInPowerPoint.IsOn = true;
-                } else {
-                    ToggleSwitchAutoSaveStrokesInPowerPoint.IsOn = false;
-                }
-
-                if (Settings.PowerPointSettings.IsNotifyPreviousPage) {
-                    ToggleSwitchNotifyPreviousPage.IsOn = true;
-                } else {
-                    ToggleSwitchNotifyPreviousPage.IsOn = false;
-                }
-
-                if (Settings.PowerPointSettings.IsNotifyHiddenPage) {
-                    ToggleSwitchNotifyHiddenPage.IsOn = true;
-                } else {
-                    ToggleSwitchNotifyHiddenPage.IsOn = false;
-                }
-                /*
-                if (Settings.PowerPointSettings.IsNoClearStrokeOnSelectWhenInPowerPoint)
-                {
-                    ToggleSwitchNoStrokeClearInPowerPoint.IsOn = true;
-                }
-                else
-                {
-                    ToggleSwitchNoStrokeClearInPowerPoint.IsOn = false;
-                }
-
-                if (Settings.PowerPointSettings.IsShowStrokeOnSelectInPowerPoint)
-                {
-                    ToggleSwitchShowStrokeOnSelectInPowerPoint.IsOn = true;
-                }
-                else
-                {
-                    ToggleSwitchShowStrokeOnSelectInPowerPoint.IsOn = false;
-                }
-                */
-                if (Settings.PowerPointSettings.IsSupportWPS) {
-                    ToggleSwitchSupportWPS.IsOn = true;
-                } else {
-                    ToggleSwitchSupportWPS.IsOn = false;
-                }
-
                 SideControlMinimumAutomationSlider.Value = Settings.Automation.MinimumAutomationStrokeNumber;
 
-                if (Settings.Canvas.HideStrokeWhenSelecting) {
-                    ToggleSwitchHideStrokeWhenSelecting.IsOn = true;
-                } else {
-                    ToggleSwitchHideStrokeWhenSelecting.IsOn = false;
-                }
-                /*
-                if (Settings.Canvas.UsingWhiteboard)
-                {
-                    ToggleSwitchUsingWhiteboard.IsOn = true;
-                }
-                else
-                {
-                    ToggleSwitchUsingWhiteboard.IsOn = false;
-                }
-                */
-
-                /*
-                switch (Settings.Canvas.EraserType)
-                {
-                    case 1:
-                        forcePointEraser = true;
-                        break;
-                    case 2:
-                        forcePointEraser = false;
-                        break;
-                }
-
-                ComboBoxEraserType.SelectedIndex = Settings.Canvas.EraserType;
-                */
-
-                if (Settings.PowerPointSettings.IsAutoSaveScreenShotInPowerPoint) {
-                    ToggleSwitchAutoSaveScreenShotInPowerPoint.IsOn = true;
-                } else {
-                    ToggleSwitchAutoSaveScreenShotInPowerPoint.IsOn = false;
-                }
+                AutoSavedStrokesLocation.Text = Settings.Automation.AutoSavedStrokesLocation;
+                ToggleSwitchAutoDelSavedFiles.IsOn = Settings.Automation.AutoDelSavedFiles;
+                ComboBoxAutoDelSavedFilesDaysThreshold.Text = Settings.Automation.AutoDelSavedFilesDaysThreshold.ToString();
             } else {
                 Settings.Automation = new Automation();
             }
-
-            if (Settings.Advanced != null) {
-                TouchMultiplierSlider.Value = Settings.Advanced.TouchMultiplier;
-                FingerModeBoundsWidthSlider.Value = Settings.Advanced.FingerModeBoundsWidth;
-                NibModeBoundsWidthSlider.Value = Settings.Advanced.NibModeBoundsWidth;
-                if (Settings.Advanced.IsLogEnabled) {
-                    ToggleSwitchIsLogEnabled.IsOn = true;
-                } else {
-                    ToggleSwitchIsLogEnabled.IsOn = false;
-                }
-                if (Settings.Advanced.IsSecondConfimeWhenShutdownApp) {
-                    ToggleSwitchIsSecondConfimeWhenShutdownApp.IsOn = true;
-                } else {
-                    ToggleSwitchIsSecondConfimeWhenShutdownApp.IsOn = false;
-                }
-                if (Settings.Advanced.EraserBindTouchMultiplier) {
-                    ToggleSwitchEraserBindTouchMultiplier.IsOn = true;
-                } else {
-                    ToggleSwitchEraserBindTouchMultiplier.IsOn = false;
-                }
-
-                if (Settings.Advanced.IsSpecialScreen) {
-                    ToggleSwitchIsSpecialScreen.IsOn = true;
-                } else {
-                    ToggleSwitchIsSpecialScreen.IsOn = false;
-                }
-                TouchMultiplierSlider.Visibility = ToggleSwitchIsSpecialScreen.IsOn ? Visibility.Visible : Visibility.Collapsed;
-
-                ToggleSwitchIsQuadIR.IsOn = Settings.Advanced.IsQuadIR;
-            } else {
-                Settings.Advanced = new Advanced();
-            }
-
-            if (Settings.InkToShape != null) {
-                if (Settings.InkToShape.IsInkToShapeEnabled) {
-                    ToggleSwitchEnableInkToShape.IsOn = true;
-                } else {
-                    ToggleSwitchEnableInkToShape.IsOn = false;
-                }
-            } else {
-                Settings.InkToShape = new InkToShape();
-            }
-
-            if (Settings.RandSettings == null) Settings.RandSettings = new RandSettings();
-
+            // auto align
             if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
                 ViewboxFloatingBarMarginAnimation(60);
             } else {
@@ -1470,7 +1415,7 @@ namespace Ink_Canvas {
                     inkCanvas.DefaultDrawingAttributes.Color = StringToColor("#FF331EB5");
                 }
             }
-            if (isUselightThemeColor) { // 亮色系
+            if (isUselightThemeColor) { // 亮系
                 BorderPenColorRed.Background = new SolidColorBrush(StringToColor("#FFFF3333"));
                 BorderPenColorGreen.Background = new SolidColorBrush(StringToColor("#FF1ED760"));
                 BorderPenColorBlue.Background = new SolidColorBrush(StringToColor("#FF23C0D6"));
@@ -1489,9 +1434,9 @@ namespace Ink_Canvas {
                 ColorThemeSwitchIcon.Source = newImageSource;
                 BoardColorThemeSwitchIcon.Source = newImageSource;
 
-                ColorThemeSwitchTextBlock.Text = "暗色系";
-                BoardColorThemeSwitchTextBlock.Text = "暗色系";
-            } else { // 暗色系
+                ColorThemeSwitchTextBlock.Text = "暗系";
+                BoardColorThemeSwitchTextBlock.Text = "暗系";
+            } else { // 暗系
                 BorderPenColorRed.Background = new SolidColorBrush(Colors.Red);
                 BorderPenColorGreen.Background = new SolidColorBrush(StringToColor("#FF169141"));
                 BorderPenColorBlue.Background = new SolidColorBrush(StringToColor("#FF239AD6"));
@@ -1510,8 +1455,8 @@ namespace Ink_Canvas {
                 ColorThemeSwitchIcon.Source = newImageSource;
                 BoardColorThemeSwitchIcon.Source = newImageSource;
 
-                ColorThemeSwitchTextBlock.Text = "亮色系";
-                BoardColorThemeSwitchTextBlock.Text = "亮色系";
+                ColorThemeSwitchTextBlock.Text = "亮系";
+                BoardColorThemeSwitchTextBlock.Text = "亮系";
             }
 
             // 改变选中提示
@@ -2095,13 +2040,7 @@ namespace Ink_Canvas {
                 // 跳转到上次播放页
                 if (Settings.PowerPointSettings.IsNotifyPreviousPage)
                     Application.Current.Dispatcher.BeginInvoke(() => {
-                        string defaultFolderPath;// = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ink Canvas Strokes\Auto Saved\Presentations\";
-                        try {
-                            defaultFolderPath = $@"D:\Ink Canvas\Auto Saved - Presentations\";
-                        } catch (IOException) {
-                            defaultFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ink Canvas Strokes\Auto Saved\Presentations\";
-                        }
-                        string folderPath = defaultFolderPath + presentation.Name + "_" + presentation.Slides.Count;
+                        string folderPath = Settings.Automation.AutoSavedStrokesLocation + @"\Auto Saved - Presentations\" + presentation.Name + "_" + presentation.Slides.Count;
                         try {
                             if (File.Exists(folderPath + "/Position")) {
                                 if (int.TryParse(File.ReadAllText(folderPath + "/Position"), out var page)) {
@@ -2114,27 +2053,6 @@ namespace Ink_Canvas {
                                             presentation.Windows[1].View.GotoSlide(page);
                                         }
                                     }).ShowDialog();
-                                }
-                            } else if (defaultFolderPath == $@"D:\Ink Canvas\Auto Saved - Presentations\") // 使用原版 InkCanvas 保存地点
-                              {
-                                defaultFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ink Canvas Strokes\Auto Saved\Presentations\";
-                                folderPath = defaultFolderPath + presentation.Name + "_" + presentation.Slides.Count;
-                                try {
-                                    if (File.Exists(folderPath + "/Position")) {
-                                        if (int.TryParse(File.ReadAllText(folderPath + "/Position"), out var page)) {
-                                            if (page <= 0) return;
-                                            new YesOrNoNotificationWindow($"上次播放到了第 {page} 页, 是否立即跳转", () => {
-                                                if (pptApplication.SlideShowWindows.Count >= 1) {
-                                                    // 如果已经播放了的话, 跳转
-                                                    presentation.SlideShowWindow.View.GotoSlide(page);
-                                                } else {
-                                                    presentation.Windows[1].View.GotoSlide(page);
-                                                }
-                                            }).ShowDialog();
-                                        }
-                                    }
-                                } catch (Exception ex) {
-                                    LogHelper.WriteLogToFile(ex.ToString(), LogHelper.LogType.Error);
                                 }
                             }
                         } catch (Exception ex) {
@@ -2250,25 +2168,15 @@ namespace Ink_Canvas {
 
                 //检查是否有已有墨迹，并加载
                 if (Settings.PowerPointSettings.IsAutoSaveStrokesInPowerPoint) {
-                    string defaultFolderPath;// = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ink Canvas Strokes\Auto Saved\Presentations\";
-                    try {
-                        defaultFolderPath = $@"D:\Ink Canvas\Auto Saved - Presentations\";
-                    } catch (IOException) {
-                        defaultFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ink Canvas Strokes\Auto Saved\Presentations\";
-                    }
-                    if (Directory.Exists(defaultFolderPath + Wn.Presentation.Name + "_" + Wn.Presentation.Slides.Count)) {
+                    if (Directory.Exists(Settings.Automation.AutoSavedStrokesLocation + @"\Auto Saved - Presentations\" + Wn.Presentation.Name + "_" + Wn.Presentation.Slides.Count)) {
                         LogHelper.WriteLogToFile("Found saved strokes", LogHelper.LogType.Trace);
-                        FileInfo[] files = new DirectoryInfo(defaultFolderPath + Wn.Presentation.Name + "_" + Wn.Presentation.Slides.Count).GetFiles();
+                        FileInfo[] files = new DirectoryInfo(Settings.Automation.AutoSavedStrokesLocation + @"\Auto Saved - Presentations\" + Wn.Presentation.Name + "_" + Wn.Presentation.Slides.Count).GetFiles();
                         int count = 0;
                         foreach (FileInfo file in files) {
                             if (file.Name != "Position") {
                                 int i = -1;
                                 try {
                                     i = int.Parse(System.IO.Path.GetFileNameWithoutExtension(file.Name));
-                                    //var fs = new FileStream(file.FullName, FileMode.Open, FileAccess.Read);
-                                    //MemoryStream ms = new MemoryStream(File.ReadAllBytes(file.FullName));
-                                    //new StrokeCollection(fs).Save(ms);
-                                    //ms.Position = 0;
                                     memoryStreams[i] = new MemoryStream(File.ReadAllBytes(file.FullName));
                                     memoryStreams[i].Position = 0;
                                     count++;
@@ -2278,32 +2186,6 @@ namespace Ink_Canvas {
                             }
                         }
                         LogHelper.WriteLogToFile(string.Format("Loaded {0} saved strokes", count.ToString()));
-                    } else if (defaultFolderPath == $@"D:\Ink Canvas\Auto Saved - Presentations\") // 使用原版 InkCanvas 保存地点
-                      {
-                        defaultFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ink Canvas Strokes\Auto Saved\Presentations\";
-                        if (Directory.Exists(defaultFolderPath + Wn.Presentation.Name + "_" + Wn.Presentation.Slides.Count)) {
-                            LogHelper.WriteLogToFile("Found saved strokes", LogHelper.LogType.Trace);
-                            FileInfo[] files = new DirectoryInfo(defaultFolderPath + Wn.Presentation.Name + "_" + Wn.Presentation.Slides.Count).GetFiles();
-                            int count = 0;
-                            foreach (FileInfo file in files) {
-                                if (file.Name != "Position") {
-                                    int i = -1;
-                                    try {
-                                        i = int.Parse(System.IO.Path.GetFileNameWithoutExtension(file.Name));
-                                        //var fs = new FileStream(file.FullName, FileMode.Open, FileAccess.Read);
-                                        //MemoryStream ms = new MemoryStream(File.ReadAllBytes(file.FullName));
-                                        //new StrokeCollection(fs).Save(ms);
-                                        //ms.Position = 0;
-                                        memoryStreams[i] = new MemoryStream(File.ReadAllBytes(file.FullName));
-                                        memoryStreams[i].Position = 0;
-                                        count++;
-                                    } catch (Exception ex) {
-                                        LogHelper.WriteLogToFile(string.Format("Failed to load strokes on Slide {0}\n{1}", i, ex.ToString()), LogHelper.LogType.Error);
-                                    }
-                                }
-                            }
-                            LogHelper.WriteLogToFile(string.Format("Loaded {0} saved strokes", count.ToString()));
-                        }
                     }
                 }
 
@@ -2408,7 +2290,7 @@ namespace Ink_Canvas {
         }
 
         bool isEnteredSlideShowEndEvent = false; //防止重复调用本函数导致墨迹保存失效
-        private void PptApplication_SlideShowEnd(Presentation Pres) {
+        private async void PptApplication_SlideShowEnd(Presentation Pres) {
             if (isFloatingBarFolded) UnFoldFloatingBar_MouseUp(null, null);
 
             LogHelper.WriteLogToFile(string.Format("PowerPoint Slide Show End"), LogHelper.LogType.Event);
@@ -2418,13 +2300,7 @@ namespace Ink_Canvas {
             }
             isEnteredSlideShowEndEvent = true;
             if (Settings.PowerPointSettings.IsAutoSaveStrokesInPowerPoint) {
-                string defaultFolderPath;// = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ink Canvas Strokes\Auto Saved\Presentations\";
-                try {
-                    defaultFolderPath = $@"D:\Ink Canvas\Auto Saved - Presentations\";
-                } catch (IOException) {
-                    defaultFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ink Canvas Strokes\Auto Saved\Presentations\";
-                }
-                string folderPath = defaultFolderPath + Pres.Name + "_" + Pres.Slides.Count;
+                string folderPath = Settings.Automation.AutoSavedStrokesLocation + @"\Auto Saved - Presentations\" + Pres.Name + "_" + Pres.Slides.Count;
                 if (!Directory.Exists(folderPath)) {
                     Directory.CreateDirectory(folderPath);
                 }
@@ -2490,11 +2366,6 @@ namespace Ink_Canvas {
                     }
                     StackPanelPPTButtons.Visibility = Visibility.Visible;
                 }
-                //if (GridBackgroundCover.Visibility == Visibility.Visible)
-                //{
-                //    SaveStrokes();
-                //}
-
 
                 ClearStrokes(true);
 
@@ -2502,14 +2373,15 @@ namespace Ink_Canvas {
                     BtnHideInkCanvas_Click(BtnHideInkCanvas, null);
                 }
 
-                ViewboxFloatingBarMarginAnimation(100);
-
                 if (Settings.Appearance.IsColorfulViewboxFloatingBar) {
                     ViewboxFloatingBar.Opacity = 0.95;
                 } else {
                     ViewboxFloatingBar.Opacity = 1;
                 }
             });
+
+            await Task.Delay(150);
+            ViewboxFloatingBarMarginAnimation(100);
         }
 
         int previousSlideID = 0;
@@ -2784,14 +2656,14 @@ namespace Ink_Canvas {
             if (!isLoaded) return;
             Settings.Appearance.IsEnableDisPlayNibModeToggler = ToggleSwitchEnableDisPlayNibModeToggle.IsOn;
             SaveSettingsToFile();
-            LoadSettings(false);
+            LoadSettings();
         }
 
         private void ToggleSwitchIsColorfulViewboxFloatingBar_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Appearance.IsColorfulViewboxFloatingBar = ToggleSwitchColorfulViewboxFloatingBar.IsOn;
             SaveSettingsToFile();
-            LoadSettings(false);
+            LoadSettings();
         }
 
 
@@ -2799,14 +2671,14 @@ namespace Ink_Canvas {
             if (!isLoaded) return;
             Settings.Appearance.EnableViewboxFloatingBarScaleTransform = ToggleSwitchEnableViewboxFloatingBarScaleTransform.IsOn;
             SaveSettingsToFile();
-            LoadSettings(false);
+            LoadSettings();
         }
 
         private void ToggleSwitchEnableViewboxBlackBoardScaleTransform_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Appearance.EnableViewboxBlackBoardScaleTransform = ToggleSwitchEnableViewboxBlackBoardScaleTransform.IsOn;
             SaveSettingsToFile();
-            LoadSettings(false);
+            LoadSettings();
         }
         private void ToggleSwitchShowButtonPPTNavigation_OnToggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
@@ -3111,8 +2983,7 @@ namespace Ink_Canvas {
         private void ToggleSwitchAutoSaveStrokesAtScreenshot_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Automation.IsAutoSaveStrokesAtScreenshot = ToggleSwitchAutoSaveStrokesAtScreenshot.IsOn;
-            ToggleSwitchAutoSaveStrokesAtClear.Header =
-                ToggleSwitchAutoSaveStrokesAtScreenshot.IsOn ? "清屏时自动截图并保存墨迹" : "清屏时自动截图";
+            ToggleSwitchAutoSaveStrokesAtClear.Header = ToggleSwitchAutoSaveStrokesAtScreenshot.IsOn ? "清屏时自动截图并保存墨迹" : "清屏时自动截图";
             SaveSettingsToFile();
         }
 
@@ -3189,6 +3060,38 @@ namespace Ink_Canvas {
         private void SideControlMinimumAutomationSlider_ValueChanged(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Automation.MinimumAutomationStrokeNumber = (int)SideControlMinimumAutomationSlider.Value;
+            SaveSettingsToFile();
+        }
+
+        private void AutoSavedStrokesLocationTextBox_TextChanged(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Automation.AutoSavedStrokesLocation = AutoSavedStrokesLocation.Text;
+            SaveSettingsToFile();
+        }
+
+        private void AutoSavedStrokesLocationButton_Click(object sender, RoutedEventArgs e) {
+            System.Windows.Forms.FolderBrowserDialog folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
+            folderBrowser.ShowDialog();
+            if (folderBrowser.SelectedPath.Length > 0) AutoSavedStrokesLocation.Text = folderBrowser.SelectedPath;
+        }
+
+        private void SetAutoSavedStrokesLocationToDiskDButton_Click(object sender, RoutedEventArgs e) {
+            AutoSavedStrokesLocation.Text = @"D:\Ink Canvas";
+        }
+
+        private void SetAutoSavedStrokesLocationToDocumentFolderButton_Click(object sender, RoutedEventArgs e) {
+            AutoSavedStrokesLocation.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ink Canvas";
+        }
+
+        private void ToggleSwitchAutoDelSavedFiles_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Automation.AutoDelSavedFiles = ToggleSwitchAutoDelSavedFiles.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ComboBoxAutoDelSavedFilesDaysThreshold_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Automation.AutoDelSavedFilesDaysThreshold = int.Parse(((ComboBoxItem)ComboBoxAutoDelSavedFilesDaysThreshold.SelectedItem).Content.ToString());
             SaveSettingsToFile();
         }
 
@@ -3271,6 +3174,8 @@ namespace Ink_Canvas {
         public static void SetSettingsToRecommendation() {
             //bool IsAutoKillPptService = Settings.Automation.IsAutoKillPptService;
             //bool IsAutoKillEasiNote = Settings.Automation.IsAutoKillEasiNote;
+            bool AutoDelSavedFilesDays = Settings.Automation.AutoDelSavedFiles;
+            int AutoDelSavedFilesDaysThreshold = Settings.Automation.AutoDelSavedFilesDaysThreshold;
             Settings = new Settings();
             Settings.Advanced.IsSpecialScreen = true;
             Settings.Advanced.IsQuadIR = false;
@@ -3308,10 +3213,12 @@ namespace Ink_Canvas {
             Settings.Automation.IsAutoKillPptService = false;// IsAutoKillPptService;
             Settings.Automation.IsAutoKillEasiNote = false;// IsAutoKillEasiNote;
             Settings.Automation.IsSaveScreenshotsInDateFolders = false;
-            Settings.Automation.IsAutoSaveStrokesAtScreenshot = false;
+            Settings.Automation.IsAutoSaveStrokesAtScreenshot = true;
             Settings.Automation.IsAutoSaveStrokesAtClear = true;
             Settings.Automation.IsAutoClearWhenExitingWritingMode = false;
             Settings.Automation.MinimumAutomationStrokeNumber = 0;
+            Settings.Automation.AutoDelSavedFiles = AutoDelSavedFilesDays;
+            Settings.Automation.AutoDelSavedFilesDaysThreshold = AutoDelSavedFilesDaysThreshold;
 
             Settings.PowerPointSettings.IsShowPPTNavigation = true;
             Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel = false;
@@ -3359,7 +3266,7 @@ namespace Ink_Canvas {
                 isLoaded = false;
                 SetSettingsToRecommendation();
                 SaveSettingsToFile();
-                LoadSettings(false);
+                LoadSettings();
                 isLoaded = true;
 
                 ToggleSwitchRunAtStartup.IsOn = true;
@@ -3372,8 +3279,11 @@ namespace Ink_Canvas {
             try {
                 isLoaded = false;
                 SetSettingsToRecommendation();
+                Settings.Automation.AutoDelSavedFiles = true;
+                Settings.Automation.AutoDelSavedFilesDaysThreshold = 15;
+                SetAutoSavedStrokesLocationToDiskDButton_Click(null, null);
                 SaveSettingsToFile();
-                LoadSettings(false);
+                LoadSettings();
                 isLoaded = true;
             } catch { }
         }
@@ -5580,10 +5490,8 @@ namespace Ink_Canvas {
         }
 
         private void BtnWhiteBoardSwitchNext_Click(object sender, EventArgs e) {
-            if (/*Settings.Automation.IsAutoSaveStrokesAtClear && */inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) {
+            if (Settings.Automation.IsAutoSaveStrokesAtClear && inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) {
                 SaveScreenShot(true);
-                SaveInkCanvasStrokes(false, false);
-                //if (Settings.Automation.IsAutoSaveStrokesAtScreenshot) SaveInkCanvasStrokes(false, false);
             }
             if (CurrentWhiteboardIndex >= WhiteboardTotalCount) {
                 BtnWhiteBoardAdd_Click(sender, e);
@@ -5604,7 +5512,6 @@ namespace Ink_Canvas {
             if (WhiteboardTotalCount >= 99) return;
             if (Settings.Automation.IsAutoSaveStrokesAtClear && inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) {
                 SaveScreenShot(true);
-                if (Settings.Automation.IsAutoSaveStrokesAtScreenshot) SaveInkCanvasStrokes(false);
             }
             SaveStrokes();
             ClearStrokes(true);
@@ -6344,42 +6251,6 @@ namespace Ink_Canvas {
 
         #region Screenshot
 
-        private void BtnScreenshot_Click(object sender, RoutedEventArgs e) {
-            bool isHideNotification = false;
-            if (sender is bool) isHideNotification = (bool)sender;
-
-            GridNotifications.Visibility = Visibility.Collapsed;
-
-            new Thread(new ThreadStart(() => {
-                Thread.Sleep(20);
-                try {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible)
-                            SaveScreenShot(isHideNotification, $"{pptName}/{previousSlideID}_{DateTime.Now:HH-mm-ss}");
-                        else
-                            SaveScreenShot(isHideNotification);
-                    });
-                } catch {
-                    if (!isHideNotification) {
-                        ShowNotification("截图保存失败");
-                    }
-                }
-
-                try {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        if (inkCanvas.Visibility != Visibility.Visible || inkCanvas.Strokes.Count == 0) return;
-                        SaveInkCanvasStrokes(false);
-                    });
-                } catch { }
-
-                if (isHideNotification) {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        BtnClear_Click(null, null);
-                    });
-                }
-            })).Start();
-        }
-
         private void SaveScreenShot(bool isHideNotification, string fileName = null) {
             System.Drawing.Rectangle rc = System.Windows.Forms.SystemInformation.VirtualScreen;
             var bitmap = new System.Drawing.Bitmap(rc.Width, rc.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -6390,42 +6261,25 @@ namespace Ink_Canvas {
 
             if (Settings.Automation.IsSaveScreenshotsInDateFolders) {
                 if (string.IsNullOrWhiteSpace(fileName)) fileName = DateTime.Now.ToString("HH-mm-ss");
-                string savePath;
-                //var savePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)}\Ink Canvas Screenshots\{DateTime.Now.Date:yyyyMMdd}\{fileName}.png";
-                try {
-                    savePath = $@"D:\Ink Canvas\Auto Saved - Screenshots\{DateTime.Now.Date:yyyyMMdd}\{fileName}.png";
-                } catch (IOException) {
-                    savePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)}\Ink Canvas Screenshots\{DateTime.Now.Date:yyyyMMdd}\{fileName}.png";
-                }
-
-
+                string savePath = Settings.Automation.AutoSavedStrokesLocation + @"\Auto Saved - Screenshots\{DateTime.Now.Date:yyyyMMdd}\{fileName}.png";
                 if (!Directory.Exists(Path.GetDirectoryName(savePath))) {
                     Directory.CreateDirectory(Path.GetDirectoryName(savePath));
                 }
-
                 bitmap.Save(savePath, ImageFormat.Png);
-
                 if (!isHideNotification) {
                     ShowNotification("截图成功保存至 " + savePath);
                 }
             } else {
-                string savePath;
-                try {
-                    savePath = @"D:\Ink Canvas\Auto Saved - Screenshots";
-                } catch (IOException) {
-                    savePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + @"\Ink Canvas\Auto Saved - Screenshots";
-                }
-
+                string savePath = Settings.Automation.AutoSavedStrokesLocation + @"\Auto Saved - Screenshots";
                 if (!Directory.Exists(savePath)) {
                     Directory.CreateDirectory(savePath);
                 }
-
                 bitmap.Save(savePath + @"\" + DateTime.Now.ToString("u").Replace(':', '-') + ".png", ImageFormat.Png);
-
                 if (!isHideNotification) {
                     ShowNotification("截图成功保存至 " + savePath + @"\" + DateTime.Now.ToString("u").Replace(':', '-') + ".png");
                 }
             }
+            if (Settings.Automation.IsAutoSaveStrokesAtScreenshot) SaveInkCanvasStrokes(false, false);
         }
 
         private void SaveScreenShotToDesktop() {
@@ -6435,17 +6289,10 @@ namespace Ink_Canvas {
             using (System.Drawing.Graphics memoryGrahics = System.Drawing.Graphics.FromImage(bitmap)) {
                 memoryGrahics.CopyFromScreen(rc.X, rc.Y, 0, 0, rc.Size, System.Drawing.CopyPixelOperation.SourceCopy);
             }
-
-            string savePath;
-            try {
-                savePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            } catch (IOException) {
-                savePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + @"\Ink Canvas\Auto Saved - Screenshots";
-            }
-
+            string savePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             bitmap.Save(savePath + @"\" + DateTime.Now.ToString("u").Replace(':', '-') + ".png", ImageFormat.Png);
-
             ShowNotification("截图成功保存至【桌面" + @"\" + DateTime.Now.ToString("u").Replace(':', '-') + ".png】");
+            if (Settings.Automation.IsAutoSaveStrokesAtScreenshot) SaveInkCanvasStrokes(false, false);
         }
 
         #endregion
@@ -6746,7 +6593,6 @@ namespace Ink_Canvas {
 
                 if (Settings.Automation.IsAutoSaveStrokesAtClear && inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) {
                     SaveScreenShot(true);
-                    SaveInkCanvasStrokes(false, false); // 自动保存当前页墨迹
                 }
 
                 if (isInMultiTouchMode) BorderMultiTouchMode_MouseUp(null, null);
@@ -7000,65 +6846,27 @@ namespace Ink_Canvas {
 
         private void SaveInkCanvasStrokes(bool newNotice = true, bool saveByUser = false) {
             try {
-                string savePath;
-                if (saveByUser) // 用户手动保存
-                {
-                    if (currentMode == 0) // 非黑板模式下
-                    {
-                        try {
-                            savePath = @"D:\Ink Canvas\User Saved - Desktop Annotation Strokes";
-                        } catch (IOException) // 用户电脑无 D 盘等情况
-                          {
-                            savePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + @"\Ink Canvas\User Saved - Desktop Annotation Strokes";
-                        }
-                    } else // 黑板模式下
-                      {
-                        try {
-                            savePath = @"D:\Ink Canvas\User Saved - BlackBoard Strokes";
-                        } catch (IOException) {
-                            savePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + @"\Ink Canvas\User Saved - BlackBoard Strokes";
-                        }
-                    }
-                } else // 程序自动保存
-                  {
-                    if (currentMode == 0) // 非黑板模式下
-                    {
-                        try {
-                            savePath = @"D:\Ink Canvas\Auto Saved - Desktop Annotation Strokes";
-                        } catch (IOException) {
-                            savePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + @"\Ink Canvas\Auto Saved - Desktop Annotation Strokes";
-                        }
-                    } else {
-                        try {
-                            savePath = @"D:\Ink Canvas\Auto Saved - BlackBoard Strokes";
-                        } catch (IOException) {
-                            savePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + @"\Ink Canvas\Auto Saved - BlackBoard Strokes";
-                        }
-                    }
-                }
-
+                string savePath = Settings.Automation.AutoSavedStrokesLocation
+                    + (saveByUser ? @"\User Saved - " : @"\Auto Saved - ")
+                    + (currentMode == 0 ? "Annotation Strokes" : "BlackBoard Strokes");
                 if (!Directory.Exists(savePath)) {
                     Directory.CreateDirectory(savePath);
                 }
-
                 string savePathWithName;
-                if (currentMode != 0) // 黑板模式下
-                {
-                    savePathWithName = savePath + @"\" + DateTime.Now.ToString("u").Replace(':', '-') + " Page-" + CurrentWhiteboardIndex + " StrokesCount-" + inkCanvas.Strokes.Count + ".icstk";
+                if (currentMode != 0) { // 黑板模式下
+                    savePathWithName = savePath + @"\" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss-fff") + " Page-" + CurrentWhiteboardIndex + " StrokesCount-" + inkCanvas.Strokes.Count + ".icstk";
                 } else {
-                    savePathWithName = savePath + @"\" + DateTime.Now.ToString("u").Replace(':', '-') + ".icstk";
+                    //savePathWithName = savePath + @"\" + DateTime.Now.ToString("u").Replace(':', '-') + ".icstk";
+                    savePathWithName = savePath + @"\" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss-fff") + ".icstk";
                 }
-
                 FileStream fs = new FileStream(savePathWithName, FileMode.Create);
                 inkCanvas.Strokes.Save(fs);
-
                 if (newNotice) {
                     ShowNotification("墨迹成功保存至 " + savePathWithName);
-                } else {
-                    //AppendNotification("墨迹成功保存至 " + savePathWithName);
                 }
-            } catch {
+            } catch (Exception Ex) {
                 ShowNotification("墨迹保存失败");
+                LogHelper.WriteLogToFile("墨迹保存失败 | " + Ex.ToString(), LogHelper.LogType.Error);
             }
         }
 
@@ -7068,14 +6876,7 @@ namespace Ink_Canvas {
             AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
-
-
-            string defaultFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ink Canvas Strokes\User Saved";
-            if (Directory.Exists(@"D:\Ink Canvas")) {
-                openFileDialog.InitialDirectory = @"D:\Ink Canvas";
-            } else if (Directory.Exists(defaultFolderPath)) {
-                openFileDialog.InitialDirectory = defaultFolderPath;
-            }
+            openFileDialog.InitialDirectory = Settings.Automation.AutoSavedStrokesLocation;
             openFileDialog.Title = "打开墨迹文件";
             openFileDialog.Filter = "Ink Canvas Strokes File (*.icstk)|*.icstk";
             if (openFileDialog.ShowDialog() == true) {
@@ -7464,7 +7265,13 @@ namespace Ink_Canvas {
             drawingShapeMode = 0;
             inkCanvas.IsManipulationEnabled = false;
             if (inkCanvas.EditingMode == InkCanvasEditingMode.Select) {
-                inkCanvas.Select(inkCanvas.Strokes);
+                StrokeCollection selectedStrokes = new StrokeCollection();
+                foreach (Stroke stroke in inkCanvas.Strokes) {
+                    if (stroke.GetBounds().Width > 0 && stroke.GetBounds().Height > 0) {
+                        selectedStrokes.Add(stroke);
+                    }
+                }
+                inkCanvas.Select(selectedStrokes);
             } else {
                 inkCanvas.EditingMode = InkCanvasEditingMode.Select;
             }

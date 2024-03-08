@@ -157,6 +157,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\AutoUpdateHelper.cs" />
+    <Compile Include="Helpers\DelAutoSavedFiles.cs" />
     <Compile Include="Helpers\ForegroundWindowInfo.cs" />
     <Compile Include="ChangeLogWindow.xaml.cs">
       <DependentUpon>ChangeLogWindow.xaml</DependentUpon>

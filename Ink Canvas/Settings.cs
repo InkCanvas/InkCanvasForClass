@@ -225,6 +225,14 @@ namespace Ink_Canvas
         [JsonProperty("minimumAutomationStrokeNumber")]
         public int MinimumAutomationStrokeNumber { get; set; } = 0;
 
+        [JsonProperty("autoSavedStrokesLocation")]
+        public string AutoSavedStrokesLocation = @"D:\Ink Canvas";
+
+        [JsonProperty("autoDelSavedFiles")]
+        public bool AutoDelSavedFiles = false;
+
+        [JsonProperty("autoDelSavedFilesDaysThreshold")]
+        public int AutoDelSavedFilesDaysThreshold = 15;
     }
 
     public class Advanced
