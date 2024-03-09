@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ink_Canvas"
         xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
-        xmlns:c="clr-namespace:Ink_Canvas.Converter" xmlns:Controls="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+        xmlns:c="clr-namespace:Ink_Canvas.Converter"
+        xmlns:Controls="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
         mc:Ignorable="d"
         AllowsTransparency="True"
         WindowStyle="None"
@@ -69,42 +70,18 @@
     </Window.InputBindings>
     <!--命令执行方法绑定-->
     <Window.CommandBindings>
-        <CommandBinding Command="{StaticResource KeyExit}"
-                        CanExecute="CommandBinding_CanExecute"
-                        Executed="KeyExit"/>
-        <CommandBinding Command="{StaticResource HotKey_Command_Undo}"
-                        CanExecute="CommandBinding_CanExecute"
-                        Executed="HotKey_Undo"/>
-        <CommandBinding Command="{StaticResource HotKey_Command_Redo}"
-                        CanExecute="CommandBinding_CanExecute"
-                        Executed="HotKey_Redo"/>
-        <CommandBinding Command="{StaticResource HotKey_Command_Clear}"
-                        CanExecute="CommandBinding_CanExecute"
-                        Executed="HotKey_Clear"/>
-        <CommandBinding Command="{StaticResource HotKey_ChangeToDrawTool}"
-                        CanExecute="CommandBinding_CanExecute"
-                        Executed="KeyChangeToDrawTool"/>
-        <CommandBinding Command="{StaticResource HotKey_ChangeToQuitDrawTool}"
-                        CanExecute="CommandBinding_CanExecute"
-                        Executed="KeyChangeToQuitDrawTool"/>
-        <CommandBinding Command="{StaticResource HotKey_ChangeToSelect}"
-                        CanExecute="CommandBinding_CanExecute"
-                        Executed="KeyChangeToSelect"/>
-        <CommandBinding Command="{StaticResource HotKey_ChangeToEraser}"
-                        CanExecute="CommandBinding_CanExecute"
-                        Executed="KeyChangeToEraser"/>
-        <CommandBinding Command="{StaticResource HotKey_ChangeToBoard}"
-                        CanExecute="CommandBinding_CanExecute"
-                        Executed="KeyChangeToBoard"/>
-        <CommandBinding Command="{StaticResource HotKey_Capture}"
-                        CanExecute="CommandBinding_CanExecute"
-                        Executed="KeyCapture"/>
-        <CommandBinding Command="{StaticResource HotKey_Hide}"
-                        CanExecute="CommandBinding_CanExecute"
-                        Executed="KeyHide"/>
-        <CommandBinding Command="{StaticResource HotKey_DrawLine}"
-                        CanExecute="CommandBinding_CanExecute"
-                        Executed="KeyDrawLine"/>
+        <CommandBinding CanExecute="CommandBinding_CanExecute" Command="{StaticResource KeyExit}" Executed="KeyExit"/>
+        <CommandBinding CanExecute="CommandBinding_CanExecute" Command="{StaticResource HotKey_Command_Undo}" Executed="HotKey_Undo"/>
+        <CommandBinding CanExecute="CommandBinding_CanExecute" Command="{StaticResource HotKey_Command_Redo}" Executed="HotKey_Redo"/>
+        <CommandBinding CanExecute="CommandBinding_CanExecute" Command="{StaticResource HotKey_Command_Clear}" Executed="HotKey_Clear"/>
+        <CommandBinding CanExecute="CommandBinding_CanExecute" Command="{StaticResource HotKey_ChangeToDrawTool}" Executed="KeyChangeToDrawTool"/>
+        <CommandBinding CanExecute="CommandBinding_CanExecute" Command="{StaticResource HotKey_ChangeToQuitDrawTool}" Executed="KeyChangeToQuitDrawTool"/>
+        <CommandBinding CanExecute="CommandBinding_CanExecute" Command="{StaticResource HotKey_ChangeToSelect}" Executed="KeyChangeToSelect"/>
+        <CommandBinding CanExecute="CommandBinding_CanExecute" Command="{StaticResource HotKey_ChangeToEraser}" Executed="KeyChangeToEraser"/>
+        <CommandBinding CanExecute="CommandBinding_CanExecute" Command="{StaticResource HotKey_ChangeToBoard}" Executed="KeyChangeToBoard"/>
+        <CommandBinding CanExecute="CommandBinding_CanExecute" Command="{StaticResource HotKey_Capture}" Executed="KeyCapture"/>
+        <CommandBinding CanExecute="CommandBinding_CanExecute" Command="{StaticResource HotKey_Hide}" Executed="KeyHide"/>
+        <CommandBinding CanExecute="CommandBinding_CanExecute" Command="{StaticResource HotKey_DrawLine}" Executed="KeyDrawLine"/>
     </Window.CommandBindings>
 
     <Grid x:Name="Main_Grid" Background="#01FFFFFF">
@@ -386,7 +363,7 @@
                                                                 <Border BorderBrush="Black" BorderThickness="1.5" CornerRadius="15" Width="55" MouseDown="Border_MouseDown" MouseUp="ColorThemeSwitch_MouseUp">
                                                                     <Grid Margin="6">
                                                                         <Image x:Name="BoardColorThemeSwitchIcon" Source="/Resources/Icons-Fluent/ic_fluent_weather_sunny_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="26" Height="26"/>
-                                                                        <TextBlock x:Name="BoardColorThemeSwitchTextBlock" Text="亮色系" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="12"/>
+                                                                        <TextBlock x:Name="BoardColorThemeSwitchTextBlock" Text="亮系" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="12"/>
                                                                     </Grid>
                                                                 </Border>
                                                                 <Border x:Name="BoardBorderPenColorBlack" Background="Black" BorderBrush="Black" BorderThickness="1.5" CornerRadius="15" Width="55" MouseUp="BtnColorBlack_Click">
@@ -1175,7 +1152,7 @@
 
         <!-- 通知弹窗 -->
         <Grid Name="GridNotifications" Margin="0,110" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-            <Border CornerRadius="10" MaxHeight="200" Padding="20 15" Background="White" Opacity="0.95" BorderBrush="Black" BorderThickness="2">
+            <Border CornerRadius="10" MaxHeight="200" Padding="20 10" Background="White" Opacity="0.95" BorderBrush="Black" BorderThickness="1.5">
                 <TextBlock Name="TextBlockNotice" Text="测试文本" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
             </Border>
         </Grid>
@@ -1186,7 +1163,7 @@
                     <Button Name="BtnExit" Content="退出" FontFamily="Microsoft YaHei UI"
                         Margin="0,10,0,0" Width="{Binding ElementName=StackPanelMain, Path=ActualWidth}"
                         Click="BtnExit_Click" Background="#7F909090"/>
-                    
+
                     <Button Name="BtnThickness" Content="粗细" Visibility="Collapsed" FontFamily="Microsoft YaHei UI"
                         Margin="0,10,0,0" Width="{Binding ElementName=StackPanelMain, Path=ActualWidth}"
                         Click="BtnThickness_Click" Foreground="{Binding ElementName=BtnExit, Path=Foreground}" Background="{Binding ElementName=BtnExit, Path=Background}"/>
@@ -1319,43 +1296,61 @@
         </Grid>
 
         <!--// PPT 侧边翻页按钮 //-->
-        <Viewbox x:Name="LeftSidePanelForPPTNavigation" Visibility="Visible" Margin="6,0,0,0" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center">
-            <ui:SimpleStackPanel Orientation="Vertical" Spacing="5" Opacity="0.4">
-                <Border Width="36" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
-                    <Grid Margin="6">
-                        <Image Source="/Resources/Icons-png/up.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    </Grid>
-                </Border>
-                <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" MouseUp="PPTNavigationBtn_Click" MouseDown="Border_MouseDown" Width="36" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
-                    <Grid>
-                        <TextBlock FontSize="9" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}"/>
-                    </Grid>
-                </Border>
-                <Border Width="36" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
-                    <Grid Margin="6">
-                        <Image Source="/Resources/Icons-png/down.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    </Grid>
-                </Border>
-            </ui:SimpleStackPanel>
+        <Viewbox x:Name="LeftSidePanelForPPTNavigation" Visibility="Visible" Margin="6,0,0,0" Width="42" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Border BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" Background="{DynamicResource FloatBarBackground}" Opacity="0.4" CornerRadius="6">
+                <ui:SimpleStackPanel Orientation="Vertical">
+                    <Border Width="36" Height="38" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" CornerRadius="5 5 0 0">
+                        <Grid Margin="6">
+                            <Image Source="/Resources/Icons-png/up.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Grid>
+                    </Border>
+                    <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" MouseUp="PPTNavigationBtn_Click" MouseDown="Border_MouseDown" Width="36" Height="36">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2"/>
+                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="2"/>
+                            </Grid.RowDefinitions>
+                            <Line Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" X1="0" Y1="0" X2="25" Y2="0" Stroke="Black" StrokeThickness="1"/>
+                            <TextBlock Grid.Row="1" FontSize="9" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}"/>
+                            <Line Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" X1="0" Y1="0" X2="25" Y2="0" Stroke="Black" StrokeThickness="1"/>
+                        </Grid>
+                    </Border>
+                    <Border Width="36" Height="38" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" CornerRadius="0 0 5 5">
+                        <Grid Margin="6">
+                            <Image Source="/Resources/Icons-png/down.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Grid>
+                    </Border>
+                </ui:SimpleStackPanel>
+            </Border>
         </Viewbox>
-        <Viewbox x:Name="RightSidePanelForPPTNavigation" Visibility="Visible" Margin="0,0,6,0" Width="40" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <ui:SimpleStackPanel Orientation="Vertical" Spacing="5" Opacity="0.4">
-                <Border Width="36" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
-                    <Grid Margin="6">
-                        <Image Source="/Resources/Icons-png/up.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    </Grid>
-                </Border>
-                <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" MouseUp="PPTNavigationBtn_Click" MouseDown="Border_MouseDown" Width="36" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
-                    <Grid>
-                        <TextBlock FontSize="9" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}"/>
-                    </Grid>
-                </Border>
-                <Border Width="36" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
-                    <Grid Margin="6">
-                        <Image Source="/Resources/Icons-png/down.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    </Grid>
-                </Border>
-            </ui:SimpleStackPanel>
+        <Viewbox x:Name="RightSidePanelForPPTNavigation" Visibility="Visible" Margin="0,0,6,0" Width="42" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Border BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" Background="{DynamicResource FloatBarBackground}" Opacity="0.4" CornerRadius="6">
+                <ui:SimpleStackPanel Orientation="Vertical">
+                    <Border Width="36" Height="38" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" CornerRadius="5 5 0 0">
+                        <Grid Margin="6">
+                            <Image Source="/Resources/Icons-png/up.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Grid>
+                    </Border>
+                    <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" MouseUp="PPTNavigationBtn_Click" MouseDown="Border_MouseDown" Width="36" Height="36">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2"/>
+                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="2"/>
+                            </Grid.RowDefinitions>
+                            <Line Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" X1="0" Y1="0" X2="25" Y2="0" Stroke="Black" StrokeThickness="1"/>
+                            <TextBlock Grid.Row="1" FontSize="9" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}"/>
+                            <Line Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" X1="0" Y1="0" X2="25" Y2="0" Stroke="Black" StrokeThickness="1"/>
+                        </Grid>
+                    </Border>
+                    <Border Width="36" Height="38" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" CornerRadius="0 0 5 5">
+                        <Grid Margin="6">
+                            <Image Source="/Resources/Icons-png/down.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Grid>
+                    </Border>
+                </ui:SimpleStackPanel>
+            </Border>
         </Viewbox>
 
         <Viewbox Name="ViewboxFloatingBar" Margin="100,10,-2000,-200" 
