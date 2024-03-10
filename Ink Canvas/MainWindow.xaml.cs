@@ -543,9 +543,6 @@ namespace Ink_Canvas {
             // Startup
             if (isStartup) {
                 CursorIcon_Click(null, null);
-                if (Settings.Automation.AutoDelSavedFiles) {
-                    DelAutoSavedFiles.DeleteFilesOlder(Settings.Automation.AutoSavedStrokesLocation, Settings.Automation.AutoDelSavedFilesDaysThreshold);
-                }
             }
             try {
                 if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "\\Ink Canvas Annotation.lnk")) {
@@ -555,6 +552,14 @@ namespace Ink_Canvas {
                 LogHelper.WriteLogToFile(ex.ToString(), LogHelper.LogType.Error);
             }
             if (Settings.Startup != null) {
+                if (isStartup) {
+                    if (Settings.Automation.AutoDelSavedFiles) {
+                        DelAutoSavedFiles.DeleteFilesOlder(Settings.Automation.AutoSavedStrokesLocation, Settings.Automation.AutoDelSavedFilesDaysThreshold);
+                    }
+                    if (Settings.Startup.IsFoldAtStartup) {
+                        FoldFloatingBar_MouseUp(Fold_Icon, null);
+                    }
+                }
                 if (Settings.Startup.IsEnableNibMode) {
                     ToggleSwitchEnableNibMode.IsOn = true;
                     ToggleSwitchBoardEnableNibMode.IsOn = true;
@@ -580,6 +585,8 @@ namespace Ink_Canvas {
                 AutoUpdateWithSilenceTimeComboBox.InitializeAutoUpdateWithSilenceTimeComboBoxOptions(AutoUpdateWithSilenceStartTimeComboBox, AutoUpdateWithSilenceEndTimeComboBox);
                 AutoUpdateWithSilenceStartTimeComboBox.SelectedItem = Settings.Startup.AutoUpdateWithSilenceStartTime;
                 AutoUpdateWithSilenceEndTimeComboBox.SelectedItem = Settings.Startup.AutoUpdateWithSilenceEndTime;
+
+                ToggleSwitchFoldAtStartup.IsOn = Settings.Startup.IsFoldAtStartup;
             } else {
                 Settings.Startup = new Startup();
             }
@@ -2587,6 +2594,12 @@ namespace Ink_Canvas {
             }
         }
 
+        private void ToggleSwitchFoldAtStartup_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Startup.IsFoldAtStartup = ToggleSwitchFoldAtStartup.IsOn;
+            SaveSettingsToFile();
+        }
+
         private void ToggleSwitchSupportPowerPoint_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
 
@@ -3259,6 +3272,7 @@ namespace Ink_Canvas {
             Settings.Startup.AutoUpdateProxy = "https://mirror.ghproxy.com/";
             Settings.Startup.AutoUpdateWithSilenceStartTime = "18:20";
             Settings.Startup.AutoUpdateWithSilenceEndTime = "07:40";
+            Settings.Startup.IsFoldAtStartup = false;
         }
 
         private void BtnResetToSuggestion_Click(object sender, RoutedEventArgs e) {

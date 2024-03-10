@@ -93,6 +93,8 @@ namespace Ink_Canvas
         public bool IsAutoHideCanvas { get; set; } = true;
         [JsonProperty("isAutoEnterModeFinger")]
         public bool IsAutoEnterModeFinger { get; set; } = false;*/
+        [JsonProperty("isFoldAtStartup")]
+        public bool IsFoldAtStartup { get; set; } = false;
     }
 
     public class Appearance
