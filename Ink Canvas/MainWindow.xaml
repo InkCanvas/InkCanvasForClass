@@ -1296,58 +1296,50 @@
         </Grid>
 
         <!--// PPT 侧边翻页按钮 //-->
-        <Viewbox x:Name="LeftSidePanelForPPTNavigation" Visibility="Visible" Margin="6,0,0,0" Width="42" HorizontalAlignment="Left" VerticalAlignment="Center">
+        <Viewbox x:Name="LeftSidePanelForPPTNavigation" Visibility="Visible" Margin="6,0,0,0" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center">
             <Border BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" Background="{DynamicResource FloatBarBackground}" Opacity="0.4" CornerRadius="6">
                 <ui:SimpleStackPanel Orientation="Vertical">
-                    <Border Width="36" Height="38" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" CornerRadius="5 5 0 0">
-                        <Grid Margin="6">
-                            <Image Source="/Resources/Icons-png/up.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        </Grid>
+                    <Border Width="40" Height="40" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" CornerRadius="5 5 0 0" Background="Transparent">
+                        <Image Height="26" Width="26" Source="/Resources/Icons-png/up.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Border>
-                    <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" MouseUp="PPTNavigationBtn_Click" MouseDown="Border_MouseDown" Width="36" Height="36">
+                    <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" MouseUp="PPTNavigationBtn_Click" MouseDown="Border_MouseDown" Width="40" Height="38" Background="Transparent">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="2"/>
-                                <RowDefinition Height="32"/>
-                                <RowDefinition Height="2"/>
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="1"/>
                             </Grid.RowDefinitions>
                             <Line Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" X1="0" Y1="0" X2="25" Y2="0" Stroke="Black" StrokeThickness="1"/>
-                            <TextBlock Grid.Row="1" FontSize="9" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}"/>
+                            <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9" Foreground="{DynamicResource FloatBarForeground}" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}"/>
                             <Line Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" X1="0" Y1="0" X2="25" Y2="0" Stroke="Black" StrokeThickness="1"/>
                         </Grid>
                     </Border>
-                    <Border Width="36" Height="38" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" CornerRadius="0 0 5 5">
-                        <Grid Margin="6">
-                            <Image Source="/Resources/Icons-png/down.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        </Grid>
+                    <Border Width="40" Height="40" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" CornerRadius="0 0 5 5" Background="Transparent">
+                        <Image Height="26" Width="26" Source="/Resources/Icons-png/down.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Border>
                 </ui:SimpleStackPanel>
             </Border>
         </Viewbox>
-        <Viewbox x:Name="RightSidePanelForPPTNavigation" Visibility="Visible" Margin="0,0,6,0" Width="42" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <Viewbox x:Name="RightSidePanelForPPTNavigation" Visibility="Visible" Margin="0,0,6,0" Width="40" HorizontalAlignment="Right" VerticalAlignment="Center">
             <Border BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" Background="{DynamicResource FloatBarBackground}" Opacity="0.4" CornerRadius="6">
                 <ui:SimpleStackPanel Orientation="Vertical">
-                    <Border Width="36" Height="38" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" CornerRadius="5 5 0 0">
-                        <Grid Margin="6">
-                            <Image Source="/Resources/Icons-png/up.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        </Grid>
+                    <Border Width="40" Height="40" MouseUp="GridPPTControlPrevious_MouseUp" MouseDown="Border_MouseDown" CornerRadius="5 5 0 0" Background="Transparent">
+                        <Image Height="26" Width="26" Source="/Resources/Icons-png/up.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Border>
-                    <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" MouseUp="PPTNavigationBtn_Click" MouseDown="Border_MouseDown" Width="36" Height="36">
+                    <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" MouseUp="PPTNavigationBtn_Click" MouseDown="Border_MouseDown" Width="40" Height="38" Background="Transparent">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="2"/>
-                                <RowDefinition Height="32"/>
-                                <RowDefinition Height="2"/>
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="1"/>
                             </Grid.RowDefinitions>
                             <Line Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" X1="0" Y1="0" X2="25" Y2="0" Stroke="Black" StrokeThickness="1"/>
-                            <TextBlock Grid.Row="1" FontSize="9" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}"/>
+                            <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9" Foreground="{DynamicResource FloatBarForeground}" Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}"/>
                             <Line Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" X1="0" Y1="0" X2="25" Y2="0" Stroke="Black" StrokeThickness="1"/>
                         </Grid>
                     </Border>
-                    <Border Width="36" Height="38" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" CornerRadius="0 0 5 5">
-                        <Grid Margin="6">
-                            <Image Source="/Resources/Icons-png/down.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        </Grid>
+                    <Border Width="40" Height="40" MouseUp="GridPPTControlNext_MouseUp" MouseDown="Border_MouseDown" CornerRadius="0 0 5 5" Background="Transparent">
+                        <Image Height="26" Width="26" Source="/Resources/Icons-png/down.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Border>
                 </ui:SimpleStackPanel>
             </Border>
