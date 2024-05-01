@@ -159,6 +159,7 @@
     <Compile Include="Helpers\AutoUpdateHelper.cs" />
     <Compile Include="Helpers\DelAutoSavedFiles.cs" />
     <Compile Include="Helpers\ForegroundWindowInfo.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_AutoFold.cs" />
     <Compile Include="MainWindow_cs\MainWindow_BoardIcons.cs" />
     <Compile Include="MainWindow_cs\MainWindow_FloatingBarIcons.cs" />
     <Compile Include="MainWindow_cs\MainWindow_AutoTheme.cs" />

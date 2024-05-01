@@ -18,118 +18,6 @@ using System.Diagnostics;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
-        #region Auto Fold
-
-        bool isFloatingBarFolded = false, isFloatingBarChangingHideMode = false;
-
-        private async void FoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {
-            if (sender == null) {
-                foldFloatingBarByUser = false;
-            } else {
-                foldFloatingBarByUser = true;
-            }
-            unfoldFloatingBarByUser = false;
-
-            if (isFloatingBarChangingHideMode) return;
-
-            await Dispatcher.InvokeAsync(() => {
-                isFloatingBarChangingHideMode = true;
-                isFloatingBarFolded = true;
-                if (currentMode != 0) ImageBlackboard_MouseUp(null, null);
-                if (StackPanelCanvasControls.Visibility == Visibility.Visible) {
-                    if (foldFloatingBarByUser && inkCanvas.Strokes.Count > 2) {
-                        ShowNotification("正在清空墨迹并收纳至侧边栏，可进入批注模式后通过【撤销】功能来恢复原先墨迹。");
-                    }
-                }
-                lastBorderMouseDownObject = sender;
-                CursorWithDelIcon_Click(sender, null);
-                SidePannelMarginAnimation(-200);
-            });
-
-            await Task.Delay(500);
-
-            await Dispatcher.InvokeAsync(() => {
-                BottomViewboxPPTSidesControl.Visibility = Visibility.Collapsed;
-                LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
-                RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
-                ViewboxFloatingBarMarginAnimation(-60);
-                HideSubPanels("cursor");
-                SidePannelMarginAnimation(-200);
-            });
-            isFloatingBarChangingHideMode = false;
-        }
-
-        private async void UnFoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {
-            if (sender == null || StackPanelPPTControls.Visibility == Visibility.Visible) {
-                unfoldFloatingBarByUser = false;
-            } else {
-                unfoldFloatingBarByUser = true;
-            }
-            foldFloatingBarByUser = false;
-
-            if (isFloatingBarChangingHideMode) return;
-
-            await Dispatcher.InvokeAsync(() => {
-                isFloatingBarChangingHideMode = true;
-                isFloatingBarFolded = false;
-            });
-
-            await Task.Delay(500);
-
-            await Dispatcher.InvokeAsync(() => {
-                if (StackPanelPPTControls.Visibility == Visibility.Visible) {
-                    if (Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel) {
-                        AnimationsHelper.ShowWithSlideFromBottomAndFade(BottomViewboxPPTSidesControl);
-                    }
-                    if (Settings.PowerPointSettings.IsShowSidePPTNavigationPanel) {
-                        AnimationsHelper.ShowWithScaleFromLeft(LeftSidePanelForPPTNavigation);
-                        AnimationsHelper.ShowWithScaleFromRight(RightSidePanelForPPTNavigation);
-                    }
-                }
-                if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
-                    ViewboxFloatingBarMarginAnimation(60);
-                } else {
-                    ViewboxFloatingBarMarginAnimation(100);
-                }
-                SidePannelMarginAnimation(-1500);
-            });
-
-            isFloatingBarChangingHideMode = false;
-        }
-
-        private async void SidePannelMarginAnimation(int heightFromBottom) // Possible value: -1500, -200
-        {
-            await Dispatcher.InvokeAsync(() => {
-                if (heightFromBottom == -200) LeftSidePanel.Visibility = Visibility.Visible;
-
-                ThicknessAnimation LeftSidePanelmarginAnimation = new ThicknessAnimation {
-                    Duration = TimeSpan.FromSeconds(0.3),
-                    From = LeftSidePanel.Margin,
-                    To = new Thickness(-17, 0, 0, heightFromBottom)
-                };
-                ThicknessAnimation RightSidePanelmarginAnimation = new ThicknessAnimation {
-                    Duration = TimeSpan.FromSeconds(0.3),
-                    From = RightSidePanel.Margin,
-                    To = new Thickness(0, 0, -17, heightFromBottom)
-                };
-
-                LeftSidePanel.BeginAnimation(FrameworkElement.MarginProperty, LeftSidePanelmarginAnimation);
-                RightSidePanel.BeginAnimation(FrameworkElement.MarginProperty, RightSidePanelmarginAnimation);
-            });
-
-            await Task.Delay(600);
-
-            await Dispatcher.InvokeAsync(() => {
-                LeftSidePanel.Margin = new Thickness(-17, 0, 0, heightFromBottom);
-                RightSidePanel.Margin = new Thickness(0, 0, -17, heightFromBottom);
-
-                if (heightFromBottom == -1500) LeftSidePanel.Visibility = Visibility.Collapsed;
-            });
-            isFloatingBarChangingHideMode = false;
-        }
-
-        #endregion Auto Fold
-
         #region TwoFingZoomBtn
 
         private void TwoFingerGestureBorder_MouseUp(object sender, RoutedEventArgs e) {
@@ -613,13 +501,13 @@ namespace Ink_Canvas {
 
         bool isViewboxFloatingBarMarginAnimationRunning = false;
 
-        private async void ViewboxFloatingBarMarginAnimation(int heightFromBottom) {
-            if (heightFromBottom == 60) {
-                heightFromBottom = 55;
+        private async void ViewboxFloatingBarMarginAnimation(int MarginFromEdge) {
+            if (MarginFromEdge == 60) {
+                MarginFromEdge = 55;
             }
             await Dispatcher.InvokeAsync(() => {
                 if (Topmost == false) {
-                    heightFromBottom = -60;
+                    MarginFromEdge = -60;
                 } else {
                     ViewboxFloatingBar.Visibility = Visibility.Visible;
                 }
@@ -635,9 +523,9 @@ namespace Ink_Canvas {
                 System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(windowHandle);
                 double screenWidth = screen.Bounds.Width / dpiScaleX, screenHeight = screen.Bounds.Height / dpiScaleY;
                 pos.X = (screenWidth - ViewboxFloatingBar.ActualWidth * ViewboxFloatingBarScaleTransform.ScaleX) / 2;
-                pos.Y = screenHeight - heightFromBottom * ((ViewboxFloatingBarScaleTransform.ScaleY == 1) ? 1 : 0.9);
+                pos.Y = screenHeight - MarginFromEdge * ((ViewboxFloatingBarScaleTransform.ScaleY == 1) ? 1 : 0.9);
 
-                if (heightFromBottom != -60) {
+                if (MarginFromEdge != -60) {
                     if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
                         if (pointPPT.X != -1 || pointPPT.Y != -1) {
                             if (Math.Abs(pointPPT.Y - pos.Y) > 50) {

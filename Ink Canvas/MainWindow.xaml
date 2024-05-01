@@ -271,8 +271,8 @@
                             </Grid>
                         </Border>
                         <Grid Margin="0,0,0,5" Width="0">
-                            <Border Name="BoardTwoFingerGestureBorder" Margin="-115,-160,-55,54" CornerRadius="5" Background="LightGray" Opacity="0.85" BorderBrush="Black" BorderThickness="1">
-                                <ui:SimpleStackPanel Margin="13">
+                            <Border Name="BoardTwoFingerGestureBorder" Margin="-115,-152,-55,54" CornerRadius="5" Background="LightGray" Opacity="0.85" BorderBrush="Black" BorderThickness="1">
+                                <ui:SimpleStackPanel Margin="10">
                                     <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Image Source="/Resources/Icons-Fluent/ic_fluent_people_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"/>
                                         <Label Content="多指书写" FontSize="15" VerticalAlignment="Center"/>
@@ -442,7 +442,7 @@
                             </Grid>
                         </Border>
                         <Border Width="0">
-                            <Border x:Name="BoardBorderDrawShape" Visibility="Visible" Background="LightGray" Opacity="0.85" BorderBrush="Black" BorderThickness="1" CornerRadius="8" Margin="-147,-286,-89,59">
+                            <Border x:Name="BoardBorderDrawShape" Visibility="Visible" Background="LightGray" Opacity="0.85" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="-147,-286,-89,59">
                                 <Viewbox>
                                     <ui:SimpleStackPanel Spacing="-8" Orientation="Vertical">
                                         <TextBlock FontSize="16" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Left" Margin="10,8">
@@ -1491,7 +1491,7 @@
 
                             <Grid Width="0">
                                 <Border x:Name="BorderDrawShape" Visibility="Visible" Background="White" Opacity="0.9" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1"
-                                    CornerRadius="8" Margin="-112,-262,-88,27" Height="240">
+                                    CornerRadius="5" Margin="-112,-262,-88,27" Height="240">
                                     <Viewbox>
                                         <ui:SimpleStackPanel Spacing="-8" Orientation="Vertical">
                                             <TextBlock FontSize="16" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Left" Margin="10,8">
@@ -1615,8 +1615,8 @@
                     <Image x:Name="EnableTwoFingerGestureBtn" Source="/Resources/Icons-png/twoFingelMove.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="30"/>
                 </Border>
                 <Grid Width="0">
-                    <Border Name="TwoFingerGestureBorder" Visibility="Visible" Margin="-105,-165,-67,44" CornerRadius="5" Background="white" Opacity="0.9" BorderBrush="Black" BorderThickness="1">
-                        <ui:SimpleStackPanel Margin="13">
+                    <Border Name="TwoFingerGestureBorder" Visibility="Visible" Margin="-105,-158,-67,44" CornerRadius="5" Background="white" Opacity="0.9" BorderBrush="Black" BorderThickness="1">
+                        <ui:SimpleStackPanel Margin="10">
                             <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_people_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"/>
                                 <Label Content="多指书写" FontSize="15" VerticalAlignment="Center"/>
@@ -1657,14 +1657,14 @@
         <InkCanvas Name="InkCanvasForInkReplay" MouseDown="InkCanvasForInkReplay_MouseDown" Visibility="Collapsed" EditingMode="None" Background="Transparent"/>
 
         <!--// 侧边栏 //-->
-        <Viewbox x:Name="LeftSidePanel" MouseUp="UnFoldFloatingBar_MouseUp" Visibility="Visible" Height="50" Width="30" Margin="-17,0,0,-1500" HorizontalAlignment="Left" VerticalAlignment="Center">
+        <Viewbox x:Name="LeftSidePanel" MouseUp="UnFoldFloatingBar_MouseUp" Visibility="Visible" Height="50" Width="30" Margin="-40,0,0,-150" HorizontalAlignment="Left" VerticalAlignment="Center">
             <ui:SimpleStackPanel>
                 <Border Background="LightGray" Opacity="0.4" CornerRadius="0,5,5,0" Height="50" Width="30">
                     <Image Margin="0,0,-15,0" Source="/Resources/Icons-png/penUpright.png" RenderOptions.BitmapScalingMode="HighQuality" Height="50" Width="30"/>
                 </Border>
             </ui:SimpleStackPanel>
         </Viewbox>
-        <Viewbox x:Name="RightSidePanel" MouseUp="UnFoldFloatingBar_MouseUp" Visibility="{Binding ElementName=LeftSidePanel, Path=Visibility}" Height="50" Width="30" Margin="0,0,-17,-1500" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <Viewbox x:Name="RightSidePanel" MouseUp="UnFoldFloatingBar_MouseUp" Visibility="{Binding ElementName=LeftSidePanel, Path=Visibility}" Height="50" Width="30" Margin="0,0,-40,-150" HorizontalAlignment="Right" VerticalAlignment="Center">
             <ui:SimpleStackPanel>
                 <Border Background="LightGray" Opacity="0.4" CornerRadius="5,0,0,5" Height="50" Width="30">
                     <Image Margin="-15,0,0,0" Source="/Resources/Icons-png/penUpright.png" RenderOptions.BitmapScalingMode="HighQuality" Height="50" Width="30"/>
