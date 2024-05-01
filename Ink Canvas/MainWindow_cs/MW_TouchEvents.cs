@@ -29,8 +29,8 @@ namespace Ink_Canvas {
                 inkCanvas.StylusDown += MainWindow_StylusDown;
                 inkCanvas.StylusMove += MainWindow_StylusMove;
                 inkCanvas.StylusUp += MainWindow_StylusUp;
-                inkCanvas.TouchDown -= Main_Grid_TouchDown;
                 inkCanvas.TouchDown += MainWindow_TouchDown;
+                inkCanvas.TouchDown -= Main_Grid_TouchDown;
                 inkCanvas.EditingMode = InkCanvasEditingMode.None;
                 inkCanvas.Children.Clear();
                 isInMultiTouchMode = true;
@@ -39,6 +39,8 @@ namespace Ink_Canvas {
         }
 
         private void MainWindow_TouchDown(object sender, TouchEventArgs e) {
+            if (inkCanvas.EditingMode != InkCanvasEditingMode.Ink) return;
+
             if (!isHidingSubPanelsWhenInking) {
                 isHidingSubPanelsWhenInking = true;
                 HideSubPanels(); // 书写时自动隐藏二级菜单
@@ -56,6 +58,7 @@ namespace Ink_Canvas {
         }
 
         private void MainWindow_StylusDown(object sender, StylusDownEventArgs e) {
+            if (inkCanvas.EditingMode != InkCanvasEditingMode.Ink) return;
             TouchDownPointsList[e.StylusDevice.Id] = InkCanvasEditingMode.None;
         }
 
@@ -132,6 +135,8 @@ namespace Ink_Canvas {
 
         #endregion
 
+
+
         int lastTouchDownTime = 0, lastTouchUpTime = 0;
 
         Point iniP = new Point(0, 0);
@@ -139,6 +144,7 @@ namespace Ink_Canvas {
         private bool forcePointEraser = true;
 
         private void Main_Grid_TouchDown(object sender, TouchEventArgs e) {
+
             if (!isHidingSubPanelsWhenInking) {
                 isHidingSubPanelsWhenInking = true;
                 HideSubPanels(); // 书写时自动隐藏二级菜单
@@ -208,8 +214,6 @@ namespace Ink_Canvas {
         System.Windows.Point centerPoint;
         InkCanvasEditingMode lastInkCanvasEditingMode = InkCanvasEditingMode.Ink;
         bool isSingleFingerDragMode = false;
-
-        //防止衣服误触造成的墨迹消失
 
         private void inkCanvas_PreviewTouchDown(object sender, TouchEventArgs e) {
             dec.Add(e.TouchDevice.Id);
