@@ -1158,7 +1158,7 @@
                 <TextBlock Name="TextBlockNotice" Text="测试文本" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
             </Border>
         </Grid>
-
+        <!--// Old UI //-->
         <Viewbox Name="ViewBoxStackPanelMain" Visibility="Visible" Margin="10,10,10,55" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="46">
             <StackPanel Name="StackPanelMain" Width="46">
                 <StackPanel Name="StackPanelControl">

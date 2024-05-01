@@ -159,13 +159,31 @@
     <Compile Include="Helpers\AutoUpdateHelper.cs" />
     <Compile Include="Helpers\DelAutoSavedFiles.cs" />
     <Compile Include="Helpers\ForegroundWindowInfo.cs" />
-    <Compile Include="ChangeLogWindow.xaml.cs">
+    <Compile Include="MainWindow_cs\MainWindow_BoardIcons.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_FloatingBarIcons.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_AutoTheme.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_SelectionGestures&amp;FloatingControl.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_Hotkeys.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_Notification.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_BoardControls.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_AutoStart.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_TouchEvents.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_SettingsToLoad.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_SimulatePenPressure&amp;InkToShape.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_Screenshot.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_Save&amp;OpenStrokes.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_Settings.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_PPT.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_Timer.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_TimeMachine.cs" />
+    <Compile Include="MainWindow_cs\MainWindow_ShapeDrawing.cs" />
+    <Compile Include="Windows\ChangeLogWindow.xaml.cs">
       <DependentUpon>ChangeLogWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OperatingGuideWindow.xaml.cs">
+    <Compile Include="Windows\OperatingGuideWindow.xaml.cs">
       <DependentUpon>OperatingGuideWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CycleProcessBar.xaml.cs">
+    <Compile Include="Windows\CycleProcessBar.xaml.cs">
       <DependentUpon>CycleProcessBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AnimationsHelper.cs" />
@@ -176,31 +194,31 @@
     <Compile Include="Helpers\TimeMachine.cs" />
     <Compile Include="Helpers\Converters.cs" />
     <Compile Include="Helpers\WinTabWindowsChecker.cs" />
-    <Compile Include="NamesInputWindow.xaml.cs">
+    <Compile Include="Windows\NamesInputWindow.xaml.cs">
       <DependentUpon>NamesInputWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RandWindow.xaml.cs">
+    <Compile Include="Windows\RandWindow.xaml.cs">
       <DependentUpon>RandWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="YesOrNoNotificationWindow.xaml.cs">
+    <Compile Include="Windows\YesOrNoNotificationWindow.xaml.cs">
       <DependentUpon>YesOrNoNotificationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
-    <Compile Include="SettingsPage.xaml.cs">
+    <Compile Include="Resources\Settings.cs" />
+    <Compile Include="Windows\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CountdownTimerWindow.xaml.cs">
+    <Compile Include="Windows\CountdownTimerWindow.xaml.cs">
       <DependentUpon>CountdownTimerWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="ChangeLogWindow.xaml">
+    <Page Include="Windows\ChangeLogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OperatingGuideWindow.xaml">
+    <Page Include="Windows\OperatingGuideWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="CycleProcessBar.xaml">
+    <Page Include="Windows\CycleProcessBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -217,11 +235,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NamesInputWindow.xaml">
+    <Page Include="Windows\NamesInputWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RandWindow.xaml">
+    <Page Include="Windows\RandWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -245,15 +263,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="YesOrNoNotificationWindow.xaml">
+    <Page Include="Windows\YesOrNoNotificationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingsPage.xaml">
+    <Page Include="Windows\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CountdownTimerWindow.xaml">
+    <Page Include="Windows\CountdownTimerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -493,5 +511,6 @@
   <ItemGroup>
     <Resource Include="Resources\Icons-Fluent\ic_fluent_control_button_24_regular.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
