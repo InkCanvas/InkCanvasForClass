@@ -39,7 +39,9 @@ namespace Ink_Canvas {
         }
 
         private void MainWindow_TouchDown(object sender, TouchEventArgs e) {
-            if (inkCanvas.EditingMode != InkCanvasEditingMode.Ink) return;
+            if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint
+                || inkCanvas.EditingMode == InkCanvasEditingMode.EraseByStroke
+                || inkCanvas.EditingMode == InkCanvasEditingMode.Select) return;
 
             if (!isHidingSubPanelsWhenInking) {
                 isHidingSubPanelsWhenInking = true;
@@ -58,7 +60,9 @@ namespace Ink_Canvas {
         }
 
         private void MainWindow_StylusDown(object sender, StylusDownEventArgs e) {
-            if (inkCanvas.EditingMode != InkCanvasEditingMode.Ink) return;
+            if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint
+                || inkCanvas.EditingMode == InkCanvasEditingMode.EraseByStroke
+                || inkCanvas.EditingMode == InkCanvasEditingMode.Select) return;
             TouchDownPointsList[e.StylusDevice.Id] = InkCanvasEditingMode.None;
         }
 
