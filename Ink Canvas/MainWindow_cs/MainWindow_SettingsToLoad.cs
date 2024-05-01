@@ -212,6 +212,11 @@ namespace Ink_Canvas {
             }
             // Gesture
             if (Settings.Gesture != null) {
+                if (Settings.Gesture.IsEnableMultiTouchMode) {
+                    ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                } else {
+                    ToggleSwitchEnableMultiTouchMode.IsOn = false;
+                }
                 if (Settings.Gesture.IsEnableTwoFingerZoom) {
                     ToggleSwitchEnableTwoFingerZoom.IsOn = true;
                     BoardToggleSwitchEnableTwoFingerZoom.IsOn = true;

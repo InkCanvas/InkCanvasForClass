@@ -254,13 +254,6 @@
                                 <TextBlock Text="退出" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="12"/>
                             </Grid>
                         </Border>
-                        <!--
-                        <Border Width="36" Height="36" MouseDown="Border_MouseDown" MouseUp="BorderMultiTouchMode_MouseUp" CornerRadius="5" Background="White" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
-                            <Viewbox Margin="8">
-                                <ui:SymbolIcon Name="SymbolIconMultiTouchMode" Symbol="People" Foreground="{DynamicResource FloatBarForeground}" />
-                            </Viewbox>
-                        </Border>
-                        -->
                     </ui:SimpleStackPanel>
                 </Grid>
             </Viewbox>
@@ -278,19 +271,24 @@
                             </Grid>
                         </Border>
                         <Grid Margin="0,0,0,5" Width="0">
-                            <Border Name="BoardTwoFingerGestureBorder" Margin="-115,-125,-55,54" CornerRadius="5" Background="LightGray" Opacity="0.85" BorderBrush="Black" BorderThickness="1">
+                            <Border Name="BoardTwoFingerGestureBorder" Margin="-115,-160,-55,54" CornerRadius="5" Background="LightGray" Opacity="0.85" BorderBrush="Black" BorderThickness="1">
                                 <ui:SimpleStackPanel Margin="13">
-                                    <ui:SimpleStackPanel  Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Image Source="/Resources/Icons-Fluent/ic_fluent_people_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"/>
+                                        <Label Content="多指书写" FontSize="15" VerticalAlignment="Center"/>
+                                        <ui:ToggleSwitch MinWidth="0" Width="42" Name="BoardToggleSwitchEnableMultiTouchMode" FontFamily="Microsoft YaHei UI" IsOn="False" OnContent="" OffContent="" Toggled="ToggleSwitchEnableMultiTouchMode_Toggled"/>
+                                    </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Opacity="{Binding ElementName=TwoFingerGestureSimpleStackPanel, Path=Opacity}" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Image Source="/Resources/Icons-Fluent/ic_fluent_drag_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"/>
                                         <Label Content="双指移动" FontSize="15" VerticalAlignment="Center"/>
                                         <ui:ToggleSwitch MinWidth="0" Width="42" Name="BoardToggleSwitchEnableTwoFingerTranslate" FontFamily="Microsoft YaHei UI" IsOn="False" OnContent="" OffContent="" Toggled="ToggleSwitchEnableTwoFingerTranslate_Toggled"/>
                                     </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <ui:SimpleStackPanel Opacity="{Binding ElementName=TwoFingerGestureSimpleStackPanel, Path=Opacity}" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Image Source="/Resources/Icons-Fluent/ic_fluent_scale_fit_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"/>
                                         <Label Content="双指缩放" FontSize="15" VerticalAlignment="Center"/>
                                         <ui:ToggleSwitch MinWidth="0" Width="42" Name="BoardToggleSwitchEnableTwoFingerZoom" FontFamily="Microsoft YaHei UI" IsOn="False" OnContent="" OffContent="" Toggled="ToggleSwitchEnableTwoFingerZoom_Toggled"/>
                                     </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <ui:SimpleStackPanel Opacity="{Binding ElementName=TwoFingerGestureSimpleStackPanel, Path=Opacity}" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Image Source="/Resources/Icons-Fluent/ic_fluent_arrow_rotate_clockwise_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"/>
                                         <Label Content="双指旋转" FontSize="15" VerticalAlignment="Center"/>
                                         <ui:ToggleSwitch MinWidth="0" Width="42" Name="BoardToggleSwitchEnableTwoFingerRotation" FontFamily="Microsoft YaHei UI" OnContent="" OffContent="" Toggled="ToggleSwitchEnableTwoFingerRotation_Toggled"/>
@@ -1617,19 +1615,24 @@
                     <Image x:Name="EnableTwoFingerGestureBtn" Source="/Resources/Icons-png/twoFingelMove.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="30"/>
                 </Border>
                 <Grid Width="0">
-                    <Border Name="TwoFingerGestureBorder" Visibility="Collapsed" Margin="-105,-132,-67,44" CornerRadius="5" Background="white" Opacity="0.9" BorderBrush="Black" BorderThickness="1">
+                    <Border Name="TwoFingerGestureBorder" Visibility="Visible" Margin="-105,-165,-67,44" CornerRadius="5" Background="white" Opacity="0.9" BorderBrush="Black" BorderThickness="1">
                         <ui:SimpleStackPanel Margin="13">
                             <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Source="/Resources/Icons-Fluent/ic_fluent_people_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"/>
+                                <Label Content="多指书写" FontSize="15" VerticalAlignment="Center"/>
+                                <ui:ToggleSwitch MinWidth="0" Width="42" Name="ToggleSwitchEnableMultiTouchMode" FontFamily="Microsoft YaHei UI" IsOn="False" OnContent="" OffContent="" Toggled="ToggleSwitchEnableMultiTouchMode_Toggled"/>
+                            </ui:SimpleStackPanel>
+                            <ui:SimpleStackPanel Opacity="1" x:Name="TwoFingerGestureSimpleStackPanel" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_drag_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"/>
                                 <Label Content="双指移动" FontSize="15" VerticalAlignment="Center"/>
                                 <ui:ToggleSwitch MinWidth="0" Width="42" OnContent="" OffContent="" Name="ToggleSwitchEnableTwoFingerTranslate" FontFamily="Microsoft YaHei UI" IsOn="False" Toggled="ToggleSwitchEnableTwoFingerTranslate_Toggled"/>
                             </ui:SimpleStackPanel>
-                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <ui:SimpleStackPanel Opacity="{Binding ElementName=TwoFingerGestureSimpleStackPanel, Path=Opacity}" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_scale_fit_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"/>
                                 <Label Content="双指缩放" FontSize="15" VerticalAlignment="Center"/>
                                 <ui:ToggleSwitch MinWidth="0" Width="42" OnContent="" OffContent="" Name="ToggleSwitchEnableTwoFingerZoom" FontFamily="Microsoft YaHei UI" IsOn="False" Toggled="ToggleSwitchEnableTwoFingerZoom_Toggled"/>
                             </ui:SimpleStackPanel>
-                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <ui:SimpleStackPanel Opacity="{Binding ElementName=TwoFingerGestureSimpleStackPanel, Path=Opacity}" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_arrow_rotate_clockwise_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"/>
                                 <Label Content="双指旋转" FontSize="15" VerticalAlignment="Center"/>
                                 <ui:ToggleSwitch MinWidth="0" Width="42" OnContent="" OffContent="" Name="ToggleSwitchEnableTwoFingerRotation" FontFamily="Microsoft YaHei UI" Toggled="ToggleSwitchEnableTwoFingerRotation_Toggled"/>

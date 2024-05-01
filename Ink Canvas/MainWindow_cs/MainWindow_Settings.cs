@@ -448,6 +448,23 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
+        private void ToggleSwitchEnableMultiTouchMode_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            if (sender == ToggleSwitchEnableMultiTouchMode) {
+                BoardToggleSwitchEnableMultiTouchMode.IsOn = ToggleSwitchEnableMultiTouchMode.IsOn;
+            } else {
+                ToggleSwitchEnableMultiTouchMode.IsOn = BoardToggleSwitchEnableMultiTouchMode.IsOn;
+            }
+            if (ToggleSwitchEnableMultiTouchMode.IsOn) {
+                if (!isInMultiTouchMode) BorderMultiTouchMode_MouseUp(null, null);
+            } else {
+                if (isInMultiTouchMode) BorderMultiTouchMode_MouseUp(null, null);
+            }
+            Settings.Gesture.IsEnableMultiTouchMode = ToggleSwitchEnableMultiTouchMode.IsOn;
+            CheckEnableTwoFingerGestureBtnColorPrompt();
+            SaveSettingsToFile();
+        }
+
         private void ToggleSwitchEnableTwoFingerTranslate_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             if (sender == ToggleSwitchEnableTwoFingerTranslate) {

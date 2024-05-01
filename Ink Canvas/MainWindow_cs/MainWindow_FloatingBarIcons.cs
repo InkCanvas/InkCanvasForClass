@@ -143,8 +143,20 @@ namespace Ink_Canvas {
         }
 
         private void CheckEnableTwoFingerGestureBtnColorPrompt() {
-            EnableTwoFingerGestureBtn.Source = Settings.Gesture.IsEnableTwoFingerGesture ? new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove-Blue.png", UriKind.Relative)) : new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove.png", UriKind.Relative));
-            BoardEnableTwoFingerGestureBtn.Source = Settings.Gesture.IsEnableTwoFingerGesture ? new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove-Blue.png", UriKind.Relative)) : new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove.png", UriKind.Relative));
+            if (ToggleSwitchEnableMultiTouchMode.IsOn) {
+                TwoFingerGestureSimpleStackPanel.Opacity = 0.5;
+                EnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove.png", UriKind.Relative));
+                BoardEnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove.png", UriKind.Relative));
+            } else {
+                TwoFingerGestureSimpleStackPanel.Opacity = 1;
+                if (Settings.Gesture.IsEnableTwoFingerGesture) {
+                    EnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove-Blue.png", UriKind.Relative));
+                    BoardEnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove-Blue.png", UriKind.Relative));
+                } else {
+                    EnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove.png", UriKind.Relative));
+                    BoardEnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove.png", UriKind.Relative));
+                }
+            }
         }
 
         private void CheckEnableTwoFingerGestureBtnVisibility(bool isVisible) {
@@ -392,11 +404,10 @@ namespace Ink_Canvas {
                 RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
 
                 //进入黑板
-                if (Settings.Gesture.AutoSwitchTwoFingerGesture) // 自动开启双指移动
+                if (Settings.Gesture.AutoSwitchTwoFingerGesture) // 自动关闭多指书写、开启双指移动
                 {
+                    if (isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = false;
                     ToggleSwitchEnableTwoFingerTranslate.IsOn = true;
-                    //ToggleSwitchEnableTwoFingerZoom.IsOn = false;
-                    //ToggleSwitchEnableTwoFingerRotation.IsOn = false;
                 }
 
                 /*
@@ -434,18 +445,15 @@ namespace Ink_Canvas {
                     }
                 }
 
-
-                if (Settings.Gesture.AutoSwitchTwoFingerGesture) // 自动关闭双指移动
+                if (Settings.Gesture.AutoSwitchTwoFingerGesture) // 自动启用多指书写
                 {
                     ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
+                    if (!isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = true;
                 }
-
 
                 if (Settings.Automation.IsAutoSaveStrokesAtClear && inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) {
                     SaveScreenShot(true);
                 }
-
-                if (isInMultiTouchMode) BorderMultiTouchMode_MouseUp(null, null);
 
                 if (BtnPPTSlideShowEnd.Visibility == Visibility.Collapsed) {
                     new Thread(new ThreadStart(() => {

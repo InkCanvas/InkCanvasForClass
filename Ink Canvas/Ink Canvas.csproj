@@ -511,6 +511,8 @@
   <ItemGroup>
     <Resource Include="Resources\Icons-Fluent\ic_fluent_control_button_24_regular.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Icons-Fluent\ic_fluent_people_24_regular.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
