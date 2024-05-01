@@ -449,7 +449,7 @@ namespace Ink_Canvas {
         }
 
         private void ToggleSwitchEnableMultiTouchMode_Toggled(object sender, RoutedEventArgs e) {
-            if (!isLoaded) return;
+            //if (!isLoaded) return;
             if (sender == ToggleSwitchEnableMultiTouchMode) {
                 BoardToggleSwitchEnableMultiTouchMode.IsOn = ToggleSwitchEnableMultiTouchMode.IsOn;
             } else {

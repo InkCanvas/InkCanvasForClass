@@ -290,13 +290,7 @@ namespace Ink_Canvas {
                 BottomViewboxPPTSidesControl.Visibility = Visibility.Collapsed;
                 LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
-
                 //进入黑板
-                if (Settings.Gesture.AutoSwitchTwoFingerGesture) // 自动关闭多指书写、开启双指移动
-                {
-                    if (isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = false;
-                    ToggleSwitchEnableTwoFingerTranslate.IsOn = true;
-                }
 
                 /*
                 if (Not_Enter_Blackboard_fir_Mouse_Click) {// BUG-Fixed_tmp：程序启动后直接进入白板会导致后续撤销功能、退出白板无法恢复墨迹
@@ -319,6 +313,12 @@ namespace Ink_Canvas {
                 } else {
                     BorderPenColorWhite_MouseUp(BorderPenColorWhite, null);
                 }
+
+                if (Settings.Gesture.AutoSwitchTwoFingerGesture) // 自动关闭多指书写、开启双指移动
+                {
+                    ToggleSwitchEnableTwoFingerTranslate.IsOn = true;
+                    if (isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = false;
+                }
             } else {
                 //关闭黑板
                 HideSubPanelsImmediately();
@@ -331,12 +331,6 @@ namespace Ink_Canvas {
                         AnimationsHelper.ShowWithScaleFromLeft(LeftSidePanelForPPTNavigation);
                         AnimationsHelper.ShowWithScaleFromRight(RightSidePanelForPPTNavigation);
                     }
-                }
-
-                if (Settings.Gesture.AutoSwitchTwoFingerGesture) // 自动启用多指书写
-                {
-                    ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
-                    if (!isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = true;
                 }
 
                 if (Settings.Automation.IsAutoSaveStrokesAtClear && inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) {
@@ -360,6 +354,12 @@ namespace Ink_Canvas {
                 }
                 if (Pen_Icon.Background == null) {
                     PenIcon_Click(null, null);
+                }
+
+                if (Settings.Gesture.AutoSwitchTwoFingerGesture) // 自动启用多指书写
+                {
+                    ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
+                    if (!isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = true;
                 }
             }
 

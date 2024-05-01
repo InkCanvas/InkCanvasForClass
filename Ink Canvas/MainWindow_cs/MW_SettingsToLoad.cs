@@ -258,10 +258,12 @@ namespace Ink_Canvas {
                         ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
                         BoardToggleSwitchEnableTwoFingerTranslate.IsOn = false;
                         Settings.Gesture.IsEnableTwoFingerTranslate = false;
+                        if (!isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = true;
                     } else {
                         ToggleSwitchEnableTwoFingerTranslate.IsOn = true;
                         BoardToggleSwitchEnableTwoFingerTranslate.IsOn = true;
                         Settings.Gesture.IsEnableTwoFingerTranslate = true;
+                        if (isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = false;
                     }
                 }
                 CheckEnableTwoFingerGestureBtnColorPrompt();
