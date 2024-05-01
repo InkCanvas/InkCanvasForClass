@@ -12,9 +12,9 @@ namespace Ink_Canvas {
             Settings.Canvas.UsingWhiteboard = !Settings.Canvas.UsingWhiteboard;
             SaveSettingsToFile();
             if (Settings.Canvas.UsingWhiteboard) {
-                if (inkColor == 5) inkColor = 0;
+                if (inkColor == 5) lastBoardInkColor = 0;
             } else {
-                if (inkColor == 0) inkColor = 5;
+                if (inkColor == 0) lastBoardInkColor = 5;
             }
             CheckColorTheme(true);
         }
