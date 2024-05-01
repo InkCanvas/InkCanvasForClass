@@ -1,9 +1,11 @@
 ﻿using Ink_Canvas.Helpers;
 using System;
 using System.Media;
+using System.Runtime.InteropServices;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace Ink_Canvas
@@ -356,8 +358,17 @@ namespace Ink_Canvas
                 TbCurrentTime.Visibility = Visibility.Collapsed;
 
                 // Set to center
-                double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-                double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+                double dpiScaleX = 1, dpiScaleY = 1;
+                PresentationSource source = PresentationSource.FromVisual(this);
+                if (source != null) {
+                    dpiScaleX = source.CompositionTarget.TransformToDevice.M11;
+                    dpiScaleY = source.CompositionTarget.TransformToDevice.M22;
+                }
+                IntPtr windowHandle = new WindowInteropHelper(this).Handle;
+                System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(windowHandle);
+                double screenWidth = screen.Bounds.Width / dpiScaleX, screenHeight = screen.Bounds.Height / dpiScaleY;
+                Left = (screenWidth / 2) - (Width / 2);
+                Top = (screenHeight / 2) - (Height / 2);
                 Left = (screenWidth / 2) - (Width / 2);
                 Top = (screenHeight / 2) - (Height / 2);
             }

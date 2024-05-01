@@ -33,6 +33,7 @@ using Point = System.Windows.Point;
 using Timer = System.Timers.Timer;
 using iNKORE.UI.WPF.Modern.Helpers;
 using iNKORE.UI.WPF.Helpers;
+using System.Windows.Interop;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -6488,12 +6489,6 @@ namespace Ink_Canvas {
                 BtnHideInkCanvas_Click(BtnHideInkCanvas, null);
 
                 if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
-                    /*
-                    if (ViewboxFloatingBar.Margin == new Thickness((SystemParameters.PrimaryScreenWidth - ViewboxFloatingBar.ActualWidth) / 2, SystemParameters.PrimaryScreenHeight - 60, -2000, -200))
-                    {
-                        await Task.Delay(100);
-                        ViewboxFloatingBar.Margin = new Thickness((SystemParameters.PrimaryScreenWidth - ViewboxFloatingBar.ActualWidth) / 2, SystemParameters.PrimaryScreenHeight - 60, -2000, -200);
-                    }*/
                     await Task.Delay(100);
                     ViewboxFloatingBarMarginAnimation(60);
                 }
@@ -7068,8 +7063,17 @@ namespace Ink_Canvas {
                 }
                 isViewboxFloatingBarMarginAnimationRunning = true;
 
-                pos.X = (SystemParameters.PrimaryScreenWidth - ViewboxFloatingBar.ActualWidth * ViewboxFloatingBarScaleTransform.ScaleX) / 2;
-                pos.Y = SystemParameters.PrimaryScreenHeight - heightFromBottom * ((ViewboxFloatingBarScaleTransform.ScaleY == 1) ? 1 : 0.9);
+                double dpiScaleX = 1, dpiScaleY = 1;
+                PresentationSource source = PresentationSource.FromVisual(this);
+                if (source != null) {
+                    dpiScaleX = source.CompositionTarget.TransformToDevice.M11;
+                    dpiScaleY = source.CompositionTarget.TransformToDevice.M22;
+                }
+                IntPtr windowHandle = new WindowInteropHelper(this).Handle;
+                System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(windowHandle);
+                double screenWidth = screen.Bounds.Width / dpiScaleX, screenHeight = screen.Bounds.Height / dpiScaleY;
+                pos.X = (screenWidth - ViewboxFloatingBar.ActualWidth * ViewboxFloatingBarScaleTransform.ScaleX) / 2;
+                pos.Y = screenHeight - heightFromBottom * ((ViewboxFloatingBarScaleTransform.ScaleY == 1) ? 1 : 0.9);
 
                 if (heightFromBottom != -60) {
                     if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
