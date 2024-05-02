@@ -33,16 +33,16 @@ namespace Ink_Canvas {
         private void CheckEnableTwoFingerGestureBtnColorPrompt() {
             if (ToggleSwitchEnableMultiTouchMode.IsOn) {
                 TwoFingerGestureSimpleStackPanel.Opacity = 0.5;
-                EnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove.png", UriKind.Relative));
-                BoardEnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove.png", UriKind.Relative));
+                EnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/new-icons/gesture.png", UriKind.Relative));
+                BoardEnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/new-icons/gesture.png", UriKind.Relative));
             } else {
                 TwoFingerGestureSimpleStackPanel.Opacity = 1;
                 if (Settings.Gesture.IsEnableTwoFingerGesture) {
-                    EnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove-Blue.png", UriKind.Relative));
-                    BoardEnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove-Blue.png", UriKind.Relative));
+                    EnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/new-icons/gesture-enabled.png", UriKind.Relative));
+                    BoardEnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/new-icons/gesture-enabled.png", UriKind.Relative));
                 } else {
-                    EnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove.png", UriKind.Relative));
-                    BoardEnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/Icons-png/twoFingelMove.png", UriKind.Relative));
+                    EnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/new-icons/gesture.png", UriKind.Relative));
+                    BoardEnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/new-icons/gesture.png", UriKind.Relative));
                 }
             }
         }
@@ -148,20 +148,100 @@ namespace Ink_Canvas {
                     BoardSelect.Background = new SolidColorBrush(Colors.LightGray);
                     EraserByStrokes_Icon.Background = null;
                     BoardEraserByStrokes.Background = new SolidColorBrush(Colors.LightGray);
+                    
+                    ImageSource cursorSolidIS = new BitmapImage(new Uri("/Resources/new-icons/cursor-solid.png", UriKind.Relative));
+                    ImageSource penLinedIS = new BitmapImage(new Uri("/Resources/new-icons/pen-lined.png", UriKind.Relative));
+                    ImageSource strokeEraserLinedIS = new BitmapImage(new Uri("/Resources/new-icons/eraser-lined.png", UriKind.Relative));
+                    ImageSource circleEraserLinedIS = new BitmapImage(new Uri("/Resources/new-icons/circle-eraser-lined.png", UriKind.Relative));
+                    ImageSource selectLinedIS = new BitmapImage(new Uri("/Resources/new-icons/lasso-select-lined.png", UriKind.Relative));
+                    // 修改鼠标icon为solid
+                    CursorToolbarIconImage.Source = cursorSolidIS;
+                    // 修改批注icon为lined
+                    PenIcon.Source = penLinedIS;
+                    // 修改笔记擦icon为lined
+                    StrokeEraserToolbarIconImage.Source = strokeEraserLinedIS;
+                    // 修改擦icon为lined
+                    CircleEraserToolbarIconImage.Source = circleEraserLinedIS;
+                    // 修改select icon为lined
+                    LassoSelect.Source = selectLinedIS;
                 }
                 if (mode == "pen" || mode == "color") {
                     BoardPen.Background = new SolidColorBrush(Color.FromRgb(103, 156, 244));
-                    Pen_Icon.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 0.75 };
+                    Pen_Icon.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
+
+                    ImageSource cursorLinedIS = new BitmapImage(new Uri("/Resources/new-icons/cursor-lined.png", UriKind.Relative));
+                    ImageSource penSolidIS = new BitmapImage(new Uri("/Resources/new-icons/pen-solid.png", UriKind.Relative));
+                    ImageSource strokeEraserLinedIS = new BitmapImage(new Uri("/Resources/new-icons/eraser-lined.png", UriKind.Relative));
+                    ImageSource circleEraserLinedIS = new BitmapImage(new Uri("/Resources/new-icons/circle-eraser-lined.png", UriKind.Relative));
+                    ImageSource selectLinedIS = new BitmapImage(new Uri("/Resources/new-icons/lasso-select-lined.png", UriKind.Relative));
+                    // 修改鼠标icon为lined
+                    CursorToolbarIconImage.Source = cursorLinedIS;
+                    // 修改批注icon为sollid
+                    PenIcon.Source = penSolidIS;
+                    // 修改笔记擦icon为lined
+                    StrokeEraserToolbarIconImage.Source = strokeEraserLinedIS;
+                    // 修改擦icon为lined
+                    CircleEraserToolbarIconImage.Source = circleEraserLinedIS;
+                    // 修改select icon为lined
+                    LassoSelect.Source = selectLinedIS;
                 } else {
                     if (mode == "eraser") {
-                        Eraser_Icon.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 0.75 };
+                        Eraser_Icon.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
                         BoardEraser.Background = new SolidColorBrush(Color.FromRgb(103, 156, 244));
+
+                        ImageSource cursorLinedIS = new BitmapImage(new Uri("/Resources/new-icons/cursor-lined.png", UriKind.Relative));
+                        ImageSource strokeEraserLinedIS = new BitmapImage(new Uri("/Resources/new-icons/eraser-lined.png", UriKind.Relative));
+                        ImageSource penLinedIS = new BitmapImage(new Uri("/Resources/new-icons/pen-lined.png", UriKind.Relative));
+                        ImageSource circleEraserSolidIS = new BitmapImage(new Uri("/Resources/new-icons/circle-eraser-solid.png", UriKind.Relative));
+                        ImageSource selectLinedIS = new BitmapImage(new Uri("/Resources/new-icons/lasso-select-lined.png", UriKind.Relative));
+                        // 修改鼠标icon为lined
+                        CursorToolbarIconImage.Source = cursorLinedIS;
+                        // 修改批注icon为lined
+                        PenIcon.Source = penLinedIS;
+                        // 修改笔记擦icon为lined
+                        StrokeEraserToolbarIconImage.Source = strokeEraserLinedIS;
+                        // 修改擦icon为solid
+                        CircleEraserToolbarIconImage.Source = circleEraserSolidIS;
+                        // 修改select icon为lined
+                        LassoSelect.Source = selectLinedIS;
                     } else if (mode == "eraserByStrokes") {
-                        EraserByStrokes_Icon.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 0.75 };
+                        EraserByStrokes_Icon.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
                         BoardEraserByStrokes.Background = new SolidColorBrush(Color.FromRgb(103, 156, 244));
+
+                        ImageSource cursorLinedIS = new BitmapImage(new Uri("/Resources/new-icons/cursor-lined.png", UriKind.Relative));
+                        ImageSource strokeEraserSolidIS = new BitmapImage(new Uri("/Resources/new-icons/eraser-solid.png", UriKind.Relative));
+                        ImageSource penLinedIS = new BitmapImage(new Uri("/Resources/new-icons/pen-lined.png", UriKind.Relative));
+                        ImageSource circleEraserLinedIS = new BitmapImage(new Uri("/Resources/new-icons/circle-eraser-lined.png", UriKind.Relative));
+                        ImageSource selectLinedIS = new BitmapImage(new Uri("/Resources/new-icons/lasso-select-lined.png", UriKind.Relative));
+                        // 修改鼠标icon为lined
+                        CursorToolbarIconImage.Source = cursorLinedIS;
+                        // 修改批注icon为lined
+                        PenIcon.Source = penLinedIS;
+                        // 修改笔记擦icon为solid
+                        StrokeEraserToolbarIconImage.Source = strokeEraserSolidIS;
+                        // 修改擦icon为lined
+                        CircleEraserToolbarIconImage.Source = circleEraserLinedIS;
+                        // 修改select icon为lined
+                        LassoSelect.Source = selectLinedIS;
                     } else if (mode == "select") {
                         BoardSelect.Background = new SolidColorBrush(Color.FromRgb(103, 156, 244));
-                        SymbolIconSelect.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 0.75 };
+                        SymbolIconSelect.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
+                        
+                        ImageSource cursorLinedIS = new BitmapImage(new Uri("/Resources/new-icons/cursor-lined.png", UriKind.Relative));
+                        ImageSource penLinedIS = new BitmapImage(new Uri("/Resources/new-icons/pen-lined.png", UriKind.Relative));
+                        ImageSource strokeEraserLinedIS = new BitmapImage(new Uri("/Resources/new-icons/eraser-lined.png", UriKind.Relative));
+                        ImageSource circleEraserLinedIS = new BitmapImage(new Uri("/Resources/new-icons/circle-eraser-lined.png", UriKind.Relative));
+                        ImageSource selectSolidIS = new BitmapImage(new Uri("/Resources/new-icons/lasso-select-solid.png", UriKind.Relative));
+                        // 修改鼠标icon为lined
+                        CursorToolbarIconImage.Source = cursorLinedIS;
+                        // 修改批注icon为lined
+                        PenIcon.Source = penLinedIS;
+                        // 修改笔记擦icon为lined
+                        StrokeEraserToolbarIconImage.Source = strokeEraserLinedIS;
+                        // 修改擦icon为lined
+                        CircleEraserToolbarIconImage.Source = circleEraserLinedIS;
+                        // 修改select icon为solid
+                        LassoSelect.Source = selectSolidIS;
                     }
                 }
 
@@ -359,7 +439,8 @@ namespace Ink_Canvas {
                 if (Settings.Gesture.AutoSwitchTwoFingerGesture) // 自动启用多指书写
                 {
                     ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
-                    if (!isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                    // 2024.5.2 need to be tested
+                    // if (!isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = true;
                 }
             }
 
@@ -1324,43 +1405,48 @@ namespace Ink_Canvas {
             if (inkColor == 0) { // Black
                 inkCanvas.DefaultDrawingAttributes.Color = Colors.Black;
             } else if (inkColor == 5) { // White
-                inkCanvas.DefaultDrawingAttributes.Color = StringToColor("#FFFEFEFE");
+                inkCanvas.DefaultDrawingAttributes.Color = Colors.White;
             } else if (isUselightThemeColor) {
                 if (inkColor == 1) { // Red
-                    inkCanvas.DefaultDrawingAttributes.Color = StringToColor("#FFFF3333");
+                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(239,68,68);
                 } else if (inkColor == 2) { // Green
-                    inkCanvas.DefaultDrawingAttributes.Color = StringToColor("#FF1ED760");
+                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(34,197,94);
                 } else if (inkColor == 3) { // Blue
-                    inkCanvas.DefaultDrawingAttributes.Color = StringToColor("#FF23C0D6");
+                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(59,130,246);
                 } else if (inkColor == 4) { // Yellow
-                    inkCanvas.DefaultDrawingAttributes.Color = StringToColor("#FFFFC000");
+                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(250,204,21);
                 } else if (inkColor == 6) { // Pink
-                    inkCanvas.DefaultDrawingAttributes.Color = StringToColor("#FF#c72ec7");
+                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(236,72,153);
                 }
             } else {
                 if (inkColor == 1) { // Red
-                    inkCanvas.DefaultDrawingAttributes.Color = Colors.Red;
+                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(220,38,38);
                 } else if (inkColor == 2) { // Green
-                    inkCanvas.DefaultDrawingAttributes.Color = StringToColor("#FF169141");
+                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(22,163,74);
                 } else if (inkColor == 3) { // Blue
-                    inkCanvas.DefaultDrawingAttributes.Color = StringToColor("#FF239AD6");
+                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(37,99,235);
                 } else if (inkColor == 4) { // Yellow
-                    inkCanvas.DefaultDrawingAttributes.Color = StringToColor("#FFF38B00");
+                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(234,179,8);
                 } else if (inkColor == 6) { // Pink ( Purple )
-                    inkCanvas.DefaultDrawingAttributes.Color = StringToColor("#FF331EB5");
+                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(147,51,234);
                 }
             }
             if (isUselightThemeColor) { // 亮系
-                BorderPenColorRed.Background = new SolidColorBrush(StringToColor("#FFFF3333"));
-                BorderPenColorGreen.Background = new SolidColorBrush(StringToColor("#FF1ED760"));
-                BorderPenColorBlue.Background = new SolidColorBrush(StringToColor("#FF23C0D6"));
-                BorderPenColorYellow.Background = new SolidColorBrush(StringToColor("#FFFFC000"));
-                BorderPenColorPink.Background = new SolidColorBrush(StringToColor("#FF#c72ec7"));
-                BoardBorderPenColorRed.Background = new SolidColorBrush(StringToColor("#FFFF3333"));
-                BoardBorderPenColorGreen.Background = new SolidColorBrush(StringToColor("#FF1ED760"));
-                BoardBorderPenColorBlue.Background = new SolidColorBrush(StringToColor("#FF23C0D6"));
-                BoardBorderPenColorYellow.Background = new SolidColorBrush(StringToColor("#FFFFC000"));
-                BoardBorderPenColorPink.Background = new SolidColorBrush(StringToColor("#FF#c72ec7"));
+                // 亮色的红色
+                BorderPenColorRed.Background = new SolidColorBrush(Color.FromRgb(239, 68, 68));
+                BoardBorderPenColorRed.Background = new SolidColorBrush(Color.FromRgb(239, 68, 68));
+                // 亮色的绿色
+                BorderPenColorGreen.Background = new SolidColorBrush(Color.FromRgb(34, 197, 94));
+                BoardBorderPenColorGreen.Background = new SolidColorBrush(Color.FromRgb(34, 197, 94));
+                // 亮色的蓝色
+                BorderPenColorBlue.Background = new SolidColorBrush(Color.FromRgb(59, 130, 246));
+                BoardBorderPenColorBlue.Background = new SolidColorBrush(Color.FromRgb(59, 130, 246));
+                // 亮色的黄色
+                BorderPenColorYellow.Background = new SolidColorBrush(Color.FromRgb(250, 204, 21));
+                BoardBorderPenColorYellow.Background = new SolidColorBrush(Color.FromRgb(250, 204, 21));
+                // 亮色的粉色
+                BorderPenColorPink.Background = new SolidColorBrush(Color.FromRgb(236, 72, 153));
+                BoardBorderPenColorPink.Background = new SolidColorBrush(Color.FromRgb(236, 72, 153));
 
                 BitmapImage newImageSource = new BitmapImage();
                 newImageSource.BeginInit();
@@ -1372,16 +1458,21 @@ namespace Ink_Canvas {
                 ColorThemeSwitchTextBlock.Text = "暗系";
                 BoardColorThemeSwitchTextBlock.Text = "暗系";
             } else { // 暗系
-                BorderPenColorRed.Background = new SolidColorBrush(Colors.Red);
-                BorderPenColorGreen.Background = new SolidColorBrush(StringToColor("#FF169141"));
-                BorderPenColorBlue.Background = new SolidColorBrush(StringToColor("#FF239AD6"));
-                BorderPenColorYellow.Background = new SolidColorBrush(StringToColor("#FFF38B00"));
-                BorderPenColorPink.Background = new SolidColorBrush(StringToColor("#FF331EB5"));
-                BoardBorderPenColorRed.Background = new SolidColorBrush(Colors.Red);
-                BoardBorderPenColorGreen.Background = new SolidColorBrush(StringToColor("#FF169141"));
-                BoardBorderPenColorBlue.Background = new SolidColorBrush(StringToColor("#FF239AD6"));
-                BoardBorderPenColorYellow.Background = new SolidColorBrush(StringToColor("#FFF38B00"));
-                BoardBorderPenColorPink.Background = new SolidColorBrush(StringToColor("#FF331EB5"));
+                // 暗色的红色
+                BorderPenColorRed.Background = new SolidColorBrush(Color.FromRgb(220, 38, 38));
+                BoardBorderPenColorRed.Background = new SolidColorBrush(Color.FromRgb(220, 38, 38));
+                // 暗色的绿色
+                BorderPenColorGreen.Background = new SolidColorBrush(Color.FromRgb(22, 163, 74));
+                BoardBorderPenColorGreen.Background = new SolidColorBrush(Color.FromRgb(22, 163, 74));
+                // 暗色的蓝色
+                BorderPenColorBlue.Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                BoardBorderPenColorBlue.Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                // 暗色的黄色
+                BorderPenColorYellow.Background = new SolidColorBrush(Color.FromRgb(234, 179, 8));
+                BoardBorderPenColorYellow.Background = new SolidColorBrush(Color.FromRgb(234, 179, 8));
+                // 暗色的紫色对应亮色的粉色
+                BorderPenColorPink.Background = new SolidColorBrush(Color.FromRgb(147, 51, 234));
+                BoardBorderPenColorPink.Background = new SolidColorBrush(Color.FromRgb(147, 51, 234));
 
                 BitmapImage newImageSource = new BitmapImage();
                 newImageSource.BeginInit();

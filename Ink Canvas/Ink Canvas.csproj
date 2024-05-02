@@ -377,7 +377,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 和 x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -514,6 +514,53 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons-Fluent\ic_fluent_people_24_regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\pen-lined.png" />
+    <Resource Include="Resources\new-icons\pen-solid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\cursor-lined.png" />
+    <Resource Include="Resources\new-icons\cursor-solid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\eraser-lined.png" />
+    <Resource Include="Resources\new-icons\eraser-solid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\circle-eraser-lined.png" />
+    <Resource Include="Resources\new-icons\circle-eraser-solid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\lasso-select-lined.png" />
+    <Resource Include="Resources\new-icons\lasso-select-solid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\trash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\shapes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\eye-off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\blackboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\cursor-clear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DeveloperAvatars\dubi906w.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\gesture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\gesture-enabled.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,12 +5,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Ink Canvas")]
+[assembly: AssemblyTitle("Ink Canvas for Class")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("WXRIW")]
-[assembly: AssemblyProduct("Ink Canvas")]
-[assembly: AssemblyCopyright("Copyright © XY Wang 2023")]
+[assembly: AssemblyCompany("Dubi906w")]
+[assembly: AssemblyProduct("Ink Canvas for Class")]
+[assembly: AssemblyCopyright("Copyright © HARKOTEK Studio 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -49,5 +49,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("4.5.6.0")]
-[assembly: AssemblyFileVersion("4.5.6.0")]
+[assembly: AssemblyVersion("4.5.8.0")]
+[assembly: AssemblyFileVersion("4.5.8.0")]
