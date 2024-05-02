@@ -565,5 +565,11 @@
   <ItemGroup>
     <Resource Include="Resources\new-icons\close-white.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\checked-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\checked-black.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

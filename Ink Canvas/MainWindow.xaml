@@ -1396,78 +1396,80 @@
                         <ui:SimpleStackPanel Name="StackPanelCanvasControls" Visibility="Visible" Orientation="{Binding ElementName=StackPanelFloatingBar, Path=Orientation}">
                             <ui:SimpleStackPanel Width="0" Orientation="{Binding ElementName=StackPanelFloatingBar, Path=Orientation}">
                                 <Grid Margin="0,5,0,5" Width="0" RenderTransformOrigin="0.5,0.5">
-                                    <Border x:Name="PenPalette" Visibility="Visible" Background="white" Opacity="0.9" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1" CornerRadius="8" Margin="-160,-160,-33,32">
-
-                                        <Viewbox Margin="0,-1,0,0">
-                                            <StackPanel Margin="15 10">
-                                                <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                    <ui:SimpleStackPanel>
-                                                        <Controls:UniformGrid Columns="2" Width="300" Height="55">
-                                                            <ui:SimpleStackPanel Orientation="Horizontal" Height="35">
-                                                                <Label Content="笔锋" Margin="0,0,6,0" Foreground="{DynamicResource FloatBarForeground}" FontSize="17" FontWeight="Bold" VerticalAlignment="Center"/>
-                                                                <ComboBox Height="30" VerticalAlignment="Center" Name="ComboBoxPenStyle" FontFamily="Microsoft YaHei UI" SelectedIndex="0" SelectionChanged="ComboBoxPenStyle_SelectionChanged">
-                                                                    <ComboBoxItem Content="基于点集" FontFamily="Microsoft YaHei UI"/>
-                                                                    <ComboBoxItem Content="基于速率" FontFamily="Microsoft YaHei UI"/>
-                                                                    <ComboBoxItem Content="无笔锋" FontFamily="Microsoft YaHei UI"/>
-                                                                </ComboBox>
+                                    <Border x:Name="PenPalette" Visibility="Visible" Background="white" Opacity="0.9" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1" CornerRadius="8" Margin="-160,-192,-33,32">
+                                        <ui:SimpleStackPanel>
+                                            <Border BorderBrush="#1e3a8a" BorderThickness="0,0,0,1" CornerRadius="8,8,0,0" Background="#2563eb" Margin="-1,-1,-1,0" Padding="1,1,1,0">
+                                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                                    <TextBlock Text="笔选项" Foreground="White" Padding="8,5,44,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
+                                                </ui:SimpleStackPanel>
+                                            </Border>
+                                            <Viewbox Margin="12,8,12,0" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" >
+                                                <ui:SimpleStackPanel>
+                                                    <Controls:UniformGrid Columns="2" Width="300" Height="55">
+                                                        <ui:SimpleStackPanel Orientation="Horizontal" Height="35">
+                                                            <Label Content="笔锋" Margin="0,0,6,0" Foreground="{DynamicResource FloatBarForeground}" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+                                                            <ComboBox Height="30" VerticalAlignment="Center" Name="ComboBoxPenStyle" FontFamily="Microsoft YaHei UI" SelectedIndex="0" SelectionChanged="ComboBoxPenStyle_SelectionChanged">
+                                                                <ComboBoxItem Content="基于点集" FontFamily="Microsoft YaHei UI"/>
+                                                                <ComboBoxItem Content="基于速率" FontFamily="Microsoft YaHei UI"/>
+                                                                <ComboBoxItem Content="关闭笔锋" FontFamily="Microsoft YaHei UI"/>
+                                                            </ComboBox>
+                                                        </ui:SimpleStackPanel>
+                                                        <ui:SimpleStackPanel Margin="0,-5,0,-5" VerticalAlignment="Center">
+                                                            <ui:SimpleStackPanel x:Name="NibModeSimpleStackPanel" Orientation="Horizontal" Width="140">
+                                                                <Label Content="笔尖模式" FontSize="15" VerticalAlignment="Center"/>
+                                                                <ui:ToggleSwitch x:Name="ToggleSwitchEnableNibMode" MinWidth="0" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关" Margin="10,0,0,0" Toggled="ToggleSwitchEnableNibMode_Toggled" IsOn="True"/>
                                                             </ui:SimpleStackPanel>
-                                                            <ui:SimpleStackPanel Margin="0,-5,0,-5" VerticalAlignment="Center">
-                                                                <ui:SimpleStackPanel x:Name="NibModeSimpleStackPanel" Orientation="Horizontal" Width="140">
-                                                                    <Label Content="笔尖模式" FontSize="15" VerticalAlignment="Center"/>
-                                                                    <ui:ToggleSwitch x:Name="ToggleSwitchEnableNibMode" MinWidth="0" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关" Margin="10,0,0,0" Toggled="ToggleSwitchEnableNibMode_Toggled" IsOn="True"/>
-                                                                </ui:SimpleStackPanel>
-                                                                <ui:SimpleStackPanel Orientation="Horizontal" Width="140">
-                                                                    <Label Margin="0,0,10,0" Content="墨迹纠正" Foreground="{DynamicResource FloatBarForeground}" FontSize="15" VerticalAlignment="Center"/>
-                                                                    <ui:ToggleSwitch Foreground="{DynamicResource FloatBarForeground}" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关"
-                                                                                     Toggled="ToggleSwitchEnableInkToShape_Toggled" MinWidth="0" IsOn="{Binding ElementName=ToggleSwitchEnableInkToShape, Path=IsOn}"/>
-                                                                </ui:SimpleStackPanel>
+                                                            <ui:SimpleStackPanel Orientation="Horizontal" Width="140">
+                                                                <Label Margin="0,0,10,0" Content="墨迹纠正" Foreground="{DynamicResource FloatBarForeground}" FontSize="15" VerticalAlignment="Center"/>
+                                                                <ui:ToggleSwitch Foreground="{DynamicResource FloatBarForeground}" FontFamily="Microsoft YaHei UI" Width="70" OnContent="开" OffContent="关" Toggled="ToggleSwitchEnableInkToShape_Toggled" MinWidth="0" IsOn="{Binding ElementName=ToggleSwitchEnableInkToShape, Path=IsOn}"/>
                                                             </ui:SimpleStackPanel>
-                                                        </Controls:UniformGrid>
+                                                        </ui:SimpleStackPanel>
+                                                    </Controls:UniformGrid>
 
 
-                                                        <StackPanel Orientation="Horizontal" Height="30">
-                                                            <Label Margin="0,0,10,0" Content="粗细" FontWeight="Bold" Foreground="{DynamicResource FloatBarForeground}" FontSize="17" VerticalAlignment="Center"/>
-                                                            <Slider x:Name="InkWidthSlider" Minimum="1" Maximum="15" Width="208" FontFamily="Microsoft YaHei UI"
-                                                                    FontSize="20" IsSnapToTickEnabled="True" Value="5" TickFrequency="0.1" TickPlacement="None" ValueChanged="InkWidthSlider_ValueChanged"/>
-                                                            <TextBlock Text="{Binding Value, ElementName=InkWidthSlider, Mode=OneWay}" FontFamily="Consolas" VerticalAlignment="Bottom" Margin="10,0,0,4.5" FontSize="15"/>
-                                                        </StackPanel>
-                                                        <StackPanel Orientation="Horizontal" Height="30">
-                                                            <Label Margin="0,0,10,0" Content="透明" FontWeight="Bold" Foreground="{DynamicResource FloatBarForeground}" FontSize="17" VerticalAlignment="Center"/>
-                                                            <Slider x:Name="InkAlphaSlider" Minimum="1" Maximum="255" Width="208" FontFamily="Microsoft YaHei UI" FontSize="20" IsSnapToTickEnabled="True" Value="255" TickFrequency="1" TickPlacement="None" ValueChanged="InkAlphaSlider_ValueChanged"/>
-                                                            <TextBlock Text="{Binding Value, ElementName=InkAlphaSlider, Mode=OneWay}" FontFamily="Consolas" VerticalAlignment="Bottom" Margin="10,0,0,4.5" FontSize="15"/>
-                                                        </StackPanel>
-                                                    </ui:SimpleStackPanel>
-                                                </Viewbox>
-                                                <ui:SimpleStackPanel Width="300" Margin="0,8,0,0">
+                                                    <StackPanel Orientation="Horizontal" Height="30">
+                                                        <Label Margin="0,0,10,0" Content="粗细" FontWeight="Bold" Foreground="{DynamicResource FloatBarForeground}" FontSize="17" VerticalAlignment="Center"/>
+                                                        <Slider x:Name="InkWidthSlider" Minimum="1" Maximum="20" Width="208" FontFamily="Microsoft YaHei UI" FontSize="20" IsSnapToTickEnabled="True" Value="5" TickFrequency="0.1" TickPlacement="None" ValueChanged="InkWidthSlider_ValueChanged"/>
+                                                        <TextBlock Text="{Binding Value, ElementName=InkWidthSlider, Mode=OneWay}" FontFamily="Consolas" VerticalAlignment="Bottom" Margin="10,0,0,4.5" FontSize="15"/>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Height="30">
+                                                        <Label Margin="0,0,10,0" Content="透明" FontWeight="Bold" Foreground="{DynamicResource FloatBarForeground}" FontSize="17" VerticalAlignment="Center"/>
+                                                        <Slider x:Name="InkAlphaSlider" Minimum="1" Maximum="255" Width="208" FontFamily="Microsoft YaHei UI" FontSize="20" IsSnapToTickEnabled="True" Value="255" TickFrequency="1" TickPlacement="None" ValueChanged="InkAlphaSlider_ValueChanged"/>
+                                                        <TextBlock Text="{Binding Value, ElementName=InkAlphaSlider, Mode=OneWay}" FontFamily="Consolas" VerticalAlignment="Bottom" Margin="10,0,0,4.5" FontSize="15"/>
+                                                    </StackPanel>
+                                                </ui:SimpleStackPanel>
+                                            </Viewbox>
+                                            <Viewbox Margin="0,8,0,0" Stretch="Fill">
+                                                <ui:SimpleStackPanel Width="300" Margin="0,0,0,0">
                                                     <!--<TextBlock FontSize="25">画笔颜色</TextBlock>-->
                                                     <Border Width="300" Height="100" BorderBrush="Black" BorderThickness="0" CornerRadius="5">
                                                         <Controls:UniformGrid Rows="2" Height="100">
                                                             <ui:SimpleStackPanel Height="45" Orientation="Horizontal" Width="270">
                                                                 <Controls:UniformGrid Columns="5" Width="270" Margin="0">
-                                                                    <Border BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseDown="Border_MouseDown" MouseUp="ColorThemeSwitch_MouseUp">
+                                                                    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="100" Width="45" MouseDown="Border_MouseDown" MouseUp="ColorThemeSwitch_MouseUp">
                                                                         <Grid Margin="3">
-                                                                            <Image x:Name="ColorThemeSwitchIcon" Source="/Resources/Icons-Fluent/ic_fluent_weather_sunny_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24"/>
-                                                                            <TextBlock x:Name="ColorThemeSwitchTextBlock" Text="亮系" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="10"/>
+                                                                            <Image x:Name="ColorThemeSwitchIcon" Source="/Resources/Icons-Fluent/ic_fluent_weather_sunny_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="23" Height="23" Margin="0,0,0,0"/>
+                                                                            <TextBlock Margin="0,0,0,2" x:Name="ColorThemeSwitchTextBlock" Text="亮系" Foreground="Black" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="11"/>
                                                                         </Grid>
                                                                     </Border>
-                                                                    <Border x:Name="BorderPenColorBlack" Background="Black" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorBlack_Click">
-                                                                        <Viewbox Name="ViewboxBtnColorBlackContent" Visibility="Collapsed" Margin="6">
-                                                                            <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
+                                                                    <Border x:Name="BorderPenColorBlack" Background="Black" BorderBrush="Black" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnColorBlack_Click">
+                                                                        <Viewbox Name="ViewboxBtnColorBlackContent" Visibility="Collapsed" Margin="8">
+                                                                            <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
                                                                         </Viewbox>
                                                                     </Border>
-                                                                    <Border x:Name="BorderPenColorWhite" Background="White" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorWhite_Click">
-                                                                        <Viewbox x:Name="ViewboxBtnColorWhiteContent" Visibility="Collapsed" Margin="6">
-                                                                            <ui:SymbolIcon Symbol="Accept" Foreground="Black"/>
+                                                                    <Border x:Name="BorderPenColorWhite" Background="White" BorderBrush="#71717a" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnColorWhite_Click">
+                                                                        <Viewbox x:Name="ViewboxBtnColorWhiteContent" Visibility="Collapsed" Margin="8">
+                                                                            <Image Source="/Resources/new-icons/checked-black.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
                                                                         </Viewbox>
                                                                     </Border>
-                                                                    <Border x:Name="BorderPenColorRed" Background="#dc2626" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorRed_Click">
-                                                                        <Viewbox Name="ViewboxBtnColorRedContent" Visibility="Collapsed" Margin="6">
-                                                                            <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
+                                                                    <Border x:Name="BorderPenColorRed" Background="#dc2626" BorderBrush="#7f1d1d" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnColorRed_Click">
+                                                                        <Viewbox Name="ViewboxBtnColorRedContent" Visibility="Collapsed" Margin="8">
+                                                                            <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
                                                                         </Viewbox>
                                                                     </Border>
-                                                                    <Border x:Name="BorderPenColorYellow" Background="#eab308" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorYellow_Click">
-                                                                        <Viewbox x:Name="ViewboxBtnColorYellowContent" Visibility="Collapsed" Margin="6">
-                                                                            <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
+                                                                    <Border x:Name="BorderPenColorYellow" Background="#eab308" BorderBrush="#713f12" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnColorYellow_Click">
+                                                                        <Viewbox x:Name="ViewboxBtnColorYellowContent" Visibility="Collapsed" Margin="8">
+                                                                            <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
                                                                         </Viewbox>
                                                                     </Border>
                                                                 </Controls:UniformGrid>
@@ -1475,27 +1477,27 @@
                                                             <ui:SimpleStackPanel Height="45" Orientation="Horizontal" Width="270">
                                                                 <Controls:UniformGrid Columns="5" Width="270" Margin="0">
 
-                                                                    <Border x:Name="BorderPenColorGreen" Background="#16a34a" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorGreen_Click">
-                                                                        <Viewbox Name="ViewboxBtnColorGreenContent" Visibility="Collapsed" Margin="6">
+                                                                    <Border x:Name="BorderPenColorGreen" Background="#16a34a" BorderBrush="#14532d" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnColorGreen_Click">
+                                                                        <Viewbox Name="ViewboxBtnColorGreenContent" Visibility="Collapsed" Margin="8">
                                                                             <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
                                                                         </Viewbox>
                                                                     </Border>
-                                                                    <Border x:Name="BorderPenColorBlue" Background="#2563eb" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorBlue_Click">
-                                                                        <Viewbox x:Name="ViewboxBtnColorBlueContent" Visibility="Collapsed" Margin="6">
-                                                                            <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
+                                                                    <Border x:Name="BorderPenColorBlue" Background="#2563eb" BorderBrush="#1e3a8a" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnColorBlue_Click">
+                                                                        <Viewbox x:Name="ViewboxBtnColorBlueContent" Visibility="Collapsed" Margin="8">
+                                                                            <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
                                                                         </Viewbox>
                                                                     </Border>
-                                                                    <Border x:Name="BorderPenColorPink" Background="#db2777" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorPink_Click">
-                                                                        <Viewbox x:Name="ViewboxBtnColorPinkContent" Visibility="Collapsed" Margin="6">
-                                                                            <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
+                                                                    <Border x:Name="BorderPenColorPink" Background="#db2777" BorderBrush="#831843" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnColorPink_Click">
+                                                                        <Viewbox x:Name="ViewboxBtnColorPinkContent" Visibility="Collapsed" Margin="8">
+                                                                            <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
                                                                         </Viewbox>
                                                                     </Border>
-                                                                    <Border x:Name="BorderPenColorTeal" Background="#0d9488" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorTeal_Click">
-                                                                        <Viewbox x:Name="ViewboxBtnColorTealContent" Visibility="Collapsed" Margin="6">
-                                                                            <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
+                                                                    <Border x:Name="BorderPenColorTeal" Background="#0d9488" BorderBrush="#134e4a" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnColorTeal_Click">
+                                                                        <Viewbox x:Name="ViewboxBtnColorTealContent" Visibility="Collapsed" Margin="8">
+                                                                            <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
                                                                         </Viewbox>
                                                                     </Border>
-                                                                    <Border x:Name="BorderPenColorOrange" Background="#ea580c" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorOrange_Click">
+                                                                    <Border x:Name="BorderPenColorOrange" Background="#ea580c" BorderBrush="#7c2d12" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnColorOrange_Click">
                                                                         <Viewbox x:Name="ViewboxBtnColorOrangeContent" Visibility="Collapsed" Margin="6">
                                                                             <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
                                                                         </Viewbox>
@@ -1505,8 +1507,8 @@
                                                         </Controls:UniformGrid>
                                                     </Border>
                                                 </ui:SimpleStackPanel>
-                                            </StackPanel>
-                                        </Viewbox>
+                                            </Viewbox>
+                                        </ui:SimpleStackPanel>
                                     </Border>
                                 </Grid>
                             </ui:SimpleStackPanel>
@@ -1627,9 +1629,9 @@
                                 <TextBlock x:Name="HideToolbarTextBlock" Text="隐藏" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
                             </ui:SimpleStackPanel>
                             <Grid Width="0">
-                                <Border ClipToBounds="True" Name="BorderTools" Margin="-133,-155,14,37" CornerRadius="5" Background="White" Opacity="0.9" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
+                                <Border ClipToBounds="True" Name="BorderTools" Margin="-133,-156,14,37" CornerRadius="5" Background="White" Opacity="0.9" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                                     <ui:SimpleStackPanel Margin="-1,0,0,0">
-                                        <Border CornerRadius="6,6,0,0" Background="#2563eb" Margin="-1,-1,-1,0" Padding="1,1,1,0">
+                                        <Border BorderBrush="#1e3a8a" BorderThickness="0,0,0,1" CornerRadius="6,6,0,0" Background="#2563eb" Margin="-1,-1,-1,0" Padding="1,1,1,0">
                                             <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                                                 <TextBlock Text="更多功能" Foreground="White" Padding="8,5,44,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
                                                 <Image Margin="0,0,0,0" Source="/Resources/new-icons/close-white.png" RenderOptions.BitmapScalingMode="HighQuality" Height="16" Width="16" MouseDown="Border_MouseDown" MouseUp="CloseBordertools_MouseUp"/>
@@ -1695,9 +1697,9 @@
                     </ui:SimpleStackPanel>
                 </Border>
                 <Grid Width="0">
-                    <Border ClipToBounds="True" Name="TwoFingerGestureBorder" Margin="-86,-110,-33,40" CornerRadius="5" Background="#fafafa" Opacity="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1">
+                    <Border ClipToBounds="True" Name="TwoFingerGestureBorder" Margin="-86,-111,-33,40" CornerRadius="5" Background="#fafafa" Opacity="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1">
                         <ui:SimpleStackPanel Margin="0">
-                            <Border CornerRadius="6,6,0,0" Background="#2563eb" Margin="-1,-1,-1,1">
+                            <Border BorderBrush="#1e3a8a" BorderThickness="0,0,0,1" CornerRadius="6,6,0,0" Background="#2563eb" Margin="-1,-1,-1,1">
                                 <TextBlock Text="手势选项" Foreground="White" Padding="0,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
                             </Border>
                             <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3,0,0">
