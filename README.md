@@ -4,9 +4,8 @@
 
 # Ink-Canvas-For-Annotation
 [![UPSTREAM](https://img.shields.io/badge/UpStream-WXRIW%2FInk--Canvas-red.svg "LICENSE")](https://github.com/WXRIW/Ink-Canvas)
+![Gitea Last Commit](https://img.shields.io/gitea/last-commit/kriastans/InkCanvasForClass?gitea_url=https%3A%2F%2Fgitea.bliemhax.com%2F)
 [![LICENSE](https://img.shields.io/badge/License-GPL--3.0-red.svg "LICENSE")](./LICENSE)
-[![Latest release](https://img.shields.io/github/release/ChangSakura/Ink-Canvas.svg?style=shield)](https://github.com/ChangSakura/Ink-Canvas/releases/latest)
-[![GitHub issues](https://img.shields.io/github/issues/ChangSakura/Ink-Canvas?logo=github)](https://github.com/ChangSakura/Ink-Canvas/issues)
 [![交流群](https://img.shields.io/badge/-%E4%BA%A4%E6%B5%81%E7%BE%A4%20617707731-blue?style=flat&logo=TencentQQ)](https://qm.qq.com/q/AC777tzmEw)
 
 ![Screenshot-1](./Images/Ink-Canvas-For-Annotation%20Screenshot.png)
