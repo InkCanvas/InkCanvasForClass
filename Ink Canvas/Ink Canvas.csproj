@@ -562,5 +562,8 @@
   <ItemGroup>
     <Resource Include="Resources\new-icons\gesture-enabled.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\close-white.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

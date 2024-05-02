@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Media;
+using System.Diagnostics;
 using File = System.IO.File;
 using MessageBox = System.Windows.MessageBox;
 
@@ -83,12 +84,16 @@ namespace Ink_Canvas {
         #endregion
 
         #region Ink Canvas Functions
-
+        
         Color Ink_DefaultColor = Colors.Red;
 
         DrawingAttributes drawingAttributes;
         private void loadPenCanvas() {
-            try {
+            try
+            {
+
+                double alpha = Settings.Canvas.InkAlpha;
+                Trace.WriteLine(alpha);
                 //drawingAttributes = new DrawingAttributes();
                 drawingAttributes = inkCanvas.DefaultDrawingAttributes;
                 drawingAttributes.Color = Ink_DefaultColor;

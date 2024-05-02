@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Diagnostics;
 using File = System.IO.File;
+using System.Windows.Media;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -214,6 +216,21 @@ namespace Ink_Canvas {
             drawingAttributes.Width = ((Slider)sender).Value / 2;
             Settings.Canvas.InkWidth = ((Slider)sender).Value / 2;
             SaveSettingsToFile();
+        }
+
+        private void InkAlphaSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!isLoaded) return;
+            // if (sender == BoardInkWidthSlider) InkWidthSlider.Value = ((Slider)sender).Value;
+            // if (sender == InkWidthSlider) BoardInkWidthSlider.Value = ((Slider)sender).Value;
+            byte NowR = drawingAttributes.Color.R;
+            byte NowG = drawingAttributes.Color.G;
+            byte NowB = drawingAttributes.Color.B;
+            // Trace.WriteLine(BitConverter.GetBytes(((Slider)sender).Value));
+            drawingAttributes.Color = Color.FromArgb((byte)(((Slider)sender).Value), NowR, NowG, NowB);
+            // drawingAttributes.Width = ((Slider)sender).Value / 2;
+            // Settings.Canvas.InkAlpha = ((Slider)sender).Value;
+            // SaveSettingsToFile();
         }
 
         private void ComboBoxHyperbolaAsymptoteOption_SelectionChanged(object sender, SelectionChangedEventArgs e) {

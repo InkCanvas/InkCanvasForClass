@@ -28,6 +28,8 @@ namespace Ink_Canvas
     {
         [JsonProperty("inkWidth")]
         public double InkWidth { get; set; } = 2.5;
+        [JsonProperty("inkAlpha")]
+        public double InkAlpha { get; set; } = 255;
         [JsonProperty("isShowCursor")]
         public bool IsShowCursor { get; set; } = false;
         [JsonProperty("inkStyle")]

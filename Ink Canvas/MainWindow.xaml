@@ -1396,7 +1396,7 @@
                         <ui:SimpleStackPanel Name="StackPanelCanvasControls" Visibility="Visible" Orientation="{Binding ElementName=StackPanelFloatingBar, Path=Orientation}">
                             <ui:SimpleStackPanel Width="0" Orientation="{Binding ElementName=StackPanelFloatingBar, Path=Orientation}">
                                 <Grid Margin="0,5,0,5" Width="0" RenderTransformOrigin="0.5,0.5">
-                                    <Border x:Name="PenPalette" Visibility="Visible" Background="white" Opacity="0.9" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1" CornerRadius="8" Margin="-160,-140,-33,32">
+                                    <Border x:Name="PenPalette" Visibility="Visible" Background="white" Opacity="0.9" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1" CornerRadius="8" Margin="-160,-160,-33,32">
 
                                         <Viewbox Margin="0,-1,0,0">
                                             <StackPanel Margin="15 10">
@@ -1431,6 +1431,11 @@
                                                                     FontSize="20" IsSnapToTickEnabled="True" Value="5" TickFrequency="0.1" TickPlacement="None" ValueChanged="InkWidthSlider_ValueChanged"/>
                                                             <TextBlock Text="{Binding Value, ElementName=InkWidthSlider, Mode=OneWay}" FontFamily="Consolas" VerticalAlignment="Bottom" Margin="10,0,0,4.5" FontSize="15"/>
                                                         </StackPanel>
+                                                        <StackPanel Orientation="Horizontal" Height="30">
+                                                            <Label Margin="0,0,10,0" Content="透明" FontWeight="Bold" Foreground="{DynamicResource FloatBarForeground}" FontSize="17" VerticalAlignment="Center"/>
+                                                            <Slider x:Name="InkAlphaSlider" Minimum="1" Maximum="255" Width="208" FontFamily="Microsoft YaHei UI" FontSize="20" IsSnapToTickEnabled="True" Value="255" TickFrequency="1" TickPlacement="None" ValueChanged="InkAlphaSlider_ValueChanged"/>
+                                                            <TextBlock Text="{Binding Value, ElementName=InkAlphaSlider, Mode=OneWay}" FontFamily="Consolas" VerticalAlignment="Bottom" Margin="10,0,0,4.5" FontSize="15"/>
+                                                        </StackPanel>
                                                     </ui:SimpleStackPanel>
                                                 </Viewbox>
                                                 <ui:SimpleStackPanel Width="300" Margin="0,8,0,0">
@@ -1460,7 +1465,7 @@
                                                                             <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
                                                                         </Viewbox>
                                                                     </Border>
-                                                                    <Border x:Name="BorderPenColorYellow" Background="#F38B00" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorYellow_Click">
+                                                                    <Border x:Name="BorderPenColorYellow" Background="#eab308" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorYellow_Click">
                                                                         <Viewbox x:Name="ViewboxBtnColorYellowContent" Visibility="Collapsed" Margin="6">
                                                                             <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
                                                                         </Viewbox>
@@ -1468,20 +1473,30 @@
                                                                 </Controls:UniformGrid>
                                                             </ui:SimpleStackPanel>
                                                             <ui:SimpleStackPanel Height="45" Orientation="Horizontal" Width="270">
-                                                                <Controls:UniformGrid Columns="3" Width="270" Margin="0">
+                                                                <Controls:UniformGrid Columns="5" Width="270" Margin="0">
 
-                                                                    <Border x:Name="BorderPenColorGreen" Background="#169141" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorGreen_Click">
+                                                                    <Border x:Name="BorderPenColorGreen" Background="#16a34a" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorGreen_Click">
                                                                         <Viewbox Name="ViewboxBtnColorGreenContent" Visibility="Collapsed" Margin="6">
                                                                             <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
                                                                         </Viewbox>
                                                                     </Border>
-                                                                    <Border x:Name="BorderPenColorBlue" Background="#239AD6" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorBlue_Click">
+                                                                    <Border x:Name="BorderPenColorBlue" Background="#2563eb" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorBlue_Click">
                                                                         <Viewbox x:Name="ViewboxBtnColorBlueContent" Visibility="Collapsed" Margin="6">
                                                                             <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
                                                                         </Viewbox>
                                                                     </Border>
-                                                                    <Border x:Name="BorderPenColorPink" Background="#c72ec7" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorPink_Click">
+                                                                    <Border x:Name="BorderPenColorPink" Background="#db2777" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorPink_Click">
                                                                         <Viewbox x:Name="ViewboxBtnColorPinkContent" Visibility="Collapsed" Margin="6">
+                                                                            <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
+                                                                        </Viewbox>
+                                                                    </Border>
+                                                                    <Border x:Name="BorderPenColorTeal" Background="#0d9488" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorTeal_Click">
+                                                                        <Viewbox x:Name="ViewboxBtnColorTealContent" Visibility="Collapsed" Margin="6">
+                                                                            <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
+                                                                        </Viewbox>
+                                                                    </Border>
+                                                                    <Border x:Name="BorderPenColorOrange" Background="#ea580c" BorderBrush="Black" BorderThickness="1.5" CornerRadius="10" Width="45" MouseUp="BtnColorOrange_Click">
+                                                                        <Viewbox x:Name="ViewboxBtnColorOrangeContent" Visibility="Collapsed" Margin="6">
                                                                             <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
                                                                         </Viewbox>
                                                                     </Border>
@@ -1612,28 +1627,57 @@
                                 <TextBlock x:Name="HideToolbarTextBlock" Text="隐藏" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
                             </ui:SimpleStackPanel>
                             <Grid Width="0">
-                                <Border Name="BorderTools" Margin="-117,-148,-35,37" CornerRadius="5" Background="White" Opacity="0.9" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
-                                    <ui:SimpleStackPanel>
-                                        <Image HorizontalAlignment="Right" Margin="0,2,2,-27" Source="/Resources/Icons-png/close-circle.png" RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25" MouseDown="Border_MouseDown" MouseUp="CloseBordertools_MouseUp"/>
-                                        <ui:SimpleStackPanel Margin="10">
-                                            <Label Content="倒计时   抽选   单次抽选" FontSize="9.5" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Left"/>
-                                            <ui:SimpleStackPanel Margin="2.5,0,0,2" Height="25" Spacing="13" Orientation="Horizontal">
-                                                <Image Source="/Resources/Icons-Fluent/ic_fluent_timer_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="22" Width="22" MouseDown="Border_MouseDown" MouseUp="ImageCountdownTimer_MouseUp"/>
-                                                <Image Source="/Resources/Icons-Fluent/ic_fluent_people_money_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20" MouseDown="Border_MouseDown" MouseUp="SymbolIconRand_MouseUp"/>
-                                                <Image Margin="1,0,0,0" Source="/Resources/Icons-Fluent/ic_fluent_person_money_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20" MouseDown="Border_MouseDown" MouseUp="SymbolIconRandOne_MouseUp"/>
+                                <Border ClipToBounds="True" Name="BorderTools" Margin="-133,-155,14,37" CornerRadius="5" Background="White" Opacity="0.9" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
+                                    <ui:SimpleStackPanel Margin="-1,0,0,0">
+                                        <Border CornerRadius="6,6,0,0" Background="#2563eb" Margin="-1,-1,-1,0" Padding="1,1,1,0">
+                                            <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                                <TextBlock Text="更多功能" Foreground="White" Padding="8,5,44,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
+                                                <Image Margin="0,0,0,0" Source="/Resources/new-icons/close-white.png" RenderOptions.BitmapScalingMode="HighQuality" Height="16" Width="16" MouseDown="Border_MouseDown" MouseUp="CloseBordertools_MouseUp"/>
                                             </ui:SimpleStackPanel>
-                                            <Label Content="保存 | 打开 | 播放 - 墨迹" FontSize="12" HorizontalAlignment="Left"/>
-                                            <ui:SimpleStackPanel Orientation="Horizontal" Margin="2.5,0,0,0" Height="25" Spacing="15">
-                                                <Image Source="/Resources/Icons-Fluent/ic_fluent_save_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20" MouseDown="Border_MouseDown" MouseUp="SymbolIconSaveStrokes_MouseUp"/>
-                                                <Image Source="/Resources/Icons-Fluent/ic_fluent_folder_open_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20" MouseDown="Border_MouseDown" MouseUp="SymbolIconOpenStrokes_MouseUp"/>
-                                                <Image Source="/Resources/Icons-png/playCircle.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20" MouseDown="Border_MouseDown" MouseUp="GridInkReplayButton_MouseUp"/>
+                                        </Border>
+                                        <!---->
+                                        <ui:SimpleStackPanel Margin="10,3,10,2" Spacing="-2">
+                                            <ui:SimpleStackPanel Margin="0,0,0,0" Height="40" Spacing="0" Orientation="Horizontal">
+                                                <ui:SimpleStackPanel MouseDown="Border_MouseDown" MouseUp="ImageCountdownTimer_MouseUp" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                    <Image Source="/Resources/Icons-Fluent/ic_fluent_timer_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                    <Label Content="计时器" FontSize="8"  HorizontalAlignment="Center"/>
+                                                </ui:SimpleStackPanel>
+                                                <ui:SimpleStackPanel  MouseDown="Border_MouseDown" MouseUp="SymbolIconRand_MouseUp" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                    <Image Source="/Resources/Icons-Fluent/ic_fluent_people_money_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                    <Label Content="随机抽" FontSize="8"  HorizontalAlignment="Center"/>
+                                                </ui:SimpleStackPanel>
+                                                <ui:SimpleStackPanel MouseDown="Border_MouseDown" MouseUp="SymbolIconRandOne_MouseUp" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                    <Image Source="/Resources/Icons-Fluent/ic_fluent_person_money_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                    <Label Content="单次抽选" FontSize="8"  HorizontalAlignment="Center"/>
+                                                </ui:SimpleStackPanel>
                                             </ui:SimpleStackPanel>
-                                            <Label Content="截图 | 设置 | 指南" FontSize="12.25" HorizontalAlignment="Left"/>
-                                            <ui:SimpleStackPanel Orientation="Horizontal" Margin="2.5,0,0,0" Height="25" Spacing="14.5">
-                                                <Image Source="/Resources/Icons-Fluent/ic_fluent_camera_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20" MouseDown="Border_MouseDown" MouseUp="SymbolIconScreenshot_MouseUp" Margin="0,2,0,3"/>
-                                                <Image Source="/Resources/Icons-Fluent/ic_fluent_settings_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="22" Width="22" MouseDown="Border_MouseDown" MouseUp="SymbolIconSettings_Click"/>
-                                                <!--<Image Margin="-1,0,0,0" x:Name="hiddenButtonInBorderTools" Source="/Resources/Icons-Fluent/ic_fluent_dual_screen_span_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="22" Width="22" MouseDown="Border_MouseDown" MouseUp="FoldFloatingBar_MouseUp"/>-->
-                                                <Image Margin="-1.5,0,0,0" Source="/Resources/Icons-Fluent/ic_fluent_book_question_mark_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="22" Width="22" MouseDown="Border_MouseDown" MouseUp="OperatingGuideWindowIcon_MouseUp"/>
+                                            <ui:SimpleStackPanel Margin="0,0,0,0" Height="40" Spacing="0" Orientation="Horizontal">
+                                                <ui:SimpleStackPanel MouseDown="Border_MouseDown" MouseUp="SymbolIconSaveStrokes_MouseUp" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                    <Image Source="/Resources/Icons-Fluent/ic_fluent_save_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                    <Label Content="保存" FontSize="8"  HorizontalAlignment="Center"/>
+                                                </ui:SimpleStackPanel>
+                                                <ui:SimpleStackPanel  MouseDown="Border_MouseDown" MouseUp="SymbolIconOpenStrokes_MouseUp" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                    <Image Source="/Resources/Icons-Fluent/ic_fluent_folder_open_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                    <Label Content="打开..." FontSize="8"  HorizontalAlignment="Center"/>
+                                                </ui:SimpleStackPanel>
+                                                <ui:SimpleStackPanel MouseDown="Border_MouseDown" MouseUp="GridInkReplayButton_MouseUp" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                    <Image Source="/Resources/Icons-png/playCircle.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                    <Label Content="重播" FontSize="8"  HorizontalAlignment="Center"/>
+                                                </ui:SimpleStackPanel>
+                                            </ui:SimpleStackPanel>
+                                            <ui:SimpleStackPanel Margin="0,0,0,0" Height="40" Spacing="0" Orientation="Horizontal">
+                                                <ui:SimpleStackPanel MouseDown="Border_MouseDown" MouseUp="SymbolIconScreenshot_MouseUp" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                    <Image Source="/Resources/Icons-Fluent/ic_fluent_camera_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                    <Label Content="截屏" FontSize="8"  HorizontalAlignment="Center"/>
+                                                </ui:SimpleStackPanel>
+                                                <ui:SimpleStackPanel  MouseDown="Border_MouseDown" MouseUp="OperatingGuideWindowIcon_MouseUp" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                    <Image Source="/Resources/Icons-Fluent/ic_fluent_book_question_mark_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                    <Label Content="说明书" FontSize="8"  HorizontalAlignment="Center"/>
+                                                </ui:SimpleStackPanel>
+                                                <ui:SimpleStackPanel MouseDown="Border_MouseDown" MouseUp="SymbolIconSettings_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                    <Image Source="/Resources/Icons-Fluent/ic_fluent_settings_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                    <Label Content="设置" FontSize="8"  HorizontalAlignment="Center"/>
+                                                </ui:SimpleStackPanel>
                                             </ui:SimpleStackPanel>
                                         </ui:SimpleStackPanel>
                                     </ui:SimpleStackPanel>
@@ -1651,63 +1695,75 @@
                     </ui:SimpleStackPanel>
                 </Border>
                 <Grid Width="0">
-                    <Border Name="TwoFingerGestureBorder" Visibility="Visible" Margin="-86,-104,-38,40" CornerRadius="5" Background="white" Opacity="0.9" BorderBrush="Black" BorderThickness="1">
-                        <ui:SimpleStackPanel Margin="5">
-                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Border ClipToBounds="True" Name="TwoFingerGestureBorder" Margin="-86,-110,-33,40" CornerRadius="5" Background="#fafafa" Opacity="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1">
+                        <ui:SimpleStackPanel Margin="0">
+                            <Border CornerRadius="6,6,0,0" Background="#2563eb" Margin="-1,-1,-1,1">
+                                <TextBlock Text="手势选项" Foreground="White" Padding="0,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
+                            </Border>
+                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3,0,0">
                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_people_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="14" Width="14"/>
                                 <Label Content="多指书写" FontSize="10" VerticalAlignment="Center"/>
-                                <ui:ToggleSwitch MinWidth="0" Width="42" Height="27" Margin="2,-5,0,0"  Name="ToggleSwitchEnableMultiTouchMode" FontFamily="Microsoft YaHei UI" IsOn="False" OnContent="" OffContent="" Toggled="ToggleSwitchEnableMultiTouchMode_Toggled" RenderTransformOrigin="0.5,0.5">
-                                    <ui:ToggleSwitch.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
-                                            <SkewTransform/>
-                                            <RotateTransform/>
-                                            <TranslateTransform Y="1" X="4"/>
-                                        </TransformGroup>
-                                    </ui:ToggleSwitch.RenderTransform>
-                                </ui:ToggleSwitch>
+                                <Viewbox Width="36" Height="18" Margin="4,0,0,0">
+                                    <ui:ToggleSwitch MinWidth="0" Margin="0,-6,0,-6"  Name="ToggleSwitchEnableMultiTouchMode" FontFamily="Microsoft YaHei UI" IsOn="False" OnContent="" OffContent="" Toggled="ToggleSwitchEnableMultiTouchMode_Toggled" RenderTransformOrigin="0.5,0.5">
+                                        <ui:ToggleSwitch.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform/>
+                                                <SkewTransform/>
+                                                <RotateTransform/>
+                                                <TranslateTransform X="8"/>
+                                            </TransformGroup>
+                                        </ui:ToggleSwitch.RenderTransform>
+                                    </ui:ToggleSwitch>
+                                </Viewbox>
                             </ui:SimpleStackPanel>
                             <ui:SimpleStackPanel Opacity="1" x:Name="TwoFingerGestureSimpleStackPanel" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_drag_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="14" Width="14"/>
                                 <Label Content="双指移动" FontSize="10" VerticalAlignment="Center"/>
-                                <ui:ToggleSwitch MinWidth="0" Width="42" Height="27" Margin="2,-5,0,0"  OnContent="" OffContent="" Name="ToggleSwitchEnableTwoFingerTranslate" FontFamily="Microsoft YaHei UI" IsOn="False" Toggled="ToggleSwitchEnableTwoFingerTranslate_Toggled" RenderTransformOrigin="0.5,0.5">
-                                    <ui:ToggleSwitch.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
-                                            <SkewTransform/>
-                                            <RotateTransform/>
-                                            <TranslateTransform Y="1" X="4"/>
-                                        </TransformGroup>
-                                    </ui:ToggleSwitch.RenderTransform>
-                                </ui:ToggleSwitch>
+                                <Viewbox Width="36" Height="18" Margin="4,0,0,0">
+                                    <ui:ToggleSwitch MinWidth="0" Margin="0,-6,0,-6"  Name="ToggleSwitchEnableTwoFingerTranslate" FontFamily="Microsoft YaHei UI" IsOn="False" OnContent="" OffContent="" Toggled="ToggleSwitchEnableTwoFingerTranslate_Toggled" RenderTransformOrigin="0.5,0.5">
+                                        <ui:ToggleSwitch.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform/>
+                                                <SkewTransform/>
+                                                <RotateTransform/>
+                                                <TranslateTransform X="8"/>
+                                            </TransformGroup>
+                                        </ui:ToggleSwitch.RenderTransform>
+                                    </ui:ToggleSwitch>
+                                </Viewbox>
                             </ui:SimpleStackPanel>
                             <ui:SimpleStackPanel Opacity="{Binding ElementName=TwoFingerGestureSimpleStackPanel, Path=Opacity}" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_scale_fit_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="14" Width="14"/>
                                 <Label Content="双指缩放" FontSize="10" VerticalAlignment="Center"/>
-                                <ui:ToggleSwitch MinWidth="0" Width="42" Height="27" Margin="2,-5,0,0"  OnContent="" OffContent="" Name="ToggleSwitchEnableTwoFingerZoom" FontFamily="Microsoft YaHei UI" IsOn="False" Toggled="ToggleSwitchEnableTwoFingerZoom_Toggled" RenderTransformOrigin="0.5,0.5">
-                                    <ui:ToggleSwitch.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
-                                            <SkewTransform/>
-                                            <RotateTransform/>
-                                            <TranslateTransform Y="1" X="4"/>
-                                        </TransformGroup>
-                                    </ui:ToggleSwitch.RenderTransform>
-                                </ui:ToggleSwitch>
+                                <Viewbox Width="36" Height="18" Margin="4,0,0,0">
+                                    <ui:ToggleSwitch MinWidth="0" Margin="0,-6,0,-6" FontFamily="Microsoft YaHei UI" IsOn="False" OnContent="" OffContent=""  Name="ToggleSwitchEnableTwoFingerZoom" Toggled="ToggleSwitchEnableTwoFingerZoom_Toggled" RenderTransformOrigin="0.5,0.5">
+                                        <ui:ToggleSwitch.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform/>
+                                                <SkewTransform/>
+                                                <RotateTransform/>
+                                                <TranslateTransform X="8"/>
+                                            </TransformGroup>
+                                        </ui:ToggleSwitch.RenderTransform>
+                                    </ui:ToggleSwitch>
+                                </Viewbox>
                             </ui:SimpleStackPanel>
                             <ui:SimpleStackPanel Opacity="{Binding ElementName=TwoFingerGestureSimpleStackPanel, Path=Opacity}" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Image Source="/Resources/Icons-Fluent/ic_fluent_arrow_rotate_clockwise_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="14" Width="14"/>
                                 <Label Content="双指旋转" FontSize="10" VerticalAlignment="Center"/>
-                                <ui:ToggleSwitch MinWidth="0" Width="42" Height="27" Margin="2,-5,0,0" OnContent="" OffContent="" Name="ToggleSwitchEnableTwoFingerRotation" FontFamily="Microsoft YaHei UI" Toggled="ToggleSwitchEnableTwoFingerRotation_Toggled" RenderTransformOrigin="0.5,0.5">
-                                    <ui:ToggleSwitch.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
-                                            <SkewTransform/>
-                                            <RotateTransform/>
-                                            <TranslateTransform X="4" Y="1"/>
-                                        </TransformGroup>
-                                    </ui:ToggleSwitch.RenderTransform>
-                                </ui:ToggleSwitch>
+                                <Viewbox Width="36" Height="18" Margin="4,0,0,0">
+                                    <ui:ToggleSwitch MinWidth="0" Margin="0,-6,0,-6" FontFamily="Microsoft YaHei UI" IsOn="False" OnContent="" OffContent=""  Name="ToggleSwitchEnableTwoFingerRotation" Toggled="ToggleSwitchEnableTwoFingerRotation_Toggled" RenderTransformOrigin="0.5,0.5">
+                                        <ui:ToggleSwitch.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform/>
+                                                <SkewTransform/>
+                                                <RotateTransform/>
+                                                <TranslateTransform X="8"/>
+                                            </TransformGroup>
+                                        </ui:ToggleSwitch.RenderTransform>
+                                    </ui:ToggleSwitch>
+                                </Viewbox>
+                               
                             </ui:SimpleStackPanel>
                         </ui:SimpleStackPanel>
                     </Border>
