@@ -303,6 +303,16 @@ namespace Ink_Canvas {
                 } else {
                     ToggleSwitchHideStrokeWhenSelecting.IsOn = false;
                 }
+                if (Settings.Canvas.FitToCurve)
+                {
+                    ToggleSwitchFitToCurve.IsOn = true;
+                    drawingAttributes.FitToCurve = true;
+                }
+                else
+                {
+                    ToggleSwitchFitToCurve.IsOn = false;
+                    drawingAttributes.FitToCurve = false;
+                }
             } else {
                 Settings.Canvas = new Canvas();
             }

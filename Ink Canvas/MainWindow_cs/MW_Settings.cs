@@ -383,6 +383,14 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
+        private void ToggleSwitchFitToCurve_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            drawingAttributes.FitToCurve = ToggleSwitchFitToCurve.IsOn;
+            Settings.Canvas.FitToCurve = ToggleSwitchFitToCurve.IsOn;
+            SaveSettingsToFile();
+        }
+
         private void ToggleSwitchAutoSaveStrokesInPowerPoint_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.PowerPointSettings.IsAutoSaveStrokesInPowerPoint = ToggleSwitchAutoSaveStrokesInPowerPoint.IsOn;
@@ -594,6 +602,7 @@ namespace Ink_Canvas {
             Settings.Canvas.EraserSize = 1;
             Settings.Canvas.EraserType = 0;
             Settings.Canvas.HideStrokeWhenSelecting = false;
+            Settings.Canvas.FitToCurve = true;
             Settings.Canvas.UsingWhiteboard = false;
             Settings.Canvas.HyperbolaAsymptoteOption = 0;
 

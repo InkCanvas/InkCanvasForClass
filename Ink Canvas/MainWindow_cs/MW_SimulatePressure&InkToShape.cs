@@ -16,7 +16,10 @@ namespace Ink_Canvas {
 
         //此函数中的所有代码版权所有 WXRIW，在其他项目中使用前必须提前联系（wxriw@outlook.com），谢谢！
         private void inkCanvas_StrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e) {
-            drawingAttributes.FitToCurve = false;
+            if (Settings.Canvas.FitToCurve==true)
+            {
+                drawingAttributes.FitToCurve = false;
+            }
             try {
                 inkCanvas.Opacity = 1;
                 if (Settings.InkToShape.IsInkToShapeEnabled && !Environment.Is64BitProcess) {
@@ -415,7 +418,10 @@ namespace Ink_Canvas {
                         break;
                 }
             } catch { }
-            drawingAttributes.FitToCurve = true;
+            if (Settings.Canvas.FitToCurve==true)
+            {
+                drawingAttributes.FitToCurve = true;
+            }
         }
 
         private void SetNewBackupOfStroke() {

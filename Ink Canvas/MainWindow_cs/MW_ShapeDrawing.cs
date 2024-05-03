@@ -401,7 +401,10 @@ namespace Ink_Canvas {
         double drawMultiStepShapeSpecialParameter3 = 0.0; //多笔完成的图形 特殊参数 通常用于表示k
 
         private void MouseTouchMove(Point endP) {
-            drawingAttributes.FitToCurve = false;
+            if (Settings.Canvas.FitToCurve == true)
+            {
+                drawingAttributes.FitToCurve = false;
+            }
             List<System.Windows.Point> pointList;
             StylusPointCollection point;
             Stroke stroke;
@@ -1302,7 +1305,10 @@ namespace Ink_Canvas {
             }
             lastTempStroke = null;
             lastTempStrokeCollection = null;
-            drawingAttributes.FitToCurve = true;
+            if (Settings.Canvas.FitToCurve == true)
+            {
+                drawingAttributes.FitToCurve = true;
+            }
         }
 
         private bool NeedUpdateIniP() {

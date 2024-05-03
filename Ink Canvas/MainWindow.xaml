@@ -707,8 +707,8 @@
             </ui:SimpleStackPanel>
         </Grid>
         <!--// 设置界面 //-->
-        <Border Name="BorderSettings" Background="White" BorderBrush="Black"
-                BorderThickness="1" CornerRadius="5" ui:ThemeManager.RequestedTheme="Light"
+        <Border Name="BorderSettings" Background="White" BorderBrush="{DynamicResource FloatBarBorderBrush}"
+                BorderThickness="1" CornerRadius="8" ui:ThemeManager.RequestedTheme="Light"
                 Width="440" HorizontalAlignment="Center" Margin="0,150,0,350" Visibility="Visible">
             <Grid>
                 <ui:ScrollViewerEx Margin="0,60,0,50" VerticalScrollBarVisibility="Auto"
@@ -716,34 +716,95 @@
                               ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback">
                     <StackPanel Margin="20,20,20,20">
 
-                        <Border Margin="0,0,0,10" Height="100" CornerRadius="5" BorderBrush="Black" BorderThickness="1">
+                        <Border Margin="0,0,0,10" Height="100" CornerRadius="5" BorderBrush="#3f3f46" BorderThickness="1">
                             <ui:SimpleStackPanel VerticalAlignment="Center">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" Margin="0,0,0,10" Text="设置更改将自动保存，部分设置需要重启软件后生效"/>
                                 <ui:SimpleStackPanel Spacing="5">
                                     <ui:SimpleStackPanel Spacing="5" Orientation="Horizontal" HorizontalAlignment="Center">
                                         <Button Width="116" Height="45" FontFamily="Microsoft YaHei UI" Click="BtnRestart_Click">
+                                            <Button.Resources>
+                                                <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.ButtonBackgroundKey}" Color="#15803d"/>
+                                                <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.ButtonBackgroundPointerOverKey}" Color="#15803d"/>
+                                                <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.ButtonBackgroundPressedKey}" Color="#166534"/>
+                                            </Button.Resources>
                                             <ui:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="0">
-                                                <Image Source="/Resources/Icons-Fluent/ic_fluent_arrow_clockwise_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="26"/>
-                                                <Label FontSize="16" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontWeight="Bold">重启软件</Label>
+                                                <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,6,0" Height="18" Width="18">
+                                                    <Image.Source>
+                                                        <DrawingImage>
+                                                            <DrawingImage.Drawing>
+                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                    <DrawingGroup Opacity="1">
+                                                                        <DrawingGroup.ClipGeometry>
+                                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,24,24" />
+                                                                        </DrawingGroup.ClipGeometry>
+                                                                        <GeometryDrawing Geometry="F1 M24,24z M0,0z M19.933,13.041C19.7442,14.4809 19.1669,15.8423 18.2632,16.9792 17.3594,18.116 16.1633,18.9853 14.803,19.494 13.4427,20.0027 11.9696,20.1315 10.5417,19.8666 9.11374,19.6017 7.78486,18.953 6.69755,17.9903 5.61024,17.0275 4.80551,15.787 4.36967,14.4016 3.93383,13.0163 3.88332,11.5384 4.22355,10.1266 4.56379,8.7147 5.28194,7.42208 6.30097,6.38734 7.32001,5.3526 8.6015,4.61477 10.008,4.25298 13.907,3.25298 17.943,5.25998 19.433,8.99998">
+                                                                            <GeometryDrawing.Pen>
+                                                                                <Pen Brush="#FFFFFFFF" Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" MiterLimit="1" />
+                                                                            </GeometryDrawing.Pen>
+                                                                        </GeometryDrawing>
+                                                                        <GeometryDrawing Geometry="F1 M24,24z M0,0z M20,4L20,9 15,9">
+                                                                            <GeometryDrawing.Pen>
+                                                                                <Pen Brush="#FFFFFFFF" Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" MiterLimit="1" />
+                                                                            </GeometryDrawing.Pen>
+                                                                        </GeometryDrawing>
+                                                                    </DrawingGroup>
+                                                                </DrawingGroup>
+                                                            </DrawingImage.Drawing>
+                                                        </DrawingImage>
+                                                    </Image.Source>
+                                                </Image>
+                                                <Label FontSize="16" Foreground="#fafafa" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontWeight="Bold">重启软件</Label>
                                             </ui:SimpleStackPanel>
                                         </Button>
                                         <Button Width="116" Height="45" FontFamily="Microsoft YaHei UI" FontWeight="Bold" Click="BtnResetToSuggestion_Click" Margin="0,0,0,0">
                                             <ui:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="0">
-                                                <Image Source="/Resources/Icons-Fluent/ic_fluent_calendar_sync_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="26"/>
+                                                <Image Source="/Resources/Icons-Fluent/ic_fluent_calendar_sync_24_regular.png" Margin="0,0,4,0" RenderOptions.BitmapScalingMode="HighQuality" Height="26" Width="26"/>
                                                 <Label Margin="2,0,0,0" FontSize="16" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontWeight="Bold">重置设置</Label>
                                             </ui:SimpleStackPanel>
                                         </Button>
                                         <Button Width="116" Height="45" FontFamily="Microsoft YaHei UI" Click="BtnExit_Click">
+                                            <Button.Resources>
+                                                <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.ButtonBackgroundKey}" Color="#b91c1c"/>
+                                                <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.ButtonBackgroundPointerOverKey}" Color="#b91c1c"/>
+                                                <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.ButtonBackgroundPressedKey}" Color="#991b1b"/>
+                                            </Button.Resources>
                                             <ui:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="0">
-                                                <Image Source="/Resources/Icons-Fluent/ic_fluent_power_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="26"/>
-                                                <Label FontSize="16" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontWeight="Bold">关闭软件</Label>
+                                                <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,6,0" Height="18" Width="18">
+                                                    <Image.Source>
+                                                        <DrawingImage>
+                                                            <DrawingImage.Drawing>
+                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                    <DrawingGroup Opacity="1">
+                                                                        <DrawingGroup.ClipGeometry>
+                                                                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,24,24" />
+                                                                        </DrawingGroup.ClipGeometry>
+                                                                        <GeometryDrawing Geometry="F1 M24,24z M0,0z M7,6C5.78639,7.02477 4.91697,8.39771 4.50943,9.93294 4.10189,11.4682 4.17592,13.0915 4.7215,14.5833 5.26708,16.0751 6.25786,17.3632 7.55971,18.2732 8.86156,19.1833 10.4116,19.6714 12,19.6714 13.5884,19.6714 15.1384,19.1833 16.4403,18.2732 17.7421,17.3632 18.7329,16.0751 19.2785,14.5833 19.8241,13.0915 19.8981,11.4682 19.4906,9.93294 19.083,8.39771 18.2136,7.02477 17,6">
+                                                                            <GeometryDrawing.Pen>
+                                                                                <Pen Brush="#FFFFFFFF" Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" MiterLimit="1" />
+                                                                            </GeometryDrawing.Pen>
+                                                                        </GeometryDrawing>
+                                                                        <GeometryDrawing Geometry="F1 M24,24z M0,0z M12,4L12,12">
+                                                                            <GeometryDrawing.Pen>
+                                                                                <Pen Brush="#FFFFFFFF" Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" MiterLimit="1" />
+                                                                            </GeometryDrawing.Pen>
+                                                                        </GeometryDrawing>
+                                                                    </DrawingGroup>
+                                                                </DrawingGroup>
+                                                            </DrawingImage.Drawing>
+                                                        </DrawingImage>
+                                                    </Image.Source>
+                                                </Image>
+                                                <Label Foreground="#fafafa" FontSize="16" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontWeight="Bold">关闭软件</Label>
                                             </ui:SimpleStackPanel>
                                         </Button>
                                     </ui:SimpleStackPanel>
                                 </ui:SimpleStackPanel>
                             </ui:SimpleStackPanel>
                         </Border>
-                        <GroupBox Header="启动">
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <TextBlock Text="启动" FontWeight="Bold" Foreground="#18181b" FontSize="26"/>
+                            </GroupBox.Header>
                             <ui:SimpleStackPanel Spacing="12">
                                 <ui:ToggleSwitch Name="ToggleSwitchIsAutoUpdate" Header="自动检查更新" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchIsAutoUpdate_Toggled"/>
                                 <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="12">
@@ -801,7 +862,10 @@
                                 -->
                             </ui:SimpleStackPanel>
                         </GroupBox>
-                        <GroupBox Header="画板">
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <TextBlock Text="画板和墨迹" FontWeight="Bold" Foreground="#18181b" FontSize="26"/>
+                            </GroupBox.Header>
                             <ui:SimpleStackPanel Spacing="12">
                                 <ui:ToggleSwitch Name="ToggleSwitchShowCursor" Header="显示画笔光标" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchShowCursor_Toggled"/>
                                 <!--
@@ -842,9 +906,14 @@
                                     <ComboBoxItem Content="每次询问" FontFamily="Microsoft YaHei UI"/>
                                 </ComboBox>
                                 <TextBlock Text="# 请注意，若不保留双曲线渐近线可能会有遇到撤回相关的 BUG 影响用。" TextWrapping="Wrap" Foreground="#666666"/>
+                                <ui:ToggleSwitch Name="ToggleSwitchFitToCurve" Header="让墨迹使用贝塞尔曲线平滑" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchFitToCurve_Toggled"/>
+                                <TextBlock Text="# 开启 让墨迹使用贝塞尔曲线平滑 选项后，所有墨迹将会使用FitToCurve进行贝塞尔曲线平滑化，如果不喜欢可以关闭。" TextWrapping="Wrap" Foreground="#666666"/>
                             </ui:SimpleStackPanel>
                         </GroupBox>
-                        <GroupBox Header="手势">
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <TextBlock Text="手势" FontWeight="Bold" Foreground="#18181b" FontSize="26"/>
+                            </GroupBox.Header>
                             <ui:SimpleStackPanel Spacing="12">
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoSwitchTwoFingerGesture" Header="自动开关两指缩放功能" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoSwitchTwoFingerGesture_Toggled"/>
                                 <TextBlock Text="# 开启 自动开关两指缩放功能 后退出画板模式时自动关闭双指移动手势，进入画板模式时自动开启双指移动手势" TextWrapping="Wrap" Foreground="#666666"/>
@@ -853,13 +922,19 @@
                                 <TextBlock Text="# 允许选中墨迹后对墨迹进行双指或多指缩放操作（此设置不受“允许双指旋转”设置的影响）" TextWrapping="Wrap" Foreground="#666666"/>
                             </ui:SimpleStackPanel>
                         </GroupBox>
-                        <GroupBox Name="GroupBoxInkRecognition" Header="墨迹识别">
+                        <GroupBox Name="GroupBoxInkRecognition">
+                            <GroupBox.Header>
+                                <TextBlock Text="墨迹纠正" FontWeight="Bold" Foreground="#18181b" FontSize="26"/>
+                            </GroupBox.Header>
                             <ui:SimpleStackPanel Spacing="12">
                                 <TextBlock Text="# 可实现智能识别圆、三角形、矩形，并自动转换为规范图形。" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchEnableInkToShape" Header="启用墨迹识别" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchEnableInkToShape_Toggled" IsOn="True"/>
                             </ui:SimpleStackPanel>
                         </GroupBox>
-                        <GroupBox Name="GroupBoxAppearanceNewUI" Header="外观">
+                        <GroupBox Name="GroupBoxAppearanceNewUI">
+                            <GroupBox.Header>
+                                <TextBlock Text="个性化" FontWeight="Bold" Foreground="#18181b" FontSize="26"/>
+                            </GroupBox.Header>
                             <ui:SimpleStackPanel Spacing="12">
                                 <!--
                                 <ui:ToggleSwitch Header="显示“橡皮”按钮" IsOn="{Binding ElementName=ToggleSwitchShowButtonEraser, Path=IsOn}" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关"/>
@@ -881,7 +956,10 @@
                                 -->
                             </ui:SimpleStackPanel>
                         </GroupBox>
-                        <GroupBox Header="PowerPoint 相关">
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <TextBlock Text="PPT联动选项" FontWeight="Bold" Foreground="#18181b" FontSize="26"/>
+                            </GroupBox.Header>
                             <ui:SimpleStackPanel Spacing="12">
                                 <TextBlock Text="# 此部分的设置项将会在幻灯片播放时使用，优先级高于其他设置项" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchSupportPowerPoint" Header="Microsoft PowerPoint 支持" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchSupportPowerPoint_Toggled"/>
@@ -904,7 +982,10 @@
                             </ui:SimpleStackPanel>
 
                         </GroupBox>
-                        <GroupBox Header="高级">
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <TextBlock Text="高级项" FontWeight="Bold" Foreground="#18181b" FontSize="26"/>
+                            </GroupBox.Header>
                             <ui:SimpleStackPanel Spacing="12">
                                 <TextBlock Text="#可在手指触摸画板时显示圆形橡皮或手掌触摸画板时显示的橡皮比&#x000A;手掌大很多时调整" Foreground="#666666"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchIsSpecialScreen" Header="特殊屏幕模式" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchIsSpecialScreen_OnToggled"/>
@@ -953,7 +1034,10 @@
                                 <ui:ToggleSwitch Name="ToggleSwitchIsSecondConfimeWhenShutdownApp" Header="关闭软件时二次弹窗确认" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" IsOn="False" Toggled="ToggleSwitchIsSecondConfimeWhenShutdownApp_Toggled"/>
                             </ui:SimpleStackPanel>
                         </GroupBox>
-                        <GroupBox Header="自动">
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <TextBlock Text="自动化" FontWeight="Bold" Foreground="#18181b" FontSize="26"/>
+                            </GroupBox.Header>
                             <ui:SimpleStackPanel Spacing="12">
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInEasiNote" Header="进入“希沃白板”时自动收纳至侧边栏" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInEasiNote_Toggled"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInEasiNoteIgnoreDesktopAnno" Header="“希沃白板”自动收纳忽略桌面 EN 批注窗口 (BETA)" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInEasiNoteIgnoreDesktopAnno_Toggled"/>
@@ -1018,10 +1102,13 @@
                                 </ComboBox>
                             </ui:SimpleStackPanel>
                         </GroupBox>
-                        <GroupBox Header="关于">
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <TextBlock Text="关于 InkCanvasForClass" FontWeight="Bold" Foreground="#18181b" FontSize="26"/>
+                            </GroupBox.Header>
                             <ui:SimpleStackPanel Spacing="12">
                                 <ui:SimpleStackPanel Orientation="Horizontal">
-                                    <TextBlock FontSize="18" FontWeight="Bold" Text="当前版本："/>
+                                    <TextBlock FontSize="18" FontWeight="Bold" Text="Version："/>
                                     <TextBlock x:Name="AppVersionTextBlock" FontSize="18" FontWeight="Bold" Text="4.X.X.X"/>
                                 </ui:SimpleStackPanel>
                                 <TextBlock Text="* 使用和分发本软件前，请您应当且务必知晓相关开源协议，且您应当知晓本软件基于 https://github.com/WXRIW/Ink-Canvas 修改而成。" TextWrapping="Wrap" Foreground="#666666"/>
@@ -1142,24 +1229,13 @@
                         </GroupBox>
                     </StackPanel>
                 </ui:ScrollViewerEx>
-                <Grid Background="White" Margin="20" Height="40" VerticalAlignment="Top">
-                    <ui:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <Image Source="/Resources/Icons-Fluent/ic_fluent_settings_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="30" Width="30">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="0" CenterX="15" CenterY="15" />
-                            </Image.RenderTransform>
-                            <Image.Triggers>
-                                <EventTrigger RoutedEvent="Loaded">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" From="0" To="360" Duration="0:0:2" RepeatBehavior="Forever" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </Image.Triggers>
-                        </Image>
-                        <TextBlock Margin="10,-2,0,0" Text="ICC设置" FontWeight="Bold" FontSize="26"/>
-                    </ui:SimpleStackPanel>
+                <Grid Margin="0,0,0,0" Height="60" VerticalAlignment="Top">
+                    <Border Background="#2563eb" CornerRadius="8,8,0,0" Margin="-1,-1,-1,0" BorderThickness="0,0,0,1" BorderBrush="#1e3a8a">
+                        <ui:SimpleStackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Foreground="White" Margin="25,-2,0,0" Text="设置" FontWeight="Bold" FontSize="18"/>
+                        </ui:SimpleStackPanel>
+                    </Border>
+                    
                 </Grid>
                 <Grid VerticalAlignment="Bottom" Height="50">
                     <Button FontFamily="Microsoft YaHei UI"
