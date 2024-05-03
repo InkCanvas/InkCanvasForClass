@@ -1,9 +1,11 @@
-﻿using System;
+﻿using iNKORE.UI.WPF.Modern.Controls;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Point = System.Windows.Point;
 
 namespace Ink_Canvas {
@@ -14,6 +16,16 @@ namespace Ink_Canvas {
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e) {
             lastBorderMouseDownObject = sender;
+        }
+
+        private void FloatingBarIcons_MouseDown_New(object sender, MouseButtonEventArgs e)
+        {
+            lastBorderMouseDownObject = sender;
+            SimpleStackPanel ssp = sender as SimpleStackPanel;
+            if (ssp!=null)
+            {
+                ssp.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/pressdown-background.png"))) { Opacity = 1 };
+            }
         }
 
         bool isStrokeSelectionCloneOn = false;

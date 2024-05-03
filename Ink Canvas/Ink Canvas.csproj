@@ -571,5 +571,8 @@
   <ItemGroup>
     <Resource Include="Resources\new-icons\checked-black.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\pressdown-background.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -15,8 +15,40 @@ using System.Threading;
 using Application = System.Windows.Application;
 using Point = System.Windows.Point;
 using System.Diagnostics;
+using iNKORE.UI.WPF.Modern.Controls;
+using System.IO;
+using System.Windows.Media.Effects;
 
 namespace Ink_Canvas {
+
+    public class ChangeColorEffect : ShaderEffect
+    {
+        private const string _kshaderAsBase64 = @"AAP///7/HwBDVEFCHAAAAE8AAAAAA///AQAAABwAAAAAAQAASAAAADAAAAADAAAAAQACADgAAAAAAAAAaW5wdXQAq6sEAAwAAQABAAEAAAAAAAAAcHNfM18wAE1pY3Jvc29mdCAoUikgSExTTCBTaGFkZXIgQ29tcGlsZXIgMTAuMQCrUQAABQAAD6AAAIA/AAAAAAAAAAAAAAAAHwAAAgUAAIAAAAOQHwAAAgAAAJAACA+gQgAAAwAAD4AAAOSQAAjkoAEAAAIACAuAAADkgAEAAAIACASAAAAAoP//AAA=";
+        private static readonly PixelShader _shader;
+
+        static ChangeColorEffect()
+        {
+            _shader = new PixelShader();
+            _shader.SetStreamSource(new MemoryStream(Convert.FromBase64String(_kshaderAsBase64)));
+        }
+
+        public ChangeColorEffect()
+        {
+            PixelShader = _shader;
+            UpdateShaderValue(InputProperty);
+        }
+
+        public Brush Input
+        {
+            get { return (Brush)GetValue(InputProperty); }
+            set { SetValue(InputProperty, value); }
+        }
+
+        public static readonly DependencyProperty InputProperty =
+            ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(ChangeColorEffect), 0);
+
+    }
+
     public partial class MainWindow : Window {
         #region TwoFingZoomBtn
 
@@ -124,6 +156,7 @@ namespace Ink_Canvas {
             BorderSettings.Visibility = Visibility.Collapsed;
         }
 
+        #region 按鈕高亮背景
         private async void HideSubPanels(String mode = null, bool autoAlignCenter = false) {
             AnimationsHelper.HideWithSlideAndFade(BorderTools);
             AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
@@ -265,6 +298,7 @@ namespace Ink_Canvas {
             await Task.Delay(150);
             isHidingSubPanelsWhenInking = false;
         }
+        #endregion
 
         private void BorderPenColorBlack_MouseUp(object sender, MouseButtonEventArgs e) {
             BtnColorBlack_Click(null, null);
@@ -326,6 +360,7 @@ namespace Ink_Canvas {
         }
 
         private void SymbolIconDelete_MouseUp(object sender, MouseButtonEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
             if (sender != lastBorderMouseDownObject) return;
 
             if (inkCanvas.GetSelectedStrokes().Count > 0) {
@@ -348,6 +383,7 @@ namespace Ink_Canvas {
         }
 
         private void SymbolIconSelect_MouseUp(object sender, MouseButtonEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
             BtnSelect_Click(null, null);
             HideSubPanels("select");
         }
@@ -642,7 +678,28 @@ namespace Ink_Canvas {
             });
         }
 
+        private void FloatingBarIcons_MouseUp_New(object sender, RoutedEventArgs e = null)
+        {
+            // reset the background
+            SimpleStackPanel ssp = sender as SimpleStackPanel;
+            if (ssp != null)
+            {
+                ssp.Background = Brushes.Transparent;
+                if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink)
+                {
+                    Pen_Icon.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
+                }
+            }
+        }
+
+        private void FloatingBarIcons_MouseUp_MouseLeave(object sender, MouseEventArgs e)
+        {
+            FloatingBarIcons_MouseUp_New(sender);
+        }
+
         private async void CursorIcon_Click(object sender, RoutedEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
+
             // 切换前自动截图保存墨迹
             if (inkCanvas.Strokes.Count > 0 && inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) {
                 if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) SaveScreenShot(true, $"{pptName}/{previousSlideID}_{DateTime.Now:HH-mm-ss}");
@@ -709,6 +766,7 @@ namespace Ink_Canvas {
         }
 
         private void PenIcon_Click(object sender, RoutedEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
             if (Pen_Icon.Background == null || StackPanelCanvasControls.Visibility == Visibility.Collapsed) {
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
 
@@ -763,6 +821,7 @@ namespace Ink_Canvas {
         }
 
         private void EraserIcon_Click(object sender, RoutedEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
             forceEraser = true;
             forcePointEraser = true;
             double k = 1;
@@ -791,6 +850,7 @@ namespace Ink_Canvas {
         }
 
         private void EraserIconByStrokes_Click(object sender, RoutedEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
             forceEraser = true;
             forcePointEraser = false;
 
@@ -805,11 +865,13 @@ namespace Ink_Canvas {
         }
 
         private void CursorWithDelIcon_Click(object sender, RoutedEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
             SymbolIconDelete_MouseUp(sender, null);
             CursorIcon_Click(null, null);
         }
 
         private void SelectIcon_MouseUp(object sender, RoutedEvent e) {
+            FloatingBarIcons_MouseUp_New(sender);
             forceEraser = true;
             drawingShapeMode = 0;
             inkCanvas.IsManipulationEnabled = false;

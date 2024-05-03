@@ -1378,17 +1378,18 @@
                 </Border>
                 <Border Margin="2,0,0,0" Padding="2" Visibility="Visible" Height="36" Name="BorderFloatingBarMainControls" Background="{DynamicResource FloatBarBackground}" CornerRadius="5" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                     <ui:SimpleStackPanel Margin="2,0" Name="StackPanelFloatingBar" Orientation="Horizontal">
-                        <ui:SimpleStackPanel Name="Cursor_Icon" MouseDown="Border_MouseDown" MouseUp="CursorIcon_Click"
+                        <!--<ui:SimpleStackPanel Name="Cursor_Icon" MouseDown="Border_MouseDown" MouseUp="CursorIcon_Click"-->
+                        <ui:SimpleStackPanel Name="Cursor_Icon" MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="CursorIcon_Click"
                                              Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="28" Margin="0,-2">
                             <Image Source="/Resources/new-icons/cursor-lined.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0" x:Name="CursorToolbarIconImage"/>
                             <TextBlock x:Name="SelectionToolBarTextBlock" Text="鼠标" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
                         </ui:SimpleStackPanel>
-                        <ui:SimpleStackPanel Name="Pen_Icon" MouseDown="Border_MouseDown" MouseUp="PenIcon_Click"
+                        <ui:SimpleStackPanel Name="Pen_Icon" MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="PenIcon_Click"
                                              Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="28" Margin="0,-2">
                             <Image x:Name="PenIcon" Source="/Resources/new-icons/pen-lined.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
                             <TextBlock x:Name="PenToolbarTextBlock" Text="批注" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
                         </ui:SimpleStackPanel>
-                        <ui:SimpleStackPanel Name="SymbolIconDelete" MouseDown="Border_MouseDown" MouseUp="SymbolIconDelete_MouseUp"
+                        <ui:SimpleStackPanel Name="SymbolIconDelete" MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="SymbolIconDelete_MouseUp"
                                              Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="28" Margin="0,-2">
                             <Image Source="/Resources/new-icons/trash.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
                             <TextBlock x:Name="TrashBinToolbarTextBlock" Text="清空" Foreground="#B91C1C" FontWeight="Bold"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
@@ -1434,7 +1435,16 @@
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal" Height="30">
                                                         <Label Margin="0,0,10,0" Content="透明" FontWeight="Bold" Foreground="{DynamicResource FloatBarForeground}" FontSize="17" VerticalAlignment="Center"/>
-                                                        <Slider x:Name="InkAlphaSlider" Minimum="1" Maximum="255" Width="208" FontFamily="Microsoft YaHei UI" FontSize="20" IsSnapToTickEnabled="True" Value="255" TickFrequency="1" TickPlacement="None" ValueChanged="InkAlphaSlider_ValueChanged"/>
+                                                        <Slider x:Name="InkAlphaSlider" Margin="0,0,0,0" Minimum="1" Maximum="255" Width="208" FontFamily="Microsoft YaHei UI" FontSize="20" IsSnapToTickEnabled="True" Value="255" Foreground="#b91c1c" TickFrequency="1" TickPlacement="None" ValueChanged="InkAlphaSlider_ValueChanged">
+                                                            <Slider.Resources>
+                                                                <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.SliderThumbBackgroundKey}" Color="#b91c1c"/>
+                                                                <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.SliderThumbBackgroundPointerOverKey}" Color="#b91c1c"/>
+                                                                <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.SliderThumbBackgroundPressedKey}" Color="#ef4444"/>
+                                                                <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.SliderTrackValueFillKey}" Color="#b91c1c"/>
+                                                                <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.SliderTrackValueFillPointerOverKey}" Color="#b91c1c"/>
+                                                                <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.SliderTrackValueFillPressedKey}" Color="#b91c1c"/>
+                                                            </Slider.Resources>
+                                                        </Slider>
                                                         <TextBlock Text="{Binding Value, ElementName=InkAlphaSlider, Mode=OneWay}" FontFamily="Consolas" VerticalAlignment="Bottom" Margin="10,0,0,4.5" FontSize="15"/>
                                                     </StackPanel>
                                                 </ui:SimpleStackPanel>
@@ -1478,8 +1488,8 @@
                                                                 <Controls:UniformGrid Columns="5" Width="270" Margin="0">
 
                                                                     <Border x:Name="BorderPenColorGreen" Background="#16a34a" BorderBrush="#14532d" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnColorGreen_Click">
-                                                                        <Viewbox Name="ViewboxBtnColorGreenContent" Visibility="Collapsed" Margin="8">
-                                                                            <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
+                                                                        <Viewbox x:Name="ViewboxBtnColorGreenContent" Visibility="Collapsed" Margin="8">
+                                                                            <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
                                                                         </Viewbox>
                                                                     </Border>
                                                                     <Border x:Name="BorderPenColorBlue" Background="#2563eb" BorderBrush="#1e3a8a" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnColorBlue_Click">
@@ -1498,8 +1508,8 @@
                                                                         </Viewbox>
                                                                     </Border>
                                                                     <Border x:Name="BorderPenColorOrange" Background="#ea580c" BorderBrush="#7c2d12" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnColorOrange_Click">
-                                                                        <Viewbox x:Name="ViewboxBtnColorOrangeContent" Visibility="Collapsed" Margin="6">
-                                                                            <ui:SymbolIcon Symbol="Accept" Foreground="White"/>
+                                                                        <Viewbox x:Name="ViewboxBtnColorOrangeContent" Visibility="Collapsed" Margin="8">
+                                                                            <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
                                                                         </Viewbox>
                                                                     </Border>
                                                                 </Controls:UniformGrid>
@@ -1513,19 +1523,19 @@
                                 </Grid>
                             </ui:SimpleStackPanel>
 
-                            <ui:SimpleStackPanel Name="Eraser_Icon" MouseUp="EraserIcon_Click" MouseDown="Border_MouseDown" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,-2" Width="28">
+                            <ui:SimpleStackPanel Name="Eraser_Icon" MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseUp="EraserIcon_Click" MouseDown="FloatingBarIcons_MouseDown_New" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,-2" Width="28">
                                 <Image x:Name="CircleEraserToolbarIconImage" Source="/Resources/new-icons/circle-eraser-lined.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
                                 <TextBlock x:Name="CircleEraserToolbarTextBlock" Text="圆擦" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
                             </ui:SimpleStackPanel>
-                            <ui:SimpleStackPanel Name="EraserByStrokes_Icon" MouseUp="EraserIconByStrokes_Click" MouseDown="Border_MouseDown" Background="Transparent" Orientation="Vertical" Width="28" Margin="0,-2" HorizontalAlignment="Center">
+                            <ui:SimpleStackPanel Name="EraserByStrokes_Icon" MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseUp="EraserIconByStrokes_Click" MouseDown="FloatingBarIcons_MouseDown_New" Background="Transparent" Orientation="Vertical" Width="28" Margin="0,-2" HorizontalAlignment="Center">
                                 <Image x:Name="StrokeEraserToolbarIconImage" Source="/Resources/new-icons/eraser-lined.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
                                 <TextBlock x:Name="InkEraserToolbarTextBlock" Text="线擦" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
                             </ui:SimpleStackPanel>
-                            <ui:SimpleStackPanel Name="SymbolIconSelect" MouseDown="Border_MouseDown" MouseUp="SymbolIconSelect_MouseUp" Background="Transparent" Orientation="Vertical" Margin="0,-2" Width="28" HorizontalAlignment="Center">
+                            <ui:SimpleStackPanel Name="SymbolIconSelect" MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="SymbolIconSelect_MouseUp" Background="Transparent" Orientation="Vertical" Margin="0,-2" Width="28" HorizontalAlignment="Center">
                                 <Image x:Name="LassoSelect" Source="/Resources/new-icons/lasso-select-lined.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
                                 <TextBlock x:Name="LassoToolToolbarTextBlock" Text="套索选" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
                             </ui:SimpleStackPanel>
-                            <ui:SimpleStackPanel MouseDown="Border_MouseDown" MouseUp="ImageDrawShape_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,-2" Width="28">
+                            <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="ImageDrawShape_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,-2" Width="28">
                                 <Image Source="/Resources/new-icons/shapes.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
                                 <TextBlock x:Name="ShapesToolbarTextBlock" Text="几何" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
                             </ui:SimpleStackPanel>
@@ -1606,7 +1616,7 @@
                                 <Image Source="/Resources/Icons-png/redo.png" RenderOptions.BitmapScalingMode="HighQuality" Width="28" Opacity="{Binding ElementName=BtnRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}" Height="17" Margin="0,3,0,0"/>
                                 <TextBlock x:Name="RedoToolbarTextBlock" Text="重做" Opacity="{Binding ElementName=BtnRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
                             </ui:SimpleStackPanel>
-                            <ui:SimpleStackPanel MouseDown="Border_MouseDown" MouseUp="CursorWithDelIcon_Click"
+                            <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="CursorWithDelIcon_Click"
                                                  Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="28" Margin="0,-2">
                                 <Image Source="/Resources/new-icons/cursor-clear.png" RenderOptions.BitmapScalingMode="HighQuality" Width="28"  Height="17" Margin="0,3,0,0"/>
                                 <TextBlock x:Name="ClearAndMouseToolbarTextBlock" Text="清并鼠" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>

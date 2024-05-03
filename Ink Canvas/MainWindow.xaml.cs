@@ -209,5 +209,9 @@ namespace Ink_Canvas {
 
         #endregion Definations and Loading
 
+        private void FloatingBarIcons_MouseUp_New(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+        }
     }
 }
