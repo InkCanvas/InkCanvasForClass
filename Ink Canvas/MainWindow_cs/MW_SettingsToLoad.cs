@@ -371,6 +371,14 @@ namespace Ink_Canvas {
                 } else {
                     ToggleSwitchAutoFoldInEasiNote3C.IsOn = false;
                 }
+                if (Settings.Automation.IsAutoFoldInEasiNote5C)
+                {
+                    ToggleSwitchAutoFoldInEasiNote5C.IsOn = true;
+                }
+                else
+                {
+                    ToggleSwitchAutoFoldInEasiNote5C.IsOn = false;
+                }
                 if (Settings.Automation.IsAutoFoldInSeewoPincoTeacher) {
                     ToggleSwitchAutoFoldInSeewoPincoTeacher.IsOn = true;
                 } else {

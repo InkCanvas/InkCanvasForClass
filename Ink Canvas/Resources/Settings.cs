@@ -166,6 +166,7 @@ namespace Ink_Canvas
             IsAutoFoldInEasiNote
             || IsAutoFoldInEasiCamera
             || IsAutoFoldInEasiNote3C
+            || IsAutoFoldInEasiNote5C
             || IsAutoFoldInSeewoPincoTeacher
             || IsAutoFoldInHiteTouchPro
             || IsAutoFoldInHiteCamera
@@ -185,6 +186,9 @@ namespace Ink_Canvas
 
         [JsonProperty("isAutoFoldInEasiNote3C")]
         public bool IsAutoFoldInEasiNote3C { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInEasiNote5C")]
+        public bool IsAutoFoldInEasiNote5C { get; set; } = false;
 
         [JsonProperty("isAutoFoldInSeewoPincoTeacher")]
         public bool IsAutoFoldInSeewoPincoTeacher { get; set; } = false;

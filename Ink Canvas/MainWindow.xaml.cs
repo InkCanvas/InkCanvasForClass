@@ -100,6 +100,8 @@ namespace Ink_Canvas {
 
                 drawingAttributes.Height = 2.5;
                 drawingAttributes.Width = 2.5;
+                drawingAttributes.IsHighlighter = false;
+                drawingAttributes.FitToCurve = true;
 
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
                 inkCanvas.Gesture += InkCanvas_Gesture;

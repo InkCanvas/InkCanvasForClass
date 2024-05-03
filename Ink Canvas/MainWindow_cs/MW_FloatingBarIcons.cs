@@ -685,9 +685,17 @@ namespace Ink_Canvas {
             if (ssp != null)
             {
                 ssp.Background = Brushes.Transparent;
-                if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink)
-                {
+                if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink){
                     Pen_Icon.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
+                } else if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint)
+                    {
+                    Eraser_Icon.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
+                } else if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByStroke)
+                {
+                    EraserByStrokes_Icon.Background=new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
+                } else if (inkCanvas.EditingMode == InkCanvasEditingMode.Select)
+                {
+                    SymbolIconSelect.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
                 }
             }
         }

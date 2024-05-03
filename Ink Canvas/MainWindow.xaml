@@ -959,6 +959,7 @@
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInEasiNoteIgnoreDesktopAnno" Header="“希沃白板”自动收纳忽略桌面 EN 批注窗口 (BETA)" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInEasiNoteIgnoreDesktopAnno_Toggled"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInEasiCamera" Header="进入“希沃视频展台”时自动收纳至侧边栏" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInEasiCamera_Toggled"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInEasiNote3C" Header="进入“希沃轻白板”时自动收纳至侧边栏" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInEasiNote3C_Toggled"/>
+                                <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInEasiNote5C" Header="进入“希沃轻白板”(新版)时自动收纳至侧边栏" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInEasiNote5C_Toggled"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInSeewoPincoTeacher" Header="进入“希沃品课”时自动收纳至侧边栏" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInSeewoPincoTeacher_Toggled"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInHiteTouchPro" Header="进入“鸿合白板”时自动收纳至侧边栏" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInHiteTouchPro_Toggled"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoFoldInHiteCamera" Header="进入“鸿合视频展台”时自动收纳至侧边栏" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoFoldInHiteCamera_Toggled"/>
@@ -1032,8 +1033,8 @@
 
                                 <TextBlock FontSize="15">
                                     <Bold>ICC仓库源:</Bold>
-                                    <Hyperlink Click="HyperlinkSourceToPresentRepository_Click">
-                                        <TextBlock Margin="2,0" Text="gitea.bliemhax.com/kriastans/ICC" TextWrapping="Wrap"/>
+                                    <Hyperlink Click="HyperlinkSourceToICCRepository_Click">
+                                        <TextBlock Margin="2,0" Text="gitea:kriastans/InkCanvasForClass" TextWrapping="Wrap"/>
                                     </Hyperlink>
                                 </TextBlock>
                                 <WrapPanel VerticalAlignment="Center" Orientation="Horizontal">

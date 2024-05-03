@@ -24,7 +24,13 @@ namespace Ink_Canvas {
             SimpleStackPanel ssp = sender as SimpleStackPanel;
             if (ssp!=null)
             {
-                ssp.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/pressdown-background.png"))) { Opacity = 1 };
+                if ((ssp.Name== "Pen_Icon"&&inkCanvas.EditingMode == InkCanvasEditingMode.Ink)|| (ssp.Name == "Eraser_Icon" && inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint) || (ssp.Name == "EraserByStrokes_Icon" && inkCanvas.EditingMode == InkCanvasEditingMode.EraseByStroke) || (ssp.Name == "SymbolIconSelect" && inkCanvas.EditingMode == InkCanvasEditingMode.Select))
+                {
+                    ssp.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
+                } else
+                {
+                    ssp.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/pressdown-background.png"))) { Opacity = 1 };
+                }
             }
         }
 

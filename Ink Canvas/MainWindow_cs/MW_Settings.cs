@@ -278,6 +278,14 @@ namespace Ink_Canvas {
             StartOrStoptimerCheckAutoFold();
         }
 
+        private void ToggleSwitchAutoFoldInEasiNote5C_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Automation.IsAutoFoldInEasiNote5C = ToggleSwitchAutoFoldInEasiNote5C.IsOn;
+            SaveSettingsToFile();
+            StartOrStoptimerCheckAutoFold();
+        }
+
         private void ToggleSwitchAutoFoldInSeewoPincoTeacher_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Automation.IsAutoFoldInSeewoPincoTeacher = ToggleSwitchAutoFoldInSeewoPincoTeacher.IsOn;
@@ -547,6 +555,7 @@ namespace Ink_Canvas {
             Settings.Automation.IsAutoFoldInEasiNoteIgnoreDesktopAnno = true;
             Settings.Automation.IsAutoFoldInEasiCamera = true;
             Settings.Automation.IsAutoFoldInEasiNote3C = false;
+            Settings.Automation.IsAutoFoldInEasiNote5C = true;
             Settings.Automation.IsAutoFoldInSeewoPincoTeacher = false;
             Settings.Automation.IsAutoFoldInHiteTouchPro = false;
             Settings.Automation.IsAutoFoldInHiteCamera = false;
@@ -730,6 +739,12 @@ namespace Ink_Canvas {
 
         private void SCManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e) {
             e.Handled = true;
+        }
+
+        private void HyperlinkSourceToICCRepository_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://gitea.bliemhax.com/kriastans/InkCanvasForClass");
+            HideSubPanels();
         }
 
         private void HyperlinkSourceToPresentRepository_Click(object sender, RoutedEventArgs e) {
