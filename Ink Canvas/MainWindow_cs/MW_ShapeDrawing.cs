@@ -444,7 +444,7 @@ namespace Ink_Canvas {
                     break;
                 case 2:
                     _currentCommitType = CommitReason.ShapeDrawing;
-                    double w = 30, h = 10;
+                    double w = 15, h = 10;
                     double theta = Math.Atan2(iniP.Y - endP.Y, iniP.X - endP.X);
                     double sint = Math.Sin(theta);
                     double cost = Math.Cos(theta);
@@ -455,7 +455,7 @@ namespace Ink_Canvas {
                         new Point(endP.X , endP.Y),
                         new Point(endP.X + (w * cost - h * sint), endP.Y + (w * sint + h * cost)),
                         new Point(endP.X,endP.Y),
-                        new Point(endP.X + (w * cost + h * sint), endP.Y - (h * cost - w * sint))
+                        new Point(endP.X + (w * cost + h * sint), endP.Y - (h * cost - w * sint)),
                     };
                     point = new StylusPointCollection(pointList);
                     stroke = new Stroke(point) {
@@ -1139,7 +1139,8 @@ namespace Ink_Canvas {
             return stroke;
         }
 
-        private Stroke GenerateArrowLineStroke(System.Windows.Point st, System.Windows.Point ed) {
+        private Stroke GenerateArrowLineStroke(System.Windows.Point st, System.Windows.Point ed)
+        {
             List<System.Windows.Point> pointList = new List<System.Windows.Point>();
             StylusPointCollection point;
             Stroke stroke;
@@ -1158,11 +1159,13 @@ namespace Ink_Canvas {
                 new Point(ed.X + (w * cost + h * sint), ed.Y - (h * cost - w * sint))
             };
             point = new StylusPointCollection(pointList);
-            stroke = new Stroke(point) {
+            stroke = new Stroke(point)
+            {
                 DrawingAttributes = inkCanvas.DefaultDrawingAttributes.Clone()
             };
             return stroke;
         }
+
 
         private StrokeCollection GenerateDashedLineStrokeCollection(System.Windows.Point st, System.Windows.Point ed) {
             double step = 5;

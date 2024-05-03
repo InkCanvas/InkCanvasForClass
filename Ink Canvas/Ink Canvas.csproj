@@ -593,5 +593,17 @@
   <ItemGroup>
     <Resource Include="Resources\Icons-png\geo-icons\centered-oval.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\geo-icons\square.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\geo-icons\cylinder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\geo-icons\cone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\geo-icons\cube.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

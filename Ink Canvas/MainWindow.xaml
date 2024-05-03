@@ -1545,104 +1545,125 @@
 
                             <Grid Width="0">
                                 <Border x:Name="BorderDrawShape" Visibility="Visible" Background="White" Opacity="0.9" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1"
-                                    CornerRadius="5" Margin="-200,-247,-216,37" Height="240">
-                                    <Viewbox>
-                                        <ui:SimpleStackPanel Spacing="-8" Orientation="Vertical" Width="420">
-                                            <TextBlock FontSize="16" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Left" Margin="10,8">
-                                                <Run Text="图形"/>
-                                                <Run Text="(第一行支持长按保持选中)" FontSize="10"/>
-                                            </TextBlock>
-                                            <ui:SymbolIcon Margin="0,-20,8,15" Symbol="Pin" MouseDown="Border_MouseDown" MouseUp="SymbolIconPinBorderDrawShape_MouseUp" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Right"/>
-                                            <ui:SimpleStackPanel Orientation="Horizontal" Height="38" Spacing="2">
-                                                <ui:SimpleStackPanel Name="BoardImageDrawLine" MouseDown="Image_MouseDown" MouseUp="BtnDrawLine_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
-                                                    <Image Source="/Resources/Icons-png/geo-icons/line.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
-                                                    <Label Content="画直线" FontSize="8"  HorizontalAlignment="Center"/>
-                                                </ui:SimpleStackPanel>
-                                                <ui:SimpleStackPanel Name="BoardImageDrawDashedLine" MouseDown="Image_MouseDown" MouseUp="BtnDrawDashedLine_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
-                                                    <Image Source="/Resources/Icons-png/geo-icons/dashed-line.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
-                                                    <Label Content="画虚线" FontSize="8"  HorizontalAlignment="Center"/>
-                                                </ui:SimpleStackPanel>
-                                                <ui:SimpleStackPanel Name="BoardImageDrawDotLine" MouseDown="Image_MouseDown" MouseUp="BtnDrawDotLine_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
-                                                    <Image Source="/Resources/Icons-png/geo-icons/dotted-line.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
-                                                    <Label Content="画点线" FontSize="8"  HorizontalAlignment="Center"/>
-                                                </ui:SimpleStackPanel>
-                                                <ui:SimpleStackPanel Name="BoardImageDrawArrow" MouseDown="Image_MouseDown" MouseUp="BtnDrawArrow_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
-                                                    <Image Source="/Resources/Icons-png/geo-icons/arrow.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
-                                                    <Label Content="画箭头" FontSize="8"  HorizontalAlignment="Center"/>
-                                                </ui:SimpleStackPanel>
-                                                <ui:SimpleStackPanel Name="BoardImageDrawParallelLine" MouseDown="Image_MouseDown" MouseUp="BtnDrawParallelLine_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
-                                                    <Image Source="/Resources/Icons-png/geo-icons/paralle-lines.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
-                                                    <Label Content="4平行线" FontSize="8"  HorizontalAlignment="Center"/>
-                                                </ui:SimpleStackPanel>
-                                                <ui:SimpleStackPanel MouseUp="BtnDrawRectangleCenter_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
-                                                    <Image Source="/Resources/Icons-png/geo-icons/centered-square.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
-                                                    <Label Content="中心正方" FontSize="8"  HorizontalAlignment="Center"/>
-                                                </ui:SimpleStackPanel>
-                                                <ui:SimpleStackPanel MouseUp="BtnDrawCircle_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
-                                                    <Image Source="/Resources/Icons-png/geo-icons/centered-circle.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
-                                                    <Label Content="中心圆" FontSize="8"  HorizontalAlignment="Center"/>
-                                                </ui:SimpleStackPanel>
-                                                <ui:SimpleStackPanel MouseUp="BtnDrawDashedCircle_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
-                                                    <Image Source="/Resources/Icons-png/geo-icons/centered-circle-dashed.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
-                                                    <Label Content="中心虚圆" FontSize="8"  HorizontalAlignment="Center"/>
-                                                </ui:SimpleStackPanel>
-                                                <ui:SimpleStackPanel MouseUp="BtnDrawCenterEllipse_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
-                                                    <Image Source="/Resources/Icons-png/geo-icons/centered-oval.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
-                                                    <Label Content="中心椭圆" FontSize="8"  HorizontalAlignment="Center"/>
-                                                </ui:SimpleStackPanel>
-                                                <!--<Image Name="BoardImageDrawLine" Margin="16,12,0,12" MouseDown="Image_MouseDown" MouseUp="BtnDrawLine_Click" Source="{DynamicResource DrawShapeImageSource.Line}"/>-->
-                                                <!--<Image Name="BoardImageDrawDashedLine" Margin="0,12,0,12" MouseDown="Image_MouseDown" MouseUp="BtnDrawDashedLine_Click" Source="{DynamicResource DrawShapeImageSource.DashedLine}"/>-->
-                                                <!--<Image Name="BoardImageDrawDotLine" Margin="0,12,0,12" MouseDown="Image_MouseDown" MouseUp="BtnDrawDotLine_Click" Source="{DynamicResource DrawShapeImageSource.DotLine}"/>-->
-                                                <!--<Image Name="BoardImageDrawArrow" Margin="0,12,0,12" MouseDown="Image_MouseDown" MouseUp="BtnDrawArrow_Click" Source="{DynamicResource DrawShapeImageSource.ArrowLine}"/>-->
-                                                <!--<Image Name="BoardImageDrawParallelLine" Margin="0,11.5,16,11.5" MouseDown="Image_MouseDown" MouseUp="BtnDrawParallelLine_Click" Source="{DynamicResource DrawShapeImageSource.ParallelLine}"/>-->
-                                                <Image Visibility="Collapsed" Margin="14,9,0,9" MouseUp="BtnDrawCoordinate1_Click" Source="{DynamicResource DrawShapeImageSource.Coordinate1}"/>
-                                                <Image Visibility="Collapsed" Margin="0,12" MouseUp="BtnDrawCoordinate2_Click" Source="{DynamicResource DrawShapeImageSource.Coordinate2}"/>
-                                                <Image Visibility="Collapsed" Margin="0,12" MouseUp="BtnDrawCoordinate3_Click" Source="{DynamicResource DrawShapeImageSource.Coordinate3}"/>
-                                                <Image Visibility="Collapsed" Margin="0,12" MouseUp="BtnDrawCoordinate4_Click" Source="{DynamicResource DrawShapeImageSource.Coordinate4}"/>
-                                                <Image Visibility="Collapsed" Margin="-1,11.5" MouseUp="BtnDrawCoordinate5_Click" Source="{DynamicResource DrawShapeImageSource.Coordinate5}"/>
+                                    CornerRadius="5" Margin="-200,-122,-117,37">
+                                    <ui:SimpleStackPanel Spacing="0" Orientation="Vertical">
+                                        <!--<TextBlock FontSize="16" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Left" Margin="10,8">
+                                            <Run Text="图形"/>
+                                            <Run Text="(第一行支持长按保持选中)" FontSize="10"/>
+                                        </TextBlock>
+                                        <ui:SymbolIcon Margin="0,-20,8,15" Symbol="Pin" MouseDown="Border_MouseDown" MouseUp="SymbolIconPinBorderDrawShape_MouseUp" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Right"/>-->
+                                        <Border BorderBrush="#1e3a8a" BorderThickness="0,0,0,1" CornerRadius="8,8,0,0" Background="#2563eb" Margin="-1,-1,-1,0" Padding="1,1,1,0">
+                                            <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                                <TextBlock Text="几何绘图（BETA）" Foreground="White" Padding="8,5,44,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
                                             </ui:SimpleStackPanel>
-                                            <ui:SimpleStackPanel Visibility="Collapsed" Height="50" Spacing="10" Orientation="Horizontal">
-                                                <Image Margin="16,11,2,11" MouseUp="BtnDrawRectangleCenter_Click" Source="{DynamicResource DrawShapeImageSource.RectangleCenter}"/>
-                                                <Image Visibility="Collapsed" Margin="0,10" MouseUp="BtnDrawEllipse_Click" Source="{DynamicResource DrawShapeImageSource.Ellipse}"/>
-                                                <Image Margin="0,10" MouseUp="BtnDrawCircle_Click" Source="{DynamicResource DrawShapeImageSource.Circle}"/>
-                                                <Image Margin="0,10" MouseUp="BtnDrawDashedCircle_Click" Source="{DynamicResource DrawShapeImageSource.DashedCircle}"/>
-                                                <Image Margin="0,10" MouseUp="BtnDrawCenterEllipse_Click" Source="{DynamicResource DrawShapeImageSource.EllipseCenter}" Width="30"/>
-                                                <Image Margin="0,10" MouseUp="BtnDrawCenterEllipseWithFocalPoint_Click" Source="{DynamicResource DrawShapeImageSource.EllipseCenterWithFocalPoint}" Width="30"/>
+                                        </Border>
+                                        <ui:SimpleStackPanel Orientation="Horizontal" Height="38" Spacing="2" Margin="4,6,4,0">
+                                            <ui:SimpleStackPanel Name="BoardImageDrawLine" MouseDown="Image_MouseDown" MouseUp="BtnDrawLine_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                <Image Source="/Resources/Icons-png/geo-icons/line.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                <Label Content="画直线" FontSize="8"  HorizontalAlignment="Center"/>
                                             </ui:SimpleStackPanel>
-                                            <ui:SimpleStackPanel Visibility="Collapsed" Height="50" Spacing="10" Orientation="Horizontal">
-                                                <Image Margin="16,10,2,10" MouseUp="BtnDrawHyperbola_Click" Width="26" Source="{DynamicResource DrawShapeImageSource.Hyperbola}"/>
-                                                <Image Margin="4,10,2,10" MouseUp="BtnDrawHyperbolaWithFocalPoint_Click" Width="26" Source="{DynamicResource DrawShapeImageSource.HyperbolaWithFocalPoint}"/>
-                                                <Image Margin="2.5,10,2,10" MouseUp="BtnDrawParabola1_Click" Width="26" Source="{DynamicResource DrawShapeImageSource.Parabola}"/>
-                                                <Image Margin="1,10,2,10" MouseUp="BtnDrawParabolaWithFocalPoint_Click" Width="26" Source="{DynamicResource DrawShapeImageSource.ParabolaWithFocalPoint}" RenderTransformOrigin="0.5,0.5">
-                                                    <Image.RenderTransform>
-                                                        <TransformGroup>
-                                                            <ScaleTransform/>
-                                                            <SkewTransform/>
-                                                            <RotateTransform Angle="90"/>
-                                                            <TranslateTransform/>
-                                                        </TransformGroup>
-                                                    </Image.RenderTransform>
-                                                </Image>
-                                                <Image Margin="2,10,2,10" MouseUp="BtnDrawParabola2_Click" Width="26" Source="{DynamicResource DrawShapeImageSource.Parabola}" RenderTransformOrigin="0.5,0.5">
-                                                    <Image.RenderTransform>
-                                                        <TransformGroup>
-                                                            <ScaleTransform/>
-                                                            <SkewTransform/>
-                                                            <RotateTransform Angle="90"/>
-                                                            <TranslateTransform/>
-                                                        </TransformGroup>
-                                                    </Image.RenderTransform>
-                                                </Image>
+                                            <ui:SimpleStackPanel Name="BoardImageDrawDashedLine" MouseDown="Image_MouseDown" MouseUp="BtnDrawDashedLine_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                <Image Source="/Resources/Icons-png/geo-icons/dashed-line.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                <Label Content="画虚线" FontSize="8"  HorizontalAlignment="Center"/>
                                             </ui:SimpleStackPanel>
-                                            <ui:SimpleStackPanel Height="50" Spacing="10" Orientation="Horizontal">
-                                                <Image Margin="15,11,2,11" MouseUp="BtnDrawRectangle_Click" Source="{DynamicResource DrawShapeImageSource.Rectangle}"/>
-                                                <Image Margin="6,10,2,10" MouseUp="BtnDrawCylinder_Click" Source="{DynamicResource DrawShapeImageSource.Cylinder}"/>
-                                                <Image Margin="8,12.5,0,10" MouseUp="BtnDrawCone_Click" Source="{DynamicResource DrawShapeImageSource.Cone}"/>
-                                                <Image Margin="5.5,12.5,2.5,10" MouseUp="BtnDrawCuboid_Click" Source="{DynamicResource DrawShapeImageSource.Cuboid}"/>
-                                                <Image Visibility="Collapsed" Margin="0,11.5,2.5,9.5" MouseUp="BtnDrawCuboid_Click" Source="{DynamicResource DrawShapeImageSource.Tetrahedron}"/>
+                                            <ui:SimpleStackPanel Name="BoardImageDrawDotLine" MouseDown="Image_MouseDown" MouseUp="BtnDrawDotLine_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                <Image Source="/Resources/Icons-png/geo-icons/dotted-line.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                <Label Content="画点线" FontSize="8"  HorizontalAlignment="Center"/>
+                                            </ui:SimpleStackPanel>
+                                            <ui:SimpleStackPanel Name="BoardImageDrawArrow" MouseDown="Image_MouseDown" MouseUp="BtnDrawArrow_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                <Image Source="/Resources/Icons-png/geo-icons/arrow.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                <Label Content="画箭头" FontSize="8"  HorizontalAlignment="Center"/>
+                                            </ui:SimpleStackPanel>
+                                            <ui:SimpleStackPanel Name="BoardImageDrawParallelLine" MouseDown="Image_MouseDown" MouseUp="BtnDrawParallelLine_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                <Image Source="/Resources/Icons-png/geo-icons/paralle-lines.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                <Label Content="4平行线" FontSize="8"  HorizontalAlignment="Center"/>
+                                            </ui:SimpleStackPanel>
+                                            <ui:SimpleStackPanel MouseUp="BtnDrawRectangleCenter_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                <Image Source="/Resources/Icons-png/geo-icons/centered-square.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                <Label Content="中心正方" FontSize="8"  HorizontalAlignment="Center"/>
+                                            </ui:SimpleStackPanel>
+                                            <ui:SimpleStackPanel MouseUp="BtnDrawCircle_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                <Image Source="/Resources/Icons-png/geo-icons/centered-circle.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                <Label Content="中心圆" FontSize="8"  HorizontalAlignment="Center"/>
+                                            </ui:SimpleStackPanel>
+                                            <ui:SimpleStackPanel MouseUp="BtnDrawDashedCircle_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                <Image Source="/Resources/Icons-png/geo-icons/centered-circle-dashed.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                <Label Content="中心虚圆" FontSize="8"  HorizontalAlignment="Center"/>
+                                            </ui:SimpleStackPanel>
+                                            <ui:SimpleStackPanel MouseUp="BtnDrawCenterEllipse_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                <Image Source="/Resources/Icons-png/geo-icons/centered-oval.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                <Label Content="中心椭圆" FontSize="8"  HorizontalAlignment="Center"/>
+                                            </ui:SimpleStackPanel>
+                                            <!--<Image Name="BoardImageDrawLine" Margin="16,12,0,12" MouseDown="Image_MouseDown" MouseUp="BtnDrawLine_Click" Source="{DynamicResource DrawShapeImageSource.Line}"/>-->
+                                            <!--<Image Name="BoardImageDrawDashedLine" Margin="0,12,0,12" MouseDown="Image_MouseDown" MouseUp="BtnDrawDashedLine_Click" Source="{DynamicResource DrawShapeImageSource.DashedLine}"/>-->
+                                            <!--<Image Name="BoardImageDrawDotLine" Margin="0,12,0,12" MouseDown="Image_MouseDown" MouseUp="BtnDrawDotLine_Click" Source="{DynamicResource DrawShapeImageSource.DotLine}"/>-->
+                                            <!--<Image Name="BoardImageDrawArrow" Margin="0,12,0,12" MouseDown="Image_MouseDown" MouseUp="BtnDrawArrow_Click" Source="{DynamicResource DrawShapeImageSource.ArrowLine}"/>-->
+                                            <!--<Image Name="BoardImageDrawParallelLine" Margin="0,11.5,16,11.5" MouseDown="Image_MouseDown" MouseUp="BtnDrawParallelLine_Click" Source="{DynamicResource DrawShapeImageSource.ParallelLine}"/>-->
+                                            <Image Visibility="Collapsed" Margin="14,9,0,9" MouseUp="BtnDrawCoordinate1_Click" Source="{DynamicResource DrawShapeImageSource.Coordinate1}"/>
+                                            <Image Visibility="Collapsed" Margin="0,12" MouseUp="BtnDrawCoordinate2_Click" Source="{DynamicResource DrawShapeImageSource.Coordinate2}"/>
+                                            <Image Visibility="Collapsed" Margin="0,12" MouseUp="BtnDrawCoordinate3_Click" Source="{DynamicResource DrawShapeImageSource.Coordinate3}"/>
+                                            <Image Visibility="Collapsed" Margin="0,12" MouseUp="BtnDrawCoordinate4_Click" Source="{DynamicResource DrawShapeImageSource.Coordinate4}"/>
+                                            <Image Visibility="Collapsed" Margin="-1,11.5" MouseUp="BtnDrawCoordinate5_Click" Source="{DynamicResource DrawShapeImageSource.Coordinate5}"/>
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Orientation="Horizontal" Height="38" Spacing="2" Margin="4,0,4,6">
+                                            <ui:SimpleStackPanel MouseUp="BtnDrawCuboid_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                <Image Source="/Resources/Icons-png/geo-icons/cube.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                <Label Content="长方体" FontSize="8"  HorizontalAlignment="Center"/>
+                                            </ui:SimpleStackPanel>
+                                            <ui:SimpleStackPanel MouseUp="BtnDrawRectangle_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                <Image Source="/Resources/Icons-png/geo-icons/square.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                <Label Content="正方形" FontSize="8"  HorizontalAlignment="Center"/>
+                                            </ui:SimpleStackPanel>
+                                            <ui:SimpleStackPanel MouseUp="BtnDrawCylinder_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                <Image Source="/Resources/Icons-png/geo-icons/cylinder.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                <Label Content="画圆柱" FontSize="8"  HorizontalAlignment="Center"/>
+                                            </ui:SimpleStackPanel>
+                                            <ui:SimpleStackPanel MouseUp="BtnDrawCone_Click" Margin="0,0,0,0" Height="38" Width="32" Orientation="Vertical">
+                                                <Image Source="/Resources/Icons-png/geo-icons/cone.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,4,0,2" Height="19" Width="19"/>
+                                                <Label Content="画圆锥" FontSize="8"  HorizontalAlignment="Center"/>
                                             </ui:SimpleStackPanel>
                                         </ui:SimpleStackPanel>
-                                    </Viewbox>
+                                        <ui:SimpleStackPanel Visibility="Collapsed" Height="50" Spacing="10" Orientation="Horizontal">
+                                            <Image Margin="16,11,2,11" MouseUp="BtnDrawRectangleCenter_Click" Source="{DynamicResource DrawShapeImageSource.RectangleCenter}"/>
+                                            <Image Visibility="Collapsed" Margin="0,10" MouseUp="BtnDrawEllipse_Click" Source="{DynamicResource DrawShapeImageSource.Ellipse}"/>
+                                            <Image Margin="0,10" MouseUp="BtnDrawCircle_Click" Source="{DynamicResource DrawShapeImageSource.Circle}"/>
+                                            <Image Margin="0,10" MouseUp="BtnDrawDashedCircle_Click" Source="{DynamicResource DrawShapeImageSource.DashedCircle}"/>
+                                            <Image Margin="0,10" MouseUp="BtnDrawCenterEllipse_Click" Source="{DynamicResource DrawShapeImageSource.EllipseCenter}" Width="30"/>
+                                            <Image Margin="0,10" MouseUp="BtnDrawCenterEllipseWithFocalPoint_Click" Source="{DynamicResource DrawShapeImageSource.EllipseCenterWithFocalPoint}" Width="30"/>
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Visibility="Collapsed" Height="50" Spacing="10" Orientation="Horizontal">
+                                            <Image Margin="16,10,2,10" MouseUp="BtnDrawHyperbola_Click" Width="26" Source="{DynamicResource DrawShapeImageSource.Hyperbola}"/>
+                                            <Image Margin="4,10,2,10" MouseUp="BtnDrawHyperbolaWithFocalPoint_Click" Width="26" Source="{DynamicResource DrawShapeImageSource.HyperbolaWithFocalPoint}"/>
+                                            <Image Margin="2.5,10,2,10" MouseUp="BtnDrawParabola1_Click" Width="26" Source="{DynamicResource DrawShapeImageSource.Parabola}"/>
+                                            <Image Margin="1,10,2,10" MouseUp="BtnDrawParabolaWithFocalPoint_Click" Width="26" Source="{DynamicResource DrawShapeImageSource.ParabolaWithFocalPoint}" RenderTransformOrigin="0.5,0.5">
+                                                <Image.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="90"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </Image.RenderTransform>
+                                            </Image>
+                                            <Image Margin="2,10,2,10" MouseUp="BtnDrawParabola2_Click" Width="26" Source="{DynamicResource DrawShapeImageSource.Parabola}" RenderTransformOrigin="0.5,0.5">
+                                                <Image.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="90"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </Image.RenderTransform>
+                                            </Image>
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Visibility="Collapsed" Height="50" Spacing="10" Orientation="Horizontal">
+                                            <Image Margin="15,11,2,11" MouseUp="BtnDrawRectangle_Click" Source="{DynamicResource DrawShapeImageSource.Rectangle}"/>
+                                            <Image Margin="6,10,2,10" MouseUp="BtnDrawCylinder_Click" Source="{DynamicResource DrawShapeImageSource.Cylinder}"/>
+                                            <Image Margin="8,12.5,0,10" MouseUp="BtnDrawCone_Click" Source="{DynamicResource DrawShapeImageSource.Cone}"/>
+                                            <Image Margin="5.5,12.5,2.5,10" MouseUp="BtnDrawCuboid_Click" Source="{DynamicResource DrawShapeImageSource.Cuboid}"/>
+                                            <Image Visibility="Collapsed" Margin="0,11.5,2.5,9.5" MouseUp="BtnDrawCuboid_Click" Source="{DynamicResource DrawShapeImageSource.Tetrahedron}"/>
+                                        </ui:SimpleStackPanel>
+                                    </ui:SimpleStackPanel>
                                 </Border>
                             </Grid>
                             <ui:SimpleStackPanel MouseDown="Border_MouseDown" MouseUp="SymbolIconUndo_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,-2" IsEnabled="{Binding ElementName=BtnUndo, Path=IsEnabled}" Width="28">
