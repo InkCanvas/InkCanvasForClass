@@ -139,6 +139,7 @@ namespace Ink_Canvas {
             AnimationsHelper.HideWithSlideAndFade(BoardDeleteIcon);
             AnimationsHelper.HideWithSlideAndFade(BorderSettings, 0.5);
             AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
+            AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
             AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
             if (ToggleSwitchDrawShapeBorderAutoHide.IsOn) {
                 AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
@@ -822,13 +823,22 @@ namespace Ink_Canvas {
                     break;
             }
             inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
+
+            if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint)
+            {
+                HideSubPanels();
+                HideSubPanelsImmediately();
+                AnimationsHelper.ShowWithSlideFromBottomAndFade(EraserSizePanel);
+            } else
+            {
+                HideSubPanels("eraser");
+            }
+
             inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
             drawingShapeMode = 0;
 
             inkCanvas_EditingModeChanged(inkCanvas, null);
             CancelSingleFingerDragMode();
-
-            HideSubPanels("eraser");
         }
 
         private void EraserIconByStrokes_Click(object sender, RoutedEventArgs e) {

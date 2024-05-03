@@ -1756,6 +1756,22 @@
                                 <TextBlock x:Name="ClearAndMouseToolbarTextBlock" Text="清并鼠" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
                             </ui:SimpleStackPanel>
                         </ui:SimpleStackPanel>
+                        <Grid Width="0">
+                            <Border ClipToBounds="True" Name="EraserSizePanel" Margin="-202,-87,92,37" CornerRadius="5" Background="#fafafa" Opacity="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1">
+                                <ui:SimpleStackPanel Margin="0">
+                                    <Border BorderBrush="#1e3a8a" BorderThickness="0,0,0,1" CornerRadius="6,6,0,0" Background="#2563eb" Margin="-1,-1,-1,1">
+                                        <TextBlock Text="橡皮大小" Foreground="White" Padding="0,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
+                                    </Border>
+                                    <ComboBox Name="ComboBoxEraserSizeFloatingBar" FontFamily="Microsoft YaHei UI" SelectedIndex="2" SelectionChanged="ComboBoxEraserSizeFloatingBar_SelectionChanged">
+                                        <ComboBoxItem Content="小" FontFamily="Microsoft YaHei UI"/>
+                                        <ComboBoxItem Content="较小" FontFamily="Microsoft YaHei UI"/>
+                                        <ComboBoxItem Content="中（默认）" FontFamily="Microsoft YaHei UI"/>
+                                        <ComboBoxItem Content="较大"  FontFamily="Microsoft YaHei UI"/>
+                                        <ComboBoxItem Content="大"  FontFamily="Microsoft YaHei UI"/>
+                                    </ComboBox>
+                                </ui:SimpleStackPanel>
+                            </Border>
+                        </Grid>
                         <ui:SimpleStackPanel Orientation="{Binding ElementName=StackPanelFloatingBar, Path=Orientation}">
                             <Border Margin="2,0,2,0" BorderBrush="#71717a" BorderThickness="1,0,0,0" >
 

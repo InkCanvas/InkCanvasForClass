@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Diagnostics;
 using File = System.IO.File;
 using System.Windows.Media;
+using System.Windows.Ink;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -204,6 +205,32 @@ namespace Ink_Canvas {
         private void ComboBoxEraserSize_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (!isLoaded) return;
             Settings.Canvas.EraserSize = ComboBoxEraserSize.SelectedIndex;
+            SaveSettingsToFile();
+        }
+
+        private void ComboBoxEraserSizeFloatingBar_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Canvas.EraserSize = ComboBoxEraserSizeFloatingBar.SelectedIndex;
+            double k = 1;
+            switch (ComboBoxEraserSizeFloatingBar.SelectedIndex)
+            {
+                case 0:
+                    k = 0.5;
+                    break;
+                case 1:
+                    k = 0.8;
+                    break;
+                case 3:
+                    k = 1.25;
+                    break;
+                case 4:
+                    k = 1.8;
+                    break;
+            }
+            inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
+            inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+            inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
             SaveSettingsToFile();
         }
 
