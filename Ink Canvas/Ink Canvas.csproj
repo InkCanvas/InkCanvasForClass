@@ -574,5 +574,24 @@
   <ItemGroup>
     <Resource Include="Resources\Icons-png\pressdown-background.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\geo-icons\arrow.png" />
+    <Resource Include="Resources\Icons-png\geo-icons\dashed-line.png" />
+    <Resource Include="Resources\Icons-png\geo-icons\dotted-line.png" />
+    <Resource Include="Resources\Icons-png\geo-icons\line.png" />
+    <Resource Include="Resources\Icons-png\geo-icons\paralle-lines.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\geo-icons\centered-square.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\geo-icons\centered-circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\geo-icons\centered-circle-dashed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\geo-icons\centered-oval.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

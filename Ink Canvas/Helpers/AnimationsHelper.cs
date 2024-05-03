@@ -7,6 +7,31 @@ namespace Ink_Canvas.Helpers
 {
     internal class AnimationsHelper
     {
+        public static void ShowWithFadeIn(UIElement element, double duration = 0.15)
+        {
+            if (element.Visibility == Visibility.Visible) return;
+
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            var sb = new Storyboard();
+
+            // 渐变动画
+            var fadeInAnimation = new DoubleAnimation
+            {
+                From = 0.5,
+                To = 1,
+                Duration = TimeSpan.FromSeconds(duration)
+            };
+            Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(UIElement.OpacityProperty));
+
+            sb.Children.Add(fadeInAnimation);
+
+            element.Visibility = Visibility.Visible;
+
+            sb.Begin((FrameworkElement)element);
+        }
+
         public static void ShowWithSlideFromBottomAndFade(UIElement element, double duration = 0.15)
         {
             if (element.Visibility == Visibility.Visible) return;
@@ -189,6 +214,34 @@ namespace Ink_Canvas.Helpers
             };
 
             element.RenderTransform = new TranslateTransform();
+            sb.Begin((FrameworkElement)element);
+        }
+
+        public static void HideWithFadeOut(UIElement element, double duration = 0.15)
+        {
+            if (element.Visibility == Visibility.Collapsed) return;
+
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            var sb = new Storyboard();
+
+            // 渐变动画
+            var fadeOutAnimation = new DoubleAnimation
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(duration)
+            };
+            Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath(UIElement.OpacityProperty));
+
+            sb.Children.Add(fadeOutAnimation);
+
+            sb.Completed += (s, e) =>
+            {
+                element.Visibility = Visibility.Collapsed;
+            };
+
             sb.Begin((FrameworkElement)element);
         }
 

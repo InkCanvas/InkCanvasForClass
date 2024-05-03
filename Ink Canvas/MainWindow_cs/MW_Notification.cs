@@ -17,13 +17,13 @@ namespace Ink_Canvas {
             lastNotificationShowTime = Environment.TickCount;
 
             TextBlockNotice.Text = notice;
-            AnimationsHelper.ShowWithSlideFromBottomAndFade(GridNotifications);
+            AnimationsHelper.ShowWithFadeIn(GridNotifications);
 
             new Thread(new ThreadStart(() => {
                 Thread.Sleep(notificationShowTime + 300);
                 if (Environment.TickCount - lastNotificationShowTime >= notificationShowTime) {
                     Application.Current.Dispatcher.Invoke(() => {
-                        AnimationsHelper.HideWithSlideAndFade(GridNotifications);
+                        AnimationsHelper.HideWithFadeOut(GridNotifications);
                     });
                 }
             })).Start();
