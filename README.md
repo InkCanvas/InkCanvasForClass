@@ -22,10 +22,14 @@
 [直接下載](https://gitea.bliemhax.com/kriastans/InkCanvasForClass/releases "Latest Releases")
 ——該安裝包使用 NodeJs+NodeGUI打包，默認配置適配絕大多數紅外觸摸框的設置。
 
+> ⚠️注意：此項目仍在開發中，只會在發佈正式發行版時提供Release。您可以自行使用VS2022編譯打包後自行使用
+
 ## 🔧 特性
 1. Support Active Pen (支持壓感)
 2. 工具欄顯示了每個功能的文字描述
 3. 添加了調色盤的顏色
+4. 修復了一些IC和ICA不願修復（或沒空修復）的Bug
+5. 添加了一些新功能，新特性
 
 ## ⚠️ 提示
 - 對新功能的有效意見和合理建議，開發者會適時回復並進行開發。本軟體並非商業性質軟體，請勿催促開發者，耐心才能讓功能更少 BUG、更加穩定。
