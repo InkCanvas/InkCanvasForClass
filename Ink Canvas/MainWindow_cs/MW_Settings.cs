@@ -437,6 +437,13 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
+        private void ToggleSwitchNotifyAutoPlayPresentation_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.PowerPointSettings.IsNotifyAutoPlayPresentation = ToggleSwitchNotifyAutoPlayPresentation.IsOn;
+            SaveSettingsToFile();
+        }
+
         private void SideControlMinimumAutomationSlider_ValueChanged(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Automation.MinimumAutomationStrokeNumber = (int)SideControlMinimumAutomationSlider.Value;

@@ -16,10 +16,16 @@
             <Viewbox HorizontalAlignment="Left" Margin="10" Height="30">
                 <ui:SymbolIcon Symbol="SlideShow" Foreground="{Binding ElementName=Label, Path=Foreground}"/>
             </Viewbox>
-            <Label Name="Label" Margin="60,20,0,20" VerticalAlignment="Center"/>
+            <TextBlock TextWrapping="Wrap" Name="Label" Margin="60,0,10,0" VerticalAlignment="Center"/>
             <ui:SimpleStackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" Spacing="10">
-                <Button Margin="0" Content="是" Width="100" FontFamily="Microsoft YaHei UI" Click="ButtonYes_Click"/>
-                <Button Margin="0" Content="否" Width="100" FontFamily="Microsoft YaHei UI" Click="ButtonNo_Click"/>
+                <Button Margin="0" Content="是" Width="100" FontFamily="Microsoft YaHei UI" Click="ButtonYes_Click" Foreground="White">
+                    <Button.Resources>
+                        <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.ButtonBackgroundKey}" Color="#15803d"/>
+                        <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.ButtonBackgroundPointerOverKey}" Color="#15803d"/>
+                        <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.ButtonBackgroundPressedKey}" Color="#166534"/>
+                    </Button.Resources>
+                </Button>
+                <Button Margin="0" Content="否" Width="100" FontFamily="Microsoft YaHei UI" Click="ButtonNo_Click" Foreground="#555555"/>
             </ui:SimpleStackPanel>
         </Grid>
     </Grid>

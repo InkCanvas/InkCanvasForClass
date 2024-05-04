@@ -627,5 +627,11 @@
   <ItemGroup>
     <Resource Include="Resources\Icons-png\PPTTools.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\WPS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\hatsune-miku1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

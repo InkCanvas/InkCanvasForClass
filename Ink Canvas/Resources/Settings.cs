@@ -153,6 +153,8 @@ namespace Ink_Canvas
         public bool IsNotifyPreviousPage { get; set; } = false;
         [JsonProperty("isNotifyHiddenPage")]
         public bool IsNotifyHiddenPage { get; set; } = true;
+        [JsonProperty("isNotifyAutoPlayPresentation")]
+        public bool IsNotifyAutoPlayPresentation { get; set; } = true;
         [JsonProperty("isEnableTwoFingerGestureInPresentationMode")]
         public bool IsEnableTwoFingerGestureInPresentationMode { get; set; } = false;
         [JsonProperty("isEnableFingerGestureSlideShowControl")]

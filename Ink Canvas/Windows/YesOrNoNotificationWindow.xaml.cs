@@ -17,7 +17,7 @@ namespace Ink_Canvas
             _yesAction = yesAction;
             _noAction = noAction;
             InitializeComponent();
-            Label.Content = text;
+            Label.Text = text;
         }
 
         private void ButtonYes_Click(object sender, RoutedEventArgs e)

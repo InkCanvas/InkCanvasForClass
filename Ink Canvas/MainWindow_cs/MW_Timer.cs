@@ -1,11 +1,39 @@
 ﻿using Ink_Canvas.Helpers;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Timers;
 using System.Windows;
 using MessageBox = System.Windows.MessageBox;
 
 namespace Ink_Canvas {
+
+    public class TimeViewModel : INotifyPropertyChanged
+    {
+        private string _nowTime;
+
+        public string nowTime
+        {
+            get { return _nowTime; }
+            set
+            {
+                if (_nowTime != value)
+                {
+                    _nowTime = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
     public partial class MainWindow : Window {
         Timer timerCheckPPT = new Timer();
         Timer timerKillProcess = new Timer();
@@ -13,6 +41,10 @@ namespace Ink_Canvas {
         string AvailableLatestVersion = null;
         Timer timerCheckAutoUpdateWithSilence = new Timer();
         bool isHidingSubPanelsWhenInking = false; // 避免书写时触发二次关闭二级菜单导致动画不连续
+
+        Timer timerDisplayTime = new Timer();
+
+        private TimeViewModel nowTimeVM = new TimeViewModel();
 
         private void InitTimers() {
             timerCheckPPT.Elapsed += TimerCheckPPT_Elapsed;
@@ -23,6 +55,14 @@ namespace Ink_Canvas {
             timerCheckAutoFold.Interval = 1500;
             timerCheckAutoUpdateWithSilence.Elapsed += timerCheckAutoUpdateWithSilence_Elapsed;
             timerCheckAutoUpdateWithSilence.Interval = 1000 * 60 * 10;
+            WaterMarkTime.DataContext = nowTimeVM;
+            timerDisplayTime.Elapsed += TimerDisplayTime_Elapsed;
+            timerDisplayTime.Interval = 1000;
+            timerDisplayTime.Start();
+        }
+
+        private void TimerDisplayTime_Elapsed(object sender, System.Timers.ElapsedEventArgs e) { 
+            nowTimeVM.nowTime = DateTime.Now.ToShortTimeString().ToString();
         }
 
         private void TimerKillProcess_Elapsed(object sender, ElapsedEventArgs e) {

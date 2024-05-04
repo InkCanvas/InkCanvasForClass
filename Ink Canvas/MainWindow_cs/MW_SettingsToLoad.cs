@@ -197,6 +197,15 @@ namespace Ink_Canvas {
                 } else {
                     ToggleSwitchNotifyHiddenPage.IsOn = false;
                 }
+
+                if (Settings.PowerPointSettings.IsNotifyAutoPlayPresentation)
+                {
+                    ToggleSwitchNotifyAutoPlayPresentation.IsOn = true;
+                }
+                else
+                {
+                    ToggleSwitchNotifyAutoPlayPresentation.IsOn = false;
+                }
                 if (Settings.PowerPointSettings.IsSupportWPS) {
                     ToggleSwitchSupportWPS.IsOn = true;
                 } else {

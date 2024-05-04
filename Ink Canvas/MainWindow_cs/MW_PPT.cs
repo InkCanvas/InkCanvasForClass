@@ -75,6 +75,7 @@ namespace Ink_Canvas {
         public static bool isWPSSupportOn => Settings.PowerPointSettings.IsSupportWPS;
 
         public static bool IsShowingRestoreHiddenSlidesWindow = false;
+        public static bool IsShowingAutoplaySlidesWindow = false;
 
         private void TimerCheckPPT_Elapsed(object sender, ElapsedEventArgs e) {
             if (IsShowingRestoreHiddenSlidesWindow) return;
@@ -173,6 +174,26 @@ namespace Ink_Canvas {
                         BtnPPTSlideShow.Visibility = Visibility.Visible;
                     }, DispatcherPriority.Normal);
                 }
+
+                //检测是否有自动播放
+                if (Settings.PowerPointSettings.IsNotifyAutoPlayPresentation)
+                {
+                    Application.Current.Dispatcher.BeginInvoke(() => {
+                        bool isHaveAutoPlaySettings = false;
+                        isHaveAutoPlaySettings = presentation.SlideShowSettings.AdvanceMode != PpSlideShowAdvanceMode.ppSlideShowManualAdvance;
+                        if (isHaveAutoPlaySettings && !IsShowingAutoplaySlidesWindow)
+                        {
+                            IsShowingAutoplaySlidesWindow = true;
+                            new YesOrNoNotificationWindow("检测到此演示文档中有自动播放或排练计时已经启用，是否取消？",
+                                () => {
+                                    presentation.SlideShowSettings.AdvanceMode = PpSlideShowAdvanceMode.ppSlideShowManualAdvance;
+                                }).ShowDialog();
+                        }
+
+                        BtnPPTSlideShow.Visibility = Visibility.Visible;
+                    }, DispatcherPriority.Normal);
+                }
+                
 
                 //如果检测到已经开始放映，则立即进入画板模式
                 if (pptApplication.SlideShowWindows.Count >= 1) {

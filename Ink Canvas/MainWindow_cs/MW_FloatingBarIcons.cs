@@ -410,6 +410,8 @@ namespace Ink_Canvas {
                     ToggleSwitchEnableTwoFingerTranslate.IsOn = true;
                     if (isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = false;
                 }
+                WaterMarkTime.Visibility = Visibility.Visible;
+                BlackBoardWaterMark.Visibility = Visibility.Visible;
             } else {
                 //关闭黑板
                 HideSubPanelsImmediately();
@@ -453,6 +455,8 @@ namespace Ink_Canvas {
                     // 2024.5.2 need to be tested
                     // if (!isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = true;
                 }
+                WaterMarkTime.Visibility = Visibility.Collapsed;
+                BlackBoardWaterMark.Visibility = Visibility.Collapsed;
             }
 
             BtnSwitch_Click(BtnSwitch, null);
@@ -785,13 +789,22 @@ namespace Ink_Canvas {
                 ColorSwitchCheck();
                 HideSubPanels("pen", true);
             } else {
-                if (PenPalette.Visibility == Visibility.Visible) {
-                    AnimationsHelper.HideWithSlideAndFade(PenPalette);
-                    AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
-                } else {
-                    AnimationsHelper.ShowWithSlideFromBottomAndFade(PenPalette);
-                    AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardPenPalette);
+                if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink)
+                {
+                    if (PenPalette.Visibility == Visibility.Visible) {
+                        AnimationsHelper.HideWithSlideAndFade(PenPalette);
+                        AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
+                    } else {
+                        AnimationsHelper.ShowWithSlideFromBottomAndFade(PenPalette);
+                        AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardPenPalette);
+                    }
+                } else
+                {
+                    inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+                    ColorSwitchCheck();
+                    HideSubPanels("pen", true);
                 }
+                
             }
         }
 
