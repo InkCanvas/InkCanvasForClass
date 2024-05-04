@@ -167,7 +167,7 @@ namespace Ink_Canvas {
             loadPenCanvas();
             //加载设置
             LoadSettings(true);
-            HasNewUpdateWindow hasNewUpdateWindow = new HasNewUpdateWindow();
+            // HasNewUpdateWindow hasNewUpdateWindow = new HasNewUpdateWindow();
             if (Environment.Is64BitProcess) {
                 GroupBoxInkRecognition.Visibility = Visibility.Collapsed;
             }
