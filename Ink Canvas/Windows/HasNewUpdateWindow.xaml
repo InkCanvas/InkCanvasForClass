@@ -11,19 +11,19 @@
         ui:WindowHelper.SystemBackdropType="Mica"
         ui:TitleBar.Height="36"
         Title="InkCanvasForClass有新版本可用" Height="475" Width="800" ResizeMode="NoResize">
-    <Grid>
+    <Grid Background="#fafafa">
         <ui:SimpleStackPanel VerticalAlignment="Stretch" Spacing="0">
-            <ui:SimpleStackPanel Orientation="Horizontal">
-                <ui:SimpleStackPanel Orientation="Vertical" Width="685" Margin="24,18,0,0" Spacing="2">
-                    <TextBlock Text="InkCanvasForClass 新版本来了！" FontSize="24" FontWeight="Bold" TextAlignment="Left"/>
-                    <TextBlock Text="希望您能喜欢我们的新版本 :-)" FontSize="20" TextAlignment="Left"/>
+            <ui:SimpleStackPanel Orientation="Horizontal" Background="#2563eb" Margin="0,0,0,0">
+                <ui:SimpleStackPanel Orientation="Vertical" Width="685" Margin="24,18,0,12" Spacing="2">
+                    <TextBlock Text="InkCanvasForClass 新版本来了！" FontSize="24" FontWeight="Bold" Foreground="White" TextAlignment="Left"/>
+                    <TextBlock Text="希望您能喜欢我们的新版本 :-)" FontSize="20" TextAlignment="Left" Foreground="White"/>
                 </ui:SimpleStackPanel>
                 <Image Source="/Resources/Icons-fluent/party.png" Width="72" Height="72"/>
             </ui:SimpleStackPanel>
-            
+
             <Border BorderBrush="#3f3f46" Background="White" BorderThickness="1" CornerRadius="4" Margin="24,12,24,0">
-                <ui:ScrollViewerEx Margin="0" VerticalScrollBarVisibility="Auto" Height="256" PanningMode="VerticalOnly" ui:ThemeManager.RequestedTheme="Light">
-                    <mdxam:MarkdownScrollViewer xml:space="preserve" MarkdownStyleName="GithubLike">
+                <ui:ScrollViewerEx Margin="0" VerticalScrollBarVisibility="Auto" Height="256" PanningMode="VerticalOnly">
+                    <mdxam:MarkdownScrollViewer xml:space="preserve" Foreground="Black" MarkdownStyleName="GithubLike">
                         # InkCanvasForClass v5.0.2更新
                         
                         你好，旅行者们，本次InkCanvasForClass更新带来了如下新功能供您探索：
@@ -43,7 +43,17 @@
                 <TextBlock Text="本次更新： 4.9.1 -> 5.9.1" FontWeight="Bold" FontSize="14" TextAlignment="Center"/>
                 <TextBlock Text="2024年8月4日发布更新" FontSize="14" TextAlignment="Center"/>
             </ui:SimpleStackPanel>
-            <Button Content="跳过该版本" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+            <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="12">
+                <Button Content="立刻更新" Foreground="White" HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <Button.Resources>
+                        <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.ButtonBackgroundKey}" Color="#15803d"/>
+                        <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.ButtonBackgroundPointerOverKey}" Color="#15803d"/>
+                        <SolidColorBrush x:Key="{x:Static ui:ThemeKeys.ButtonBackgroundPressedKey}" Color="#166534"/>
+                    </Button.Resources>
+                </Button>
+                <Button Content="下次更新" Foreground="Black" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                <Button Content="跳过该版本" HorizontalAlignment="Center" Foreground="#71717a" Margin="0,10,0,0"/>
+            </ui:SimpleStackPanel>
         </ui:SimpleStackPanel>
     </Grid>
 </Window>
