@@ -229,6 +229,7 @@ namespace Ink_Canvas {
                     break;
             }
             inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
+            // inkCanvas.EraserShape = new RectangleStylusShape(k * 90, k * 90);
             inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
             inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
             SaveSettingsToFile();

@@ -297,6 +297,7 @@ namespace Ink_Canvas {
                 BoardComboBoxPenStyle.SelectedIndex = Settings.Canvas.InkStyle;
 
                 ComboBoxEraserSize.SelectedIndex = Settings.Canvas.EraserSize;
+                ComboBoxEraserSizeFloatingBar.SelectedIndex = Settings.Canvas.EraserSize;
 
                 if (Settings.Canvas.HideStrokeWhenSelecting) {
                     ToggleSwitchHideStrokeWhenSelecting.IsOn = true;

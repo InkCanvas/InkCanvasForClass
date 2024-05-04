@@ -605,5 +605,27 @@
   <ItemGroup>
     <Resource Include="Resources\Icons-png\geo-icons\cube.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\EasiNote.png" />
+    <Resource Include="Resources\Icons-png\EasiNote3C.png" />
+    <Resource Include="Resources\Icons-png\EasiNote5C.png" />
+    <Resource Include="Resources\Icons-png\SeewoPinco.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\HiteBoard.png" />
+    <Resource Include="Resources\Icons-png\HiteCamera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\WenXiang.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\Whiteboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\Powerpoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\PPTTools.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
