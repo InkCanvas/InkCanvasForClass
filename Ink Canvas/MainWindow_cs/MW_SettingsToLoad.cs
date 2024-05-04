@@ -55,9 +55,6 @@ namespace Ink_Canvas {
                     ToggleSwitchIsAutoUpdate.IsOn = true;
                     AutoUpdate();
                 }
-                ToggleSwitchIsAutoUpdateWithProxy.IsOn = Settings.Startup.IsAutoUpdateWithProxy;
-                AutoUpdateWithProxy_Title.Visibility = Settings.Startup.IsAutoUpdateWithProxy ? Visibility.Visible : Visibility.Collapsed;
-                AutoUpdateProxyTextBox.Text = Settings.Startup.AutoUpdateProxy;
                 ToggleSwitchIsAutoUpdateWithSilence.Visibility = Settings.Startup.IsAutoUpdate ? Visibility.Visible : Visibility.Collapsed;
                 if (Settings.Startup.IsAutoUpdateWithSilence) {
                     ToggleSwitchIsAutoUpdateWithSilence.IsOn = true;
@@ -146,6 +143,13 @@ namespace Ink_Canvas {
                         //Dark
                         BtnExit.Background = new SolidColorBrush(StringToColor("#FF555555"));
                     }
+                }
+                if (Settings.Appearance.EnableTimeDisplayInWhiteboardMode==true)
+                {
+                    ToggleSwitchEnableTimeDisplayInWhiteboardMode.IsOn = true;
+                } else
+                {
+                    ToggleSwitchEnableTimeDisplayInWhiteboardMode.IsOn = false;
                 }
             } else {
                 Settings.Appearance = new Appearance();

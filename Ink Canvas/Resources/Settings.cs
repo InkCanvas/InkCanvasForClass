@@ -81,10 +81,6 @@ namespace Ink_Canvas
     {
         [JsonProperty("isAutoUpdate")]
         public bool IsAutoUpdate { get; set; } = true;
-        [JsonProperty("isAutoUpdateWithProxy")]
-        public bool IsAutoUpdateWithProxy { get; set; } = false;
-        [JsonProperty("autoUpdateProxy")]
-        public string AutoUpdateProxy { get; set; } = "https://mirror.ghproxy.com/";
         [JsonProperty("isAutoUpdateWithSilence")]
         public bool IsAutoUpdateWithSilence { get; set; } = false;
         [JsonProperty("isAutoUpdateWithSilenceStartTime")]
@@ -119,6 +115,8 @@ namespace Ink_Canvas
         public bool IsShowExitButton { get; set; } = true;
         [JsonProperty("isShowEraserButton")]
         public bool IsShowEraserButton { get; set; } = true;
+        [JsonProperty("enableTimeDisplayInWhiteboardMode")]
+        public bool EnableTimeDisplayInWhiteboardMode { get; set; } = true;
         [JsonProperty("isShowHideControlButton")]
         public bool IsShowHideControlButton { get; set; } = false;
         [JsonProperty("isShowLRSwitchButton")]

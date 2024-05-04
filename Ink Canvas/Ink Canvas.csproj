@@ -205,9 +205,6 @@
       <DependentUpon>YesOrNoNotificationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\Settings.cs" />
-    <Compile Include="Windows\SettingsPage.xaml.cs">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\CountdownTimerWindow.xaml.cs">
       <DependentUpon>CountdownTimerWindow.xaml</DependentUpon>
     </Compile>
@@ -265,10 +262,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\YesOrNoNotificationWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

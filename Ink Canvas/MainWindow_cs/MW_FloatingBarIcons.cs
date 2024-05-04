@@ -410,7 +410,11 @@ namespace Ink_Canvas {
                     ToggleSwitchEnableTwoFingerTranslate.IsOn = true;
                     if (isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = false;
                 }
-                WaterMarkTime.Visibility = Visibility.Visible;
+                if (Settings.Appearance.EnableTimeDisplayInWhiteboardMode == true)
+                {
+                    WaterMarkTime.Visibility = Visibility.Visible;
+                    WaterMarkDate.Visibility = Visibility.Visible;
+                }
                 BlackBoardWaterMark.Visibility = Visibility.Visible;
             } else {
                 //关闭黑板
@@ -456,6 +460,7 @@ namespace Ink_Canvas {
                     // if (!isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = true;
                 }
                 WaterMarkTime.Visibility = Visibility.Collapsed;
+                WaterMarkDate.Visibility = Visibility.Collapsed;
                 BlackBoardWaterMark.Visibility = Visibility.Collapsed;
             }
 

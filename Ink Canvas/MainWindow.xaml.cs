@@ -169,9 +169,9 @@ namespace Ink_Canvas {
             LogHelper.WriteLogToFile("Ink Canvas closing", LogHelper.LogType.Event);
             if (!CloseIsFromButton && Settings.Advanced.IsSecondConfimeWhenShutdownApp) {
                 e.Cancel = true;
-                if (MessageBox.Show("是否继续关闭 Ink Canvas 画板，这将丢失当前未保存的工作。", "Ink Canvas 画板", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK) {
-                    if (MessageBox.Show("真的狠心关闭 Ink Canvas 画板吗？", "Ink Canvas 画板", MessageBoxButton.OKCancel, MessageBoxImage.Error) == MessageBoxResult.OK) {
-                        if (MessageBox.Show("是否取消关闭 Ink Canvas 画板？", "Ink Canvas 画板", MessageBoxButton.OKCancel, MessageBoxImage.Error) != MessageBoxResult.OK) {
+                if (MessageBox.Show("是否继续关闭 InkCanvasForClass，这将丢失当前未保存的墨迹。", "InkCanvasForClass", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK) {
+                    if (MessageBox.Show("真的狠心关闭 InkCanvasForClass吗？", "InkCanvasForClass", MessageBoxButton.OKCancel, MessageBoxImage.Error) == MessageBoxResult.OK) {
+                        if (MessageBox.Show("是否取消关闭 InkCanvasForClass？", "InkCanvasForClass", MessageBoxButton.OKCancel, MessageBoxImage.Error) != MessageBoxResult.OK) {
                             e.Cancel = false;
                         }
                     }
@@ -187,17 +187,15 @@ namespace Ink_Canvas {
         }
 
         private async void AutoUpdate() {
-            if (Settings.Startup.IsAutoUpdateWithProxy) AvailableLatestVersion = await AutoUpdateHelper.CheckForUpdates(Settings.Startup.AutoUpdateProxy);
-            else AvailableLatestVersion = await AutoUpdateHelper.CheckForUpdates();
+            AvailableLatestVersion = await AutoUpdateHelper.CheckForUpdates();
 
             if (AvailableLatestVersion != null) {
                 bool IsDownloadSuccessful = false;
-                if (Settings.Startup.IsAutoUpdateWithProxy) IsDownloadSuccessful = await AutoUpdateHelper.DownloadSetupFileAndSaveStatus(AvailableLatestVersion, Settings.Startup.AutoUpdateProxy);
-                else IsDownloadSuccessful = await AutoUpdateHelper.DownloadSetupFileAndSaveStatus(AvailableLatestVersion);
+                IsDownloadSuccessful = await AutoUpdateHelper.DownloadSetupFileAndSaveStatus(AvailableLatestVersion);
 
                 if (IsDownloadSuccessful) {
                     if (!Settings.Startup.IsAutoUpdateWithSilence) {
-                        if (MessageBox.Show("ICA 新版本安装包已下载完成，是否立即更新？", "Ink Canvas Annotation New Version Available", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) {
+                        if (MessageBox.Show("InkCanvasForClass 新版本安装包已下载完成，是否立即更新？", "InkCanvasForClass New Version Available", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) {
                             AutoUpdateHelper.InstallNewVersionApp(AvailableLatestVersion, false);
                         }
                     } else {

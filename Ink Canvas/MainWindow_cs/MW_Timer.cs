@@ -12,6 +12,7 @@ namespace Ink_Canvas {
     public class TimeViewModel : INotifyPropertyChanged
     {
         private string _nowTime;
+        private string _nowDate;
 
         public string nowTime
         {
@@ -21,6 +22,19 @@ namespace Ink_Canvas {
                 if (_nowTime != value)
                 {
                     _nowTime = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string nowDate
+        {
+            get { return _nowDate; }
+            set
+            {
+                if (_nowDate != value)
+                {
+                    _nowDate = value;
                     OnPropertyChanged();
                 }
             }
@@ -43,6 +57,7 @@ namespace Ink_Canvas {
         bool isHidingSubPanelsWhenInking = false; // 避免书写时触发二次关闭二级菜单导致动画不连续
 
         Timer timerDisplayTime = new Timer();
+        Timer timerDisplayDate = new Timer();
 
         private TimeViewModel nowTimeVM = new TimeViewModel();
 
@@ -56,13 +71,24 @@ namespace Ink_Canvas {
             timerCheckAutoUpdateWithSilence.Elapsed += timerCheckAutoUpdateWithSilence_Elapsed;
             timerCheckAutoUpdateWithSilence.Interval = 1000 * 60 * 10;
             WaterMarkTime.DataContext = nowTimeVM;
+            WaterMarkDate.DataContext = nowTimeVM;
             timerDisplayTime.Elapsed += TimerDisplayTime_Elapsed;
             timerDisplayTime.Interval = 1000;
             timerDisplayTime.Start();
+            timerDisplayDate.Elapsed += TimerDisplayDate_Elapsed;
+            timerDisplayDate.Interval = 1000 * 60 * 60 * 1;
+            timerDisplayDate.Start();
+            nowTimeVM.nowDate = DateTime.Now.ToShortDateString().ToString();
+            nowTimeVM.nowTime = DateTime.Now.ToShortTimeString().ToString();
         }
 
         private void TimerDisplayTime_Elapsed(object sender, System.Timers.ElapsedEventArgs e) { 
             nowTimeVM.nowTime = DateTime.Now.ToShortTimeString().ToString();
+        }
+
+        private void TimerDisplayDate_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            nowTimeVM.nowDate = DateTime.Now.ToShortDateString().ToString();
         }
 
         private void TimerKillProcess_Elapsed(object sender, ElapsedEventArgs e) {
