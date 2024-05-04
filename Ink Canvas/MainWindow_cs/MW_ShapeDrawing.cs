@@ -1,6 +1,7 @@
 ﻿using Ink_Canvas.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -370,24 +371,34 @@ namespace Ink_Canvas {
 
         #endregion
 
-        private void inkCanvas_TouchMove(object sender, TouchEventArgs e) {
+        private void inkCanvas_TouchMove(object sender, TouchEventArgs e)
+        {
             if (isSingleFingerDragMode) return;
-            if (drawingShapeMode != 0) {
-                if (isLastTouchEraser) {
+            if (drawingShapeMode != 0)
+            {
+                if (isLastTouchEraser)
+                {
                     return;
                 }
                 //EraserContainer.Background = null;
                 //ImageEraser.Visibility = Visibility.Visible;
                 if (isWaitUntilNextTouchDown) return;
-                if (dec.Count > 1) {
+                if (dec.Count > 1)
+                {
                     isWaitUntilNextTouchDown = true;
-                    try {
+                    try
+                    {
                         inkCanvas.Strokes.Remove(lastTempStroke);
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    }
+                    catch
+                    {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     return;
                 }
-                if (inkCanvas.EditingMode != InkCanvasEditingMode.None) {
+                if (inkCanvas.EditingMode != InkCanvasEditingMode.None)
+                {
                     inkCanvas.EditingMode = InkCanvasEditingMode.None;
                 }
             }
@@ -400,6 +411,7 @@ namespace Ink_Canvas {
                                                                                              //double drawMultiStepShapeSpecialParameter2 = 0.0; //多笔完成的图形 特殊参数 通常用于表示b
         double drawMultiStepShapeSpecialParameter3 = 0.0; //多笔完成的图形 特殊参数 通常用于表示k
 
+        #region 形状绘制主函数
         private void MouseTouchMove(Point endP) {
             if (Settings.Canvas.FitToCurve == true)
             {
@@ -432,7 +444,9 @@ namespace Ink_Canvas {
                     strokes.Add(GenerateDashedLineStrokeCollection(iniP, endP));
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -441,7 +455,9 @@ namespace Ink_Canvas {
                     strokes.Add(GenerateDotLineStrokeCollection(iniP, endP));
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -515,7 +531,9 @@ namespace Ink_Canvas {
                     strokes.Add(GenerateLineStroke(new Point(iniP.X + 3 * x * sinTheta, iniP.Y + 3 * x * cosTheta), new Point(endP.X + 3 * x * sinTheta, endP.Y + 3 * x * cosTheta)));
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -525,7 +543,9 @@ namespace Ink_Canvas {
                     strokes.Add(GenerateArrowLineStroke(new Point(iniP.X, 2 * iniP.Y - (endP.Y + 20)), new Point(iniP.X, endP.Y)));
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -536,7 +556,9 @@ namespace Ink_Canvas {
                     strokes.Add(GenerateArrowLineStroke(new Point(iniP.X, 2 * iniP.Y - (endP.Y + 20)), new Point(iniP.X, endP.Y)));
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -547,7 +569,9 @@ namespace Ink_Canvas {
                     strokes.Add(GenerateArrowLineStroke(new Point(iniP.X, iniP.Y + (iniP.Y - endP.Y) / Math.Abs(iniP.Y - endP.Y) * 25), new Point(iniP.X, endP.Y)));
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -558,7 +582,9 @@ namespace Ink_Canvas {
                     strokes.Add(GenerateArrowLineStroke(new Point(iniP.X, iniP.Y + (iniP.Y - endP.Y) / Math.Abs(iniP.Y - endP.Y) * 25), new Point(iniP.X, endP.Y)));
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -570,7 +596,9 @@ namespace Ink_Canvas {
                     strokes.Add(GenerateArrowLineStroke(new Point(iniP.X, iniP.Y), new Point(iniP.X - d / 1.76, iniP.Y + d / 1.76)));
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -711,7 +739,9 @@ namespace Ink_Canvas {
                     strokes = GenerateDashedLineEllipseStrokeCollection(new Point(iniP.X - R, iniP.Y - R), new Point(iniP.X + R, iniP.Y + R));
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -790,7 +820,9 @@ namespace Ink_Canvas {
                     }
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -817,7 +849,9 @@ namespace Ink_Canvas {
                     strokes.Add(stroke.Clone());
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -844,7 +878,9 @@ namespace Ink_Canvas {
                     strokes.Add(stroke.Clone());
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -879,7 +915,9 @@ namespace Ink_Canvas {
                     strokes.Add(stroke.Clone());
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -929,7 +967,9 @@ namespace Ink_Canvas {
                     strokes.Add(stroke.Clone());
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
@@ -971,11 +1011,14 @@ namespace Ink_Canvas {
                     strokes.Add(stroke.Clone());
                     try {
                         inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                    } catch { }
+                    } catch {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
                     break;
                 case 9:
+                    // 画长方体
                     _currentCommitType = CommitReason.ShapeDrawing;
                     if (isFirstTouchCuboid) {
                         //分开画线条方便后期单独擦除某一条棱
@@ -985,7 +1028,9 @@ namespace Ink_Canvas {
                         strokes.Add(GenerateLineStroke(new Point(iniP.X, iniP.Y), new Point(endP.X, iniP.Y)));
                         try {
                             inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                        } catch { }
+                        } catch {
+                            Trace.WriteLine("lastTempStrokeCollection failed.");
+                        }
                         lastTempStrokeCollection = strokes;
                         inkCanvas.Strokes.Add(strokes);
                         CuboidFrontRectIniP = iniP;
@@ -1046,13 +1091,16 @@ namespace Ink_Canvas {
 
                         try {
                             inkCanvas.Strokes.Remove(lastTempStrokeCollection);
-                        } catch { }
+                        } catch {
+                            Trace.WriteLine("lastTempStrokeCollection failed.");
+                        }
                         lastTempStrokeCollection = strokes;
                         inkCanvas.Strokes.Add(strokes);
                     }
                     break;
             }
         }
+        #endregion
 
         bool isFirstTouchCuboid = true;
         Point CuboidFrontRectIniP = new Point();
@@ -1229,12 +1277,16 @@ namespace Ink_Canvas {
         }
 
         private void inkCanvas_MouseUp(object sender, MouseButtonEventArgs e) {
+
             if (drawingShapeMode == 5) {
-                Circle circle = new Circle(new Point(), 0, lastTempStroke);
-                circle.R = GetDistance(circle.Stroke.StylusPoints[0].ToPoint(), circle.Stroke.StylusPoints[circle.Stroke.StylusPoints.Count / 2].ToPoint()) / 2;
-                circle.Centroid = new Point((circle.Stroke.StylusPoints[0].X + circle.Stroke.StylusPoints[circle.Stroke.StylusPoints.Count / 2].X) / 2,
+                if (lastTempStroke != null)
+                {
+                    Circle circle = new Circle(new Point(), 0, lastTempStroke);
+                    circle.R = GetDistance(circle.Stroke.StylusPoints[0].ToPoint(), circle.Stroke.StylusPoints[circle.Stroke.StylusPoints.Count / 2].ToPoint()) / 2;
+                    circle.Centroid = new Point((circle.Stroke.StylusPoints[0].X + circle.Stroke.StylusPoints[circle.Stroke.StylusPoints.Count / 2].X) / 2,
                                             (circle.Stroke.StylusPoints[0].Y + circle.Stroke.StylusPoints[circle.Stroke.StylusPoints.Count / 2].Y) / 2);
-                circles.Add(circle);
+                    circles.Add(circle);
+                }
             }
             if (drawingShapeMode != 9 && drawingShapeMode != 0 && drawingShapeMode != 24 && drawingShapeMode != 25) {
                 if (isLongPressSelected) {
@@ -1251,11 +1303,25 @@ namespace Ink_Canvas {
                     Point newEndP = new Point(Math.Max(CuboidFrontRectIniP.X, CuboidFrontRectEndP.X), Math.Max(CuboidFrontRectIniP.Y, CuboidFrontRectEndP.Y));
                     CuboidFrontRectIniP = newIniP;
                     CuboidFrontRectEndP = newEndP;
-                    CuboidStrokeCollection.Add(lastTempStrokeCollection);
+                    try
+                    {
+                        CuboidStrokeCollection.Add(lastTempStrokeCollection);
+                    } catch
+                    {
+                        Trace.WriteLine("lastTempStrokeCollection failed.");
+                    }
+                    
                 } else {
                     BtnPen_Click(null, null); //画完还原到笔模式
                     if (_currentCommitType == CommitReason.ShapeDrawing) {
-                        CuboidStrokeCollection.Add(lastTempStrokeCollection);
+                        try
+                        {
+                            CuboidStrokeCollection.Add(lastTempStrokeCollection);
+                        }
+                        catch
+                        {
+                            Trace.WriteLine("lastTempStrokeCollection failed.");
+                        }
                         _currentCommitType = CommitReason.UserInput;
                         timeMachine.CommitStrokeUserInputHistory(CuboidStrokeCollection);
                         CuboidStrokeCollection = null;
