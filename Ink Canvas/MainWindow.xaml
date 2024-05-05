@@ -1739,7 +1739,7 @@
                                 <Image x:Name="LassoSelect" Source="/Resources/new-icons/lasso-select-lined.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
                                 <TextBlock x:Name="LassoToolToolbarTextBlock" Text="套索选" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
                             </ui:SimpleStackPanel>
-                            <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="ImageDrawShape_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,-2" Width="28">
+                            <ui:SimpleStackPanel Opacity="0.4" IsHitTestVisible="False" MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="ImageDrawShape_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,-2" Width="28">
                                 <Image Source="/Resources/new-icons/shapes.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
                                 <TextBlock x:Name="ShapesToolbarTextBlock" Text="几何" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
                             </ui:SimpleStackPanel>
