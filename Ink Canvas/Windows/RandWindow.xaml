@@ -12,19 +12,19 @@
     <Border Background="#F0F3F9" CornerRadius="10" BorderThickness="1" BorderBrush="#0066BF" Margin="0" ClipToBounds="True">
         <Canvas>
             <Image Source="/Resources/hatsune-miku1.png" Width="300" Canvas.Bottom="-140" Canvas.Left="-48" Canvas.Top="314"></Image>
-            <Grid Canvas.Left="0" Canvas.Right="0" Canvas.Top="0" Canvas.Bottom="0" Width="900" Height="300">
+            <Grid Canvas.Left="0" Canvas.Right="0" Canvas.Top="0" Canvas.Bottom="0" Width="900" Height="309" HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1.8*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Viewbox HorizontalAlignment="Center" Margin="20,0">
                     <ui:SimpleStackPanel Orientation="Horizontal" Spacing="50" MinHeight="470">
-                        <Label Name="LabelOutput" FontSize="110" Content="" Block.TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Label Name="LabelOutput2" FontSize="110" Visibility="Collapsed" Content="" Block.TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Label Name="LabelOutput3" FontSize="110" Visibility="Collapsed" Content="" Block.TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Label Name="LabelOutput" FontSize="130" Content="" Block.TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Label Name="LabelOutput2" FontSize="130" Visibility="Collapsed" Content="" Block.TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Label Name="LabelOutput3" FontSize="130" Visibility="Collapsed" Content="" Block.TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </ui:SimpleStackPanel>
                 </Viewbox>
-                <ui:SimpleStackPanel Spacing="50" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <ui:SimpleStackPanel Spacing="50" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="1" Name="PeopleControlPane">
                     <StackPanel Orientation="Horizontal">
                         <Border x:Name="BorderBtnMinus" MouseUp="BorderBtnMinus_MouseUp" Background="#FBFBFD" Height="70" Width="70" CornerRadius="100">
                             <Border.Effect>
@@ -34,7 +34,7 @@
                                 <ui:SymbolIcon Symbol="Remove" Foreground="Black"/>
                             </Viewbox>
                         </Border>
-                        <Label Name="LabelNumberCount" Content="1" FontFamily="Segeo UI" FontSize="55" Margin="30"/>
+                        <TextBlock Name="LabelNumberCount" Text="1" FontFamily="Consolas" FontSize="55" Margin="10" Width="80" TextAlignment="Center"/>
                         <Border x:Name="BorderBtnAdd" MouseUp="BorderBtnAdd_MouseUp" Background="#FBFBFD" Height="70" Width="70" CornerRadius="100">
                             <Border.Effect>
                                 <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.15" BlurRadius="3"/>

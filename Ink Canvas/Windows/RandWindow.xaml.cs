@@ -22,6 +22,8 @@ namespace Ink_Canvas {
         public RandWindow(bool IsAutoClose) {
             InitializeComponent();
             isAutoClose = IsAutoClose;
+            PeopleControlPane.Opacity = 0.4;
+            PeopleControlPane.IsHitTestVisible = false;
 
             new Thread(new ThreadStart(() => {
                 Thread.Sleep(100);
@@ -40,20 +42,28 @@ namespace Ink_Canvas {
         public List<string> Names = new List<string>();
 
         private void BorderBtnAdd_MouseUp(object sender, MouseButtonEventArgs e) {
-            if (TotalCount >= PeopleCount) return;
+            if (RandMaxPeopleOneTime == -1 && TotalCount >= PeopleCount) return;
+            if (RandMaxPeopleOneTime != -1 && TotalCount >= RandMaxPeopleOneTime) return;
             TotalCount++;
-            LabelNumberCount.Content = TotalCount.ToString();
+            LabelNumberCount.Text = TotalCount.ToString();
             SymbolIconStart.Symbol = Symbol.People;
+            BorderBtnAdd.Opacity = 1;
+            BorderBtnMinus.Opacity = 1;
         }
 
         private void BorderBtnMinus_MouseUp(object sender, MouseButtonEventArgs e) {
             if (TotalCount < 2) return;
             TotalCount--;
-            LabelNumberCount.Content = TotalCount.ToString();
+            LabelNumberCount.Text = TotalCount.ToString();
             if (TotalCount == 1) {
                 SymbolIconStart.Symbol = Symbol.Contact;
             }
         }
+
+        public int RandWaitingTimes = 20;
+        public int RandWaitingThreadSleepTime = 50;
+        public int RandMaxPeopleOneTime = 10;
+        public int RandDoneAutoCloseWaitTime = 2500;
 
         private void BorderBtnRand_MouseUp(object sender, MouseButtonEventArgs e) {
             Random random = new Random();// randSeed + DateTime.Now.Millisecond / 10 % 10);
@@ -66,7 +76,7 @@ namespace Ink_Canvas {
             BorderBtnRandCover.Visibility = Visibility.Visible;
 
             new Thread(new ThreadStart(() => {
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < RandWaitingTimes; i++) {
                     int rand = random.Next(1, PeopleCount + 1);
                     while (rands.Contains(rand)) {
                         rand = random.Next(1, PeopleCount + 1);
@@ -81,7 +91,7 @@ namespace Ink_Canvas {
                         }
                     });
 
-                    Thread.Sleep(150);
+                    Thread.Sleep(RandWaitingThreadSleepTime);
                 }
 
                 rands = new List<int>();
@@ -139,8 +149,10 @@ namespace Ink_Canvas {
 
                     if (isAutoClose) {
                         new Thread(new ThreadStart(() => {
-                            Thread.Sleep(1500);
+                            Thread.Sleep(RandDoneAutoCloseWaitTime);
                             Application.Current.Dispatcher.Invoke(() => {
+                                PeopleControlPane.Opacity = 1;
+                                PeopleControlPane.IsHitTestVisible = true;
                                 Close();
                             });
                         })).Start();
