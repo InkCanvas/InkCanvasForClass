@@ -309,6 +309,7 @@ namespace Ink_Canvas {
 
         private void SymbolIconUndo_MouseUp(object sender, MouseButtonEventArgs e) {
             if (lastBorderMouseDownObject != sender) return;
+            FloatingBarIcons_MouseUp_New(sender);
             if (!BtnUndo.IsEnabled) return;
             BtnUndo_Click(BtnUndo, null);
             HideSubPanels();
@@ -316,6 +317,7 @@ namespace Ink_Canvas {
 
         private void SymbolIconRedo_MouseUp(object sender, MouseButtonEventArgs e) {
             if (lastBorderMouseDownObject != sender) return;
+            FloatingBarIcons_MouseUp_New(sender);
             if (!BtnRedo.IsEnabled) return;
             BtnRedo_Click(BtnRedo, null);
             HideSubPanels();

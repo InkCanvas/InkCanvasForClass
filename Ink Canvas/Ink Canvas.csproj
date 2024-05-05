@@ -632,5 +632,9 @@
   <ItemGroup>
     <Resource Include="Resources\Icons-Fluent\party.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\new-icons\redo.png" />
+    <Resource Include="Resources\new-icons\undo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
