@@ -669,7 +669,8 @@ namespace Ink_Canvas {
             if (ssp != null)
             {
                 ssp.Background = Brushes.Transparent;
-                if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink){
+                if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink && inkCanvas.IsHitTestVisible==true)
+                {
                     Pen_Icon.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
                 } else if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint)
                     {
@@ -1466,10 +1467,16 @@ namespace Ink_Canvas {
             if (changeColorTheme) {
                 if (currentMode != 0) {
                     if (Settings.Canvas.UsingWhiteboard) {
-                        GridBackgroundCover.Background = new SolidColorBrush(StringToColor("#FFF2F2F2"));
+                        GridBackgroundCover.Background = new SolidColorBrush(Color.FromRgb(234,235,237));
+                        WaterMarkTime.Foreground= new SolidColorBrush(Color.FromRgb(22, 41, 36));
+                        WaterMarkDate.Foreground= new SolidColorBrush(Color.FromRgb(22, 41, 36));
+                        BlackBoardWaterMark.Foreground = new SolidColorBrush(Color.FromRgb(22, 41, 36));
                         isUselightThemeColor = false;
                     } else {
-                        GridBackgroundCover.Background = new SolidColorBrush(StringToColor("#FF1F1F1F"));
+                        GridBackgroundCover.Background = new SolidColorBrush(Color.FromRgb(22,41,36));
+                        WaterMarkTime.Foreground = new SolidColorBrush(Color.FromRgb(234, 235, 237));
+                        WaterMarkDate.Foreground = new SolidColorBrush(Color.FromRgb(234, 235, 237));
+                        BlackBoardWaterMark.Foreground = new SolidColorBrush(Color.FromRgb(234, 235, 237));
                         isUselightThemeColor = true;
                     }
                 }
