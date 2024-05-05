@@ -31,7 +31,7 @@ namespace Ink_Canvas {
                 inkCanvas.StylusUp += MainWindow_StylusUp;
                 inkCanvas.TouchDown += MainWindow_TouchDown;
                 inkCanvas.TouchDown -= Main_Grid_TouchDown;
-                inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
                 inkCanvas.Children.Clear();
                 isInMultiTouchMode = true;
                 //SymbolIconMultiTouchMode.Symbol = iNKORE.UI.WPF.Modern.Controls.Symbol.Contact;
@@ -54,8 +54,8 @@ namespace Ink_Canvas {
                 TouchDownPointsList[e.TouchDevice.Id] = InkCanvasEditingMode.EraseByPoint;
                 inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
             } else {
-                TouchDownPointsList[e.TouchDevice.Id] = InkCanvasEditingMode.None;
-                inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                TouchDownPointsList[e.TouchDevice.Id] = InkCanvasEditingMode.Ink;
+                inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
             }
         }
 
@@ -63,7 +63,7 @@ namespace Ink_Canvas {
             if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint
                 || inkCanvas.EditingMode == InkCanvasEditingMode.EraseByStroke
                 || inkCanvas.EditingMode == InkCanvasEditingMode.Select) return;
-            TouchDownPointsList[e.StylusDevice.Id] = InkCanvasEditingMode.None;
+            TouchDownPointsList[e.StylusDevice.Id] = InkCanvasEditingMode.Ink;
         }
 
         private void MainWindow_StylusUp(object sender, StylusEventArgs e) {
@@ -90,7 +90,7 @@ namespace Ink_Canvas {
 
         private void MainWindow_StylusMove(object sender, StylusEventArgs e) {
             try {
-                if (GetTouchDownPointsList(e.StylusDevice.Id) != InkCanvasEditingMode.None) return;
+                if (GetTouchDownPointsList(e.StylusDevice.Id) != InkCanvasEditingMode.Ink) return;
                 try {
                     if (e.StylusDevice.StylusButtons[1].StylusButtonState == StylusButtonState.Down) return;
                 } catch { }
@@ -99,7 +99,6 @@ namespace Ink_Canvas {
                 foreach (var stylusPoint in stylusPointCollection) {
                     strokeVisual.Add(new StylusPoint(stylusPoint.X, stylusPoint.Y, stylusPoint.PressureFactor));
                 }
-
                 strokeVisual.Redraw();
             } catch { }
         }

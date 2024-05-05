@@ -95,7 +95,7 @@ namespace Ink_Canvas {
                 drawingShapeMode = 1;
                 inkCanvas.EditingMode = InkCanvasEditingMode.None;
                 inkCanvas.IsManipulationEnabled = true;
-                CancelSingleFingerDragMode();
+                CancelSingleFingerDragMode(true);
             }
             lastMouseDownSender = null;
             if (isLongPressSelected) {
@@ -114,7 +114,7 @@ namespace Ink_Canvas {
                 drawingShapeMode = 8;
                 inkCanvas.EditingMode = InkCanvasEditingMode.None;
                 inkCanvas.IsManipulationEnabled = true;
-                CancelSingleFingerDragMode();
+                CancelSingleFingerDragMode(true);
             }
             lastMouseDownSender = null;
             if (isLongPressSelected) {
@@ -133,7 +133,7 @@ namespace Ink_Canvas {
                 drawingShapeMode = 18;
                 inkCanvas.EditingMode = InkCanvasEditingMode.None;
                 inkCanvas.IsManipulationEnabled = true;
-                CancelSingleFingerDragMode();
+                CancelSingleFingerDragMode(true);
             }
             lastMouseDownSender = null;
             if (isLongPressSelected) {
@@ -152,7 +152,7 @@ namespace Ink_Canvas {
                 drawingShapeMode = 2;
                 inkCanvas.EditingMode = InkCanvasEditingMode.None;
                 inkCanvas.IsManipulationEnabled = true;
-                CancelSingleFingerDragMode();
+                CancelSingleFingerDragMode(true);
             }
             lastMouseDownSender = null;
             if (isLongPressSelected) {
@@ -171,7 +171,7 @@ namespace Ink_Canvas {
                 drawingShapeMode = 15;
                 inkCanvas.EditingMode = InkCanvasEditingMode.None;
                 inkCanvas.IsManipulationEnabled = true;
-                CancelSingleFingerDragMode();
+                CancelSingleFingerDragMode(true);
             }
             lastMouseDownSender = null;
             if (isLongPressSelected) {
@@ -189,7 +189,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 11;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -198,7 +198,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 12;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -207,7 +207,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 13;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -216,7 +216,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 14;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -225,7 +225,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 17;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -234,7 +234,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 3;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -243,7 +243,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 19;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -270,7 +270,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 16;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -279,7 +279,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 23;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -288,7 +288,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 10;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -298,7 +298,7 @@ namespace Ink_Canvas {
             drawMultiStepShapeCurrentStep = 0;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -308,7 +308,7 @@ namespace Ink_Canvas {
             drawMultiStepShapeCurrentStep = 0;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -317,7 +317,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 20;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -326,7 +326,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 22;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -335,7 +335,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 21;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -344,7 +344,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 6;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -353,7 +353,7 @@ namespace Ink_Canvas {
             drawingShapeMode = 7;
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -365,7 +365,7 @@ namespace Ink_Canvas {
             CuboidFrontRectEndP = new Point();
             inkCanvas.EditingMode = InkCanvasEditingMode.None;
             inkCanvas.IsManipulationEnabled = true;
-            CancelSingleFingerDragMode();
+            CancelSingleFingerDragMode(true);
             DrawShapePromptToPen();
         }
 
@@ -438,6 +438,11 @@ namespace Ink_Canvas {
                     } catch { }
                     lastTempStroke = stroke;
                     inkCanvas.Strokes.Add(stroke);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 8:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -449,6 +454,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 18:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -460,6 +470,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 2:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -485,6 +500,11 @@ namespace Ink_Canvas {
                     } catch { }
                     lastTempStroke = stroke;
                     inkCanvas.Strokes.Add(stroke);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 15:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -536,6 +556,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 11:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -548,6 +573,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 12:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -561,6 +591,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 13:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -574,6 +609,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 14:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -587,6 +627,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 17:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -601,6 +646,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 3:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -620,6 +670,11 @@ namespace Ink_Canvas {
                     } catch { }
                     lastTempStroke = stroke;
                     inkCanvas.Strokes.Add(stroke);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 19:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -641,6 +696,11 @@ namespace Ink_Canvas {
                     } catch { }
                     lastTempStroke = stroke;
                     inkCanvas.Strokes.Add(stroke);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 4:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -654,6 +714,11 @@ namespace Ink_Canvas {
                     } catch { }
                     lastTempStroke = stroke;
                     inkCanvas.Strokes.Add(stroke);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 5:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -668,6 +733,11 @@ namespace Ink_Canvas {
                     } catch { }
                     lastTempStroke = stroke;
                     inkCanvas.Strokes.Add(stroke);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 16:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -683,6 +753,11 @@ namespace Ink_Canvas {
                     } catch { }
                     lastTempStroke = stroke;
                     inkCanvas.Strokes.Add(stroke);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 23:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -732,6 +807,11 @@ namespace Ink_Canvas {
                     } catch { }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 10:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -744,6 +824,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 24:
                 case 25:
@@ -825,6 +910,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 20:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -854,6 +944,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 21:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -883,6 +978,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 22:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -920,6 +1020,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 6:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -972,6 +1077,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 7:
                     _currentCommitType = CommitReason.ShapeDrawing;
@@ -1016,6 +1126,11 @@ namespace Ink_Canvas {
                     }
                     lastTempStrokeCollection = strokes;
                     inkCanvas.Strokes.Add(strokes);
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     break;
                 case 9:
                     // 画长方体
@@ -1095,7 +1210,12 @@ namespace Ink_Canvas {
                             Trace.WriteLine("lastTempStrokeCollection failed.");
                         }
                         lastTempStrokeCollection = strokes;
-                        inkCanvas.Strokes.Add(strokes);
+                        inkCanvas.Strokes.Add(strokes); 
+                    }
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
                     }
                     break;
             }
@@ -1287,12 +1407,22 @@ namespace Ink_Canvas {
                                             (circle.Stroke.StylusPoints[0].Y + circle.Stroke.StylusPoints[circle.Stroke.StylusPoints.Count / 2].Y) / 2);
                     circles.Add(circle);
                 }
+                if (lastIsInMultiTouchMode)
+                {
+                    ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                    lastIsInMultiTouchMode = false;
+                }
             }
             if (drawingShapeMode != 9 && drawingShapeMode != 0 && drawingShapeMode != 24 && drawingShapeMode != 25) {
                 if (isLongPressSelected) {
 
                 } else {
                     BtnPen_Click(null, null); //画完一次还原到笔模式
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                 }
             }
             if (drawingShapeMode == 9) {
@@ -1313,6 +1443,11 @@ namespace Ink_Canvas {
                     
                 } else {
                     BtnPen_Click(null, null); //画完还原到笔模式
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                     if (_currentCommitType == CommitReason.ShapeDrawing) {
                         try
                         {
@@ -1351,6 +1486,11 @@ namespace Ink_Canvas {
                         }
                     }
                     BtnPen_Click(null, null); //画完还原到笔模式
+                    if (lastIsInMultiTouchMode)
+                    {
+                        ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                        lastIsInMultiTouchMode = false;
+                    }
                 }
             }
             isMouseDown = false;
