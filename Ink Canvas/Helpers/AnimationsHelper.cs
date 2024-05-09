@@ -34,187 +34,207 @@ namespace Ink_Canvas.Helpers
 
         public static void ShowWithSlideFromBottomAndFade(UIElement element, double duration = 0.15)
         {
-            if (element.Visibility == Visibility.Visible) return;
-
-            if (element == null)
-                throw new ArgumentNullException(nameof(element));
-
-            var sb = new Storyboard();
-
-            // 渐变动画
-            var fadeInAnimation = new DoubleAnimation
+            try
             {
-                From = 0.5,
-                To = 1,
-                Duration = TimeSpan.FromSeconds(duration)
-            };
-            Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(UIElement.OpacityProperty));
+                if (element.Visibility == Visibility.Visible) return;
 
-            // 滑动动画
-            var slideAnimation = new DoubleAnimation
-            {
-                From = element.RenderTransform.Value.OffsetY + 10, // 滑动距离
-                To = 0,
-                Duration = TimeSpan.FromSeconds(duration)
-            };
-            Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
+                if (element == null)
+                    throw new ArgumentNullException(nameof(element));
 
-            sb.Children.Add(fadeInAnimation);
-            sb.Children.Add(slideAnimation);
+                var sb = new Storyboard();
 
-            element.Visibility = Visibility.Visible;
-            element.RenderTransform = new TranslateTransform();
+                // 渐变动画
+                var fadeInAnimation = new DoubleAnimation
+                {
+                    From = 0.5,
+                    To = 1,
+                    Duration = TimeSpan.FromSeconds(duration)
+                };
+                Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(UIElement.OpacityProperty));
 
-            sb.Begin((FrameworkElement)element);
+                // 滑动动画
+                var slideAnimation = new DoubleAnimation
+                {
+                    From = element.RenderTransform.Value.OffsetY + 10, // 滑动距离
+                    To = 0,
+                    Duration = TimeSpan.FromSeconds(duration)
+                };
+                Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
+
+                sb.Children.Add(fadeInAnimation);
+                sb.Children.Add(slideAnimation);
+
+                element.Visibility = Visibility.Visible;
+                element.RenderTransform = new TranslateTransform();
+
+                sb.Begin((FrameworkElement)element);
+            }
+            catch { }
         }
 
         public static void ShowWithSlideFromLeftAndFade(UIElement element, double duration = 0.25)
         {
-            if (element.Visibility == Visibility.Visible) return;
-
-            if (element == null)
-                throw new ArgumentNullException(nameof(element));
-
-            var sb = new Storyboard();
-
-            // 渐变动画
-            var fadeInAnimation = new DoubleAnimation
+            try
             {
-                From = 0.5,
-                To = 1,
-                Duration = TimeSpan.FromSeconds(duration)
-            };
-            Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(UIElement.OpacityProperty));
+                if (element.Visibility == Visibility.Visible) return;
 
-            // 滑动动画
-            var slideAnimation = new DoubleAnimation
-            {
-                From = element.RenderTransform.Value.OffsetX - 20, // 滑动距离
-                To = 0,
-                Duration = TimeSpan.FromSeconds(duration)
-            };
-            Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.X)"));
+                if (element == null)
+                    throw new ArgumentNullException(nameof(element));
 
-            sb.Children.Add(fadeInAnimation);
-            sb.Children.Add(slideAnimation);
+                var sb = new Storyboard();
 
-            element.Visibility = Visibility.Visible;
-            element.RenderTransform = new TranslateTransform();
+                // 渐变动画
+                var fadeInAnimation = new DoubleAnimation
+                {
+                    From = 0.5,
+                    To = 1,
+                    Duration = TimeSpan.FromSeconds(duration)
+                };
+                Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(UIElement.OpacityProperty));
 
-            sb.Begin((FrameworkElement)element);
+                // 滑动动画
+                var slideAnimation = new DoubleAnimation
+                {
+                    From = element.RenderTransform.Value.OffsetX - 20, // 滑动距离
+                    To = 0,
+                    Duration = TimeSpan.FromSeconds(duration)
+                };
+                Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.X)"));
+
+                sb.Children.Add(fadeInAnimation);
+                sb.Children.Add(slideAnimation);
+
+                element.Visibility = Visibility.Visible;
+                element.RenderTransform = new TranslateTransform();
+
+                sb.Begin((FrameworkElement)element);
+            }
+            catch { }
         }
 
         public static void ShowWithScaleFromLeft(UIElement element, double duration = 0.5)
         {
-            if (element.Visibility == Visibility.Visible) return;
-
-            if (element == null)
-                throw new ArgumentNullException(nameof(element));
-
-            var sb = new Storyboard();
-
-            // 水平方向的缩放动画
-            var scaleXAnimation = new DoubleAnimation
+            try
             {
-                From = 0,
-                To = 1,
-                Duration = TimeSpan.FromSeconds(duration)
-            };
-            Storyboard.SetTargetProperty(scaleXAnimation, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleX)"));
+                if (element.Visibility == Visibility.Visible) return;
 
-            // 垂直方向的缩放动画
-            var scaleYAnimation = new DoubleAnimation
-            {
-                From = 0,
-                To = 1,
-                Duration = TimeSpan.FromSeconds(duration)
-            };
-            Storyboard.SetTargetProperty(scaleYAnimation, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleY)"));
+                if (element == null)
+                    throw new ArgumentNullException(nameof(element));
 
-            sb.Children.Add(scaleXAnimation);
-            sb.Children.Add(scaleYAnimation);
+                var sb = new Storyboard();
 
-            element.Visibility = Visibility.Visible;
-            element.RenderTransformOrigin = new Point(0, 0.5); // 左侧中心点为基准
-            element.RenderTransform = new ScaleTransform(0, 0);
+                // 水平方向的缩放动画
+                var scaleXAnimation = new DoubleAnimation
+                {
+                    From = 0,
+                    To = 1,
+                    Duration = TimeSpan.FromSeconds(duration)
+                };
+                Storyboard.SetTargetProperty(scaleXAnimation, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleX)"));
 
-            sb.Begin((FrameworkElement)element);
+                // 垂直方向的缩放动画
+                var scaleYAnimation = new DoubleAnimation
+                {
+                    From = 0,
+                    To = 1,
+                    Duration = TimeSpan.FromSeconds(duration)
+                };
+                Storyboard.SetTargetProperty(scaleYAnimation, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleY)"));
+
+                sb.Children.Add(scaleXAnimation);
+                sb.Children.Add(scaleYAnimation);
+
+                element.Visibility = Visibility.Visible;
+                element.RenderTransformOrigin = new Point(0, 0.5); // 左侧中心点为基准
+                element.RenderTransform = new ScaleTransform(0, 0);
+
+                sb.Begin((FrameworkElement)element);
+            }
+            catch { }
         }
 
         public static void ShowWithScaleFromRight(UIElement element, double duration = 0.5)
         {
-            if (element.Visibility == Visibility.Visible) return;
-
-            if (element == null)
-                throw new ArgumentNullException(nameof(element));
-
-            var sb = new Storyboard();
-
-            // 水平方向的缩放动画
-            var scaleXAnimation = new DoubleAnimation
+            try
             {
-                From = 0,
-                To = 1,
-                Duration = TimeSpan.FromSeconds(duration)
-            };
-            Storyboard.SetTargetProperty(scaleXAnimation, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleX)"));
+                if (element.Visibility == Visibility.Visible) return;
 
-            // 垂直方向的缩放动画
-            var scaleYAnimation = new DoubleAnimation
-            {
-                From = 0,
-                To = 1,
-                Duration = TimeSpan.FromSeconds(duration)
-            };
-            Storyboard.SetTargetProperty(scaleYAnimation, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleY)"));
+                if (element == null)
+                    throw new ArgumentNullException(nameof(element));
 
-            sb.Children.Add(scaleXAnimation);
-            sb.Children.Add(scaleYAnimation);
+                var sb = new Storyboard();
 
-            element.Visibility = Visibility.Visible;
-            element.RenderTransformOrigin = new Point(1, 0.5); // 右侧中心点为基准
-            element.RenderTransform = new ScaleTransform(0, 0);
+                // 水平方向的缩放动画
+                var scaleXAnimation = new DoubleAnimation
+                {
+                    From = 0,
+                    To = 1,
+                    Duration = TimeSpan.FromSeconds(duration)
+                };
+                Storyboard.SetTargetProperty(scaleXAnimation, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleX)"));
 
-            sb.Begin((FrameworkElement)element);
+                // 垂直方向的缩放动画
+                var scaleYAnimation = new DoubleAnimation
+                {
+                    From = 0,
+                    To = 1,
+                    Duration = TimeSpan.FromSeconds(duration)
+                };
+                Storyboard.SetTargetProperty(scaleYAnimation, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleY)"));
+
+                sb.Children.Add(scaleXAnimation);
+                sb.Children.Add(scaleYAnimation);
+
+                element.Visibility = Visibility.Visible;
+                element.RenderTransformOrigin = new Point(1, 0.5); // 右侧中心点为基准
+                element.RenderTransform = new ScaleTransform(0, 0);
+
+                sb.Begin((FrameworkElement)element);
+            }
+            catch { }
         }
 
         public static void HideWithSlideAndFade(UIElement element, double duration = 0.15)
         {
-            if (element.Visibility == Visibility.Collapsed) return;
-
-            if (element == null)
-                throw new ArgumentNullException(nameof(element));
-
-            var sb = new Storyboard();
-
-            // 渐变动画
-            var fadeOutAnimation = new DoubleAnimation
+            try
             {
-                From = 1,
-                To = 0,
-                Duration = TimeSpan.FromSeconds(duration)
-            };
-            Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath(UIElement.OpacityProperty));
+                if (element.Visibility == Visibility.Collapsed) return;
 
-            // 滑动动画
-            var slideAnimation = new DoubleAnimation
-            {
-                From = 0,
-                To = element.RenderTransform.Value.OffsetY + 10, // 滑动距离
-                Duration = TimeSpan.FromSeconds(duration)
-            };
-            Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
+                if (element == null)
+                    throw new ArgumentNullException(nameof(element));
 
-            sb.Children.Add(fadeOutAnimation);
-            sb.Children.Add(slideAnimation);
+                var sb = new Storyboard();
 
-            sb.Completed += (s, e) =>
-            {
-                element.Visibility = Visibility.Collapsed;
-            };
+                // 渐变动画
+                var fadeOutAnimation = new DoubleAnimation
+                {
+                    From = 1,
+                    To = 0,
+                    Duration = TimeSpan.FromSeconds(duration)
+                };
+                Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath(UIElement.OpacityProperty));
 
-            element.RenderTransform = new TranslateTransform();
-            sb.Begin((FrameworkElement)element);
+                // 滑动动画
+                var slideAnimation = new DoubleAnimation
+                {
+                    From = 0,
+                    To = element.RenderTransform.Value.OffsetY + 10, // 滑动距离
+                    Duration = TimeSpan.FromSeconds(duration)
+                };
+                Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
+
+                sb.Children.Add(fadeOutAnimation);
+                sb.Children.Add(slideAnimation);
+
+                sb.Completed += (s, e) =>
+                {
+                    element.Visibility = Visibility.Collapsed;
+                };
+
+                element.RenderTransform = new TranslateTransform();
+                sb.Begin((FrameworkElement)element);
+            }
+            catch { }
         }
 
         public static void HideWithFadeOut(UIElement element, double duration = 0.15)

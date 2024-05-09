@@ -60,8 +60,8 @@ namespace Ink_Canvas {
             }
         }
 
-        public int RandWaitingTimes = 20;
-        public int RandWaitingThreadSleepTime = 50;
+        public int RandWaitingTimes = 100;
+        public int RandWaitingThreadSleepTime = 5;
         public int RandMaxPeopleOneTime = 10;
         public int RandDoneAutoCloseWaitTime = 2500;
 

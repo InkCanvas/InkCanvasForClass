@@ -94,7 +94,7 @@
                 <TextBlock Text="{Binding nowTime}" Name="WaterMarkTime" Visibility="Collapsed" FontSize="30" FontWeight="Bold" Foreground="White" Opacity="0.6"/>
                 <TextBlock Text="{Binding nowDate}" Name="WaterMarkDate" Visibility="Collapsed" Margin="2,0,0,0" FontSize="16" Foreground="White" Opacity="0.45"/>
             </ui:SimpleStackPanel>
-            <TextBlock Canvas.Right="25" Canvas.Top="15" Text="InkCanvasForClass测试版" Name="BlackBoardWaterMark" Visibility="Collapsed" FontSize="30" FontWeight="Bold" Foreground="White" Opacity="0.5"/>
+            <TextBlock Canvas.Right="25" Canvas.Top="15" Text="多一份理解，少一份抱怨" Name="BlackBoardWaterMark" Visibility="Collapsed" FontSize="30" FontWeight="Bold" Foreground="White" Opacity="0.5"/>
         </Canvas>
         <Canvas Name="Canvas"/>
         <Label Name="Label" Visibility="Collapsed" Foreground="Gray" Content="0"/>

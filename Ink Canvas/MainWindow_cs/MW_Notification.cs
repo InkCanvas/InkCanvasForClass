@@ -14,19 +14,24 @@ namespace Ink_Canvas {
         }
 
         public void ShowNotification(string notice, bool isShowImmediately = true) {
-            lastNotificationShowTime = Environment.TickCount;
+            try
+            {
+                lastNotificationShowTime = Environment.TickCount;
 
-            TextBlockNotice.Text = notice;
-            AnimationsHelper.ShowWithFadeIn(GridNotifications);
+                TextBlockNotice.Text = notice;
+                AnimationsHelper.ShowWithSlideFromBottomAndFade(GridNotifications);
 
-            new Thread(new ThreadStart(() => {
-                Thread.Sleep(notificationShowTime + 300);
-                if (Environment.TickCount - lastNotificationShowTime >= notificationShowTime) {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        AnimationsHelper.HideWithFadeOut(GridNotifications);
-                    });
-                }
-            })).Start();
+                new Thread(new ThreadStart(() => {
+                    Thread.Sleep(notificationShowTime + 300);
+                    if (Environment.TickCount - lastNotificationShowTime >= notificationShowTime)
+                    {
+                        Application.Current.Dispatcher.Invoke(() => {
+                            AnimationsHelper.HideWithSlideAndFade(GridNotifications);
+                        });
+                    }
+                })).Start();
+            }
+            catch { }
         }
     }
 }
