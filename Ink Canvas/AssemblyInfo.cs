@@ -8,9 +8,9 @@ using System.Windows;
 [assembly: AssemblyTitle("InkCanvasForClass")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("HARKOTEK Studio")]
+[assembly: AssemblyCompany("Dubi906w")]
 [assembly: AssemblyProduct("InkCanvasForClass")]
-[assembly: AssemblyCopyright("© Copyright HARKOTEK Studio 2024-now")]
+[assembly: AssemblyCopyright("Copyright © HARKOTEK Studio 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -49,5 +49,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("5.0.3.0")]
-[assembly: AssemblyFileVersion("5.0.3.0")]
+[assembly: AssemblyVersion("5.0.2.0")]
+[assembly: AssemblyFileVersion("5.0.2.0")]

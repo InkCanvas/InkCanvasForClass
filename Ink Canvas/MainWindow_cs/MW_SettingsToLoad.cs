@@ -151,6 +151,7 @@ namespace Ink_Canvas {
                 {
                     ToggleSwitchEnableTimeDisplayInWhiteboardMode.IsOn = false;
                 }
+                SystemEvents_UserPreferenceChanged(null, null);
             } else {
                 Settings.Appearance = new Appearance();
             }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
@@ -66,9 +67,10 @@ namespace Ink_Canvas {
             TouchDownPointsList[e.StylusDevice.Id] = InkCanvasEditingMode.None;
         }
 
-        private void MainWindow_StylusUp(object sender, StylusEventArgs e) {
+        private async void MainWindow_StylusUp(object sender, StylusEventArgs e) {
             try {
                 inkCanvas.Strokes.Add(GetStrokeVisual(e.StylusDevice.Id).Stroke);
+                await Task.Delay(5); // 避免渲染墨迹完成前预览墨迹被删除导致墨迹闪烁
                 inkCanvas.Children.Remove(GetVisualCanvas(e.StylusDevice.Id));
 
                 inkCanvas_StrokeCollected(inkCanvas, new InkCanvasStrokeCollectedEventArgs(GetStrokeVisual(e.StylusDevice.Id).Stroke));
@@ -271,6 +273,24 @@ namespace Ink_Canvas {
                 if (forceEraser) return;
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
             }
+        }
+
+        private void inkCanvas_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        {
+            if (isInMultiTouchMode || !Settings.Gesture.IsEnableTwoFingerGesture || inkCanvas.Strokes.Count == 0 || dec.Count() < 2) return;
+            _currentCommitType = CommitReason.Manipulation;
+            StrokeCollection strokes = inkCanvas.GetSelectedStrokes();
+            if (strokes.Count != 0)
+            {
+                inkCanvas.Strokes.Replace(strokes, strokes.Clone());
+            }
+            else
+            {
+                var originalStrokes = inkCanvas.Strokes;
+                var targetStrokes = originalStrokes.Clone();
+                originalStrokes.Replace(originalStrokes, targetStrokes);
+            }
+            _currentCommitType = CommitReason.UserInput;
         }
 
         private void Main_Grid_ManipulationDelta(object sender, ManipulationDeltaEventArgs e) {
