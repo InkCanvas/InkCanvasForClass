@@ -17,6 +17,7 @@ namespace Ink_Canvas {
         public RandWindow() {
             InitializeComponent();
             AnimationsHelper.ShowWithSlideFromBottomAndFade(this, 0.25);
+            BorderBtnHelp.Visibility = RandIsDisplayListManageButton == false ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public RandWindow(bool IsAutoClose) {
@@ -24,6 +25,7 @@ namespace Ink_Canvas {
             isAutoClose = IsAutoClose;
             PeopleControlPane.Opacity = 0.4;
             PeopleControlPane.IsHitTestVisible = false;
+            BorderBtnHelp.Visibility = RandIsDisplayListManageButton == false ? Visibility.Collapsed : Visibility.Visible;
 
             new Thread(new ThreadStart(() => {
                 Thread.Sleep(100);
@@ -64,6 +66,7 @@ namespace Ink_Canvas {
         public int RandWaitingThreadSleepTime = 5;
         public int RandMaxPeopleOneTime = 10;
         public int RandDoneAutoCloseWaitTime = 2500;
+        public bool RandIsDisplayListManageButton = false;
 
         private void BorderBtnRand_MouseUp(object sender, MouseButtonEventArgs e) {
             Random random = new Random();// randSeed + DateTime.Now.Millisecond / 10 % 10);
