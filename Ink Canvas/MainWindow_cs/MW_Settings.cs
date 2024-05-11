@@ -510,9 +510,31 @@ namespace Ink_Canvas {
                 ToggleSwitchEnableMultiTouchMode.IsOn = BoardToggleSwitchEnableMultiTouchMode.IsOn;
             }
             if (ToggleSwitchEnableMultiTouchMode.IsOn) {
-                if (!isInMultiTouchMode) BorderMultiTouchMode_MouseUp(null, null);
+                if (!isInMultiTouchMode)
+                {
+                    inkCanvas.StylusDown += MainWindow_StylusDown;
+                    inkCanvas.StylusMove += MainWindow_StylusMove;
+                    inkCanvas.StylusUp += MainWindow_StylusUp;
+                    inkCanvas.TouchDown += MainWindow_TouchDown;
+                    inkCanvas.TouchDown -= Main_Grid_TouchDown;
+                    inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                    inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+                    inkCanvas.Children.Clear();
+                    isInMultiTouchMode = true;
+                }
             } else {
-                if (isInMultiTouchMode) BorderMultiTouchMode_MouseUp(null, null);
+                if (isInMultiTouchMode)
+                {
+                    inkCanvas.StylusDown -= MainWindow_StylusDown;
+                    inkCanvas.StylusMove -= MainWindow_StylusMove;
+                    inkCanvas.StylusUp -= MainWindow_StylusUp;
+                    inkCanvas.TouchDown -= MainWindow_TouchDown;
+                    inkCanvas.TouchDown += Main_Grid_TouchDown;
+                    inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                    inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+                    inkCanvas.Children.Clear();
+                    isInMultiTouchMode = false;
+                }
             }
             Settings.Gesture.IsEnableMultiTouchMode = ToggleSwitchEnableMultiTouchMode.IsOn;
             CheckEnableTwoFingerGestureBtnColorPrompt();
