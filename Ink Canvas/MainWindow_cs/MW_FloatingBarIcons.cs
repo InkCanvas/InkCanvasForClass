@@ -27,6 +27,7 @@ namespace Ink_Canvas {
         #region TwoFingZoomBtn
 
         private void TwoFingerGestureBorder_MouseUp(object sender, RoutedEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
             if (TwoFingerGestureBorder.Visibility == Visibility.Visible) {
                 AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
                 AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
@@ -374,6 +375,7 @@ namespace Ink_Canvas {
         bool Not_Enter_Blackboard_fir_Mouse_Click = true;
         bool isDisplayingOrHidingBlackboard = false;
         private void ImageBlackboard_MouseUp(object sender, MouseButtonEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
             if (isDisplayingOrHidingBlackboard) return;
             isDisplayingOrHidingBlackboard = true;
 
@@ -593,6 +595,7 @@ namespace Ink_Canvas {
         }
 
         private void SymbolIconTools_MouseUp(object sender, MouseButtonEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
             if (BorderTools.Visibility == Visibility.Visible) {
                 AnimationsHelper.HideWithSlideAndFade(BorderTools);
                 AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);

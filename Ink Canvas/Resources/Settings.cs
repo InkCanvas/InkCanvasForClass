@@ -278,6 +278,16 @@ namespace Ink_Canvas
     {
         [JsonProperty("isInkToShapeEnabled")]
         public bool IsInkToShapeEnabled { get; set; } = true;
+        [JsonProperty("isInkToShapeNoFakePressureRectangle")]
+        public bool IsInkToShapeNoFakePressureRectangle { get; set; } = false;
+        [JsonProperty("isInkToShapeNoFakePressureTriangle")]
+        public bool IsInkToShapeNoFakePressureTriangle { get; set; } = false;
+        [JsonProperty("isInkToShapeTriangle")]
+        public bool IsInkToShapeTriangle { get; set; } = true;
+        [JsonProperty("isInkToShapeRectangle")]
+        public bool IsInkToShapeRectangle { get; set; } = true;
+        [JsonProperty("isInkToShapeRounded")]
+        public bool IsInkToShapeRounded { get; set; } = true;
     }
 
     public class RandSettings {

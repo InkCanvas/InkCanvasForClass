@@ -370,6 +370,45 @@ namespace Ink_Canvas {
                 } else {
                     ToggleSwitchEnableInkToShape.IsOn = false;
                 }
+                if (Settings.InkToShape.IsInkToShapeNoFakePressureRectangle)
+                {
+                    ToggleSwitchEnableInkToShapeNoFakePressureRectangle.IsOn = true;
+                }
+                else
+                {
+                    ToggleSwitchEnableInkToShapeNoFakePressureRectangle.IsOn = false;
+                }
+                if (Settings.InkToShape.IsInkToShapeNoFakePressureTriangle)
+                {
+                    ToggleSwitchEnableInkToShapeNoFakePressureTriangle.IsOn = true;
+                }
+                else
+                {
+                    ToggleSwitchEnableInkToShapeNoFakePressureTriangle.IsOn = false;
+                }
+                if (Settings.InkToShape.IsInkToShapeTriangle)
+                {
+                    ToggleCheckboxEnableInkToShapeTriangle.IsChecked = true;
+                } else
+                {
+                    ToggleCheckboxEnableInkToShapeTriangle.IsChecked= false;
+                }
+                if (Settings.InkToShape.IsInkToShapeRectangle)
+                {
+                    ToggleCheckboxEnableInkToShapeRectangle.IsChecked = true;
+                }
+                else
+                {
+                    ToggleCheckboxEnableInkToShapeRectangle.IsChecked = false;
+                }
+                if (Settings.InkToShape.IsInkToShapeRounded)
+                {
+                    ToggleCheckboxEnableInkToShapeRounded.IsChecked = true;
+                }
+                else
+                {
+                    ToggleCheckboxEnableInkToShapeRounded.IsChecked = false;
+                }
             } else {
                 Settings.InkToShape = new InkToShape();
             }

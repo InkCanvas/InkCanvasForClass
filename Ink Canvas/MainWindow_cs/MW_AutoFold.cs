@@ -10,6 +10,7 @@ namespace Ink_Canvas {
         bool isFloatingBarFolded = false, isFloatingBarChangingHideMode = false;
 
         private async void FoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
             if (sender == null) {
                 foldFloatingBarByUser = false;
             } else {

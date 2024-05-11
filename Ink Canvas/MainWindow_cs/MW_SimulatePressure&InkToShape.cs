@@ -45,7 +45,7 @@ namespace Ink_Canvas {
                                 //Label.Visibility = Visibility.Visible;
                                 //Label.Content = circles.Count.ToString() + "\n" + newResult.InkDrawingNode.GetShapeName();
                             }
-                            if (result.InkDrawingNode.GetShapeName() == "Circle") {
+                            if (result.InkDrawingNode.GetShapeName() == "Circle" && Settings.InkToShape.IsInkToShapeRounded == true) {
                                 var shape = result.InkDrawingNode.GetShape();
                                 if (shape.Width > 75) {
                                     foreach (Circle circle in circles) {
@@ -94,7 +94,7 @@ namespace Ink_Canvas {
                                     _currentCommitType = CommitReason.UserInput;
                                     newStrokes = new StrokeCollection();
                                 }
-                            } else if (result.InkDrawingNode.GetShapeName().Contains("Ellipse")) {
+                            } else if (result.InkDrawingNode.GetShapeName().Contains("Ellipse") && Settings.InkToShape.IsInkToShapeRounded == true) {
                                 var shape = result.InkDrawingNode.GetShape();
                                 //var shape1 = result.InkDrawingNode.GetShape();
                                 //shape1.Fill = Brushes.Gray;
@@ -215,11 +215,12 @@ namespace Ink_Canvas {
                                     GridInkCanvasSelectionCover.Visibility = Visibility.Collapsed;
                                     newStrokes = new StrokeCollection();
                                 }
-                            } else if (result.InkDrawingNode.GetShapeName().Contains("Triangle")) {
+                            } else if (result.InkDrawingNode.GetShapeName().Contains("Triangle") && Settings.InkToShape.IsInkToShapeTriangle==true) {
                                 var shape = result.InkDrawingNode.GetShape();
                                 var p = result.InkDrawingNode.HotPoints;
                                 if ((Math.Max(Math.Max(p[0].X, p[1].X), p[2].X) - Math.Min(Math.Min(p[0].X, p[1].X), p[2].X) >= 100 ||
-                                    Math.Max(Math.Max(p[0].Y, p[1].Y), p[2].Y) - Math.Min(Math.Min(p[0].Y, p[1].Y), p[2].Y) >= 100) && result.InkDrawingNode.HotPoints.Count == 3) {
+                                    Math.Max(Math.Max(p[0].Y, p[1].Y), p[2].Y) - Math.Min(Math.Min(p[0].Y, p[1].Y), p[2].Y) >= 100) && result.InkDrawingNode.HotPoints.Count == 3)
+                                {
                                     //纠正垂直与水平关系
                                     var newPoints = FixPointsDirection(p[0], p[1]);
                                     p[0] = newPoints[0];
@@ -234,7 +235,8 @@ namespace Ink_Canvas {
                                     var pointList = p.ToList();
                                     //pointList.Add(p[0]);
                                     var point = new StylusPointCollection(pointList);
-                                    var stroke = new Stroke(GenerateFakePressureTriangle(point)) {
+                                    var stroke = new Stroke(GenerateFakePressureTriangle(point))
+                                    {
                                         DrawingAttributes = inkCanvas.DefaultDrawingAttributes.Clone()
                                     };
                                     SetNewBackupOfStroke();
@@ -245,10 +247,10 @@ namespace Ink_Canvas {
                                     GridInkCanvasSelectionCover.Visibility = Visibility.Collapsed;
                                     newStrokes = new StrokeCollection();
                                 }
-                            } else if (result.InkDrawingNode.GetShapeName().Contains("Rectangle") ||
+                            } else if ((result.InkDrawingNode.GetShapeName().Contains("Rectangle") ||
                                        result.InkDrawingNode.GetShapeName().Contains("Diamond") ||
                                        result.InkDrawingNode.GetShapeName().Contains("Parallelogram") ||
-                                       result.InkDrawingNode.GetShapeName().Contains("Square")) {
+                                       result.InkDrawingNode.GetShapeName().Contains("Square")) && Settings.InkToShape.IsInkToShapeRectangle == true) {
                                 var shape = result.InkDrawingNode.GetShape();
                                 var p = result.InkDrawingNode.HotPoints;
                                 if ((Math.Max(Math.Max(Math.Max(p[0].X, p[1].X), p[2].X), p[3].X) - Math.Min(Math.Min(Math.Min(p[0].X, p[1].X), p[2].X), p[3].X) >= 100 ||
@@ -470,41 +472,66 @@ namespace Ink_Canvas {
         }
 
         public StylusPointCollection GenerateFakePressureTriangle(StylusPointCollection points) {
-            var newPoint = new StylusPointCollection();
-            newPoint.Add(new StylusPoint(points[0].X, points[0].Y, (float)0.4));
-            var cPoint = GetCenterPoint(points[0], points[1]);
-            newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
-            newPoint.Add(new StylusPoint(points[1].X, points[1].Y, (float)0.4));
-            newPoint.Add(new StylusPoint(points[1].X, points[1].Y, (float)0.4));
-            cPoint = GetCenterPoint(points[1], points[2]);
-            newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
-            newPoint.Add(new StylusPoint(points[2].X, points[2].Y, (float)0.4));
-            newPoint.Add(new StylusPoint(points[2].X, points[2].Y, (float)0.4));
-            cPoint = GetCenterPoint(points[2], points[0]);
-            newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
-            newPoint.Add(new StylusPoint(points[0].X, points[0].Y, (float)0.4));
-            return newPoint;
+            if (Settings.InkToShape.IsInkToShapeNoFakePressureTriangle == true)
+            {
+                var newPoint = new StylusPointCollection();
+                newPoint.Add(new StylusPoint(points[0].X, points[0].Y));
+                var cPoint = GetCenterPoint(points[0], points[1]);
+                newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y));
+                newPoint.Add(new StylusPoint(points[1].X, points[1].Y));
+                newPoint.Add(new StylusPoint(points[1].X, points[1].Y));
+                cPoint = GetCenterPoint(points[1], points[2]);
+                newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y));
+                newPoint.Add(new StylusPoint(points[2].X, points[2].Y));
+                newPoint.Add(new StylusPoint(points[2].X, points[2].Y));
+                cPoint = GetCenterPoint(points[2], points[0]);
+                newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y));
+                newPoint.Add(new StylusPoint(points[0].X, points[0].Y));
+                return newPoint;
+            } else
+            {
+                var newPoint = new StylusPointCollection();
+                newPoint.Add(new StylusPoint(points[0].X, points[0].Y, (float)0.4));
+                var cPoint = GetCenterPoint(points[0], points[1]);
+                newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
+                newPoint.Add(new StylusPoint(points[1].X, points[1].Y, (float)0.4));
+                newPoint.Add(new StylusPoint(points[1].X, points[1].Y, (float)0.4));
+                cPoint = GetCenterPoint(points[1], points[2]);
+                newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
+                newPoint.Add(new StylusPoint(points[2].X, points[2].Y, (float)0.4));
+                newPoint.Add(new StylusPoint(points[2].X, points[2].Y, (float)0.4));
+                cPoint = GetCenterPoint(points[2], points[0]);
+                newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
+                newPoint.Add(new StylusPoint(points[0].X, points[0].Y, (float)0.4));
+                return newPoint;
+            }
         }
 
         public StylusPointCollection GenerateFakePressureRectangle(StylusPointCollection points) {
-            var newPoint = new StylusPointCollection();
-            newPoint.Add(new StylusPoint(points[0].X, points[0].Y, (float)0.4));
-            var cPoint = GetCenterPoint(points[0], points[1]);
-            newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
-            newPoint.Add(new StylusPoint(points[1].X, points[1].Y, (float)0.4));
-            newPoint.Add(new StylusPoint(points[1].X, points[1].Y, (float)0.4));
-            cPoint = GetCenterPoint(points[1], points[2]);
-            newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
-            newPoint.Add(new StylusPoint(points[2].X, points[2].Y, (float)0.4));
-            newPoint.Add(new StylusPoint(points[2].X, points[2].Y, (float)0.4));
-            cPoint = GetCenterPoint(points[2], points[3]);
-            newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
-            newPoint.Add(new StylusPoint(points[3].X, points[3].Y, (float)0.4));
-            newPoint.Add(new StylusPoint(points[3].X, points[3].Y, (float)0.4));
-            cPoint = GetCenterPoint(points[3], points[0]);
-            newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
-            newPoint.Add(new StylusPoint(points[0].X, points[0].Y, (float)0.4));
-            return newPoint;
+            if (Settings.InkToShape.IsInkToShapeNoFakePressureRectangle == true) {
+                return points;
+            } else
+            {
+                var newPoint = new StylusPointCollection();
+                newPoint.Add(new StylusPoint(points[0].X, points[0].Y, (float)0.4));
+                var cPoint = GetCenterPoint(points[0], points[1]);
+                newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
+                newPoint.Add(new StylusPoint(points[1].X, points[1].Y, (float)0.4));
+                newPoint.Add(new StylusPoint(points[1].X, points[1].Y, (float)0.4));
+                cPoint = GetCenterPoint(points[1], points[2]);
+                newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
+                newPoint.Add(new StylusPoint(points[2].X, points[2].Y, (float)0.4));
+                newPoint.Add(new StylusPoint(points[2].X, points[2].Y, (float)0.4));
+                cPoint = GetCenterPoint(points[2], points[3]);
+                newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
+                newPoint.Add(new StylusPoint(points[3].X, points[3].Y, (float)0.4));
+                newPoint.Add(new StylusPoint(points[3].X, points[3].Y, (float)0.4));
+                cPoint = GetCenterPoint(points[3], points[0]);
+                newPoint.Add(new StylusPoint(cPoint.X, cPoint.Y, (float)0.8));
+                newPoint.Add(new StylusPoint(points[0].X, points[0].Y, (float)0.4));
+                return newPoint;
+            } 
+            
         }
 
         public Point GetCenterPoint(Point point1, Point point2) {

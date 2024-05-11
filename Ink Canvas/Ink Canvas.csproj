@@ -24,19 +24,33 @@
     <BootstrapperEnabled>false</BootstrapperEnabled>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
+    <Configurations>Debug;Release;x86 Debug</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>full</DebugType>
+    <DebugType>none</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
+    <Prefer32Bit>True</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 Debug|AnyCPU'">
+    <DebugType>none</DebugType>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <Prefer32Bit>True</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
+    <Prefer32Bit>True</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>icc.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <DebugType>full</DebugType>
+    <LangVersion>7.3</LangVersion>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 Debug|x86'">
     <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <DebugType>full</DebugType>
     <LangVersion>7.3</LangVersion>
@@ -58,8 +72,15 @@
     <PackageProjectUrl>https://icc.bliemhax.com</PackageProjectUrl>
     <FileVersion>bundled</FileVersion>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <DebugType>full</DebugType>
+    <LangVersion>7.3</LangVersion>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 Debug|ARM64'">
     <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <DebugType>full</DebugType>
     <LangVersion>7.3</LangVersion>
@@ -72,6 +93,12 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <DebugType>full</DebugType>
+    <LangVersion>7.3</LangVersion>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 Debug|x64'">
     <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <DebugType>full</DebugType>
     <LangVersion>7.3</LangVersion>
@@ -273,6 +300,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons-Fluent\ic_fluent_people_24_regular.png" />
+    <Resource Include="Resources\new-icons\end-slides-show.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\new-icons\hand-move.png" />
+    <Resource Include="Resources\new-icons\multi-touch.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\new-icons\pen-lined.png" />
@@ -293,6 +325,7 @@
   <ItemGroup>
     <Resource Include="Resources\new-icons\lasso-select-lined.png" />
     <Resource Include="Resources\new-icons\lasso-select-solid.png" />
+    <Resource Include="Resources\new-icons\rotate.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\new-icons\trash.png" />
@@ -404,9 +437,17 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icc.ico" />
+    <Resource Include="Resources\new-icons\zoom.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\new-icons\end-slides-show.png" />
+    <None Remove="Resources\new-icons\hand-move.png" />
+    <None Remove="Resources\new-icons\multi-touch.png" />
+    <None Remove="Resources\new-icons\rotate.png" />
+    <None Remove="Resources\new-icons\zoom.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
