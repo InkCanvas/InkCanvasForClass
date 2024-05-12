@@ -65,7 +65,7 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Title>InkCanvasForClass</Title>
-    <Version>5.0.3</Version>
+    <Version>5.0.4</Version>
     <Authors>Dubi906w</Authors>
     <Product>InkCanvasForClass</Product>
     <Copyright>© Copyright HARKOTEK Studio 2024-now</Copyright>
@@ -182,6 +182,7 @@
     <Resource Include="Resources\Icons-png\check-box-background.png" />
     <Resource Include="Resources\Icons-png\eraser-line.png" />
     <Resource Include="Resources\Icons-png\eraser-outline.png" />
+    <Resource Include="Resources\Icons-png\icc.png" />
     <Resource Include="Resources\Icons-png\playCircle.png" />
     <Resource Include="Resources\Icons-png\redo.png" />
     <Resource Include="Resources\Icons-png\setting.png" />
@@ -450,6 +451,7 @@
     <Compile Remove="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Resources\Icons-png\icc.png" />
     <None Remove="Resources\Icons-png\transparent-grid.png" />
     <None Remove="Resources\new-icons\chevron-left.png" />
     <None Remove="Resources\new-icons\end-slides-show.png" />

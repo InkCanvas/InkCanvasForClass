@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Diagnostics;
 using File = System.IO.File;
 using System.Windows.Media;
 using System.Windows.Ink;
+using System.Windows.Media.Imaging;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -105,29 +105,76 @@ namespace Ink_Canvas {
             if (!isLoaded) return;
             Settings.Appearance.IsEnableDisPlayNibModeToggler = ToggleSwitchEnableDisPlayNibModeToggle.IsOn;
             SaveSettingsToFile();
-            LoadSettings();
+            if (!ToggleSwitchEnableDisPlayNibModeToggle.IsOn)
+            {
+                NibModeSimpleStackPanel.Visibility = Visibility.Collapsed;
+                BoardNibModeSimpleStackPanel.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                NibModeSimpleStackPanel.Visibility = Visibility.Visible;
+                BoardNibModeSimpleStackPanel.Visibility = Visibility.Visible;
+            }
         }
 
-        private void ToggleSwitchIsColorfulViewboxFloatingBar_Toggled(object sender, RoutedEventArgs e) {
-            if (!isLoaded) return;
-            Settings.Appearance.IsColorfulViewboxFloatingBar = ToggleSwitchColorfulViewboxFloatingBar.IsOn;
-            SaveSettingsToFile();
-            LoadSettings();
-        }
+        //private void ToggleSwitchIsColorfulViewboxFloatingBar_Toggled(object sender, RoutedEventArgs e) {
+        //    if (!isLoaded) return;
+        //    Settings.Appearance.IsColorfulViewboxFloatingBar = ToggleSwitchColorfulViewboxFloatingBar.IsOn;
+        //    SaveSettingsToFile();
+        //}
 
         private void ToggleSwitchEnableQuickPanel_Toggled(object sender, RoutedEventArgs e)
         {
             if (!isLoaded) return;
             Settings.Appearance.IsShowQuickPanel = ToggleSwitchEnableQuickPanel.IsOn;
             SaveSettingsToFile();
-            LoadSettings();
         }
 
-        private void ToggleSwitchEnableViewboxFloatingBarScaleTransform_Toggled(object sender, RoutedEventArgs e) {
+        private void ViewboxFloatingBarScaleTransformValueSlider_ValueChanged(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
-            Settings.Appearance.EnableViewboxFloatingBarScaleTransform = ToggleSwitchEnableViewboxFloatingBarScaleTransform.IsOn;
+            Settings.Appearance.ViewboxFloatingBarScaleTransformValue = ViewboxFloatingBarScaleTransformValueSlider.Value;
             SaveSettingsToFile();
-            LoadSettings();
+            double val = ViewboxFloatingBarScaleTransformValueSlider.Value;
+            ViewboxFloatingBarScaleTransform.ScaleX = (val > 0.5 && val < 1.25) ? val : val <= 0.5 ? 0.5 : val >= 1.25 ? 1.25 : 1;
+            ViewboxFloatingBarScaleTransform.ScaleY = (val > 0.5 && val < 1.25) ? val : val <= 0.5 ? 0.5 : val >= 1.25 ? 1.25 : 1;
+            // auto align
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible)
+            {
+                ViewboxFloatingBarMarginAnimation(60);
+            }
+            else
+            {
+                ViewboxFloatingBarMarginAnimation(100,true);
+            }
+        }
+
+        private void ComboBoxUnFoldBtnImg_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Appearance.UnFoldButtonImageType = ComboBoxUnFoldBtnImg.SelectedIndex;
+            SaveSettingsToFile();
+            if (ComboBoxUnFoldBtnImg.SelectedIndex == 0)
+            {
+                RightUnFoldBtnImgChevron.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/new-icons/unfold-chevron.png"));
+                RightUnFoldBtnImgChevron.Width = 14;
+                RightUnFoldBtnImgChevron.Height = 14;
+                RightUnFoldBtnImgChevron.RenderTransform = new RotateTransform(180);
+                LeftUnFoldBtnImgChevron.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/new-icons/unfold-chevron.png"));
+                LeftUnFoldBtnImgChevron.Width = 14;
+                LeftUnFoldBtnImgChevron.Height = 14;
+                LeftUnFoldBtnImgChevron.RenderTransform = null;
+            }
+            else if (ComboBoxUnFoldBtnImg.SelectedIndex == 1)
+            {
+                RightUnFoldBtnImgChevron.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/new-icons/pen-white.png"));
+                RightUnFoldBtnImgChevron.Width = 18;
+                RightUnFoldBtnImgChevron.Height = 18;
+                RightUnFoldBtnImgChevron.RenderTransform = null;
+                LeftUnFoldBtnImgChevron.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/new-icons/pen-white.png"));
+                LeftUnFoldBtnImgChevron.Width = 18;
+                LeftUnFoldBtnImgChevron.Height = 18;
+                LeftUnFoldBtnImgChevron.RenderTransform = null;
+            }
         }
 
         private void ToggleSwitchEnableViewboxBlackBoardScaleTransform_Toggled(object sender, RoutedEventArgs e) {
@@ -695,7 +742,7 @@ namespace Ink_Canvas {
 
             Settings.Appearance.IsEnableDisPlayNibModeToggler = false;
             Settings.Appearance.IsColorfulViewboxFloatingBar = false;
-            Settings.Appearance.EnableViewboxFloatingBarScaleTransform = true;
+            Settings.Appearance.ViewboxFloatingBarScaleTransformValue = 1;
             Settings.Appearance.EnableViewboxBlackBoardScaleTransform = false;
             Settings.Appearance.IsTransparentButtonBackground = true;
             Settings.Appearance.IsShowExitButton = true;

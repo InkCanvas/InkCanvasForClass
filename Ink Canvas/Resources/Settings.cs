@@ -111,8 +111,10 @@ namespace Ink_Canvas
         public bool IsEnableDisPlayNibModeToggler { get; set; } = true;
         [JsonProperty("isColorfulViewboxFloatingBar")]
         public bool IsColorfulViewboxFloatingBar { get; set; } = false;
-        [JsonProperty("enableViewboxFloatingBarScaleTransform")]
-        public bool EnableViewboxFloatingBarScaleTransform { get; set; } = false;
+        // [JsonProperty("enableViewboxFloatingBarScaleTransform")]
+        // public bool EnableViewboxFloatingBarScaleTransform { get; set; } = false;
+        [JsonProperty("viewboxFloatingBarScaleTransformValue")]
+        public double ViewboxFloatingBarScaleTransformValue { get; set; } = 1.0;
         [JsonProperty("enableViewboxBlackBoardScaleTransform")]
         public bool EnableViewboxBlackBoardScaleTransform { get; set; } = false;
         [JsonProperty("isTransparentButtonBackground")]
@@ -125,6 +127,8 @@ namespace Ink_Canvas
         public bool EnableTimeDisplayInWhiteboardMode { get; set; } = true;
         [JsonProperty("isShowHideControlButton")]
         public bool IsShowHideControlButton { get; set; } = false;
+        [JsonProperty("unFoldButtonImageType")]
+        public int UnFoldButtonImageType { get; set; } = 0;
         [JsonProperty("isShowLRSwitchButton")]
         public bool IsShowLRSwitchButton { get; set; } = false;
         [JsonProperty("isShowQuickPanel")]

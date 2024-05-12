@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using File = System.IO.File;
 
 namespace Ink_Canvas {
@@ -80,41 +81,60 @@ namespace Ink_Canvas {
                     NibModeSimpleStackPanel.Visibility = Visibility.Visible;
                     BoardNibModeSimpleStackPanel.Visibility = Visibility.Visible;
                 }
-                if (Settings.Appearance.IsColorfulViewboxFloatingBar) // 浮动工具栏背景色
+                //if (Settings.Appearance.IsColorfulViewboxFloatingBar) // 浮动工具栏背景色
+                //{
+                //    LinearGradientBrush gradientBrush = new LinearGradientBrush();
+                //    gradientBrush.StartPoint = new Point(0, 0);
+                //    gradientBrush.EndPoint = new Point(1, 1);
+                //    GradientStop blueStop = new GradientStop(Color.FromArgb(0x95, 0x80, 0xB0, 0xFF), 0);
+                //    GradientStop greenStop = new GradientStop(Color.FromArgb(0x95, 0xC0, 0xFF, 0xC0), 1);
+                //    gradientBrush.GradientStops.Add(blueStop);
+                //    gradientBrush.GradientStops.Add(greenStop);
+                //    EnableTwoFingerGestureBorder.Background = gradientBrush;
+                //    BorderFloatingBarMainControls.Background = gradientBrush;
+                //    BorderFloatingBarMoveControls.Background = gradientBrush;
+                //    BorderFloatingBarExitPPTBtn.Background = gradientBrush;
+
+                //    ToggleSwitchColorfulViewboxFloatingBar.IsOn = true;
+                //} else {
+                //    EnableTwoFingerGestureBorder.Background = (Brush)FindResource("FloatBarBackground");
+                //    BorderFloatingBarMainControls.Background = (Brush)FindResource("FloatBarBackground");
+                //    BorderFloatingBarMoveControls.Background = (Brush)FindResource("FloatBarBackground");
+                //    BorderFloatingBarExitPPTBtn.Background = (Brush)FindResource("FloatBarBackground");
+
+                //    ToggleSwitchColorfulViewboxFloatingBar.IsOn = false;
+                //}
+                if (Settings.Appearance.ViewboxFloatingBarScaleTransformValue != 0) // 浮动工具栏 UI 缩放 85%
                 {
-                    LinearGradientBrush gradientBrush = new LinearGradientBrush();
-                    gradientBrush.StartPoint = new Point(0, 0);
-                    gradientBrush.EndPoint = new Point(1, 1);
-                    GradientStop blueStop = new GradientStop(Color.FromArgb(0x95, 0x80, 0xB0, 0xFF), 0);
-                    GradientStop greenStop = new GradientStop(Color.FromArgb(0x95, 0xC0, 0xFF, 0xC0), 1);
-                    gradientBrush.GradientStops.Add(blueStop);
-                    gradientBrush.GradientStops.Add(greenStop);
-                    EnableTwoFingerGestureBorder.Background = gradientBrush;
-                    BorderFloatingBarMainControls.Background = gradientBrush;
-                    BorderFloatingBarMoveControls.Background = gradientBrush;
-                    BorderFloatingBarExitPPTBtn.Background = gradientBrush;
-
-                    ToggleSwitchColorfulViewboxFloatingBar.IsOn = true;
-                } else {
-                    EnableTwoFingerGestureBorder.Background = (Brush)FindResource("FloatBarBackground");
-                    BorderFloatingBarMainControls.Background = (Brush)FindResource("FloatBarBackground");
-                    BorderFloatingBarMoveControls.Background = (Brush)FindResource("FloatBarBackground");
-                    BorderFloatingBarExitPPTBtn.Background = (Brush)FindResource("FloatBarBackground");
-
-                    ToggleSwitchColorfulViewboxFloatingBar.IsOn = false;
+                    double val = Settings.Appearance.ViewboxFloatingBarScaleTransformValue;
+                    ViewboxFloatingBarScaleTransform.ScaleX = (val > 0.5 && val < 1.25) ? val : val <= 0.5 ? 0.5 : val >= 1.25 ? 1.25 : 1;
+                    ViewboxFloatingBarScaleTransform.ScaleY = (val > 0.5 && val < 1.25) ? val : val <= 0.5 ? 0.5 : val >= 1.25 ? 1.25 : 1;
+                    ViewboxFloatingBarScaleTransformValueSlider.Value = val;
                 }
-                if (Settings.Appearance.EnableViewboxFloatingBarScaleTransform) // 浮动工具栏 UI 缩放 85%
+
+                ComboBoxUnFoldBtnImg.SelectedIndex = Settings.Appearance.UnFoldButtonImageType;
+                if (Settings.Appearance.UnFoldButtonImageType==0)
                 {
-                    ViewboxFloatingBarScaleTransform.ScaleX = 0.85;
-                    ViewboxFloatingBarScaleTransform.ScaleY = 0.85;
-
-                    ToggleSwitchEnableViewboxFloatingBarScaleTransform.IsOn = true;
-                } else {
-                    ViewboxFloatingBarScaleTransform.ScaleX = 1;
-                    ViewboxFloatingBarScaleTransform.ScaleY = 1;
-
-                    ToggleSwitchEnableViewboxFloatingBarScaleTransform.IsOn = false;
+                    RightUnFoldBtnImgChevron.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/new-icons/unfold-chevron.png"));
+                    RightUnFoldBtnImgChevron.Width = 14;
+                    RightUnFoldBtnImgChevron.Height = 14;
+                    RightUnFoldBtnImgChevron.RenderTransform = new RotateTransform(180);
+                    LeftUnFoldBtnImgChevron.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/new-icons/unfold-chevron.png"));
+                    LeftUnFoldBtnImgChevron.Width = 14;
+                    LeftUnFoldBtnImgChevron.Height = 14;
+                    LeftUnFoldBtnImgChevron.RenderTransform = null;
+                } else if (Settings.Appearance.UnFoldButtonImageType ==1)
+                {
+                    RightUnFoldBtnImgChevron.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/new-icons/pen-white.png"));
+                    RightUnFoldBtnImgChevron.Width = 18;
+                    RightUnFoldBtnImgChevron.Height = 18;
+                    RightUnFoldBtnImgChevron.RenderTransform = null;
+                    LeftUnFoldBtnImgChevron.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/new-icons/pen-white.png"));
+                    LeftUnFoldBtnImgChevron.Width = 18;
+                    LeftUnFoldBtnImgChevron.Height = 18;
+                    LeftUnFoldBtnImgChevron.RenderTransform = null;
                 }
+
                 if (Settings.Appearance.IsShowQuickPanel)
                 {
                     ToggleSwitchEnableQuickPanel.IsOn = true;
@@ -583,7 +603,7 @@ namespace Ink_Canvas {
             if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
                 ViewboxFloatingBarMarginAnimation(60);
             } else {
-                ViewboxFloatingBarMarginAnimation(100);
+                ViewboxFloatingBarMarginAnimation(100, true);
             }
         }
     }

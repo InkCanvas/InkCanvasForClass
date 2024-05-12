@@ -44,10 +44,12 @@ namespace Ink_Canvas {
         private void CheckEnableTwoFingerGestureBtnColorPrompt() {
             if (ToggleSwitchEnableMultiTouchMode.IsOn) {
                 TwoFingerGestureSimpleStackPanel.Opacity = 0.5;
+                TwoFingerGestureSimpleStackPanel.IsHitTestVisible = false;
                 EnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/new-icons/gesture.png", UriKind.Relative));
                 BoardEnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/new-icons/gesture.png", UriKind.Relative));
             } else {
                 TwoFingerGestureSimpleStackPanel.Opacity = 1;
+                TwoFingerGestureSimpleStackPanel.IsHitTestVisible = true;
                 if (Settings.Gesture.IsEnableTwoFingerGesture) {
                     EnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/new-icons/gesture-enabled.png", UriKind.Relative));
                     BoardEnableTwoFingerGestureBtn.Source = new BitmapImage(new Uri("/Resources/new-icons/gesture-enabled.png", UriKind.Relative));
@@ -102,8 +104,6 @@ namespace Ink_Canvas {
             pos = e.GetPosition(null);
             downPos = e.GetPosition(null);
             GridForFloatingBarDraging.Visibility = Visibility.Visible;
-
-            SymbolIconEmoji.Symbol = iNKORE.UI.WPF.Modern.Controls.Symbol.Emoji;
         }
 
         void SymbolIconEmoji_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -120,7 +120,6 @@ namespace Ink_Canvas {
             }
 
             GridForFloatingBarDraging.Visibility = Visibility.Collapsed;
-            SymbolIconEmoji.Symbol = iNKORE.UI.WPF.Modern.Controls.Symbol.Emoji2;
         }
 
         #endregion
@@ -267,7 +266,7 @@ namespace Ink_Canvas {
                     } else if (Topmost == true) //非黑板
                       {
                         await Task.Delay(50);
-                        ViewboxFloatingBarMarginAnimation(100);
+                        ViewboxFloatingBarMarginAnimation(100, true);
                     } else //黑板
                       {
                         await Task.Delay(50);
@@ -449,7 +448,7 @@ namespace Ink_Canvas {
                     new Thread(new ThreadStart(() => {
                         Thread.Sleep(100);
                         Application.Current.Dispatcher.Invoke(() => {
-                            ViewboxFloatingBarMarginAnimation(100);
+                            ViewboxFloatingBarMarginAnimation(100, true);
                         });
                     })).Start();
                 } else {
@@ -657,7 +656,7 @@ namespace Ink_Canvas {
 
         bool isViewboxFloatingBarMarginAnimationRunning = false;
 
-        private async void ViewboxFloatingBarMarginAnimation(int MarginFromEdge) {
+        private async void ViewboxFloatingBarMarginAnimation(int MarginFromEdge, bool PosXCaculatedWithTaskbarHeight = false) {
             if (MarginFromEdge == 60) {
                 MarginFromEdge = 55;
             }
@@ -678,8 +677,16 @@ namespace Ink_Canvas {
                 IntPtr windowHandle = new WindowInteropHelper(this).Handle;
                 System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(windowHandle);
                 double screenWidth = screen.Bounds.Width / dpiScaleX, screenHeight = screen.Bounds.Height / dpiScaleY;
+                double toolbarHeight = SystemParameters.PrimaryScreenHeight - SystemParameters.FullPrimaryScreenHeight - SystemParameters.WindowCaptionHeight;
                 pos.X = (screenWidth - ViewboxFloatingBar.ActualWidth * ViewboxFloatingBarScaleTransform.ScaleX) / 2;
-                pos.Y = screenHeight - MarginFromEdge * ((ViewboxFloatingBarScaleTransform.ScaleY == 1) ? 1 : 0.9);
+
+                if (PosXCaculatedWithTaskbarHeight == false) {
+                    pos.Y = screenHeight - MarginFromEdge * ViewboxFloatingBarScaleTransform.ScaleY;
+                }
+                else if(PosXCaculatedWithTaskbarHeight == true)
+                {
+                    pos.Y = screenHeight - ViewboxFloatingBar.ActualHeight * ViewboxFloatingBarScaleTransform.ScaleY - toolbarHeight - ViewboxFloatingBarScaleTransform.ScaleY * 3;
+                }
 
                 if (MarginFromEdge != -60) {
                     if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
@@ -702,7 +709,7 @@ namespace Ink_Canvas {
                 }
 
                 ThicknessAnimation marginAnimation = new ThicknessAnimation {
-                    Duration = TimeSpan.FromSeconds(0.5),
+                    Duration = TimeSpan.FromSeconds(0.3),
                     From = ViewboxFloatingBar.Margin,
                     To = new Thickness(pos.X, pos.Y, -2000, -200)
                 };
@@ -808,7 +815,7 @@ namespace Ink_Canvas {
                 if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
                     ViewboxFloatingBarMarginAnimation(60);
                 } else {
-                    ViewboxFloatingBarMarginAnimation(100);
+                    ViewboxFloatingBarMarginAnimation(100,true);
                 }
             }
         }

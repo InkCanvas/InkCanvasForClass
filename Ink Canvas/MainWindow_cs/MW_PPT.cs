@@ -451,7 +451,7 @@ namespace Ink_Canvas {
             });
 
             await Task.Delay(150);
-            ViewboxFloatingBarMarginAnimation(100);
+            ViewboxFloatingBarMarginAnimation(100,true);
         }
 
         int previousSlideID = 0;
@@ -590,7 +590,7 @@ namespace Ink_Canvas {
 
             HideSubPanels("cursor");
             await Task.Delay(150);
-            ViewboxFloatingBarMarginAnimation(100);
+            ViewboxFloatingBarMarginAnimation(100, true);
         }
 
         private void GridPPTControlPrevious_MouseUp(object sender, MouseButtonEventArgs e) {

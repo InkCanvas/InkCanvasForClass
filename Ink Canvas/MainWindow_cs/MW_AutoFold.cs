@@ -3,7 +3,9 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -108,9 +110,9 @@ namespace Ink_Canvas {
                 if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
                     ViewboxFloatingBarMarginAnimation(60);
                 } else {
-                    ViewboxFloatingBarMarginAnimation(100);
+                    ViewboxFloatingBarMarginAnimation(100, true);
                 }
-                SidePannelMarginAnimation(-50,true);
+                SidePannelMarginAnimation(-50, !unfoldFloatingBarByUser);
             });
 
             isFloatingBarChangingHideMode = false;
@@ -122,12 +124,12 @@ namespace Ink_Canvas {
                 if (MarginFromEdge == -10) LeftSidePanel.Visibility = Visibility.Visible;
 
                 ThicknessAnimation LeftSidePanelmarginAnimation = new ThicknessAnimation {
-                    Duration = TimeSpan.FromSeconds(isNoAnimation? 0 : 0.175),
+                    Duration = isNoAnimation==true? TimeSpan.FromSeconds(0) : TimeSpan.FromSeconds(0.175),
                     From = LeftSidePanel.Margin,
                     To = new Thickness(MarginFromEdge, 0, 0, -150)
                 };
                 ThicknessAnimation RightSidePanelmarginAnimation = new ThicknessAnimation {
-                    Duration = TimeSpan.FromSeconds(isNoAnimation ? 0 : 0.175),
+                    Duration = isNoAnimation == true ? TimeSpan.FromSeconds(0) : TimeSpan.FromSeconds(0.175),
                     From = RightSidePanel.Margin,
                     To = new Thickness(0, 0, MarginFromEdge, -150)
                 };
