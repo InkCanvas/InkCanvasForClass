@@ -198,6 +198,58 @@ namespace Ink_Canvas {
         {
             if (!isLoaded) return;
             Settings.Canvas.EraserSize = ComboBoxEraserSizeFloatingBar.SelectedIndex;
+            ComboBoxEraserSize.SelectedIndex = ComboBoxEraserSizeFloatingBar.SelectedIndex;
+            if (Settings.Canvas.EraserShapeType == 0)
+            {
+                double k = 1;
+                switch (ComboBoxEraserSizeFloatingBar.SelectedIndex)
+                {
+                    case 0:
+                        k = 0.5;
+                        break;
+                    case 1:
+                        k = 0.8;
+                        break;
+                    case 3:
+                        k = 1.25;
+                        break;
+                    case 4:
+                        k = 1.8;
+                        break;
+                }
+                inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
+            }
+            else if (Settings.Canvas.EraserShapeType == 1)
+            {
+                double k = 1;
+                switch (ComboBoxEraserSizeFloatingBar.SelectedIndex)
+                {
+                    case 0:
+                        k = 0.7;
+                        break;
+                    case 1:
+                        k = 0.9;
+                        break;
+                    case 3:
+                        k = 1.2;
+                        break;
+                    case 4:
+                        k = 1.6;
+                        break;
+                }
+                inkCanvas.EraserShape = new RectangleStylusShape(k * 90 * 0.6, k * 90);
+            }
+            inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+            inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
+            SaveSettingsToFile();
+        }
+
+        private void SwitchToCircleEraser(object sender, MouseButtonEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Canvas.EraserShapeType = 0;
+            SaveSettingsToFile();
+            CheckEraserTypeTab();
             double k = 1;
             switch (ComboBoxEraserSizeFloatingBar.SelectedIndex)
             {
@@ -215,10 +267,35 @@ namespace Ink_Canvas {
                     break;
             }
             inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
-            // inkCanvas.EraserShape = new RectangleStylusShape(k * 90, k * 90);
             inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
             inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
+        }
+
+        private void SwitchToRectangleEraser(object sender, MouseButtonEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Canvas.EraserShapeType = 1;
             SaveSettingsToFile();
+            CheckEraserTypeTab();
+            double k = 1;
+            switch (ComboBoxEraserSizeFloatingBar.SelectedIndex)
+            {
+                case 0:
+                    k = 0.7;
+                    break;
+                case 1:
+                    k = 0.9;
+                    break;
+                case 3:
+                    k = 1.2;
+                    break;
+                case 4:
+                    k = 1.6;
+                    break;
+            }
+            inkCanvas.EraserShape = new RectangleStylusShape(k * 90 * 0.6, k * 90);
+            inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+            inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
         }
 
 
@@ -229,6 +306,17 @@ namespace Ink_Canvas {
             drawingAttributes.Height = ((Slider)sender).Value / 2;
             drawingAttributes.Width = ((Slider)sender).Value / 2;
             Settings.Canvas.InkWidth = ((Slider)sender).Value / 2;
+            SaveSettingsToFile();
+        }
+
+        private void HighlighterWidthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!isLoaded) return;
+            // if (sender == BoardInkWidthSlider) InkWidthSlider.Value = ((Slider)sender).Value;
+            // if (sender == InkWidthSlider) BoardInkWidthSlider.Value = ((Slider)sender).Value;
+            drawingAttributes.Height = ((Slider)sender).Value;
+            drawingAttributes.Width = ((Slider)sender).Value / 2;
+            Settings.Canvas.HighlighterWidth = ((Slider)sender).Value;
             SaveSettingsToFile();
         }
 
@@ -394,6 +482,13 @@ namespace Ink_Canvas {
         private void ToggleSwitchHideStrokeWhenSelecting_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Canvas.HideStrokeWhenSelecting = ToggleSwitchHideStrokeWhenSelecting.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchClearCanvasAndClearTimeMachine_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Canvas.ClearCanvasAndClearTimeMachine = ToggleSwitchClearCanvasAndClearTimeMachine.IsOn;
             SaveSettingsToFile();
         }
 
@@ -642,9 +737,12 @@ namespace Ink_Canvas {
             Settings.Canvas.InkWidth = 2.5;
             Settings.Canvas.IsShowCursor = false;
             Settings.Canvas.InkStyle = 0;
+            Settings.Canvas.HighlighterWidth = 20;
             Settings.Canvas.EraserSize = 1;
             Settings.Canvas.EraserType = 0;
+            Settings.Canvas.EraserShapeType = 1;
             Settings.Canvas.HideStrokeWhenSelecting = false;
+            Settings.Canvas.ClearCanvasAndClearTimeMachine = false;
             Settings.Canvas.FitToCurve = true;
             Settings.Canvas.UsingWhiteboard = false;
             Settings.Canvas.HyperbolaAsymptoteOption = 0;

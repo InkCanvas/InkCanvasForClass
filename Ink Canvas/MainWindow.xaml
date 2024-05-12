@@ -30,6 +30,7 @@
     <Window.Resources>
         <c:VisibilityConverter x:Key="VisibilityConverter"/>
         <c:IsEnabledToOpacityConverter x:Key="IsEnabledToOpacityConverter"/>
+        <c:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <RoutedUICommand x:Key="KeyExit" Text=" "/>
         <RoutedUICommand x:Key="HotKey_Command_Undo" Text=" "/>
         <RoutedUICommand x:Key="HotKey_Command_Redo" Text=" "/>
@@ -812,9 +813,9 @@
                             <GroupBox.Header>
                                 <TextBlock Text="启动" FontWeight="Bold" Foreground="#18181b" FontSize="26"/>
                             </GroupBox.Header>
-                            <ui:SimpleStackPanel Spacing="12">
-                                <ui:ToggleSwitch Name="ToggleSwitchIsAutoUpdate" Header="自动检查更新" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchIsAutoUpdate_Toggled"/>
-                                <ui:ToggleSwitch Name="ToggleSwitchIsAutoUpdateWithSilence" Header="静默更新" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchIsAutoUpdateWithSilence_Toggled"/>
+                            <ui:SimpleStackPanel Spacing="6">
+                                <ui:ToggleSwitch Visibility="Collapsed" Name="ToggleSwitchIsAutoUpdate" Header="自动检查更新" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchIsAutoUpdate_Toggled"/>
+                                <ui:ToggleSwitch Visibility="Collapsed" Name="ToggleSwitchIsAutoUpdateWithSilence" Header="静默更新" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchIsAutoUpdateWithSilence_Toggled"/>
                                 <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="12" Visibility="{Binding ElementName=ToggleSwitchIsAutoUpdateWithSilence, Path=Visibility}">
                                     <ui:SimpleStackPanel Spacing="12">
                                         <TextBlock Text="# 关闭静默更新后，已完成安装包的下载后将会弹窗询问是否进行更新，开启静默更新后将会在安装包下载完成后每隔十分钟进行如下检测：①处于静默更新时间段内 ②未处于书写模式 ③未处于画板内。若以上检测通过即会关闭软件进行自动更新。" TextWrapping="Wrap" Foreground="#666666"/>
@@ -836,10 +837,14 @@
                                         </ui:SimpleStackPanel>
                                     </ui:SimpleStackPanel>
                                 </Border>
-
-                                <ui:ToggleSwitch Name="ToggleSwitchRunAtStartup" Header="开机时运行" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchRunAtStartup_Toggled"/>
-
-                                <ui:ToggleSwitch Name="ToggleSwitchFoldAtStartup" Header="开机运行后收纳到侧边栏" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchFoldAtStartup_Toggled"/>
+                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="开机时运行" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchRunAtStartup" IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" OnContent="开" OffContent="关" Toggled="ToggleSwitchRunAtStartup_Toggled" />
+                                </ui:SimpleStackPanel>
+                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="开机运行后收纳到侧边栏" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchFoldAtStartup" IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" OnContent="开" OffContent="关" Toggled="ToggleSwitchFoldAtStartup_Toggled" />
+                                </ui:SimpleStackPanel>
                                 <!--
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoHideCanvas" Header="自动隐藏画板" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoHideCanvas_Toggled"/>
                                 <ui:ToggleSwitch Name="ToggleSwitchAutoEnterModeFinger" Header="自动进入手指模式" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoEnterModeFinger_Toggled"/>
@@ -850,47 +855,47 @@
                             <GroupBox.Header>
                                 <TextBlock Text="画板和墨迹" FontWeight="Bold" Foreground="#18181b" FontSize="26"/>
                             </GroupBox.Header>
-                            <ui:SimpleStackPanel Spacing="12">
-                                <ui:ToggleSwitch Name="ToggleSwitchShowCursor" Header="显示画笔光标" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchShowCursor_Toggled"/>
-                                <!--
-                                <TextBlock Text="画笔样式" FontFamily="Microsoft YaHei UI" FontSize="14"/>
-                                <ComboBox Name="ComboBoxPenStyle" FontFamily="Microsoft YaHei UI" SelectedIndex="0" SelectionChanged="ComboBoxPenStyle_SelectionChanged">
-                                    <ComboBoxItem Content="模拟笔锋（根据墨迹尾部计算）" FontFamily="Microsoft YaHei UI"/>
-                                    <ComboBoxItem Content="模拟笔锋（根据速度计算）" FontFamily="Microsoft YaHei UI"/>
-                                    <ComboBoxItem Content="无笔锋"  FontFamily="Microsoft YaHei UI"/>
-                                </ComboBox>
-                                <ui:ToggleSwitch x:Name="ToggleSwitchModeFinger" Header="手指模式" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关"/>
-                                
-                                <TextBlock Text="# 此选项仅适用于可获取触摸面积的屏幕" TextWrapping="Wrap" Foreground="#666666"/>
-                                
-                                <TextBlock Text="橡皮模式"  FontFamily="Microsoft YaHei UI" FontSize="14"/>
-                                <ComboBox Name="ComboBoxEraserType" FontFamily="Microsoft YaHei UI" SelectedIndex="0" SelectionChanged="ComboBoxEraserType_OnSelectionChanged">
-                                    <ComboBoxItem Content="交替切换" FontFamily="Microsoft YaHei UI"/>
-                                    <ComboBoxItem Content="面积擦" FontFamily="Microsoft YaHei UI"/>
-                                    <ComboBoxItem Content="笔画擦" FontFamily="Microsoft YaHei UI"/>
-                                </ComboBox>
-                                -->
-                                <TextBlock Text="橡皮大小"  FontFamily="Microsoft YaHei UI" FontSize="14"/>
-                                <ComboBox Name="ComboBoxEraserSize" FontFamily="Microsoft YaHei UI" SelectedIndex="2" SelectionChanged="ComboBoxEraserSize_SelectionChanged">
-                                    <ComboBoxItem Content="小" FontFamily="Microsoft YaHei UI"/>
-                                    <ComboBoxItem Content="较小" FontFamily="Microsoft YaHei UI"/>
-                                    <ComboBoxItem Content="中（默认）" FontFamily="Microsoft YaHei UI"/>
-                                    <ComboBoxItem Content="较大"  FontFamily="Microsoft YaHei UI"/>
-                                    <ComboBoxItem Content="大"  FontFamily="Microsoft YaHei UI"/>
-                                </ComboBox>
-                                <ui:ToggleSwitch Name="ToggleSwitchHideStrokeWhenSelecting" Header="退出画板模式后隐藏墨迹" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchHideStrokeWhenSelecting_Toggled"/>
+                            <ui:SimpleStackPanel Spacing="6">
+                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="显示画笔光标" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchShowCursor" IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" OnContent="开" OffContent="关" Toggled="ToggleSwitchShowCursor_Toggled" />
+                                </ui:SimpleStackPanel>
+                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="橡皮大小" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
+                                    <ComboBox Name="ComboBoxEraserSize" FontFamily="Microsoft YaHei UI" SelectedIndex="2" SelectionChanged="ComboBoxEraserSize_SelectionChanged">
+                                        <ComboBoxItem Content="小" FontFamily="Microsoft YaHei UI"/>
+                                        <ComboBoxItem Content="较小" FontFamily="Microsoft YaHei UI"/>
+                                        <ComboBoxItem Content="中（默认）" FontFamily="Microsoft YaHei UI"/>
+                                        <ComboBoxItem Content="较大"  FontFamily="Microsoft YaHei UI"/>
+                                        <ComboBoxItem Content="大"  FontFamily="Microsoft YaHei UI"/>
+                                    </ComboBox>
+                                </ui:SimpleStackPanel>
+                                <TextBlock Text="# 非实时切换，下一次使用面积擦时生效。" TextWrapping="Wrap" Foreground="#666666"/>
+                                <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4"/>
+                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="退出画板模式后隐藏墨迹" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchHideStrokeWhenSelecting" IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" OnContent="开" OffContent="关" Toggled="ToggleSwitchHideStrokeWhenSelecting_Toggled" />
+                                </ui:SimpleStackPanel>
                                 <TextBlock Text="# 开启 退出画板模式后隐藏墨迹 选项后，进入 PPT 模式时未处于批注模式时不会显示墨迹。" TextWrapping="Wrap" Foreground="#666666"/>
-                                <!--
-                                <ui:ToggleSwitch Name="ToggleSwitchUsingWhiteboard" Header="使用白板 (白色背景)" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchUsingWhiteboard_Toggled"/>
-                                -->
-                                <TextBlock Text="保留双曲线渐近线" FontFamily="Microsoft YaHei UI" FontSize="14"/>
-                                <ComboBox Name="ComboBoxHyperbolaAsymptoteOption" FontFamily="Microsoft YaHei UI" SelectedIndex="0" SelectionChanged="ComboBoxHyperbolaAsymptoteOption_SelectionChanged">
-                                    <ComboBoxItem Content="是" FontFamily="Microsoft YaHei UI"/>
-                                    <ComboBoxItem Content="否" FontFamily="Microsoft YaHei UI"/>
-                                    <ComboBoxItem Content="每次询问" FontFamily="Microsoft YaHei UI"/>
-                                </ComboBox>
+                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="清空墨迹时删除墨迹历史记录" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchClearCanvasAndClearTimeMachine" IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" OnContent="开" OffContent="关" Toggled="ToggleSwitchClearCanvasAndClearTimeMachine_Toggled" />
+                                </ui:SimpleStackPanel>
+                                <TextBlock Text="# 开启后，点击清屏按钮将会一同清理TimeMachine中的墨迹历史记录，这也会导致清屏后无法撤销恢复到原来的笔迹，请慎重使用！" TextWrapping="Wrap" Foreground="#666666"/>
+                                <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4"/>
+                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="保留双曲线渐近线" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
+                                    <ComboBox Name="ComboBoxHyperbolaAsymptoteOption" FontFamily="Microsoft YaHei UI" SelectedIndex="0" SelectionChanged="ComboBoxHyperbolaAsymptoteOption_SelectionChanged">
+                                        <ComboBoxItem Content="是" FontFamily="Microsoft YaHei UI"/>
+                                        <ComboBoxItem Content="否" FontFamily="Microsoft YaHei UI"/>
+                                        <ComboBoxItem Content="每次询问" FontFamily="Microsoft YaHei UI"/>
+                                    </ComboBox>
+                                </ui:SimpleStackPanel>
                                 <TextBlock Text="# 请注意，若不保留双曲线渐近线可能会有遇到撤回相关的 BUG 影响用。" TextWrapping="Wrap" Foreground="#666666"/>
-                                <ui:ToggleSwitch Name="ToggleSwitchFitToCurve" Header="让墨迹使用贝塞尔曲线平滑" IsOn="False" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchFitToCurve_Toggled"/>
+                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="让墨迹使用贝塞尔曲线平滑处理" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchFitToCurve" IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" OnContent="开" OffContent="关" Toggled="ToggleSwitchFitToCurve_Toggled" />
+                                </ui:SimpleStackPanel>
                                 <TextBlock Text="# 开启 让墨迹使用贝塞尔曲线平滑 选项后，所有墨迹将会使用FitToCurve进行贝塞尔曲线平滑化，如果不喜欢可以关闭。" TextWrapping="Wrap" Foreground="#666666"/>
                             </ui:SimpleStackPanel>
                         </GroupBox>
@@ -898,11 +903,17 @@
                             <GroupBox.Header>
                                 <TextBlock Text="手势" FontWeight="Bold" Foreground="#18181b" FontSize="26"/>
                             </GroupBox.Header>
-                            <ui:SimpleStackPanel Spacing="12">
-                                <ui:ToggleSwitch Name="ToggleSwitchAutoSwitchTwoFingerGesture" Header="自动开关两指缩放功能" IsOn="True" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoSwitchTwoFingerGesture_Toggled"/>
-                                <TextBlock Text="# 开启 自动开关两指缩放功能 后退出画板模式时自动关闭双指移动手势，进入画板模式时自动开启双指移动手势" TextWrapping="Wrap" Foreground="#666666"/>
-
-                                <ui:ToggleSwitch Name="ToggleSwitchEnableTwoFingerRotationOnSelection" Header="允许双指旋转选中的墨迹" FontFamily="Microsoft YaHei UI" OnContent="开" OffContent="关" Toggled="ToggleSwitchEnableTwoFingerRotation_Toggled"/>
+                            <ui:SimpleStackPanel Spacing="6">
+                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="进退白板模式自动开关双指移动功能" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchAutoSwitchTwoFingerGesture" IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" OnContent="开" OffContent="关" Toggled="ToggleSwitchAutoSwitchTwoFingerGesture_Toggled" />
+                                </ui:SimpleStackPanel>
+                                <TextBlock Text="# 开启后退出画板模式时自动关闭双指移动手势，进入白板模式时自动开启双指移动手势" TextWrapping="Wrap" Foreground="#666666"/>
+                                <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4"/>
+                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="允许双指旋转与缩放选中的墨迹" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchEnableTwoFingerRotationOnSelection" IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" OnContent="开" OffContent="关" Toggled="ToggleSwitchEnableTwoFingerRotation_Toggled" />
+                                </ui:SimpleStackPanel>
                                 <TextBlock Text="# 允许选中墨迹后对墨迹进行双指或多指缩放操作（此设置不受“允许双指旋转”设置的影响）" TextWrapping="Wrap" Foreground="#666666"/>
                             </ui:SimpleStackPanel>
                         </GroupBox>
@@ -916,7 +927,8 @@
                                     <ui:ToggleSwitch Name="ToggleSwitchEnableInkToShape" IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" OnContent="开" OffContent="关" Toggled="ToggleSwitchEnableInkToShape_Toggled" />
                                 </ui:SimpleStackPanel>
                                 <TextBlock Text="# 可实现智能识别圆、三角形、矩形，并自动转换为规范图形。" Foreground="#666666"/>
-                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <ui:SimpleStackPanel Spacing="6" Visibility="{Binding ElementName=ToggleSwitchEnableInkToShape, Path=IsOn, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                     <TextBlock Text="阻止矫正后的矩形带有模拟压感值" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
                                     <ui:ToggleSwitch Name="ToggleSwitchEnableInkToShapeNoFakePressureRectangle" IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" OnContent="开" OffContent="关" Toggled="ToggleSwitchEnableInkToShapeNoFakePressureRectangle_Toggled" />
                                 </ui:SimpleStackPanel>
@@ -946,6 +958,8 @@
                                         </CheckBox.Content>
                                     </CheckBox>
                                 </ui:SimpleStackPanel>
+                                </ui:SimpleStackPanel>
+                                
                             </ui:SimpleStackPanel>
                         </GroupBox>
                         <GroupBox Name="GroupBoxAppearanceNewUI">
@@ -1635,14 +1649,43 @@
                         <ui:SimpleStackPanel Name="StackPanelCanvasControls" Visibility="Visible" Orientation="{Binding ElementName=StackPanelFloatingBar, Path=Orientation}">
                             <ui:SimpleStackPanel Width="0" Orientation="{Binding ElementName=StackPanelFloatingBar, Path=Orientation}">
                                 <Grid Margin="0,5,0,5" Width="0" RenderTransformOrigin="0.5,0.5">
-                                    <Border x:Name="PenPalette" Visibility="Visible" Background="white" Opacity="0.9" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1" CornerRadius="8" Margin="-160,-192,-33,32">
+                                    <Border x:Name="PenPalette" Visibility="Visible" Background="white" Opacity="0.9" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1" CornerRadius="8" Margin="-160,-200,-33,32">
                                         <ui:SimpleStackPanel>
-                                            <Border BorderBrush="#1e3a8a" BorderThickness="0,0,0,1" CornerRadius="8,8,0,0" Background="#2563eb" Margin="-1,-1,-1,0" Padding="1,1,1,0">
-                                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                                                    <TextBlock Text="笔选项" Foreground="White" Padding="8,5,44,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
+                                            <Border BorderBrush="#1e3a8a" Height="32" BorderThickness="0,0,0,1" CornerRadius="8,8,0,0" Background="#2563eb" Margin="-1,-1,-1,0" Padding="1,1,1,0">
+                                                <ui:SimpleStackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="8,0,0,0" Spacing="4">
+                                                        <Border x:Name="DefaultPenTabButton" MouseDown="SwitchToDefaultPen" Background="#48dbeafe" Height="20" Width="52" CornerRadius="3">
+                                                            <Canvas>
+                                                                <ui:SimpleStackPanel x:Name="DefaultPenTabButtonIndicator" Visibility="Visible" Orientation="Horizontal" Canvas.Left="14" Canvas.Right="14" Canvas.Bottom="0">
+                                                                    <Border Width="24" Height="2" Background="#fafafa" CornerRadius="1"></Border>
+                                                                </ui:SimpleStackPanel>
+                                                                <ui:SimpleStackPanel Orientation="Vertical" Height="20" Width="52">
+                                                                    <ui:SimpleStackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3">
+                                                                        <Image Source="/Resources/new-icons/pen-white.png" RenderOptions.BitmapScalingMode="HighQuality" Height="13" Width="13"/>
+                                                                        <TextBlock x:Name="DefaultPenTabButtonText" Foreground="White" FontWeight="Medium" FontSize="9" TextAlignment="Center" Text="签字笔" Margin="2,1,0,0"/>
+                                                                    </ui:SimpleStackPanel>
+                                                                </ui:SimpleStackPanel>
+                                                            </Canvas>
+                                                        </Border>
+                                                        <Border x:Name="HighlightPenTabButton" MouseDown="SwitchToHighlighterPen" Background="Transparent" Height="20" Width="52" CornerRadius="3">
+                                                            <Canvas>
+                                                                <ui:SimpleStackPanel Visibility="Collapsed" x:Name="HighlightPenTabButtonIndicator" Orientation="Horizontal" Canvas.Left="14" Canvas.Right="14" Canvas.Bottom="0">
+                                                                    <Border Width="24" Height="2" Background="#fafafa" CornerRadius="1"></Border>
+                                                                </ui:SimpleStackPanel>
+                                                                <ui:SimpleStackPanel Orientation="Vertical" Height="20" Width="52">
+                                                                    <ui:SimpleStackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3">
+                                                                        <Image Source="/Resources/new-icons/highlighter-white.png" RenderOptions.BitmapScalingMode="HighQuality" Height="13" Width="13"/>
+                                                                        <TextBlock x:Name="HighlightPenTabButtonText" Foreground="White" FontWeight="Medium" FontSize="9" TextAlignment="Center" Text="荧光笔" Margin="2,1,0,0"/>
+                                                                    </ui:SimpleStackPanel>
+                                                                </ui:SimpleStackPanel>
+                                                            </Canvas>
+                                                        </Border>
+                                                        <Image Margin="48,0,0,0" Source="/Resources/new-icons/close-white.png" RenderOptions.BitmapScalingMode="HighQuality" Height="16" Width="16" MouseDown="Border_MouseDown" MouseUp="CloseBordertools_MouseUp"/>
+                                                    </ui:SimpleStackPanel>
                                                 </ui:SimpleStackPanel>
+                                                
                                             </Border>
-                                            <Viewbox Margin="12,8,12,0" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" >
+                                            <Viewbox Name="DefaultPenPropsPanel" Visibility="Collapsed" Margin="12,8,12,0" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" >
                                                 <ui:SimpleStackPanel>
                                                     <Controls:UniformGrid Columns="2" Width="300" Height="55">
                                                         <ui:SimpleStackPanel Orientation="Horizontal" Height="35">
@@ -1687,7 +1730,16 @@
                                                     </StackPanel>
                                                 </ui:SimpleStackPanel>
                                             </Viewbox>
-                                            <Viewbox Margin="0,8,0,0" Stretch="Fill">
+                                            <Viewbox Name="HighlighterPenPropsPanel" Margin="12,8,12,0" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" >
+                                                <ui:SimpleStackPanel>
+                                                    <StackPanel Orientation="Horizontal" Height="30">
+                                                        <Label Margin="0,0,10,0" Content="粗细" FontWeight="Bold" Foreground="{DynamicResource FloatBarForeground}" FontSize="17" VerticalAlignment="Center"/>
+                                                        <Slider x:Name="HighlighterWidthSlider" Minimum="15" Maximum="45" Width="208" FontFamily="Microsoft YaHei UI" FontSize="20" IsSnapToTickEnabled="True" Value="20" TickFrequency="1" TickPlacement="None" ValueChanged="HighlighterWidthSlider_ValueChanged"/>
+                                                        <TextBlock Text="{Binding Value, ElementName=HighlighterWidthSlider, Mode=OneWay}" FontFamily="Consolas" VerticalAlignment="Bottom" Margin="10,0,0,4.5" FontSize="15"/>
+                                                    </StackPanel>
+                                                </ui:SimpleStackPanel>
+                                            </Viewbox>
+                                            <Viewbox x:Name="DefaultPenColorsPanel" Visibility="Collapsed" Margin="0,8,0,0" Stretch="Fill">
                                                 <ui:SimpleStackPanel Width="300" Margin="0,0,0,0">
                                                     <!--<TextBlock FontSize="25">画笔颜色</TextBlock>-->
                                                     <Border Width="300" Height="100" BorderBrush="Black" BorderThickness="0" CornerRadius="5">
@@ -1756,6 +1808,153 @@
                                                     </Border>
                                                 </ui:SimpleStackPanel>
                                             </Viewbox>
+                                            <Viewbox x:Name="HighlighterPenColorsPanel" Visibility="Visible" Margin="0,8,0,0" Stretch="Fill">
+                                                <ui:SimpleStackPanel Width="300" Margin="0,0,0,0">
+                                                    <!--<TextBlock FontSize="25">画笔颜色</TextBlock>-->
+                                                    <Border Width="300" Height="110" BorderBrush="Black" BorderThickness="0" CornerRadius="5">
+                                                        <Controls:UniformGrid Rows="2" Height="110">
+                                                            <ui:SimpleStackPanel Height="45" Orientation="Horizontal" Width="270">
+                                                                <Controls:UniformGrid Columns="5" Width="270" Margin="0">
+                                                                    <Border x:Name="HighlighterPenColorBlack" BorderBrush="#e4e4e7" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnHighlighterColorBlack_Click">
+                                                                        <Canvas>
+                                                                            <Image Source="/Resources/Icons-png/transparent-grid.png" Width="42" Height="42">
+                                                                                <Image.Clip>
+                                                                                    <EllipseGeometry Center="21,21" RadiusX="21" RadiusY="21" />
+                                                                                </Image.Clip>
+                                                                            </Image>
+                                                                            <Border Background="Black" Width="42" Height="42" CornerRadius="21" Opacity="0.75"></Border>
+                                                                            <Viewbox Name="HighlighterPenViewboxBtnColorBlackContent" Visibility="Visible" Canvas.Top="9" Canvas.Left="9">
+                                                                                <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
+                                                                            </Viewbox>
+                                                                        </Canvas>
+                                                                    </Border>
+                                                                    <Border x:Name="HighlighterPenColorWhite" Background="White" BorderBrush="#dddddd" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnHighlighterColorWhite_Click">
+                                                                        <Canvas>
+                                                                            <Image Source="/Resources/Icons-png/transparent-grid.png" Width="42" Height="42">
+                                                                                <Image.Clip>
+                                                                                    <EllipseGeometry Center="21,21" RadiusX="21" RadiusY="21" />
+                                                                                </Image.Clip>
+                                                                            </Image>
+                                                                            <Border Background="White" Width="42" Height="42" CornerRadius="21" Opacity="0.75"></Border>
+                                                                            <Viewbox Name="HighlighterPenViewboxBtnColorWhiteContent" Visibility="Visible" Canvas.Top="9" Canvas.Left="9">
+                                                                                <Image Source="/Resources/new-icons/checked-black.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
+                                                                            </Viewbox>
+                                                                        </Canvas>
+                                                                    </Border>
+                                                                    <Border x:Name="HighlighterPenColorRed" BorderBrush="#fecaca"  BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnHighlighterColorRed_Click">
+                                                                        <Canvas>
+                                                                            <Image Source="/Resources/Icons-png/transparent-grid.png" Width="42" Height="42">
+                                                                                <Image.Clip>
+                                                                                    <EllipseGeometry Center="21,21" RadiusX="21" RadiusY="21" />
+                                                                                </Image.Clip>
+                                                                            </Image>
+                                                                            <Border Background="#ef4444" Width="42" Height="42" CornerRadius="21" Opacity="0.75"></Border>
+                                                                            <Viewbox Name="HighlighterPenViewboxBtnColorRedContent" Visibility="Visible" Canvas.Top="9" Canvas.Left="9">
+                                                                                <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
+                                                                            </Viewbox>
+                                                                        </Canvas>
+                                                                    </Border>
+                                                                    <Border x:Name="HighlighterPenColorYellow" BorderBrush="#fef08a" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnHighlighterColorYellow_Click">
+                                                                        <Canvas>
+                                                                            <Image Source="/Resources/Icons-png/transparent-grid.png" Width="42" Height="42">
+                                                                                <Image.Clip>
+                                                                                    <EllipseGeometry Center="21,21" RadiusX="21" RadiusY="21" />
+                                                                                </Image.Clip>
+                                                                            </Image>
+                                                                            <Border Background="#eab308" Width="42" Height="42" CornerRadius="21" Opacity="0.75"></Border>
+                                                                            <Viewbox Name="HighlighterPenViewboxBtnColorYellowContent" Visibility="Visible" Canvas.Top="9" Canvas.Left="9">
+                                                                                <Image Source="/Resources/new-icons/checked-black.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
+                                                                            </Viewbox>
+                                                                        </Canvas>
+                                                                    </Border>
+                                                                    <Border x:Name="HighlighterPenColorGreen" BorderBrush="#bbf7d0" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnHighlighterColorGreen_Click">
+                                                                        <Canvas>
+                                                                            <Image Source="/Resources/Icons-png/transparent-grid.png" Width="42" Height="42">
+                                                                                <Image.Clip>
+                                                                                    <EllipseGeometry Center="21,21" RadiusX="21" RadiusY="21" />
+                                                                                </Image.Clip>
+                                                                            </Image>
+                                                                            <Border Background="#22c55e" Width="42" Height="42" CornerRadius="21" Opacity="0.75"></Border>
+                                                                            <Viewbox Name="HighlighterPenViewboxBtnColorGreenContent" Visibility="Visible" Canvas.Top="9" Canvas.Left="9">
+                                                                                <Image Source="/Resources/new-icons/checked-black.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
+                                                                            </Viewbox>
+                                                                        </Canvas>
+                                                                    </Border>
+                                                                </Controls:UniformGrid>
+                                                            </ui:SimpleStackPanel>
+                                                            <ui:SimpleStackPanel Height="45" Orientation="Horizontal" Width="270">
+                                                                <Controls:UniformGrid Columns="5" Width="270" Margin="0">
+                                                                    <Border x:Name="HighlighterPenColorZinc" BorderBrush="#e4e4e7" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnHighlighterColorZinc_Click">
+                                                                        <Canvas>
+                                                                            <Image Source="/Resources/Icons-png/transparent-grid.png" Width="42" Height="42">
+                                                                                <Image.Clip>
+                                                                                    <EllipseGeometry Center="21,21" RadiusX="21" RadiusY="21" />
+                                                                                </Image.Clip>
+                                                                            </Image>
+                                                                            <Border Background="#71717a" Width="42" Height="42" CornerRadius="21" Opacity="0.75"></Border>
+                                                                            <Viewbox Name="HighlighterPenViewboxBtnColorZincContent" Visibility="Visible" Canvas.Top="9" Canvas.Left="9">
+                                                                                <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
+                                                                            </Viewbox>
+                                                                        </Canvas>
+                                                                    </Border>
+                                                                    <Border x:Name="HighlighterPenColorBlue" BorderBrush="#bfdbfe" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnHighlighterColorBlue_Click">
+                                                                        <Canvas>
+                                                                            <Image Source="/Resources/Icons-png/transparent-grid.png" Width="42" Height="42">
+                                                                                <Image.Clip>
+                                                                                    <EllipseGeometry Center="21,21" RadiusX="21" RadiusY="21" />
+                                                                                </Image.Clip>
+                                                                            </Image>
+                                                                            <Border Background="#3b82f6" Width="42" Height="42" CornerRadius="21" Opacity="0.75"></Border>
+                                                                            <Viewbox Name="HighlighterPenViewboxBtnColorBlueContent" Visibility="Visible" Canvas.Top="9" Canvas.Left="9">
+                                                                                <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
+                                                                            </Viewbox>
+                                                                        </Canvas>
+                                                                    </Border>
+                                                                    <Border x:Name="HighlighterPenPenColorPurple" BorderBrush="#e9d5ff" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnHighlighterColorPurple_Click">
+                                                                        <Canvas>
+                                                                            <Image Source="/Resources/Icons-png/transparent-grid.png" Width="42" Height="42">
+                                                                                <Image.Clip>
+                                                                                    <EllipseGeometry Center="21,21" RadiusX="21" RadiusY="21" />
+                                                                                </Image.Clip>
+                                                                            </Image>
+                                                                            <Border Background="#a855f7" Width="42" Height="42" CornerRadius="21" Opacity="0.75"></Border>
+                                                                            <Viewbox Name="HighlighterPenViewboxBtnColorPurpleContent" Visibility="Visible" Canvas.Top="9" Canvas.Left="9">
+                                                                                <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
+                                                                            </Viewbox>
+                                                                        </Canvas>
+                                                                    </Border>
+                                                                    <Border x:Name="HighlighterPenColorTeal" BorderBrush="#99f6e4" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnHighlighterColorTeal_Click">
+                                                                        <Canvas>
+                                                                            <Image Source="/Resources/Icons-png/transparent-grid.png" Width="42" Height="42">
+                                                                                <Image.Clip>
+                                                                                    <EllipseGeometry Center="21,21" RadiusX="21" RadiusY="21" />
+                                                                                </Image.Clip>
+                                                                            </Image>
+                                                                            <Border Background="#14b8a6" Width="42" Height="42" CornerRadius="21" Opacity="0.75"></Border>
+                                                                            <Viewbox Name="HighlighterPenViewboxBtnColorTealContent" Visibility="Visible" Canvas.Top="9" Canvas.Left="9">
+                                                                                <Image Source="/Resources/new-icons/checked-black.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
+                                                                            </Viewbox>
+                                                                        </Canvas>
+                                                                    </Border>
+                                                                    <Border x:Name="HighlighterPenColorOrange" BorderBrush="#fed7aa" BorderThickness="1.5" CornerRadius="100" Width="45" MouseUp="BtnHighlighterColorOrange_Click">
+                                                                        <Canvas>
+                                                                            <Image Source="/Resources/Icons-png/transparent-grid.png" Width="42" Height="42">
+                                                                                <Image.Clip>
+                                                                                    <EllipseGeometry Center="21,21" RadiusX="21" RadiusY="21" />
+                                                                                </Image.Clip>
+                                                                            </Image>
+                                                                            <Border Background="#f97316" Width="42" Height="42" CornerRadius="21" Opacity="0.75"></Border>
+                                                                            <Viewbox Name="HighlighterPenViewboxBtnColorOrangeContent" Visibility="Visible" Canvas.Top="9" Canvas.Left="9">
+                                                                                <Image Source="/Resources/new-icons/checked-white.png" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="24" Height="24" Margin="0,0,0,0"/>
+                                                                            </Viewbox>
+                                                                        </Canvas>
+                                                                    </Border>
+                                                                </Controls:UniformGrid>
+                                                            </ui:SimpleStackPanel>
+                                                        </Controls:UniformGrid>
+                                                    </Border>
+                                                </ui:SimpleStackPanel>
+                                            </Viewbox>
                                         </ui:SimpleStackPanel>
                                     </Border>
                                 </Grid>
@@ -1779,7 +1978,7 @@
                             </ui:SimpleStackPanel>
 
                             <Grid Width="0">
-                                <Border x:Name="BorderDrawShape" Visibility="Visible" Background="White" Opacity="0.9" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1"
+                                <Border x:Name="BorderDrawShape" Background="White" Opacity="1" Visibility="Visible" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1"
                                     CornerRadius="5" Margin="-200,-122,-117,37">
                                     <ui:SimpleStackPanel Spacing="0" Orientation="Vertical">
                                         <!--<TextBlock FontSize="16" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Left" Margin="10,8">
@@ -1789,7 +1988,10 @@
                                         <ui:SymbolIcon Margin="0,-20,8,15" Symbol="Pin" MouseDown="Border_MouseDown" MouseUp="SymbolIconPinBorderDrawShape_MouseUp" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Right"/>-->
                                         <Border BorderBrush="#1e3a8a" BorderThickness="0,0,0,1" CornerRadius="8,8,0,0" Background="#2563eb" Margin="-1,-1,-1,0" Padding="1,1,1,0">
                                             <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                                                <TextBlock Text="几何绘图（BETA）" Foreground="White" Padding="8,5,44,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
+                                                <Canvas Height="24" Width="315" ClipToBounds="True">
+                                                    <Image Source="/Resources/new-icons/osu-lazer-triangles.png" Width="64" Canvas.Right="-20" Canvas.Bottom="-10" Opacity="0.5" />
+                                                    <TextBlock Text="几何绘图" Canvas.Left="8" Foreground="White" Padding="0,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
+                                                </Canvas>
                                             </ui:SimpleStackPanel>
                                         </Border>
                                         <ui:SimpleStackPanel Orientation="Horizontal" Height="38" Spacing="2" Margin="4,6,4,0">
@@ -1916,10 +2118,13 @@
                             </ui:SimpleStackPanel>
                         </ui:SimpleStackPanel>
                         <Grid Width="0">
-                            <Border ClipToBounds="True" Name="EraserSizePanel" Margin="-203,-87,98,37" CornerRadius="5" Background="#fafafa" Opacity="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1">
+                            <Border Visibility="Visible" ClipToBounds="True" Name="EraserSizePanel" Margin="-203,-128,83,37" CornerRadius="5" Background="#fafafa" Opacity="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1">
                                 <ui:SimpleStackPanel Margin="0">
                                     <Border BorderBrush="#1e3a8a" BorderThickness="0,0,0,1" CornerRadius="6,6,0,0" Background="#2563eb" Margin="-1,-1,-1,1">
-                                        <TextBlock Text="橡皮选项" Foreground="White" Padding="0,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
+                                        <Canvas Height="24" ClipToBounds="True">
+                                            <Image Source="/Resources/new-icons/osu-lazer-triangles.png" Width="64" Canvas.Right="-20" Canvas.Bottom="-10" Opacity="0.5" />
+                                            <TextBlock Text="橡皮选项" Canvas.Left="8" Foreground="White" Padding="0,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
+                                        </Canvas>
                                     </Border>
                                     <ui:SimpleStackPanel Orientation="Horizontal" Margin="0,8,0,0" Spacing="-2" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Label Margin="0,0,0,0" Content="大小" FontWeight="Bold" Foreground="{DynamicResource FloatBarForeground}" FontSize="10" VerticalAlignment="Center"/>
@@ -1932,6 +2137,33 @@
                                                 <ComboBoxItem Content="很大"  FontFamily="Microsoft YaHei UI"/>
                                             </ComboBox>
                                         </Viewbox>
+                                    </ui:SimpleStackPanel>
+                                    <TextBlock HorizontalAlignment="Center" Margin="0,12,0,6" Text="橡皮形状" FontWeight="Bold" Foreground="{DynamicResource FloatBarForeground}" FontSize="10" VerticalAlignment="Center"/>
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0" Spacing="4">
+                                        <Border x:Name="CircleEraserTabButton" MouseDown="SwitchToCircleEraser" Background="#553b82f6" Height="20" Width="40" CornerRadius="3">
+                                            <Canvas>
+                                                <ui:SimpleStackPanel x:Name="CircleEraserTabButtonIndicator" Visibility="Visible" Orientation="Horizontal" Canvas.Left="11" Canvas.Right="11" Canvas.Bottom="0">
+                                                    <Border Width="18" Height="2" Background="#2563eb" CornerRadius="1"></Border>
+                                                </ui:SimpleStackPanel>
+                                                <ui:SimpleStackPanel Orientation="Vertical" Height="20" Width="40">
+                                                    <ui:SimpleStackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3">
+                                                        <TextBlock x:Name="CircleEraserTabButtonText" Foreground="#172554" FontWeight="Medium" FontSize="9" TextAlignment="Center" Text="圆形擦" Margin="2,1,0,0"/>
+                                                    </ui:SimpleStackPanel>
+                                                </ui:SimpleStackPanel>
+                                            </Canvas>
+                                        </Border>
+                                        <Border x:Name="RectangleEraserTabButton" MouseDown="SwitchToRectangleEraser" Background="Transparent" Height="20" Width="40" CornerRadius="3">
+                                            <Canvas>
+                                                <ui:SimpleStackPanel Visibility="Collapsed" x:Name="RectangleEraserTabButtonIndicator" Orientation="Horizontal" Canvas.Left="11" Canvas.Right="11" Canvas.Bottom="0">
+                                                    <Border Width="18" Height="2" Background="#2563eb" CornerRadius="1"></Border>
+                                                </ui:SimpleStackPanel>
+                                                <ui:SimpleStackPanel Orientation="Vertical" Height="20" Width="40">
+                                                    <ui:SimpleStackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3">
+                                                        <TextBlock x:Name="RectangleEraserTabButtonText" Foreground="#172554" FontWeight="Medium" FontSize="9" TextAlignment="Center" Text="黑板擦" Margin="2,1,0,0"/>
+                                                    </ui:SimpleStackPanel>
+                                                </ui:SimpleStackPanel>
+                                            </Canvas>
+                                        </Border>
                                     </ui:SimpleStackPanel>
                                 </ui:SimpleStackPanel>
                             </Border>
@@ -2024,7 +2256,10 @@
                     <Border ClipToBounds="True" Name="TwoFingerGestureBorder" Margin="-86,-111,-33,40" CornerRadius="5" Background="#fafafa" Opacity="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1">
                         <ui:SimpleStackPanel Margin="0">
                             <Border BorderBrush="#1e3a8a" BorderThickness="0,0,0,1" CornerRadius="6,6,0,0" Background="#2563eb" Margin="-1,-1,-1,1">
-                                <TextBlock Text="手势选项" Foreground="White" Padding="0,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
+                                <Canvas Height="24" ClipToBounds="True">
+                                    <Image Source="/Resources/new-icons/osu-lazer-triangles.png" Width="64" Canvas.Right="-20" Canvas.Bottom="-10" Opacity="0.5" />
+                                    <TextBlock Text="手势选项" Canvas.Left="8" Foreground="White" Padding="0,5" FontSize="11" FontWeight="Bold" TextAlignment="Center"/>
+                                </Canvas>
                             </Border>
                             <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3,0,0">
                                 <Image Source="/Resources/new-icons/multi-touch.png" RenderOptions.BitmapScalingMode="HighQuality" Height="16" Width="16"/>

@@ -28,6 +28,8 @@ namespace Ink_Canvas
     {
         [JsonProperty("inkWidth")]
         public double InkWidth { get; set; } = 2.5;
+        [JsonProperty("highlighterWidth")]
+        public double HighlighterWidth { get; set; } = 20;
         [JsonProperty("inkAlpha")]
         public double InkAlpha { get; set; } = 255;
         [JsonProperty("isShowCursor")]
@@ -38,10 +40,14 @@ namespace Ink_Canvas
         public int EraserSize { get; set; } = 2;
         [JsonProperty("eraserType")] 
         public int EraserType { get; set; } = 0; // 0 - 图标切换模式      1 - 面积擦     2 - 线条擦
+        [JsonProperty("eraserShapeType")]
+        public int EraserShapeType { get; set; } = 0; // 0 - 圆形擦  1 - 黑板擦
         [JsonProperty("hideStrokeWhenSelecting")]
         public bool HideStrokeWhenSelecting { get; set; } = true;
         [JsonProperty("fitToCurve")]
         public bool FitToCurve { get; set; } = true;
+        [JsonProperty("clearCanvasAndClearTimeMachine")]
+        public bool ClearCanvasAndClearTimeMachine { get; set; } = false;
 
         [JsonProperty("usingWhiteboard")]
         public bool UsingWhiteboard { get; set; }

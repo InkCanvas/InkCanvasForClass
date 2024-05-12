@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using System;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Ink;
 using System.Windows.Media;
 using File = System.IO.File;
 
@@ -55,7 +57,7 @@ namespace Ink_Canvas {
                     ToggleSwitchIsAutoUpdate.IsOn = true;
                     AutoUpdate();
                 }
-                ToggleSwitchIsAutoUpdateWithSilence.Visibility = Settings.Startup.IsAutoUpdate ? Visibility.Visible : Visibility.Collapsed;
+                // ToggleSwitchIsAutoUpdateWithSilence.Visibility = Settings.Startup.IsAutoUpdate ? Visibility.Visible : Visibility.Collapsed;
                 if (Settings.Startup.IsAutoUpdateWithSilence) {
                     ToggleSwitchIsAutoUpdateWithSilence.IsOn = true;
                 }
@@ -290,6 +292,7 @@ namespace Ink_Canvas {
                 drawingAttributes.Width = Settings.Canvas.InkWidth;
 
                 InkWidthSlider.Value = Settings.Canvas.InkWidth * 2;
+                HighlighterWidthSlider.Value = Settings.Canvas.HighlighterWidth;
 
                 ComboBoxHyperbolaAsymptoteOption.SelectedIndex = (int)Settings.Canvas.HyperbolaAsymptoteOption;
 
@@ -312,6 +315,58 @@ namespace Ink_Canvas {
 
                 ComboBoxEraserSize.SelectedIndex = Settings.Canvas.EraserSize;
                 ComboBoxEraserSizeFloatingBar.SelectedIndex = Settings.Canvas.EraserSize;
+
+                if (Settings.Canvas.ClearCanvasAndClearTimeMachine==true) {
+                    ToggleSwitchClearCanvasAndClearTimeMachine.IsOn = true;
+                } else
+                {
+                    ToggleSwitchClearCanvasAndClearTimeMachine.IsOn = false;
+                }
+
+                if (Settings.Canvas.EraserShapeType==0)
+                {
+                    double k = 1;
+                    switch (Settings.Canvas.EraserSize)
+                    {
+                        case 0:
+                            k = 0.5;
+                            break;
+                        case 1:
+                            k = 0.8;
+                            break;
+                        case 3:
+                            k = 1.25;
+                            break;
+                        case 4:
+                            k = 1.8;
+                            break;
+                    }
+                    inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
+                    inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                    
+                } else if (Settings.Canvas.EraserShapeType == 1)
+                {
+                    double k = 1;
+                    switch (Settings.Canvas.EraserSize)
+                    {
+                        case 0:
+                            k = 0.7;
+                            break;
+                        case 1:
+                            k = 0.9;
+                            break;
+                        case 3:
+                            k = 1.2;
+                            break;
+                        case 4:
+                            k = 1.6;
+                            break;
+                    }
+                    inkCanvas.EraserShape = new RectangleStylusShape(k * 90 * 0.6, k * 90);
+                    inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                }
+
+                CheckEraserTypeTab();
 
                 if (Settings.Canvas.HideStrokeWhenSelecting) {
                     ToggleSwitchHideStrokeWhenSelecting.IsOn = true;

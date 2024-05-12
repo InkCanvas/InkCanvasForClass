@@ -81,6 +81,7 @@ namespace Ink_Canvas {
             }
 
             CheckColorTheme(true);
+            CheckPenTypeUIState();
         }
 
         #endregion
@@ -211,5 +212,6 @@ namespace Ink_Canvas {
         }
 
         #endregion Definations and Loading
+
     }
 }

@@ -185,6 +185,7 @@
     <Resource Include="Resources\Icons-png\playCircle.png" />
     <Resource Include="Resources\Icons-png\redo.png" />
     <Resource Include="Resources\Icons-png\setting.png" />
+    <Resource Include="Resources\Icons-png\transparent-grid.png" />
     <Resource Include="Resources\Icons-png\undo.png" />
     <Resource Include="Resources\Icons-png\minimize.png" />
     <Resource Include="Resources\Icons-png\penUpright.png" />
@@ -304,7 +305,9 @@
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\new-icons\hand-move.png" />
+    <Resource Include="Resources\new-icons\highlighter-white.png" />
     <Resource Include="Resources\new-icons\multi-touch.png" />
+    <Resource Include="Resources\new-icons\osu-lazer-triangles.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\new-icons\pen-lined.png" />
@@ -325,6 +328,7 @@
   <ItemGroup>
     <Resource Include="Resources\new-icons\lasso-select-lined.png" />
     <Resource Include="Resources\new-icons\lasso-select-solid.png" />
+    <Resource Include="Resources\new-icons\pen-white.png" />
     <Resource Include="Resources\new-icons\rotate.png" />
   </ItemGroup>
   <ItemGroup>
@@ -443,9 +447,13 @@
     <Compile Remove="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Resources\Icons-png\transparent-grid.png" />
     <None Remove="Resources\new-icons\end-slides-show.png" />
     <None Remove="Resources\new-icons\hand-move.png" />
+    <None Remove="Resources\new-icons\highlighter-white.png" />
     <None Remove="Resources\new-icons\multi-touch.png" />
+    <None Remove="Resources\new-icons\osu-lazer-triangles.png" />
+    <None Remove="Resources\new-icons\pen-white.png" />
     <None Remove="Resources\new-icons\rotate.png" />
     <None Remove="Resources\new-icons\zoom.png" />
   </ItemGroup>
