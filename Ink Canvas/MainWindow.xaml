@@ -90,13 +90,6 @@
         <Grid Name="GridBackgroundCoverHolder">
             <Grid Name="GridBackgroundCover" Visibility="Collapsed" Background="#1F1F1F"/>
         </Grid>
-        <Canvas IsHitTestVisible="False">
-            <ui:SimpleStackPanel Canvas.Left="25" Canvas.Top="15" Orientation="Vertical">
-                <TextBlock Text="{Binding nowTime}" Name="WaterMarkTime" Visibility="Collapsed" FontSize="30" FontWeight="Bold" Foreground="White" Opacity="0.6"/>
-                <TextBlock Text="{Binding nowDate}" Name="WaterMarkDate" Visibility="Collapsed" Margin="2,0,0,0" FontSize="16" Foreground="White" Opacity="0.45"/>
-            </ui:SimpleStackPanel>
-            <TextBlock Canvas.Right="25" Canvas.Top="15" Text="多一份理解，少一份抱怨" Name="BlackBoardWaterMark" Visibility="Collapsed" FontSize="30" FontWeight="Bold" Foreground="White" Opacity="0.5"/>
-        </Canvas>
         <Canvas Name="Canvas"/>
         <Label Name="Label" Visibility="Collapsed" Foreground="Gray" Content="0"/>
         <InkCanvas x:Name="inkCanvas" Background="Transparent" Cursor="Pen" ForceCursor="False"
@@ -116,6 +109,13 @@
                    ManipulationStarted="inkCanvas_ManipulationStarted"
                    SelectionChanged="inkCanvas_SelectionChanged"
                    StrokeCollected="inkCanvas_StrokeCollected"/>
+        <Canvas IsHitTestVisible="False">
+            <ui:SimpleStackPanel Canvas.Left="25" Canvas.Top="15" Orientation="Vertical">
+                <TextBlock Text="{Binding nowTime}" Name="WaterMarkTime" Visibility="Collapsed" FontSize="30" FontWeight="Bold" Foreground="White" Opacity="0.6"/>
+                <TextBlock Text="{Binding nowDate}" Name="WaterMarkDate" Visibility="Collapsed" Margin="2,0,0,0" FontSize="16" Foreground="White" Opacity="0.45"/>
+            </ui:SimpleStackPanel>
+            <TextBlock Canvas.Right="25" Canvas.Top="15" Text="多一份理解，少一份抱怨" Name="BlackBoardWaterMark" Visibility="Collapsed" FontSize="30" FontWeight="Bold" Foreground="White" Opacity="0.5"/>
+        </Canvas>
         <Grid Visibility="{Binding ElementName=inkCanvas, Path=Visibility}">
             <Grid Name="GridInkCanvasSelectionCover"
                   MouseDown="GridInkCanvasSelectionCover_MouseDown"
@@ -201,7 +201,6 @@
                 </Viewbox>
             </Border>
         </Grid>
-
         <Grid Visibility="Collapsed">
             <Grid Visibility="{Binding ElementName=GridBackgroundCoverHolder, Path=Visibility}">
                 <Viewbox Margin="10" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom">
@@ -225,7 +224,6 @@
                 </Viewbox>
             </Grid>
         </Grid>
-
         <!--// BlackBoard 界面 //-->
         <Grid Visibility="{Binding ElementName=GridBackgroundCoverHolder, Path=Visibility}">
             <!-- 左下角 -->
@@ -1649,7 +1647,7 @@
                         <ui:SimpleStackPanel Name="StackPanelCanvasControls" Visibility="Visible" Orientation="{Binding ElementName=StackPanelFloatingBar, Path=Orientation}">
                             <ui:SimpleStackPanel Width="0" Orientation="{Binding ElementName=StackPanelFloatingBar, Path=Orientation}">
                                 <Grid Margin="0,5,0,5" Width="0" RenderTransformOrigin="0.5,0.5">
-                                    <Border x:Name="PenPalette" Visibility="Visible" Background="white" Opacity="0.9" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1" CornerRadius="8" Margin="-160,-200,-33,32">
+                                    <Border x:Name="PenPalette" Visibility="Visible" Background="#fafafa" Opacity="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1" CornerRadius="8" Margin="-160,-200,-33,32">
                                         <ui:SimpleStackPanel>
                                             <Border BorderBrush="#1e3a8a" Height="32" BorderThickness="0,0,0,1" CornerRadius="8,8,0,0" Background="#2563eb" Margin="-1,-1,-1,0" Padding="1,1,1,0">
                                                 <ui:SimpleStackPanel Orientation="Vertical" VerticalAlignment="Center">
@@ -1978,7 +1976,7 @@
                             </ui:SimpleStackPanel>
 
                             <Grid Width="0">
-                                <Border x:Name="BorderDrawShape" Background="White" Opacity="1" Visibility="Visible" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1"
+                                <Border x:Name="BorderDrawShape" Background="#fafafa" Opacity="1" Visibility="Visible" BorderBrush="{DynamicResource FloatBarBorderBrush}" BorderThickness="1"
                                     CornerRadius="5" Margin="-200,-122,-117,37">
                                     <ui:SimpleStackPanel Spacing="0" Orientation="Vertical">
                                         <!--<TextBlock FontSize="16" Foreground="{DynamicResource FloatBarForeground}" HorizontalAlignment="Left" Margin="10,8">
@@ -2185,7 +2183,7 @@
                                 <TextBlock x:Name="HideToolbarTextBlock" Text="隐藏" Foreground="Black"  FontSize="8" Margin="0,1,0,0" TextAlignment="Center"/>
                             </ui:SimpleStackPanel>
                             <Grid Width="0">
-                                <Border ClipToBounds="True" Name="BorderTools" Margin="-133,-156,14,37" CornerRadius="5" Background="White" Opacity="0.9" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
+                                <Border ClipToBounds="True" Name="BorderTools" Margin="-133,-156,14,37" CornerRadius="5" Background="#fafafa" Opacity="1" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
                                     <ui:SimpleStackPanel Margin="-1,0,0,0">
                                         <Border BorderBrush="#1e3a8a" BorderThickness="0,0,0,1" CornerRadius="6,6,0,0" Background="#2563eb" Margin="-1,-1,-1,0" Padding="1,1,1,0">
                                             <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
@@ -2347,19 +2345,95 @@
         <InkCanvas Name="InkCanvasForInkReplay" MouseDown="InkCanvasForInkReplay_MouseDown" Visibility="Collapsed" EditingMode="None" Background="Transparent"/>
 
         <!--// 侧边栏 //-->
-        <Viewbox x:Name="LeftSidePanel" MouseUp="UnFoldFloatingBar_MouseUp" Visibility="Visible" Height="50" Width="30" Margin="-40,0,0,-150" HorizontalAlignment="Left" VerticalAlignment="Center">
+        <Viewbox x:Name="LeftSidePanel" MouseUp="LeftUnFoldButtonDisplayQuickPanel_MouseUp" Visibility="Visible" Height="50" Width="32" Margin="-60,0,0,-150" HorizontalAlignment="Left" VerticalAlignment="Center">
             <ui:SimpleStackPanel>
-                <Border Background="LightGray" Opacity="0.4" CornerRadius="0,5,5,0" Height="50" Width="30">
-                    <Image Margin="0,0,-15,0" Source="/Resources/Icons-png/penUpright.png" RenderOptions.BitmapScalingMode="HighQuality" Height="50" Width="30"/>
+                <Border Background="#9918181b" Opacity="1" CornerRadius="0,25,25,0" Height="50" Width="32">
+                    <Image Margin="10,0,0,0" Source="/Resources/new-icons/unfold-chevron.png" RenderOptions.BitmapScalingMode="HighQuality" Height="14" Width="14"/>
                 </Border>
             </ui:SimpleStackPanel>
         </Viewbox>
-        <Viewbox x:Name="RightSidePanel" MouseUp="UnFoldFloatingBar_MouseUp" Visibility="{Binding ElementName=LeftSidePanel, Path=Visibility}" Height="50" Width="30" Margin="0,0,-40,-150" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <Viewbox Width="50" Visibility="Collapsed" Name="LeftUnFoldButtonQuickPanel" Margin="-1,0,0,-150" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Border ClipToBounds="True" Visibility="Visible" CornerRadius="0,6,6,0" Background="#fafafa" Opacity="1" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" Width="32">
+                <ui:SimpleStackPanel Orientation="Vertical" Spacing="0" Margin="0,5">
+                    <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="SymbolIconRandOne_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="32" Margin="0">
+                        <Image Source="/Resources/Icons-Fluent/ic_fluent_person_money_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
+                        <TextBlock Text="单次抽" Foreground="Black"  FontSize="8" Margin="0,2,0,3" TextAlignment="Center"/>
+                    </ui:SimpleStackPanel>
+                    <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="SymbolIconRand_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="32" Margin="0">
+                        <Image Source="/Resources/Icons-Fluent/ic_fluent_people_money_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
+                        <TextBlock Text="随机抽" Foreground="Black"  FontSize="8" Margin="0,2,0,3" TextAlignment="Center"/>
+                    </ui:SimpleStackPanel>
+                    <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="ImageCountdownTimer_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="32" Margin="0">
+                        <Image Source="/Resources/Icons-Fluent/ic_fluent_timer_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
+                        <TextBlock Text="计时器" Foreground="Black"  FontSize="8" Margin="0,2,0,3" TextAlignment="Center"/>
+                    </ui:SimpleStackPanel>
+                    <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="ImageBlackboard_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="32" Margin="0">
+                        <Image Source="/Resources/new-icons/blackboard.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
+                        <TextBlock Text="白板" Foreground="Black"  FontSize="8" Margin="0,2,0,3" TextAlignment="Center"/>
+                    </ui:SimpleStackPanel>
+                    <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="UnFoldFloatingBar_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="32" Margin="0">
+                        <Image Source="/Resources/new-icons/eye.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
+                        <TextBlock Text="显示" Foreground="Black"  FontSize="8" Margin="0,2,0,3" TextAlignment="Center"/>
+                    </ui:SimpleStackPanel>
+                    <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="HideQuickPanel_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="32" Margin="0">
+                        <Image Source="/Resources/new-icons/chevron-left.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,3"/>
+                    </ui:SimpleStackPanel>
+                </ui:SimpleStackPanel>
+            </Border>
+        </Viewbox>
+        <Viewbox x:Name="RightSidePanel" MouseUp="RightUnFoldButtonDisplayQuickPanel_MouseUp" Visibility="{Binding ElementName=LeftSidePanel, Path=Visibility}" Height="50" Width="32" Margin="0,0,-60,-150" HorizontalAlignment="Right" VerticalAlignment="Center">
             <ui:SimpleStackPanel>
-                <Border Background="LightGray" Opacity="0.4" CornerRadius="5,0,0,5" Height="50" Width="30">
-                    <Image Margin="-15,0,0,0" Source="/Resources/Icons-png/penUpright.png" RenderOptions.BitmapScalingMode="HighQuality" Height="50" Width="30"/>
+                <Border Background="#9918181b" Opacity="1" CornerRadius="25,0,0,25" Height="50" Width="32">
+                    <Image Margin="0,0,10,0" Source="/Resources/new-icons/unfold-chevron.png" RenderOptions.BitmapScalingMode="HighQuality" Height="14" Width="14" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="180"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
                 </Border>
             </ui:SimpleStackPanel>
+        </Viewbox>
+        <Viewbox Width="50" Visibility="Collapsed" Name="RightUnFoldButtonQuickPanel" Margin="0,0,-1,-150" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Border ClipToBounds="True" Visibility="Visible" CornerRadius="6,0,0,6" Background="#fafafa" Opacity="1" BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}" Width="32">
+                <ui:SimpleStackPanel Orientation="Vertical" Spacing="0" Margin="0,5">
+                    <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="SymbolIconRandOne_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="32" Margin="0">
+                        <Image Source="/Resources/Icons-Fluent/ic_fluent_person_money_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
+                        <TextBlock Text="单次抽" Foreground="Black"  FontSize="8" Margin="0,2,0,3" TextAlignment="Center"/>
+                    </ui:SimpleStackPanel>
+                    <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="SymbolIconRand_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="32" Margin="0">
+                        <Image Source="/Resources/Icons-Fluent/ic_fluent_people_money_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
+                        <TextBlock Text="随机抽" Foreground="Black"  FontSize="8" Margin="0,2,0,3" TextAlignment="Center"/>
+                    </ui:SimpleStackPanel>
+                    <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="ImageCountdownTimer_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="32" Margin="0">
+                        <Image Source="/Resources/Icons-Fluent/ic_fluent_timer_24_regular.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
+                        <TextBlock Text="计时器" Foreground="Black"  FontSize="8" Margin="0,2,0,3" TextAlignment="Center"/>
+                    </ui:SimpleStackPanel>
+                    <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="ImageBlackboard_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="32" Margin="0">
+                        <Image Source="/Resources/new-icons/blackboard.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
+                        <TextBlock Text="白板" Foreground="Black"  FontSize="8" Margin="0,2,0,3" TextAlignment="Center"/>
+                    </ui:SimpleStackPanel>
+                    <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="UnFoldFloatingBar_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="32" Margin="0">
+                        <Image Source="/Resources/new-icons/eye.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"/>
+                        <TextBlock Text="显示" Foreground="Black"  FontSize="8" Margin="0,2,0,3" TextAlignment="Center"/>
+                    </ui:SimpleStackPanel>
+                    <ui:SimpleStackPanel MouseLeave="FloatingBarIcons_MouseUp_MouseLeave" MouseDown="FloatingBarIcons_MouseDown_New" MouseUp="HideQuickPanel_MouseUp" Background="Transparent" Orientation="Vertical" HorizontalAlignment="Center" Width="32" Margin="0">
+                        <Image Source="/Resources/new-icons/chevron-left.png" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,3" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="180"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>
+                    </ui:SimpleStackPanel>
+                </ui:SimpleStackPanel>
+            </Border>
         </Viewbox>
     </Grid>
 </Window>

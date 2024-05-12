@@ -31,10 +31,10 @@ namespace Ink_Canvas {
                 }
                 lastBorderMouseDownObject = sender;
                 CursorWithDelIcon_Click(sender, null);
-                SidePannelMarginAnimation(-16);
+                SidePannelMarginAnimation(-10);
             });
 
-            await Task.Delay(500);
+            await Task.Delay(50);
 
             await Dispatcher.InvokeAsync(() => {
                 BottomViewboxPPTSidesControl.Visibility = Visibility.Collapsed;
@@ -42,12 +42,32 @@ namespace Ink_Canvas {
                 RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 ViewboxFloatingBarMarginAnimation(-60);
                 HideSubPanels("cursor");
-                SidePannelMarginAnimation(-16);
+                SidePannelMarginAnimation(-10);
             });
             isFloatingBarChangingHideMode = false;
         }
 
+        private void LeftUnFoldButtonDisplayQuickPanel_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            LeftUnFoldButtonQuickPanel.Visibility = Visibility.Visible;
+            RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+
+        }
+        private void RightUnFoldButtonDisplayQuickPanel_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            RightUnFoldButtonQuickPanel.Visibility = Visibility.Visible;
+            LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void HideQuickPanel_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+            RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+        }
+
         private async void UnFoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {
+            LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+            RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
             if (sender == null || StackPanelPPTControls.Visibility == Visibility.Visible) {
                 unfoldFloatingBarByUser = false;
             } else {
@@ -62,7 +82,7 @@ namespace Ink_Canvas {
                 isFloatingBarFolded = false;
             });
 
-            await Task.Delay(500);
+            await Task.Delay(0);
 
             await Dispatcher.InvokeAsync(() => {
                 if (StackPanelPPTControls.Visibility == Visibility.Visible) {
@@ -79,24 +99,24 @@ namespace Ink_Canvas {
                 } else {
                     ViewboxFloatingBarMarginAnimation(100);
                 }
-                SidePannelMarginAnimation(-40);
+                SidePannelMarginAnimation(-50,true);
             });
 
             isFloatingBarChangingHideMode = false;
         }
 
-        private async void SidePannelMarginAnimation(int MarginFromEdge) // Possible value: -40, -16
+        private async void SidePannelMarginAnimation(int MarginFromEdge, bool isNoAnimation = false) // Possible value: -50, -10
         {
             await Dispatcher.InvokeAsync(() => {
-                if (MarginFromEdge == -16) LeftSidePanel.Visibility = Visibility.Visible;
+                if (MarginFromEdge == -10) LeftSidePanel.Visibility = Visibility.Visible;
 
                 ThicknessAnimation LeftSidePanelmarginAnimation = new ThicknessAnimation {
-                    Duration = TimeSpan.FromSeconds(0.3),
+                    Duration = TimeSpan.FromSeconds(isNoAnimation?0:0.175),
                     From = LeftSidePanel.Margin,
                     To = new Thickness(MarginFromEdge, 0, 0, -150)
                 };
                 ThicknessAnimation RightSidePanelmarginAnimation = new ThicknessAnimation {
-                    Duration = TimeSpan.FromSeconds(0.3),
+                    Duration = TimeSpan.FromSeconds(isNoAnimation ? 0 : 0.175),
                     From = RightSidePanel.Margin,
                     To = new Thickness(0, 0, MarginFromEdge, -150)
                 };
@@ -111,7 +131,7 @@ namespace Ink_Canvas {
                 LeftSidePanel.Margin = new Thickness(MarginFromEdge, 0, 0, -150);
                 RightSidePanel.Margin = new Thickness(0, 0, MarginFromEdge, -150);
 
-                if (MarginFromEdge == -40) LeftSidePanel.Visibility = Visibility.Collapsed;
+                if (MarginFromEdge == -50) LeftSidePanel.Visibility = Visibility.Collapsed;
             });
             isFloatingBarChangingHideMode = false;
         }

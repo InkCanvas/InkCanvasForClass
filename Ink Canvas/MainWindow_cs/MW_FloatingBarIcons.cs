@@ -380,6 +380,9 @@ namespace Ink_Canvas {
         bool isDisplayingOrHidingBlackboard = false;
         private void ImageBlackboard_MouseUp(object sender, MouseButtonEventArgs e) {
             FloatingBarIcons_MouseUp_New(sender);
+            LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+            RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+            UnFoldFloatingBar_MouseUp(null, null);
             if (isDisplayingOrHidingBlackboard) return;
             isDisplayingOrHidingBlackboard = true;
 
@@ -493,6 +496,9 @@ namespace Ink_Canvas {
         }
 
         private void ImageCountdownTimer_MouseUp(object sender, MouseButtonEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
+            LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+            RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
             AnimationsHelper.HideWithSlideAndFade(BorderTools);
             AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
 
@@ -507,6 +513,9 @@ namespace Ink_Canvas {
         }
 
         private void SymbolIconRand_MouseUp(object sender, MouseButtonEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
+            LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+            RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
             if (lastBorderMouseDownObject != sender) return;
 
             AnimationsHelper.HideWithSlideAndFade(BorderTools);
@@ -549,6 +558,9 @@ namespace Ink_Canvas {
         }
 
         private void SymbolIconRandOne_MouseUp(object sender, MouseButtonEventArgs e) {
+            FloatingBarIcons_MouseUp_New(sender);
+            LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+            RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
             if (lastBorderMouseDownObject != sender) return;
 
             AnimationsHelper.HideWithSlideAndFade(BorderTools);

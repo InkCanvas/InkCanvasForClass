@@ -301,9 +301,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons-Fluent\ic_fluent_people_24_regular.png" />
+    <Resource Include="Resources\new-icons\chevron-left.png" />
     <Resource Include="Resources\new-icons\end-slides-show.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\new-icons\eye.png" />
     <Resource Include="Resources\new-icons\hand-move.png" />
     <Resource Include="Resources\new-icons\highlighter-white.png" />
     <Resource Include="Resources\new-icons\multi-touch.png" />
@@ -441,6 +443,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icc.ico" />
+    <Resource Include="Resources\new-icons\unfold-chevron.png" />
     <Resource Include="Resources\new-icons\zoom.png" />
   </ItemGroup>
   <ItemGroup>
@@ -448,13 +451,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\Icons-png\transparent-grid.png" />
+    <None Remove="Resources\new-icons\chevron-left.png" />
     <None Remove="Resources\new-icons\end-slides-show.png" />
+    <None Remove="Resources\new-icons\eye.png" />
     <None Remove="Resources\new-icons\hand-move.png" />
     <None Remove="Resources\new-icons\highlighter-white.png" />
     <None Remove="Resources\new-icons\multi-touch.png" />
     <None Remove="Resources\new-icons\osu-lazer-triangles.png" />
     <None Remove="Resources\new-icons\pen-white.png" />
     <None Remove="Resources\new-icons\rotate.png" />
+    <None Remove="Resources\new-icons\unfold-chevron.png" />
     <None Remove="Resources\new-icons\zoom.png" />
   </ItemGroup>
   <ItemGroup>
