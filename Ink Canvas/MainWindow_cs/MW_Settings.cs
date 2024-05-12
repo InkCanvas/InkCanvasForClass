@@ -115,6 +115,14 @@ namespace Ink_Canvas {
             LoadSettings();
         }
 
+        private void ToggleSwitchEnableQuickPanel_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Appearance.IsShowQuickPanel = ToggleSwitchEnableQuickPanel.IsOn;
+            SaveSettingsToFile();
+            LoadSettings();
+        }
+
         private void ToggleSwitchEnableViewboxFloatingBarScaleTransform_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Appearance.EnableViewboxFloatingBarScaleTransform = ToggleSwitchEnableViewboxFloatingBarScaleTransform.IsOn;
@@ -695,6 +703,7 @@ namespace Ink_Canvas {
             Settings.Appearance.IsShowHideControlButton = false;
             Settings.Appearance.IsShowLRSwitchButton = false;
             Settings.Appearance.IsShowModeFingerToggleSwitch = true;
+            Settings.Appearance.IsShowQuickPanel = true;
             Settings.Appearance.Theme = 0;
 
             Settings.Automation.IsAutoFoldInEasiNote = true;

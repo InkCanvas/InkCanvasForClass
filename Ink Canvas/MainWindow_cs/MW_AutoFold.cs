@@ -49,14 +49,25 @@ namespace Ink_Canvas {
 
         private void LeftUnFoldButtonDisplayQuickPanel_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            LeftUnFoldButtonQuickPanel.Visibility = Visibility.Visible;
-            RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
-
+            if (Settings.Appearance.IsShowQuickPanel==true)
+            {
+                LeftUnFoldButtonQuickPanel.Visibility = Visibility.Visible;
+                RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+            } else
+            {
+                UnFoldFloatingBar_MouseUp(sender, e);
+            }
         }
         private void RightUnFoldButtonDisplayQuickPanel_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            RightUnFoldButtonQuickPanel.Visibility = Visibility.Visible;
-            LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+            if (Settings.Appearance.IsShowQuickPanel == true)
+            {
+                RightUnFoldButtonQuickPanel.Visibility = Visibility.Visible;
+                LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+            } else
+            {
+                UnFoldFloatingBar_MouseUp(sender, e);
+            }
         }
 
         private void HideQuickPanel_MouseUp(object sender, MouseButtonEventArgs e)
@@ -111,7 +122,7 @@ namespace Ink_Canvas {
                 if (MarginFromEdge == -10) LeftSidePanel.Visibility = Visibility.Visible;
 
                 ThicknessAnimation LeftSidePanelmarginAnimation = new ThicknessAnimation {
-                    Duration = TimeSpan.FromSeconds(isNoAnimation?0:0.175),
+                    Duration = TimeSpan.FromSeconds(isNoAnimation? 0 : 0.175),
                     From = LeftSidePanel.Margin,
                     To = new Thickness(MarginFromEdge, 0, 0, -150)
                 };

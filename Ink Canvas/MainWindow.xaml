@@ -988,6 +988,10 @@
                                     <TextBlock Text="在白板中显示当前时间和日期" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
                                     <ui:ToggleSwitch Name="ToggleSwitchEnableTimeDisplayInWhiteboardMode" IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" OnContent="开" OffContent="关" Toggled="ToggleSwitchEnableTimeDisplayInWhiteboardMode_Toggled"/>
                                 </ui:SimpleStackPanel>
+                                <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="在收纳模式下启用快速面板" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
+                                    <ui:ToggleSwitch Name="ToggleSwitchEnableQuickPanel" IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" OnContent="开" OffContent="关" Toggled="ToggleSwitchEnableQuickPanel_Toggled" />
+                                </ui:SimpleStackPanel>
                                 <!--
                                 <TextBlock Text="颜色主题" FontFamily="Microsoft YaHei UI" FontSize="14"/>
                                 <ComboBox Name="ComboBoxTheme" FontFamily="Microsoft YaHei UI" SelectedIndex="0" SelectionChanged="ComboBoxTheme_SelectionChanged">

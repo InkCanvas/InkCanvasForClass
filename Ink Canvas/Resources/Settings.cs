@@ -127,6 +127,8 @@ namespace Ink_Canvas
         public bool IsShowHideControlButton { get; set; } = false;
         [JsonProperty("isShowLRSwitchButton")]
         public bool IsShowLRSwitchButton { get; set; } = false;
+        [JsonProperty("isShowQuickPanel")]
+        public bool IsShowQuickPanel { get; set; } = true;
         [JsonProperty("isShowModeFingerToggleSwitch")]
         public bool IsShowModeFingerToggleSwitch { get; set; } = true;
         [JsonProperty("theme")]

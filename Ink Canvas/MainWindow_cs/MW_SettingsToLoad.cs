@@ -115,6 +115,13 @@ namespace Ink_Canvas {
 
                     ToggleSwitchEnableViewboxFloatingBarScaleTransform.IsOn = false;
                 }
+                if (Settings.Appearance.IsShowQuickPanel)
+                {
+                    ToggleSwitchEnableQuickPanel.IsOn = true;
+                } else
+                {
+                    ToggleSwitchEnableQuickPanel.IsOn = false;
+                }
                 if (Settings.Appearance.EnableViewboxBlackBoardScaleTransform) // 画板 UI 缩放 80%
                 {
                     ViewboxBlackboardLeftSideScaleTransform.ScaleX = 0.8;
