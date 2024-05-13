@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace Ink_Canvas
 {
@@ -100,17 +101,16 @@ namespace Ink_Canvas
 
             double alpha = inkCanvas.DefaultDrawingAttributes.Color.A;
 
-            if (inkColor == 0)
-            { // Black
-                inkCanvas.DefaultDrawingAttributes.Color = Color.FromArgb((byte)alpha, 0, 0, 0);
-            }
-            else if (inkColor == 5)
-            { // White
-                inkCanvas.DefaultDrawingAttributes.Color = Color.FromArgb((byte)alpha, 255, 255, 255);
-            }
-            else if (penType==0)
+            if (penType==0)
             {
-                if (isUselightThemeColor)
+                if (inkColor == 0)
+                { // Black
+                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromArgb((byte)alpha, 0, 0, 0);
+                }
+                else if (inkColor == 5)
+                { // White
+                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromArgb((byte)alpha, 255, 255, 255);
+                } else if (isUselightThemeColor)
                 {
                     if (inkColor == 1)
                     { // Red
@@ -396,7 +396,7 @@ namespace Ink_Canvas
             
         }
 
-        private void CheckPenTypeUIState()
+        private async void CheckPenTypeUIState()
         {
             if (penType==0)
             {
@@ -404,7 +404,6 @@ namespace Ink_Canvas
                 DefaultPenColorsPanel.Visibility = Visibility.Visible;
                 HighlighterPenColorsPanel.Visibility = Visibility.Collapsed;
                 HighlighterPenPropsPanel.Visibility = Visibility.Collapsed;
-                PenPalette.Margin = new Thickness(-160, -200, -33, 32);
                 DefaultPenTabButton.Opacity = 1;
                 DefaultPenTabButtonText.FontWeight = FontWeights.Bold;
                 DefaultPenTabButtonText.Margin = new Thickness(2, 0.5, 0, 0);
@@ -417,13 +416,29 @@ namespace Ink_Canvas
                 HighlightPenTabButtonText.Margin = new Thickness(2, 1, 0, 0);
                 HighlightPenTabButton.Background = new SolidColorBrush(Colors.Transparent);
                 HighlightPenTabButtonIndicator.Visibility = Visibility.Collapsed;
+
+                // PenPalette.Margin = new Thickness(-160, -200, -33, 32);
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    ThicknessAnimation marginAnimation = new ThicknessAnimation
+                    {
+                        Duration = TimeSpan.FromSeconds(0.1),
+                        From = PenPalette.Margin,
+                        To = new Thickness(-160, -200, -33, 32)
+                    };
+                    PenPalette.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
+                });
+                await Task.Delay(100);
+
+                await Dispatcher.InvokeAsync(() => {
+                    PenPalette.Margin = new Thickness(-160, -200, -33, 32);
+                });
             } else if (penType==1)
             {
                 DefaultPenPropsPanel.Visibility = Visibility.Collapsed;
                 DefaultPenColorsPanel.Visibility = Visibility.Collapsed;
                 HighlighterPenColorsPanel.Visibility = Visibility.Visible;
                 HighlighterPenPropsPanel.Visibility = Visibility.Visible;
-                PenPalette.Margin = new Thickness(-160, -157, -33, 32);
                 DefaultPenTabButton.Opacity = 0.9;
                 DefaultPenTabButtonText.FontWeight = FontWeights.Normal;
                 DefaultPenTabButtonText.FontSize = 9;
@@ -436,6 +451,23 @@ namespace Ink_Canvas
                 HighlightPenTabButtonText.Margin = new Thickness(2, 0.5, 0, 0);
                 HighlightPenTabButton.Background = new SolidColorBrush(Color.FromArgb(72, 219, 234, 254));
                 HighlightPenTabButtonIndicator.Visibility = Visibility.Visible;
+
+                // PenPalette.Margin = new Thickness(-160, -157, -33, 32);
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    ThicknessAnimation marginAnimation = new ThicknessAnimation
+                    {
+                        Duration = TimeSpan.FromSeconds(0.1),
+                        From = PenPalette.Margin,
+                        To = new Thickness(-160, -157, -33, 32)
+                    };
+                    PenPalette.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
+                });
+                await Task.Delay(100);
+
+                await Dispatcher.InvokeAsync(() => {
+                    PenPalette.Margin = new Thickness(-160, -157, -33, 32);
+                });
             }
         }
 

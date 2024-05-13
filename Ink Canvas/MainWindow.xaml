@@ -49,6 +49,9 @@
         <RoutedUICommand x:Key="HotKey_ChangeToPen5" Text=" "/>
         <RoutedUICommand x:Key="HotKey_DrawLine" Text=" "/>
     </Window.Resources>
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="-1" />
+    </WindowChrome.WindowChrome>
     <!--输入命令绑定-->
     <Window.InputBindings>
         <KeyBinding Gesture="Shift+Esc" Command="{StaticResource KeyExit}"/>

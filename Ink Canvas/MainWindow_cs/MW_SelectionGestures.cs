@@ -271,7 +271,7 @@ namespace Ink_Canvas {
 
         private void updateBorderStrokeSelectionControlLocation() {
             double borderLeft = (inkCanvas.GetSelectionBounds().Left + inkCanvas.GetSelectionBounds().Right - BorderStrokeSelectionControlWidth) / 2;
-            double borderTop = inkCanvas.GetSelectionBounds().Bottom + 15;
+            double borderTop = inkCanvas.GetSelectionBounds().Bottom + 1;
             if (borderLeft < 0) borderLeft = 0;
             if (borderTop < 0) borderTop = 0;
             if (Width - borderLeft < BorderStrokeSelectionControlWidth || double.IsNaN(borderLeft)) borderLeft = Width - BorderStrokeSelectionControlWidth;
