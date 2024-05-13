@@ -49,33 +49,109 @@ namespace Ink_Canvas {
             isFloatingBarChangingHideMode = false;
         }
 
-        private void LeftUnFoldButtonDisplayQuickPanel_MouseUp(object sender, MouseButtonEventArgs e)
+        private async void LeftUnFoldButtonDisplayQuickPanel_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if (Settings.Appearance.IsShowQuickPanel==true)
             {
+                HideRightQuickPanel();
                 LeftUnFoldButtonQuickPanel.Visibility = Visibility.Visible;
-                RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    ThicknessAnimation marginAnimation = new ThicknessAnimation
+                    {
+                        Duration = TimeSpan.FromSeconds(0.1),
+                        From = new Thickness(-50, 0, 0, -150),
+                        To = new Thickness(-1, 0, 0, -150)
+                    };
+                    LeftUnFoldButtonQuickPanel.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
+                });
+                await Task.Delay(100);
+
+                await Dispatcher.InvokeAsync(() => {
+                    LeftUnFoldButtonQuickPanel.Margin = new Thickness(-1, 0, 0, -150);
+                });
             } else
             {
                 UnFoldFloatingBar_MouseUp(sender, e);
             }
         }
-        private void RightUnFoldButtonDisplayQuickPanel_MouseUp(object sender, MouseButtonEventArgs e)
+        private async void RightUnFoldButtonDisplayQuickPanel_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if (Settings.Appearance.IsShowQuickPanel == true)
             {
+                HideLeftQuickPanel();
                 RightUnFoldButtonQuickPanel.Visibility = Visibility.Visible;
-                LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    ThicknessAnimation marginAnimation = new ThicknessAnimation
+                    {
+                        Duration = TimeSpan.FromSeconds(0.1),
+                        From = new Thickness(0, 0, -50, -150),
+                        To = new Thickness(0, 0, -1, -150)
+                    };
+                    RightUnFoldButtonQuickPanel.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
+                });
+                await Task.Delay(100);
+
+                await Dispatcher.InvokeAsync(() => {
+                    RightUnFoldButtonQuickPanel.Margin = new Thickness(0, 0, -1, -150);
+                });
             } else
             {
                 UnFoldFloatingBar_MouseUp(sender, e);
             }
         }
 
+        private async void HideLeftQuickPanel()
+        {
+            if (LeftUnFoldButtonQuickPanel.Visibility == Visibility.Visible)
+            {
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    ThicknessAnimation marginAnimation = new ThicknessAnimation
+                    {
+                        Duration = TimeSpan.FromSeconds(0.1),
+                        From = new Thickness(-1, 0, 0, -150),
+                        To = new Thickness(-50, 0, 0, -150)
+                    };
+                    LeftUnFoldButtonQuickPanel.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
+                });
+                await Task.Delay(100);
+
+                await Dispatcher.InvokeAsync(() => {
+                    LeftUnFoldButtonQuickPanel.Margin = new Thickness(0, 0, -50, -150);
+                    LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+                });
+            }
+        }
+
+        private async void HideRightQuickPanel()
+        {
+            if (RightUnFoldButtonQuickPanel.Visibility == Visibility.Visible)
+            {
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    ThicknessAnimation marginAnimation = new ThicknessAnimation
+                    {
+                        Duration = TimeSpan.FromSeconds(0.1),
+                        From = new Thickness(0, 0, -1, -150),
+                        To = new Thickness(0, 0, -50, -150)
+                    };
+                    RightUnFoldButtonQuickPanel.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
+                });
+                await Task.Delay(100);
+
+                await Dispatcher.InvokeAsync(() => {
+                    RightUnFoldButtonQuickPanel.Margin = new Thickness(0, 0, -50, -150);
+                    RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+                });
+            }
+        }
+
         private void HideQuickPanel_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
-            RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+            HideLeftQuickPanel();
+            HideRightQuickPanel();
         }
 
         private async void UnFoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {

@@ -409,9 +409,12 @@ namespace Ink_Canvas {
                     });
                 })).Start();
 
-                if (Settings.Canvas.UsingWhiteboard) {
+                if (Settings.Canvas.UsingWhiteboard)
+                {
                     BorderPenColorBlack_MouseUp(BorderPenColorBlack, null);
-                } else {
+                }
+                else
+                {
                     BorderPenColorWhite_MouseUp(BorderPenColorWhite, null);
                 }
 
