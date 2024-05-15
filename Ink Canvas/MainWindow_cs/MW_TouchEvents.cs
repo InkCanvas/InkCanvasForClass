@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
+using static System.Windows.Forms.AxHost;
 using Point = System.Windows.Point;
 
 namespace Ink_Canvas
@@ -355,6 +356,48 @@ namespace Ink_Canvas
             {
                 if (forceEraser) return;
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+
+                if (FakeICTranslateTransform.X != 0 && FakeICTranslateTransform.Y != 0)
+                {
+                    Matrix m1 = new Matrix();
+                    //Matrix m2 = new Matrix();
+                    Matrix m3 = new Matrix();
+                    m1.Translate(FakeICTranslateTransform.X, FakeICTranslateTransform.Y);
+                    //m2.RotateAt(FakeICRotateTransform.Angle, FakeICRotateTransform.CenterX, FakeICRotateTransform.CenterY);
+                    m3.ScaleAt(FakeICScaleTransform.ScaleX, FakeICScaleTransform.ScaleY, FakeICScaleTransform.CenterX, FakeICScaleTransform.CenterY);
+                    inkCanvas.Strokes.Transform(m1, false);
+                    //inkCanvas.Strokes.Transform(m2, false);
+                    inkCanvas.Strokes.Transform(m3, false);
+                    foreach (Stroke stroke in inkCanvas.Strokes)
+                    {
+                        try
+                        {
+                            stroke.DrawingAttributes.Width *= FakeICScaleTransform.ScaleX;
+                            stroke.DrawingAttributes.Height *= FakeICScaleTransform.ScaleY;
+                        }
+                        catch { }
+                    };
+
+                    FakeICTranslateTransform.X = 0;
+                    FakeICTranslateTransform.Y = 0;
+                    //FakeICRotateTransform.Angle = 0;
+                    //FakeICRotateTransform.CenterX = 0;
+                    //FakeICRotateTransform.CenterY = 0;
+                    FakeICScaleTransform.ScaleX = 1;
+                    FakeICScaleTransform.ScaleY = 1;
+                    FakeICScaleTransform.CenterX = 0;
+                    FakeICScaleTransform.CenterY = 0;
+
+                    TTT.Text = $"tx:{FakeICTranslateTransform.X}\n" +
+                            $"ty:{FakeICTranslateTransform.Y}\n" +
+                            $"ssx:{FakeICScaleTransform.ScaleX}\n" +
+                            $"ssy:{FakeICScaleTransform.ScaleY}\n" +
+                            $"scx:{FakeICScaleTransform.CenterX}\n" +
+                            $"scy:{FakeICScaleTransform.CenterY}";
+
+                    inkCanvas.Opacity = 1;
+                }
+                
             }
         }
 
@@ -374,6 +417,7 @@ namespace Ink_Canvas
                 originalStrokes.Replace(originalStrokes, targetStrokes);
             }
             _currentCommitType = CommitReason.UserInput;
+
         }
 
         private void Main_Grid_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
@@ -381,6 +425,12 @@ namespace Ink_Canvas
             if (isInMultiTouchMode || !Settings.Gesture.IsEnableTwoFingerGesture) return;
             if ((dec.Count >= 2 && (Settings.PowerPointSettings.IsEnableTwoFingerGestureInPresentationMode || StackPanelPPTControls.Visibility != Visibility.Visible || StackPanelPPTButtons.Visibility == Visibility.Collapsed)) || isSingleFingerDragMode)
             {
+                
+                if (inkCanvas.Opacity != 0)
+                {
+                    inkCanvas.Opacity = 0;
+                }
+                
                 ManipulationDelta md = e.DeltaManipulation;
                 Vector trans = md.Translation;  // 获得位移矢量
 
@@ -410,7 +460,7 @@ namespace Ink_Canvas
                 {
                     foreach (Stroke stroke in strokes)
                     {
-                        stroke.Transform(m, false);
+                        stroke.Transform(m, true);
 
                         foreach (Circle circle in circles)
                         {
@@ -427,8 +477,8 @@ namespace Ink_Canvas
                         {
                             try
                             {
-                                stroke.DrawingAttributes.Width *= md.Scale.X;
-                                stroke.DrawingAttributes.Height *= md.Scale.Y;
+                                //stroke.DrawingAttributes.Width *= md.Scale.X;
+                                //stroke.DrawingAttributes.Height *= md.Scale.Y;
                             }
                             catch { }
                         }
@@ -436,25 +486,77 @@ namespace Ink_Canvas
                 }
                 else
                 {
-                    if (Settings.Gesture.IsEnableTwoFingerZoom)
+                    //if (Settings.Gesture.IsEnableTwoFingerZoom)
+                    //{
+                    //foreach (Stroke stroke in inkCanvas.Strokes)
+                    //{
+                    //    try
+                    //    {
+                    //        stroke.DrawingAttributes.Width *= md.Scale.X;
+                    //        stroke.DrawingAttributes.Height *= md.Scale.Y;
+                    //    }
+                    //    catch { }
+                    //};
+
+                    // inkCanvas.Strokes.Transform(m, true);
+
+                    //MatrixTransform mt = new MatrixTransform(m);
+                    //inkCanvas.RenderTransform = mt;
+
+
+                    //}
+                    //else
+                    //{
+                    //foreach (Stroke stroke in inkCanvas.Strokes)
+                    //{
+                    //    stroke.Transform(m, false);
+                    //};
+
+                    // inkCanvas.Strokes.Transform(m, true);
+
+                    //TranslateTransform tt = new TranslateTransform(trans.X,trans.Y);
+                    //inkCanvas.RenderTransform = tt;
+                    //TTT.Text = "transX:" + trans.X + ",transY:" + trans.Y + "!";
+                    //}
+
+                    if (Settings.Gesture.IsEnableTwoFingerTranslate)
                     {
-                        foreach (Stroke stroke in inkCanvas.Strokes)
-                        {
-                            stroke.Transform(m, false);
-                            try
-                            {
-                                stroke.DrawingAttributes.Width *= md.Scale.X;
-                                stroke.DrawingAttributes.Height *= md.Scale.Y;
-                            }
-                            catch { }
-                        };
+                        FakeICTranslateTransform.X = Math.Round(FakeICTranslateTransform.X + trans.X,4);
+                        FakeICTranslateTransform.Y = Math.Round(FakeICTranslateTransform.Y + trans.Y, 4);
                     }
-                    else
+                        
+
+                    if (Settings.Gesture.IsEnableTwoFingerGestureTranslateOrRotation)
                     {
-                        foreach (Stroke stroke in inkCanvas.Strokes)
+                        double rotate = md.Rotation;  // 获得旋转角度
+                        Vector scale = md.Scale;  // 获得缩放倍数
+
+                        // Find center of element and then transform to get current location of center
+                        FrameworkElement fe = e.Source as FrameworkElement;
+                        Point center = new Point(fe.ActualWidth / 2, fe.ActualHeight / 2);
+                        center = m.Transform(center);  // 转换为矩阵缩放和旋转的中心点
+
+                        if (Settings.Gesture.IsEnableTwoFingerRotation)
                         {
-                            stroke.Transform(m, false);
-                        };
+                            FakeICRotateTransform.Angle = Math.Round(FakeICRotateTransform.Angle+rotate,4);
+                            FakeICRotateTransform.CenterX = Math.Round(FakeICRotateTransform.CenterX+center.X,4);
+                            FakeICRotateTransform.CenterY = Math.Round(FakeICRotateTransform.CenterY + center.Y, 4);
+                        }
+
+                        if (Settings.Gesture.IsEnableTwoFingerZoom)
+                        {
+                            FakeICScaleTransform.ScaleX = Math.Round(FakeICScaleTransform.ScaleX+ scale.X -1,4);
+                            FakeICScaleTransform.ScaleY = Math.Round(FakeICScaleTransform.ScaleY + scale.Y - 1, 4);
+                            FakeICScaleTransform.CenterX = Math.Round(center.X,4);
+                            FakeICScaleTransform.CenterY = Math.Round(center.Y, 4);
+                        }
+
+                        TTT.Text = $"tx:{FakeICTranslateTransform.X}\n" +
+                            $"ty:{FakeICTranslateTransform.Y}\n" +
+                            $"ssx:{FakeICScaleTransform.ScaleX}\n" +
+                            $"ssy:{FakeICScaleTransform.ScaleY}\n" +
+                            $"scx:{FakeICScaleTransform.CenterX}\n" +
+                            $"scy:{FakeICScaleTransform.CenterY}";
                     }
 
                     foreach (Circle circle in circles)
@@ -466,7 +568,25 @@ namespace Ink_Canvas
                         );
                     };
                 }
-            }
+            } 
+            //else
+            //{
+            //    Matrix m = new Matrix();
+            //    m.Translate(FakeICTranslateTransform.X, FakeICTranslateTransform.Y);
+            //    m.RotateAt(FakeICRotateTransform.Angle,FakeICRotateTransform.CenterX,FakeICRotateTransform.CenterY);
+            //    m.ScaleAt(FakeICScaleTransform.ScaleX,FakeICScaleTransform.ScaleY,FakeICScaleTransform.CenterX,FakeICScaleTransform.CenterY);
+            //    inkCanvas.Strokes.Transform(m, false);
+
+            //    FakeICTranslateTransform.X = 0;
+            //    FakeICTranslateTransform.Y = 0;
+            //    FakeICRotateTransform.Angle = 0;
+            //    FakeICRotateTransform.CenterX = 0;
+            //    FakeICRotateTransform.CenterY = 0;
+            //    FakeICScaleTransform.ScaleX = 0;
+            //    FakeICScaleTransform.ScaleY = 0;
+            //    FakeICScaleTransform.CenterX = 1;
+            //    FakeICScaleTransform.CenterY = 1;
+            //}
         }
     }
 }
