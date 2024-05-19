@@ -426,6 +426,7 @@ namespace Ink_Canvas
                         From = PenPalette.Margin,
                         To = new Thickness(-160, -200, -33, 32)
                     };
+                    marginAnimation.EasingFunction = new CubicEase();
                     PenPalette.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
                 });
                 await Task.Delay(100);
@@ -461,6 +462,7 @@ namespace Ink_Canvas
                         From = PenPalette.Margin,
                         To = new Thickness(-160, -157, -33, 32)
                     };
+                    marginAnimation.EasingFunction = new CubicEase();
                     PenPalette.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
                 });
                 await Task.Delay(100);

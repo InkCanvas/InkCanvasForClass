@@ -63,7 +63,7 @@ namespace Ink_Canvas {
 
         private void InitTimers() {
             timerCheckPPT.Elapsed += TimerCheckPPT_Elapsed;
-            timerCheckPPT.Interval = 1000;
+            timerCheckPPT.Interval = 500;
             timerKillProcess.Elapsed += TimerKillProcess_Elapsed;
             timerKillProcess.Interval = 5000;
             timerCheckAutoFold.Elapsed += timerCheckAutoFold_Elapsed;
@@ -154,11 +154,11 @@ namespace Ink_Canvas {
                     }
                 } else if (WinTabWindowsChecker.IsWindowExisted("幻灯片放映", false)) { // 处于幻灯片放映状态
                     if (!Settings.Automation.IsAutoFoldInPPTSlideShow && isFloatingBarFolded && !foldFloatingBarByUser) {
-                        UnFoldFloatingBar_MouseUp(null, null);
+                        UnFoldFloatingBar_MouseUp(new Object(), null);
                     }
                 } else {
                     if (isFloatingBarFolded && !foldFloatingBarByUser) {
-                        UnFoldFloatingBar_MouseUp(null, null);
+                        UnFoldFloatingBar_MouseUp(new Object(), null);
                     }
                     unfoldFloatingBarByUser = false;
                 }

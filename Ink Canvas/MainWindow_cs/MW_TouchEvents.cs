@@ -1,7 +1,9 @@
 ﻿using Ink_Canvas.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -340,64 +342,112 @@ namespace Ink_Canvas
                 }
             }
         }
+
+        private void Strokes_StrokesChanged(object sender, StrokeCollectionChangedEventArgs args)
+        {
+            Trace.WriteLine("Strokes_StrokesChanged");
+        }
+
+        private void StylusPointsChanged(object sender, EventArgs e)
+        {
+            ((StylusPointCollection)sender).Changed -= StylusPointsChanged;
+            FakeInkCanvas.Visibility = Visibility.Hidden;
+            inkCanvas.Opacity = 1;
+        }
+
         private void inkCanvas_ManipulationStarting(object sender, ManipulationStartingEventArgs e)
         {
             e.Mode = ManipulationModes.All;
         }
 
+        // 指定是否鎖定Manipulation，鎖定後ManipulationDelta不會觸發RenderTransform。
+        // 當雙指操作開始慣性時鎖定，並開始應用變換，Manipulation結束後取消鎖定。
+        bool isLockManipulation = false;
+
+        // 可能不會發生Inertia事件，這裡指示是否發生inertia事件
+        bool isInertiaEventFired = false;
+
+        private void ExecuteManipulationTransform()
+        {
+            double TranslateX = FakeICTranslateTransform.X;
+            double TranslateY = FakeICTranslateTransform.Y;
+            double ScaleX = FakeICScaleTransform.ScaleX;
+            double ScaleY = FakeICScaleTransform.ScaleY;
+            double CenterX = FakeICScaleTransform.CenterX;
+            double CenterY = FakeICScaleTransform.CenterY;
+
+            Matrix m1 = new Matrix();
+            //Matrix m2 = new Matrix();
+            Matrix m3 = new Matrix();
+            Matrix mfinal = new Matrix();
+            m1.Translate(TranslateX, TranslateY);
+            //m2.RotateAt(FakeICRotateTransform.Angle, FakeICRotateTransform.CenterX, FakeICRotateTransform.CenterY);
+            m3.ScaleAt(ScaleX, ScaleY, CenterX, CenterY);
+            mfinal.Prepend(m1);
+            //mfinal.Prepend(m2);
+            mfinal.Prepend(m3);
+
+            foreach (Stroke stroke in inkCanvas.Strokes)
+            {
+                if (inkCanvas.Strokes.IndexOf(stroke) == inkCanvas.Strokes.Count - 1)
+                {
+                    stroke.StylusPoints.Changed += StylusPointsChanged;
+                }
+                stroke.Transform(mfinal, false);
+                try
+                {
+                    stroke.DrawingAttributes.Width *= FakeICScaleTransform.ScaleX;
+                    stroke.DrawingAttributes.Height *= FakeICScaleTransform.ScaleY;
+                }
+                catch { }
+            };
+
+            FakeICTranslateTransform.X = 0;
+            FakeICTranslateTransform.Y = 0;
+            FakeICRotateTransform.Angle = 0;
+            FakeICRotateTransform.CenterX = 0;
+            FakeICRotateTransform.CenterY = 0;
+            FakeICScaleTransform.ScaleX = 1;
+            FakeICScaleTransform.ScaleY = 1;
+            FakeICScaleTransform.CenterX = 0;
+            FakeICScaleTransform.CenterY = 0;
+
+            TTT.Text = $"tx:{FakeICTranslateTransform.X}\n" +
+                $"ty:{FakeICTranslateTransform.Y}\n" +
+                $"ssx:{FakeICScaleTransform.ScaleX}\n" +
+                $"ssy:{FakeICScaleTransform.ScaleY}\n" +
+                $"scx:{FakeICScaleTransform.CenterX}\n" +
+                $"scy:{FakeICScaleTransform.CenterY}";
+        }
+
         private void inkCanvas_ManipulationInertiaStarting(object sender, ManipulationInertiaStartingEventArgs e)
         {
+            if (e.Manipulators.Count() == 0 && FakeICTranslateTransform.X != 0 && FakeICTranslateTransform.Y != 0)
+            {
+                isLockManipulation = true;
+                isInertiaEventFired = true;
 
+                ExecuteManipulationTransform();
+            }
+        }
+
+        private void StylusPoints_Changed(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void Main_Grid_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
         {
             if (e.Manipulators.Count() == 0)
             {
+
+                if (isInertiaEventFired == false)
+                {
+                    ExecuteManipulationTransform();
+                }
+
                 if (forceEraser) return;
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
-
-                if (FakeICTranslateTransform.X != 0 && FakeICTranslateTransform.Y != 0)
-                {
-                    Matrix m1 = new Matrix();
-                    //Matrix m2 = new Matrix();
-                    Matrix m3 = new Matrix();
-                    m1.Translate(FakeICTranslateTransform.X, FakeICTranslateTransform.Y);
-                    //m2.RotateAt(FakeICRotateTransform.Angle, FakeICRotateTransform.CenterX, FakeICRotateTransform.CenterY);
-                    m3.ScaleAt(FakeICScaleTransform.ScaleX, FakeICScaleTransform.ScaleY, FakeICScaleTransform.CenterX, FakeICScaleTransform.CenterY);
-                    inkCanvas.Strokes.Transform(m1, false);
-                    //inkCanvas.Strokes.Transform(m2, false);
-                    inkCanvas.Strokes.Transform(m3, false);
-                    foreach (Stroke stroke in inkCanvas.Strokes)
-                    {
-                        try
-                        {
-                            stroke.DrawingAttributes.Width *= FakeICScaleTransform.ScaleX;
-                            stroke.DrawingAttributes.Height *= FakeICScaleTransform.ScaleY;
-                        }
-                        catch { }
-                    };
-
-                    FakeICTranslateTransform.X = 0;
-                    FakeICTranslateTransform.Y = 0;
-                    //FakeICRotateTransform.Angle = 0;
-                    //FakeICRotateTransform.CenterX = 0;
-                    //FakeICRotateTransform.CenterY = 0;
-                    FakeICScaleTransform.ScaleX = 1;
-                    FakeICScaleTransform.ScaleY = 1;
-                    FakeICScaleTransform.CenterX = 0;
-                    FakeICScaleTransform.CenterY = 0;
-
-                    TTT.Text = $"tx:{FakeICTranslateTransform.X}\n" +
-                            $"ty:{FakeICTranslateTransform.Y}\n" +
-                            $"ssx:{FakeICScaleTransform.ScaleX}\n" +
-                            $"ssy:{FakeICScaleTransform.ScaleY}\n" +
-                            $"scx:{FakeICScaleTransform.CenterX}\n" +
-                            $"scy:{FakeICScaleTransform.CenterY}";
-
-                    inkCanvas.Opacity = 1;
-                }
-                
             }
         }
 
@@ -425,12 +475,10 @@ namespace Ink_Canvas
             if (isInMultiTouchMode || !Settings.Gesture.IsEnableTwoFingerGesture) return;
             if ((dec.Count >= 2 && (Settings.PowerPointSettings.IsEnableTwoFingerGestureInPresentationMode || StackPanelPPTControls.Visibility != Visibility.Visible || StackPanelPPTButtons.Visibility == Visibility.Collapsed)) || isSingleFingerDragMode)
             {
-                
-                if (inkCanvas.Opacity != 0)
-                {
-                    inkCanvas.Opacity = 0;
-                }
-                
+
+                inkCanvas.Opacity = 0;
+                FakeInkCanvas.Visibility = Visibility.Visible;
+
                 ManipulationDelta md = e.DeltaManipulation;
                 Vector trans = md.Translation;  // 获得位移矢量
 
@@ -519,14 +567,14 @@ namespace Ink_Canvas
                     //TTT.Text = "transX:" + trans.X + ",transY:" + trans.Y + "!";
                     //}
 
-                    if (Settings.Gesture.IsEnableTwoFingerTranslate)
+                    if (Settings.Gesture.IsEnableTwoFingerTranslate && isLockManipulation == false)
                     {
                         FakeICTranslateTransform.X = Math.Round(FakeICTranslateTransform.X + trans.X,4);
                         FakeICTranslateTransform.Y = Math.Round(FakeICTranslateTransform.Y + trans.Y, 4);
                     }
                         
 
-                    if (Settings.Gesture.IsEnableTwoFingerGestureTranslateOrRotation)
+                    if (Settings.Gesture.IsEnableTwoFingerGestureTranslateOrRotation && isLockManipulation == false)
                     {
                         double rotate = md.Rotation;  // 获得旋转角度
                         Vector scale = md.Scale;  // 获得缩放倍数
@@ -538,9 +586,9 @@ namespace Ink_Canvas
 
                         if (Settings.Gesture.IsEnableTwoFingerRotation)
                         {
-                            FakeICRotateTransform.Angle = Math.Round(FakeICRotateTransform.Angle+rotate,4);
-                            FakeICRotateTransform.CenterX = Math.Round(FakeICRotateTransform.CenterX+center.X,4);
-                            FakeICRotateTransform.CenterY = Math.Round(FakeICRotateTransform.CenterY + center.Y, 4);
+                            //FakeICRotateTransform.Angle = Math.Round(FakeICRotateTransform.Angle+rotate,4);
+                            //FakeICRotateTransform.CenterX = Math.Round(FakeICRotateTransform.CenterX+center.X,4);
+                            //FakeICRotateTransform.CenterY = Math.Round(FakeICRotateTransform.CenterY + center.Y, 4);
                         }
 
                         if (Settings.Gesture.IsEnableTwoFingerZoom)

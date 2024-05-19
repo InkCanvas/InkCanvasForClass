@@ -32,7 +32,7 @@ namespace Ink_Canvas {
             BorderSettings.Visibility = Visibility.Collapsed;
             LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
             RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
-            BorderSettings.Margin = new Thickness(0, 150, 0, 150);
+            BorderSettings.Margin = new Thickness(0, 0, 0, 0);
             TwoFingerGestureBorder.Visibility = Visibility.Collapsed;
             BoardTwoFingerGestureBorder.Visibility = Visibility.Collapsed;
             BorderDrawShape.Visibility = Visibility.Collapsed;
@@ -108,6 +108,7 @@ namespace Ink_Canvas {
 
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
                 inkCanvas.Gesture += InkCanvas_Gesture;
+                inkCanvas.Strokes.StrokesChanged += Strokes_StrokesChanged;
             } catch { }
         }
         //ApplicationGesture lastApplicationGesture = ApplicationGesture.AllGestures;

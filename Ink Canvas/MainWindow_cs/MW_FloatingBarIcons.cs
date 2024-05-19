@@ -22,6 +22,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Text;
 using System.Globalization;
 using System.Windows.Data;
+using System.Xml.Linq;
 
 namespace Ink_Canvas {
 
@@ -716,6 +717,7 @@ namespace Ink_Canvas {
                     From = ViewboxFloatingBar.Margin,
                     To = new Thickness(pos.X, pos.Y, -2000, -200)
                 };
+                marginAnimation.EasingFunction = new CircleEase();
                 ViewboxFloatingBar.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
             });
 
@@ -1232,11 +1234,60 @@ namespace Ink_Canvas {
             Application.Current.Shutdown();
         }
 
+        private void SettingsOverlayClick(object sender, MouseButtonEventArgs e)
+        {
+            BtnSettings_Click(null, null);
+        }
+
         private void BtnSettings_Click(object sender, RoutedEventArgs e) {
             if (BorderSettings.Visibility == Visibility.Visible) {
-                AnimationsHelper.HideWithSlideAndFade(BorderSettings, 0.5);
+                BorderSettingsMask.IsHitTestVisible = false;
+                BorderSettingsMask.Background = null;
+                var sb = new Storyboard();
+
+                // 滑动动画
+                var slideAnimation = new DoubleAnimation
+                {
+                    From = 0, // 滑动距离
+                    To = BorderSettings.RenderTransform.Value.OffsetX - 440,
+                    Duration = TimeSpan.FromSeconds(0.6)
+                };
+                slideAnimation.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
+                Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.X)"));
+
+                sb.Children.Add(slideAnimation);
+
+                sb.Completed += (s, _) =>
+                {
+                    BorderSettings.Visibility = Visibility.Collapsed;
+                };
+
+                BorderSettings.Visibility = Visibility.Visible;
+                BorderSettings.RenderTransform = new TranslateTransform();
+
+                sb.Begin((FrameworkElement)BorderSettings);
             } else {
-                AnimationsHelper.ShowWithSlideFromBottomAndFade(BorderSettings, 0.5);
+                BorderSettingsMask.IsHitTestVisible = true;
+                BorderSettingsMask.Background = new SolidColorBrush(Color.FromArgb(1,0,0,0));
+                SettingsPanelScrollViewer.ScrollToTop();
+                var sb = new Storyboard();
+
+                // 滑动动画
+                var slideAnimation = new DoubleAnimation
+                {
+                    From = BorderSettings.RenderTransform.Value.OffsetX - 440, // 滑动距离
+                    To = 0,
+                    Duration = TimeSpan.FromSeconds(0.6)
+                };
+                slideAnimation.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
+                Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.X)"));
+
+                sb.Children.Add(slideAnimation);
+
+                BorderSettings.Visibility = Visibility.Visible;
+                BorderSettings.RenderTransform = new TranslateTransform();
+
+                sb.Begin((FrameworkElement)BorderSettings);
             }
         }
 

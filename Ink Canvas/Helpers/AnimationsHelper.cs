@@ -50,6 +50,8 @@ namespace Ink_Canvas.Helpers
                     To = 1,
                     Duration = TimeSpan.FromSeconds(duration)
                 };
+                fadeInAnimation.EasingFunction = new CubicEase();
+
                 Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(UIElement.OpacityProperty));
 
                 // 滑动动画
@@ -60,6 +62,8 @@ namespace Ink_Canvas.Helpers
                     Duration = TimeSpan.FromSeconds(duration)
                 };
                 Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
+
+                slideAnimation.EasingFunction = new CubicEase();
 
                 sb.Children.Add(fadeInAnimation);
                 sb.Children.Add(slideAnimation);
@@ -212,6 +216,7 @@ namespace Ink_Canvas.Helpers
                     To = 0,
                     Duration = TimeSpan.FromSeconds(duration)
                 };
+                fadeOutAnimation.EasingFunction = new CubicEase();
                 Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath(UIElement.OpacityProperty));
 
                 // 滑动动画
@@ -221,6 +226,8 @@ namespace Ink_Canvas.Helpers
                     To = element.RenderTransform.Value.OffsetY + 10, // 滑动距离
                     Duration = TimeSpan.FromSeconds(duration)
                 };
+                slideAnimation.EasingFunction = new CubicEase();
+
                 Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
 
                 sb.Children.Add(fadeOutAnimation);

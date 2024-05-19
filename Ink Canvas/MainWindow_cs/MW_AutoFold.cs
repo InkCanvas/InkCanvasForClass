@@ -155,8 +155,11 @@ namespace Ink_Canvas {
         }
 
         private async void UnFoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {
-            LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
-            RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+            await Dispatcher.InvokeAsync(() =>
+            {
+                LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+                RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
+            });
             if (sender == null || StackPanelPPTControls.Visibility == Visibility.Visible) {
                 unfoldFloatingBarByUser = false;
             } else {
@@ -204,12 +207,13 @@ namespace Ink_Canvas {
                     From = LeftSidePanel.Margin,
                     To = new Thickness(MarginFromEdge, 0, 0, -150)
                 };
+                LeftSidePanelmarginAnimation.EasingFunction = new CubicEase();
                 ThicknessAnimation RightSidePanelmarginAnimation = new ThicknessAnimation {
                     Duration = isNoAnimation == true ? TimeSpan.FromSeconds(0) : TimeSpan.FromSeconds(0.175),
                     From = RightSidePanel.Margin,
                     To = new Thickness(0, 0, MarginFromEdge, -150)
                 };
-
+                RightSidePanelmarginAnimation.EasingFunction = new CubicEase();
                 LeftSidePanel.BeginAnimation(FrameworkElement.MarginProperty, LeftSidePanelmarginAnimation);
                 RightSidePanel.BeginAnimation(FrameworkElement.MarginProperty, RightSidePanelmarginAnimation);
             });
