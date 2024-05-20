@@ -19,6 +19,9 @@ Elegant by Default. Based on `ChangSakura/InkCanvas` .
 
 </div>
 
+## 公告
+该项目旨在为ICA提供更加舒适和易于使用的UI和用户体验，对于任何墨迹书写方面的Bug如果本人无法修复将不会被修复。本人因为最近忙于开发InkCanvasForClass X导致本项目开发进度最近比较缓慢，请多一份理解，谢谢！
+
 ## 前言
 使用和分發本軟體前，請您應當且務必知曉相關開源協議，本軟體基於 https://github.com/ChangSakura/Ink-Canvas 修改而成，而ICA又基於 https://github.com/WXRIW/Ink-Canvas 修改而成，增添了包括但不限於隱藏到側邊欄等功能，更改了相關UI和軟體操作邏輯。對於墨跡書寫功能以及ICA獨有功能的相關 issue 提出，應優先查閱 https://github.com/WXRIW/Ink-Canvas/issues 。
 
@@ -31,8 +34,7 @@ Elegant by Default. Based on `ChangSakura/InkCanvas` .
 1. Support Active Pen (支持壓感)
 2. 工具欄顯示了每個功能的文字描述
 3. 添加了調色盤的顏色
-4. 修復了一些IC和ICA不願修復（或沒空修復）的Bug
-5. 添加了熒光筆支持
+4. 添加了熒光筆支持
 
 ## 提示
 - 對新功能的有效意見和合理建議，開發者會適時回復並進行開發。本軟體並非商業性質軟體，請勿催促開發者，耐心才能讓功能更少 BUG、更加穩定。
