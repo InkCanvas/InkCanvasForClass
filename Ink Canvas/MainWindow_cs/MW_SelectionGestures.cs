@@ -18,28 +18,6 @@ namespace Ink_Canvas {
             lastBorderMouseDownObject = sender;
         }
 
-        private void FloatingBarIcons_MouseDown_New(object sender, MouseButtonEventArgs e)
-        {
-            lastBorderMouseDownObject = sender;
-            SimpleStackPanel ssp = sender as SimpleStackPanel;
-            if (ssp!=null)
-            {
-                if ((ssp.Name == "Pen_Icon" && inkCanvas.EditingMode == InkCanvasEditingMode.Ink) || (ssp.Name == "Eraser_Icon" && inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint) || (ssp.Name == "EraserByStrokes_Icon" && inkCanvas.EditingMode == InkCanvasEditingMode.EraseByStroke) || (ssp.Name == "SymbolIconSelect" && inkCanvas.EditingMode == InkCanvasEditingMode.Select))
-                {
-                    ssp.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
-                }
-                else if (ssp.Name == "SymbolIconDelete")
-                {
-                    ssp.Background = new SolidColorBrush(Color.FromArgb(26, 153, 27, 27));
-                }
-                else
-                {
-                    // ssp.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/pressdown-background.png"))) { Opacity = 1 };
-                    ssp.Background = new SolidColorBrush(Color.FromArgb(20, 0,0,0));
-                }
-            }
-        }
-
         bool isStrokeSelectionCloneOn = false;
         private void BorderStrokeSelectionClone_MouseUp(object sender, MouseButtonEventArgs e) {
             if (lastBorderMouseDownObject != sender) return;

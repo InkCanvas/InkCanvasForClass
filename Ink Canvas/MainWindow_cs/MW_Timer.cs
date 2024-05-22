@@ -7,7 +7,8 @@ using System.Timers;
 using System.Windows;
 using MessageBox = System.Windows.MessageBox;
 
-namespace Ink_Canvas {
+namespace Ink_Canvas
+{
 
     public class TimeViewModel : INotifyPropertyChanged
     {
@@ -48,7 +49,8 @@ namespace Ink_Canvas {
         }
     }
 
-    public partial class MainWindow : Window {
+    public partial class MainWindow : Window
+    {
         Timer timerCheckPPT = new Timer();
         Timer timerKillProcess = new Timer();
         Timer timerCheckAutoFold = new Timer();
@@ -61,9 +63,10 @@ namespace Ink_Canvas {
 
         private TimeViewModel nowTimeVM = new TimeViewModel();
 
-        private void InitTimers() {
+        private void InitTimers()
+        {
             timerCheckPPT.Elapsed += TimerCheckPPT_Elapsed;
-            timerCheckPPT.Interval = 1000;
+            timerCheckPPT.Interval = 500;
             timerKillProcess.Elapsed += TimerKillProcess_Elapsed;
             timerKillProcess.Interval = 5000;
             timerCheckAutoFold.Elapsed += timerCheckAutoFold_Elapsed;
@@ -82,7 +85,8 @@ namespace Ink_Canvas {
             nowTimeVM.nowTime = DateTime.Now.ToShortTimeString().ToString();
         }
 
-        private void TimerDisplayTime_Elapsed(object sender, System.Timers.ElapsedEventArgs e) { 
+        private void TimerDisplayTime_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
             nowTimeVM.nowTime = DateTime.Now.ToShortTimeString().ToString();
         }
 
@@ -91,47 +95,59 @@ namespace Ink_Canvas {
             nowTimeVM.nowDate = DateTime.Now.ToShortDateString().ToString();
         }
 
-        private void TimerKillProcess_Elapsed(object sender, ElapsedEventArgs e) {
-            try {
+        private void TimerKillProcess_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
                 // 希沃相关： easinote swenserver RemoteProcess EasiNote.MediaHttpService smartnote.cloud EasiUpdate smartnote EasiUpdate3 EasiUpdate3Protect SeewoP2P CefSharp.BrowserSubprocess SeewoUploadService
                 string arg = "/F";
-                if (Settings.Automation.IsAutoKillPptService) {
+                if (Settings.Automation.IsAutoKillPptService)
+                {
                     Process[] processes = Process.GetProcessesByName("PPTService");
-                    if (processes.Length > 0) {
+                    if (processes.Length > 0)
+                    {
                         arg += " /IM PPTService.exe";
                     }
                     processes = Process.GetProcessesByName("SeewoIwbAssistant");
-                    if (processes.Length > 0) {
+                    if (processes.Length > 0)
+                    {
                         arg += " /IM SeewoIwbAssistant.exe" + " /IM Sia.Guard.exe";
                     }
                 }
-                if (Settings.Automation.IsAutoKillEasiNote) {
+                if (Settings.Automation.IsAutoKillEasiNote)
+                {
                     Process[] processes = Process.GetProcessesByName("EasiNote");
-                    if (processes.Length > 0) {
+                    if (processes.Length > 0)
+                    {
                         arg += " /IM EasiNote.exe";
                     }
                 }
-                if (arg != "/F") {
+                if (arg != "/F")
+                {
                     Process p = new Process();
                     p.StartInfo = new ProcessStartInfo("taskkill", arg);
                     p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                     p.Start();
 
-                    if (arg.Contains("EasiNote")) {
+                    if (arg.Contains("EasiNote"))
+                    {
                         BtnSwitch_Click(BtnSwitch, null);
                         MessageBox.Show("“希沃白板 5”已自动关闭");
                     }
                 }
-            } catch { }
+            }
+            catch { }
         }
 
 
         bool foldFloatingBarByUser = false, // 保持收纳操作不受自动收纳的控制
             unfoldFloatingBarByUser = false; // 允许用户在希沃软件内进行展开操作
 
-        private void timerCheckAutoFold_Elapsed(object sender, ElapsedEventArgs e) {
+        private void timerCheckAutoFold_Elapsed(object sender, ElapsedEventArgs e)
+        {
             if (isFloatingBarChangingHideMode) return;
-            try {
+            try
+            {
                 string windowProcessName = ForegroundWindowInfo.ProcessName();
                 string windowTitle = ForegroundWindowInfo.WindowTitle();
                 //LogHelper.WriteLogToFile("windowTitle | " + windowTitle + " | windowProcessName | " + windowProcessName);
@@ -148,37 +164,54 @@ namespace Ink_Canvas {
                     || Settings.Automation.IsAutoFoldInMSWhiteboard && (windowProcessName == "MicrosoftWhiteboard" || windowProcessName == "msedgewebview2") // 微软白板
                     || Settings.Automation.IsAutoFoldInOldZyBoard && // 中原旧白板
                     (WinTabWindowsChecker.IsWindowExisted("WhiteBoard - DrawingWindow")
-                    || WinTabWindowsChecker.IsWindowExisted("InstantAnnotationWindow"))) {
-                    if (!unfoldFloatingBarByUser && !isFloatingBarFolded) {
+                    || WinTabWindowsChecker.IsWindowExisted("InstantAnnotationWindow")))
+                {
+                    if (!unfoldFloatingBarByUser && !isFloatingBarFolded)
+                    {
                         FoldFloatingBar_MouseUp(null, null);
                     }
-                } else if (WinTabWindowsChecker.IsWindowExisted("幻灯片放映", false)) { // 处于幻灯片放映状态
-                    if (!Settings.Automation.IsAutoFoldInPPTSlideShow && isFloatingBarFolded && !foldFloatingBarByUser) {
-                        UnFoldFloatingBar_MouseUp(null, null);
+                }
+                else if (WinTabWindowsChecker.IsWindowExisted("幻灯片放映", false))
+                { // 处于幻灯片放映状态
+                    if (!Settings.Automation.IsAutoFoldInPPTSlideShow && isFloatingBarFolded && !foldFloatingBarByUser)
+                    {
+                        UnFoldFloatingBar_MouseUp(new Object(), null);
                     }
-                } else {
-                    if (isFloatingBarFolded && !foldFloatingBarByUser) {
-                        UnFoldFloatingBar_MouseUp(null, null);
+                }
+                else
+                {
+                    if (isFloatingBarFolded && !foldFloatingBarByUser)
+                    {
+                        UnFoldFloatingBar_MouseUp(new Object(), null);
                     }
                     unfoldFloatingBarByUser = false;
                 }
-            } catch { }
+            }
+            catch { }
         }
 
-        private void timerCheckAutoUpdateWithSilence_Elapsed(object sender, ElapsedEventArgs e) {
+        private void timerCheckAutoUpdateWithSilence_Elapsed(object sender, ElapsedEventArgs e)
+        {
             Dispatcher.Invoke(() => {
-                try {
+                try
+                {
                     if ((!Topmost) || (inkCanvas.Strokes.Count > 0)) return;
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     LogHelper.WriteLogToFile(ex.ToString(), LogHelper.LogType.Error);
                 }
             });
-            try {
-                if (AutoUpdateWithSilenceTimeComboBox.CheckIsInSilencePeriod(Settings.Startup.AutoUpdateWithSilenceStartTime, Settings.Startup.AutoUpdateWithSilenceEndTime)) {
+            try
+            {
+                if (AutoUpdateWithSilenceTimeComboBox.CheckIsInSilencePeriod(Settings.Startup.AutoUpdateWithSilenceStartTime, Settings.Startup.AutoUpdateWithSilenceEndTime))
+                {
                     AutoUpdateHelper.InstallNewVersionApp(AvailableLatestVersion, true);
                     timerCheckAutoUpdateWithSilence.Stop();
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 LogHelper.WriteLogToFile(ex.ToString(), LogHelper.LogType.Error);
             }
         }

@@ -101,7 +101,7 @@ namespace Ink_Canvas
 
             double alpha = inkCanvas.DefaultDrawingAttributes.Color.A;
 
-            if (penType==0)
+            if (penType == 0)
             {
                 if (inkColor == 0)
                 { // Black
@@ -110,7 +110,8 @@ namespace Ink_Canvas
                 else if (inkColor == 5)
                 { // White
                     inkCanvas.DefaultDrawingAttributes.Color = Color.FromArgb((byte)alpha, 255, 255, 255);
-                } else if (isUselightThemeColor)
+                }
+                else if (isUselightThemeColor)
                 {
                     if (inkColor == 1)
                     { // Red
@@ -172,11 +173,12 @@ namespace Ink_Canvas
                         inkCanvas.DefaultDrawingAttributes.Color = Color.FromArgb((byte)alpha, 234, 88, 12);
                     }
                 }
-            } else if (penType==1)
+            }
+            else if (penType == 1)
             {
                 if (highlighterColor == 100)
                 { // Black
-                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(0,0,0);
+                    inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(0, 0, 0);
                 }
                 else if (highlighterColor == 101)
                 { // White
@@ -299,15 +301,15 @@ namespace Ink_Canvas
             BoardViewboxBtnColorPinkContent.Visibility = Visibility.Collapsed;
 
             HighlighterPenViewboxBtnColorBlackContent.Visibility = Visibility.Collapsed;
-            HighlighterPenViewboxBtnColorBlueContent.Visibility= Visibility.Collapsed;
-            HighlighterPenViewboxBtnColorGreenContent.Visibility= Visibility.Collapsed;
-            HighlighterPenViewboxBtnColorOrangeContent.Visibility= Visibility.Collapsed;
-            HighlighterPenViewboxBtnColorPurpleContent.Visibility= Visibility.Collapsed;
-            HighlighterPenViewboxBtnColorRedContent.Visibility= Visibility.Collapsed;
-            HighlighterPenViewboxBtnColorTealContent.Visibility=Visibility.Collapsed;
-            HighlighterPenViewboxBtnColorWhiteContent.Visibility= Visibility.Collapsed;
-            HighlighterPenViewboxBtnColorYellowContent.Visibility=Visibility.Collapsed;
-            HighlighterPenViewboxBtnColorZincContent.Visibility=Visibility.Collapsed;
+            HighlighterPenViewboxBtnColorBlueContent.Visibility = Visibility.Collapsed;
+            HighlighterPenViewboxBtnColorGreenContent.Visibility = Visibility.Collapsed;
+            HighlighterPenViewboxBtnColorOrangeContent.Visibility = Visibility.Collapsed;
+            HighlighterPenViewboxBtnColorPurpleContent.Visibility = Visibility.Collapsed;
+            HighlighterPenViewboxBtnColorRedContent.Visibility = Visibility.Collapsed;
+            HighlighterPenViewboxBtnColorTealContent.Visibility = Visibility.Collapsed;
+            HighlighterPenViewboxBtnColorWhiteContent.Visibility = Visibility.Collapsed;
+            HighlighterPenViewboxBtnColorYellowContent.Visibility = Visibility.Collapsed;
+            HighlighterPenViewboxBtnColorZincContent.Visibility = Visibility.Collapsed;
 
             switch (inkColor)
             {
@@ -380,25 +382,26 @@ namespace Ink_Canvas
                     HighlighterPenViewboxBtnColorOrangeContent.Visibility = Visibility.Visible;
                     break;
             }
-            
+
         }
 
         private void CheckLastColor(int inkColor, bool isHighlighter = false)
         {
-            if (isHighlighter==true)
+            if (isHighlighter == true)
             {
                 highlighterColor = inkColor;
-            } else
+            }
+            else
             {
                 if (currentMode == 0) lastDesktopInkColor = inkColor;
                 else lastBoardInkColor = inkColor;
             }
-            
+
         }
 
         private async void CheckPenTypeUIState()
         {
-            if (penType==0)
+            if (penType == 0)
             {
                 DefaultPenPropsPanel.Visibility = Visibility.Visible;
                 DefaultPenColorsPanel.Visibility = Visibility.Visible;
@@ -426,6 +429,7 @@ namespace Ink_Canvas
                         From = PenPalette.Margin,
                         To = new Thickness(-160, -200, -33, 32)
                     };
+                    marginAnimation.EasingFunction = new CubicEase();
                     PenPalette.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
                 });
                 await Task.Delay(100);
@@ -433,7 +437,8 @@ namespace Ink_Canvas
                 await Dispatcher.InvokeAsync(() => {
                     PenPalette.Margin = new Thickness(-160, -200, -33, 32);
                 });
-            } else if (penType==1)
+            }
+            else if (penType == 1)
             {
                 DefaultPenPropsPanel.Visibility = Visibility.Collapsed;
                 DefaultPenColorsPanel.Visibility = Visibility.Collapsed;
@@ -461,6 +466,7 @@ namespace Ink_Canvas
                         From = PenPalette.Margin,
                         To = new Thickness(-160, -157, -33, 32)
                     };
+                    marginAnimation.EasingFunction = new CubicEase();
                     PenPalette.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
                 });
                 await Task.Delay(100);
@@ -487,7 +493,7 @@ namespace Ink_Canvas
             penType = 1;
             CheckPenTypeUIState();
             CheckColorTheme();
-            drawingAttributes.Width = Settings.Canvas.HighlighterWidth/2;
+            drawingAttributes.Width = Settings.Canvas.HighlighterWidth / 2;
             drawingAttributes.Height = Settings.Canvas.HighlighterWidth;
             drawingAttributes.StylusTip = StylusTip.Rectangle;
             drawingAttributes.IsHighlighter = true;
@@ -558,7 +564,7 @@ namespace Ink_Canvas
 
         private void BtnHighlighterColorBlack_Click(object sender, RoutedEventArgs e)
         {
-            CheckLastColor(100,true);
+            CheckLastColor(100, true);
             penType = 1;
             forceEraser = false;
             CheckPenTypeUIState();
