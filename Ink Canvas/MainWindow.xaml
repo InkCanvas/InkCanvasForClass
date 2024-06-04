@@ -97,11 +97,11 @@
                         Executed="KeyDrawLine" />
     </Window.CommandBindings>
 
-    <Grid x:Name="Main_Grid" Background="#01FFFFFF">
+    <Grid x:Name="Main_Grid">
 
         <!--// 设置界面 //-->
         <Grid Panel.ZIndex="999" x:Name="BorderSettingsMask" MouseDown="SettingsOverlayClick" IsHitTestVisible="False"
-              Margin="0,0,0,0">
+                                     Margin="0,0,0,0">
             <Border Name="BorderSettings" Background="#ee18181b" ui:ThemeManager.RequestedTheme="Dark" Width="440"
                     HorizontalAlignment="Left" Margin="0,150,0,350" Visibility="Visible">
                 <Grid>
@@ -358,8 +358,6 @@
                                                          FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchClearCanvasAndClearTimeMachine_Toggled" />
                                     </ui:SimpleStackPanel>
-                                    <TextBlock Text="# 开启后，点击清屏按钮将会一同清理TimeMachine中的墨迹历史记录，这也会导致清屏后无法撤销恢复到原来的笔迹，请慎重使用！"
-                                               TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -382,8 +380,6 @@
                                                          IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchFitToCurve_Toggled" />
                                     </ui:SimpleStackPanel>
-                                    <TextBlock Text="# 开启 让墨迹使用贝塞尔曲线平滑 选项后，所有墨迹将会使用FitToCurve进行贝塞尔曲线平滑化，如果不喜欢可以关闭。"
-                                               TextWrapping="Wrap" Foreground="#a1a1aa" />
                                 </ui:SimpleStackPanel>
                             </GroupBox>
                             <GroupBox>
@@ -429,7 +425,6 @@
                                                          IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchEnableInkToShape_Toggled" />
                                     </ui:SimpleStackPanel>
-                                    <TextBlock Text="# 可实现智能识别圆、三角形、矩形，并自动转换为规范图形。" Foreground="#a1a1aa" />
                                     <ui:SimpleStackPanel Spacing="6"
                                                          Visibility="{Binding ElementName=ToggleSwitchEnableInkToShape, Path=IsOn, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -593,7 +588,7 @@
                                                          Toggled="ToggleSwitchSupportWPS_Toggled" />
                                     </ui:SimpleStackPanel>
                                     <TextBlock
-                                        Text="# 不推荐使用 WPS Office，鉴于其对于触摸设备的较差支持及其自身的兼容性问题，对 WPS Office 支持时会导致 WPS Office 关闭时卡顿。"
+                                        Text="# 可支持 WPS，但目前无法同时支持 MSOffice 和 WPS。若要启用WPS支持，请确保 WPS 是否在 “配置工具” 中开启了 “WPS Office 兼容第三方系统和软件” 选项，否则将无法识别到WPS！"
                                         TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
@@ -851,6 +846,16 @@
                                                          Toggled="ToggleSwitchAutoFoldInEasiNote3C_Toggled" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <Image Source="/Resources/Icons-png/HiteLightBoard.png" Margin="0,0,6,0" Width="28"
+                                               Height="28" VerticalAlignment="Center" />
+                                        <TextBlock Foreground="#fafafa" Text="进入“鸿合轻量白板”时自动收纳"
+                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
+                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Name="ToggleSwitchAutoFoldInHiteLightBoard" IsOn="True"
+                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                         Toggled="ToggleSwitchAutoFoldInHiteLightBoard_Toggled" />
+                                    </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <Image Source="/Resources/Icons-png/EasiNote5C.png" Margin="0,0,6,0" Width="28"
                                                Height="28" VerticalAlignment="Center" />
                                         <TextBlock Foreground="#fafafa" Text="进入“希沃轻白板”(新版)时自动收纳"
@@ -891,7 +896,7 @@
                                                          Toggled="ToggleSwitchAutoFoldInHiteCamera_Toggled" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Image Source="/Resources/Icons-png/WenXiang.jpg" Margin="0,0,6,0" Width="28"
+                                        <Image Source="/Resources/Icons-png/WenXiang.png" Margin="0,0,6,0" Width="28"
                                                Height="28" VerticalAlignment="Center" />
                                         <TextBlock Foreground="#fafafa" Text="进入“文香白板”时自动收纳" VerticalAlignment="Center"
                                                    FontSize="14" Margin="0,0,16,0" />
@@ -954,15 +959,14 @@
                                                          Toggled="ToggleSwitchAutoKillEasiNote_Toggled" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <TextBlock Foreground="#fafafa" Text="自动阻止ZPH对Powerpoint的接管"
-                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAutoKillZygoPresentationHelper" IsOn="True"
-                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold" />
+                                        <Image Source="/Resources/Icons-png/HiteAnnotation.png" Margin="0,0,6,0" Width="28"
+                                               Height="28" VerticalAlignment="Center" />
+                                        <TextBlock Foreground="#fafafa" Text="自动查杀 鸿合屏幕书写" VerticalAlignment="Center"
+                                                   FontSize="14" Margin="0,0,16,0" />
+                                        <ui:ToggleSwitch OnContent="" OffContent="" Name="ToggleSwitchAutoKillHiteAnnotation"
+                                                         IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                         Toggled="ToggleSwitchAutoKillHiteAnnotation_Toggled" />
                                     </ui:SimpleStackPanel>
-                                    <TextBlock
-                                        Text="# 此操作會嘗試調用ZygoPresentationHelper的API接口，使其將PPT窗口不再設置為自己的子窗口並取消本次放映的接管。也可以在ZPH中設置查殺InkCanvas系列軟件（IC、ICA、ICC）的選項。"
-                                        TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -1221,7 +1225,7 @@
         <Grid Name="GridBackgroundCoverHolder">
             <Grid Name="GridBackgroundCover" Visibility="Collapsed" Background="#1F1F1F" />
         </Grid>
-        <Canvas Name="Canvas" />
+        <Grid Name="GridTransparencyFakeBackground" Opacity="0"/>
         <Label Name="Label" Visibility="Collapsed" Foreground="Gray" Content="0" />
         <InkCanvas x:Name="inkCanvas" Cursor="Pen" ForceCursor="False"
                    TouchUp="Main_Grid_TouchUp" TouchDown="Main_Grid_TouchDown"
@@ -1260,9 +1264,6 @@
             </ui:SimpleStackPanel>
             <TextBlock Canvas.Right="25" Canvas.Top="15" Text="多一份理解，少一份抱怨" Name="BlackBoardWaterMark"
                        Visibility="Collapsed" FontSize="30" FontWeight="Bold" Foreground="White" Opacity="0.5" />
-            <TextBlock Canvas.Right="25" Canvas.Top="15" Text="test transform" Name="TTT" FontSize="30"
-                       FontWeight="Bold" Foreground="Red" Opacity="0.5" />
-
         </Canvas>
         <Grid Visibility="{Binding ElementName=inkCanvas, Path=Visibility}">
             <Grid Name="GridInkCanvasSelectionCover"
@@ -1576,20 +1577,39 @@
                         <Border x:Name="BoardSelect" Width="60" Height="55" MouseDown="Border_MouseDown"
                                 MouseUp="SymbolIconSelect_MouseUp" CornerRadius="5,0,0,5" Background="LightGray"
                                 Opacity="0.85">
-                            <Grid Margin="6">
+                            <Grid Margin="6,6,6,4">
                                 <Image VerticalAlignment="Top"
-                                       Source="/Resources/Icons-Fluent/ic_fluent_lasso_24_regular.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Height="28" Width="28" />
+                                       RenderOptions.BitmapScalingMode="HighQuality" Height="24" Width="24" >
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                    <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M22.7989,10.1653L1.14304,1.14304 10.1653,22.7989 12.8305,14.9518 19.6892,21.8105 21.8105,19.6892 14.9518,12.8305 22.7989,10.1653z" />
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
                                 <TextBlock Text="选择" Foreground="Black" VerticalAlignment="Bottom"
                                            HorizontalAlignment="Center" FontSize="12" />
                             </Grid>
                         </Border>
                         <Border x:Name="BoardPen" Width="60" Height="55" MouseDown="Border_MouseDown"
                                 MouseUp="PenIcon_Click" Background="LightGray" Opacity="0.85">
-                            <Grid Margin="6">
+                            <Grid Margin="6,6,6,4">
                                 <Image x:Name="BoardPenIcon" VerticalAlignment="Top"
-                                       Source="/Resources/Icons-Fluent/ic_fluent_signature_24_regular.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Height="28" Width="28" />
+                                       RenderOptions.BitmapScalingMode="HighQuality" Height="24" Width="24">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                    <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M20.4786,1.42438C19.9985,1.23743 19.4847,1.15194 18.9698,1.17319 18.4549,1.19444 17.9499,1.32197 17.4869,1.54789 17.0368,1.76752 16.6358,2.07554 16.3083,2.45361L3.85516,14.9067 9.08243,20.134 21.5311,7.68529C21.9113,7.36382 22.223,6.96912 22.447,6.52438 22.6786,6.06462 22.8113,5.56167 22.8365,5.04763 22.8616,4.5336 22.7787,4.02012 22.593,3.54002 22.4073,3.05994 22.1232,2.62403 21.759,2.25988 21.3949,1.89574 20.9587,1.61132 20.4786,1.42438z" />
+                                                    <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M7.28056,21.1605L2.8286,16.7086 1.15912,22.83 7.28056,21.1605z" />
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
                                 <TextBlock Text="墨迹" Foreground="Black" VerticalAlignment="Bottom"
                                            HorizontalAlignment="Center" FontSize="12" />
                             </Grid>
@@ -1775,10 +1795,21 @@
                         </Border>
                         <Border x:Name="BoardEraser" Width="60" Height="55" MouseDown="Border_MouseDown"
                                 MouseUp="BoardEraserIcon_Click" Background="LightGray" Opacity="0.85">
-                            <Grid Margin="6">
-                                <Image VerticalAlignment="Top" Source="/Resources/Icons-png/eraser-outline.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Height="28" Width="28" />
-                                <TextBlock Text="面积擦" Foreground="Black" VerticalAlignment="Bottom"
+                            <Grid Margin="6,6,6,4">
+                                <Image VerticalAlignment="Top"
+                                       RenderOptions.BitmapScalingMode="HighQuality" Height="24" Width="24">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                    <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M15.6314,20.7262L22.7921,13.5655C24.3494,12.141,24.2819,9.81776,22.8105,8.34633L16.7793,2.31508C15.3547,0.757753,13.0315,0.825236,11.5601,2.29666L4.38099,9.47574 15.6314,20.7262z" />
+                                                    <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M14.2172,22.1404L2.96677,10.89 1.20761,12.6491C-0.34971,14.0737,-0.281711,16.3974,1.18971,17.8688L6.15089,22.83 13.5276,22.83 14.2172,22.1404z" />
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock Text="橡皮" Foreground="Black" VerticalAlignment="Bottom"
                                            HorizontalAlignment="Center" FontSize="12" />
                             </Grid>
                         </Border>
@@ -1796,9 +1827,9 @@
                                 </Grid>
                             </Border>
                         </Border>
-                        <Border x:Name="BoardEraserByStrokes" Width="60" Height="55" MouseDown="Border_MouseDown"
+                        <Border x:Name="BoardEraserByStrokes" Width="60" Height="55" MouseDown="Border_MouseDown" Visibility="Collapsed"
                                 MouseUp="BoardEraserIconByStrokes_Click" Background="LightGray" Opacity="0.85">
-                            <Grid Margin="6">
+                            <Grid Margin="6,6,6,4">
                                 <Image VerticalAlignment="Top" Source="/Resources/Icons-png/eraser-line.png"
                                        RenderOptions.BitmapScalingMode="HighQuality" Height="28" Width="28" />
                                 <TextBlock Text="墨迹擦" Foreground="Black" VerticalAlignment="Bottom"
@@ -1807,10 +1838,21 @@
                         </Border>
                         <Border x:Name="BoardGeometry" Width="60" Height="55" MouseDown="Border_MouseDown"
                                 MouseUp="ImageDrawShape_MouseUp" Background="LightGray" Opacity="0.85">
-                            <Grid Margin="6">
+                            <Grid Margin="6,6,6,4">
                                 <Image VerticalAlignment="Top"
-                                       Source="/Resources/Icons-Fluent/ic_fluent_shapes_24_regular.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Height="28" Width="28" />
+                                       RenderOptions.BitmapScalingMode="HighQuality" Height="24" Width="24">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                    <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M17.8604,10.7597L12.0068,1.17001 6.13961,10.7597 17.8604,10.7597z" />
+                                                    <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M10.9345,13.2403L1.34476,13.2403 1.34476,22.83 10.9345,22.83 10.9345,13.2403z" />
+                                                    <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M17.8604,13.2403C15.2122,13.2403 13.0655,15.387 13.0655,18.0352 13.0655,20.6833 15.2122,22.83 17.8604,22.83 20.5085,22.83 22.6552,20.6833 22.6552,18.0352 22.6552,15.387 20.5085,13.2403 17.8604,13.2403z" />
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
                                 <TextBlock Text="图形" Foreground="Black" VerticalAlignment="Bottom"
                                            HorizontalAlignment="Center" FontSize="12" />
                             </Grid>
@@ -1943,10 +1985,20 @@
                                 MouseUp="SymbolIconUndo_MouseUp"
                                 IsEnabled="{Binding ElementName=BtnUndo, Path=IsEnabled}" Background="LightGray"
                                 Opacity="0.85">
-                            <Grid Margin="6">
-                                <Image VerticalAlignment="Top" Source="/Resources/Icons-png/undo.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="28"
-                                       Opacity="{Binding ElementName=BtnUndo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}" />
+                            <Grid Margin="6,6,6,4">
+                                <Image VerticalAlignment="Top"
+                                       RenderOptions.BitmapScalingMode="HighQuality" Height="24" Width="24"
+                                       Opacity="{Binding ElementName=BtnUndo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                    <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M8.71408,16.8493L0.874451,9.00964 8.71408,1.17001 8.71408,7.42358 15.7239,7.42358C16.7074,7.42358 17.6791,7.62744 18.583,8.02124 19.4866,8.41493 20.3023,8.98966 20.9857,9.70849 21.6689,10.4271 22.2069,11.276 22.5726,12.2047 22.9383,13.1333 23.1256,14.126 23.1256,15.1268 23.1256,16.1276 22.9383,17.1203 22.5726,18.0489 22.2069,18.9776 21.6689,19.8264 20.9857,20.5451 20.3023,21.2639 19.4866,21.8387 18.583,22.2324 17.6791,22.6262 16.7074,22.83 15.7239,22.83L10.437,22.83 10.437,19.6579 15.7239,19.6579C16.2679,19.6579 16.8086,19.5453 17.3159,19.3243 17.8235,19.1031 18.29,18.7767 18.6867,18.3594 19.0835,17.942 19.4023,17.4422 19.6211,16.8866 19.8399,16.3308 19.9534,15.7326 19.9534,15.1268 19.9534,14.5209 19.8399,13.9227 19.6211,13.367 19.4023,12.8114 19.0835,12.3115 18.6867,11.8941 18.29,11.4769 17.8235,11.1505 17.3159,10.9293 16.8086,10.7083 16.2679,10.5957 15.7239,10.5957L8.71408,10.5957 8.71408,16.8493z" />
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
                                 <TextBlock Text="撤销" Foreground="Black" VerticalAlignment="Bottom"
                                            HorizontalAlignment="Center" FontSize="12" />
                             </Grid>
@@ -1955,10 +2007,20 @@
                                 MouseDown="Border_MouseDown" MouseUp="SymbolIconRedo_MouseUp"
                                 IsEnabled="{Binding ElementName=BtnRedo, Path=IsEnabled}" Background="LightGray"
                                 Opacity="0.85">
-                            <Grid Margin="6">
-                                <Image VerticalAlignment="Top" Source="/Resources/Icons-png/redo.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="28"
-                                       Opacity="{Binding ElementName=BtnRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}" />
+                            <Grid Margin="6,6,6,4">
+                                <Image VerticalAlignment="Top"
+                                       RenderOptions.BitmapScalingMode="HighQuality" Height="24" Width="24"
+                                       Opacity="{Binding ElementName=BtnRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                    <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M15.2859,16.8493L23.1255,9.00964 15.2859,1.17001 15.2859,7.42358 8.27607,7.42358C7.29262,7.42358 6.32086,7.62744 5.41703,8.02124 4.51341,8.41493 3.69773,8.98966 3.01434,9.70849 2.33111,10.4271 1.79312,11.276 1.42741,12.2047 1.06174,13.1333 0.874422,14.126 0.874422,15.1268 0.874422,16.1276 1.06174,17.1203 1.42741,18.0489 1.79312,18.9776 2.33111,19.8264 3.01434,20.5451 3.69773,21.2639 4.51341,21.8387 5.41703,22.2324 6.32086,22.6262 7.29262,22.83 8.27607,22.83L13.563,22.83 13.563,19.6579 8.27607,19.6579C7.7321,19.6579 7.19139,19.5453 6.68406,19.3243 6.17652,19.1031 5.70999,18.7767 5.31333,18.3594 4.91651,17.942 4.59775,17.4422 4.37894,16.8866 4.1601,16.3308 4.04656,15.7326 4.04656,15.1268 4.04656,14.5209 4.1601,13.9227 4.37894,13.367 4.59775,12.8114 4.91651,12.3115 5.31333,11.8941 5.70999,11.4769 6.17652,11.1505 6.68406,10.9293 7.19139,10.7083 7.7321,10.5957 8.27607,10.5957L15.2859,10.5957 15.2859,16.8493z" />
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
                                 <TextBlock Text="重做" Foreground="Black" VerticalAlignment="Bottom"
                                            HorizontalAlignment="Center" FontSize="12" />
                             </Grid>
@@ -2525,9 +2587,18 @@
                                                  MouseUp="CursorIcon_Click"
                                                  Background="Transparent" Orientation="Vertical"
                                                  HorizontalAlignment="Center" Width="28" Margin="0,-2">
-                                <Image Source="/Resources/new-icons/cursor-lined.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"
-                                       x:Name="CursorToolbarIconImage" />
+                                <Image RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"
+                                       x:Name="CursorToolbarIconImage">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                    <GeometryDrawing x:Name="CursorIconGeometry" />
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
                                 <TextBlock x:Name="SelectionToolBarTextBlock" Text="鼠标" Foreground="Black" FontSize="8"
                                            Margin="0,1,0,0" TextAlignment="Center" />
                             </ui:SimpleStackPanel>
@@ -2535,18 +2606,37 @@
                                                  MouseUp="PenIcon_Click"
                                                  Background="Transparent" Orientation="Vertical"
                                                  HorizontalAlignment="Center" Width="28" Margin="0,-2">
-                                <Image x:Name="PenIcon" Source="/Resources/new-icons/pen-lined.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0" />
-                                <TextBlock x:Name="PenToolbarTextBlock" Text="批注" Foreground="Black" FontSize="8"
+                                <Image x:Name="PenIcon"
+                                       RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                    <GeometryDrawing x:Name="PenIconGeometry" Brush="Black" Geometry="" />
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
+                                    <TextBlock x:Name="PenToolbarTextBlock" Text="批注" Foreground="Black" FontSize="8"
                                            Margin="0,1,0,0" TextAlignment="Center" />
                             </ui:SimpleStackPanel>
                             <ui:SimpleStackPanel Name="SymbolIconDelete"
                                                  MouseUp="SymbolIconDelete_MouseUp"
                                                  Background="Transparent" Orientation="Vertical"
                                                  HorizontalAlignment="Center" Width="28" Margin="0,-2">
-                                <Image Source="/Resources/new-icons/trash.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0" />
-                                <TextBlock x:Name="TrashBinToolbarTextBlock" Text="清空" Foreground="#B91C1C"
+                                <Image RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                    <GeometryDrawing x:Name="ClearIconGeometry" Brush="#b91c1c" Geometry="F0 M24,24z M0,0z M10.1573,10.0421C10.7298,10.0421,11.1938,10.5062,11.1938,11.0787L11.1938,16.6067C11.1938,17.1792 10.7298,17.6433 10.1573,17.6433 9.58485,17.6433 9.12079,17.1792 9.12079,16.6067L9.12079,11.0787C9.12079,10.5062,9.58485,10.0421,10.1573,10.0421z M13.8427,10.0421C14.4151,10.0421,14.8792,10.5062,14.8792,11.0787L14.8792,16.6067C14.8792,17.1792 14.4151,17.6433 13.8427,17.6433 13.2702,17.6433 12.8062,17.1792 12.8062,16.6067L12.8062,11.0787C12.8062,10.5062,13.2702,10.0421,13.8427,10.0421z M3.70787,5.43539C3.13541,5.43539 2.67135,5.89946 2.67135,6.47191 2.67135,7.04436 3.13541,7.50843 3.70787,7.50843L4.51405,7.50843 4.51405,19.3708C4.51405,20.1686 4.9025,20.8796 5.39348,21.3706 5.88445,21.8615 6.59548,22.25 7.39326,22.25L16.6067,22.25C17.4045,22.25 18.1155,21.8615 18.6065,21.3706 19.0975,20.8796 19.486,20.1686 19.486,19.3708L19.486,7.50843 20.2921,7.50843C20.8646,7.50843 21.3287,7.04436 21.3287,6.47191 21.3287,5.89946 20.8646,5.43539 20.2921,5.43539L16.7219,5.43539 16.7219,4.62921C16.7219,3.83143 16.3335,3.12041 15.8425,2.62943 15.3515,2.13845 14.6405,1.75 13.8427,1.75L10.1573,1.75C9.35952,1.75 8.6485,2.13845 8.15752,2.62943 7.66654,3.12041 7.27809,3.83143 7.27809,4.62921L7.27809,5.43539 3.70787,5.43539z M6.58708,19.3708C6.58708,19.4944 6.6593,19.7047 6.85933,19.9047 7.05937,20.1047 7.26969,20.177 7.39326,20.177L16.6067,20.177C16.7303,20.177 16.9406,20.1047 17.1407,19.9047 17.3407,19.7047 17.4129,19.4944 17.4129,19.3708L17.4129,7.50843 6.58708,7.50843 6.58708,19.3708z M9.62338,4.09529C9.42334,4.29532,9.35112,4.50565,9.35112,4.62921L9.35112,5.43539 14.6489,5.43539 14.6489,4.62921C14.6489,4.50565 14.5767,4.29532 14.3766,4.09529 14.1766,3.89525 13.9663,3.82303 13.8427,3.82303L10.1573,3.82303C10.0337,3.82303,9.82341,3.89525,9.62338,4.09529z" />
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
+                                    <TextBlock x:Name="TrashBinToolbarTextBlock" Text="清空" Foreground="#B91C1C"
                                            FontWeight="Bold" FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                             </ui:SimpleStackPanel>
                             <ui:SimpleStackPanel Name="StackPanelCanvasControls" Visibility="Visible"
@@ -3231,21 +3321,35 @@
                                                      MouseUp="EraserIcon_Click"
                                                      Background="Transparent" Orientation="Vertical"
                                                      HorizontalAlignment="Center" Margin="0,-2" Width="28">
-                                    <Image x:Name="CircleEraserToolbarIconImage"
-                                           Source="/Resources/new-icons/circle-eraser-lined.png"
-                                           RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0" />
+                                    <Image x:Name="CircleEraserToolbarIconImage" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing x:Name="CircleEraserIconGeometry" Geometry="" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
                                     <TextBlock x:Name="CircleEraserToolbarTextBlock" Text="面积擦" Foreground="Black"
                                                FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                                 </ui:SimpleStackPanel>
                                 <ui:SimpleStackPanel Name="EraserByStrokes_Icon"
-
                                                      MouseUp="EraserIconByStrokes_Click"
-
                                                      Background="Transparent" Orientation="Vertical" Width="28"
                                                      Margin="0,-2" HorizontalAlignment="Center">
-                                    <Image x:Name="StrokeEraserToolbarIconImage"
-                                           Source="/Resources/new-icons/eraser-lined.png"
-                                           RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0" />
+                                    <Image x:Name="StrokeEraserToolbarIconImage" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing x:Name="StrokeEraserIconGeometry" Geometry="" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
                                     <TextBlock x:Name="InkEraserToolbarTextBlock" Text="线擦" Foreground="Black"
                                                FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                                 </ui:SimpleStackPanel>
@@ -3253,8 +3357,17 @@
                                                      MouseUp="SymbolIconSelect_MouseUp" Background="Transparent"
                                                      Orientation="Vertical" Margin="0,-2" Width="28"
                                                      HorizontalAlignment="Center">
-                                    <Image x:Name="LassoSelect" Source="/Resources/new-icons/lasso-select-lined.png"
-                                           RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0" />
+                                    <Image x:Name="LassoSelect" RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing x:Name="LassoSelectIconGeometry" Geometry="" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
                                     <TextBlock x:Name="LassoToolToolbarTextBlock" Text="套索选" Foreground="Black"
                                                FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                                 </ui:SimpleStackPanel>
@@ -3263,8 +3376,17 @@
                                     MouseUp="ImageDrawShape_MouseUp" Background="Transparent"
                                     Orientation="Vertical" HorizontalAlignment="Center" Margin="0,-2"
                                     Width="28">
-                                    <Image Source="/Resources/new-icons/shapes.png"
-                                           RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0" />
+                                    <Image RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing x:Name="ShapesIconGeometry" Brush="#1b1b1b" Geometry="F0 M24,24z M0,0z M13.0573,17.3383C13.0573,15.0674 14.8982,13.2265 17.169,13.2265 19.4399,13.2265 21.2808,15.0674 21.2808,17.3383 21.2808,19.6091 19.4399,21.45 17.169,21.45 14.8982,21.45 13.0573,19.6091 13.0573,17.3383z M4.48141,13.2265C3.50819,13.2265,2.71924,14.0155,2.71924,14.9887L2.71924,19.6878C2.71924,20.6611,3.50819,21.45,4.48141,21.45L9.18053,21.45C10.1537,21.45,10.9427,20.6611,10.9427,19.6878L10.9427,14.9887C10.9427,14.0155,10.1537,13.2265,9.18053,13.2265L4.48141,13.2265z M12.6923,2.71599C12.4659,2.59866 12.213,2.54181 11.9581,2.55096 11.7033,2.5601 11.4551,2.63494 11.2377,2.7682 11.028,2.89676 10.8537,3.07549 10.7305,3.28809L7.24046,8.83413C7.09431,9.06224 7.01353,9.32612 7.007,9.59703 7.00043,9.86995 7.06945,10.1394 7.20645,10.3755 7.34345,10.6117 7.54308,10.8053 7.78328,10.9351 8.01558,11.0605 8.27707,11.1215 8.5406,11.1119L15.5037,11.1119 15.5065,11.1119C15.7766,11.111 16.0412,11.0362 16.2717,10.8957 16.5023,10.7551 16.6901,10.5542 16.8146,10.3146 16.9392,10.0751 16.9959,9.80598 16.9785,9.53651 16.9617,9.27545 16.876,9.02367 16.7303,8.80672L13.26,3.23562 13.2505,3.22067C13.111,3.00717,12.9187,2.83333,12.6923,2.71599z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
                                     <TextBlock x:Name="ShapesToolbarTextBlock" Text="几何" Foreground="Black"
                                                FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                                 </ui:SimpleStackPanel>
@@ -3286,9 +3408,6 @@
                                                 <ui:SimpleStackPanel Orientation="Horizontal"
                                                                      HorizontalAlignment="Stretch">
                                                     <Canvas Height="24" Width="315" ClipToBounds="True">
-                                                        <Image Source="/Resources/new-icons/osu-lazer-triangles.png"
-                                                               Width="64" Canvas.Right="-20" Canvas.Bottom="-10"
-                                                               Opacity="0.5" />
                                                         <TextBlock Text="几何绘图" Canvas.Left="8" Foreground="White"
                                                                    Padding="0,5" FontSize="11" FontWeight="Bold"
                                                                    TextAlignment="Center" />
@@ -3498,17 +3617,23 @@
                                     </Border>
                                 </Grid>
                                 <ui:SimpleStackPanel
-
                                     MouseUp="SymbolIconUndo_MouseUp"
-                                    IsHitTestVisible="{Binding ElementName=BtnUndo, Path=IsEnabled}"
                                     Background="Transparent" Orientation="Vertical"
                                     HorizontalAlignment="Center" Margin="0,-2"
                                     IsEnabled="{Binding ElementName=BtnUndo, Path=IsEnabled}"
                                     Width="28">
-                                    <Image Source="/Resources/new-icons/undo.png"
-                                           RenderOptions.BitmapScalingMode="HighQuality" Width="28"
-                                           Opacity="{Binding ElementName=BtnUndo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}"
-                                           Height="17" Margin="0,3,0,0" />
+                                    <Image RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"
+                                           Opacity="{Binding ElementName=BtnUndo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing x:Name="UndoIconGeometry" Brush="#1b1b1b" Geometry="F1 M24,24z M0,0z M9.70711,6.70711C10.0976,6.31658 10.0976,5.68342 9.70711,5.29289 9.31658,4.90237 8.68342,4.90237 8.29289,5.29289L4.29289,9.29289C3.90237,9.68342,3.90237,10.3166,4.29289,10.7071L8.29289,14.7071C8.68342,15.0976 9.31658,15.0976 9.70711,14.7071 10.0976,14.3166 10.0976,13.6834 9.70711,13.2929L7.40633,10.9921 16,11C16.7956,11 17.5587,11.3161 18.1213,11.8787 18.6839,12.4413 19,13.2044 19,14 19,14.7956 18.6839,15.5587 18.1213,16.1213 17.5587,16.6839 16.7956,17 16,17L15,17C14.4477,17 14,17.4477 14,18 14,18.5523 14.4477,19 15,19L16,19C17.3261,19 18.5979,18.4732 19.5355,17.5355 20.4732,16.5979 21,15.3261 21,14 21,12.6739 20.4732,11.4021 19.5355,10.4645 18.5979,9.52678 17.3261,9 16,9L7.40633,9.00789 9.70711,6.70711z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
                                     <TextBlock x:Name="UndoToolbarTextBlock" Text="撤销"
                                                Opacity="{Binding ElementName=BtnUndo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}"
                                                Foreground="Black" FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
@@ -3516,15 +3641,22 @@
                                 <ui:SimpleStackPanel
 
                                     MouseUp="SymbolIconRedo_MouseUp"
-                                    IsHitTestVisible="{Binding ElementName=BtnUndo, Path=IsEnabled}"
                                     Background="Transparent" Orientation="Vertical"
                                     HorizontalAlignment="Center"
                                     IsEnabled="{Binding ElementName=BtnRedo, Path=IsEnabled}"
                                     Width="28" Margin="0,-2">
-                                    <Image Source="/Resources/new-icons/redo.png"
-                                           RenderOptions.BitmapScalingMode="HighQuality" Width="28"
-                                           Opacity="{Binding ElementName=BtnRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}"
-                                           Height="17" Margin="0,3,0,0" />
+                                    <Image RenderOptions.BitmapScalingMode="HighQuality" Height="17" Margin="0,3,0,0"
+                                           Opacity="{Binding ElementName=BtnRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing x:Name="RedoIconGeometry" Brush="#1b1b1b" Geometry="F1 M24,24z M0,0z M15.2929,6.70711C14.9024,6.31658 14.9024,5.68342 15.2929,5.29289 15.6834,4.90237 16.3166,4.90237 16.7071,5.29289L20.7071,9.29289C21.0976,9.68342,21.0976,10.3166,20.7071,10.7071L16.7071,14.7071C16.3166,15.0976 15.6834,15.0976 15.2929,14.7071 14.9024,14.3166 14.9024,13.6834 15.2929,13.2929L17.5937,10.9921 9,11C8.20435,11 7.44129,11.3161 6.87868,11.8787 6.31607,12.4413 6,13.2044 6,14 6,14.7956 6.31607,15.5587 6.87868,16.1213 7.44129,16.6839 8.20435,17 9,17L10,17C10.5523,17 11,17.4477 11,18 11,18.5523 10.5523,19 10,19L9,19C7.67392,19 6.40215,18.4732 5.46447,17.5355 4.52679,16.5979 4,15.3261 4,14 4,12.6739 4.52678,11.4021 5.46447,10.4645 6.40215,9.52678 7.67392,9 9,9L17.5937,9.00789 15.2929,6.70711z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
                                     <TextBlock x:Name="RedoToolbarTextBlock" Text="重做"
                                                Opacity="{Binding ElementName=BtnRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}"
                                                Foreground="Black" FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
@@ -3549,8 +3681,6 @@
                                         <Border BorderBrush="#1e3a8a" BorderThickness="0,0,0,1" CornerRadius="6,6,0,0"
                                                 Background="#2563eb" Margin="-1,-1,-1,1">
                                             <Canvas Height="24" ClipToBounds="True">
-                                                <Image Source="/Resources/new-icons/osu-lazer-triangles.png" Width="64"
-                                                       Canvas.Right="-20" Canvas.Bottom="-10" Opacity="0.5" />
                                                 <TextBlock Text="橡皮选项" Canvas.Left="8" Foreground="White" Padding="0,5"
                                                            FontSize="11" FontWeight="Bold" TextAlignment="Center" />
                                             </Canvas>
@@ -3813,8 +3943,6 @@
                             <Border BorderBrush="#1e3a8a" BorderThickness="0,0,0,1" CornerRadius="6,6,0,0"
                                     Background="#2563eb" Margin="-1,-1,-1,1">
                                 <Canvas Height="24" ClipToBounds="True">
-                                    <Image Source="/Resources/new-icons/osu-lazer-triangles.png" Width="64"
-                                           Canvas.Right="-20" Canvas.Bottom="-10" Opacity="0.5" />
                                     <TextBlock Text="手势选项" Canvas.Left="8" Foreground="White" Padding="0,5"
                                                FontSize="11" FontWeight="Bold" TextAlignment="Center" />
                                 </Canvas>

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ink Canvas", "Ink Canvas\Ink Canvas.csproj", "{8D0EDFC7-F974-4571-BC49-6F3A6653FE81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InkCanvasForClass", "Ink Canvas\InkCanvasForClass.csproj", "{8D0EDFC7-F974-4571-BC49-6F3A6653FE81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

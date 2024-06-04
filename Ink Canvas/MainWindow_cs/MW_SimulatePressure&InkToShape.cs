@@ -16,7 +16,6 @@ namespace Ink_Canvas
         StrokeCollection newStrokes = new StrokeCollection();
         List<Circle> circles = new List<Circle>();
 
-        //此函数中的所有代码版权所有 WXRIW，在其他项目中使用前必须提前联系（wxriw@outlook.com），谢谢！
         private void inkCanvas_StrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
             if (Settings.Canvas.FitToCurve == true)
@@ -318,7 +317,8 @@ namespace Ink_Canvas
                             else if ((result.InkDrawingNode.GetShapeName().Contains("Rectangle") ||
                                       result.InkDrawingNode.GetShapeName().Contains("Diamond") ||
                                       result.InkDrawingNode.GetShapeName().Contains("Parallelogram") ||
-                                      result.InkDrawingNode.GetShapeName().Contains("Square")) &&
+                                      result.InkDrawingNode.GetShapeName().Contains("Square") ||
+                                      result.InkDrawingNode.GetShapeName().Contains("Trapezoid")) &&
                                      Settings.InkToShape.IsInkToShapeRectangle == true)
                             {
                                 var shape = result.InkDrawingNode.GetShape();

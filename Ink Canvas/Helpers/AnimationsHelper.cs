@@ -116,7 +116,7 @@ namespace Ink_Canvas.Helpers
             catch { }
         }
 
-        public static void ShowWithScaleFromLeft(UIElement element, double duration = 0.5)
+        public static void ShowWithScaleFromLeft(UIElement element, double duration = 0.2)
         {
             try
             {
@@ -143,6 +143,8 @@ namespace Ink_Canvas.Helpers
                     To = 1,
                     Duration = TimeSpan.FromSeconds(duration)
                 };
+                scaleYAnimation.EasingFunction = new CubicEase();
+                scaleXAnimation.EasingFunction = new CubicEase();
                 Storyboard.SetTargetProperty(scaleYAnimation, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleY)"));
 
                 sb.Children.Add(scaleXAnimation);
@@ -157,7 +159,7 @@ namespace Ink_Canvas.Helpers
             catch { }
         }
 
-        public static void ShowWithScaleFromRight(UIElement element, double duration = 0.5)
+        public static void ShowWithScaleFromRight(UIElement element, double duration = 0.2)
         {
             try
             {
@@ -185,6 +187,9 @@ namespace Ink_Canvas.Helpers
                     Duration = TimeSpan.FromSeconds(duration)
                 };
                 Storyboard.SetTargetProperty(scaleYAnimation, new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleY)"));
+
+                scaleYAnimation.EasingFunction = new CubicEase();
+                scaleXAnimation.EasingFunction = new CubicEase();
 
                 sb.Children.Add(scaleXAnimation);
                 sb.Children.Add(scaleYAnimation);

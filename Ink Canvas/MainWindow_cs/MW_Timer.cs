@@ -122,6 +122,14 @@ namespace Ink_Canvas
                         arg += " /IM EasiNote.exe";
                     }
                 }
+                if (Settings.Automation.IsAutoKillHiteAnnotation)
+                {
+                    Process[] processes = Process.GetProcessesByName("HiteAnnotation");
+                    if (processes.Length > 0)
+                    {
+                        arg += " /IM HiteAnnotation.exe";
+                    }
+                }
                 if (arg != "/F")
                 {
                     Process p = new Process();
@@ -133,6 +141,11 @@ namespace Ink_Canvas
                     {
                         BtnSwitch_Click(BtnSwitch, null);
                         MessageBox.Show("“希沃白板 5”已自动关闭");
+                    }
+                    if (arg.Contains("HiteAnnotation"))
+                    {
+                        BtnSwitch_Click(BtnSwitch, null);
+                        MessageBox.Show("“鸿合屏幕书写”已自动关闭");
                     }
                 }
             }

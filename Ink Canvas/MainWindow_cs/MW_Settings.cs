@@ -457,6 +457,14 @@ namespace Ink_Canvas {
             StartOrStoptimerCheckAutoFold();
         }
 
+        private void ToggleSwitchAutoFoldInHiteLightBoard_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Automation.IsAutoFoldInHiteLightBoard = ToggleSwitchAutoFoldInHiteLightBoard.IsOn;
+            SaveSettingsToFile();
+            StartOrStoptimerCheckAutoFold();
+        }
+
         private void ToggleSwitchAutoFoldInHiteCamera_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Automation.IsAutoFoldInHiteCamera = ToggleSwitchAutoFoldInHiteCamera.IsOn;
@@ -508,9 +516,24 @@ namespace Ink_Canvas {
             if (!isLoaded) return;
             Settings.Automation.IsAutoKillEasiNote = ToggleSwitchAutoKillEasiNote.IsOn;
             SaveSettingsToFile();
-            if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService) {
+            if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService || Settings.Automation.IsAutoKillHiteAnnotation) {
                 timerKillProcess.Start();
             } else {
+                timerKillProcess.Stop();
+            }
+        }
+
+        private void ToggleSwitchAutoKillHiteAnnotation_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Automation.IsAutoKillHiteAnnotation = ToggleSwitchAutoKillHiteAnnotation.IsOn;
+            SaveSettingsToFile();
+            if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService || Settings.Automation.IsAutoKillHiteAnnotation)
+            {
+                timerKillProcess.Start();
+            }
+            else
+            {
                 timerKillProcess.Stop();
             }
         }

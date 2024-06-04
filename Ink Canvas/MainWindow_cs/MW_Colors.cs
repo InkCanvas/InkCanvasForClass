@@ -21,7 +21,7 @@ namespace Ink_Canvas
         private void ColorSwitchCheck()
         {
             HideSubPanels("color");
-            if (Main_Grid.Background == Brushes.Transparent)
+            if (GridTransparencyFakeBackground.Background == Brushes.Transparent)
             {
                 if (currentMode == 1)
                 {

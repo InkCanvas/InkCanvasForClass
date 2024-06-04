@@ -209,6 +209,8 @@ namespace Ink_Canvas
 
         [JsonProperty("isAutoFoldInHiteTouchPro")]
         public bool IsAutoFoldInHiteTouchPro { get; set; } = false;
+        [JsonProperty("isAutoFoldInHiteLightBoard")]
+        public bool IsAutoFoldInHiteLightBoard { get; set; } = false;
 
         [JsonProperty("isAutoFoldInHiteCamera")]
         public bool IsAutoFoldInHiteCamera { get; set; } = false;
@@ -233,6 +235,8 @@ namespace Ink_Canvas
 
         [JsonProperty("isAutoKillEasiNote")]
         public bool IsAutoKillEasiNote { get; set; } = false;
+        [JsonProperty("isAutoKillHiteAnnotation")]
+        public bool IsAutoKillHiteAnnotation { get; set; } = false;
 
         [JsonProperty("isSaveScreenshotsInDateFolders")]
         public bool IsSaveScreenshotsInDateFolders { get; set; } = false;

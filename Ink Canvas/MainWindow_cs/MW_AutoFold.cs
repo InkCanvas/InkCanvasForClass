@@ -193,11 +193,11 @@ namespace Ink_Canvas
             await Dispatcher.InvokeAsync(() => {
                 if (StackPanelPPTControls.Visibility == Visibility.Visible)
                 {
-                    if (Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel)
+                    if (Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel && isDisplayingOrHidingBlackboard == false)
                     {
                         AnimationsHelper.ShowWithSlideFromBottomAndFade(BottomViewboxPPTSidesControl);
                     }
-                    if (Settings.PowerPointSettings.IsShowSidePPTNavigationPanel)
+                    if (Settings.PowerPointSettings.IsShowSidePPTNavigationPanel && isDisplayingOrHidingBlackboard == false)
                     {
                         AnimationsHelper.ShowWithScaleFromLeft(LeftSidePanelForPPTNavigation);
                         AnimationsHelper.ShowWithScaleFromRight(RightSidePanelForPPTNavigation);

@@ -318,7 +318,7 @@ namespace Ink_Canvas {
                     ViewboxFloatingBar.Opacity = 0.5;
                 }
 
-                if (Settings.PowerPointSettings.IsShowCanvasAtNewSlideShow && Main_Grid.Background == Brushes.Transparent) {
+                if (Settings.PowerPointSettings.IsShowCanvasAtNewSlideShow && GridTransparencyFakeBackground.Background == Brushes.Transparent) {
                     if (currentMode != 0) {
                         currentMode = 0;
                         GridBackgroundCover.Visibility = Visibility.Collapsed;
@@ -439,7 +439,7 @@ namespace Ink_Canvas {
 
                 ClearStrokes(true);
 
-                if (Main_Grid.Background != Brushes.Transparent) {
+                if (GridTransparencyFakeBackground.Background != Brushes.Transparent) {
                     BtnHideInkCanvas_Click(BtnHideInkCanvas, null);
                 }
 
@@ -552,7 +552,8 @@ namespace Ink_Canvas {
 
         private async void PPTNavigationBtn_Click(object sender, MouseButtonEventArgs e) {
             if (lastBorderMouseDownObject != sender) return;
-            Main_Grid.Background = new SolidColorBrush(StringToColor("#01FFFFFF"));
+            GridTransparencyFakeBackground.Opacity = 1;
+            GridTransparencyFakeBackground.Background = new SolidColorBrush(StringToColor("#01FFFFFF"));
             CursorIcon_Click(null, null);
             try {
                 pptApplication.SlideShowWindows[1].SlideNavigation.Visible = true;

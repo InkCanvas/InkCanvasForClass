@@ -167,7 +167,7 @@ namespace Ink_Canvas
         }
 
         #region 按鈕高亮背景
-        private async void HideSubPanels(String mode = null, bool autoAlignCenter = false)
+        private async void HideSubPanels(String mode = null, bool autoAlignCenter = false, bool isAutoUpdateToolbarSelection = true)
         {
             AnimationsHelper.HideWithSlideAndFade(BorderTools);
             AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
@@ -177,14 +177,14 @@ namespace Ink_Canvas
 
             if (BorderSettings.Visibility == Visibility.Visible)
             {
-                // hide settings panel using new animation
                 BorderSettingsMask.IsHitTestVisible = false;
                 BorderSettingsMask.Background = null;
                 var sb = new Storyboard();
 
+                // 滑动动画
                 var slideAnimation = new DoubleAnimation
                 {
-                    From = 0,
+                    From = 0, // 滑动距离
                     To = BorderSettings.RenderTransform.Value.OffsetX - 440,
                     Duration = TimeSpan.FromSeconds(0.6)
                 };
@@ -196,11 +196,13 @@ namespace Ink_Canvas
                 sb.Completed += (s, _) =>
                 {
                     BorderSettings.Visibility = Visibility.Collapsed;
+                    isOpeningOrHidingSettingsPane = false;
                 };
 
                 BorderSettings.Visibility = Visibility.Visible;
                 BorderSettings.RenderTransform = new TranslateTransform();
 
+                isOpeningOrHidingSettingsPane = true;
                 sb.Begin((FrameworkElement)BorderSettings);
             }
             
@@ -213,80 +215,49 @@ namespace Ink_Canvas
                 AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
             }
 
-            if (mode != null)
+            if (mode != null && isAutoUpdateToolbarSelection==true)
             {
-                
+
                 if (mode != "clear")
                 {
-                    Pen_Icon.Background = null;
-                    BoardPen.Background = new SolidColorBrush(Colors.LightGray);
-                    Eraser_Icon.Background = null;
-                    BoardEraser.Background = new SolidColorBrush(Colors.LightGray);
-                    SymbolIconSelect.Background = null;
-                    BoardSelect.Background = new SolidColorBrush(Colors.LightGray);
-                    EraserByStrokes_Icon.Background = null;
-                    BoardEraserByStrokes.Background = new SolidColorBrush(Colors.LightGray);
-
-                    ImageSource cursorSolidIS = new BitmapImage(new Uri("/Resources/new-icons/cursor-solid.png", UriKind.Relative));
-                    ImageSource penLinedIS = new BitmapImage(new Uri("/Resources/new-icons/pen-lined.png", UriKind.Relative));
-                    ImageSource strokeEraserLinedIS = new BitmapImage(new Uri("/Resources/new-icons/eraser-lined.png", UriKind.Relative));
-                    ImageSource circleEraserLinedIS = new BitmapImage(new Uri("/Resources/new-icons/circle-eraser-lined.png", UriKind.Relative));
-                    ImageSource selectLinedIS = new BitmapImage(new Uri("/Resources/new-icons/lasso-select-lined.png", UriKind.Relative));
-                    
-                    // 修改鼠标icon为solid
-                    CursorToolbarIconImage.Source = cursorSolidIS;
-                    // 修改批注icon为lined
-                    PenIcon.Source = penLinedIS;
-                    // 修改笔记擦icon为lined
-                    StrokeEraserToolbarIconImage.Source = strokeEraserLinedIS;
-                    // 修改擦icon为lined
-                    CircleEraserToolbarIconImage.Source = circleEraserLinedIS;
-                    // 修改select icon为lined
-                    LassoSelect.Source = selectLinedIS;
+                    CursorIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
+                    CursorIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.LinedCursorIcon);
+                    PenIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
+                    PenIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.LinedPenIcon);
+                    StrokeEraserIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
+                    StrokeEraserIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.LinedEraserStrokeIcon);
+                    CircleEraserIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
+                    CircleEraserIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.LinedEraserCircleIcon);
+                    LassoSelectIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
+                    LassoSelectIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.LinedLassoSelectIcon);
                 }
                 switch (mode)
                 {
                     case "pen":
                     case "color":
                     {
-                        BoardPen.Background = new SolidColorBrush(Color.FromRgb(103, 156, 244));
-                        Pen_Icon.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
-
-                        ImageSource penSolidIS = new BitmapImage(new Uri("/Resources/new-icons/pen-solid.png", UriKind.Relative));
-                        // 修改批注icon为solid
-                        PenIcon.Source = penSolidIS;
+                        PenIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
+                        PenIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.SolidPenIcon);
                         break;
                     }
                     case "eraser":
-                    {
-                        Eraser_Icon.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
-                        BoardEraser.Background = new SolidColorBrush(Color.FromRgb(103, 156, 244));
-
-                        ImageSource circleEraserSolidIS = new BitmapImage(new Uri("/Resources/new-icons/circle-eraser-solid.png", UriKind.Relative));
-                        // 修改擦icon为solid
-                        CircleEraserToolbarIconImage.Source = circleEraserSolidIS;
-                        break;
-                    }
+                        {
+                            CircleEraserIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
+                            CircleEraserIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.SolidEraserCircleIcon);
+                            break;
+                        }
                     case "eraserByStrokes":
-                    {
-                        EraserByStrokes_Icon.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
-                        BoardEraserByStrokes.Background = new SolidColorBrush(Color.FromRgb(103, 156, 244));
-
-                        ImageSource strokeEraserSolidIS = new BitmapImage(new Uri("/Resources/new-icons/eraser-solid.png", UriKind.Relative));
-                        // 修改笔记擦icon为solid
-                        StrokeEraserToolbarIconImage.Source = strokeEraserSolidIS;
-                        break;
-                    }
+                        {
+                            StrokeEraserIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
+                            StrokeEraserIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.SolidEraserStrokeIcon);
+                            break;
+                        }
                     case "select":
-                    {
-                        BoardSelect.Background = new SolidColorBrush(Color.FromRgb(103, 156, 244));
-                        SymbolIconSelect.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/check-box-background.png"))) { Opacity = 1 };
-
-                        ImageSource selectSolidIS = new BitmapImage(new Uri("/Resources/new-icons/lasso-select-solid.png", UriKind.Relative));
-                        // 修改select icon为solid
-                        LassoSelect.Source = selectSolidIS;
-                        break;
-                    }
+                        {
+                            LassoSelectIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
+                            LassoSelectIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.SolidLassoSelectIcon);
+                            break;
+                        }
                 }
 
 
@@ -309,6 +280,7 @@ namespace Ink_Canvas
                     }
                 }
             }
+
             await Task.Delay(150);
             isHidingSubPanelsWhenInking = false;
         }
@@ -354,7 +326,7 @@ namespace Ink_Canvas
 
         private void SymbolIconUndo_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (lastBorderMouseDownObject != sender) return;
+            //if (lastBorderMouseDownObject != sender) return;
             
             if (!BtnUndo.IsEnabled) return;
             BtnUndo_Click(BtnUndo, null);
@@ -363,7 +335,7 @@ namespace Ink_Canvas
 
         private void SymbolIconRedo_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (lastBorderMouseDownObject != sender) return;
+            //if (lastBorderMouseDownObject != sender) return;
             
             if (!BtnRedo.IsEnabled) return;
             BtnRedo_Click(BtnRedo, null);
@@ -411,6 +383,7 @@ namespace Ink_Canvas
 
         private void SymbolIconSettings_Click(object sender, RoutedEventArgs e)
         {
+            if (isOpeningOrHidingSettingsPane != false) return;
             HideSubPanels();
             BtnSettings_Click(null, null);
         }
@@ -437,9 +410,10 @@ namespace Ink_Canvas
             
             LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
             RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
-            UnFoldFloatingBar_MouseUp(null, null);
             if (isDisplayingOrHidingBlackboard) return;
             isDisplayingOrHidingBlackboard = true;
+
+            UnFoldFloatingBar_MouseUp(null, null);
 
             if (inkCanvas.EditingMode == InkCanvasEditingMode.Select) PenIcon_Click(null, null);
 
@@ -881,9 +855,8 @@ namespace Ink_Canvas
                 }
             }
 
-
-            Main_Grid.Background = Brushes.Transparent;
-
+            GridTransparencyFakeBackground.Opacity = 0;
+            GridTransparencyFakeBackground.Background = Brushes.Transparent;
 
             GridBackgroundCoverHolder.Visibility = Visibility.Collapsed;
             inkCanvas.Select(new StrokeCollection());
@@ -937,7 +910,8 @@ namespace Ink_Canvas
             {
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
 
-                Main_Grid.Background = new SolidColorBrush(StringToColor("#01FFFFFF"));
+                GridTransparencyFakeBackground.Opacity = 1;
+                GridTransparencyFakeBackground.Background = new SolidColorBrush(StringToColor("#01FFFFFF"));
 
                 inkCanvas.IsHitTestVisible = true;
                 inkCanvas.Visibility = Visibility.Visible;
@@ -1470,38 +1444,17 @@ namespace Ink_Canvas
 
         private void SettingsOverlayClick(object sender, MouseButtonEventArgs e)
         {
+            if (isOpeningOrHidingSettingsPane==true) return;
             BtnSettings_Click(null, null);
         }
+
+        private bool isOpeningOrHidingSettingsPane = false;
 
         private void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
             if (BorderSettings.Visibility == Visibility.Visible)
             {
-                BorderSettingsMask.IsHitTestVisible = false;
-                BorderSettingsMask.Background = null;
-                var sb = new Storyboard();
-
-                // 滑动动画
-                var slideAnimation = new DoubleAnimation
-                {
-                    From = 0, // 滑动距离
-                    To = BorderSettings.RenderTransform.Value.OffsetX - 440,
-                    Duration = TimeSpan.FromSeconds(0.6)
-                };
-                slideAnimation.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
-                Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.X)"));
-
-                sb.Children.Add(slideAnimation);
-
-                sb.Completed += (s, _) =>
-                {
-                    BorderSettings.Visibility = Visibility.Collapsed;
-                };
-
-                BorderSettings.Visibility = Visibility.Visible;
-                BorderSettings.RenderTransform = new TranslateTransform();
-
-                sb.Begin((FrameworkElement)BorderSettings);
+                HideSubPanels();
             }
             else
             {
@@ -1522,9 +1475,15 @@ namespace Ink_Canvas
 
                 sb.Children.Add(slideAnimation);
 
+                sb.Completed += (s, _) =>
+                {
+                    isOpeningOrHidingSettingsPane = false;
+                };
+
                 BorderSettings.Visibility = Visibility.Visible;
                 BorderSettings.RenderTransform = new TranslateTransform();
 
+                isOpeningOrHidingSettingsPane = true;
                 sb.Begin((FrameworkElement)BorderSettings);
             }
         }
@@ -1612,7 +1571,7 @@ namespace Ink_Canvas
 
         private void BtnSwitch_Click(object sender, RoutedEventArgs e)
         {
-            if (Main_Grid.Background == Brushes.Transparent)
+            if (GridTransparencyFakeBackground.Background == Brushes.Transparent)
             {
                 if (currentMode == 0)
                 {
@@ -1730,9 +1689,10 @@ namespace Ink_Canvas
 
         private void BtnHideInkCanvas_Click(object sender, RoutedEventArgs e)
         {
-            if (Main_Grid.Background == Brushes.Transparent)
+            if (GridTransparencyFakeBackground.Background == Brushes.Transparent)
             {
-                Main_Grid.Background = new SolidColorBrush(StringToColor("#01FFFFFF"));
+                GridTransparencyFakeBackground.Opacity = 1;
+                GridTransparencyFakeBackground.Background = new SolidColorBrush(StringToColor("#01FFFFFF"));
                 inkCanvas.IsHitTestVisible = true;
                 inkCanvas.Visibility = Visibility.Visible;
 
@@ -1810,7 +1770,8 @@ namespace Ink_Canvas
                     }
                 }
 
-                Main_Grid.Background = Brushes.Transparent;
+                GridTransparencyFakeBackground.Opacity = 0;
+                GridTransparencyFakeBackground.Background = Brushes.Transparent;
 
                 GridBackgroundCoverHolder.Visibility = Visibility.Collapsed;
 
@@ -1833,7 +1794,7 @@ namespace Ink_Canvas
                 BtnHideInkCanvas.Content = "显示\n画板";
             }
 
-            if (Main_Grid.Background == Brushes.Transparent)
+            if (GridTransparencyFakeBackground.Background == Brushes.Transparent)
             {
                 StackPanelCanvasControls.Visibility = Visibility.Collapsed;
                 CheckEnableTwoFingerGestureBtnVisibility(false);
