@@ -358,23 +358,25 @@ namespace Ink_Canvas
             }
         }
 
-        private void inkCanvas_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
-        {
-            if (isInMultiTouchMode || !Settings.Gesture.IsEnableTwoFingerGesture || inkCanvas.Strokes.Count == 0 || dec.Count() < 2) return;
-            _currentCommitType = CommitReason.Manipulation;
-            StrokeCollection strokes = inkCanvas.GetSelectedStrokes();
-            if (strokes.Count != 0)
-            {
-                inkCanvas.Strokes.Replace(strokes, strokes.Clone());
-            }
-            else
-            {
-                var originalStrokes = inkCanvas.Strokes;
-                var targetStrokes = originalStrokes.Clone();
-                originalStrokes.Replace(originalStrokes, targetStrokes);
-            }
-            _currentCommitType = CommitReason.UserInput;
-        }
+        // -- removed --
+        //
+        //private void inkCanvas_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        //{
+        //    if (isInMultiTouchMode || !Settings.Gesture.IsEnableTwoFingerGesture || inkCanvas.Strokes.Count == 0 || dec.Count() < 2) return;
+        //    _currentCommitType = CommitReason.Manipulation;
+        //    StrokeCollection strokes = inkCanvas.GetSelectedStrokes();
+        //    if (strokes.Count != 0)
+        //    {
+        //        inkCanvas.Strokes.Replace(strokes, strokes.Clone());
+        //    }
+        //    else
+        //    {
+        //        var originalStrokes = inkCanvas.Strokes;
+        //        var targetStrokes = originalStrokes.Clone();
+        //        originalStrokes.Replace(originalStrokes, targetStrokes);
+        //    }
+        //    _currentCommitType = CommitReason.UserInput;
+        //}
 
         private void Main_Grid_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
         {
@@ -433,6 +435,15 @@ namespace Ink_Canvas
                             catch { }
                         }
                     }
+                    if (lastTempManiputlaionMatrix == null)
+                    {
+                        lastTempManiputlaionMatrix = m;
+                        lastTempStrokeCollection = strokes;
+                    }
+                    else
+                    {
+                        lastTempManiputlaionMatrix?.Append(m);
+                    }
                 }
                 else
                 {
@@ -465,6 +476,15 @@ namespace Ink_Canvas
                             (circle.Stroke.StylusPoints[0].Y + circle.Stroke.StylusPoints[circle.Stroke.StylusPoints.Count / 2].Y) / 2
                         );
                     };
+                    if (lastTempManiputlaionMatrix == null)
+                    {
+                        lastTempManiputlaionMatrix = m;
+                        lastTempStrokeCollection = inkCanvas.Strokes;
+                    }
+                    else
+                    {
+                        lastTempManiputlaionMatrix?.Append(m);
+                    }
                 }
             }
         }

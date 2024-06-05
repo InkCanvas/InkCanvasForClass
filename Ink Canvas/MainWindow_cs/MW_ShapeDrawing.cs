@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using MessageBox = System.Windows.MessageBox;
 using Point = System.Windows.Point;
@@ -1151,6 +1152,8 @@ namespace Ink_Canvas {
         }
         Stroke lastTempStroke = null;
         StrokeCollection lastTempStrokeCollection = new StrokeCollection();
+        Matrix? lastTempManiputlaionMatrix = null;
+
         bool isWaitUntilNextTouchDown = false;
         private List<System.Windows.Point> GenerateEllipseGeometry(System.Windows.Point st, System.Windows.Point ed, bool isDrawTop = true, bool isDrawBottom = true) {
             double a = 0.5 * (ed.X - st.X);
@@ -1430,8 +1433,15 @@ namespace Ink_Canvas {
                     timeMachine.CommitStrokeUserInputHistory(collection);
                 }
             }
+            if (lastTempManiputlaionMatrix != null)
+            {
+                timeMachine.CommitStrokeManipulationHistory(lastTempStrokeCollection, lastTempManiputlaionMatrix.Value);
+                lastTempStrokeCollection = null;
+                lastTempManiputlaionMatrix = null;
+            }
             lastTempStroke = null;
             lastTempStrokeCollection = null;
+            lastTempManiputlaionMatrix = null;
             if (Settings.Canvas.FitToCurve == true)
             {
                 drawingAttributes.FitToCurve = true;

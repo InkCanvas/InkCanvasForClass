@@ -19,14 +19,18 @@ namespace Ink_Canvas {
         }
 
         bool isStrokeSelectionCloneOn = false;
-        private void BorderStrokeSelectionClone_MouseUp(object sender, MouseButtonEventArgs e) {
+        private void BorderStrokeSelectionClone_MouseUp(object sender, MouseButtonEventArgs e)
+        {
             if (lastBorderMouseDownObject != sender) return;
 
-            if (isStrokeSelectionCloneOn) {
+            if (isStrokeSelectionCloneOn)
+            {
                 BorderStrokeSelectionClone.Background = Brushes.Transparent;
 
                 isStrokeSelectionCloneOn = false;
-            } else {
+            }
+            else
+            {
                 BorderStrokeSelectionClone.Background = new SolidColorBrush(StringToColor("#FF1ED760"));
 
                 isStrokeSelectionCloneOn = true;
@@ -96,15 +100,10 @@ namespace Ink_Canvas {
 
             StrokeCollection targetStrokes = inkCanvas.GetSelectedStrokes();
             StrokeCollection resultStrokes = targetStrokes.Clone();
-            foreach (Stroke stroke in resultStrokes) {
+            foreach (Stroke stroke in targetStrokes) {
                 stroke.Transform(m, false);
             }
-            _currentCommitType = CommitReason.Manipulation;
-            inkCanvas.Strokes.Replace(targetStrokes, resultStrokes);
-            _currentCommitType = CommitReason.UserInput;
-            isProgramChangeStrokeSelection = true;
-            inkCanvas.Select(resultStrokes);
-            isProgramChangeStrokeSelection = false;
+            timeMachine.CommitStrokeManipulationHistory(targetStrokes, m);
 
             //updateBorderStrokeSelectionControlLocation();
         }
@@ -126,15 +125,11 @@ namespace Ink_Canvas {
 
             StrokeCollection targetStrokes = inkCanvas.GetSelectedStrokes();
             StrokeCollection resultStrokes = targetStrokes.Clone();
-            foreach (Stroke stroke in resultStrokes) {
+            foreach (Stroke stroke in targetStrokes) {
                 stroke.Transform(m, false);
             }
-            _currentCommitType = CommitReason.Manipulation;
-            inkCanvas.Strokes.Replace(targetStrokes, resultStrokes);
-            _currentCommitType = CommitReason.UserInput;
-            isProgramChangeStrokeSelection = true;
-            inkCanvas.Select(resultStrokes);
-            isProgramChangeStrokeSelection = false;
+            timeMachine.CommitStrokeManipulationHistory(targetStrokes, m);
+
         }
 
         private void ImageRotate45_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -154,15 +149,10 @@ namespace Ink_Canvas {
 
             StrokeCollection targetStrokes = inkCanvas.GetSelectedStrokes();
             StrokeCollection resultStrokes = targetStrokes.Clone();
-            foreach (Stroke stroke in resultStrokes) {
+            foreach (Stroke stroke in targetStrokes) {
                 stroke.Transform(m, false);
             }
-            _currentCommitType = CommitReason.Manipulation;
-            inkCanvas.Strokes.Replace(targetStrokes, resultStrokes);
-            _currentCommitType = CommitReason.UserInput;
-            isProgramChangeStrokeSelection = true;
-            inkCanvas.Select(resultStrokes);
-            isProgramChangeStrokeSelection = false;
+            timeMachine.CommitStrokeManipulationHistory(targetStrokes, m);
         }
 
         private void ImageRotate90_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -182,15 +172,10 @@ namespace Ink_Canvas {
 
             StrokeCollection targetStrokes = inkCanvas.GetSelectedStrokes();
             StrokeCollection resultStrokes = targetStrokes.Clone();
-            foreach (Stroke stroke in resultStrokes) {
+            foreach (Stroke stroke in targetStrokes) {
                 stroke.Transform(m, false);
             }
-            _currentCommitType = CommitReason.Manipulation;
-            inkCanvas.Strokes.Replace(targetStrokes, resultStrokes);
-            _currentCommitType = CommitReason.UserInput;
-            isProgramChangeStrokeSelection = true;
-            inkCanvas.Select(resultStrokes);
-            isProgramChangeStrokeSelection = false;
+            timeMachine.CommitStrokeManipulationHistory(targetStrokes, m);
         }
 
         #endregion
@@ -301,6 +286,15 @@ namespace Ink_Canvas {
                             stroke.DrawingAttributes.Width *= md.Scale.X;
                             stroke.DrawingAttributes.Height *= md.Scale.Y;
                         } catch { }
+                    }
+                    if (lastTempManiputlaionMatrix == null)
+                    {
+                        lastTempManiputlaionMatrix = m;
+                        lastTempStrokeCollection = strokes;
+                    }
+                    else
+                    {
+                        lastTempManiputlaionMatrix?.Append(m);
                     }
 
                     updateBorderStrokeSelectionControlLocation();
