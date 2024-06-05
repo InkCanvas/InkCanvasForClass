@@ -593,7 +593,7 @@ namespace Ink_Canvas
                     ToggleSwitchIsLogEnabled.IsOn = false;
                 }
 
-                if (Settings.Advanced.IsSecondConfimeWhenShutdownApp)
+                if (Settings.Advanced.IsSecondConfirmWhenShutdownApp)
                 {
                     ToggleSwitchIsSecondConfimeWhenShutdownApp.IsOn = true;
                 }

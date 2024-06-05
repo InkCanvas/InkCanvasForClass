@@ -6,21 +6,21 @@ using System.Windows.Media.Imaging;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
-        StrokeCollection[] strokeCollections = new StrokeCollection[101];
-        bool[] whiteboadLastModeIsRedo = new bool[101];
-        StrokeCollection lastTouchDownStrokeCollection = new StrokeCollection();
+        private StrokeCollection[] strokeCollections = new StrokeCollection[101];
+        private bool[] whiteboadLastModeIsRedo = new bool[101];
+        private StrokeCollection lastTouchDownStrokeCollection = new StrokeCollection();
 
-        int CurrentWhiteboardIndex = 1;
-        int WhiteboardTotalCount = 1;
-        TimeMachineHistory[][] TimeMachineHistories = new TimeMachineHistory[101][]; //最多99页，0用来存储非白板时的墨迹以便还原
+        private int CurrentWhiteboardIndex = 1;
+        private int WhiteboardTotalCount = 1;
+        private TimeMachineHistory[][] TimeMachineHistories = new TimeMachineHistory[101][]; //最多99页，0用来存储非白板时的墨迹以便还原
 
         private void SaveStrokes(bool isBackupMain = false) {
             if (isBackupMain) {
                 var timeMachineHistory = timeMachine.ExportTimeMachineHistory();
                 TimeMachineHistories[0] = timeMachineHistory;
                 timeMachine.ClearStrokeHistory();
-
-            } else {
+            }
+            else {
                 var timeMachineHistory = timeMachine.ExportTimeMachineHistory();
                 TimeMachineHistories[CurrentWhiteboardIndex] = timeMachineHistory;
                 timeMachine.ClearStrokeHistory();
@@ -28,7 +28,6 @@ namespace Ink_Canvas {
         }
 
         private void ClearStrokes(bool isErasedByCode) {
-
             _currentCommitType = CommitReason.ClearingCanvas;
             if (isErasedByCode) _currentCommitType = CommitReason.CodeInput;
             inkCanvas.Strokes.Clear();
@@ -41,17 +40,17 @@ namespace Ink_Canvas {
                 if (isBackupMain) {
                     _currentCommitType = CommitReason.CodeInput;
                     timeMachine.ImportTimeMachineHistory(TimeMachineHistories[0]);
-                    foreach (var item in TimeMachineHistories[0]) {
-                        ApplyHistoryToCanvas(item);
-                    }
-                } else {
+                    foreach (var item in TimeMachineHistories[0]) ApplyHistoryToCanvas(item);
+                }
+                else {
                     _currentCommitType = CommitReason.CodeInput;
                     timeMachine.ImportTimeMachineHistory(TimeMachineHistories[CurrentWhiteboardIndex]);
-                    foreach (var item in TimeMachineHistories[CurrentWhiteboardIndex]) {
-                        ApplyHistoryToCanvas(item);
-                    }
+                    foreach (var item in TimeMachineHistories[CurrentWhiteboardIndex]) ApplyHistoryToCanvas(item);
                 }
-            } catch { }
+            }
+            catch {
+                // ignored
+            }
         }
 
         private void BtnWhiteBoardSwitchPrevious_Click(object sender, EventArgs e) {
@@ -68,13 +67,13 @@ namespace Ink_Canvas {
         }
 
         private void BtnWhiteBoardSwitchNext_Click(object sender, EventArgs e) {
-            if (Settings.Automation.IsAutoSaveStrokesAtClear && inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) {
-                SaveScreenShot(true);
-            }
+            if (Settings.Automation.IsAutoSaveStrokesAtClear &&
+                inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) SaveScreenShot(true);
             if (CurrentWhiteboardIndex >= WhiteboardTotalCount) {
                 BtnWhiteBoardAdd_Click(sender, e);
                 return;
             }
+
             SaveStrokes();
 
 
@@ -88,20 +87,17 @@ namespace Ink_Canvas {
 
         private void BtnWhiteBoardAdd_Click(object sender, EventArgs e) {
             if (WhiteboardTotalCount >= 99) return;
-            if (Settings.Automation.IsAutoSaveStrokesAtClear && inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) {
-                SaveScreenShot(true);
-            }
+            if (Settings.Automation.IsAutoSaveStrokesAtClear &&
+                inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) SaveScreenShot(true);
             SaveStrokes();
             ClearStrokes(true);
 
             WhiteboardTotalCount++;
             CurrentWhiteboardIndex++;
 
-            if (CurrentWhiteboardIndex != WhiteboardTotalCount) {
-                for (int i = WhiteboardTotalCount; i > CurrentWhiteboardIndex; i--) {
+            if (CurrentWhiteboardIndex != WhiteboardTotalCount)
+                for (var i = WhiteboardTotalCount; i > CurrentWhiteboardIndex; i--)
                     TimeMachineHistories[i] = TimeMachineHistories[i - 1];
-                }
-            }
 
             UpdateIndexInfoDisplay();
 
@@ -111,13 +107,11 @@ namespace Ink_Canvas {
         private void BtnWhiteBoardDelete_Click(object sender, RoutedEventArgs e) {
             ClearStrokes(true);
 
-            if (CurrentWhiteboardIndex != WhiteboardTotalCount) {
-                for (int i = CurrentWhiteboardIndex; i <= WhiteboardTotalCount; i++) {
+            if (CurrentWhiteboardIndex != WhiteboardTotalCount)
+                for (var i = CurrentWhiteboardIndex; i <= WhiteboardTotalCount; i++)
                     TimeMachineHistories[i] = TimeMachineHistories[i + 1];
-                }
-            } else {
+            else
                 CurrentWhiteboardIndex--;
-            }
 
             WhiteboardTotalCount--;
 
@@ -129,21 +123,26 @@ namespace Ink_Canvas {
         }
 
         private void UpdateIndexInfoDisplay() {
-            TextBlockWhiteBoardIndexInfo.Text = string.Format("{0} / {1}", CurrentWhiteboardIndex, WhiteboardTotalCount);
+            TextBlockWhiteBoardIndexInfo.Text =
+                $"{CurrentWhiteboardIndex} / {WhiteboardTotalCount}";
 
             if (CurrentWhiteboardIndex == WhiteboardTotalCount) {
-                BitmapImage newImageSource = new BitmapImage();
+                var newImageSource = new BitmapImage();
                 newImageSource.BeginInit();
-                newImageSource.UriSource = new Uri("/Resources/Icons-Fluent/ic_fluent_add_circle_24_regular.png", UriKind.RelativeOrAbsolute);
+                newImageSource.UriSource = new Uri("/Resources/Icons-Fluent/ic_fluent_add_circle_24_regular.png",
+                    UriKind.RelativeOrAbsolute);
                 newImageSource.EndInit();
                 BoardLeftPannelNextPage.Source = newImageSource;
                 BoardRightPannelNextPage.Source = newImageSource;
                 BoardRightPannelNextPageTextBlock.Text = "加页";
                 BoardLeftPannelNextPageTextBlock.Text = "加页";
-            } else {
-                BitmapImage newImageSource = new BitmapImage();
+            }
+            else {
+                var newImageSource = new BitmapImage();
                 newImageSource.BeginInit();
-                newImageSource.UriSource = new Uri("/Resources/Icons-Fluent/ic_fluent_arrow_circle_right_24_regular.png", UriKind.RelativeOrAbsolute);
+                newImageSource.UriSource =
+                    new Uri("/Resources/Icons-Fluent/ic_fluent_arrow_circle_right_24_regular.png",
+                        UriKind.RelativeOrAbsolute);
                 newImageSource.EndInit();
                 BoardLeftPannelNextPage.Source = newImageSource;
                 BoardRightPannelNextPage.Source = newImageSource;
@@ -151,23 +150,11 @@ namespace Ink_Canvas {
                 BoardLeftPannelNextPageTextBlock.Text = "下一页";
             }
 
-            if (CurrentWhiteboardIndex == 1) {
-                BtnWhiteBoardSwitchPrevious.IsEnabled = false;
-            } else {
-                BtnWhiteBoardSwitchPrevious.IsEnabled = true;
-            }
+            BtnWhiteBoardSwitchPrevious.IsEnabled = CurrentWhiteboardIndex != 1;
 
-            if (CurrentWhiteboardIndex == WhiteboardTotalCount) {
-                BtnWhiteBoardSwitchNext.IsEnabled = false;
-            } else {
-                BtnWhiteBoardSwitchNext.IsEnabled = true;
-            }
+            BtnWhiteBoardSwitchNext.IsEnabled = CurrentWhiteboardIndex != WhiteboardTotalCount;
 
-            if (WhiteboardTotalCount == 1) {
-                BtnWhiteBoardDelete.IsEnabled = false;
-            } else {
-                BtnWhiteBoardDelete.IsEnabled = true;
-            }
+            BtnWhiteBoardDelete.IsEnabled = WhiteboardTotalCount != 1;
         }
     }
 }

@@ -286,8 +286,8 @@ namespace Ink_Canvas
         [JsonProperty("isLogEnabled")]
         public bool IsLogEnabled { get; set; } = true;
 
-        [JsonProperty("isSecondConfimeWhenShutdownApp")]
-        public bool IsSecondConfimeWhenShutdownApp { get; set; } = false;
+        [JsonProperty("isSecondConfirmWhenShutdownApp")]
+        public bool IsSecondConfirmWhenShutdownApp { get; set; } = false;
     }
 
     public class InkToShape

@@ -13,16 +13,19 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
             if (Settings.Canvas.UsingWhiteboard) {
                 if (inkColor == 5) lastBoardInkColor = 0;
-            } else {
+            }
+            else {
                 if (inkColor == 0) lastBoardInkColor = 5;
             }
+
             CheckColorTheme(true);
         }
 
         private void BoardEraserIcon_Click(object sender, RoutedEventArgs e) {
             if (BoardEraser.Background.ToString() == "#FF679CF4") {
                 AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardDeleteIcon);
-            } else {
+            }
+            else {
                 forceEraser = true;
                 forcePointEraser = true;
                 double k = 1;
@@ -40,6 +43,7 @@ namespace Ink_Canvas {
                         k = 1.8;
                         break;
                 }
+
                 inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
                 inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
                 drawingShapeMode = 0;
@@ -54,7 +58,8 @@ namespace Ink_Canvas {
         private void BoardEraserIconByStrokes_Click(object sender, RoutedEventArgs e) {
             if (BoardEraserByStrokes.Background.ToString() == "#FF679CF4") {
                 AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardDeleteIcon);
-            } else {
+            }
+            else {
                 forceEraser = true;
                 forcePointEraser = false;
 
@@ -84,6 +89,5 @@ namespace Ink_Canvas {
             ImageBlackboard_MouseUp(null, null);
             Process.Start("https://www.desmos.com/calculator?lang=zh-CN");
         }
-
     }
 }

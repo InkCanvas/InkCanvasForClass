@@ -25,74 +25,62 @@ namespace Ink_Canvas {
             _currentCommitType = CommitReason.CodeInput;
             if (item.CommitType == TimeMachineHistoryType.UserInput) {
                 if (!item.StrokeHasBeenCleared) {
-                    foreach (var strokes in item.CurrentStroke) {
+                    foreach (var strokes in item.CurrentStroke)
                         if (!inkCanvas.Strokes.Contains(strokes))
                             inkCanvas.Strokes.Add(strokes);
-                    }
                 }
                 else {
-                    foreach (var strokes in item.CurrentStroke) {
+                    foreach (var strokes in item.CurrentStroke)
                         if (inkCanvas.Strokes.Contains(strokes))
                             inkCanvas.Strokes.Remove(strokes);
-                    }
                 }
             }
             else if (item.CommitType == TimeMachineHistoryType.ShapeRecognition) {
                 if (item.StrokeHasBeenCleared) {
-                    foreach (var strokes in item.CurrentStroke) {
+                    foreach (var strokes in item.CurrentStroke)
                         if (inkCanvas.Strokes.Contains(strokes))
                             inkCanvas.Strokes.Remove(strokes);
-                    }
 
-                    foreach (var strokes in item.ReplacedStroke) {
+                    foreach (var strokes in item.ReplacedStroke)
                         if (!inkCanvas.Strokes.Contains(strokes))
                             inkCanvas.Strokes.Add(strokes);
-                    }
                 }
                 else {
-                    foreach (var strokes in item.CurrentStroke) {
+                    foreach (var strokes in item.CurrentStroke)
                         if (!inkCanvas.Strokes.Contains(strokes))
                             inkCanvas.Strokes.Add(strokes);
-                    }
 
-                    foreach (var strokes in item.ReplacedStroke) {
+                    foreach (var strokes in item.ReplacedStroke)
                         if (inkCanvas.Strokes.Contains(strokes))
                             inkCanvas.Strokes.Remove(strokes);
-                    }
                 }
             }
             else if (item.CommitType == TimeMachineHistoryType.Manipulation) {
                 item.ManipulationHistory.Invert();
-                foreach (var strokes in item.CurrentStroke) {
-                    strokes.Transform(item.ManipulationHistory, false);
-                }
+                foreach (var strokes in item.CurrentStroke) strokes.Transform(item.ManipulationHistory, false);
             }
             else if (item.CommitType == TimeMachineHistoryType.Clear) {
                 if (!item.StrokeHasBeenCleared) {
-                    if (item.CurrentStroke != null) {
-                        foreach (var currentStroke in item.CurrentStroke) {
-                            if (!inkCanvas.Strokes.Contains(currentStroke)) inkCanvas.Strokes.Add(currentStroke);
-                        }
-                    }
+                    if (item.CurrentStroke != null)
+                        foreach (var currentStroke in item.CurrentStroke)
+                            if (!inkCanvas.Strokes.Contains(currentStroke))
+                                inkCanvas.Strokes.Add(currentStroke);
 
-                    if (item.ReplacedStroke != null) {
-                        foreach (var replacedStroke in item.ReplacedStroke) {
-                            if (inkCanvas.Strokes.Contains(replacedStroke)) inkCanvas.Strokes.Remove(replacedStroke);
-                        }
-                    }
+                    if (item.ReplacedStroke != null)
+                        foreach (var replacedStroke in item.ReplacedStroke)
+                            if (inkCanvas.Strokes.Contains(replacedStroke))
+                                inkCanvas.Strokes.Remove(replacedStroke);
                 }
                 else {
-                    if (item.ReplacedStroke != null) {
-                        foreach (var replacedStroke in item.ReplacedStroke) {
-                            if (!inkCanvas.Strokes.Contains(replacedStroke)) inkCanvas.Strokes.Add(replacedStroke);
-                        }
-                    }
+                    if (item.ReplacedStroke != null)
+                        foreach (var replacedStroke in item.ReplacedStroke)
+                            if (!inkCanvas.Strokes.Contains(replacedStroke))
+                                inkCanvas.Strokes.Add(replacedStroke);
 
-                    if (item.CurrentStroke != null) {
-                        foreach (var currentStroke in item.CurrentStroke) {
-                            if (inkCanvas.Strokes.Contains(currentStroke)) inkCanvas.Strokes.Remove(currentStroke);
-                        }
-                    }
+                    if (item.CurrentStroke != null)
+                        foreach (var currentStroke in item.CurrentStroke)
+                            if (inkCanvas.Strokes.Contains(currentStroke))
+                                inkCanvas.Strokes.Remove(currentStroke);
                 }
             }
 
@@ -118,7 +106,7 @@ namespace Ink_Canvas {
             }
 
             if (_currentCommitType == CommitReason.CodeInput || _currentCommitType == CommitReason.ShapeDrawing) return;
-            
+
             if ((e.Added.Count != 0 || e.Removed.Count != 0) && IsEraseByPoint) {
                 if (AddedStroke == null) AddedStroke = new StrokeCollection();
                 if (ReplacedStroke == null) ReplacedStroke = new StrokeCollection();
