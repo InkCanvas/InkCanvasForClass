@@ -45,8 +45,14 @@ namespace Ink_Canvas {
                 TwoFingerGestureSimpleStackPanel.IsHitTestVisible = false;
                 EnableTwoFingerGestureBtn.Source =
                     new BitmapImage(new Uri("/Resources/new-icons/gesture.png", UriKind.Relative));
-                BoardEnableTwoFingerGestureBtn.Source =
-                    new BitmapImage(new Uri("/Resources/new-icons/gesture.png", UriKind.Relative));
+                
+                BoardGesture.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
+                BoardGestureGeometry.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                BoardGestureGeometry2.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                BoardGestureLabel.Foreground = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                BoardGesture.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
+                BoardGestureGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.DisabledGestureIcon);
+                BoardGestureGeometry2.Geometry = Geometry.Parse("F0 M24,24z M0,0z");
             }
             else {
                 TwoFingerGestureSimpleStackPanel.Opacity = 1;
@@ -54,14 +60,26 @@ namespace Ink_Canvas {
                 if (Settings.Gesture.IsEnableTwoFingerGesture) {
                     EnableTwoFingerGestureBtn.Source =
                         new BitmapImage(new Uri("/Resources/new-icons/gesture-enabled.png", UriKind.Relative));
-                    BoardEnableTwoFingerGestureBtn.Source =
-                        new BitmapImage(new Uri("/Resources/new-icons/gesture-enabled.png", UriKind.Relative));
+                    
+                    BoardGesture.Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                    BoardGestureGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
+                    BoardGestureGeometry2.Brush = new SolidColorBrush(Colors.GhostWhite);
+                    BoardGestureLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
+                    BoardGesture.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                    BoardGestureGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.EnabledGestureIcon);
+                    BoardGestureGeometry2.Geometry = Geometry.Parse("F0 M24,24z M0,0z "+XamlGraphicsIconGeometries.EnabledGestureIconBadgeCheck);
                 }
                 else {
                     EnableTwoFingerGestureBtn.Source =
                         new BitmapImage(new Uri("/Resources/new-icons/gesture.png", UriKind.Relative));
-                    BoardEnableTwoFingerGestureBtn.Source =
-                        new BitmapImage(new Uri("/Resources/new-icons/gesture.png", UriKind.Relative));
+                    
+                    BoardGesture.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
+                    BoardGestureGeometry.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                    BoardGestureGeometry2.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                    BoardGestureLabel.Foreground = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                    BoardGesture.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
+                    BoardGestureGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.DisabledGestureIcon);
+                    BoardGestureGeometry2.Geometry = Geometry.Parse("F0 M24,24z M0,0z");
                 }
             }
         }
@@ -208,6 +226,19 @@ namespace Ink_Canvas {
                         Geometry.Parse(XamlGraphicsIconGeometries.LinedEraserCircleIcon);
                     LassoSelectIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
                     LassoSelectIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.LinedLassoSelectIcon);
+
+                    BoardPen.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
+                    BoardSelect.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
+                    BoardEraser.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
+                    BoardSelectGeometry.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                    BoardPenGeometry.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                    BoardEraserGeometry.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                    BoardPenLabel.Foreground = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                    BoardSelectLabel.Foreground = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                    BoardEraserLabel.Foreground = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                    BoardSelect.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
+                    BoardEraser.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
+                    BoardPen.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
                 }
 
                 switch (mode) {
@@ -215,25 +246,41 @@ namespace Ink_Canvas {
                     case "color": {
                         PenIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
                         PenIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.SolidPenIcon);
-                        break;
+                        BoardPen.Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                        BoardPen.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                            BoardPenGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
+                        BoardPenLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
+                            break;
                     }
                     case "eraser": {
                         CircleEraserIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
                         CircleEraserIconGeometry.Geometry =
                             Geometry.Parse(XamlGraphicsIconGeometries.SolidEraserCircleIcon);
-                        break;
+                        BoardEraser.Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                        BoardEraser.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                        BoardEraserGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
+                        BoardEraserLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
+                            break;
                     }
                     case "eraserByStrokes": {
                         StrokeEraserIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
                         StrokeEraserIconGeometry.Geometry =
                             Geometry.Parse(XamlGraphicsIconGeometries.SolidEraserStrokeIcon);
-                        break;
+                        BoardEraser.Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                        BoardEraser.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                        BoardEraserGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
+                        BoardEraserLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
+                            break;
                     }
                     case "select": {
                         LassoSelectIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
                         LassoSelectIconGeometry.Geometry =
                             Geometry.Parse(XamlGraphicsIconGeometries.SolidLassoSelectIcon);
-                        break;
+                        BoardSelect.Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                        BoardSelect.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                        BoardSelectGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
+                        BoardSelectLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
+                            break;
                     }
                 }
 
@@ -270,21 +317,6 @@ namespace Ink_Canvas {
 
         private void BorderPenColorRed_MouseUp(object sender, MouseButtonEventArgs e) {
             BtnColorRed_Click(null, null);
-            HideSubPanels();
-        }
-
-        private void BorderPenColorGreen_MouseUp(object sender, MouseButtonEventArgs e) {
-            BtnColorGreen_Click(null, null);
-            HideSubPanels();
-        }
-
-        private void BorderPenColorBlue_MouseUp(object sender, MouseButtonEventArgs e) {
-            BtnColorBlue_Click(null, null);
-            HideSubPanels();
-        }
-
-        private void BorderPenColorYellow_MouseUp(object sender, MouseButtonEventArgs e) {
-            BtnColorYellow_Click(null, null);
             HideSubPanels();
         }
 
@@ -395,10 +427,20 @@ namespace Ink_Canvas {
                     Application.Current.Dispatcher.Invoke(() => { ViewboxFloatingBarMarginAnimation(60); });
                 })).Start();
 
-                if (Settings.Canvas.UsingWhiteboard)
-                    BorderPenColorBlack_MouseUp(BorderPenColorBlack, null);
-                else
-                    BorderPenColorWhite_MouseUp(BorderPenColorWhite, null);
+                HideSubPanels();
+                if (GridTransparencyFakeBackground.Background == Brushes.Transparent)
+                {
+                    if (currentMode == 1)
+                    {
+                        currentMode = 0;
+                        GridBackgroundCover.Visibility = Visibility.Collapsed;
+                        AnimationsHelper.HideWithSlideAndFade(BlackboardLeftSide);
+                        AnimationsHelper.HideWithSlideAndFade(BlackboardCenterSide);
+                        AnimationsHelper.HideWithSlideAndFade(BlackboardRightSide);
+                    }
+
+                    BtnHideInkCanvas_Click(BtnHideInkCanvas, null);
+                }
 
                 if (Settings.Gesture.AutoSwitchTwoFingerGesture) // 自动关闭多指书写、开启双指移动
                 {
@@ -412,6 +454,14 @@ namespace Ink_Canvas {
                 }
 
                 BlackBoardWaterMark.Visibility = Visibility.Visible;
+                if (Settings.Canvas.UsingWhiteboard) {
+                    ICCWaterMarkDark.Visibility = Visibility.Visible;
+                    ICCWaterMarkWhite.Visibility = Visibility.Collapsed;
+                }
+                else {
+                    ICCWaterMarkWhite.Visibility = Visibility.Visible;
+                    ICCWaterMarkDark.Visibility = Visibility.Collapsed;
+                }
             }
             else {
                 //关闭黑板
@@ -431,12 +481,12 @@ namespace Ink_Canvas {
 
                 if (BtnPPTSlideShowEnd.Visibility == Visibility.Collapsed)
                     new Thread(new ThreadStart(() => {
-                        Thread.Sleep(100);
+                        Thread.Sleep(300);
                         Application.Current.Dispatcher.Invoke(() => { ViewboxFloatingBarMarginAnimation(100, true); });
                     })).Start();
                 else
                     new Thread(new ThreadStart(() => {
-                        Thread.Sleep(100);
+                        Thread.Sleep(300);
                         Application.Current.Dispatcher.Invoke(() => { ViewboxFloatingBarMarginAnimation(60); });
                     })).Start();
                 if (Pen_Icon.Background == null) PenIcon_Click(null, null);
@@ -448,6 +498,8 @@ namespace Ink_Canvas {
                 WaterMarkTime.Visibility = Visibility.Collapsed;
                 WaterMarkDate.Visibility = Visibility.Collapsed;
                 BlackBoardWaterMark.Visibility = Visibility.Collapsed;
+                ICCWaterMarkDark.Visibility = Visibility.Collapsed;
+                ICCWaterMarkWhite.Visibility = Visibility.Collapsed;
             }
 
             BtnSwitch_Click(BtnSwitch, null);
@@ -682,9 +734,9 @@ namespace Ink_Canvas {
                 }
 
                 var marginAnimation = new ThicknessAnimation {
-                    Duration = TimeSpan.FromSeconds(0.3),
+                    Duration = TimeSpan.FromSeconds(0.35),
                     From = ViewboxFloatingBar.Margin,
-                    To = new Thickness(pos.X, pos.Y, -2000, -200)
+                    To = new Thickness(pos.X, pos.Y, 0, -20)
                 };
                 marginAnimation.EasingFunction = new CircleEase();
                 ViewboxFloatingBar.BeginAnimation(MarginProperty, marginAnimation);
@@ -1118,7 +1170,7 @@ namespace Ink_Canvas {
                     AnimationsHelper.HideWithSlideAndFade(BlackboardRightSide);
 
                     SaveStrokes(true);
-                    ClearStrokes(true);
+                    //ClearStrokes(true);
                     RestoreStrokes();
 
                     if (BtnSwitchTheme.Content.ToString() == "浅色") {
@@ -1202,6 +1254,15 @@ namespace Ink_Canvas {
                             BtnExit.Foreground = Brushes.Black;
                             //SymbolIconBtnColorBlackContent.Foreground = Brushes.White;
                             ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
+                        }
+
+                        if (Settings.Canvas.UsingWhiteboard)
+                        {
+                            BtnColorBlack_Click(null, null);
+                        }
+                        else
+                        {
+                            BtnColorWhite_Click(null, null);
                         }
 
                         StackPanelPPTButtons.Visibility = Visibility.Collapsed;

@@ -77,13 +77,13 @@ namespace Ink_Canvas
                 if (Settings.Startup.IsEnableNibMode)
                 {
                     ToggleSwitchEnableNibMode.IsOn = true;
-                    ToggleSwitchBoardEnableNibMode.IsOn = true;
+                    BoardToggleSwitchEnableNibMode.IsOn = true;
                     BoundsWidth = Settings.Advanced.NibModeBoundsWidth;
                 }
                 else
                 {
                     ToggleSwitchEnableNibMode.IsOn = false;
-                    ToggleSwitchBoardEnableNibMode.IsOn = false;
+                    BoardToggleSwitchEnableNibMode.IsOn = false;
                     BoundsWidth = Settings.Advanced.FingerModeBoundsWidth;
                 }
 

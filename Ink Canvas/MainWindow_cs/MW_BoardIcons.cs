@@ -13,9 +13,13 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
             if (Settings.Canvas.UsingWhiteboard) {
                 if (inkColor == 5) lastBoardInkColor = 0;
+                ICCWaterMarkDark.Visibility = Visibility.Visible;
+                ICCWaterMarkWhite.Visibility = Visibility.Collapsed;
             }
             else {
                 if (inkColor == 0) lastBoardInkColor = 5;
+                ICCWaterMarkWhite.Visibility = Visibility.Visible;
+                ICCWaterMarkDark.Visibility = Visibility.Collapsed;
             }
 
             CheckColorTheme(true);

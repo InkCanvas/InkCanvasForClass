@@ -194,8 +194,10 @@ namespace Ink_Canvas {
                 BoardBorderPenColorPink.Background = new SolidColorBrush(Color.FromRgb(236, 72, 153));
                 // 亮色的Teal
                 BorderPenColorTeal.Background = new SolidColorBrush(Color.FromRgb(20, 184, 166));
+                BoardBorderPenColorTeal.Background = new SolidColorBrush(Color.FromRgb(20, 184, 166));
                 // 亮色的Orange
                 BorderPenColorOrange.Background = new SolidColorBrush(Color.FromRgb(249, 115, 22));
+                BoardBorderPenColorOrange.Background = new SolidColorBrush(Color.FromRgb(249, 115, 22));
 
                 var newImageSource = new BitmapImage();
                 newImageSource.BeginInit();
@@ -227,8 +229,10 @@ namespace Ink_Canvas {
                 BoardBorderPenColorPink.Background = new SolidColorBrush(Color.FromRgb(147, 51, 234));
                 // 暗色的Teal
                 BorderPenColorTeal.Background = new SolidColorBrush(Color.FromRgb(13, 148, 136));
+                BoardBorderPenColorTeal.Background = new SolidColorBrush(Color.FromRgb(13, 148, 136));
                 // 暗色的Orange
                 BorderPenColorOrange.Background = new SolidColorBrush(Color.FromRgb(234, 88, 12));
+                BoardBorderPenColorOrange.Background = new SolidColorBrush(Color.FromRgb(234, 88, 12));
 
                 var newImageSource = new BitmapImage();
                 newImageSource.BeginInit();
@@ -252,6 +256,7 @@ namespace Ink_Canvas {
             ViewboxBtnColorPinkContent.Visibility = Visibility.Collapsed;
             ViewboxBtnColorTealContent.Visibility = Visibility.Collapsed;
             ViewboxBtnColorOrangeContent.Visibility = Visibility.Collapsed;
+
             BoardViewboxBtnColorBlackContent.Visibility = Visibility.Collapsed;
             BoardViewboxBtnColorBlueContent.Visibility = Visibility.Collapsed;
             BoardViewboxBtnColorGreenContent.Visibility = Visibility.Collapsed;
@@ -259,6 +264,8 @@ namespace Ink_Canvas {
             BoardViewboxBtnColorYellowContent.Visibility = Visibility.Collapsed;
             BoardViewboxBtnColorWhiteContent.Visibility = Visibility.Collapsed;
             BoardViewboxBtnColorPinkContent.Visibility = Visibility.Collapsed;
+            BoardViewboxBtnColorTealContent.Visibility = Visibility.Collapsed;
+            BoardViewboxBtnColorOrangeContent.Visibility = Visibility.Collapsed;
 
             HighlighterPenViewboxBtnColorBlackContent.Visibility = Visibility.Collapsed;
             HighlighterPenViewboxBtnColorBlueContent.Visibility = Visibility.Collapsed;
@@ -270,6 +277,17 @@ namespace Ink_Canvas {
             HighlighterPenViewboxBtnColorWhiteContent.Visibility = Visibility.Collapsed;
             HighlighterPenViewboxBtnColorYellowContent.Visibility = Visibility.Collapsed;
             HighlighterPenViewboxBtnColorZincContent.Visibility = Visibility.Collapsed;
+
+            BoardHighlighterPenViewboxBtnColorBlackContent.Visibility = Visibility.Collapsed;
+            BoardHighlighterPenViewboxBtnColorBlueContent.Visibility = Visibility.Collapsed;
+            BoardHighlighterPenViewboxBtnColorGreenContent.Visibility = Visibility.Collapsed;
+            BoardHighlighterPenViewboxBtnColorOrangeContent.Visibility = Visibility.Collapsed;
+            BoardHighlighterPenViewboxBtnColorPurpleContent.Visibility = Visibility.Collapsed;
+            BoardHighlighterPenViewboxBtnColorRedContent.Visibility = Visibility.Collapsed;
+            BoardHighlighterPenViewboxBtnColorTealContent.Visibility = Visibility.Collapsed;
+            BoardHighlighterPenViewboxBtnColorWhiteContent.Visibility = Visibility.Collapsed;
+            BoardHighlighterPenViewboxBtnColorYellowContent.Visibility = Visibility.Collapsed;
+            BoardHighlighterPenViewboxBtnColorZincContent.Visibility = Visibility.Collapsed;
 
             switch (inkColor) {
                 case 0:
@@ -311,33 +329,43 @@ namespace Ink_Canvas {
             switch (highlighterColor) {
                 case 100:
                     HighlighterPenViewboxBtnColorBlackContent.Visibility = Visibility.Visible;
+                    BoardHighlighterPenViewboxBtnColorBlackContent.Visibility = Visibility.Visible;
                     break;
                 case 101:
                     HighlighterPenViewboxBtnColorWhiteContent.Visibility = Visibility.Visible;
+                    BoardHighlighterPenViewboxBtnColorWhiteContent.Visibility = Visibility.Visible;
                     break;
                 case 102:
                     HighlighterPenViewboxBtnColorRedContent.Visibility = Visibility.Visible;
+                    BoardHighlighterPenViewboxBtnColorRedContent.Visibility = Visibility.Visible;
                     break;
                 case 103:
                     HighlighterPenViewboxBtnColorYellowContent.Visibility = Visibility.Visible;
+                    BoardHighlighterPenViewboxBtnColorYellowContent.Visibility = Visibility.Visible;
                     break;
                 case 104:
                     HighlighterPenViewboxBtnColorGreenContent.Visibility = Visibility.Visible;
+                    BoardHighlighterPenViewboxBtnColorGreenContent.Visibility = Visibility.Visible;
                     break;
                 case 105:
                     HighlighterPenViewboxBtnColorZincContent.Visibility = Visibility.Visible;
+                    BoardHighlighterPenViewboxBtnColorZincContent.Visibility = Visibility.Visible;
                     break;
                 case 106:
                     HighlighterPenViewboxBtnColorBlueContent.Visibility = Visibility.Visible;
+                    BoardHighlighterPenViewboxBtnColorBlueContent.Visibility = Visibility.Visible;
                     break;
                 case 107:
                     HighlighterPenViewboxBtnColorPurpleContent.Visibility = Visibility.Visible;
+                    BoardHighlighterPenViewboxBtnColorPurpleContent.Visibility = Visibility.Visible;
                     break;
                 case 108:
                     HighlighterPenViewboxBtnColorTealContent.Visibility = Visibility.Visible;
+                    BoardHighlighterPenViewboxBtnColorTealContent.Visibility = Visibility.Visible;
                     break;
                 case 109:
                     HighlighterPenViewboxBtnColorOrangeContent.Visibility = Visibility.Visible;
+                    BoardHighlighterPenViewboxBtnColorOrangeContent.Visibility = Visibility.Visible;
                     break;
             }
         }
@@ -371,6 +399,23 @@ namespace Ink_Canvas {
                 HighlightPenTabButton.Background = new SolidColorBrush(Colors.Transparent);
                 HighlightPenTabButtonIndicator.Visibility = Visibility.Collapsed;
 
+                BoardDefaultPenPropsPanel.Visibility = Visibility.Visible;
+                BoardDefaultPenColorsPanel.Visibility = Visibility.Visible;
+                BoardHighlighterPenColorsPanel.Visibility = Visibility.Collapsed;
+                BoardHighlighterPenPropsPanel.Visibility = Visibility.Collapsed;
+                BoardDefaultPenTabButton.Opacity = 1;
+                BoardDefaultPenTabButtonText.FontWeight = FontWeights.Bold;
+                BoardDefaultPenTabButtonText.Margin = new Thickness(2, 0.5, 0, 0);
+                BoardDefaultPenTabButtonText.FontSize = 9.5;
+                BoardDefaultPenTabButton.Background = new SolidColorBrush(Color.FromArgb(72, 219, 234, 254));
+                BoardDefaultPenTabButtonIndicator.Visibility = Visibility.Visible;
+                BoardHighlightPenTabButton.Opacity = 0.9;
+                BoardHighlightPenTabButtonText.FontWeight = FontWeights.Normal;
+                BoardHighlightPenTabButtonText.FontSize = 9;
+                BoardHighlightPenTabButtonText.Margin = new Thickness(2, 1, 0, 0);
+                BoardHighlightPenTabButton.Background = new SolidColorBrush(Colors.Transparent);
+                BoardHighlightPenTabButtonIndicator.Visibility = Visibility.Collapsed;
+
                 // PenPalette.Margin = new Thickness(-160, -200, -33, 32);
                 await Dispatcher.InvokeAsync(() => {
                     var marginAnimation = new ThicknessAnimation
@@ -382,9 +427,24 @@ namespace Ink_Canvas {
                     };
                     PenPalette.BeginAnimation(MarginProperty, marginAnimation);
                 });
+
+                await Dispatcher.InvokeAsync(() => {
+                    var marginAnimation = new ThicknessAnimation
+                    {
+                        Duration = TimeSpan.FromSeconds(0.1),
+                        From = PenPalette.Margin,
+                        To = new Thickness(-160, -200, -33, 50),
+                        EasingFunction = new CubicEase()
+                    };
+                    BoardPenPaletteGrid.BeginAnimation(MarginProperty, marginAnimation);
+                });
+
+
                 await Task.Delay(100);
 
                 await Dispatcher.InvokeAsync(() => { PenPalette.Margin = new Thickness(-160, -200, -33, 32); });
+
+                await Dispatcher.InvokeAsync(() => { BoardPenPaletteGrid.Margin = new Thickness(-160, -200, -33, 50); });
             }
             else if (penType == 1) {
                 DefaultPenPropsPanel.Visibility = Visibility.Collapsed;
@@ -404,6 +464,23 @@ namespace Ink_Canvas {
                 HighlightPenTabButton.Background = new SolidColorBrush(Color.FromArgb(72, 219, 234, 254));
                 HighlightPenTabButtonIndicator.Visibility = Visibility.Visible;
 
+                BoardDefaultPenPropsPanel.Visibility = Visibility.Collapsed;
+                BoardDefaultPenColorsPanel.Visibility = Visibility.Collapsed;
+                BoardHighlighterPenColorsPanel.Visibility = Visibility.Visible;
+                BoardHighlighterPenPropsPanel.Visibility = Visibility.Visible;
+                BoardDefaultPenTabButton.Opacity = 0.9;
+                BoardDefaultPenTabButtonText.FontWeight = FontWeights.Normal;
+                BoardDefaultPenTabButtonText.FontSize = 9;
+                BoardDefaultPenTabButtonText.Margin = new Thickness(2, 1, 0, 0);
+                BoardDefaultPenTabButton.Background = new SolidColorBrush(Colors.Transparent);
+                BoardDefaultPenTabButtonIndicator.Visibility = Visibility.Collapsed;
+                BoardHighlightPenTabButton.Opacity = 1;
+                BoardHighlightPenTabButtonText.FontWeight = FontWeights.Bold;
+                BoardHighlightPenTabButtonText.FontSize = 9.5;
+                BoardHighlightPenTabButtonText.Margin = new Thickness(2, 0.5, 0, 0);
+                BoardHighlightPenTabButton.Background = new SolidColorBrush(Color.FromArgb(72, 219, 234, 254));
+                BoardHighlightPenTabButtonIndicator.Visibility = Visibility.Visible;
+
                 // PenPalette.Margin = new Thickness(-160, -157, -33, 32);
                 await Dispatcher.InvokeAsync(() => {
                     var marginAnimation = new ThicknessAnimation
@@ -415,9 +492,23 @@ namespace Ink_Canvas {
                     };
                     PenPalette.BeginAnimation(MarginProperty, marginAnimation);
                 });
+
+                await Dispatcher.InvokeAsync(() => {
+                    var marginAnimation = new ThicknessAnimation
+                    {
+                        Duration = TimeSpan.FromSeconds(0.1),
+                        From = PenPalette.Margin,
+                        To = new Thickness(-160, -154, -33, 50),
+                        EasingFunction = new CubicEase()
+                    };
+                    BoardPenPaletteGrid.BeginAnimation(MarginProperty, marginAnimation);
+                });
+
                 await Task.Delay(100);
 
                 await Dispatcher.InvokeAsync(() => { PenPalette.Margin = new Thickness(-160, -157, -33, 32); });
+
+                await Dispatcher.InvokeAsync(() => { BoardPenPaletteGrid.Margin = new Thickness(-160, -154, -33, 50); });
             }
         }
 

@@ -88,9 +88,9 @@ namespace Ink_Canvas {
         private void ToggleSwitchEnableNibMode_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             if (sender == ToggleSwitchEnableNibMode)
-                ToggleSwitchBoardEnableNibMode.IsOn = ToggleSwitchEnableNibMode.IsOn;
+                BoardToggleSwitchEnableNibMode.IsOn = ToggleSwitchEnableNibMode.IsOn;
             else
-                ToggleSwitchEnableNibMode.IsOn = ToggleSwitchBoardEnableNibMode.IsOn;
+                ToggleSwitchEnableNibMode.IsOn = BoardToggleSwitchEnableNibMode.IsOn;
             Settings.Startup.IsEnableNibMode = ToggleSwitchEnableNibMode.IsOn;
 
             if (Settings.Startup.IsEnableNibMode)
