@@ -56,6 +56,7 @@ namespace Ink_Canvas {
                         From = new Thickness(-50, 0, 0, -150),
                         To = new Thickness(-1, 0, 0, -150)
                     };
+                    marginAnimation.EasingFunction = new CubicEase();
                     LeftUnFoldButtonQuickPanel.BeginAnimation(MarginProperty, marginAnimation);
                 });
                 await Task.Delay(100);
@@ -79,6 +80,7 @@ namespace Ink_Canvas {
                         From = new Thickness(0, 0, -50, -150),
                         To = new Thickness(0, 0, -1, -150)
                     };
+                    marginAnimation.EasingFunction = new CubicEase();
                     RightUnFoldButtonQuickPanel.BeginAnimation(MarginProperty, marginAnimation);
                 });
                 await Task.Delay(100);
@@ -100,6 +102,7 @@ namespace Ink_Canvas {
                         From = new Thickness(-1, 0, 0, -150),
                         To = new Thickness(-50, 0, 0, -150)
                     };
+                    marginAnimation.EasingFunction = new CubicEase();
                     LeftUnFoldButtonQuickPanel.BeginAnimation(MarginProperty, marginAnimation);
                 });
                 await Task.Delay(100);
@@ -119,6 +122,7 @@ namespace Ink_Canvas {
                         From = new Thickness(0, 0, -1, -150),
                         To = new Thickness(0, 0, -50, -150)
                     };
+                    marginAnimation.EasingFunction = new CubicEase();
                     RightUnFoldButtonQuickPanel.BeginAnimation(MarginProperty, marginAnimation);
                 });
                 await Task.Delay(100);

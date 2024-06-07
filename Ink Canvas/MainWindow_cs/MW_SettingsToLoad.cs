@@ -189,6 +189,8 @@ namespace Ink_Canvas
                     LeftUnFoldBtnImgChevron.RenderTransform = null;
                 }
 
+                ComboBoxChickenSoupSource.SelectedIndex = Settings.Appearance.ChickenSoupSource;
+
                 if (Settings.Appearance.IsShowQuickPanel)
                 {
                     ToggleSwitchEnableQuickPanel.IsOn = true;
@@ -246,6 +248,15 @@ namespace Ink_Canvas
                 else
                 {
                     ToggleSwitchEnableTimeDisplayInWhiteboardMode.IsOn = false;
+                }
+
+                if (Settings.Appearance.EnableChickenSoupInWhiteboardMode == true)
+                {
+                    ToggleSwitchEnableChickenSoupInWhiteboardMode.IsOn = true;
+                }
+                else
+                {
+                    ToggleSwitchEnableChickenSoupInWhiteboardMode.IsOn = false;
                 }
 
                 SystemEvents_UserPreferenceChanged(null, null);
@@ -473,11 +484,19 @@ namespace Ink_Canvas
 
                 if (Settings.Canvas.UsingWhiteboard)
                 {
-                    GridBackgroundCover.Background = new SolidColorBrush(StringToColor("#FFF2F2F2"));
+                    GridBackgroundCover.Background = new SolidColorBrush(Color.FromRgb(234, 235, 237));
+                    WaterMarkTime.Foreground = new SolidColorBrush(Color.FromRgb(22, 41, 36));
+                    WaterMarkDate.Foreground = new SolidColorBrush(Color.FromRgb(22, 41, 36));
+                    BlackBoardWaterMark.Foreground = new SolidColorBrush(Color.FromRgb(22, 41, 36));
+                    isUselightThemeColor = false;
                 }
                 else
                 {
-                    GridBackgroundCover.Background = new SolidColorBrush(StringToColor("#FF1F1F1F"));
+                    GridBackgroundCover.Background = new SolidColorBrush(Color.FromRgb(22, 41, 36));
+                    WaterMarkTime.Foreground = new SolidColorBrush(Color.FromRgb(234, 235, 237));
+                    WaterMarkDate.Foreground = new SolidColorBrush(Color.FromRgb(234, 235, 237));
+                    BlackBoardWaterMark.Foreground = new SolidColorBrush(Color.FromRgb(234, 235, 237));
+                    isUselightThemeColor = true;
                 }
 
                 if (Settings.Canvas.IsShowCursor)

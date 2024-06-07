@@ -12,6 +12,7 @@ using File = System.IO.File;
 using MessageBox = System.Windows.MessageBox;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using System.Windows.Controls.Primitives;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -173,6 +174,8 @@ namespace Ink_Canvas {
 
             //TextBlockVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             LogHelper.WriteLogToFile("Ink Canvas Loaded", LogHelper.LogType.Event);
+
+            FullScreenHelper.MarkFullscreenWindowTaskbarList(new WindowInteropHelper(this).Handle, true);
             isLoaded = true;
         }
 

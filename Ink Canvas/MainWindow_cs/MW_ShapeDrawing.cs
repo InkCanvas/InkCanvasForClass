@@ -107,7 +107,7 @@ namespace Ink_Canvas {
 
             lastMouseDownSender = null;
             if (isLongPressSelected) {
-                if (ToggleSwitchDrawShapeBorderAutoHide.IsOn) CollapseBorderDrawShape(true);
+                if (ToggleSwitchDrawShapeBorderAutoHide.IsOn) CollapseBorderDrawShape();
                 var dA = new DoubleAnimation(1, 1, new Duration(TimeSpan.FromMilliseconds(0)));
                 ImageDrawLine.BeginAnimation(OpacityProperty, dA);
             }
@@ -127,7 +127,7 @@ namespace Ink_Canvas {
 
             lastMouseDownSender = null;
             if (isLongPressSelected) {
-                if (ToggleSwitchDrawShapeBorderAutoHide.IsOn) CollapseBorderDrawShape(true);
+                if (ToggleSwitchDrawShapeBorderAutoHide.IsOn) CollapseBorderDrawShape();
                 var dA = new DoubleAnimation(1, 1, new Duration(TimeSpan.FromMilliseconds(0)));
                 ImageDrawDashedLine.BeginAnimation(OpacityProperty, dA);
             }
@@ -147,7 +147,7 @@ namespace Ink_Canvas {
 
             lastMouseDownSender = null;
             if (isLongPressSelected) {
-                if (ToggleSwitchDrawShapeBorderAutoHide.IsOn) CollapseBorderDrawShape(true);
+                if (ToggleSwitchDrawShapeBorderAutoHide.IsOn) CollapseBorderDrawShape();
                 var dA = new DoubleAnimation(1, 1, new Duration(TimeSpan.FromMilliseconds(0)));
                 ImageDrawDotLine.BeginAnimation(OpacityProperty, dA);
             }
@@ -167,7 +167,7 @@ namespace Ink_Canvas {
 
             lastMouseDownSender = null;
             if (isLongPressSelected) {
-                if (ToggleSwitchDrawShapeBorderAutoHide.IsOn) CollapseBorderDrawShape(true);
+                if (ToggleSwitchDrawShapeBorderAutoHide.IsOn) CollapseBorderDrawShape();
                 var dA = new DoubleAnimation(1, 1, new Duration(TimeSpan.FromMilliseconds(0)));
                 ImageDrawArrow.BeginAnimation(OpacityProperty, dA);
             }
@@ -187,7 +187,7 @@ namespace Ink_Canvas {
 
             lastMouseDownSender = null;
             if (isLongPressSelected) {
-                if (ToggleSwitchDrawShapeBorderAutoHide.IsOn) CollapseBorderDrawShape(true);
+                if (ToggleSwitchDrawShapeBorderAutoHide.IsOn) CollapseBorderDrawShape();
                 var dA = new DoubleAnimation(1, 1, new Duration(TimeSpan.FromMilliseconds(0)));
                 ImageDrawParallelLine.BeginAnimation(OpacityProperty, dA);
             }

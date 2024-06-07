@@ -125,6 +125,8 @@ namespace Ink_Canvas
         public bool IsShowEraserButton { get; set; } = true;
         [JsonProperty("enableTimeDisplayInWhiteboardMode")]
         public bool EnableTimeDisplayInWhiteboardMode { get; set; } = true;
+        [JsonProperty("enableChickenSoupInWhiteboardMode")]
+        public bool EnableChickenSoupInWhiteboardMode { get; set; } = true;
         [JsonProperty("isShowHideControlButton")]
         public bool IsShowHideControlButton { get; set; } = false;
         [JsonProperty("unFoldButtonImageType")]
@@ -133,6 +135,8 @@ namespace Ink_Canvas
         public bool IsShowLRSwitchButton { get; set; } = false;
         [JsonProperty("isShowQuickPanel")]
         public bool IsShowQuickPanel { get; set; } = true;
+        [JsonProperty("chickenSoupSource")]
+        public int ChickenSoupSource { get; set; } = 1;
         [JsonProperty("isShowModeFingerToggleSwitch")]
         public bool IsShowModeFingerToggleSwitch { get; set; } = true;
         [JsonProperty("theme")]

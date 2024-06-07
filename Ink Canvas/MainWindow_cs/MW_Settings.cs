@@ -49,8 +49,7 @@ namespace Ink_Canvas {
             if (ToggleSwitchRunAtStartup.IsOn) {
                 StartAutomaticallyDel("InkCanvas");
                 StartAutomaticallyCreate("Ink Canvas Annotation");
-            }
-            else {
+            } else {
                 StartAutomaticallyDel("InkCanvas");
                 StartAutomaticallyDel("Ink Canvas Annotation");
             }
@@ -111,8 +110,7 @@ namespace Ink_Canvas {
             if (!ToggleSwitchEnableDisPlayNibModeToggle.IsOn) {
                 NibModeSimpleStackPanel.Visibility = Visibility.Collapsed;
                 BoardNibModeSimpleStackPanel.Visibility = Visibility.Collapsed;
-            }
-            else {
+            } else {
                 NibModeSimpleStackPanel.Visibility = Visibility.Visible;
                 BoardNibModeSimpleStackPanel.Visibility = Visibility.Visible;
             }
@@ -162,8 +160,7 @@ namespace Ink_Canvas {
                 LeftUnFoldBtnImgChevron.Width = 14;
                 LeftUnFoldBtnImgChevron.Height = 14;
                 LeftUnFoldBtnImgChevron.RenderTransform = null;
-            }
-            else if (ComboBoxUnFoldBtnImg.SelectedIndex == 1) {
+            } else if (ComboBoxUnFoldBtnImg.SelectedIndex == 1) {
                 RightUnFoldBtnImgChevron.Source =
                     new BitmapImage(new Uri("pack://application:,,,/Resources/new-icons/pen-white.png"));
                 RightUnFoldBtnImgChevron.Width = 18;
@@ -174,6 +171,28 @@ namespace Ink_Canvas {
                 LeftUnFoldBtnImgChevron.Width = 18;
                 LeftUnFoldBtnImgChevron.Height = 18;
                 LeftUnFoldBtnImgChevron.RenderTransform = null;
+            }
+        }
+
+        private void ComboBoxChickenSoupSource_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Appearance.ChickenSoupSource = ComboBoxChickenSoupSource.SelectedIndex;
+            SaveSettingsToFile();
+            if (Settings.Appearance.ChickenSoupSource == 0)
+            {
+                int randChickenSoupIndex = new Random().Next(ChickenSoup.OSUPlayerYuLu.Length);
+                BlackBoardWaterMark.Text = ChickenSoup.OSUPlayerYuLu[randChickenSoupIndex];
+            }
+            else if (Settings.Appearance.ChickenSoupSource == 1)
+            {
+                int randChickenSoupIndex = new Random().Next(ChickenSoup.MingYanJingJu.Length);
+                BlackBoardWaterMark.Text = ChickenSoup.MingYanJingJu[randChickenSoupIndex];
+            }
+            else if (Settings.Appearance.ChickenSoupSource == 2)
+            {
+                int randChickenSoupIndex = new Random().Next(ChickenSoup.GaoKaoPhrases.Length);
+                BlackBoardWaterMark.Text = ChickenSoup.GaoKaoPhrases[randChickenSoupIndex];
             }
         }
 
@@ -188,6 +207,31 @@ namespace Ink_Canvas {
         private void ToggleSwitchEnableTimeDisplayInWhiteboardMode_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Appearance.EnableTimeDisplayInWhiteboardMode = ToggleSwitchEnableTimeDisplayInWhiteboardMode.IsOn;
+            if (currentMode == 1) {
+                if (ToggleSwitchEnableTimeDisplayInWhiteboardMode.IsOn) {
+                    WaterMarkTime.Visibility = Visibility.Visible;
+                    WaterMarkDate.Visibility = Visibility.Visible;
+                } else {
+                    WaterMarkTime.Visibility = Visibility.Collapsed;
+                    WaterMarkDate.Visibility = Visibility.Collapsed;
+                }
+            }
+
+            SaveSettingsToFile();
+            LoadSettings();
+        }
+
+        private void ToggleSwitchEnableChickenSoupInWhiteboardMode_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Appearance.EnableChickenSoupInWhiteboardMode = ToggleSwitchEnableChickenSoupInWhiteboardMode.IsOn;
+            if (currentMode == 1) {
+                if (ToggleSwitchEnableTimeDisplayInWhiteboardMode.IsOn) {
+                    BlackBoardWaterMark.Visibility = Visibility.Visible;
+                } else {
+                    BlackBoardWaterMark.Visibility = Visibility.Collapsed;
+                }
+            }
+
             SaveSettingsToFile();
             LoadSettings();
         }
@@ -244,8 +288,7 @@ namespace Ink_Canvas {
             if (sender == ComboBoxPenStyle) {
                 Settings.Canvas.InkStyle = ComboBoxPenStyle.SelectedIndex;
                 BoardComboBoxPenStyle.SelectedIndex = ComboBoxPenStyle.SelectedIndex;
-            }
-            else {
+            } else {
                 Settings.Canvas.InkStyle = BoardComboBoxPenStyle.SelectedIndex;
                 ComboBoxPenStyle.SelectedIndex = BoardComboBoxPenStyle.SelectedIndex;
             }
@@ -281,8 +324,7 @@ namespace Ink_Canvas {
                 }
 
                 inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
-            }
-            else if (Settings.Canvas.EraserShapeType == 1) {
+            } else if (Settings.Canvas.EraserShapeType == 1) {
                 double k = 1;
                 switch (ComboBoxEraserSizeFloatingBar.SelectedIndex) {
                     case 0:
@@ -693,8 +735,7 @@ namespace Ink_Canvas {
                     inkCanvas.Children.Clear();
                     isInMultiTouchMode = true;
                 }
-            }
-            else {
+            } else {
                 if (isInMultiTouchMode) {
                     inkCanvas.StylusDown -= MainWindow_StylusDown;
                     inkCanvas.StylusMove -= MainWindow_StylusMove;
@@ -773,6 +814,9 @@ namespace Ink_Canvas {
             Settings.Appearance.IsShowModeFingerToggleSwitch = true;
             Settings.Appearance.IsShowQuickPanel = true;
             Settings.Appearance.Theme = 0;
+            Settings.Appearance.EnableChickenSoupInWhiteboardMode = true;
+            Settings.Appearance.EnableTimeDisplayInWhiteboardMode = true;
+            Settings.Appearance.ChickenSoupSource = 1;
 
             Settings.Automation.IsAutoFoldInEasiNote = true;
             Settings.Automation.IsAutoFoldInEasiNoteIgnoreDesktopAnno = true;
