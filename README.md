@@ -19,14 +19,17 @@ Elegant by Default. Based on `ChangSakura/InkCanvas` .
 
 </div>
 
+## 嚴正聲明
+本產品與peppy的osu!以及其周邊項目和產品無任何關聯，該Logo僅供娛樂用，若有侵權，請聯繫Dev協商解決。
+
 ## 公告
-该项目旨在为ICA提供更加舒适和易于使用的UI和用户体验，对于任何墨迹书写方面的Bug如果本人无法修复将不会被修复。本人因为最近忙于开发InkCanvasForClass X导致本项目开发进度最近比较缓慢，请多一份理解，谢谢！
+该项目旨在为ICA提供更加舒适和易于使用的UI和用户体验，对于任何墨迹书写方面的Bug如果本人无法修复将不会被修复。
 
 ## 前言
 使用和分發本軟體前，請您應當且務必知曉相關開源協議，本軟體基於 https://github.com/ChangSakura/Ink-Canvas 修改而成，而ICA又基於 https://github.com/WXRIW/Ink-Canvas 修改而成，增添了包括但不限於隱藏到側邊欄等功能，更改了相關UI和軟體操作邏輯。對於墨跡書寫功能以及ICA獨有功能的相關 issue 提出，應優先查閱 https://github.com/WXRIW/Ink-Canvas/issues 。
 
 [直接下載](https://gitea.bliemhax.com/kriastans/InkCanvasForClass/releases "Latest Releases")
-——該安裝包使用 NodeJs+NodeGUI打包，默認配置適配絕大多數紅外觸摸框的設置。
+——以壓縮檔案形式存儲，便攜版可直接啟動，默認配置適配絕大多數紅外觸摸框的設置。
 
 > ⚠️注意：此項目仍在開發中，只會在發佈正式發行版時提供Release。您可以自行使用VS2022編譯打包後自行使用
 
@@ -52,13 +55,23 @@ Elegant by Default. Based on `ChangSakura/InkCanvas` .
 
 另外，處在保護（只讀）模式的PPT不會被識別
 
-若因安裝了最新版本的 WPS 而導致無法在 WPS 軟體內進入 PPT 模式，可以嘗試卸載 WPS 後，並清除電腦垃圾、註冊表垃圾、刪除電腦上所有帶 "kingsoft" 名稱的文件夾，重新安裝 WPS 2021 後，（以上步驟可能有多餘步驟），經測試在 WPS 內可以正常進入 PPT 模式。
+若因安裝了最新版本的 WPS 而導致無法在 WPS 軟體內進入 PPT 模式，可以嘗試卸載 WPS 後，並清除電腦垃圾、註冊表垃圾、刪除電腦上所有帶 "kingsoft" 名稱的文件夾，重新安裝 WPS 後，（以上步驟可能有多餘步驟），經測試在 WPS 內可以正常進入 PPT 模式。
 
-不支援WPS純淨版！
+ICC 可以支持 WPS，但目前無法同時支持 MSOffice 和 WPS。若要啟用 WPS 支持，請確保 WPS 是否在 “配置工具” 中開啟了 “WPS Office 相容第三方系統和軟體” 選項，該項目勾選並應用後，將無法檢測到 MS Office 的COM接口。
+
+如果您安裝了“贛教通”、“暢言智慧課堂”等應用程式，可能會安裝“暢言備課精靈”，可能會導致遺失64為Office COM組建的註冊且目前似乎無法修復（可以切換到新用戶正常使用）。但 WPS Office 可以正常使用。
+
+若要將 ICC 配合 WPS 使用，可打開“WPS 示範”後，前往“文件” - “選項” ，取消勾選“單螢幕幻燈片放映時，顯示放映工具欄”該項，獲得更好的體驗。若要將 ICC 配合 MS Office 使用，可以打開 Powerpoint，前往“選項” ，“高級”，取消勾選“顯示快捷工具欄”，獲得更好的體驗。
 
 ### **安裝後**程序無法正常啟動？
 請檢查你的電腦上是否安裝了 `.Net Framework 4.7.2` 或更高版本。若沒有，請前往官網下載  
-如果仍無法運行，請檢查你的電腦上是否安裝了 `Microsoft Office`。若沒有，請安裝後重試
+
+> 遇到各種奇葩逗比問題請重啟應用程式，如果不行請反饋給Dev解決！
+
+## 如何聯繫我
+1. QQ群聊：825759306
+2. 客服QQ：1612446451
+3. Telegram頻道：@InkCanvasForClass
 
 ## 特別鳴謝
 

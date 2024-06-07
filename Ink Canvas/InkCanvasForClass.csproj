@@ -179,6 +179,8 @@
     <None Include="Resources\TimerDownNotice.wav" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Cursors\Cursor.cur" />
+    <Resource Include="Resources\Cursors\Pen.cur" />
     <Resource Include="Resources\Icons-png\check-box-background.png" />
     <Resource Include="Resources\Icons-png\eraser-line.png" />
     <Resource Include="Resources\Icons-png\eraser-outline.png" />
@@ -452,6 +454,8 @@
     <Compile Remove="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Resources\Cursors\Cursor.cur" />
+    <None Remove="Resources\Cursors\Pen.cur" />
     <None Remove="Resources\Icons-png\HiteAnnotation.png" />
     <None Remove="Resources\Icons-png\HiteLightBoard.png" />
     <None Remove="Resources\Icons-png\icc-transparent-dark.png" />

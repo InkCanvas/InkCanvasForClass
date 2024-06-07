@@ -97,7 +97,7 @@
                         Executed="KeyDrawLine" />
     </Window.CommandBindings>
 
-    <Grid x:Name="Main_Grid">
+    <Grid x:Name="Main_Grid" >
 
         <!--// 设置界面 //-->
         <Grid Panel.ZIndex="999" x:Name="BorderSettingsMask" MouseDown="SettingsOverlayClick" IsHitTestVisible="False"
@@ -1235,7 +1235,7 @@
         </Grid>
         <Grid Name="GridTransparencyFakeBackground" Opacity="0" />
         <Label Name="Label" Visibility="Collapsed" Foreground="Gray" Content="0" />
-        <InkCanvas x:Name="inkCanvas" Cursor="Pen" ForceCursor="False"
+        <InkCanvas x:Name="inkCanvas" ForceCursor="False"
                    TouchUp="Main_Grid_TouchUp" TouchDown="Main_Grid_TouchDown"
                    TouchMove="inkCanvas_TouchMove"
                    ManipulationDelta="Main_Grid_ManipulationDelta"

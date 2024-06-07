@@ -339,7 +339,7 @@ namespace Ink_Canvas {
                 BorderFloatingBarMainControls.Visibility = Visibility.Visible;
 
                 if (Settings.PowerPointSettings.IsShowCanvasAtNewSlideShow)
-                    BorderPenColorRed_MouseUp(BorderPenColorRed, null);
+                    BtnColorRed_Click(null, null);
 
                 isEnteredSlideShowEndEvent = false;
                 PptNavigationTextBlock.Text = $"{Wn.View.CurrentShowPosition}/{Wn.Presentation.Slides.Count}";

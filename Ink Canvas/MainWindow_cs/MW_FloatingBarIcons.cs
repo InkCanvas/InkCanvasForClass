@@ -26,8 +26,11 @@ using System.Xml.Linq;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
-        #region TwoFingZoomBtn
+        #region “手勢”按鈕
 
+        /// <summary>
+        /// 用於浮動工具欄的“手勢”按鈕和白板工具欄的“手勢”按鈕的點擊事件
+        /// </summary>
         private void TwoFingerGestureBorder_MouseUp(object sender, RoutedEventArgs e) {
             if (TwoFingerGestureBorder.Visibility == Visibility.Visible) {
                 AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
@@ -39,6 +42,9 @@ namespace Ink_Canvas {
             }
         }
 
+        /// <summary>
+        /// 用於更新浮動工具欄的“手勢”按鈕和白板工具欄的“手勢”按鈕的樣式（開啟和關閉狀態）
+        /// </summary>
         private void CheckEnableTwoFingerGestureBtnColorPrompt() {
             if (ToggleSwitchEnableMultiTouchMode.IsOn) {
                 TwoFingerGestureSimpleStackPanel.Opacity = 0.5;
@@ -84,6 +90,9 @@ namespace Ink_Canvas {
             }
         }
 
+        /// <summary>
+        /// 控制是否顯示浮動工具欄的“手勢”按鈕
+        /// </summary>
         private void CheckEnableTwoFingerGestureBtnVisibility(bool isVisible) {
             if (StackPanelCanvasControls.Visibility != Visibility.Visible
                 || BorderFloatingBarMainControls.Visibility != Visibility.Visible) {
@@ -99,9 +108,9 @@ namespace Ink_Canvas {
             }
         }
 
-        #endregion TwoFingZoomBtn
+        #endregion “手勢”按鈕
 
-        #region Drag
+        #region 浮動工具欄的拖動實現
 
         private bool isDragDropInEffect = false;
         private Point pos = new Point();
@@ -153,9 +162,15 @@ namespace Ink_Canvas {
             GridForFloatingBarDraging.Visibility = Visibility.Collapsed;
         }
 
-        #endregion
+        #endregion 浮動工具欄的拖動實現
 
-        private void HideSubPanelsImmediately() {
+        #region 隱藏子面板和按鈕背景高亮
+
+        /// <summary>
+        ///     <c>HideSubPanels</c>的青春版。目前需要修改<c>BorderSettings</c>的關閉機制（改為動畫關閉）。
+        /// </summary>
+        private void HideSubPanelsImmediately()
+        {
             BorderTools.Visibility = Visibility.Collapsed;
             BorderTools.Visibility = Visibility.Collapsed;
             BoardBorderTools.Visibility = Visibility.Collapsed;
@@ -165,10 +180,66 @@ namespace Ink_Canvas {
             BorderSettings.Visibility = Visibility.Collapsed;
         }
 
-        #region 按鈕高亮背景
-
-        private async void HideSubPanels(string mode = null, bool autoAlignCenter = false,
-            bool isAutoUpdateToolbarSelection = true) {
+        /// <summary>
+        ///     <para>
+        ///         易嚴定真，這個多功能函數包括了以下的內容：
+        ///     </para>
+        ///     <list type="number">
+        ///         <item>
+        ///             隱藏浮動工具欄和白板模式下的“更多功能”面板
+        ///         </item>
+        ///         <item>
+        ///             隱藏白板模式下和浮動工具欄的畫筆調色盤
+        ///         </item>
+        ///         <item>
+        ///             隱藏白板模式下的“清屏”按鈕（已作廢）
+        ///         </item>
+        ///         <item>
+        ///             負責給Settings設置面板做隱藏動畫
+        ///         </item>
+        ///         <item>
+        ///             隱藏白板模式下和浮動工具欄的“手勢”面板
+        ///         </item>
+        ///         <item>
+        ///             當<c>ToggleSwitchDrawShapeBorderAutoHide</c>開啟時，會自動隱藏白板模式下和浮動工具欄的“形狀”面板
+        ///         </item>
+        ///         <item>
+        ///             按需高亮指定的浮動工具欄和白板工具欄中的按鈕，通過param：<paramref name="mode"/> 來指定
+        ///         </item>
+        ///         <item>
+        ///             將浮動工具欄自動居中，通過param：<paramref name="autoAlignCenter"/>
+        ///         </item>
+        ///     </list>
+        /// </summary>
+        /// <param name="mode">
+        ///     <para>
+        ///         按需高亮指定的浮動工具欄和白板工具欄中的按鈕，有下面幾種情況：
+        ///     </para>
+        ///     <list type="number">
+        ///         <item>
+        ///             當<c><paramref name="mode"/>==null</c>時，不會執行任何有關操作
+        ///         </item>
+        ///         <item>
+        ///             當<c><paramref name="mode"/>!="clear"</c>時，會先取消高亮所有工具欄按鈕，然後根據下面的情況進行高亮處理
+        ///         </item>
+        ///         <item>
+        ///             當<c><paramref name="mode"/>=="color" || <paramref name="mode"/>=="pen"</c>時，會高亮浮動工具欄和白板工具欄中的“批註”，“筆”按鈕
+        ///         </item>
+        ///         <item>
+        ///             當<c><paramref name="mode"/>=="eraser"</c>時，會高亮白板工具欄中的“橡皮”和浮動工具欄中的“面積擦”按鈕
+        ///         </item>
+        ///         <item>
+        ///             當<c><paramref name="mode"/>=="eraserByStrokes"</c>時，會高亮白板工具欄中的“橡皮”和浮動工具欄中的“墨跡擦”按鈕
+        ///         </item>
+        ///         <item>
+        ///             當<c><paramref name="mode"/>=="select"</c>時，會高亮浮動工具欄和白板工具欄中的“選擇”，“套索選”按鈕
+        ///         </item>
+        ///     </list>
+        /// </param>
+        /// <param name="autoAlignCenter">
+        ///     是否自動居中浮動工具欄
+        /// </param>
+        private async void HideSubPanels(string mode = null, bool autoAlignCenter = false) {
             AnimationsHelper.HideWithSlideAndFade(BorderTools);
             AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
             AnimationsHelper.HideWithSlideAndFade(PenPalette);
@@ -212,7 +283,7 @@ namespace Ink_Canvas {
                 AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
             }
 
-            if (mode != null && isAutoUpdateToolbarSelection == true) {
+            if (mode != null) {
                 if (mode != "clear") {
                     CursorIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
                     CursorIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.LinedCursorIcon);
@@ -310,23 +381,6 @@ namespace Ink_Canvas {
 
         #endregion
 
-        private void BorderPenColorBlack_MouseUp(object sender, MouseButtonEventArgs e) {
-            BtnColorBlack_Click(null, null);
-            HideSubPanels();
-        }
-
-        private void BorderPenColorRed_MouseUp(object sender, MouseButtonEventArgs e) {
-            BtnColorRed_Click(null, null);
-            HideSubPanels();
-        }
-
-        private void BorderPenColorWhite_MouseUp(object sender, MouseButtonEventArgs e) {
-            inkCanvas.DefaultDrawingAttributes.Color = StringToColor("#FFFEFEFE");
-            inkColor = 5;
-            ColorSwitchCheck();
-            HideSubPanels();
-        }
-
         private void SymbolIconUndo_MouseUp(object sender, MouseButtonEventArgs e) {
             //if (lastBorderMouseDownObject != sender) return;
 
@@ -394,8 +448,11 @@ namespace Ink_Canvas {
             SaveScreenShotToDesktop();
         }
 
-        private bool Not_Enter_Blackboard_fir_Mouse_Click = true;
+        //private bool Not_Enter_Blackboard_fir_Mouse_Click = true;
         private bool isDisplayingOrHidingBlackboard = false;
+
+
+
 
         private void ImageBlackboard_MouseUp(object sender, MouseButtonEventArgs e) {
             LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
@@ -1308,7 +1365,7 @@ namespace Ink_Canvas {
                                 Settings.Automation.MinimumAutomationStrokeNumber)
                                 SaveScreenShot(true);
 
-                            BtnClear_Click(null, null);
+                            //BtnClear_Click(null, null);
                         }
 
                     inkCanvas.IsHitTestVisible = true;
@@ -1322,7 +1379,7 @@ namespace Ink_Canvas {
                                 Settings.Automation.MinimumAutomationStrokeNumber)
                                 SaveScreenShot(true);
 
-                            BtnClear_Click(null, null);
+                            //BtnClear_Click(null, null);
                         }
 
 
