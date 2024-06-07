@@ -70,8 +70,7 @@ ICC 可以支持 WPS，但目前無法同時支持 MSOffice 和 WPS。若要啟�
 
 ## 如何聯繫我
 1. QQ群聊：825759306
-2. 客服QQ：1612446451
-3. Telegram頻道：@InkCanvasForClass
+2. Telegram頻道：@InkCanvasForClass
 
 ## 特別鳴謝
 
