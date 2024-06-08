@@ -76,7 +76,6 @@ namespace Ink_Canvas {
 
             LabelOutput2.Visibility = Visibility.Collapsed;
             LabelOutput3.Visibility = Visibility.Collapsed;
-            BorderBtnRandCover.Visibility = Visibility.Visible;
 
             new Thread(new ThreadStart(() => {
                 for (int i = 0; i < RandWaitingTimes; i++) {
@@ -148,7 +147,6 @@ namespace Ink_Canvas {
                         }
                         LabelOutput3.Content = outputString.ToString().Trim();
                     }
-                    BorderBtnRandCover.Visibility = Visibility.Collapsed;
 
                     if (isAutoClose) {
                         new Thread(new ThreadStart(() => {

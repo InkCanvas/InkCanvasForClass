@@ -33,10 +33,30 @@ namespace Ink_Canvas {
         /// </summary>
         private void TwoFingerGestureBorder_MouseUp(object sender, RoutedEventArgs e) {
             if (TwoFingerGestureBorder.Visibility == Visibility.Visible) {
+                AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
+                AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                AnimationsHelper.HideWithSlideAndFade(PenPalette);
+                AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
+                AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
+                AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
+                AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
+                AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
                 AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
                 AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
             }
             else {
+                AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
+                AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                AnimationsHelper.HideWithSlideAndFade(PenPalette);
+                AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
+                AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
+                AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
+                AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
+                AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
                 AnimationsHelper.ShowWithSlideFromBottomAndFade(TwoFingerGestureBorder);
                 AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardTwoFingerGestureBorder);
             }
@@ -181,11 +201,11 @@ namespace Ink_Canvas {
         private void HideSubPanelsImmediately()
         {
             BorderTools.Visibility = Visibility.Collapsed;
-            BorderTools.Visibility = Visibility.Collapsed;
             BoardBorderTools.Visibility = Visibility.Collapsed;
             PenPalette.Visibility = Visibility.Collapsed;
             BoardPenPalette.Visibility = Visibility.Collapsed;
-            BoardDeleteIcon.Visibility = Visibility.Collapsed;
+            BoardEraserSizePanel.Visibility = Visibility.Collapsed;
+            EraserSizePanel.Visibility = Visibility.Collapsed;
             BorderSettings.Visibility = Visibility.Collapsed;
         }
 
@@ -253,7 +273,9 @@ namespace Ink_Canvas {
             AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
             AnimationsHelper.HideWithSlideAndFade(PenPalette);
             AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
-            AnimationsHelper.HideWithSlideAndFade(BoardDeleteIcon);
+            AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
+            AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
+            AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
 
             if (BorderSettings.Visibility == Visibility.Visible) {
                 BorderSettingsMask.IsHitTestVisible = false;
@@ -805,10 +827,30 @@ namespace Ink_Canvas {
 
         private void SymbolIconTools_MouseUp(object sender, MouseButtonEventArgs e) {
             if (BorderTools.Visibility == Visibility.Visible) {
+                AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
                 AnimationsHelper.HideWithSlideAndFade(BorderTools);
                 AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                AnimationsHelper.HideWithSlideAndFade(PenPalette);
+                AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
+                AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
+                AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
+                AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
+                AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
+                AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
             }
             else {
+                AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
+                AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                AnimationsHelper.HideWithSlideAndFade(PenPalette);
+                AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
+                AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
+                AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
+                AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
+                AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
+                AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
                 AnimationsHelper.ShowWithSlideFromBottomAndFade(BorderTools);
                 AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardBorderTools);
             }
@@ -998,10 +1040,30 @@ namespace Ink_Canvas {
             else {
                 if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink) {
                     if (PenPalette.Visibility == Visibility.Visible) {
+                        AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
+                        AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
                         AnimationsHelper.HideWithSlideAndFade(PenPalette);
                         AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
+                        AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
+                        AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
+                        AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
+                        AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
+                        AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
                     }
                     else {
+                        AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
+                        AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
+                        AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
+                        AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
+                        AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
+                        AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
                         AnimationsHelper.ShowWithSlideFromBottomAndFade(PenPalette);
                         AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardPenPalette);
                     }
@@ -1066,9 +1128,31 @@ namespace Ink_Canvas {
             }
 
             if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint) {
-                HideSubPanels();
-                HideSubPanelsImmediately();
-                AnimationsHelper.ShowWithSlideFromBottomAndFade(EraserSizePanel);
+                if (EraserSizePanel.Visibility == Visibility.Collapsed) {
+                    AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(PenPalette);
+                    AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
+                    AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
+                    AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                    AnimationsHelper.ShowWithSlideFromBottomAndFade(EraserSizePanel);
+                    AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardEraserSizePanel);
+                } else {
+                    AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
+                    AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(PenPalette);
+                    AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
+                    AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
+                    AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
+                    AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
+                    AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
+                }
             }
             else {
                 HideSubPanels("eraser");

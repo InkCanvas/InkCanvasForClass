@@ -97,7 +97,7 @@
                         Executed="KeyDrawLine" />
     </Window.CommandBindings>
 
-    <Grid x:Name="Main_Grid" >
+    <Grid x:Name="Main_Grid">
 
         <!--// 设置界面 //-->
         <Grid Panel.ZIndex="999" x:Name="BorderSettingsMask" MouseDown="SettingsOverlayClick" IsHitTestVisible="False"
@@ -160,7 +160,7 @@
                                                                             </GeometryDrawing>
                                                                         </DrawingGroup>
                                                                     </DrawingGroup>
-                                                                  </DrawingImage.Drawing>
+                                                                </DrawingImage.Drawing>
                                                             </DrawingImage>
                                                         </Image.Source>
                                                     </Image>
@@ -512,7 +512,8 @@
                                         <Slider x:Name="ViewboxFloatingBarOpacityValueSlider" Minimum="0.3"
                                                 Maximum="1" Width="168" FontFamily="Microsoft YaHei UI"
                                                 FontSize="20" IsSnapToTickEnabled="True" Value="1" TickFrequency="0.05"
-                                                TickPlacement="None" AutoToolTipPlacement="None" ValueChanged="ViewboxFloatingBarOpacityValueSlider_ValueChanged"/>
+                                                TickPlacement="None" AutoToolTipPlacement="None"
+                                                ValueChanged="ViewboxFloatingBarOpacityValueSlider_ValueChanged" />
                                         <TextBlock
                                             Text="{Binding ElementName=ViewboxFloatingBarOpacityValueSlider, Path=Value}"
                                             VerticalAlignment="Center" FontSize="14" FontFamily="Consolas"
@@ -524,7 +525,8 @@
                                         <Slider x:Name="ViewboxFloatingBarOpacityInPPTValueSlider" Minimum="0.3"
                                                 Maximum="1" Width="168" FontFamily="Microsoft YaHei UI"
                                                 FontSize="20" IsSnapToTickEnabled="True" Value="1" TickFrequency="0.05"
-                                                TickPlacement="None" AutoToolTipPlacement="None" ValueChanged="ViewboxFloatingBarOpacityInPPTValueSlider_ValueChanged"/>
+                                                TickPlacement="None" AutoToolTipPlacement="None"
+                                                ValueChanged="ViewboxFloatingBarOpacityInPPTValueSlider_ValueChanged" />
                                         <TextBlock
                                             Text="{Binding ElementName=ViewboxFloatingBarOpacityInPPTValueSlider, Path=Value}"
                                             VerticalAlignment="Center" FontSize="14" FontFamily="Consolas"
@@ -548,7 +550,7 @@
                     <TextBlock Text="浮动工具栏背景色" VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0"/>
                     <ui:ToggleSwitch OnContent="" OffContent="" Name="ToggleSwitchColorfulViewboxFloatingBar" IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" Toggled="ToggleSwitchIsColorfulViewboxFloatingBar_Toggled" />
                 </ui:SimpleStackPanel>-->
-                                    
+
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="白板 UI 80% 缩放" VerticalAlignment="Center"
                                                    FontSize="14" Margin="0,0,16,0" />
@@ -566,18 +568,20 @@
                                                          Toggled="ToggleSwitchEnableTimeDisplayInWhiteboardMode_Toggled" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <TextBlock Foreground="#fafafa" Text="在白板中显示信仰の源1（好喝的/毒的鸡汤）" VerticalAlignment="Center"
+                                        <TextBlock Foreground="#fafafa" Text="在白板中显示信仰の源1（好喝的/毒的鸡汤）"
+                                                   VerticalAlignment="Center"
                                                    FontSize="14" Margin="0,0,16,0" />
                                         <ui:ToggleSwitch OnContent="" OffContent=""
                                                          Name="ToggleSwitchEnableChickenSoupInWhiteboardMode"
                                                          IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchEnableChickenSoupInWhiteboardMode_Toggled"/>
+                                                         Toggled="ToggleSwitchEnableChickenSoupInWhiteboardMode_Toggled" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="信仰の源出自Where？" VerticalAlignment="Center"
                                                    FontSize="14" Margin="0,0,16,0" />
                                         <ComboBox Name="ComboBoxChickenSoupSource" FontFamily="Microsoft YaHei UI"
-                                                  SelectedIndex="1" SelectionChanged="ComboBoxChickenSoupSource_SelectionChanged">
+                                                  SelectedIndex="1"
+                                                  SelectionChanged="ComboBoxChickenSoupSource_SelectionChanged">
                                             <ComboBoxItem Content="osu!玩家语录" FontFamily="Microsoft YaHei UI" />
                                             <ComboBoxItem Content="励志立志的名言警句" FontFamily="Microsoft YaHei UI" />
                                             <ComboBoxItem Content="高考祝福语" FontFamily="Microsoft YaHei UI" />
@@ -1786,19 +1790,20 @@
                                 </Border>
                                 <Border>
                                     <Grid Margin="0,5,0,5" Width="0">
-                                        <Grid Name="BoardPenPaletteGrid" Margin="-160,-200,-33,50" RenderTransformOrigin="0,1">
+                                        <Grid Name="BoardPenPaletteGrid" Margin="-160,-200,-33,50"
+                                              RenderTransformOrigin="0,1">
                                             <Grid.RenderTransform>
                                                 <TransformGroup>
-                                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                                                    <SkewTransform/>
-                                                    <RotateTransform/>
-                                                    <TranslateTransform/>
+                                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                                    <SkewTransform />
+                                                    <RotateTransform />
+                                                    <TranslateTransform />
                                                 </TransformGroup>
                                             </Grid.RenderTransform>
                                             <Border x:Name="BoardPenPalette" Visibility="Visible" Background="#fafafa"
-                                                Opacity="1" BorderBrush="#2563eb"
-                                                BorderThickness="1" CornerRadius="8">
-                                            <ui:SimpleStackPanel>
+                                                    Opacity="1" BorderBrush="#2563eb"
+                                                    BorderThickness="1" CornerRadius="8">
+                                                <ui:SimpleStackPanel>
                                                     <Border BorderBrush="#1e3a8a" Height="32" BorderThickness="0,0,0,1"
                                                             CornerRadius="8,8,0,0" Background="#2563eb"
                                                             Margin="-1,-1,-1,0"
@@ -2581,7 +2586,7 @@
                                                 </ui:SimpleStackPanel>
                                             </Border>
                                         </Grid>
-                                        
+
                                     </Grid>
                                 </Border>
                                 <Border x:Name="BoardEraser" Width="60" Height="50" MouseDown="Border_MouseDown"
@@ -2607,21 +2612,114 @@
                                                    HorizontalAlignment="Center" FontSize="12" />
                                     </Grid>
                                 </Border>
-                                <Border Width="0" MouseDown="Border_MouseDown" MouseUp="BoardSymbolIconDelete_MouseUp">
-                                    <Border x:Name="BoardDeleteIcon" Margin="-61,-55,-61,55" Background="LightGray"
-                                            Opacity="0.85" BorderBrush="Black" BorderThickness="1,1,1,0"
-                                            CornerRadius="5,5,0,0">
-                                        <Grid>
-                                            <ui:SimpleStackPanel Margin="6" Orientation="Horizontal"
-                                                                 HorizontalAlignment="Center">
-                                                <Image Source="/Resources/Icons-Fluent/ic_fluent_delete_24_regular.png"
-                                                       RenderOptions.BitmapScalingMode="HighQuality" Height="28"
-                                                       Width="28" />
-                                                <TextBlock Margin="5,0,0,0" Text="点击清屏" Foreground="Black"
-                                                           VerticalAlignment="Center" FontSize="14" />
+                                <Border>
+                                    <Grid RenderTransformOrigin="0,1" Margin="-133,-134,13,55" >
+                                        <Grid.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                                <SkewTransform/>
+                                                <RotateTransform/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </Grid.RenderTransform>
+                                        <Border Visibility="Visible" ClipToBounds="True" Name="BoardEraserSizePanel" CornerRadius="5" Background="#fafafa"
+                                                Opacity="1"
+                                                BorderBrush="#2563eb" BorderThickness="1">
+                                            <ui:SimpleStackPanel Margin="0">
+                                                <Border BorderBrush="#1e3a8a" BorderThickness="0,0,0,1"
+                                                        CornerRadius="6,6,0,0"
+                                                        Background="#2563eb" Margin="-1,-1,-1,1">
+                                                    <Canvas Height="24" ClipToBounds="True">
+                                                        <TextBlock Text="橡皮选项" Canvas.Left="8" Foreground="White"
+                                                                   Padding="0,5"
+                                                                   FontSize="11" FontWeight="Bold"
+                                                                   TextAlignment="Center" />
+                                                    </Canvas>
+                                                </Border>
+                                                <ui:SimpleStackPanel Orientation="Horizontal" Margin="0,8,0,0"
+                                                                     Spacing="-2"
+                                                                     VerticalAlignment="Center"
+                                                                     HorizontalAlignment="Center">
+                                                    <Label Margin="0,0,0,0" Content="大小" FontWeight="Bold"
+                                                           Foreground="{DynamicResource FloatBarForeground}"
+                                                           FontSize="10"
+                                                           VerticalAlignment="Center" />
+                                                    <Viewbox Margin="8,0,0,0" Height="20" Width="52">
+                                                        <ComboBox Name="BoardComboBoxEraserSizeFloatingBar"
+                                                                  FontFamily="Microsoft YaHei UI" SelectedIndex="2"
+                                                                  SelectionChanged="ComboBoxEraserSizeFloatingBar_SelectionChanged">
+                                                            <ComboBoxItem Content="很小" FontFamily="Microsoft YaHei UI" />
+                                                            <ComboBoxItem Content="较小" FontFamily="Microsoft YaHei UI" />
+                                                            <ComboBoxItem Content="中等" FontFamily="Microsoft YaHei UI" />
+                                                            <ComboBoxItem Content="较大" FontFamily="Microsoft YaHei UI" />
+                                                            <ComboBoxItem Content="很大" FontFamily="Microsoft YaHei UI" />
+                                                        </ComboBox>
+                                                    </Viewbox>
+                                                </ui:SimpleStackPanel>
+                                                <TextBlock HorizontalAlignment="Center" Margin="0,12,0,6" Text="橡皮形状"
+                                                           FontWeight="Bold"
+                                                           Foreground="{DynamicResource FloatBarForeground}"
+                                                           FontSize="10" VerticalAlignment="Center" />
+                                                <ui:SimpleStackPanel Orientation="Horizontal"
+                                                                     HorizontalAlignment="Center"
+                                                                     Margin="0,0,0,0" Spacing="4">
+                                                    <Border x:Name="BoardCircleEraserTabButton"
+                                                            MouseDown="SwitchToCircleEraser"
+                                                            Background="#553b82f6" Height="20" Width="40"
+                                                            CornerRadius="3">
+                                                        <Canvas>
+                                                            <ui:SimpleStackPanel
+                                                                x:Name="BoardCircleEraserTabButtonIndicator"
+                                                                Visibility="Visible" Orientation="Horizontal"
+                                                                Canvas.Left="11" Canvas.Right="11"
+                                                                Canvas.Bottom="0">
+                                                                <Border Width="18" Height="2" Background="#2563eb"
+                                                                        CornerRadius="1" />
+                                                            </ui:SimpleStackPanel>
+                                                            <ui:SimpleStackPanel Orientation="Vertical" Height="20"
+                                                                Width="40">
+                                                                <ui:SimpleStackPanel VerticalAlignment="Center"
+                                                                    Orientation="Horizontal"
+                                                                    HorizontalAlignment="Center" Margin="0,3">
+                                                                    <TextBlock x:Name="BoardCircleEraserTabButtonText"
+                                                                               Foreground="#172554" FontWeight="Medium"
+                                                                               FontSize="9" TextAlignment="Center"
+                                                                               Text="圆形擦"
+                                                                               Margin="2,1,0,0" />
+                                                                </ui:SimpleStackPanel>
+                                                            </ui:SimpleStackPanel>
+                                                        </Canvas>
+                                                    </Border>
+                                                    <Border x:Name="BoardRectangleEraserTabButton"
+                                                            MouseDown="SwitchToRectangleEraser"
+                                                            Background="Transparent"
+                                                            Height="20" Width="40" CornerRadius="3">
+                                                        <Canvas>
+                                                            <ui:SimpleStackPanel Visibility="Collapsed"
+                                                                x:Name="BoardRectangleEraserTabButtonIndicator"
+                                                                Orientation="Horizontal" Canvas.Left="11"
+                                                                Canvas.Right="11" Canvas.Bottom="0">
+                                                                <Border Width="18" Height="2" Background="#2563eb"
+                                                                        CornerRadius="1" />
+                                                            </ui:SimpleStackPanel>
+                                                            <ui:SimpleStackPanel Orientation="Vertical" Height="20"
+                                                                Width="40">
+                                                                <ui:SimpleStackPanel VerticalAlignment="Center"
+                                                                    Orientation="Horizontal"
+                                                                    HorizontalAlignment="Center" Margin="0,3">
+                                                                    <TextBlock x:Name="BoardRectangleEraserTabButtonText"
+                                                                               Foreground="#172554" FontWeight="Medium"
+                                                                               FontSize="9" TextAlignment="Center"
+                                                                               Text="黑板擦"
+                                                                               Margin="2,1,0,0" />
+                                                                </ui:SimpleStackPanel>
+                                                            </ui:SimpleStackPanel>
+                                                        </Canvas>
+                                                    </Border>
+                                                </ui:SimpleStackPanel>
                                             </ui:SimpleStackPanel>
-                                        </Grid>
-                                    </Border>
+                                        </Border>
+                                    </Grid>
                                 </Border>
                                 <Border x:Name="BoardEraserByStrokes" Width="60" Height="55"
                                         MouseDown="Border_MouseDown"

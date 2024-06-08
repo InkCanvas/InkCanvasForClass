@@ -26,10 +26,10 @@ namespace Ink_Canvas {
         }
 
         private void BoardEraserIcon_Click(object sender, RoutedEventArgs e) {
-            if (BoardEraser.Background.ToString() == "#FF679CF4") {
-                AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardDeleteIcon);
-            }
-            else {
+            //if (BoardEraser.Background.ToString() == "#FF679CF4") {
+            //    AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardDeleteIcon);
+            //}
+            //else {
                 forceEraser = true;
                 forcePointEraser = true;
                 double k = 1;
@@ -56,14 +56,14 @@ namespace Ink_Canvas {
                 CancelSingleFingerDragMode();
 
                 HideSubPanels("eraser");
-            }
+            //}
         }
 
         private void BoardEraserIconByStrokes_Click(object sender, RoutedEventArgs e) {
-            if (BoardEraserByStrokes.Background.ToString() == "#FF679CF4") {
-                AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardDeleteIcon);
-            }
-            else {
+            //if (BoardEraserByStrokes.Background.ToString() == "#FF679CF4") {
+            //    AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardDeleteIcon);
+            //}
+            //else {
                 forceEraser = true;
                 forcePointEraser = false;
 
@@ -75,7 +75,7 @@ namespace Ink_Canvas {
                 CancelSingleFingerDragMode();
 
                 HideSubPanels("eraserByStrokes");
-            }
+            //}
         }
 
         private void BoardSymbolIconDelete_MouseUp(object sender, MouseButtonEventArgs e) {
