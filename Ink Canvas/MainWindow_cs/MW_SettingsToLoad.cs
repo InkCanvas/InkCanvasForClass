@@ -200,6 +200,8 @@ namespace Ink_Canvas
                     ToggleSwitchEnableQuickPanel.IsOn = false;
                 }
 
+                ViewboxFloatingBar.Opacity = Settings.Appearance.ViewboxFloatingBarOpacityValue;
+
                 if (Settings.Appearance.EnableViewboxBlackBoardScaleTransform) // 画板 UI 缩放 80%
                 {
                     ViewboxBlackboardLeftSideScaleTransform.ScaleX = 0.8;

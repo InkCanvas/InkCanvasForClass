@@ -172,6 +172,10 @@ namespace Ink_Canvas {
         private bool forcePointEraser = true;
 
         private void Main_Grid_TouchDown(object sender, TouchEventArgs e) {
+
+            inkCanvas.CaptureTouch(e.TouchDevice);
+            ViewboxFloatingBar.IsHitTestVisible = false;
+
             if (!isHidingSubPanelsWhenInking) {
                 isHidingSubPanelsWhenInking = true;
                 HideSubPanels(); // 书写时自动隐藏二级菜单
@@ -247,6 +251,10 @@ namespace Ink_Canvas {
         private bool isSingleFingerDragMode = false;
 
         private void inkCanvas_PreviewTouchDown(object sender, TouchEventArgs e) {
+
+            inkCanvas.CaptureTouch(e.TouchDevice);
+            ViewboxFloatingBar.IsHitTestVisible = false;
+
             dec.Add(e.TouchDevice.Id);
             //设备1个的时候，记录中心点
             if (dec.Count == 1) {
@@ -256,7 +264,6 @@ namespace Ink_Canvas {
                 //记录第一根手指点击时的 StrokeCollection
                 lastTouchDownStrokeCollection = inkCanvas.Strokes.Clone();
             }
-
             //设备两个及两个以上，将画笔功能关闭
             if (dec.Count > 1 || isSingleFingerDragMode || !Settings.Gesture.IsEnableTwoFingerGesture) {
                 if (isInMultiTouchMode || !Settings.Gesture.IsEnableTwoFingerGesture) return;
@@ -268,6 +275,10 @@ namespace Ink_Canvas {
         }
 
         private void inkCanvas_PreviewTouchUp(object sender, TouchEventArgs e) {
+
+            inkCanvas.ReleaseAllTouchCaptures();
+            ViewboxFloatingBar.IsHitTestVisible = true;
+
             //手势完成后切回之前的状态
             if (dec.Count > 1)
                 if (inkCanvas.EditingMode == InkCanvasEditingMode.None)

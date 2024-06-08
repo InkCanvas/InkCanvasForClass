@@ -145,6 +145,21 @@ namespace Ink_Canvas {
                 ViewboxFloatingBarMarginAnimation(100, true);
         }
 
+        private void ViewboxFloatingBarOpacityValueSlider_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Appearance.ViewboxFloatingBarOpacityValue = ViewboxFloatingBarOpacityValueSlider.Value;
+            SaveSettingsToFile();
+            ViewboxFloatingBar.Opacity = Settings.Appearance.ViewboxFloatingBarOpacityValue;
+        }
+
+        private void ViewboxFloatingBarOpacityInPPTValueSlider_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Appearance.ViewboxFloatingBarOpacityInPPTValue = ViewboxFloatingBarOpacityInPPTValueSlider.Value;
+            SaveSettingsToFile();
+        }
+
         private void ComboBoxUnFoldBtnImg_SelectionChanged(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Appearance.UnFoldButtonImageType = ComboBoxUnFoldBtnImg.SelectedIndex;
@@ -817,6 +832,8 @@ namespace Ink_Canvas {
             Settings.Appearance.EnableChickenSoupInWhiteboardMode = true;
             Settings.Appearance.EnableTimeDisplayInWhiteboardMode = true;
             Settings.Appearance.ChickenSoupSource = 1;
+            Settings.Appearance.ViewboxFloatingBarOpacityValue = 1.0;
+            Settings.Appearance.ViewboxFloatingBarOpacityInPPTValue = 1.0;
 
             Settings.Automation.IsAutoFoldInEasiNote = true;
             Settings.Automation.IsAutoFoldInEasiNoteIgnoreDesktopAnno = true;

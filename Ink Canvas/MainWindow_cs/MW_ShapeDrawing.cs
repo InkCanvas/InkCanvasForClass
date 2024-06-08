@@ -441,6 +441,7 @@ namespace Ink_Canvas {
 
         private void MouseTouchMove(Point endP) {
             if (Settings.Canvas.FitToCurve == true) drawingAttributes.FitToCurve = false;
+            ViewboxFloatingBar.IsHitTestVisible = false;
             List<Point> pointList;
             StylusPointCollection point;
             Stroke stroke;
@@ -1245,6 +1246,10 @@ namespace Ink_Canvas {
         private Point CuboidFrontRectEndP = new Point();
 
         private void Main_Grid_TouchUp(object sender, TouchEventArgs e) {
+
+            inkCanvas.ReleaseAllTouchCaptures();
+            ViewboxFloatingBar.IsHitTestVisible = true;
+
             inkCanvas_MouseUp(sender, null);
             if (dec.Count == 0) isWaitUntilNextTouchDown = false;
         }
@@ -1406,6 +1411,9 @@ namespace Ink_Canvas {
         private bool isMouseDown = false;
 
         private void inkCanvas_MouseDown(object sender, MouseButtonEventArgs e) {
+            inkCanvas.CaptureMouse();
+            ViewboxFloatingBar.IsHitTestVisible = false;
+
             isMouseDown = true;
             if (NeedUpdateIniP()) iniP = e.GetPosition(inkCanvas);
         }
@@ -1415,6 +1423,9 @@ namespace Ink_Canvas {
         }
 
         private void inkCanvas_MouseUp(object sender, MouseButtonEventArgs e) {
+            inkCanvas.ReleaseMouseCapture();
+            ViewboxFloatingBar.IsHitTestVisible = true;
+
             if (drawingShapeMode == 5) {
                 if (lastTempStroke != null) {
                     var circle = new Circle(new Point(), 0, lastTempStroke);
@@ -1542,6 +1553,9 @@ namespace Ink_Canvas {
             lastTempStroke = null;
             lastTempStrokeCollection = null;
             lastTempManiputlaionMatrix = null;
+
+            ViewboxFloatingBar.IsHitTestVisible = true;
+
             if (Settings.Canvas.FitToCurve == true) drawingAttributes.FitToCurve = true;
         }
 

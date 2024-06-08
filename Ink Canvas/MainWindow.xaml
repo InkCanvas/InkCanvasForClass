@@ -160,7 +160,7 @@
                                                                             </GeometryDrawing>
                                                                         </DrawingGroup>
                                                                     </DrawingGroup>
-                                                                </DrawingImage.Drawing>
+                                                                  </DrawingImage.Drawing>
                                                             </DrawingImage>
                                                         </Image.Source>
                                                     </Image>
@@ -512,12 +512,26 @@
                                         <Slider x:Name="ViewboxFloatingBarOpacityValueSlider" Minimum="0.3"
                                                 Maximum="1" Width="168" FontFamily="Microsoft YaHei UI"
                                                 FontSize="20" IsSnapToTickEnabled="True" Value="1" TickFrequency="0.05"
-                                                TickPlacement="None" AutoToolTipPlacement="None"/>
+                                                TickPlacement="None" AutoToolTipPlacement="None" ValueChanged="ViewboxFloatingBarOpacityValueSlider_ValueChanged"/>
                                         <TextBlock
                                             Text="{Binding ElementName=ViewboxFloatingBarOpacityValueSlider, Path=Value}"
                                             VerticalAlignment="Center" FontSize="14" FontFamily="Consolas"
                                             Margin="12,0,16,0" />
                                     </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="浮栏在PPT下透明度" VerticalAlignment="Center"
+                                                   FontSize="14" Margin="0,0,16,0" />
+                                        <Slider x:Name="ViewboxFloatingBarOpacityInPPTValueSlider" Minimum="0.3"
+                                                Maximum="1" Width="168" FontFamily="Microsoft YaHei UI"
+                                                FontSize="20" IsSnapToTickEnabled="True" Value="1" TickFrequency="0.05"
+                                                TickPlacement="None" AutoToolTipPlacement="None" ValueChanged="ViewboxFloatingBarOpacityInPPTValueSlider_ValueChanged"/>
+                                        <TextBlock
+                                            Text="{Binding ElementName=ViewboxFloatingBarOpacityInPPTValueSlider, Path=Value}"
+                                            VerticalAlignment="Center" FontSize="14" FontFamily="Consolas"
+                                            Margin="12,0,16,0" />
+                                    </ui:SimpleStackPanel>
+                                    <TextBlock Text="# 重新进入PPT放映后生效"
+                                               TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0"
                                           Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4" />
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -552,7 +566,7 @@
                                                          Toggled="ToggleSwitchEnableTimeDisplayInWhiteboardMode_Toggled" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <TextBlock Foreground="#fafafa" Text="在白板中显示信仰の源（好喝的/毒的鸡汤）" VerticalAlignment="Center"
+                                        <TextBlock Foreground="#fafafa" Text="在白板中显示信仰の源1（好喝的/毒的鸡汤）" VerticalAlignment="Center"
                                                    FontSize="14" Margin="0,0,16,0" />
                                         <ui:ToggleSwitch OnContent="" OffContent=""
                                                          Name="ToggleSwitchEnableChickenSoupInWhiteboardMode"
@@ -1288,16 +1302,6 @@
                    ManipulationStarting="inkCanvas_ManipulationStarting"
                    SelectionChanged="inkCanvas_SelectionChanged"
                    StrokeCollected="inkCanvas_StrokeCollected" ClipToBounds="False" Background="Transparent" />
-        <InkCanvas x:Name="FakeInkCanvas" Background="Transparent" IsHitTestVisible="False" Visibility="Hidden"
-                   ClipToBounds="False" Strokes="{Binding ElementName=inkCanvas, Path=Strokes}">
-            <InkCanvas.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform CenterX="0" CenterY="0" ScaleX="1" ScaleY="1" x:Name="FakeICScaleTransform" />
-                    <RotateTransform Angle="0" CenterX="0" CenterY="0" x:Name="FakeICRotateTransform" />
-                    <TranslateTransform X="0" Y="0" x:Name="FakeICTranslateTransform" />
-                </TransformGroup>
-            </InkCanvas.RenderTransform>
-        </InkCanvas>
 
         <Canvas IsHitTestVisible="False">
             <ui:SimpleStackPanel Canvas.Left="25" Canvas.Top="15" Orientation="Vertical">
@@ -4528,7 +4532,6 @@
                                                Foreground="Black" FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                                 </ui:SimpleStackPanel>
                                 <ui:SimpleStackPanel
-
                                     MouseUp="SymbolIconRedo_MouseUp"
                                     Background="Transparent" Orientation="Vertical"
                                     HorizontalAlignment="Center"

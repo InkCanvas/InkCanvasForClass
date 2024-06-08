@@ -319,6 +319,9 @@ namespace Ink_Canvas {
                     BoardSelect.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
                     BoardEraser.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
                     BoardPen.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
+
+                    FloatingbarSelectionBG.Visibility = Visibility.Hidden;
+                    System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 0);
                 }
 
                 switch (mode) {
@@ -328,8 +331,11 @@ namespace Ink_Canvas {
                         PenIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.SolidPenIcon);
                         BoardPen.Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
                         BoardPen.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
-                            BoardPenGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
+                        BoardPenGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
                         BoardPenLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
+
+                        FloatingbarSelectionBG.Visibility = Visibility.Visible;
+                        System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 28);
                             break;
                     }
                     case "eraser": {
@@ -340,6 +346,9 @@ namespace Ink_Canvas {
                         BoardEraser.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
                         BoardEraserGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
                         BoardEraserLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
+
+                        FloatingbarSelectionBG.Visibility = Visibility.Visible;
+                        System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 28 * 3);
                             break;
                     }
                     case "eraserByStrokes": {
@@ -350,6 +359,9 @@ namespace Ink_Canvas {
                         BoardEraser.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
                         BoardEraserGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
                         BoardEraserLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
+
+                        FloatingbarSelectionBG.Visibility = Visibility.Visible;
+                        System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 28 * 4);
                             break;
                     }
                     case "select": {
@@ -360,6 +372,9 @@ namespace Ink_Canvas {
                         BoardSelect.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
                         BoardSelectGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
                         BoardSelectLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
+
+                        FloatingbarSelectionBG.Visibility = Visibility.Visible;
+                        System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 28 * 5);
                             break;
                     }
                 }
@@ -534,7 +549,8 @@ namespace Ink_Canvas {
                         Thread.Sleep(300);
                         Application.Current.Dispatcher.Invoke(() => { ViewboxFloatingBarMarginAnimation(60); });
                     })).Start();
-                if (Pen_Icon.Background == null) PenIcon_Click(null, null);
+
+                if (System.Windows.Controls.Canvas.GetLeft(FloatingbarSelectionBG)!=28) PenIcon_Click(null, null);
 
                 if (Settings.Gesture.AutoSwitchTwoFingerGesture) // 自动启用多指书写
                     ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
@@ -869,6 +885,7 @@ namespace Ink_Canvas {
         private async void CursorIcon_Click(object sender, RoutedEventArgs e) {
             // 隱藏高亮
             FloatingbarSelectionBG.Visibility = Visibility.Hidden;
+            System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 0);
 
             // 切换前自动截图保存墨迹
             if (inkCanvas.Strokes.Count > 0 &&
