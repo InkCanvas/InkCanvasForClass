@@ -1481,60 +1481,91 @@
             <!-- 左下角 -->
             <Viewbox x:Name="ViewboxBlackboardLeftSide" Margin="3,0,0,0" Height="55" HorizontalAlignment="Left"
                      VerticalAlignment="Bottom">
-                <Viewbox.LayoutTransform>
-                    <ScaleTransform x:Name="ViewboxBlackboardLeftSideScaleTransform" ScaleX="1" ScaleY="1" />
-                </Viewbox.LayoutTransform>
-                <Grid x:Name="BlackboardLeftSide" Visibility="Visible" Opacity="0.75" Margin="3,0,0,0" Height="55"
-                      HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                    <ui:SimpleStackPanel Orientation="Horizontal">
-                        <Border Width="60" Height="55" MouseDown="Border_MouseDown"
-                                MouseUp="BtnWhiteBoardSwitchPrevious_Click" CornerRadius="5,0,0,5"
-                                Background="LightGray" Opacity="0.85">
-                            <Grid Margin="6">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="6*" />
-                                    <RowDefinition Height="37*" />
-                                </Grid.RowDefinitions>
-                                <Image Source="/Resources/Icons-Fluent/ic_fluent_arrow_circle_left_24_regular.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="26"
-                                       Height="26" Margin="11,0,11,0" Grid.RowSpan="2" />
-
-                                <TextBlock Text="上一页" Foreground="Black" VerticalAlignment="Top"
-                                           HorizontalAlignment="Center" FontSize="12" Margin="0,22,0,0" Grid.Row="1" />
-                            </Grid>
+                <Grid Name="BlackboardLeftSide" Visibility="Visible" Margin="0,0,0,3" Height="50"
+                      HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5">
+                        <Border CornerRadius="5,5,5,5" Background="#f4f4f5" Margin="0,0,0,0">
+                            <ui:SimpleStackPanel Orientation="Horizontal">
+                                <Border Width="60" Height="50"
+                                        BorderThickness="1,1,0,1" BorderBrush="#a1a1aa"
+                                        MouseUp="BtnWhiteBoardSwitchPrevious_Click" CornerRadius="5,0,0,5"
+                                        Background="#f4f4f5"
+                                        Opacity="0.95">
+                                    <Grid Margin="6,6,6,4">
+                                        <Image VerticalAlignment="Top"
+                                               RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20">
+                                            <Image.Source>
+                                                <DrawingImage>
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                            <GeometryDrawing Brush="#18181b"
+                                                                             Geometry="F1 M24,24z M0,0z M7.40091,10.456L14.5033,3.35357 12.3198,1.17001 1.48978,12 12.3198,22.83 14.5033,20.6465 7.40089,13.544 22.5102,13.544 22.5102,10.456 7.40091,10.456z" />
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock Text="上一页" Foreground="#18181b" VerticalAlignment="Bottom"
+                                                   HorizontalAlignment="Center" FontSize="12" />
+                                    </Grid>
+                                </Border>
+                                <Border Width="75" Height="50"
+                                        BorderThickness="1,1,1,1" BorderBrush="#a1a1aa" Background="#f4f4f5"
+                                        Opacity="0.95">
+                                    <Grid Margin="6,6,6,4">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   Text="{Binding ElementName=TextBlockWhiteBoardIndexInfo, Path=Text}"
+                                                   Margin="0,-1,0,0" FontSize="17" FontWeight="Bold"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Text="页面" Foreground="#18181b" VerticalAlignment="Bottom"
+                                                   HorizontalAlignment="Center" FontSize="12" />
+                                    </Grid>
+                                </Border>
+                                <Border Width="60" Height="50" MouseUp="BtnWhiteBoardSwitchNext_Click"
+                                        CornerRadius="0,5,5,0"
+                                        BorderThickness="0,1,1,1" BorderBrush="#a1a1aa"
+                                        Background="#f4f4f5" Opacity="0.95">
+                                    <Grid Margin="6,6,6,4">
+                                        <Image VerticalAlignment="Top"
+                                               RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20">
+                                            <Image.Source>
+                                                <DrawingImage>
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                            <GeometryDrawing Brush="#18181b"
+                                                                             Geometry="F1 M24,24z M0,0z M16.5991,10.456L9.49667,3.35357 11.6802,1.17001 22.5102,12 11.6802,22.83 9.49667,20.6465 16.5991,13.544 1.48978,13.544 1.48978,10.456 16.5991,10.456z" />
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock Text="下一页" Foreground="Black" VerticalAlignment="Bottom"
+                                                   HorizontalAlignment="Center" FontSize="12" />
+                                    </Grid>
+                                </Border>
+                            </ui:SimpleStackPanel>
                         </Border>
-                        <Border Width="58" Height="55" Background="LightGray" Opacity="0.85">
-                            <Grid Margin="0,6">
-                                <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <TextBlock Margin="0,4,0,2"
-                                               Text="{Binding ElementName=TextBlockWhiteBoardIndexInfo, Path=Text}"
-                                               Foreground="Black" VerticalAlignment="Center"
-                                               HorizontalAlignment="Center" FontSize="15" />
-                                    <TextBlock Margin="0,3,0,0" Text="页码" Foreground="Black" VerticalAlignment="Center"
-                                               HorizontalAlignment="Center" FontSize="12" />
-                                </ui:SimpleStackPanel>
-                            </Grid>
-                        </Border>
-                        <Border Width="60" Height="55" MouseDown="Border_MouseDown"
-                                MouseUp="BtnWhiteBoardSwitchNext_Click" CornerRadius="0,5,5,0" Background="LightGray"
-                                Opacity="0.85">
-                            <Grid Margin="6">
-                                <Image x:Name="BoardLeftPannelNextPage"
-                                       Source="/Resources/Icons-Fluent/ic_fluent_add_circle_24_regular.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="26"
-                                       Height="26" />
-                                <TextBlock x:Name="BoardLeftPannelNextPageTextBlock" Text="加页" Foreground="Black"
-                                           VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="12" />
-                            </Grid>
-                        </Border>
-                        <Border Margin="5,0,0,0" Width="55" Height="55" MouseDown="Border_MouseDown"
-                                MouseUp="ImageBlackboard_MouseUp" CornerRadius="5" Background="LightGray"
-                                Opacity="0.85">
-                            <Grid Margin="6">
-                                <Image Source="/Resources/Icons-png/minimize.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="26"
-                                       Height="26" />
-                                <TextBlock Text="退出" Foreground="Black" VerticalAlignment="Bottom"
+                        <Border Width="60" Height="50"
+                                BorderThickness="1" BorderBrush="#a1a1aa"
+                                MouseUp="BtnWhiteBoardAdd_Click" CornerRadius="5" Background="#f4f4f5"
+                                Opacity="0.95">
+                            <Grid Margin="6,6,6,4">
+                                <Image VerticalAlignment="Top"
+                                       RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                    <GeometryDrawing Brush="#18181b"
+                                                                     Geometry="F1 M24,24z M0,0z M7.39778,13.723L10.7693,13.723 10.7693,10.3514 13.2307,10.3514 13.2307,13.723 16.6022,13.723 16.6022,16.1843 13.2307,16.1843 13.2307,19.5559 10.7693,19.5559 10.7693,16.1843 7.39778,16.1843 7.39778,13.723z" />
+                                                    <GeometryDrawing Brush="#18181b"
+                                                                     Geometry="F0 M24,24z M0,0z M3.1391,1.17001L3.1391,22.83 20.8609,22.83 20.8609,6.66948 15.3614,1.17002 3.1391,1.17001z M12.9846,3.13911L5.10819,3.1391 5.10819,20.8609 18.8918,20.8609 18.8918,9.04638 12.9846,9.04638 12.9846,3.13911z M18.484,7.07729L14.9536,3.54692 14.9536,7.07729 18.484,7.07729z" />
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock Text="新页面" Foreground="#18181b" VerticalAlignment="Bottom"
                                            HorizontalAlignment="Center" FontSize="12" />
                             </Grid>
                         </Border>
@@ -2613,16 +2644,17 @@
                                     </Grid>
                                 </Border>
                                 <Border>
-                                    <Grid RenderTransformOrigin="0,1" Margin="-133,-134,13,55" >
+                                    <Grid RenderTransformOrigin="0,1" Margin="-133,-134,13,55">
                                         <Grid.RenderTransform>
                                             <TransformGroup>
-                                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                                                <SkewTransform/>
-                                                <RotateTransform/>
-                                                <TranslateTransform/>
+                                                <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                                <SkewTransform />
+                                                <RotateTransform />
+                                                <TranslateTransform />
                                             </TransformGroup>
                                         </Grid.RenderTransform>
-                                        <Border Visibility="Visible" ClipToBounds="True" Name="BoardEraserSizePanel" CornerRadius="5" Background="#fafafa"
+                                        <Border Visibility="Visible" ClipToBounds="True" Name="BoardEraserSizePanel"
+                                                CornerRadius="5" Background="#fafafa"
                                                 Opacity="1"
                                                 BorderBrush="#2563eb" BorderThickness="1">
                                             <ui:SimpleStackPanel Margin="0">
@@ -2707,11 +2739,12 @@
                                                                 <ui:SimpleStackPanel VerticalAlignment="Center"
                                                                     Orientation="Horizontal"
                                                                     HorizontalAlignment="Center" Margin="0,3">
-                                                                    <TextBlock x:Name="BoardRectangleEraserTabButtonText"
-                                                                               Foreground="#172554" FontWeight="Medium"
-                                                                               FontSize="9" TextAlignment="Center"
-                                                                               Text="黑板擦"
-                                                                               Margin="2,1,0,0" />
+                                                                    <TextBlock
+                                                                        x:Name="BoardRectangleEraserTabButtonText"
+                                                                        Foreground="#172554" FontWeight="Medium"
+                                                                        FontSize="9" TextAlignment="Center"
+                                                                        Text="黑板擦"
+                                                                        Margin="2,1,0,0" />
                                                                 </ui:SimpleStackPanel>
                                                             </ui:SimpleStackPanel>
                                                         </Canvas>
@@ -3119,56 +3152,93 @@
             <!-- 右下角 -->
             <Viewbox x:Name="ViewboxBlackboardRightSide" Margin="3,0,0,0" Height="55" HorizontalAlignment="Right"
                      VerticalAlignment="Bottom">
-                <Viewbox.LayoutTransform>
-                    <ScaleTransform x:Name="ViewboxBlackboardRightSideScaleTransform" ScaleX="1" ScaleY="1" />
-                </Viewbox.LayoutTransform>
-                <Grid x:Name="BlackboardRightSide" Visibility="Visible" Opacity="0.75" Margin="0,0,3,0" Height="55"
-                      HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <ui:SimpleStackPanel Orientation="Horizontal">
-                        <Border Margin="0,0,5,0" Width="55" Height="55" MouseDown="Border_MouseDown"
-                                MouseUp="BtnWhiteBoardAdd_Click" CornerRadius="3" Background="LightGray" Opacity="0.85">
-                            <Grid Margin="6">
-                                <Image Source="/Resources/Icons-Fluent/ic_fluent_add_circle_24_regular.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="26"
-                                       Height="26" />
-                                <TextBlock Text="加页" Foreground="Black" VerticalAlignment="Bottom"
+                <Grid Name="BlackboardRightSide" Visibility="Visible" Margin="0,0,0,3" Height="50"
+                      HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5">
+                        <Border Width="60" Height="50"
+                                BorderThickness="1" BorderBrush="#a1a1aa"
+                                MouseUp="BtnWhiteBoardAdd_Click" CornerRadius="5" Background="#f4f4f5"
+                                Opacity="0.95">
+                            <Grid Margin="6,6,6,4">
+                                <Image VerticalAlignment="Top"
+                                       RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                    <GeometryDrawing Brush="#18181b"
+                                                                     Geometry="F1 M24,24z M0,0z M7.39778,13.723L10.7693,13.723 10.7693,10.3514 13.2307,10.3514 13.2307,13.723 16.6022,13.723 16.6022,16.1843 13.2307,16.1843 13.2307,19.5559 10.7693,19.5559 10.7693,16.1843 7.39778,16.1843 7.39778,13.723z" />
+                                                    <GeometryDrawing Brush="#18181b"
+                                                                     Geometry="F0 M24,24z M0,0z M3.1391,1.17001L3.1391,22.83 20.8609,22.83 20.8609,6.66948 15.3614,1.17002 3.1391,1.17001z M12.9846,3.13911L5.10819,3.1391 5.10819,20.8609 18.8918,20.8609 18.8918,9.04638 12.9846,9.04638 12.9846,3.13911z M18.484,7.07729L14.9536,3.54692 14.9536,7.07729 18.484,7.07729z" />
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock Text="新页面" Foreground="#18181b" VerticalAlignment="Bottom"
                                            HorizontalAlignment="Center" FontSize="12" />
                             </Grid>
                         </Border>
-                        <Border Width="60" Height="55" MouseDown="Border_MouseDown"
-                                MouseUp="BtnWhiteBoardSwitchPrevious_Click" CornerRadius="3,0,0,3"
-                                Background="LightGray" Opacity="0.85">
-                            <Grid Margin="6">
-                                <Image Source="/Resources/Icons-Fluent/ic_fluent_arrow_circle_left_24_regular.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="26"
-                                       Height="26" />
-                                <TextBlock Text="上一页" Foreground="Black" VerticalAlignment="Bottom"
-                                           HorizontalAlignment="Center" FontSize="12" />
-                            </Grid>
-                        </Border>
-                        <Border Width="58" Height="55" Background="LightGray" Opacity="0.85">
-                            <Grid Margin="0,6">
-                                <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <TextBlock Margin="0,4,0,2"
-                                               Text="{Binding ElementName=TextBlockWhiteBoardIndexInfo, Path=Text}"
-                                               Foreground="Black" VerticalAlignment="Center"
-                                               HorizontalAlignment="Center" FontSize="15" />
-                                    <TextBlock Margin="0,3,0,0" Text="页码" Foreground="Black" VerticalAlignment="Center"
-                                               HorizontalAlignment="Center" FontSize="12" />
-                                </ui:SimpleStackPanel>
-                            </Grid>
-                        </Border>
-                        <Border Width="60" Height="55" MouseDown="Border_MouseDown"
-                                MouseUp="BtnWhiteBoardSwitchNext_Click" CornerRadius="0,5,5,0" Background="LightGray"
-                                Opacity="0.85">
-                            <Grid Margin="6">
-                                <Image x:Name="BoardRightPannelNextPage"
-                                       Source="/Resources/Icons-Fluent/ic_fluent_add_circle_24_regular.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" Width="26"
-                                       Height="26" />
-                                <TextBlock x:Name="BoardRightPannelNextPageTextBlock" Text="加页" Foreground="Black"
-                                           VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="12" />
-                            </Grid>
+                        <Border CornerRadius="5,5,5,5" Background="#f4f4f5" Margin="0,0,0,0">
+                            <ui:SimpleStackPanel Orientation="Horizontal">
+                                <Border Width="60" Height="50"
+                                        BorderThickness="1,1,0,1" BorderBrush="#a1a1aa"
+                                        MouseUp="BtnWhiteBoardSwitchPrevious_Click" CornerRadius="5,0,0,5"
+                                        Background="#f4f4f5"
+                                        Opacity="0.95">
+                                    <Grid Margin="6,6,6,4">
+                                        <Image VerticalAlignment="Top"
+                                               RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20">
+                                            <Image.Source>
+                                                <DrawingImage>
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                            <GeometryDrawing Brush="#18181b"
+                                                                             Geometry="F1 M24,24z M0,0z M7.40091,10.456L14.5033,3.35357 12.3198,1.17001 1.48978,12 12.3198,22.83 14.5033,20.6465 7.40089,13.544 22.5102,13.544 22.5102,10.456 7.40091,10.456z" />
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock Text="上一页" Foreground="#18181b" VerticalAlignment="Bottom"
+                                                   HorizontalAlignment="Center" FontSize="12" />
+                                    </Grid>
+                                </Border>
+                                <Border Width="75" Height="50"
+                                        BorderThickness="1,1,1,1" BorderBrush="#a1a1aa" Background="#f4f4f5"
+                                        Opacity="0.95">
+                                    <Grid Margin="6,6,6,4">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   Text="{Binding ElementName=TextBlockWhiteBoardIndexInfo, Path=Text}"
+                                                   Margin="0,-1,0,0" FontSize="17" FontWeight="Bold"
+                                                   TextAlignment="Center" />
+                                        <TextBlock Text="页面" Foreground="#18181b" VerticalAlignment="Bottom"
+                                                   HorizontalAlignment="Center" FontSize="12" />
+                                    </Grid>
+                                </Border>
+                                <Border Width="60" Height="50" MouseUp="BtnWhiteBoardSwitchNext_Click"
+                                        CornerRadius="0,5,5,0"
+                                        BorderThickness="0,1,1,1" BorderBrush="#a1a1aa"
+                                        Background="#f4f4f5" Opacity="0.95">
+                                    <Grid Margin="6,6,6,4">
+                                        <Image VerticalAlignment="Top"
+                                               RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20">
+                                            <Image.Source>
+                                                <DrawingImage>
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                            <GeometryDrawing Brush="#18181b"
+                                                                             Geometry="F1 M24,24z M0,0z M16.5991,10.456L9.49667,3.35357 11.6802,1.17001 22.5102,12 11.6802,22.83 9.49667,20.6465 16.5991,13.544 1.48978,13.544 1.48978,10.456 16.5991,10.456z" />
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock Text="下一页" Foreground="Black" VerticalAlignment="Bottom"
+                                                   HorizontalAlignment="Center" FontSize="12" />
+                                    </Grid>
+                                </Border>
+                            </ui:SimpleStackPanel>
                         </Border>
                     </ui:SimpleStackPanel>
                 </Grid>
@@ -3216,7 +3286,7 @@
                 </Button>
                 <Border Height="48" CornerRadius="2" Margin="3,0">
                     <TextBlock Name="TextBlockWhiteBoardIndexInfo"
-                               Text="1 / 1"
+                               Text="1/1"
                                Foreground="{Binding ElementName=BtnExit, Path=Foreground}"
                                VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Microsoft YaHei UI"
                                FontSize="18" />

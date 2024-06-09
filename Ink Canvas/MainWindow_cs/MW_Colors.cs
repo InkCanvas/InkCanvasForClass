@@ -40,6 +40,15 @@ namespace Ink_Canvas {
                         // ignored
                     }
             }
+            if (DrawingAttributesHistory.Count > 0)
+            {
+                timeMachine.CommitStrokeDrawingAttributesHistory(DrawingAttributesHistory);
+                DrawingAttributesHistory = new Dictionary<Stroke, Tuple<DrawingAttributes, DrawingAttributes>>();
+                foreach (var item in DrawingAttributesHistoryFlag)
+                {
+                    item.Value.Clear();
+                }
+            }
             else {
                 inkCanvas.IsManipulationEnabled = true;
                 drawingShapeMode = 0;

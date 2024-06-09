@@ -379,14 +379,6 @@ namespace Ink_Canvas {
                         }
                         catch { }
                     }
-
-                    if (lastTempManiputlaionMatrix == null) {
-                        lastTempManiputlaionMatrix = m;
-                        lastTempStrokeCollection = strokes;
-                    }
-                    else {
-                        lastTempManiputlaionMatrix?.Append(m);
-                    }
                 }
                 else {
                     if (Settings.Gesture.IsEnableTwoFingerZoom) {
@@ -415,15 +407,6 @@ namespace Ink_Canvas {
                             (circle.Stroke.StylusPoints[0].Y +
                              circle.Stroke.StylusPoints[circle.Stroke.StylusPoints.Count / 2].Y) / 2
                         );
-                    }
-
-                    ;
-                    if (lastTempManiputlaionMatrix == null) {
-                        lastTempManiputlaionMatrix = m;
-                        lastTempStrokeCollection = inkCanvas.Strokes;
-                    }
-                    else {
-                        lastTempManiputlaionMatrix?.Append(m);
                     }
                 }
             }

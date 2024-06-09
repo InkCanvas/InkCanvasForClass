@@ -38,12 +38,10 @@ namespace Ink_Canvas {
             try {
                 if (TimeMachineHistories[CurrentWhiteboardIndex] == null) return; //防止白板打开后不居中
                 if (isBackupMain) {
-                    _currentCommitType = CommitReason.CodeInput;
                     timeMachine.ImportTimeMachineHistory(TimeMachineHistories[0]);
                     foreach (var item in TimeMachineHistories[0]) ApplyHistoryToCanvas(item);
                 }
                 else {
-                    _currentCommitType = CommitReason.CodeInput;
                     timeMachine.ImportTimeMachineHistory(TimeMachineHistories[CurrentWhiteboardIndex]);
                     foreach (var item in TimeMachineHistories[CurrentWhiteboardIndex]) ApplyHistoryToCanvas(item);
                 }
@@ -75,7 +73,6 @@ namespace Ink_Canvas {
             }
 
             SaveStrokes();
-
 
             ClearStrokes(true);
             CurrentWhiteboardIndex++;
@@ -124,7 +121,7 @@ namespace Ink_Canvas {
 
         private void UpdateIndexInfoDisplay() {
             TextBlockWhiteBoardIndexInfo.Text =
-                $"{CurrentWhiteboardIndex} / {WhiteboardTotalCount}";
+                $"{CurrentWhiteboardIndex}/{WhiteboardTotalCount}";
 
             if (CurrentWhiteboardIndex == WhiteboardTotalCount) {
                 var newImageSource = new BitmapImage();
@@ -132,10 +129,10 @@ namespace Ink_Canvas {
                 newImageSource.UriSource = new Uri("/Resources/Icons-Fluent/ic_fluent_add_circle_24_regular.png",
                     UriKind.RelativeOrAbsolute);
                 newImageSource.EndInit();
-                BoardLeftPannelNextPage.Source = newImageSource;
-                BoardRightPannelNextPage.Source = newImageSource;
-                BoardRightPannelNextPageTextBlock.Text = "加页";
-                BoardLeftPannelNextPageTextBlock.Text = "加页";
+                //BoardLeftPannelNextPage.Source = newImageSource;
+                //BoardRightPannelNextPage.Source = newImageSource;
+                //BoardRightPannelNextPageTextBlock.Text = "加页";
+                //BoardLeftPannelNextPageTextBlock.Text = "加页";
             }
             else {
                 var newImageSource = new BitmapImage();
@@ -144,10 +141,10 @@ namespace Ink_Canvas {
                     new Uri("/Resources/Icons-Fluent/ic_fluent_arrow_circle_right_24_regular.png",
                         UriKind.RelativeOrAbsolute);
                 newImageSource.EndInit();
-                BoardLeftPannelNextPage.Source = newImageSource;
-                BoardRightPannelNextPage.Source = newImageSource;
-                BoardRightPannelNextPageTextBlock.Text = "下一页";
-                BoardLeftPannelNextPageTextBlock.Text = "下一页";
+                //BoardLeftPannelNextPage.Source = newImageSource;
+                //BoardRightPannelNextPage.Source = newImageSource;
+                //BoardRightPannelNextPageTextBlock.Text = "下一页";
+                //BoardLeftPannelNextPageTextBlock.Text = "下一页";
             }
 
             BtnWhiteBoardSwitchPrevious.IsEnabled = CurrentWhiteboardIndex != 1;

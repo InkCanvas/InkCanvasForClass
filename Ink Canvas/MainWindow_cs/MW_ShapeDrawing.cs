@@ -1276,7 +1276,6 @@ namespace Ink_Canvas {
 
         private Stroke lastTempStroke = null;
         private StrokeCollection lastTempStrokeCollection = new StrokeCollection();
-        private Matrix? lastTempManiputlaionMatrix = null;
 
         private bool isWaitUntilNextTouchDown = false;
 
@@ -1564,15 +1563,28 @@ namespace Ink_Canvas {
                 if (collection != null) timeMachine.CommitStrokeUserInputHistory(collection);
             }
 
-            if (lastTempManiputlaionMatrix != null) {
-                timeMachine.CommitStrokeManipulationHistory(lastTempStrokeCollection, lastTempManiputlaionMatrix.Value);
-                lastTempStrokeCollection = null;
-                lastTempManiputlaionMatrix = null;
-            }
-
             lastTempStroke = null;
             lastTempStrokeCollection = null;
-            lastTempManiputlaionMatrix = null;
+
+            if (StrokeManipulationHistory?.Count > 0)
+            {
+                timeMachine.CommitStrokeManipulationHistory(StrokeManipulationHistory);
+                foreach (var item in StrokeManipulationHistory)
+                {
+                    StrokeInitialHistory[item.Key] = item.Value.Item2;
+                }
+                StrokeManipulationHistory = null;
+            }
+
+            if (DrawingAttributesHistory.Count > 0)
+            {
+                timeMachine.CommitStrokeDrawingAttributesHistory(DrawingAttributesHistory);
+                DrawingAttributesHistory = new Dictionary<Stroke, Tuple<DrawingAttributes, DrawingAttributes>>();
+                foreach (var item in DrawingAttributesHistoryFlag)
+                {
+                    item.Value.Clear();
+                }
+            }
 
             ViewboxFloatingBar.IsHitTestVisible = true;
 

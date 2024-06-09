@@ -1,5 +1,6 @@
 ﻿using iNKORE.UI.WPF.Modern.Controls;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
@@ -70,6 +71,16 @@ namespace Ink_Canvas {
                 stroke.DrawingAttributes.Width = newWidth;
                 stroke.DrawingAttributes.Height = newHeight;
             }
+            if (DrawingAttributesHistory.Count > 0)
+            {
+
+                timeMachine.CommitStrokeDrawingAttributesHistory(DrawingAttributesHistory);
+                DrawingAttributesHistory = new Dictionary<Stroke, Tuple<DrawingAttributes, DrawingAttributes>>();
+                foreach (var item in DrawingAttributesHistoryFlag)
+                {
+                    item.Value.Clear();
+                }
+            }
         }
 
         private void GridPenWidthRestore_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -98,7 +109,21 @@ namespace Ink_Canvas {
 
             var targetStrokes = inkCanvas.GetSelectedStrokes();
             foreach (var stroke in targetStrokes) stroke.Transform(m, false);
-            timeMachine.CommitStrokeManipulationHistory(targetStrokes, m);
+
+            if (DrawingAttributesHistory.Count > 0)
+            {
+                //var collecion = new StrokeCollection();
+                //foreach (var item in DrawingAttributesHistory)
+                //{
+                //    collecion.Add(item.Key);
+                //}
+                timeMachine.CommitStrokeDrawingAttributesHistory(DrawingAttributesHistory);
+                DrawingAttributesHistory = new Dictionary<Stroke, Tuple<DrawingAttributes, DrawingAttributes>>();
+                foreach (var item in DrawingAttributesHistoryFlag)
+                {
+                    item.Value.Clear();
+                }
+            }
 
             //updateBorderStrokeSelectionControlLocation();
         }
@@ -120,7 +145,16 @@ namespace Ink_Canvas {
 
             var targetStrokes = inkCanvas.GetSelectedStrokes();
             foreach (var stroke in targetStrokes) stroke.Transform(m, false);
-            timeMachine.CommitStrokeManipulationHistory(targetStrokes, m);
+
+            if (DrawingAttributesHistory.Count > 0)
+            {
+                timeMachine.CommitStrokeDrawingAttributesHistory(DrawingAttributesHistory);
+                DrawingAttributesHistory = new Dictionary<Stroke, Tuple<DrawingAttributes, DrawingAttributes>>();
+                foreach (var item in DrawingAttributesHistoryFlag)
+                {
+                    item.Value.Clear();
+                }
+            }
         }
 
         private void ImageRotate45_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -140,7 +174,16 @@ namespace Ink_Canvas {
 
             var targetStrokes = inkCanvas.GetSelectedStrokes();
             foreach (var stroke in targetStrokes) stroke.Transform(m, false);
-            timeMachine.CommitStrokeManipulationHistory(targetStrokes, m);
+
+            if (DrawingAttributesHistory.Count > 0)
+            {
+                timeMachine.CommitStrokeDrawingAttributesHistory(DrawingAttributesHistory);
+                DrawingAttributesHistory = new Dictionary<Stroke, Tuple<DrawingAttributes, DrawingAttributes>>();
+                foreach (var item in DrawingAttributesHistoryFlag)
+                {
+                    item.Value.Clear();
+                }
+            }
         }
 
         private void ImageRotate90_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -160,7 +203,21 @@ namespace Ink_Canvas {
 
             var targetStrokes = inkCanvas.GetSelectedStrokes();
             foreach (var stroke in targetStrokes) stroke.Transform(m, false);
-            timeMachine.CommitStrokeManipulationHistory(targetStrokes, m);
+
+            if (DrawingAttributesHistory.Count > 0)
+            {
+                var collecion = new StrokeCollection();
+                foreach (var item in DrawingAttributesHistory)
+                {
+                    collecion.Add(item.Key);
+                }
+                timeMachine.CommitStrokeDrawingAttributesHistory(DrawingAttributesHistory);
+                DrawingAttributesHistory = new Dictionary<Stroke, Tuple<DrawingAttributes, DrawingAttributes>>();
+                foreach (var item in DrawingAttributesHistoryFlag)
+                {
+                    item.Value.Clear();
+                }
+            }
         }
 
         #endregion
@@ -236,8 +293,26 @@ namespace Ink_Canvas {
             e.Mode = ManipulationModes.All;
         }
 
-        private void
-            GridInkCanvasSelectionCover_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e) { }
+        private void GridInkCanvasSelectionCover_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e) {
+            if (StrokeManipulationHistory?.Count > 0)
+            {
+                timeMachine.CommitStrokeManipulationHistory(StrokeManipulationHistory);
+                foreach (var item in StrokeManipulationHistory)
+                {
+                    StrokeInitialHistory[item.Key] = item.Value.Item2;
+                }
+                StrokeManipulationHistory = null;
+            }
+            if (DrawingAttributesHistory.Count > 0)
+            {
+                timeMachine.CommitStrokeDrawingAttributesHistory(DrawingAttributesHistory);
+                DrawingAttributesHistory = new Dictionary<Stroke, Tuple<DrawingAttributes, DrawingAttributes>>();
+                foreach (var item in DrawingAttributesHistoryFlag)
+                {
+                    item.Value.Clear();
+                }
+            }
+        }
 
         private void GridInkCanvasSelectionCover_ManipulationDelta(object sender, ManipulationDeltaEventArgs e) {
             try {
@@ -273,14 +348,6 @@ namespace Ink_Canvas {
                             stroke.DrawingAttributes.Height *= md.Scale.Y;
                         }
                         catch { }
-                    }
-
-                    if (lastTempManiputlaionMatrix == null) {
-                        lastTempManiputlaionMatrix = m;
-                        lastTempStrokeCollection = strokes;
-                    }
-                    else {
-                        lastTempManiputlaionMatrix?.Append(m);
                     }
 
                     updateBorderStrokeSelectionControlLocation();

@@ -204,23 +204,23 @@ namespace Ink_Canvas
 
                 if (Settings.Appearance.EnableViewboxBlackBoardScaleTransform) // 画板 UI 缩放 80%
                 {
-                    ViewboxBlackboardLeftSideScaleTransform.ScaleX = 0.8;
-                    ViewboxBlackboardLeftSideScaleTransform.ScaleY = 0.8;
+                    //ViewboxBlackboardLeftSideScaleTransform.ScaleX = 0.8;
+                    //ViewboxBlackboardLeftSideScaleTransform.ScaleY = 0.8;
                     ViewboxBlackboardCenterSideScaleTransform.ScaleX = 0.8;
                     ViewboxBlackboardCenterSideScaleTransform.ScaleY = 0.8;
-                    ViewboxBlackboardRightSideScaleTransform.ScaleX = 0.8;
-                    ViewboxBlackboardRightSideScaleTransform.ScaleY = 0.8;
+                    //ViewboxBlackboardRightSideScaleTransform.ScaleX = 0.8;
+                    //ViewboxBlackboardRightSideScaleTransform.ScaleY = 0.8;
 
                     ToggleSwitchEnableViewboxBlackBoardScaleTransform.IsOn = true;
                 }
                 else
                 {
-                    ViewboxBlackboardLeftSideScaleTransform.ScaleX = 1;
-                    ViewboxBlackboardLeftSideScaleTransform.ScaleY = 1;
+                    //ViewboxBlackboardLeftSideScaleTransform.ScaleX = 1;
+                    //ViewboxBlackboardLeftSideScaleTransform.ScaleY = 1;
                     ViewboxBlackboardCenterSideScaleTransform.ScaleX = 1;
                     ViewboxBlackboardCenterSideScaleTransform.ScaleY = 1;
-                    ViewboxBlackboardRightSideScaleTransform.ScaleX = 1;
-                    ViewboxBlackboardRightSideScaleTransform.ScaleY = 1;
+                    //ViewboxBlackboardRightSideScaleTransform.ScaleX = 1;
+                    //ViewboxBlackboardRightSideScaleTransform.ScaleY = 1;
 
                     ToggleSwitchEnableViewboxBlackBoardScaleTransform.IsOn = false;
                 }
