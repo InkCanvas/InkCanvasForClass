@@ -177,6 +177,8 @@ namespace Ink_Canvas {
 
             FullScreenHelper.MarkFullscreenWindowTaskbarList(new WindowInteropHelper(this).Handle, true);
             isLoaded = true;
+
+            BlackBoardLeftSidePageListView.ItemsSource = blackBoardLeftSidePageListViewObservableCollection;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {

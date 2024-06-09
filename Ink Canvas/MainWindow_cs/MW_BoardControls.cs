@@ -1,8 +1,14 @@
 ﻿using Ink_Canvas.Helpers;
 using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Ink;
+using System.Windows.Media.Animation;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -49,6 +55,55 @@ namespace Ink_Canvas {
             catch {
                 // ignored
             }
+        }
+
+        private void BtnWhiteBoardPageIndex_Click(object sender, EventArgs e) {
+            if (BoardBorderLeftPageListView.Visibility == Visibility.Visible) {
+                AnimationsHelper.HideWithSlideAndFade(BoardBorderLeftPageListView);
+            } else {
+                RefreshBlackBoardLeftSidePageListView();
+
+                try
+                {
+                    var sb = new Storyboard();
+
+                    // 渐变动画
+                    var fadeInAnimation = new DoubleAnimation
+                    {
+                        From = 0.5,
+                        To = 1,
+                        Duration = TimeSpan.FromSeconds(0.15)
+                    };
+                    fadeInAnimation.EasingFunction = new CubicEase();
+
+                    Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(UIElement.OpacityProperty));
+
+                    // 滑动动画
+                    var slideAnimation = new DoubleAnimation
+                    {
+                        From = BoardBorderLeftPageListView.RenderTransform.Value.OffsetY + 10, // 滑动距离
+                        To = 0,
+                        Duration = TimeSpan.FromSeconds(0.15)
+                    };
+                    Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
+
+                    slideAnimation.EasingFunction = new CubicEase();
+
+                    sb.Children.Add(fadeInAnimation);
+                    sb.Children.Add(slideAnimation);
+
+                    sb.Completed += (_,__) => {
+                        BlackBoardLeftSidePageListView.ScrollIntoView(BlackBoardLeftSidePageListView.SelectedItem);
+                    };
+
+                    BoardBorderLeftPageListView.Visibility = Visibility.Visible;
+                    BoardBorderLeftPageListView.RenderTransform = new TranslateTransform();
+
+                    sb.Begin((FrameworkElement)BoardBorderLeftPageListView);
+                }
+                catch { }
+            }
+            
         }
 
         private void BtnWhiteBoardSwitchPrevious_Click(object sender, EventArgs e) {
