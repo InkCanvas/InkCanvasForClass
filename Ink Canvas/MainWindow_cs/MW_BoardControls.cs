@@ -3,12 +3,16 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Ink;
+using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
+using System.Windows.Controls;
+using Xceed.Wpf.Toolkit.Core.Utilities;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -25,8 +29,7 @@ namespace Ink_Canvas {
                 var timeMachineHistory = timeMachine.ExportTimeMachineHistory();
                 TimeMachineHistories[0] = timeMachineHistory;
                 timeMachine.ClearStrokeHistory();
-            }
-            else {
+            } else {
                 var timeMachineHistory = timeMachine.ExportTimeMachineHistory();
                 TimeMachineHistories[CurrentWhiteboardIndex] = timeMachineHistory;
                 timeMachine.ClearStrokeHistory();
@@ -46,8 +49,7 @@ namespace Ink_Canvas {
                 if (isBackupMain) {
                     timeMachine.ImportTimeMachineHistory(TimeMachineHistories[0]);
                     foreach (var item in TimeMachineHistories[0]) ApplyHistoryToCanvas(item);
-                }
-                else {
+                } else {
                     timeMachine.ImportTimeMachineHistory(TimeMachineHistories[CurrentWhiteboardIndex]);
                     foreach (var item in TimeMachineHistories[CurrentWhiteboardIndex]) ApplyHistoryToCanvas(item);
                 }
@@ -57,19 +59,17 @@ namespace Ink_Canvas {
             }
         }
 
-        private void BtnWhiteBoardPageIndex_Click(object sender, EventArgs e) {
+        private async void BtnWhiteBoardPageIndex_Click(object sender, EventArgs e) {
             if (BoardBorderLeftPageListView.Visibility == Visibility.Visible) {
                 AnimationsHelper.HideWithSlideAndFade(BoardBorderLeftPageListView);
             } else {
                 RefreshBlackBoardLeftSidePageListView();
 
-                try
-                {
+                try {
                     var sb = new Storyboard();
 
                     // 渐变动画
-                    var fadeInAnimation = new DoubleAnimation
-                    {
+                    var fadeInAnimation = new DoubleAnimation {
                         From = 0.5,
                         To = 1,
                         Duration = TimeSpan.FromSeconds(0.15)
@@ -79,22 +79,18 @@ namespace Ink_Canvas {
                     Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(UIElement.OpacityProperty));
 
                     // 滑动动画
-                    var slideAnimation = new DoubleAnimation
-                    {
+                    var slideAnimation = new DoubleAnimation {
                         From = BoardBorderLeftPageListView.RenderTransform.Value.OffsetY + 10, // 滑动距离
                         To = 0,
                         Duration = TimeSpan.FromSeconds(0.15)
                     };
-                    Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
+                    Storyboard.SetTargetProperty(slideAnimation,
+                        new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
 
                     slideAnimation.EasingFunction = new CubicEase();
 
                     sb.Children.Add(fadeInAnimation);
                     sb.Children.Add(slideAnimation);
-
-                    sb.Completed += (_,__) => {
-                        BlackBoardLeftSidePageListView.ScrollIntoView(BlackBoardLeftSidePageListView.SelectedItem);
-                    };
 
                     BoardBorderLeftPageListView.Visibility = Visibility.Visible;
                     BoardBorderLeftPageListView.RenderTransform = new TranslateTransform();
@@ -102,8 +98,12 @@ namespace Ink_Canvas {
                     sb.Begin((FrameworkElement)BoardBorderLeftPageListView);
                 }
                 catch { }
+
+                await Task.Delay(1);
+                ScrollViewToVerticalTop(
+                    (ListViewItem)BlackBoardLeftSidePageListView.ItemContainerGenerator.ContainerFromIndex(
+                        CurrentWhiteboardIndex - 1), BlackBoardLeftSidePageListScrollViewer);
             }
-            
         }
 
         private void BtnWhiteBoardSwitchPrevious_Click(object sender, EventArgs e) {
@@ -154,6 +154,10 @@ namespace Ink_Canvas {
             UpdateIndexInfoDisplay();
 
             if (WhiteboardTotalCount >= 99) BtnWhiteBoardAdd.IsEnabled = false;
+
+            if (BlackBoardLeftSidePageListView.Visibility == Visibility.Visible) {
+                RefreshBlackBoardLeftSidePageListView();
+            }
         }
 
         private void BtnWhiteBoardDelete_Click(object sender, RoutedEventArgs e) {
@@ -188,8 +192,7 @@ namespace Ink_Canvas {
                 //BoardRightPannelNextPage.Source = newImageSource;
                 //BoardRightPannelNextPageTextBlock.Text = "加页";
                 //BoardLeftPannelNextPageTextBlock.Text = "加页";
-            }
-            else {
+            } else {
                 var newImageSource = new BitmapImage();
                 newImageSource.BeginInit();
                 newImageSource.UriSource =
@@ -203,8 +206,22 @@ namespace Ink_Canvas {
             }
 
             BtnWhiteBoardSwitchPrevious.IsEnabled = CurrentWhiteboardIndex != 1;
+            if (CurrentWhiteboardIndex == 1) {
+                BtnLeftWhiteBoardSwitchPreviousGeometry.Brush = new SolidColorBrush(Color.FromArgb(127, 24, 24, 27));
+                BtnLeftWhiteBoardSwitchPreviousLabel.Opacity = 0.5;
+            } else {
+                BtnLeftWhiteBoardSwitchPreviousGeometry.Brush = new SolidColorBrush(Color.FromArgb(255, 24, 24, 27));
+                BtnLeftWhiteBoardSwitchPreviousLabel.Opacity = 1;
+            }
 
             BtnWhiteBoardSwitchNext.IsEnabled = CurrentWhiteboardIndex != WhiteboardTotalCount;
+            if (CurrentWhiteboardIndex == WhiteboardTotalCount) {
+                BtnLeftWhiteBoardSwitchNextGeometry.Brush = new SolidColorBrush(Color.FromArgb(127, 24, 24, 27));
+                BtnLeftWhiteBoardSwitchNextLabel.Opacity = 0.5;
+            } else {
+                BtnLeftWhiteBoardSwitchNextGeometry.Brush = new SolidColorBrush(Color.FromArgb(255, 24, 24, 27));
+                BtnLeftWhiteBoardSwitchNextLabel.Opacity = 1;
+            }
 
             BtnWhiteBoardDelete.IsEnabled = WhiteboardTotalCount != 1;
         }

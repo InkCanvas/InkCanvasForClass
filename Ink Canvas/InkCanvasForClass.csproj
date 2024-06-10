@@ -138,6 +138,7 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
     <PackageReference Include="iNKORE.UI.WPF.Modern" Version="0.9.26.3" />
     <PackageReference Include="MdXaml" Version="1.27.0" />
     <PackageReference Include="Microsoft.Office.Interop.PowerPoint" Version="15.0.4420.1018" />
@@ -181,16 +182,30 @@
   <ItemGroup>
     <Resource Include="Resources\Cursors\Cursor.cur" />
     <Resource Include="Resources\Cursors\Pen.cur" />
+    <Resource Include="Resources\DeveloperAvatars\aaaaaaccd.jpg" />
+    <Resource Include="Resources\DeveloperAvatars\Alan-CRL.png" />
+    <Resource Include="Resources\DeveloperAvatars\NetheriteBowl.png" />
+    <Resource Include="Resources\DeveloperAvatars\NotYoojun.png" />
+    <Resource Include="Resources\DeveloperAvatars\RaspberryKan.jpg" />
+    <Resource Include="Resources\DeveloperAvatars\wwei.png" />
+    <Resource Include="Resources\DeveloperAvatars\yuwenhui2020.png" />
     <Resource Include="Resources\Icons-png\check-box-background.png" />
     <Resource Include="Resources\Icons-png\eraser-line.png" />
     <Resource Include="Resources\Icons-png\eraser-outline.png" />
     <Resource Include="Resources\Icons-png\HiteLightBoard.png" />
+    <Resource Include="Resources\Icons-png\icc-transparent-dark-small.png" />
     <Resource Include="Resources\Icons-png\icc-transparent-dark.png" />
     <Resource Include="Resources\Icons-png\icc-transparent.png" />
     <Resource Include="Resources\Icons-png\icc.png" />
+    <Resource Include="Resources\Icons-png\kuanciya.png" />
+    <Resource Include="Resources\Icons-png\kuandogeyuanliangwo.png" />
+    <Resource Include="Resources\Icons-png\kuandoujiyanhuaji.png" />
+    <Resource Include="Resources\Icons-png\kuanneikuhuaji.png" />
+    <Resource Include="Resources\Icons-png\kuanshounvhuaji.png" />
     <Resource Include="Resources\Icons-png\playCircle.png" />
     <Resource Include="Resources\Icons-png\redo.png" />
     <Resource Include="Resources\Icons-png\setting.png" />
+    <Resource Include="Resources\Icons-png\tiebahuaji.png" />
     <Resource Include="Resources\Icons-png\transparent-grid.png" />
     <Resource Include="Resources\Icons-png\undo.png" />
     <Resource Include="Resources\Icons-png\minimize.png" />
@@ -209,7 +224,6 @@
     <Resource Include="Resources\DeveloperAvatars\CN-Ironegg.jpg" />
     <Resource Include="Resources\DeveloperAvatars\jiajiaxd.jpg" />
     <Resource Include="Resources\DeveloperAvatars\kengwang.png" />
-    <Resource Include="Resources\DeveloperAvatars\Raspberry-Monster.jpg" />
     <Resource Include="Resources\DeveloperAvatars\STBBRD.png" />
     <Resource Include="Resources\DeveloperAvatars\WXRIW.png" />
   </ItemGroup>
@@ -456,11 +470,25 @@
   <ItemGroup>
     <None Remove="Resources\Cursors\Cursor.cur" />
     <None Remove="Resources\Cursors\Pen.cur" />
+    <None Remove="Resources\DeveloperAvatars\aaaaaaccd.jpg" />
+    <None Remove="Resources\DeveloperAvatars\Alan-CRL.png" />
+    <None Remove="Resources\DeveloperAvatars\NetheriteBowl.png" />
+    <None Remove="Resources\DeveloperAvatars\NotYoojun.png" />
+    <None Remove="Resources\DeveloperAvatars\RaspberryKan.jpg" />
+    <None Remove="Resources\DeveloperAvatars\wwei.png" />
+    <None Remove="Resources\DeveloperAvatars\yuwenhui2020.png" />
     <None Remove="Resources\Icons-png\HiteAnnotation.png" />
     <None Remove="Resources\Icons-png\HiteLightBoard.png" />
+    <None Remove="Resources\Icons-png\icc-transparent-dark-small.png" />
     <None Remove="Resources\Icons-png\icc-transparent-dark.png" />
     <None Remove="Resources\Icons-png\icc-transparent.png" />
     <None Remove="Resources\Icons-png\icc.png" />
+    <None Remove="Resources\Icons-png\kuanciya.png" />
+    <None Remove="Resources\Icons-png\kuandogeyuanliangwo.png" />
+    <None Remove="Resources\Icons-png\kuandoujiyanhuaji.png" />
+    <None Remove="Resources\Icons-png\kuanneikuhuaji.png" />
+    <None Remove="Resources\Icons-png\kuanshounvhuaji.png" />
+    <None Remove="Resources\Icons-png\tiebahuaji.png" />
     <None Remove="Resources\Icons-png\transparent-grid.png" />
     <None Remove="Resources\Icons-png\WenXiang.png" />
     <None Remove="Resources\new-icons\chevron-left.png" />

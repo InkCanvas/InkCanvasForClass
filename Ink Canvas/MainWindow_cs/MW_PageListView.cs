@@ -8,8 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Ink;
 using System.Windows.Input;
+using System.Windows.Media;
+using Ink_Canvas.Helpers;
 
 namespace Ink_Canvas
 {
@@ -31,37 +34,52 @@ namespace Ink_Canvas
             if (blackBoardLeftSidePageListViewObservableCollection.Count == WhiteboardTotalCount) {
                 foreach (int index in Enumerable.Range(1, WhiteboardTotalCount))
                 {
+                    var st = ApplyHistoriesToNewStrokeCollection(TimeMachineHistories[index]);
+                    st.Clip(new Rect(0, 0, (int)inkCanvas.ActualWidth, (int)inkCanvas.ActualHeight));
                     var pitem = new PageListViewItem()
                     {
                         Index = index,
-                        Strokes = ApplyHistoriesToNewStrokeCollection(TimeMachineHistories[index]),
+                        Strokes = st,
                     };
                     blackBoardLeftSidePageListViewObservableCollection[index-1] = pitem;
                 }
             } else {
                 blackBoardLeftSidePageListViewObservableCollection.Clear();
-                foreach (int index in Enumerable.Range(1, WhiteboardTotalCount))
-                {
+                foreach (int index in Enumerable.Range(1, WhiteboardTotalCount)) {
+                    var st = ApplyHistoriesToNewStrokeCollection(TimeMachineHistories[index]);
+                    st.Clip(new Rect(0,0, (int)inkCanvas.ActualWidth, (int)inkCanvas.ActualHeight));
                     var pitem = new PageListViewItem()
                     {
                         Index = index,
-                        Strokes = ApplyHistoriesToNewStrokeCollection(TimeMachineHistories[index]),
+                        Strokes = st,
                     };
                     blackBoardLeftSidePageListViewObservableCollection.Add(pitem);
                 }
             }
 
+            var _st = inkCanvas.Strokes.Clone();
+            _st.Clip(new Rect(0, 0, (int)inkCanvas.ActualWidth, (int)inkCanvas.ActualHeight));
             var _pitem = new PageListViewItem()
             {
                 Index = CurrentWhiteboardIndex,
-                Strokes = inkCanvas.Strokes,
+                Strokes = _st,
             };
             blackBoardLeftSidePageListViewObservableCollection[CurrentWhiteboardIndex - 1] = _pitem;
 
             BlackBoardLeftSidePageListView.SelectedIndex = CurrentWhiteboardIndex -1;
         }
 
+        public static void ScrollViewToVerticalTop(FrameworkElement element, ScrollViewer scrollViewer)
+        {
+            var scrollViewerOffset = scrollViewer.VerticalOffset;
+            var point = new Point(0, scrollViewerOffset);
+            var tarPos = element.TransformToVisual(scrollViewer).Transform(point);
+            scrollViewer.ScrollToVerticalOffset(tarPos.Y);
+        }
+
+
         private void BlackBoardLeftSidePageListView_OnMouseUp(object sender, MouseButtonEventArgs e) {
+            AnimationsHelper.HideWithSlideAndFade(BoardBorderLeftPageListView);
             var item = BlackBoardLeftSidePageListView.SelectedItem;
             var index = BlackBoardLeftSidePageListView.SelectedIndex;
             if (item != null)
@@ -74,5 +92,6 @@ namespace Ink_Canvas
                 BlackBoardLeftSidePageListView.SelectedIndex = index;
             }
         }
+
     }
 }

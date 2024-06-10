@@ -115,6 +115,8 @@ namespace Ink_Canvas
         // public bool EnableViewboxFloatingBarScaleTransform { get; set; } = false;
         [JsonProperty("viewboxFloatingBarScaleTransformValue")]
         public double ViewboxFloatingBarScaleTransformValue { get; set; } = 1.0;
+        [JsonProperty("floatingBarImg")] 
+        public int FloatingBarImg { get; set; } = 0;
         [JsonProperty("viewboxFloatingBarOpacityValue")]
         public double ViewboxFloatingBarOpacityValue { get; set; } = 1.0;
         [JsonProperty("viewboxFloatingBarOpacityInPPTValue")]

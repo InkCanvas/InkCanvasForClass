@@ -145,16 +145,14 @@ namespace Ink_Canvas {
                 ViewboxFloatingBarMarginAnimation(100, true);
         }
 
-        private void ViewboxFloatingBarOpacityValueSlider_ValueChanged(object sender, RoutedEventArgs e)
-        {
+        private void ViewboxFloatingBarOpacityValueSlider_ValueChanged(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Appearance.ViewboxFloatingBarOpacityValue = ViewboxFloatingBarOpacityValueSlider.Value;
             SaveSettingsToFile();
             ViewboxFloatingBar.Opacity = Settings.Appearance.ViewboxFloatingBarOpacityValue;
         }
 
-        private void ViewboxFloatingBarOpacityInPPTValueSlider_ValueChanged(object sender, RoutedEventArgs e)
-        {
+        private void ViewboxFloatingBarOpacityInPPTValueSlider_ValueChanged(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Appearance.ViewboxFloatingBarOpacityInPPTValue = ViewboxFloatingBarOpacityInPPTValueSlider.Value;
             SaveSettingsToFile();
@@ -189,23 +187,17 @@ namespace Ink_Canvas {
             }
         }
 
-        private void ComboBoxChickenSoupSource_SelectionChanged(object sender, RoutedEventArgs e)
-        {
+        private void ComboBoxChickenSoupSource_SelectionChanged(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Appearance.ChickenSoupSource = ComboBoxChickenSoupSource.SelectedIndex;
             SaveSettingsToFile();
-            if (Settings.Appearance.ChickenSoupSource == 0)
-            {
+            if (Settings.Appearance.ChickenSoupSource == 0) {
                 int randChickenSoupIndex = new Random().Next(ChickenSoup.OSUPlayerYuLu.Length);
                 BlackBoardWaterMark.Text = ChickenSoup.OSUPlayerYuLu[randChickenSoupIndex];
-            }
-            else if (Settings.Appearance.ChickenSoupSource == 1)
-            {
+            } else if (Settings.Appearance.ChickenSoupSource == 1) {
                 int randChickenSoupIndex = new Random().Next(ChickenSoup.MingYanJingJu.Length);
                 BlackBoardWaterMark.Text = ChickenSoup.MingYanJingJu[randChickenSoupIndex];
-            }
-            else if (Settings.Appearance.ChickenSoupSource == 2)
-            {
+            } else if (Settings.Appearance.ChickenSoupSource == 2) {
                 int randChickenSoupIndex = new Random().Next(ChickenSoup.GaoKaoPhrases.Length);
                 BlackBoardWaterMark.Text = ChickenSoup.GaoKaoPhrases[randChickenSoupIndex];
             }
@@ -217,6 +209,46 @@ namespace Ink_Canvas {
                 ToggleSwitchEnableViewboxBlackBoardScaleTransform.IsOn;
             SaveSettingsToFile();
             LoadSettings();
+        }
+
+        public void ComboBoxFloatingBarImg_SelectionChanged(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Appearance.FloatingBarImg = ComboBoxFloatingBarImg.SelectedIndex;
+            if (ComboBoxFloatingBarImg.SelectedIndex == 0) {
+                FloatingbarHeadIconImg.Source =
+                    new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/icc.png"));
+                FloatingbarHeadIconImg.Margin = new Thickness(0.5);
+            } else if (ComboBoxFloatingBarImg.SelectedIndex == 1) {
+                FloatingbarHeadIconImg.Source =
+                    new BitmapImage(
+                        new Uri("pack://application:,,,/Resources/Icons-png/icc-transparent-dark-small.png"));
+                FloatingbarHeadIconImg.Margin = new Thickness(1.2);
+            } else if (ComboBoxFloatingBarImg.SelectedIndex == 2) {
+                FloatingbarHeadIconImg.Source =
+                    new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/kuandoujiyanhuaji.png"));
+                FloatingbarHeadIconImg.Margin = new Thickness(2, 2, 2, 1.5);
+            } else if (ComboBoxFloatingBarImg.SelectedIndex == 3) {
+                FloatingbarHeadIconImg.Source =
+                    new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/kuanshounvhuaji.png"));
+                FloatingbarHeadIconImg.Margin = new Thickness(2, 2, 2, 1.5);
+            } else if (ComboBoxFloatingBarImg.SelectedIndex == 4) {
+                FloatingbarHeadIconImg.Source =
+                    new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/kuanciya.png"));
+                FloatingbarHeadIconImg.Margin = new Thickness(2, 2, 2, 1.5);
+            } else if (ComboBoxFloatingBarImg.SelectedIndex == 5) {
+                FloatingbarHeadIconImg.Source =
+                    new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/kuanneikuhuaji.png"));
+                FloatingbarHeadIconImg.Margin = new Thickness(2, 2, 2, 1.5);
+            } else if (ComboBoxFloatingBarImg.SelectedIndex == 6) {
+                FloatingbarHeadIconImg.Source =
+                    new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/kuandogeyuanliangwo.png"));
+                FloatingbarHeadIconImg.Margin = new Thickness(2, 2, 2, 1.5);
+            } else if (ComboBoxFloatingBarImg.SelectedIndex == 7) {
+                FloatingbarHeadIconImg.Source =
+                    new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/tiebahuaji.png"));
+                FloatingbarHeadIconImg.Margin = new Thickness(2, 2, 2, 1);
+            }
+            SaveSettingsToFile();
         }
 
         private void ToggleSwitchEnableTimeDisplayInWhiteboardMode_Toggled(object sender, RoutedEventArgs e) {
