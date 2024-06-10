@@ -26,29 +26,52 @@ namespace Ink_Canvas {
         }
 
         private void BoardEraserIcon_Click(object sender, RoutedEventArgs e) {
-            //if (BoardEraser.Background.ToString() == "#FF679CF4") {
-            //    AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardDeleteIcon);
-            //}
-            //else {
+            if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint ||
+                inkCanvas.EditingMode == InkCanvasEditingMode.EraseByStroke) {
+                if (BoardEraserSizePanel.Visibility == Visibility.Collapsed) {
+                    AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardEraserSizePanel);
+                } else {
+                    AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
+                }
+            } else {
                 forceEraser = true;
                 forcePointEraser = true;
                 double k = 1;
-                switch (Settings.Canvas.EraserSize) {
-                    case 0:
-                        k = 0.5;
-                        break;
-                    case 1:
-                        k = 0.8;
-                        break;
-                    case 3:
-                        k = 1.25;
-                        break;
-                    case 4:
-                        k = 1.8;
-                        break;
+                if (Settings.Canvas.EraserShapeType == 0) {
+                    switch (BoardComboBoxEraserSize.SelectedIndex)
+                    {
+                        case 0:
+                            k = 0.5;
+                            break;
+                        case 1:
+                            k = 0.8;
+                            break;
+                        case 3:
+                            k = 1.25;
+                            break;
+                        case 4:
+                            k = 1.8;
+                            break;
+                    }
+                    inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
+                } else if (Settings.Canvas.EraserShapeType == 1) {
+                    switch (BoardComboBoxEraserSize.SelectedIndex)
+                    {
+                        case 0:
+                            k = 0.7;
+                            break;
+                        case 1:
+                            k = 0.9;
+                            break;
+                        case 3:
+                            k = 1.2;
+                            break;
+                        case 4:
+                            k = 1.6;
+                            break;
+                    }
+                    inkCanvas.EraserShape = new RectangleStylusShape(k * 90 * 0.6, k * 90);
                 }
-
-                inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
                 inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
                 drawingShapeMode = 0;
 
@@ -56,7 +79,7 @@ namespace Ink_Canvas {
                 CancelSingleFingerDragMode();
 
                 HideSubPanels("eraser");
-            //}
+            }
         }
 
         private void BoardEraserIconByStrokes_Click(object sender, RoutedEventArgs e) {
@@ -78,9 +101,15 @@ namespace Ink_Canvas {
             //}
         }
 
-        private void BoardSymbolIconDelete_MouseUp(object sender, MouseButtonEventArgs e) {
+        private void BoardSymbolIconDelete_MouseUp(object sender, RoutedEventArgs e) {
             PenIcon_Click(null, null);
-            SymbolIconDelete_MouseUp(sender, e);
+            SymbolIconDelete_MouseUp(null, null);
+        }
+        private void BoardSymbolIconDeleteInkAndHistories_MouseUp(object sender, RoutedEventArgs e)
+        {
+            PenIcon_Click(null, null);
+            SymbolIconDelete_MouseUp(null, null);
+            if (Settings.Canvas.ClearCanvasAndClearTimeMachine == false) timeMachine.ClearStrokeHistory();
         }
 
         private void BoardLaunchEasiCamera_MouseUp(object sender, MouseButtonEventArgs e) {

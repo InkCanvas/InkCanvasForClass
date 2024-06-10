@@ -378,6 +378,7 @@ namespace Ink_Canvas {
 
                 ComboBoxEraserSize.SelectedIndex = Settings.Canvas.EraserSize;
                 ComboBoxEraserSizeFloatingBar.SelectedIndex = Settings.Canvas.EraserSize;
+                BoardComboBoxEraserSize.SelectedIndex = Settings.Canvas.EraserSize;
 
                 ToggleSwitchClearCanvasAndClearTimeMachine.IsOn =
                     Settings.Canvas.ClearCanvasAndClearTimeMachine == true;

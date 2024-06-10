@@ -351,11 +351,19 @@ namespace Ink_Canvas {
 
         private void ComboBoxEraserSizeFloatingBar_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (!isLoaded) return;
-            Settings.Canvas.EraserSize = ComboBoxEraserSizeFloatingBar.SelectedIndex;
-            ComboBoxEraserSize.SelectedIndex = ComboBoxEraserSizeFloatingBar.SelectedIndex;
+
+            ComboBox s = (ComboBox)sender;
+            Settings.Canvas.EraserSize = s.SelectedIndex;
+            if (s == ComboBoxEraserSizeFloatingBar) {
+                BoardComboBoxEraserSize.SelectedIndex = s.SelectedIndex;
+                ComboBoxEraserSize.SelectedIndex = s.SelectedIndex;
+            } else if (s == BoardComboBoxEraserSize) {
+                ComboBoxEraserSizeFloatingBar.SelectedIndex = s.SelectedIndex;
+                ComboBoxEraserSize.SelectedIndex = s.SelectedIndex;
+            }
             if (Settings.Canvas.EraserShapeType == 0) {
                 double k = 1;
-                switch (ComboBoxEraserSizeFloatingBar.SelectedIndex) {
+                switch (s.SelectedIndex) {
                     case 0:
                         k = 0.5;
                         break;
@@ -373,7 +381,7 @@ namespace Ink_Canvas {
                 inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
             } else if (Settings.Canvas.EraserShapeType == 1) {
                 double k = 1;
-                switch (ComboBoxEraserSizeFloatingBar.SelectedIndex) {
+                switch (s.SelectedIndex) {
                     case 0:
                         k = 0.7;
                         break;

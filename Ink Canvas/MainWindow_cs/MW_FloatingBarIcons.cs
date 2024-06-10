@@ -716,6 +716,19 @@ namespace Ink_Canvas {
                 RectangleEraserTabButtonText.FontSize = 9;
                 RectangleEraserTabButtonText.Margin = new Thickness(2, 1, 0, 0);
                 RectangleEraserTabButtonIndicator.Visibility = Visibility.Collapsed;
+
+                BoardCircleEraserTabButton.Background = new SolidColorBrush(Color.FromArgb(85, 59, 130, 246));
+                BoardCircleEraserTabButton.Opacity = 1;
+                BoardCircleEraserTabButtonText.FontWeight = FontWeights.Bold;
+                BoardCircleEraserTabButtonText.Margin = new Thickness(2, 0.5, 0, 0);
+                BoardCircleEraserTabButtonText.FontSize = 9.5;
+                BoardCircleEraserTabButtonIndicator.Visibility = Visibility.Visible;
+                BoardRectangleEraserTabButton.Background = new SolidColorBrush(Colors.Transparent);
+                BoardRectangleEraserTabButton.Opacity = 0.75;
+                BoardRectangleEraserTabButtonText.FontWeight = FontWeights.Normal;
+                BoardRectangleEraserTabButtonText.FontSize = 9;
+                BoardRectangleEraserTabButtonText.Margin = new Thickness(2, 1, 0, 0);
+                BoardRectangleEraserTabButtonIndicator.Visibility = Visibility.Collapsed;
             }
             else {
                 RectangleEraserTabButton.Background = new SolidColorBrush(Color.FromArgb(85, 59, 130, 246));
@@ -730,6 +743,19 @@ namespace Ink_Canvas {
                 CircleEraserTabButtonText.FontSize = 9;
                 CircleEraserTabButtonText.Margin = new Thickness(2, 1, 0, 0);
                 CircleEraserTabButtonIndicator.Visibility = Visibility.Collapsed;
+
+                BoardRectangleEraserTabButton.Background = new SolidColorBrush(Color.FromArgb(85, 59, 130, 246));
+                BoardRectangleEraserTabButton.Opacity = 1;
+                BoardRectangleEraserTabButtonText.FontWeight = FontWeights.Bold;
+                BoardRectangleEraserTabButtonText.Margin = new Thickness(2, 0.5, 0, 0);
+                BoardRectangleEraserTabButtonText.FontSize = 9.5;
+                BoardRectangleEraserTabButtonIndicator.Visibility = Visibility.Visible;
+                BoardCircleEraserTabButton.Background = new SolidColorBrush(Colors.Transparent);
+                BoardCircleEraserTabButton.Opacity = 0.75;
+                BoardCircleEraserTabButtonText.FontWeight = FontWeights.Normal;
+                BoardCircleEraserTabButtonText.FontSize = 9;
+                BoardCircleEraserTabButtonText.Margin = new Thickness(2, 1, 0, 0);
+                BoardCircleEraserTabButtonIndicator.Visibility = Visibility.Collapsed;
             }
         }
 

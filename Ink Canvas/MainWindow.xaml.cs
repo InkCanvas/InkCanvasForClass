@@ -179,6 +179,9 @@ namespace Ink_Canvas {
             isLoaded = true;
 
             BlackBoardLeftSidePageListView.ItemsSource = blackBoardLeftSidePageListViewObservableCollection;
+            BtnLeftWhiteBoardSwitchPreviousGeometry.Brush = new SolidColorBrush(Color.FromArgb(127, 24, 24, 27));
+            BtnLeftWhiteBoardSwitchPreviousLabel.Opacity = 0.5;
+            BtnWhiteBoardSwitchPrevious.IsEnabled = CurrentWhiteboardIndex != 1;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {

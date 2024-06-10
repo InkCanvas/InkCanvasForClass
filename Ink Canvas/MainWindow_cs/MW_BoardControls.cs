@@ -120,6 +120,8 @@ namespace Ink_Canvas {
         }
 
         private void BtnWhiteBoardSwitchNext_Click(object sender, EventArgs e) {
+            Trace.WriteLine("113223234");
+
             if (Settings.Automation.IsAutoSaveStrokesAtClear &&
                 inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) SaveScreenShot(true);
             if (CurrentWhiteboardIndex >= WhiteboardTotalCount) {
@@ -205,22 +207,27 @@ namespace Ink_Canvas {
                 //BoardLeftPannelNextPageTextBlock.Text = "下一页";
             }
 
-            BtnWhiteBoardSwitchPrevious.IsEnabled = CurrentWhiteboardIndex != 1;
+            BtnWhiteBoardSwitchPrevious.IsEnabled = true;
+            BtnWhiteBoardSwitchNext.IsEnabled = true;
+
             if (CurrentWhiteboardIndex == 1) {
+                BtnWhiteBoardSwitchPrevious.IsEnabled = false;
                 BtnLeftWhiteBoardSwitchPreviousGeometry.Brush = new SolidColorBrush(Color.FromArgb(127, 24, 24, 27));
                 BtnLeftWhiteBoardSwitchPreviousLabel.Opacity = 0.5;
+                BtnLeftWhiteBoardSwitchNextGeometry.Brush = new SolidColorBrush(Color.FromArgb(255, 24, 24, 27));
+                BtnLeftWhiteBoardSwitchNextLabel.Opacity = 1;
             } else {
                 BtnLeftWhiteBoardSwitchPreviousGeometry.Brush = new SolidColorBrush(Color.FromArgb(255, 24, 24, 27));
                 BtnLeftWhiteBoardSwitchPreviousLabel.Opacity = 1;
-            }
 
-            BtnWhiteBoardSwitchNext.IsEnabled = CurrentWhiteboardIndex != WhiteboardTotalCount;
-            if (CurrentWhiteboardIndex == WhiteboardTotalCount) {
-                BtnLeftWhiteBoardSwitchNextGeometry.Brush = new SolidColorBrush(Color.FromArgb(127, 24, 24, 27));
-                BtnLeftWhiteBoardSwitchNextLabel.Opacity = 0.5;
-            } else {
-                BtnLeftWhiteBoardSwitchNextGeometry.Brush = new SolidColorBrush(Color.FromArgb(255, 24, 24, 27));
-                BtnLeftWhiteBoardSwitchNextLabel.Opacity = 1;
+                if (CurrentWhiteboardIndex == WhiteboardTotalCount) {
+                    BtnLeftWhiteBoardSwitchNextGeometry.Brush = new SolidColorBrush(Color.FromArgb(127, 24, 24, 27));
+                    BtnLeftWhiteBoardSwitchNextLabel.Opacity = 0.5;
+                    BtnWhiteBoardSwitchNext.IsEnabled = false;
+                } else {
+                    BtnLeftWhiteBoardSwitchNextGeometry.Brush = new SolidColorBrush(Color.FromArgb(255, 24, 24, 27));
+                    BtnLeftWhiteBoardSwitchNextLabel.Opacity = 1;
+                }
             }
 
             BtnWhiteBoardDelete.IsEnabled = WhiteboardTotalCount != 1;
