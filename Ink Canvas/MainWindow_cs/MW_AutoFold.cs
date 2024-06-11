@@ -22,6 +22,23 @@ namespace Ink_Canvas {
             if (isFloatingBarChangingHideMode) return;
 
             await Dispatcher.InvokeAsync(() => {
+                InkCanvasForInkReplay.Visibility = Visibility.Collapsed;
+                inkCanvas.Visibility = Visibility.Visible;
+                if (currentMode == 1)
+                {
+                    ViewboxBlackboardLeftSide.Visibility = Visibility.Visible;
+                    ViewboxBlackboardRightSide.Visibility = Visibility.Visible;
+                    BlackboardCenterSide.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ViewboxFloatingBar.Visibility = Visibility.Visible;
+                }
+                AnimationsHelper.HideWithFadeOut(BorderInkReplayToolBox);
+                isStopInkReplay = true;
+            });
+
+            await Dispatcher.InvokeAsync(() => {
                 isFloatingBarChangingHideMode = true;
                 isFloatingBarFolded = true;
                 if (currentMode != 0) ImageBlackboard_MouseUp(null, null);

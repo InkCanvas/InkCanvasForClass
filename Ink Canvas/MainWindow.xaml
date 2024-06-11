@@ -1161,7 +1161,7 @@
                                                    Text="5.X.X.X" />
                                     </ui:SimpleStackPanel>
                                     <TextBlock
-                                        Text="* 使用和分发本软件前，请您应当且务必知晓相关开源协议，且您应当知晓本软件基于 https://github.com/WXRIW/Ink-Canvas 修改而成。"
+                                        Text="# 使用和分发本软件前，请您应当且务必知晓相关开源协议，且您应当知晓本软件基于 https://github.com/WXRIW/Ink-Canvas 修改而成。"
                                         TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     <Border BorderBrush="#a1a1aa" BorderThickness="1" CornerRadius="8" Background="#18181b">
                                         <ui:SimpleStackPanel Orientation="Vertical" Margin="8">
@@ -5444,8 +5444,135 @@
         <Grid Name="GridForFloatingBarDraging" Background="#01000000" Visibility="Collapsed"
               MouseMove="SymbolIconEmoji_MouseMove" MouseUp="SymbolIconEmoji_MouseUp" />
 
-        <InkCanvas Name="InkCanvasForInkReplay" MouseDown="InkCanvasForInkReplay_MouseDown" Visibility="Collapsed"
-                   EditingMode="None" Background="Transparent" />
+        <Grid>
+            <InkCanvas Name="InkCanvasForInkReplay" MouseDown="InkCanvasForInkReplay_MouseDown" Visibility="Collapsed"
+                       EditingMode="None" Background="Transparent" />
+            <Border Name="BorderInkReplayToolBox" Width="386" Height="48" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,16" Background="#fafafa" CornerRadius="5" BorderBrush="#a1a1aa" BorderThickness="1">
+                <ui:SimpleStackPanel Orientation="Horizontal">
+                    <Border CornerRadius="5,0,0,5" Margin="-1" Padding="12" Background="#b91c1c">
+                        <ui:SimpleStackPanel Orientation="Horizontal">
+                            <Image Width="24" Height="24">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M10.4679,3.29578C12.1914,3.08179 13.9385,3.41707 15.4604,4.25385 16.9822,5.09064 18.2013,6.38627 18.9439,7.95624 19.6865,9.5262 19.9148,11.2905 19.5963,12.9977 19.4919,13.5577 19.8611,14.0964 20.4211,14.2009 20.9811,14.3053 21.5198,13.936 21.6243,13.376 22.0224,11.2419 21.737,9.03662 20.8087,7.07416 19.8804,5.1117 18.3566,3.49216 16.4543,2.44618 14.552,1.4002 12.3681,0.981105 10.2138,1.24858 8.05937,1.51606 6.0443,2.45648 4.45553,3.9359 2.86675,5.41533 1.78526,7.35833 1.36509,9.4882 0.944914,11.6181 1.20747,13.8262 2.11537,15.7982 3.02327,17.7701 4.53022,19.4054 6.42161,20.471 8.31301,21.5366 10.4924,21.9783 12.6494,21.7331 13.2155,21.6688 13.6221,21.1578 13.5578,20.5918 13.4935,20.0258 12.9825,19.6191 12.4165,19.6834 10.6908,19.8795 8.94733,19.5262 7.43421,18.6737 5.9211,17.8212 4.71554,16.513 3.98922,14.9355 3.2629,13.3579 3.05285,11.5914 3.38899,9.88747 3.72513,8.18357 4.59032,6.62917 5.86134,5.44563 7.13237,4.26209 8.74442,3.50976 10.4679,3.29578z M11.484,5.29524C12.0536,5.29524,12.5154,5.75704,12.5154,6.32669L12.5154,11.0567 14.2762,12.8175C14.679,13.2203 14.679,13.8734 14.2762,14.2762 13.8734,14.679 13.2203,14.679 12.8175,14.2762L10.7546,12.2133C10.5612,12.0199,10.4525,11.7575,10.4525,11.484L10.4525,6.32669C10.4525,5.75704,10.9143,5.29524,11.484,5.29524z M17.1719,14.7253C16.8533,14.5341 16.4564,14.5291 16.133,14.7122 15.8097,14.8953 15.6098,15.2382 15.6098,15.6098L15.6098,21.7985C15.6098,22.1701 15.8097,22.513 16.133,22.6961 16.4564,22.8792 16.8533,22.8742 17.1719,22.683L22.3292,19.5886C22.6399,19.4022 22.83,19.0665 22.83,18.7042 22.83,18.3418 22.6399,18.0061 22.3292,17.8197L17.1719,14.7253z" />
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                        </ui:SimpleStackPanel>
+                    </Border>
+                    <StackPanel Width="128" Orientation="Vertical" VerticalAlignment="Center" Margin="8,0,0,0">
+                        <TextBlock Name="InkReplayPanelStatusText" FontSize="17" FontWeight="Bold" Foreground="#b91c1c" Text="正在重播墨迹..." VerticalAlignment="Center" />
+                        <TextBlock FontSize="12" Foreground="#b91c1c" Text="双击屏幕退出播放" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <ui:SimpleStackPanel Orientation="Horizontal" Margin="9,0,0,0" Spacing="6">
+                        <Border Name="InkReplayPlayPauseBorder" MouseDown="InkReplayPlayPauseBorder_OnMouseDown" MouseUp="InkReplayPlayPauseBorder_OnMouseUp" CornerRadius="16" Height="32" Width="32">
+                            <Grid>
+                                <Image Name="InkReplayPlayButtonImage" Visibility="Collapsed" Width="18" Height="18" Margin="2,0,0,0">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                    <GeometryDrawing Brush="#FFF2FCF3" Geometry="F1 M16,16z M0,0z M13.5,7.13397C14.1667,7.51888,14.1667,8.48112,13.5,8.86602L4.5,14.0622C3.83333,14.4471,3,13.966,3,13.1962L3,2.80385C3,2.03405,3.83333,1.55292,4.5,1.93782L13.5,7.13397z">
+                                                        <GeometryDrawing.Pen>
+                                                            <Pen Brush="#FF208A3C" Thickness="1" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                                                        </GeometryDrawing.Pen>
+                                                    </GeometryDrawing>
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
+                                <Image Name="InkReplayPauseButtonImage" Width="18" Height="18">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                    <GeometryDrawing Brush="#FFEBECF0">
+                                                        <GeometryDrawing.Pen>
+                                                            <Pen Brush="#FF6C707E" Thickness="1" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                                                        </GeometryDrawing.Pen>
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0.5" RadiusY="0.5" Rect="3.5,2.5,3,11" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="#FFEBECF0">
+                                                        <GeometryDrawing.Pen>
+                                                            <Pen Brush="#FF6C707E" Thickness="1" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                                                        </GeometryDrawing.Pen>
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry RadiusX="0.5" RadiusY="0.5" Rect="9.5,2.5,3,11" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
+                            </Grid>
+                        </Border>
+                        <Border Name="InkReplayStopButtonBorder" MouseDown="InkReplayStopButtonBorder_OnMouseDown" MouseUp="InkReplayStopButtonBorder_OnMouseUp" CornerRadius="16" Height="32" Width="32">
+                            <Image Width="18" Height="18">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                <GeometryDrawing Brush="#FFFFF7F7">
+                                                    <GeometryDrawing.Pen>
+                                                        <Pen Brush="#FFDB3B4B" Thickness="1" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                                                    </GeometryDrawing.Pen>
+                                                    <GeometryDrawing.Geometry>
+                                                        <RectangleGeometry RadiusX="1.5" RadiusY="1.5" Rect="2.5,2.5,11,11" />
+                                                    </GeometryDrawing.Geometry>
+                                                </GeometryDrawing>
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                        </Border>
+                        <Border Name="InkReplayReplayButtonBorder" MouseDown="InkReplayReplayButtonBorder_OnMouseDown" MouseUp="InkReplayReplayButtonBorder_OnMouseUp" CornerRadius="16" Height="32" Width="32" >
+                            <Image Width="22" Height="22" Margin="-1,-1,0,0">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                <GeometryDrawing Brush="#FF208A3C" Geometry="F0 M16,16z M0,0z M9,9.50215C9,8.32441,10.2951,7.60608,11.2942,8.22967L15.2962,10.7275C16.2372,11.3149,16.2372,12.6851,15.2962,13.2725L11.2942,15.7703C10.2951,16.3939,9,15.6756,9,14.4978L9,9.50215z M10.7647,9.07799C10.4317,8.87013,10,9.10957,10,9.50215L10,14.4978C10,14.8904,10.4317,15.1298,10.7647,14.922L14.7667,12.4241C15.0804,12.2284,15.0804,11.7716,14.7667,11.5758L10.7647,9.07799z" />
+                                                <GeometryDrawing Brush="#FFF2FCF3" Geometry="F1 M16,16z M0,0z M10,9.50217C10,9.10959,10.4317,8.87015,10.7647,9.07801L14.7667,11.5758C15.0804,11.7716,15.0804,12.2284,14.7667,12.4242L10.7647,14.922C10.4317,15.1299,10,14.8904,10,14.4978L10,9.50217z" />
+                                                <GeometryDrawing Brush="#FF6C707E" Geometry="F1 M16,16z M0,0z M14,1.5C14,1.22386 13.7761,1 13.5,1 13.2239,1 13,1.22386 13,1.5L13,4.68235C11.9256,3.06631 10.0877,2 8,2 4.68629,2 2,4.68629 2,8 2,11.3137 4.68629,14 8,14L8,13C5.23858,13 3,10.7614 3,8 3,5.23858 5.23858,3 8,3 9.63527,3 11.0878,3.78495 12.0005,5L9.5,5C9.22386,5 9,5.22386 9,5.5 9,5.77614 9.22386,6 9.5,6L14,6 14,1.5z" />
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                        </Border>
+                        <Border Name="InkReplaySpeedButtonBorder" MouseDown="InkReplaySpeedButtonBorder_OnMouseDown" MouseUp="InkReplaySpeedButtonBorder_OnMouseUp" CornerRadius="16" Height="32" Width="32">
+                            <Image Width="22" Height="22" Margin="-1,-1,-1,0">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                <GeometryDrawing Brush="#FF208A3C" Geometry="F0 M16,16z M0,0z M9,9.50215C9,8.32441,10.2951,7.60608,11.2942,8.22967L15.2962,10.7275C16.2372,11.3149,16.2372,12.6851,15.2962,13.2725L11.2942,15.7703C10.2951,16.3939,9,15.6756,9,14.4978L9,9.50215z M10.7647,9.07799C10.4317,8.87013,10,9.10957,10,9.50215L10,14.4978C10,14.8904,10.4317,15.1298,10.7647,14.922L14.7667,12.4241C15.0804,12.2284,15.0804,11.7716,14.7667,11.5758L10.7647,9.07799z" />
+                                                <GeometryDrawing Brush="#FFF2FCF3" Geometry="F1 M16,16z M0,0z M10,9.50217C10,9.10959,10.4317,8.87015,10.7647,9.07801L14.7667,11.5758C15.0804,11.7716,15.0804,12.2284,14.7667,12.4242L10.7647,14.922C10.4317,15.1299,10,14.8904,10,14.4978L10,9.50217z" />
+                                                <GeometryDrawing Brush="#FF6C707E" Geometry="F1 M16,16z M0,0z M1.5,9C1.5,5.41015 4.41015,2.5 8,2.5 11.5899,2.5 14.5,5.41015 14.5,9 14.5,9.01716 14.4999,9.03444 14.4997,9.05183L15.4651,9.65439C15.4879,9.42788 15.5,9.20815 15.5,9 15.5,4.85786 12.1421,1.5 8,1.5 3.85786,1.5 0.5,4.85786 0.5,9 0.5,10.1604 0.877241,11.6805 1.36637,12.7304 1.44463,12.8984 1.61594,13 1.80126,13L8,13 8,12 2.13917,12C1.76974,11.0874,1.5,9.89088,1.5,9z" />
+                                                <GeometryDrawing Brush="#FF6C707E" Geometry="F1 M16,16z M0,0z M8,10.6L8,9.6C7.55826,9.59989 7.2002,9.24176 7.2002,8.8 7.2002,8.35817 7.55837,8 8.0002,8 8.15213,8 8.29417,8.04235 8.41515,8.11589 8.60651,7.82993 8.85445,7.58935 9.13847,7.40554 8.97934,7.27549 8.79754,7.17214 8.5999,7.10232L8.5999,3.99999C8.5999,3.66862 8.33127,3.39999 7.9999,3.39999 7.66853,3.39999 7.3999,3.66862 7.3999,3.99999L7.3999,7.10253C6.70094,7.34971 6.2002,8.01638 6.2002,8.8 6.2002,9.79405 7.00598,10.5999 8,10.6z" />
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                        </Border>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Name="InkReplaySpeedTextBlock" Margin="4,0,0,0" FontSize="13" Foreground="#18181b" Text="1.0x" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                        
+                    </ui:SimpleStackPanel>
+                </ui:SimpleStackPanel>
+            </Border>
+        </Grid>
 
         <!--// 侧边栏 //-->
         <Viewbox x:Name="LeftSidePanel" MouseUp="LeftUnFoldButtonDisplayQuickPanel_MouseUp" Visibility="Visible"

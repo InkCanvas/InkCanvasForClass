@@ -228,6 +228,20 @@ namespace Ink_Canvas {
                 FoldFloatingBar_MouseUp(null, null);
             else if (isFloatingBarFolded) UnFoldFloatingBar_MouseUp(null, null);
 
+            if (!Settings.Automation.IsAutoFoldInPPTSlideShow && !isFloatingBarFolded) {
+                InkCanvasForInkReplay.Visibility = Visibility.Collapsed;
+                inkCanvas.Visibility = Visibility.Visible;
+                if (currentMode == 1) {
+                    ViewboxBlackboardLeftSide.Visibility = Visibility.Visible;
+                    ViewboxBlackboardRightSide.Visibility = Visibility.Visible;
+                    BlackboardCenterSide.Visibility = Visibility.Visible;
+                } else {
+                    ViewboxFloatingBar.Visibility = Visibility.Visible;
+                }
+                AnimationsHelper.HideWithFadeOut(BorderInkReplayToolBox);
+                isStopInkReplay = true;
+            }
+
             LogHelper.WriteLogToFile("PowerPoint Application Slide Show Begin", LogHelper.LogType.Event);
             Application.Current.Dispatcher.Invoke(() => {
                 if (currentMode != 0) ImageBlackboard_MouseUp(null, null);
