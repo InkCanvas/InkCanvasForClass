@@ -779,11 +779,12 @@ namespace Ink_Canvas {
             CollapseBorderDrawShape();
 
             InkCanvasForInkReplay.Visibility = Visibility.Visible;
-            inkCanvas.Visibility = Visibility.Collapsed;
-            ViewboxFloatingBar.Visibility = Visibility.Collapsed;
-            ViewboxBlackboardLeftSide.Visibility = Visibility.Collapsed;
-            ViewboxBlackboardRightSide.Visibility = Visibility.Collapsed;
-            BlackboardCenterSide.Visibility = Visibility.Collapsed;
+            InkCanvasGridForInkReplay.Visibility = Visibility.Hidden;
+            InkCanvasGridForInkReplay.IsHitTestVisible = false;
+            FloatingbarUIForInkReplay.Visibility = Visibility.Hidden;
+            FloatingbarUIForInkReplay.IsHitTestVisible = false;
+            BlackboardUIGridForInkReplay.Visibility = Visibility.Hidden;
+            BlackboardUIGridForInkReplay.IsHitTestVisible = false;
 
             AnimationsHelper.ShowWithFadeIn(BorderInkReplayToolBox);
             InkReplayPanelStatusText.Text = "正在重播墨迹...";
@@ -875,8 +876,13 @@ namespace Ink_Canvas {
                 Thread.Sleep(100);
                 Application.Current.Dispatcher.Invoke(() => {
                     InkCanvasForInkReplay.Visibility = Visibility.Collapsed;
-                    inkCanvas.Visibility = Visibility.Visible;
+                    InkCanvasGridForInkReplay.Visibility = Visibility.Visible;
+                    InkCanvasGridForInkReplay.IsHitTestVisible = true;
                     AnimationsHelper.HideWithFadeOut(BorderInkReplayToolBox);
+                    FloatingbarUIForInkReplay.Visibility = Visibility.Visible;
+                    FloatingbarUIForInkReplay.IsHitTestVisible = true;
+                    BlackboardUIGridForInkReplay.Visibility = Visibility.Visible;
+                    BlackboardUIGridForInkReplay.IsHitTestVisible = true;
                 });
             }).Start();
         }
@@ -889,11 +895,12 @@ namespace Ink_Canvas {
         private void InkCanvasForInkReplay_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount == 2) {
                 InkCanvasForInkReplay.Visibility = Visibility.Collapsed;
-                inkCanvas.Visibility = Visibility.Visible;
-                ViewboxFloatingBar.Visibility = Visibility.Visible;
-                ViewboxBlackboardLeftSide.Visibility = Visibility.Visible;
-                ViewboxBlackboardRightSide.Visibility = Visibility.Visible;
-                BlackboardCenterSide.Visibility = Visibility.Visible;
+                InkCanvasGridForInkReplay.Visibility = Visibility.Visible;
+                InkCanvasGridForInkReplay.IsHitTestVisible = true;
+                FloatingbarUIForInkReplay.Visibility = Visibility.Visible;
+                FloatingbarUIForInkReplay.IsHitTestVisible = true;
+                BlackboardUIGridForInkReplay.Visibility = Visibility.Visible;
+                BlackboardUIGridForInkReplay.IsHitTestVisible = true;
                 AnimationsHelper.HideWithFadeOut(BorderInkReplayToolBox);
                 isStopInkReplay = true;
             }
@@ -921,11 +928,12 @@ namespace Ink_Canvas {
         {
             InkReplayStopButtonBorder.Background = new SolidColorBrush(Colors.Transparent);
             InkCanvasForInkReplay.Visibility = Visibility.Collapsed;
-            inkCanvas.Visibility = Visibility.Visible;
-            ViewboxFloatingBar.Visibility = Visibility.Visible;
-            ViewboxBlackboardLeftSide.Visibility = Visibility.Visible;
-            ViewboxBlackboardRightSide.Visibility = Visibility.Visible;
-            BlackboardCenterSide.Visibility = Visibility.Visible;
+            InkCanvasGridForInkReplay.Visibility = Visibility.Visible;
+            InkCanvasGridForInkReplay.IsHitTestVisible = true;
+            FloatingbarUIForInkReplay.Visibility = Visibility.Visible;
+            FloatingbarUIForInkReplay.IsHitTestVisible = true;
+            BlackboardUIGridForInkReplay.Visibility = Visibility.Visible;
+            BlackboardUIGridForInkReplay.IsHitTestVisible = true;
             AnimationsHelper.HideWithFadeOut(BorderInkReplayToolBox);
             isStopInkReplay = true;
         }

@@ -530,7 +530,15 @@ namespace Ink_Canvas {
             StartOrStoptimerCheckAutoFold();
         }
 
-        private void ToggleSwitchAutoFoldInEasiNote3C_Toggled(object sender, RoutedEventArgs e) {
+        private void ToggleSwitchAutoFoldInEasiNote3_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Automation.IsAutoFoldInEasiNote3 = ToggleSwitchAutoFoldInEasiNote3.IsOn;
+            SaveSettingsToFile();
+            StartOrStoptimerCheckAutoFold();
+        }
+
+        private void ToggleSwitchAutoFoldInEasiNote3C_Toggled(object sender, RoutedEventArgs e)
+        {
             if (!isLoaded) return;
             Settings.Automation.IsAutoFoldInEasiNote3C = ToggleSwitchAutoFoldInEasiNote3C.IsOn;
             SaveSettingsToFile();
@@ -596,6 +604,16 @@ namespace Ink_Canvas {
         private void ToggleSwitchAutoFoldInPPTSlideShow_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Automation.IsAutoFoldInPPTSlideShow = ToggleSwitchAutoFoldInPPTSlideShow.IsOn;
+            if (Settings.Automation.IsAutoFoldInPPTSlideShow)
+            {
+                SettingsPPTInkingAndAutoFoldExplictBorder.Visibility = Visibility.Visible;
+                SettingsShowCanvasAtNewSlideShowStackPanel.Opacity = 0.5;
+                SettingsShowCanvasAtNewSlideShowStackPanel.IsHitTestVisible = false;
+            } else {
+                SettingsPPTInkingAndAutoFoldExplictBorder.Visibility = Visibility.Collapsed;
+                SettingsShowCanvasAtNewSlideShowStackPanel.Opacity = 1;
+                SettingsShowCanvasAtNewSlideShowStackPanel.IsHitTestVisible = true;
+            }
             SaveSettingsToFile();
             StartOrStoptimerCheckAutoFold();
         }
@@ -879,6 +897,7 @@ namespace Ink_Canvas {
             Settings.Automation.IsAutoFoldInEasiNoteIgnoreDesktopAnno = true;
             Settings.Automation.IsAutoFoldInEasiCamera = true;
             Settings.Automation.IsAutoFoldInEasiNote3C = false;
+            Settings.Automation.IsAutoFoldInEasiNote3 = false;
             Settings.Automation.IsAutoFoldInEasiNote5C = true;
             Settings.Automation.IsAutoFoldInSeewoPincoTeacher = false;
             Settings.Automation.IsAutoFoldInHiteTouchPro = false;

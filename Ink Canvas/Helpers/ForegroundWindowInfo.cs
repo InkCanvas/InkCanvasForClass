@@ -76,5 +76,22 @@ namespace Ink_Canvas.Helpers
                 return "Unknown";
             }
         }
+
+        public static string ProcessPath()
+        {
+            IntPtr foregroundWindowHandle = GetForegroundWindow();
+            uint processId;
+            GetWindowThreadProcessId(foregroundWindowHandle, out processId);
+
+            try
+            {
+                Process process = Process.GetProcessById((int)processId);
+                return process.MainModule.FileName;
+            }
+            catch {
+                // Process with the given ID not found
+                return "Unknown";
+            }
+        }
     }
 }

@@ -56,9 +56,9 @@ namespace Ink_Canvas {
             timerCheckPPT.Elapsed += TimerCheckPPT_Elapsed;
             timerCheckPPT.Interval = 500;
             timerKillProcess.Elapsed += TimerKillProcess_Elapsed;
-            timerKillProcess.Interval = 5000;
+            timerKillProcess.Interval = 2000;
             timerCheckAutoFold.Elapsed += timerCheckAutoFold_Elapsed;
-            timerCheckAutoFold.Interval = 1500;
+            timerCheckAutoFold.Interval = 500;
             timerCheckAutoUpdateWithSilence.Elapsed += timerCheckAutoUpdateWithSilence_Elapsed;
             timerCheckAutoUpdateWithSilence.Interval = 1000 * 60 * 10;
             WaterMarkTime.DataContext = nowTimeVM;
@@ -133,33 +133,72 @@ namespace Ink_Canvas {
                 var windowTitle = ForegroundWindowInfo.WindowTitle();
                 //LogHelper.WriteLogToFile("windowTitle | " + windowTitle + " | windowProcessName | " + windowProcessName);
 
-                if ((Settings.Automation.IsAutoFoldInEasiNote && windowProcessName == "EasiNote" // 希沃白板
-                                                              && (!(windowTitle.Length == 0 &&
-                                                                    ForegroundWindowInfo.WindowRect().Height < 500) ||
-                                                                  !Settings.Automation
-                                                                      .IsAutoFoldInEasiNoteIgnoreDesktopAnno))
-                    || (Settings.Automation.IsAutoFoldInEasiCamera && windowProcessName == "EasiCamera") // 希沃视频展台
-                    || (Settings.Automation.IsAutoFoldInEasiNote3C && windowProcessName == "EasiNote") // 希沃轻白板3C
-                    || (Settings.Automation.IsAutoFoldInEasiNote5C && windowProcessName == "EasiNote5C") // 希沃轻白板5C
-                    || (Settings.Automation.IsAutoFoldInSeewoPincoTeacher && (windowProcessName == "BoardService" ||
-                                                                              windowProcessName ==
-                                                                              "seewoPincoTeacher")) // 希沃品课
-                    || (Settings.Automation.IsAutoFoldInHiteCamera && windowProcessName == "HiteCamera") // 鸿合视频展台
-                    || (Settings.Automation.IsAutoFoldInHiteTouchPro && windowProcessName == "HiteTouchPro") // 鸿合白板
-                    || (Settings.Automation.IsAutoFoldInWxBoardMain && windowProcessName == "WxBoardMain") // 文香白板
-                    || (Settings.Automation.IsAutoFoldInMSWhiteboard && (windowProcessName == "MicrosoftWhiteboard" ||
-                                                                         windowProcessName == "msedgewebview2")) // 微软白板
-                    || (Settings.Automation.IsAutoFoldInOldZyBoard && // 中原旧白板
-                        (WinTabWindowsChecker.IsWindowExisted("WhiteBoard - DrawingWindow")
-                         || WinTabWindowsChecker.IsWindowExisted("InstantAnnotationWindow")))) {
+                if (windowProcessName == "EasiNote") {
+                    // 检测到有可能是EasiNote5或者EasiNote3/3C
+                    if (ForegroundWindowInfo.ProcessPath() != "Unknown") {
+                        var versionInfo = FileVersionInfo.GetVersionInfo(ForegroundWindowInfo.ProcessPath());
+                        string version = versionInfo.FileVersion;
+                        string prodName = versionInfo.ProductName;
+                        Trace.WriteLine(ForegroundWindowInfo.ProcessPath());
+                        Trace.WriteLine(version);
+                        Trace.WriteLine(prodName);
+                        if (version.StartsWith("5.") && Settings.Automation.IsAutoFoldInEasiNote && (!(windowTitle.Length == 0 && ForegroundWindowInfo.WindowRect().Height < 500) ||
+                                                         !Settings.Automation.IsAutoFoldInEasiNoteIgnoreDesktopAnno)) { // EasiNote5
+                            if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
+                        } else if (version.StartsWith("3.") && Settings.Automation.IsAutoFoldInEasiNote3) { // EasiNote3
+                            if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
+                        } else if (prodName.Contains("3C") && Settings.Automation.IsAutoFoldInEasiNote3C &&
+                                   ForegroundWindowInfo.WindowRect().Height >= SystemParameters.WorkArea.Height - 16 &&
+                                   ForegroundWindowInfo.WindowRect().Width >= SystemParameters.WorkArea.Width - 16) { // EasiNote3C
+                            if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
+                        }
+                    }
+                    // EasiCamera
+                } else if (Settings.Automation.IsAutoFoldInEasiCamera && windowProcessName == "EasiCamera" &&
+                           ForegroundWindowInfo.WindowRect().Height >= SystemParameters.WorkArea.Height - 16 &&
+                           ForegroundWindowInfo.WindowRect().Width >= SystemParameters.WorkArea.Width - 16) {
                     if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
-                }
-                else if (WinTabWindowsChecker.IsWindowExisted("幻灯片放映", false)) {
+                    // EasiNote5C
+                } else if (Settings.Automation.IsAutoFoldInEasiNote5C && windowProcessName == "EasiNote5C" &&
+                           ForegroundWindowInfo.WindowRect().Height >= SystemParameters.WorkArea.Height - 16 &&
+                           ForegroundWindowInfo.WindowRect().Width >= SystemParameters.WorkArea.Width - 16) {
+                    if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
+                    // SeewoPinco
+                } else if (Settings.Automation.IsAutoFoldInSeewoPincoTeacher && (windowProcessName == "BoardService" || windowProcessName == "seewoPincoTeacher")) {
+                    if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
+                    // HiteCamera
+                } else if (Settings.Automation.IsAutoFoldInHiteCamera && windowProcessName == "HiteCamera" &&
+                           ForegroundWindowInfo.WindowRect().Height >= SystemParameters.WorkArea.Height - 16 &&
+                           ForegroundWindowInfo.WindowRect().Width >= SystemParameters.WorkArea.Width - 16) {
+                    if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
+                    // HiteTouchPro
+                } else if (Settings.Automation.IsAutoFoldInHiteTouchPro && windowProcessName == "HiteTouchPro" &&
+                           ForegroundWindowInfo.WindowRect().Height >= SystemParameters.WorkArea.Height - 16 &&
+                           ForegroundWindowInfo.WindowRect().Width >= SystemParameters.WorkArea.Width - 16) {
+                    if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
+                    // WxBoardMain
+                } else if (Settings.Automation.IsAutoFoldInWxBoardMain && windowProcessName == "WxBoardMain" &&
+                           ForegroundWindowInfo.WindowRect().Height >= SystemParameters.WorkArea.Height - 16 &&
+                           ForegroundWindowInfo.WindowRect().Width >= SystemParameters.WorkArea.Width - 16) {
+                    if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
+                    // MSWhiteboard
+                } else if (Settings.Automation.IsAutoFoldInMSWhiteboard && (windowProcessName == "MicrosoftWhiteboard" || windowProcessName == "msedgewebview2")) {
+                    if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
+                    // OldZyBoard
+                } else if (Settings.Automation.IsAutoFoldInOldZyBoard && // 中原旧白板
+                        (WinTabWindowsChecker.IsWindowExisted("WhiteBoard - DrawingWindow")
+                         || WinTabWindowsChecker.IsWindowExisted("InstantAnnotationWindow"))) {
+                    if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
+                    // HiteLightBoard
+                } else if (Settings.Automation.IsAutoFoldInHiteLightBoard && windowProcessName == "HiteLightBoard" &&
+                           ForegroundWindowInfo.WindowRect().Height >= SystemParameters.WorkArea.Height - 16 &&
+                           ForegroundWindowInfo.WindowRect().Width >= SystemParameters.WorkArea.Width - 16) {
+                    if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
+                } else if (WinTabWindowsChecker.IsWindowExisted("幻灯片放映", false)) {
                     // 处于幻灯片放映状态
                     if (!Settings.Automation.IsAutoFoldInPPTSlideShow && isFloatingBarFolded && !foldFloatingBarByUser)
                         UnFoldFloatingBar_MouseUp(new object(), null);
-                }
-                else {
+                } else {
                     if (isFloatingBarFolded && !foldFloatingBarByUser) UnFoldFloatingBar_MouseUp(new object(), null);
                     unfoldFloatingBarByUser = false;
                 }

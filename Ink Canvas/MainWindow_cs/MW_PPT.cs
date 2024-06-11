@@ -29,7 +29,7 @@ namespace Ink_Canvas {
         private void BtnCheckPPT_Click(object sender, RoutedEventArgs e) {
             try {
                 pptApplication =
-                    (Microsoft.Office.Interop.PowerPoint.Application)Marshal.GetActiveObject("PowerPoint.Application");
+                    (Microsoft.Office.Interop.PowerPoint.Application)Marshal.GetActiveObject("kwpp.Application");
                 //pptApplication.SlideShowWindows[1].View.Next();
                 if (pptApplication != null) {
                     //获得演示文稿对象
@@ -83,8 +83,8 @@ namespace Ink_Canvas {
         private void TimerCheckPPT_Elapsed(object sender, ElapsedEventArgs e) {
             if (IsShowingRestoreHiddenSlidesWindow) return;
             try {
-                var processes = Process.GetProcessesByName("wpp");
-                if (processes.Length > 0 && !isWPSSupportOn) return;
+                //var processes = Process.GetProcessesByName("wpp");
+                //if (processes.Length > 0 && !isWPSSupportOn) return;
 
                 //使用下方提前创建 PowerPoint 实例，将导致 PowerPoint 不再有启动界面
                 //pptApplication = (Microsoft.Office.Interop.PowerPoint.Application)Activator.CreateInstance(Marshal.GetTypeFromCLSID(new Guid("91493441-5A91-11CF-8700-00AA0060263B")));
@@ -228,19 +228,7 @@ namespace Ink_Canvas {
                 FoldFloatingBar_MouseUp(null, null);
             else if (isFloatingBarFolded) UnFoldFloatingBar_MouseUp(null, null);
 
-            if (!Settings.Automation.IsAutoFoldInPPTSlideShow && !isFloatingBarFolded) {
-                InkCanvasForInkReplay.Visibility = Visibility.Collapsed;
-                inkCanvas.Visibility = Visibility.Visible;
-                if (currentMode == 1) {
-                    ViewboxBlackboardLeftSide.Visibility = Visibility.Visible;
-                    ViewboxBlackboardRightSide.Visibility = Visibility.Visible;
-                    BlackboardCenterSide.Visibility = Visibility.Visible;
-                } else {
-                    ViewboxFloatingBar.Visibility = Visibility.Visible;
-                }
-                AnimationsHelper.HideWithFadeOut(BorderInkReplayToolBox);
-                isStopInkReplay = true;
-            }
+            isStopInkReplay=true;
 
             LogHelper.WriteLogToFile("PowerPoint Application Slide Show Begin", LogHelper.LogType.Event);
             Application.Current.Dispatcher.Invoke(() => {
@@ -269,7 +257,6 @@ namespace Ink_Canvas {
                 else if (screenRatio == -256 / 135) { }
 
                 lastDesktopInkColor = 1;
-
 
                 slidescount = Wn.Presentation.Slides.Count;
                 previousSlideID = 0;
@@ -310,11 +297,11 @@ namespace Ink_Canvas {
 
                 StackPanelPPTControls.Visibility = Visibility.Visible;
 
-                if (Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel)
+                if (Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel && !isFloatingBarFolded)
                     AnimationsHelper.ShowWithSlideFromBottomAndFade(BottomViewboxPPTSidesControl);
                 else
                     BottomViewboxPPTSidesControl.Visibility = Visibility.Collapsed;
-                if (Settings.PowerPointSettings.IsShowSidePPTNavigationPanel) {
+                if (Settings.PowerPointSettings.IsShowSidePPTNavigationPanel && !isFloatingBarFolded) {
                     AnimationsHelper.ShowWithScaleFromLeft(LeftSidePanelForPPTNavigation);
                     AnimationsHelper.ShowWithScaleFromRight(RightSidePanelForPPTNavigation);
                 }
@@ -330,7 +317,7 @@ namespace Ink_Canvas {
                 ViewboxFloatingBar.Opacity = Settings.Appearance.ViewboxFloatingBarOpacityInPPTValue;
 
                 if (Settings.PowerPointSettings.IsShowCanvasAtNewSlideShow &&
-                    GridTransparencyFakeBackground.Background == Brushes.Transparent) {
+                    GridTransparencyFakeBackground.Background == Brushes.Transparent && !isFloatingBarFolded) {
                     if (currentMode != 0) {
                         currentMode = 0;
                         GridBackgroundCover.Visibility = Visibility.Collapsed;
@@ -359,10 +346,14 @@ namespace Ink_Canvas {
                 PptNavigationTextBlock.Text = $"{Wn.View.CurrentShowPosition}/{Wn.Presentation.Slides.Count}";
                 LogHelper.NewLog("PowerPoint Slide Show Loading process complete");
 
-                new Thread(new ThreadStart(() => {
-                    Thread.Sleep(100);
-                    Application.Current.Dispatcher.Invoke(() => { ViewboxFloatingBarMarginAnimation(60); });
-                })).Start();
+                if (!isFloatingBarFolded)
+                {
+                    new Thread(new ThreadStart(() => {
+                        Thread.Sleep(100);
+                        Application.Current.Dispatcher.Invoke(() => { ViewboxFloatingBarMarginAnimation(60); });
+                    })).Start();
+                }
+                
             });
         }
 

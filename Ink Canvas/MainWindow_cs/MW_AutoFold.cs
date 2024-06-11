@@ -1,7 +1,11 @@
 ﻿using Ink_Canvas.Helpers;
+using iNKORE.UI.WPF.Modern;
 using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -10,6 +14,26 @@ using System.Windows.Media.Imaging;
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
         private bool isFloatingBarFolded = false, isFloatingBarChangingHideMode = false;
+
+        private void CloseWhiteboardImmediately() {
+            if (isDisplayingOrHidingBlackboard) return;
+            isDisplayingOrHidingBlackboard = true;
+            HideSubPanelsImmediately();
+            if (Settings.Gesture.AutoSwitchTwoFingerGesture) // 自动启用多指书写
+                ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
+            WaterMarkTime.Visibility = Visibility.Collapsed;
+            WaterMarkDate.Visibility = Visibility.Collapsed;
+            BlackBoardWaterMark.Visibility = Visibility.Collapsed;
+            ICCWaterMarkDark.Visibility = Visibility.Collapsed;
+            ICCWaterMarkWhite.Visibility = Visibility.Collapsed;
+            BtnSwitch_Click(BtnSwitch, null);
+            BtnExit.Foreground = Brushes.White;
+            ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
+            new Thread(new ThreadStart(() => {
+                Thread.Sleep(200);
+                Application.Current.Dispatcher.Invoke(() => { isDisplayingOrHidingBlackboard = false; });
+            })).Start();
+        }
 
         private async void FoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {
             // FloatingBarIcons_MouseUp_New(sender);
@@ -23,17 +47,12 @@ namespace Ink_Canvas {
 
             await Dispatcher.InvokeAsync(() => {
                 InkCanvasForInkReplay.Visibility = Visibility.Collapsed;
-                inkCanvas.Visibility = Visibility.Visible;
-                if (currentMode == 1)
-                {
-                    ViewboxBlackboardLeftSide.Visibility = Visibility.Visible;
-                    ViewboxBlackboardRightSide.Visibility = Visibility.Visible;
-                    BlackboardCenterSide.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    ViewboxFloatingBar.Visibility = Visibility.Visible;
-                }
+                InkCanvasGridForInkReplay.Visibility = Visibility.Visible;
+                InkCanvasGridForInkReplay.IsHitTestVisible = true;
+                FloatingbarUIForInkReplay.Visibility = Visibility.Visible;
+                FloatingbarUIForInkReplay.IsHitTestVisible = true;
+                BlackboardUIGridForInkReplay.Visibility = Visibility.Visible;
+                BlackboardUIGridForInkReplay.IsHitTestVisible = true;
                 AnimationsHelper.HideWithFadeOut(BorderInkReplayToolBox);
                 isStopInkReplay = true;
             });
@@ -41,16 +60,15 @@ namespace Ink_Canvas {
             await Dispatcher.InvokeAsync(() => {
                 isFloatingBarChangingHideMode = true;
                 isFloatingBarFolded = true;
-                if (currentMode != 0) ImageBlackboard_MouseUp(null, null);
+                if (currentMode != 0) CloseWhiteboardImmediately();
                 if (StackPanelCanvasControls.Visibility == Visibility.Visible)
                     if (foldFloatingBarByUser && inkCanvas.Strokes.Count > 2)
                         ShowNotification("正在清空墨迹并收纳至侧边栏，可进入批注模式后通过【撤销】功能来恢复原先墨迹。");
                 lastBorderMouseDownObject = sender;
                 CursorWithDelIcon_Click(sender, null);
-                SidePannelMarginAnimation(-10);
             });
 
-            await Task.Delay(50);
+            await Task.Delay(10);
 
             await Dispatcher.InvokeAsync(() => {
                 BottomViewboxPPTSidesControl.Visibility = Visibility.Collapsed;

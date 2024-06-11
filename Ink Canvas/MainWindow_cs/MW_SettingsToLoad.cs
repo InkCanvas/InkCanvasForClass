@@ -497,6 +497,8 @@ namespace Ink_Canvas {
 
                 ToggleSwitchAutoFoldInEasiNote3C.IsOn = Settings.Automation.IsAutoFoldInEasiNote3C;
 
+                ToggleSwitchAutoFoldInEasiNote3.IsOn = Settings.Automation.IsAutoFoldInEasiNote3;
+
                 ToggleSwitchAutoFoldInEasiNote5C.IsOn = Settings.Automation.IsAutoFoldInEasiNote5C;
 
                 ToggleSwitchAutoFoldInSeewoPincoTeacher.IsOn = Settings.Automation.IsAutoFoldInSeewoPincoTeacher;
@@ -513,6 +515,12 @@ namespace Ink_Canvas {
 
                 ToggleSwitchAutoFoldInMSWhiteboard.IsOn = Settings.Automation.IsAutoFoldInMSWhiteboard;
 
+                SettingsPPTInkingAndAutoFoldExplictBorder.Visibility = Visibility.Collapsed;
+                if (Settings.Automation.IsAutoFoldInPPTSlideShow) {
+                    SettingsPPTInkingAndAutoFoldExplictBorder.Visibility = Visibility.Visible;
+                    SettingsShowCanvasAtNewSlideShowStackPanel.Opacity = 0.5;
+                    SettingsShowCanvasAtNewSlideShowStackPanel.IsHitTestVisible = false;
+                }
                 ToggleSwitchAutoFoldInPPTSlideShow.IsOn = Settings.Automation.IsAutoFoldInPPTSlideShow;
 
                 if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService) {
