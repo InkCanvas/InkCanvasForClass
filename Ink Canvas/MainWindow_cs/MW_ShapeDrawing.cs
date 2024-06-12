@@ -17,6 +17,11 @@ namespace Ink_Canvas {
         #region Floating Bar Control
 
         private void ImageDrawShape_MouseUp(object sender, MouseButtonEventArgs e) {
+
+            if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
+                ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
+            if (sender == ShapeDrawFloatingBarBtn && lastBorderMouseDownObject != ShapeDrawFloatingBarBtn) return;
+
             // FloatingBarIcons_MouseUp_New(sender);
             if (BorderDrawShape.Visibility == Visibility.Visible) {
                 AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);

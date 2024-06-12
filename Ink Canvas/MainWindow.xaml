@@ -4469,6 +4469,8 @@
                             <ui:SimpleStackPanel Margin="2,0" Name="StackPanelFloatingBar" Orientation="Horizontal">
                                 <!--<ui:SimpleStackPanel Name="Cursor_Icon" MouseDown="Border_MouseDown" MouseUp="CursorIcon_Click"-->
                                 <ui:SimpleStackPanel Name="Cursor_Icon"
+                                                     MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                                     MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                                      MouseUp="CursorIcon_Click"
                                                      Background="Transparent" Orientation="Vertical"
                                                      HorizontalAlignment="Center" Width="28" Margin="0,-2">
@@ -4489,6 +4491,8 @@
                                                Margin="0,1,0,0" TextAlignment="Center" />
                                 </ui:SimpleStackPanel>
                                 <ui:SimpleStackPanel Name="Pen_Icon"
+                                                     MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                                     MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                                      MouseUp="PenIcon_Click"
                                                      Background="Transparent" Orientation="Vertical"
                                                      HorizontalAlignment="Center" Width="28" Margin="0,-2">
@@ -4509,6 +4513,8 @@
                                                Margin="0,1,0,0" TextAlignment="Center" />
                                 </ui:SimpleStackPanel>
                                 <ui:SimpleStackPanel Name="SymbolIconDelete"
+                                                     MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                                     MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                                      MouseUp="SymbolIconDelete_MouseUp"
                                                      Background="Transparent" Orientation="Vertical"
                                                      HorizontalAlignment="Center" Width="28" Margin="0,-2">
@@ -5310,6 +5316,8 @@
                                     </ui:SimpleStackPanel>
 
                                     <ui:SimpleStackPanel Name="Eraser_Icon"
+                                                         MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                                         MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                                          MouseUp="EraserIcon_Click"
                                                          Background="Transparent" Orientation="Vertical"
                                                          HorizontalAlignment="Center" Margin="0,-2" Width="28">
@@ -5331,6 +5339,8 @@
                                                    FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Name="EraserByStrokes_Icon"
+                                                         MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                                         MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                                          MouseUp="EraserIconByStrokes_Click"
                                                          Background="Transparent" Orientation="Vertical" Width="28"
                                                          Margin="0,-2" HorizontalAlignment="Center">
@@ -5352,6 +5362,8 @@
                                                    FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Name="SymbolIconSelect"
+                                                         MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                                         MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                                          MouseUp="SymbolIconSelect_MouseUp" Background="Transparent"
                                                          Orientation="Vertical" Margin="0,-2" Width="28"
                                                          HorizontalAlignment="Center">
@@ -5372,7 +5384,9 @@
                                                    FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel
-
+                                        Name="ShapeDrawFloatingBarBtn"
+                                        MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                        MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                         MouseUp="ImageDrawShape_MouseUp" Background="Transparent"
                                         Orientation="Vertical" HorizontalAlignment="Center" Margin="0,-2"
                                         Width="28">
@@ -5634,7 +5648,10 @@
                                         </Border>
                                     </Grid>
                                     <ui:SimpleStackPanel
+                                        Name="SymbolIconUndo"
                                         MouseUp="SymbolIconUndo_MouseUp"
+                                        MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                        MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                         Background="Transparent" Orientation="Vertical"
                                         HorizontalAlignment="Center" Margin="0,-2"
                                         IsEnabled="{Binding ElementName=BtnUndo, Path=IsEnabled}"
@@ -5659,7 +5676,10 @@
                                                    TextAlignment="Center" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel
+                                        Name="SymbolIconRedo"
                                         MouseUp="SymbolIconRedo_MouseUp"
+                                        MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                        MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                         Background="Transparent" Orientation="Vertical"
                                         HorizontalAlignment="Center"
                                         IsEnabled="{Binding ElementName=BtnRedo, Path=IsEnabled}"
@@ -5684,7 +5704,9 @@
                                                    TextAlignment="Center" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel
-
+                                        Name="CursorWithDelFloatingBarBtn"
+                                        MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                        MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                         MouseUp="CursorWithDelIcon_Click"
                                         Background="Transparent" Orientation="Vertical"
                                         HorizontalAlignment="Center" Width="28" Margin="0,-2">
@@ -5791,7 +5813,9 @@
                                     Orientation="{Binding ElementName=StackPanelFloatingBar, Path=Orientation}">
                                     <Border Margin="2,0,2,0" BorderBrush="#71717a" BorderThickness="1,0,0,0" />
                                     <ui:SimpleStackPanel
-
+                                        Name="WhiteboardFloatingBarBtn"
+                                        MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                        MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                         MouseUp="ImageBlackboard_MouseUp" Background="Transparent"
                                         Orientation="Vertical" HorizontalAlignment="Center" Width="28"
                                         Margin="0,-2">
@@ -5802,7 +5826,9 @@
                                                    FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel
-
+                                        Name="ToolsFloatingBarBtn"
+                                        MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                        MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                         MouseUp="SymbolIconTools_MouseUp" Background="Transparent"
                                         Orientation="Vertical" HorizontalAlignment="Center" Width="28"
                                         Margin="0,-2">
@@ -5815,6 +5841,8 @@
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel
                                         x:Name="Fold_Icon"
+                                        MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                        MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                         MouseUp="FoldFloatingBar_MouseUp" Background="Transparent"
                                         Orientation="Vertical" HorizontalAlignment="Center" Width="28"
                                         Margin="0,-2">

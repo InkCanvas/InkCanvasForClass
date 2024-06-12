@@ -36,6 +36,11 @@ namespace Ink_Canvas {
         }
 
         private async void FoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {
+
+            if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
+                ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
+            if (sender == Fold_Icon && lastBorderMouseDownObject != Fold_Icon) return;
+
             // FloatingBarIcons_MouseUp_New(sender);
             if (sender == null)
                 foldFloatingBarByUser = false;
