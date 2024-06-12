@@ -14,6 +14,9 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Controls.Primitives;
 using System.Drawing;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Win32;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -184,6 +187,54 @@ namespace Ink_Canvas {
             BtnLeftWhiteBoardSwitchPreviousLabel.Opacity = 0.5;
             BtnWhiteBoardSwitchPrevious.IsEnabled = CurrentWhiteboardIndex != 1;
             BorderInkReplayToolBox.Visibility = Visibility.Collapsed;
+
+            SystemEvents.DisplaySettingsChanged += SystemEventsOnDisplaySettingsChanged;
+        }
+
+        private void SystemEventsOnDisplaySettingsChanged(object sender, EventArgs e) {
+            if (!Settings.Advanced.IsEnableResolutionChangeDetection) return;
+            ShowNotification($"检测到显示器信息变化，变为{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width}x{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height}");
+            new Thread(() => {
+                var isFloatingBarOutsideScreen = false;
+                var isInPPTPresentationMode = false;
+                Dispatcher.Invoke(() => {
+                    isFloatingBarOutsideScreen = IsOutsideOfScreenHelper.IsOutsideOfScreen(ViewboxFloatingBar);
+                    isInPPTPresentationMode = BtnPPTSlideShowEnd.Visibility == Visibility.Visible;
+                });
+                if (isFloatingBarOutsideScreen) dpiChangedDelayAction.DebounceAction(3000, null, () => {
+                    if (!isFloatingBarFolded)
+                    {
+                        if (isInPPTPresentationMode) ViewboxFloatingBarMarginAnimation(60);
+                        else ViewboxFloatingBarMarginAnimation(100, true);
+                    }
+                });
+            }).Start();
+        }
+
+        private DelayAction dpiChangedDelayAction = new DelayAction();
+
+        private void MainWindow_OnDpiChanged(object sender, DpiChangedEventArgs e)
+        {
+            if (e.OldDpi.DpiScaleX != e.NewDpi.DpiScaleX && e.OldDpi.DpiScaleY != e.NewDpi.DpiScaleY && Settings.Advanced.IsEnableDPIChangeDetection)
+            {
+                ShowNotification($"系统DPI发生变化，从 {e.OldDpi.DpiScaleX}x{e.OldDpi.DpiScaleY} 变化为 {e.NewDpi.DpiScaleX}x{e.NewDpi.DpiScaleY}");
+
+                new Thread(() => {
+                    var isFloatingBarOutsideScreen = false;
+                    var isInPPTPresentationMode = false;
+                    Dispatcher.Invoke(() => {
+                        isFloatingBarOutsideScreen = IsOutsideOfScreenHelper.IsOutsideOfScreen(ViewboxFloatingBar);
+                        isInPPTPresentationMode = BtnPPTSlideShowEnd.Visibility == Visibility.Visible;
+                    });
+                    if (isFloatingBarOutsideScreen) dpiChangedDelayAction.DebounceAction(3000,null, () => {
+                        if (!isFloatingBarFolded)
+                        {
+                            if (isInPPTPresentationMode) ViewboxFloatingBarMarginAnimation(60);
+                            else ViewboxFloatingBarMarginAnimation(100, true);
+                        }
+                    });
+                }).Start();
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
@@ -217,6 +268,8 @@ namespace Ink_Canvas {
         }
 
         private void Window_Closed(object sender, EventArgs e) {
+            SystemEvents.DisplaySettingsChanged -= SystemEventsOnDisplaySettingsChanged;
+
             LogHelper.WriteLogToFile("Ink Canvas closed", LogHelper.LogType.Event);
         }
 

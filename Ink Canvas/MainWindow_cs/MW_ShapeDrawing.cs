@@ -1590,9 +1590,6 @@ namespace Ink_Canvas {
                 }
             }
 
-            ViewboxFloatingBar.IsHitTestVisible = true;
-            BlackboardUIGridForInkReplay.IsHitTestVisible = true;
-
             if (Settings.Canvas.FitToCurve == true) drawingAttributes.FitToCurve = true;
         }
 
@@ -1601,6 +1598,14 @@ namespace Ink_Canvas {
                 if (drawMultiStepShapeCurrentStep == 1)
                     return false;
             return true;
+        }
+
+        private void MainWindow_OnMouseMove(object sender, MouseEventArgs e) {
+            if (e.StylusDevice == null) {
+                System.Windows.Forms.Cursor.Show();
+            } else {
+                System.Windows.Forms.Cursor.Hide();
+            }
         }
     }
 }

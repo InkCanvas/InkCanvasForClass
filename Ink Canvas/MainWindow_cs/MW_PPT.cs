@@ -15,6 +15,7 @@ using Application = System.Windows.Application;
 using File = System.IO.File;
 using MessageBox = System.Windows.MessageBox;
 using iNKORE.UI.WPF.Modern;
+using Microsoft.Office.Core;
 
 namespace Ink_Canvas
 {
@@ -79,8 +80,10 @@ namespace Ink_Canvas
         public static bool IsShowingRestoreHiddenSlidesWindow = false;
         private static bool IsShowingAutoplaySlidesWindow = false;
 
+
+
         private void TimerCheckPPT_Elapsed(object sender, ElapsedEventArgs e) {
-            if (IsShowingRestoreHiddenSlidesWindow) return;
+            if (IsShowingRestoreHiddenSlidesWindow || IsShowingAutoplaySlidesWindow) return;
             try {
                 //var processes = Process.GetProcessesByName("wpp");
                 //if (processes.Length > 0 && !isWPSSupportOn) return;
@@ -99,10 +102,7 @@ namespace Ink_Canvas
                     timerCheckPPT.Stop();
                     //获得演示文稿对象
                     presentation = pptApplication.ActivePresentation;
-                    pptApplication.PresentationClose += PptApplication_PresentationClose;
-                    pptApplication.SlideShowBegin += PptApplication_SlideShowBegin;
-                    pptApplication.SlideShowNextSlide += PptApplication_SlideShowNextSlide;
-                    pptApplication.SlideShowEnd += PptApplication_SlideShowEnd;
+                    
                     // 获得幻灯片对象集合
                     slides = presentation.Slides;
 
@@ -119,80 +119,20 @@ namespace Ink_Canvas
                         // 在阅读模式下出现异常时，通过下面的方式来获得当前选中的幻灯片对象
                         slide = pptApplication.SlideShowWindows[1].View.Slide;
                     }
+
+                    pptApplication.PresentationOpen += PptApplication_PresentationOpen;
+                    pptApplication.PresentationClose += PptApplication_PresentationClose;
+                    pptApplication.SlideShowBegin += PptApplication_SlideShowBegin;
+                    pptApplication.SlideShowNextSlide += PptApplication_SlideShowNextSlide;
+                    pptApplication.SlideShowEnd += PptApplication_SlideShowEnd;
                 }
 
                 if (pptApplication == null) return;
                 //BtnCheckPPT.Visibility = Visibility.Collapsed;
 
-                // 跳转到上次播放页
-                if (Settings.PowerPointSettings.IsNotifyPreviousPage)
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() => {
-                        var folderPath = Settings.Automation.AutoSavedStrokesLocation +
-                                         @"\Auto Saved - Presentations\" + presentation.Name + "_" +
-                                         presentation.Slides.Count;
-                        try {
-                            if (!File.Exists(folderPath + "/Position")) return;
-                            if (!int.TryParse(File.ReadAllText(folderPath + "/Position"), out var page)) return;
-                            if (page <= 0) return;
-                            new YesOrNoNotificationWindow($"上次播放到了第 {page} 页, 是否立即跳转", () => {
-                                if (pptApplication.SlideShowWindows.Count >= 1)
-                                    // 如果已经播放了的话, 跳转
-                                    presentation.SlideShowWindow.View.GotoSlide(page);
-                                else
-                                    presentation.Windows[1].View.GotoSlide(page);
-                            }).ShowDialog();
-                        }
-                        catch (Exception ex) {
-                            LogHelper.WriteLogToFile(ex.ToString(), LogHelper.LogType.Error);
-                        }
-                    }), DispatcherPriority.Normal);
-
-
-                //检查是否有隐藏幻灯片
-                if (Settings.PowerPointSettings.IsNotifyHiddenPage) {
-                    var isHaveHiddenSlide = false;
-                    foreach (Slide slide in slides)
-                        if (slide.SlideShowTransition.Hidden == Microsoft.Office.Core.MsoTriState.msoTrue) {
-                            isHaveHiddenSlide = true;
-                            break;
-                        }
-
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() => {
-                        if (isHaveHiddenSlide && !IsShowingRestoreHiddenSlidesWindow) {
-                            IsShowingRestoreHiddenSlidesWindow = true;
-                            new YesOrNoNotificationWindow("检测到此演示文档中包含隐藏的幻灯片，是否取消隐藏？",
-                                () => {
-                                    foreach (Slide slide in slides)
-                                        if (slide.SlideShowTransition.Hidden ==
-                                            Microsoft.Office.Core.MsoTriState.msoTrue)
-                                            slide.SlideShowTransition.Hidden =
-                                                Microsoft.Office.Core.MsoTriState.msoFalse;
-                                }).ShowDialog();
-                        }
-
-                        BtnPPTSlideShow.Visibility = Visibility.Visible;
-                    }), DispatcherPriority.Normal);
-                }
-
-                //检测是否有自动播放
-                if (Settings.PowerPointSettings.IsNotifyAutoPlayPresentation)
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() => {
-                        var isHaveAutoPlaySettings = false;
-                        isHaveAutoPlaySettings = presentation.SlideShowSettings.AdvanceMode !=
-                                                 PpSlideShowAdvanceMode.ppSlideShowManualAdvance;
-                        if (isHaveAutoPlaySettings && !IsShowingAutoplaySlidesWindow) {
-                            IsShowingAutoplaySlidesWindow = true;
-                            new YesOrNoNotificationWindow("检测到此演示文档中有自动播放或排练计时已经启用，是否取消？",
-                                () => {
-                                    presentation.SlideShowSettings.AdvanceMode =
-                                        PpSlideShowAdvanceMode.ppSlideShowManualAdvance;
-                                }).ShowDialog();
-                        }
-
-                        BtnPPTSlideShow.Visibility = Visibility.Visible;
-                    }), DispatcherPriority.Normal);
-
-
+                // 此处是已经开启了
+                PptApplication_PresentationOpen(null);
+                
                 //如果检测到已经开始放映，则立即进入画板模式
                 if (pptApplication.SlideShowWindows.Count >= 1)
                     PptApplication_SlideShowBegin(pptApplication.SlideShowWindows[1]);
@@ -204,7 +144,107 @@ namespace Ink_Canvas
             }
         }
 
+        private void PptApplication_PresentationOpen(Presentation Pres) {
+            // 跳转到上次播放页
+            if (Settings.PowerPointSettings.IsNotifyPreviousPage)
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => {
+                    var folderPath = Settings.Automation.AutoSavedStrokesLocation +
+                                     @"\Auto Saved - Presentations\" + presentation.Name + "_" +
+                                     presentation.Slides.Count;
+                    try
+                    {
+                        if (!File.Exists(folderPath + "/Position")) return;
+                        if (!int.TryParse(File.ReadAllText(folderPath + "/Position"), out var page)) return;
+                        if (page <= 0) return;
+                        new YesOrNoNotificationWindow($"上次播放到了第 {page} 页, 是否立即跳转", () => {
+                            if (pptApplication.SlideShowWindows.Count >= 1)
+                                // 如果已经播放了的话, 跳转
+                                presentation.SlideShowWindow.View.GotoSlide(page);
+                            else
+                                presentation.Windows[1].View.GotoSlide(page);
+                        }).ShowDialog();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.WriteLogToFile(ex.ToString(), LogHelper.LogType.Error);
+                    }
+                }), DispatcherPriority.Normal);
+
+
+            //检查是否有隐藏幻灯片
+            if (Settings.PowerPointSettings.IsNotifyHiddenPage)
+            {
+                var isHaveHiddenSlide = false;
+                foreach (Slide slide in slides)
+                    if (slide.SlideShowTransition.Hidden == Microsoft.Office.Core.MsoTriState.msoTrue)
+                    {
+                        isHaveHiddenSlide = true;
+                        break;
+                    }
+
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => {
+                    if (isHaveHiddenSlide && !IsShowingRestoreHiddenSlidesWindow)
+                    {
+                        IsShowingRestoreHiddenSlidesWindow = true;
+                        new YesOrNoNotificationWindow("检测到此演示文档中包含隐藏的幻灯片，是否取消隐藏？",
+                            () => {
+                                foreach (Slide slide in slides)
+                                    if (slide.SlideShowTransition.Hidden ==
+                                        Microsoft.Office.Core.MsoTriState.msoTrue)
+                                        slide.SlideShowTransition.Hidden =
+                                            Microsoft.Office.Core.MsoTriState.msoFalse;
+                                IsShowingRestoreHiddenSlidesWindow = false;
+                            }, () => {
+                                IsShowingRestoreHiddenSlidesWindow = false;
+                            }, () => {
+                                IsShowingRestoreHiddenSlidesWindow = false;
+                            }).ShowDialog();
+                    }
+
+                    BtnPPTSlideShow.Visibility = Visibility.Visible;
+                }), DispatcherPriority.Normal);
+            }
+
+            //检测是否有自动播放
+            if (Settings.PowerPointSettings.IsNotifyAutoPlayPresentation
+                // && presentation.SlideShowSettings.AdvanceMode == PpSlideShowAdvanceMode.ppSlideShowUseSlideTimings
+                && BtnPPTSlideShowEnd.Visibility != Visibility.Visible)
+            {
+                bool hasSlideTimings = false;
+                foreach (Slide slide in presentation.Slides)
+                {
+                    if (slide.SlideShowTransition.AdvanceOnTime == MsoTriState.msoTrue && slide.SlideShowTransition.AdvanceTime > 0)
+                    {
+                        hasSlideTimings = true;
+                        break;
+                    }
+                }
+                if (hasSlideTimings)
+                {
+                    Application.Current.Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        if (hasSlideTimings && !IsShowingAutoplaySlidesWindow)
+                        {
+                            IsShowingAutoplaySlidesWindow = true;
+                            new YesOrNoNotificationWindow("检测到此演示文档中自动播放或排练计时已经启用，可能导致幻灯片自动翻页，是否取消？",
+                                () => {
+                                    presentation.SlideShowSettings.AdvanceMode =
+                                        PpSlideShowAdvanceMode.ppSlideShowManualAdvance;
+                                    IsShowingAutoplaySlidesWindow = false;
+                                }, () => {
+                                    IsShowingAutoplaySlidesWindow = false;
+                                }, () => {
+                                    IsShowingAutoplaySlidesWindow = false;
+                                }).ShowDialog();
+                        }
+                    }));
+                    presentation.SlideShowSettings.AdvanceMode = PpSlideShowAdvanceMode.ppSlideShowManualAdvance;
+                }
+            }
+        }
+
         private void PptApplication_PresentationClose(Presentation Pres) {
+            pptApplication.PresentationOpen -= PptApplication_PresentationOpen;
             pptApplication.PresentationClose -= PptApplication_PresentationClose;
             pptApplication.SlideShowBegin -= PptApplication_SlideShowBegin;
             pptApplication.SlideShowNextSlide -= PptApplication_SlideShowNextSlide;
@@ -635,5 +675,6 @@ namespace Ink_Canvas
         private void ImagePPTControlEnd_MouseUp(object sender, MouseButtonEventArgs e) {
             BtnPPTSlideShowEnd_Click(BtnPPTSlideShowEnd, null);
         }
+
     }
 }

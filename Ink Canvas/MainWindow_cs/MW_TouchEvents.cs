@@ -86,7 +86,6 @@ namespace Ink_Canvas {
         private void MainWindow_StylusDown(object sender, StylusDownEventArgs e) {
 
             inkCanvas.CaptureStylus();
-            inkCanvas.CaptureMouse();
             ViewboxFloatingBar.IsHitTestVisible = false;
             BlackboardUIGridForInkReplay.IsHitTestVisible = false;
 
@@ -124,7 +123,6 @@ namespace Ink_Canvas {
             catch { }
 
             inkCanvas.ReleaseStylusCapture();
-            inkCanvas.ReleaseMouseCapture();
             ViewboxFloatingBar.IsHitTestVisible = true;
             BlackboardUIGridForInkReplay.IsHitTestVisible = true;
         }

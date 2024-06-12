@@ -11,11 +11,13 @@ namespace Ink_Canvas
     {
         private readonly Action _yesAction;
         private readonly Action _noAction;
+        private readonly Action _windowClose;
 
-        public YesOrNoNotificationWindow(string text, Action yesAction = null, Action noAction = null)
+        public YesOrNoNotificationWindow(string text, Action yesAction = null, Action noAction = null, Action windowClose = null)
         {
             _yesAction = yesAction;
             _noAction = noAction;
+            _windowClose = windowClose;
             InitializeComponent();
             Label.Text = text;
         }
@@ -45,9 +47,8 @@ namespace Ink_Canvas
             Close();
         }
 
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            MainWindow.IsShowingRestoreHiddenSlidesWindow = false;
+        private void Window_Closed(object sender, EventArgs e) {
+            _windowClose.Invoke();
         }
     }
 }

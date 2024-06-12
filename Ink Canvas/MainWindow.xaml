@@ -25,9 +25,11 @@
         MouseWheel="Window_MouseWheel"
         Foreground="Black"
         SizeChanged="MainWindow_OnSizeChanged"
+        MouseMove="MainWindow_OnMouseMove"
         Stylus.IsPressAndHoldEnabled="False"
         Stylus.IsFlicksEnabled="False"
         Stylus.IsTapFeedbackEnabled="False"
+        DpiChanged="MainWindow_OnDpiChanged"
         Stylus.IsTouchFeedbackEnabled="False">
     <!--资源中添加命令-->
     <Window.Resources>
@@ -893,7 +895,8 @@
                                             </ui:SimpleStackPanel>
                                         </Border>
                                         <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchIsEnableFullScreenHelper" Toggled="ToggleSwitchIsEnableFullScreenHelper_Toggled"
+                                                         Name="ToggleSwitchIsEnableFullScreenHelper"
+                                                         Toggled="ToggleSwitchIsEnableFullScreenHelper_Toggled"
                                                          IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold" />
                                     </ui:SimpleStackPanel>
                                     <TextBlock TextWrapping="Wrap" Foreground="#a1a1aa"
@@ -923,7 +926,8 @@
                                                 </TextBlock>
                                             </ui:SimpleStackPanel>
                                         </Border>
-                                        <ui:ToggleSwitch OnContent="" OffContent="" Toggled="ToggleSwitchIsEnableEdgeGestureUtil_Toggled"
+                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Toggled="ToggleSwitchIsEnableEdgeGestureUtil_Toggled"
                                                          Name="ToggleSwitchIsEnableEdgeGestureUtil" IsOn="True"
                                                          FontFamily="Microsoft YaHei UI" FontWeight="Bold" />
                                     </ui:SimpleStackPanel>
@@ -959,12 +963,77 @@
                                                 </TextBlock>
                                             </ui:SimpleStackPanel>
                                         </Border>
-                                        <ui:ToggleSwitch OnContent="" OffContent="" Toggled="ToggleSwitchIsEnableForceFullScreen_Toggled"
+                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Toggled="ToggleSwitchIsEnableForceFullScreen_Toggled"
                                                          Name="ToggleSwitchIsEnableForceFullScreen" IsOn="True"
                                                          FontFamily="Microsoft YaHei UI" FontWeight="Bold" />
                                     </ui:SimpleStackPanel>
                                     <TextBlock TextWrapping="Wrap" Foreground="#a1a1aa"
                                                Text="# 当检测到窗口大小变化时，自动使用Win32API将本窗口的大小设置为主显示器大小（设备像素大小），不需要可以关闭，实时生效。" />
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="启用DPIChangeDetection"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="14" Margin="0,0,6,0" />
+                                        <Border Height="20" CornerRadius="3" Background="#7f1d1d" Margin="0,0,12,0"
+                                                Padding="4,0">
+                                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="3"
+                                                                 VerticalAlignment="Center">
+                                                <Image Width="15" Height="15" VerticalAlignment="Center">
+                                                    <Image.Source>
+                                                        <DrawingImage>
+                                                            <DrawingImage.Drawing>
+                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                    <GeometryDrawing Brush="#fca5a5"
+                                                                        Geometry="F1 M24,24z M0,0z M20.1758,20.0951L15.1058,9.97512C15.0358,9.83512,14.9958,9.68512,14.9958,9.52512L14.9958,2.99512 15.4958,2.99512C16.0458,2.99512 16.4958,2.54512 16.4958,1.99512 16.4958,1.44512 16.0458,0.995117 15.4958,0.995117L8.49582,0.995117C7.94582,0.995117 7.49582,1.44512 7.49582,1.99512 7.49582,2.54512 7.94582,2.99512 8.49582,2.99512L8.99582,2.99512 8.99582,9.52512C8.99582,9.67512,8.95582,9.83512,8.89582,9.97512L3.82582,20.0951C3.67582,20.4051 3.59582,20.7451 3.61582,21.0851 3.62582,21.4251 3.73582,21.7651 3.91582,22.0551 4.09582,22.3451 4.34582,22.5851 4.64582,22.7551 4.94582,22.9151 5.27582,23.0051 5.60582,23.0051L18.3758,23.0051C18.7558,23.0051 19.0558,22.9251 19.3558,22.7551 19.6558,22.5851 19.9058,22.3451 20.0858,22.0551 20.2658,21.7651 20.3658,21.4351 20.3858,21.0851 20.3958,20.7451 20.3258,20.4051 20.1758,20.1051L20.1758,20.0951z M10.6858,10.8651C10.8958,10.4451,11.0058,9.98512,11.0058,9.52512L11.0058,2.99512 13.0058,2.99512 13.0058,9.52512C13.0058,9.98512,13.1158,10.4551,13.3258,10.8651L15.3858,14.9951 8.62582,14.9951 10.6958,10.8651 10.6858,10.8651z" />
+                                                                </DrawingGroup>
+                                                            </DrawingImage.Drawing>
+                                                        </DrawingImage>
+                                                    </Image.Source>
+                                                </Image>
+                                                <TextBlock Foreground="#fca5a5" Text="实验性选项" FontSize="12"
+                                                           VerticalAlignment="Center">
+                                                </TextBlock>
+                                            </ui:SimpleStackPanel>
+                                        </Border>
+                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Toggled="ToggleSwitchIsEnableDPIChangeDetection_Toggled"
+                                                         Name="ToggleSwitchIsEnableDPIChangeDetection" IsOn="True"
+                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold" />
+                                    </ui:SimpleStackPanel>
+                                    <TextBlock TextWrapping="Wrap" Foreground="#a1a1aa"
+                                               Text="# 当检测到系统DPI变化时，会尝试检测FloatingBar是否在屏幕内显示，如果不在屏幕内显示将会尝试移动到屏幕内可见区域（DPI调大会触发，如果DPI调小是不会触发工具栏位置移动的，请您手动调整）。" />
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="启用ResolutionChangeDetection"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="14" Margin="0,0,6,0" />
+                                        <Border Height="20" CornerRadius="3" Background="#7f1d1d" Margin="0,0,12,0"
+                                                Padding="4,0">
+                                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="3"
+                                                                 VerticalAlignment="Center">
+                                                <Image Width="15" Height="15" VerticalAlignment="Center">
+                                                    <Image.Source>
+                                                        <DrawingImage>
+                                                            <DrawingImage.Drawing>
+                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                    <GeometryDrawing Brush="#fca5a5"
+                                                                        Geometry="F1 M24,24z M0,0z M20.1758,20.0951L15.1058,9.97512C15.0358,9.83512,14.9958,9.68512,14.9958,9.52512L14.9958,2.99512 15.4958,2.99512C16.0458,2.99512 16.4958,2.54512 16.4958,1.99512 16.4958,1.44512 16.0458,0.995117 15.4958,0.995117L8.49582,0.995117C7.94582,0.995117 7.49582,1.44512 7.49582,1.99512 7.49582,2.54512 7.94582,2.99512 8.49582,2.99512L8.99582,2.99512 8.99582,9.52512C8.99582,9.67512,8.95582,9.83512,8.89582,9.97512L3.82582,20.0951C3.67582,20.4051 3.59582,20.7451 3.61582,21.0851 3.62582,21.4251 3.73582,21.7651 3.91582,22.0551 4.09582,22.3451 4.34582,22.5851 4.64582,22.7551 4.94582,22.9151 5.27582,23.0051 5.60582,23.0051L18.3758,23.0051C18.7558,23.0051 19.0558,22.9251 19.3558,22.7551 19.6558,22.5851 19.9058,22.3451 20.0858,22.0551 20.2658,21.7651 20.3658,21.4351 20.3858,21.0851 20.3958,20.7451 20.3258,20.4051 20.1758,20.1051L20.1758,20.0951z M10.6858,10.8651C10.8958,10.4451,11.0058,9.98512,11.0058,9.52512L11.0058,2.99512 13.0058,2.99512 13.0058,9.52512C13.0058,9.98512,13.1158,10.4551,13.3258,10.8651L15.3858,14.9951 8.62582,14.9951 10.6958,10.8651 10.6858,10.8651z" />
+                                                                </DrawingGroup>
+                                                            </DrawingImage.Drawing>
+                                                        </DrawingImage>
+                                                    </Image.Source>
+                                                </Image>
+                                                <TextBlock Foreground="#fca5a5" Text="实验性选项" FontSize="12"
+                                                           VerticalAlignment="Center">
+                                                </TextBlock>
+                                            </ui:SimpleStackPanel>
+                                        </Border>
+                                        <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                         Toggled="ToggleSwitchIsEnableResolutionChangeDetection_Toggled"
+                                                         Name="ToggleSwitchIsEnableResolutionChangeDetection" IsOn="True"
+                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold" />
+                                    </ui:SimpleStackPanel>
+                                    <TextBlock TextWrapping="Wrap" Foreground="#a1a1aa"
+                                               Text="# 当检测到系统分辨率变化时，会尝试检测FloatingBar是否在屏幕内显示，如果不在屏幕内显示将会尝试移动到屏幕内可见区域（分辨率调小可能会触发，如果在屏幕内不会自动调整位置，请手动挡）。" />
                                 </ui:SimpleStackPanel>
                             </GroupBox>
                             <GroupBox>
@@ -973,147 +1042,278 @@
                                                FontSize="26" />
                                 </GroupBox.Header>
                                 <ui:SimpleStackPanel Spacing="6">
+                                    <TextBlock Margin="0,0,0,8" Text="自动收纳" FontWeight="Bold" Foreground="#fafafa"
+                                               FontSize="20" />
+                                    <Grid Margin="4,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <ui:SimpleStackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/EasiNote.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="希沃白板5" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInEasiNote" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInEasiNote_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/EasiCamera.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="希沃展台" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInEasiCamera" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInEasiCamera_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Grid.Row="0" Grid.Column="2" Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/EasiNote3.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="希沃白板3" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInEasiNote3" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInEasiNote3_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Grid.Row="0" Grid.Column="3" Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/EasiNote3C.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="希沃轻白板" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInEasiNote3C" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInEasiNote3C_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Margin="0,18,0,0" Grid.Row="1" Grid.Column="0"
+                                                             Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/EasiNote5C.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="希沃轻白板5C" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInEasiNote5C" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInEasiNote5C_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Margin="0,18,0,0" Grid.Row="1" Grid.Column="1"
+                                                             Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/SeewoPinco.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="希沃品课" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInSeewoPincoTeacher" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInSeewoPincoTeacher_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Margin="0,18,0,0" Grid.Row="1" Grid.Column="2"
+                                                             Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/HiteBoard.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="鸿合白板" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInHiteTouchPro" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInHiteTouchPro_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Margin="0,18,0,0" Grid.Row="1" Grid.Column="3"
+                                                             Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/HiteCamera.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="鸿合展台" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInHiteCamera" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInHiteCamera_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Margin="0,18,0,0" Grid.Row="2" Grid.Column="0"
+                                                             Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/HiteLightBoard.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="鸿合轻量白板" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInHiteLightBoard" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInHiteLightBoard_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Margin="0,18,0,0" Grid.Row="2" Grid.Column="1"
+                                                             Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/WenXiang.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="文香白板" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInWxBoardMain" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInWxBoardMain_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Margin="0,18,0,0" Grid.Row="2" Grid.Column="2"
+                                                             Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/Whiteboard.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="微软白板" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInMSWhiteboard" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInMSWhiteboard_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Margin="0,18,0,0" Grid.Row="2" Grid.Column="3"
+                                                             Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/AdmoxWhiteboard.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="安道白板" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInAdmoxWhiteboard" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInAdmoxWhiteboard_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Margin="0,18,0,0" Grid.Row="3" Grid.Column="0"
+                                                             Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/AdmoxBooth.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="安道展台" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInAdmoxBooth" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInAdmoxBooth_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Margin="0,18,0,0" Grid.Row="3" Grid.Column="1"
+                                                             Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/YiYunWhiteboard.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="艺云白板" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInQPoint" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInQPoint_Toggled" Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Margin="0,18,0,0" Grid.Row="3" Grid.Column="2"
+                                                             Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/YiYunVisualPresenter.png"
+                                                   Margin="0,0,0,4" Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="艺云展台" HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInYiYunVisualPresenter"
+                                                             IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInYiYunVisualPresenter_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Margin="0,18,0,0" Grid.Row="3" Grid.Column="3"
+                                                             Orientation="Vertical">
+                                            <Image Source="/Resources/Icons-png/MaxHubWhiteboard.png" Margin="0,0,0,4"
+                                                   Width="42"
+                                                   Height="42" HorizontalAlignment="Center" />
+                                            <TextBlock Foreground="#fafafa" Text="MaxHub白板"
+                                                       HorizontalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,0,4" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
+                                                             HorizontalAlignment="Center"
+                                                             Name="ToggleSwitchAutoFoldInMaxHubWhiteboard" IsOn="True"
+                                                             FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchAutoFoldInMaxHubWhiteboard_Toggled"
+                                                             Width="40" />
+                                        </ui:SimpleStackPanel>
+                                    </Grid>
+
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <Image Source="/Resources/Icons-png/EasiNote.png" Margin="0,0,6,0" Width="28"
                                                Height="28" VerticalAlignment="Center" />
-                                        <TextBlock Foreground="#fafafa" Text="进入“希沃白板”时自动收纳" VerticalAlignment="Center"
-                                                   FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAutoFoldInEasiNote" IsOn="True"
-                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchAutoFoldInEasiNote_Toggled" />
-                                    </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Image Source="/Resources/Icons-png/EasiNote.png" Margin="0,0,6,0" Width="28"
-                                               Height="28" VerticalAlignment="Center" />
-                                        <TextBlock Foreground="#fafafa" Text="自动收纳忽略桌面EN批注窗口"
+                                        <TextBlock Foreground="#fafafa" Text="自动收纳忽略桌面EN5批注窗口"
                                                    VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                        <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
                                                          Name="ToggleSwitchAutoFoldInEasiNoteIgnoreDesktopAnno"
                                                          IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchAutoFoldInEasiNoteIgnoreDesktopAnno_Toggled" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Image Source="/Resources/Icons-png/EasiCamera.png" Margin="0,0,6,0" Width="28"
+                                        <Image Source="/Resources/Icons-png/Donview.png" Margin="0,0,6,0" Width="28"
                                                Height="28" VerticalAlignment="Center" />
-                                        <TextBlock Foreground="#fafafa" Text="进入“希沃视频展台”时自动收纳"
-                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAutoFoldInEasiCamera" IsOn="True"
-                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchAutoFoldInEasiCamera_Toggled" />
-                                    </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Image Source="/Resources/Icons-png/EasiNote3.png" Margin="0,0,6,0" Width="28"
-                                               Height="28" VerticalAlignment="Center" />
-                                        <TextBlock Foreground="#fafafa" Text="进入“希沃白板3”时自动收纳"
-                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAutoFoldInEasiNote3" IsOn="True"
-                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchAutoFoldInEasiNote3_Toggled" />
-                                    </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Image Source="/Resources/Icons-png/EasiNote3C.png" Margin="0,0,6,0" Width="28"
-                                               Height="28" VerticalAlignment="Center" />
-                                        <TextBlock Foreground="#fafafa" Text="进入“希沃轻白板”时自动收纳"
-                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAutoFoldInEasiNote3C" IsOn="True"
-                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchAutoFoldInEasiNote3C_Toggled" />
-                                    </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Image Source="/Resources/Icons-png/HiteLightBoard.png" Margin="0,0,6,0"
-                                               Width="28"
-                                               Height="28" VerticalAlignment="Center" />
-                                        <TextBlock Foreground="#fafafa" Text="进入“鸿合轻量白板”时自动收纳"
-                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAutoFoldInHiteLightBoard" IsOn="True"
-                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchAutoFoldInHiteLightBoard_Toggled" />
-                                    </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Image Source="/Resources/Icons-png/EasiNote5C.png" Margin="0,0,6,0" Width="28"
-                                               Height="28" VerticalAlignment="Center" />
-                                        <TextBlock Foreground="#fafafa" Text="进入“希沃轻白板”(新版)时自动收纳"
-                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAutoFoldInEasiNote5C" IsOn="True"
-                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchAutoFoldInEasiNote5C_Toggled" />
-                                    </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Image Source="/Resources/Icons-png/SeewoPinco.png" Margin="0,0,6,0" Width="28"
-                                               Height="28" VerticalAlignment="Center" />
-                                        <TextBlock Foreground="#fafafa" Text="进入“希沃品课”时自动收纳" VerticalAlignment="Center"
-                                                   FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAutoFoldInSeewoPincoTeacher" IsOn="True"
-                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchAutoFoldInSeewoPincoTeacher_Toggled" />
-                                    </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Image Source="/Resources/Icons-png/HiteBoard.png" Margin="0,0,6,0" Width="28"
-                                               Height="28" VerticalAlignment="Center" />
-                                        <TextBlock Foreground="#fafafa" Text="进入“鸿合白板”时自动收纳" VerticalAlignment="Center"
-                                                   FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAutoFoldInHiteTouchPro" IsOn="True"
-                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchAutoFoldInHiteTouchPro_Toggled" />
-                                    </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Image Source="/Resources/Icons-png/HiteCamera.png" Margin="0,0,6,0" Width="28"
-                                               Height="28" VerticalAlignment="Center" />
-                                        <TextBlock Foreground="#fafafa" Text="进入“鸿合视频展台”时自动收纳"
-                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAutoFoldInHiteCamera" IsOn="True"
-                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchAutoFoldInHiteCamera_Toggled" />
-                                    </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Image Source="/Resources/Icons-png/WenXiang.png" Margin="0,0,6,0" Width="28"
-                                               Height="28" VerticalAlignment="Center" />
-                                        <TextBlock Foreground="#fafafa" Text="进入“文香白板”时自动收纳" VerticalAlignment="Center"
-                                                   FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAutoFoldInWxBoardMain" IsOn="True"
-                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchAutoFoldInWxBoardMain_Toggled" />
-                                    </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="进入“中原旧白板”时自动收纳"
                                                    VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                        <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
                                                          Name="ToggleSwitchAutoFoldInOldZyBoard" IsOn="True"
                                                          FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchAutoFoldInOldZyBoard_Toggled" />
-                                    </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Image Source="/Resources/Icons-png/Whiteboard.png" Margin="0,0,6,0" Width="28"
-                                               Height="28" VerticalAlignment="Center" />
-                                        <TextBlock Foreground="#fafafa" Text="进入“微软 Whiteboard”时自动收纳"
-                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAutoFoldInMSWhiteboard" IsOn="True"
-                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchAutoFoldInMSWhiteboard_Toggled" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <Image Source="/Resources/Icons-png/Powerpoint.png" Margin="0,0,6,0" Width="28"
                                                Height="28" VerticalAlignment="Center" />
                                         <TextBlock Foreground="#fafafa" Text="播放PPT时自动收纳" VerticalAlignment="Center"
                                                    FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                        <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
                                                          Name="ToggleSwitchAutoFoldInPPTSlideShow" IsOn="True"
                                                          FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchAutoFoldInPPTSlideShow_Toggled" />
                                     </ui:SimpleStackPanel>
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
+                                    <TextBlock Margin="0,0,0,8" Text="自动查杀" FontWeight="Bold" Foreground="#fafafa"
+                                               FontSize="20" />
                                     <!--<ui:ToggleSwitch OnContent="" OffContent="" Name="ToggleSwitchAutoFoldInZySmartBoard" Header="进入“中原新白板（相似鸿合）”时自动收纳至侧边栏" IsOn="False" FontFamily="Microsoft YaHei UI" Toggled="ToggleSwitchAutoFoldInZySmartBoard_Toggled"/>-->
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <Image Source="/Resources/Icons-png/PPTTools.png" Margin="0,0,6,0" Width="28"
@@ -5914,7 +6114,6 @@
                 </ui:SimpleStackPanel>
             </Viewbox>
         </Grid>
-
 
         <Grid Name="GridForFloatingBarDraging" Background="#01000000" Visibility="Collapsed"
               MouseMove="SymbolIconEmoji_MouseMove" MouseUp="SymbolIconEmoji_MouseUp" />

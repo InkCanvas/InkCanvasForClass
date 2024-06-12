@@ -197,7 +197,12 @@ namespace Ink_Canvas
             || IsAutoFoldInWxBoardMain
             || IsAutoFoldInOldZyBoard
             || IsAutoFoldInPPTSlideShow
-            || IsAutoFoldInMSWhiteboard;
+            || IsAutoFoldInMSWhiteboard
+            || IsAutoFoldInAdmoxWhiteboard
+            || IsAutoFoldInAdmoxBooth
+            || IsAutoFoldInQPoint
+            || IsAutoFoldInYiYunVisualPresenter
+            || IsAutoFoldInMaxHubWhiteboard;
 
         [JsonProperty("isAutoFoldInEasiNote")]
         public bool IsAutoFoldInEasiNote { get; set; } = false;
@@ -238,6 +243,21 @@ namespace Ink_Canvas
 
         [JsonProperty("isAutoFoldInMSWhiteboard")]
         public bool IsAutoFoldInMSWhiteboard { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInAdmoxWhiteboard")]
+        public bool IsAutoFoldInAdmoxWhiteboard { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInAdmoxBooth")]
+        public bool IsAutoFoldInAdmoxBooth { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInQPoint")]
+        public bool IsAutoFoldInQPoint { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInYiYunVisualPresenter")]
+        public bool IsAutoFoldInYiYunVisualPresenter { get; set; } = false;
+
+        [JsonProperty("isAutoFoldInMaxHubWhiteboard")]
+        public bool IsAutoFoldInMaxHubWhiteboard { get; set; } = false;
 
         [JsonProperty("isAutoFoldInPPTSlideShow")]
         public bool IsAutoFoldInPPTSlideShow { get; set; } = false;
@@ -306,6 +326,12 @@ namespace Ink_Canvas
 
         [JsonProperty("isEnableForceFullScreen")]
         public bool IsEnableForceFullScreen { get; set; } = false;
+
+        [JsonProperty("isEnableResolutionChangeDetection")]
+        public bool IsEnableResolutionChangeDetection { get; set; } = false;
+
+        [JsonProperty("isEnableDPIChangeDetection")]
+        public bool IsEnableDPIChangeDetection { get; set; } = false;
 
         [JsonProperty("isSecondConfirmWhenShutdownApp")]
         public bool IsSecondConfirmWhenShutdownApp { get; set; } = false;

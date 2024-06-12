@@ -1,5 +1,6 @@
 ﻿using Ink_Canvas.Helpers;
 using Newtonsoft.Json;
+using OSVersionExtension;
 using System;
 using System.Reflection;
 using System.Windows;
@@ -9,6 +10,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using File = System.IO.File;
+using OperatingSystem = OSVersionExtension.OperatingSystem;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -470,10 +472,14 @@ namespace Ink_Canvas {
 
                 ToggleSwitchIsEnableEdgeGestureUtil.IsOn = Settings.Advanced.IsEnableEdgeGestureUtil;
                 if (Settings.Advanced.IsEnableEdgeGestureUtil) {
-                    EdgeGestureUtil.DisableEdgeGestures(new WindowInteropHelper(this).Handle, true);
+                    if (OSVersion.GetOperatingSystem()>=OperatingSystem.Windows10) EdgeGestureUtil.DisableEdgeGestures(new WindowInteropHelper(this).Handle, true);
                 }
 
                 ToggleSwitchIsEnableForceFullScreen.IsOn = Settings.Advanced.IsEnableForceFullScreen;
+
+                ToggleSwitchIsEnableDPIChangeDetection.IsOn = Settings.Advanced.IsEnableDPIChangeDetection;
+
+                ToggleSwitchIsEnableResolutionChangeDetection.IsOn = Settings.Advanced.IsEnableResolutionChangeDetection;
             } else {
                 Settings.Advanced = new Advanced();
             }
@@ -528,6 +534,16 @@ namespace Ink_Canvas {
                 ToggleSwitchAutoFoldInOldZyBoard.IsOn = Settings.Automation.IsAutoFoldInOldZyBoard;
 
                 ToggleSwitchAutoFoldInMSWhiteboard.IsOn = Settings.Automation.IsAutoFoldInMSWhiteboard;
+
+                ToggleSwitchAutoFoldInAdmoxWhiteboard.IsOn = Settings.Automation.IsAutoFoldInAdmoxWhiteboard;
+
+                ToggleSwitchAutoFoldInAdmoxBooth.IsOn = Settings.Automation.IsAutoFoldInAdmoxBooth;
+
+                ToggleSwitchAutoFoldInQPoint.IsOn = Settings.Automation.IsAutoFoldInQPoint;
+
+                ToggleSwitchAutoFoldInYiYunVisualPresenter.IsOn = Settings.Automation.IsAutoFoldInYiYunVisualPresenter;
+
+                ToggleSwitchAutoFoldInMaxHubWhiteboard.IsOn = Settings.Automation.IsAutoFoldInMaxHubWhiteboard;
 
                 SettingsPPTInkingAndAutoFoldExplictBorder.Visibility = Visibility.Collapsed;
                 if (Settings.Automation.IsAutoFoldInPPTSlideShow) {

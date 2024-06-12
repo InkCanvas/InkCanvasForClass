@@ -189,7 +189,10 @@
     <Resource Include="Resources\DeveloperAvatars\RaspberryKan.jpg" />
     <Resource Include="Resources\DeveloperAvatars\wwei.png" />
     <Resource Include="Resources\DeveloperAvatars\yuwenhui2020.png" />
+    <Resource Include="Resources\Icons-png\AdmoxBooth.png" />
+    <Resource Include="Resources\Icons-png\AdmoxWhiteboard.png" />
     <Resource Include="Resources\Icons-png\check-box-background.png" />
+    <Resource Include="Resources\Icons-png\Donview.png" />
     <Resource Include="Resources\Icons-png\EasiNote3.png" />
     <Resource Include="Resources\Icons-png\eraser-line.png" />
     <Resource Include="Resources\Icons-png\eraser-outline.png" />
@@ -203,6 +206,7 @@
     <Resource Include="Resources\Icons-png\kuandoujiyanhuaji.png" />
     <Resource Include="Resources\Icons-png\kuanneikuhuaji.png" />
     <Resource Include="Resources\Icons-png\kuanshounvhuaji.png" />
+    <Resource Include="Resources\Icons-png\MaxHubWhiteboard.png" />
     <Resource Include="Resources\Icons-png\playCircle.png" />
     <Resource Include="Resources\Icons-png\redo.png" />
     <Resource Include="Resources\Icons-png\setting.png" />
@@ -323,6 +327,8 @@
   <ItemGroup>
     <Resource Include="Resources\Icons-Fluent\ic_fluent_people_24_regular.png" />
     <Resource Include="Resources\Icons-png\WenXiang.png" />
+    <Resource Include="Resources\Icons-png\YiYunVisualPresenter.png" />
+    <Resource Include="Resources\Icons-png\YiYunWhiteboard.png" />
     <Resource Include="Resources\new-icons\chevron-left.png" />
     <Resource Include="Resources\new-icons\end-slides-show.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
@@ -478,6 +484,9 @@
     <None Remove="Resources\DeveloperAvatars\RaspberryKan.jpg" />
     <None Remove="Resources\DeveloperAvatars\wwei.png" />
     <None Remove="Resources\DeveloperAvatars\yuwenhui2020.png" />
+    <None Remove="Resources\Icons-png\AdmoxBooth.png" />
+    <None Remove="Resources\Icons-png\AdmoxWhiteboard.png" />
+    <None Remove="Resources\Icons-png\Donview.png" />
     <None Remove="Resources\Icons-png\EasiNote3.png" />
     <None Remove="Resources\Icons-png\HiteAnnotation.png" />
     <None Remove="Resources\Icons-png\HiteLightBoard.png" />
@@ -490,9 +499,12 @@
     <None Remove="Resources\Icons-png\kuandoujiyanhuaji.png" />
     <None Remove="Resources\Icons-png\kuanneikuhuaji.png" />
     <None Remove="Resources\Icons-png\kuanshounvhuaji.png" />
+    <None Remove="Resources\Icons-png\MaxHubWhiteboard.png" />
     <None Remove="Resources\Icons-png\tiebahuaji.png" />
     <None Remove="Resources\Icons-png\transparent-grid.png" />
     <None Remove="Resources\Icons-png\WenXiang.png" />
+    <None Remove="Resources\Icons-png\YiYunVisualPresenter.png" />
+    <None Remove="Resources\Icons-png\YiYunWhiteboard.png" />
     <None Remove="Resources\new-icons\chevron-left.png" />
     <None Remove="Resources\new-icons\end-slides-show.png" />
     <None Remove="Resources\new-icons\eye.png" />
