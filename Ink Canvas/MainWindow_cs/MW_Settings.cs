@@ -919,6 +919,8 @@ namespace Ink_Canvas {
             Settings.Advanced.IsEnableEdgeGestureUtil = false;
             Settings.Advanced.IsEnableFullScreenHelper = false;
             Settings.Advanced.IsEnableForceFullScreen = false;
+            Settings.Advanced.IsEnableDPIChangeDetection = false;
+            Settings.Advanced.IsEnableResolutionChangeDetection = false;
 
             Settings.Appearance.IsEnableDisPlayNibModeToggler = false;
             Settings.Appearance.IsColorfulViewboxFloatingBar = false;
