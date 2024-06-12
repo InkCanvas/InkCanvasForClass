@@ -1,8 +1,6 @@
 ﻿using Ink_Canvas.Helpers;
 using Microsoft.Office.Interop.PowerPoint;
-using iNKORE.UI.WPF.Helpers;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -18,7 +16,8 @@ using File = System.IO.File;
 using MessageBox = System.Windows.MessageBox;
 using iNKORE.UI.WPF.Modern;
 
-namespace Ink_Canvas {
+namespace Ink_Canvas
+{
     public partial class MainWindow : Window {
         public static Microsoft.Office.Interop.PowerPoint.Application pptApplication = null;
         public static Presentation presentation = null;
@@ -127,7 +126,7 @@ namespace Ink_Canvas {
 
                 // 跳转到上次播放页
                 if (Settings.PowerPointSettings.IsNotifyPreviousPage)
-                    Application.Current.Dispatcher.BeginInvoke(() => {
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() => {
                         var folderPath = Settings.Automation.AutoSavedStrokesLocation +
                                          @"\Auto Saved - Presentations\" + presentation.Name + "_" +
                                          presentation.Slides.Count;
@@ -146,7 +145,7 @@ namespace Ink_Canvas {
                         catch (Exception ex) {
                             LogHelper.WriteLogToFile(ex.ToString(), LogHelper.LogType.Error);
                         }
-                    }, DispatcherPriority.Normal);
+                    }), DispatcherPriority.Normal);
 
 
                 //检查是否有隐藏幻灯片
@@ -158,7 +157,7 @@ namespace Ink_Canvas {
                             break;
                         }
 
-                    Application.Current.Dispatcher.BeginInvoke(() => {
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() => {
                         if (isHaveHiddenSlide && !IsShowingRestoreHiddenSlidesWindow) {
                             IsShowingRestoreHiddenSlidesWindow = true;
                             new YesOrNoNotificationWindow("检测到此演示文档中包含隐藏的幻灯片，是否取消隐藏？",
@@ -172,12 +171,12 @@ namespace Ink_Canvas {
                         }
 
                         BtnPPTSlideShow.Visibility = Visibility.Visible;
-                    }, DispatcherPriority.Normal);
+                    }), DispatcherPriority.Normal);
                 }
 
                 //检测是否有自动播放
                 if (Settings.PowerPointSettings.IsNotifyAutoPlayPresentation)
-                    Application.Current.Dispatcher.BeginInvoke(() => {
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() => {
                         var isHaveAutoPlaySettings = false;
                         isHaveAutoPlaySettings = presentation.SlideShowSettings.AdvanceMode !=
                                                  PpSlideShowAdvanceMode.ppSlideShowManualAdvance;
@@ -191,7 +190,7 @@ namespace Ink_Canvas {
                         }
 
                         BtnPPTSlideShow.Visibility = Visibility.Visible;
-                    }, DispatcherPriority.Normal);
+                    }), DispatcherPriority.Normal);
 
 
                 //如果检测到已经开始放映，则立即进入画板模式

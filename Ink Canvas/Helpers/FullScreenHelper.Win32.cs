@@ -177,6 +177,7 @@ namespace Ink_Canvas.Helpers
             ///     Places the window at the top of the Z order.
             /// </summary>
             HWND_TOP = 0,
+            HWND_TOPMOST = -1,
         }
 
         enum DWMWINDOWATTRIBUTE : uint

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using File = System.IO.File;
@@ -460,6 +461,19 @@ namespace Ink_Canvas {
                     ToggleSwitchIsSpecialScreen.IsOn ? Visibility.Visible : Visibility.Collapsed;
 
                 ToggleSwitchIsQuadIR.IsOn = Settings.Advanced.IsQuadIR;
+
+                ToggleSwitchIsEnableFullScreenHelper.IsOn = Settings.Advanced.IsEnableFullScreenHelper;
+                if (Settings.Advanced.IsEnableFullScreenHelper) {
+                    
+                    FullScreenHelper.MarkFullscreenWindowTaskbarList(new WindowInteropHelper(this).Handle, true);
+                }
+
+                ToggleSwitchIsEnableEdgeGestureUtil.IsOn = Settings.Advanced.IsEnableEdgeGestureUtil;
+                if (Settings.Advanced.IsEnableEdgeGestureUtil) {
+                    EdgeGestureUtil.DisableEdgeGestures(new WindowInteropHelper(this).Handle, true);
+                }
+
+                ToggleSwitchIsEnableForceFullScreen.IsOn = Settings.Advanced.IsEnableForceFullScreen;
             } else {
                 Settings.Advanced = new Advanced();
             }

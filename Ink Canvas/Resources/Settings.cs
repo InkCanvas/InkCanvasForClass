@@ -298,6 +298,15 @@ namespace Ink_Canvas
         [JsonProperty("isLogEnabled")]
         public bool IsLogEnabled { get; set; } = true;
 
+        [JsonProperty("isEnableFullScreenHelper")]
+        public bool IsEnableFullScreenHelper { get; set; } = false;
+
+        [JsonProperty("isEnableEdgeGestureUtil")]
+        public bool IsEnableEdgeGestureUtil { get; set; } = false;
+
+        [JsonProperty("isEnableForceFullScreen")]
+        public bool IsEnableForceFullScreen { get; set; } = false;
+
         [JsonProperty("isSecondConfirmWhenShutdownApp")]
         public bool IsSecondConfirmWhenShutdownApp { get; set; } = false;
     }

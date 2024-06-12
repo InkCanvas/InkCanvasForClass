@@ -13,6 +13,7 @@ using MessageBox = System.Windows.MessageBox;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Controls.Primitives;
+using System.Drawing;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -97,7 +98,7 @@ namespace Ink_Canvas {
 
         #region Ink Canvas Functions
 
-        private Color Ink_DefaultColor = Colors.Red;
+        private System.Windows.Media.Color Ink_DefaultColor = Colors.Red;
 
         private DrawingAttributes drawingAttributes;
 
@@ -108,6 +109,7 @@ namespace Ink_Canvas {
                 //drawingAttributes = new DrawingAttributes();
                 drawingAttributes = inkCanvas.DefaultDrawingAttributes;
                 drawingAttributes.Color = Ink_DefaultColor;
+
 
                 drawingAttributes.Height = 2.5;
                 drawingAttributes.Width = 2.5;
@@ -146,8 +148,7 @@ namespace Ink_Canvas {
                     inkCanvas1.ForceCursor = true;
                 else
                     inkCanvas1.ForceCursor = false;
-            }
-            else {
+            } else {
                 inkCanvas1.ForceCursor = false;
             }
 
@@ -175,11 +176,11 @@ namespace Ink_Canvas {
             //TextBlockVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             LogHelper.WriteLogToFile("Ink Canvas Loaded", LogHelper.LogType.Event);
 
-            FullScreenHelper.MarkFullscreenWindowTaskbarList(new WindowInteropHelper(this).Handle, true);
             isLoaded = true;
 
             BlackBoardLeftSidePageListView.ItemsSource = blackBoardLeftSidePageListViewObservableCollection;
-            BtnLeftWhiteBoardSwitchPreviousGeometry.Brush = new SolidColorBrush(Color.FromArgb(127, 24, 24, 27));
+            BtnLeftWhiteBoardSwitchPreviousGeometry.Brush =
+                new SolidColorBrush(System.Windows.Media.Color.FromArgb(127, 24, 24, 27));
             BtnLeftWhiteBoardSwitchPreviousLabel.Opacity = 0.5;
             BtnWhiteBoardSwitchPrevious.IsEnabled = CurrentWhiteboardIndex != 1;
             BorderInkReplayToolBox.Visibility = Visibility.Collapsed;
@@ -201,6 +202,20 @@ namespace Ink_Canvas {
             if (e.Cancel) LogHelper.WriteLogToFile("Ink Canvas closing cancelled", LogHelper.LogType.Event);
         }
 
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+
+        private void MainWindow_OnSizeChanged(object sender, SizeChangedEventArgs e) {
+            if (Settings.Advanced.IsEnableForceFullScreen) {
+                if (isLoaded) ShowNotification(
+                    $"检测到窗口大小变化，已自动恢复到全屏：{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width}x{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height}（缩放比例为{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth}x{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / SystemParameters.PrimaryScreenHeight}）");
+                WindowState = WindowState.Maximized;
+                MoveWindow(new WindowInteropHelper(this).Handle, 0, 0,
+                    System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width,
+                    System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height, true);
+            }
+        }
+
         private void Window_Closed(object sender, EventArgs e) {
             LogHelper.WriteLogToFile("Ink Canvas closed", LogHelper.LogType.Event);
         }
@@ -218,13 +233,11 @@ namespace Ink_Canvas {
                                 "InkCanvasForClass New Version Available", MessageBoxButton.YesNo,
                                 MessageBoxImage.Question) ==
                             MessageBoxResult.Yes) AutoUpdateHelper.InstallNewVersionApp(AvailableLatestVersion, false);
-                    }
-                    else {
+                    } else {
                         timerCheckAutoUpdateWithSilence.Start();
                     }
                 }
-            }
-            else {
+            } else {
                 AutoUpdateHelper.DeleteUpdatesFolder();
             }
         }

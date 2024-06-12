@@ -462,6 +462,7 @@ namespace Ink_Canvas {
         private void MouseTouchMove(Point endP) {
             if (Settings.Canvas.FitToCurve == true) drawingAttributes.FitToCurve = false;
             ViewboxFloatingBar.IsHitTestVisible = false;
+            BlackboardUIGridForInkReplay.IsHitTestVisible = false;
             List<Point> pointList;
             StylusPointCollection point;
             Stroke stroke;
@@ -1269,6 +1270,7 @@ namespace Ink_Canvas {
 
             inkCanvas.ReleaseAllTouchCaptures();
             ViewboxFloatingBar.IsHitTestVisible = true;
+            BlackboardUIGridForInkReplay.IsHitTestVisible = true;
 
             inkCanvas_MouseUp(sender, null);
             if (dec.Count == 0) isWaitUntilNextTouchDown = false;
@@ -1432,6 +1434,7 @@ namespace Ink_Canvas {
         private void inkCanvas_MouseDown(object sender, MouseButtonEventArgs e) {
             inkCanvas.CaptureMouse();
             ViewboxFloatingBar.IsHitTestVisible = false;
+            BlackboardUIGridForInkReplay.IsHitTestVisible = false;
 
             isMouseDown = true;
             if (NeedUpdateIniP()) iniP = e.GetPosition(inkCanvas);
@@ -1444,6 +1447,7 @@ namespace Ink_Canvas {
         private void inkCanvas_MouseUp(object sender, MouseButtonEventArgs e) {
             inkCanvas.ReleaseMouseCapture();
             ViewboxFloatingBar.IsHitTestVisible = true;
+            BlackboardUIGridForInkReplay.IsHitTestVisible = true;
 
             if (drawingShapeMode == 5) {
                 if (lastTempStroke != null) {
@@ -1587,6 +1591,7 @@ namespace Ink_Canvas {
             }
 
             ViewboxFloatingBar.IsHitTestVisible = true;
+            BlackboardUIGridForInkReplay.IsHitTestVisible = true;
 
             if (Settings.Canvas.FitToCurve == true) drawingAttributes.FitToCurve = true;
         }

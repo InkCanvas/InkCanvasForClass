@@ -84,6 +84,11 @@ namespace Ink_Canvas {
         }
 
         private void MainWindow_StylusDown(object sender, StylusDownEventArgs e) {
+
+            inkCanvas.CaptureStylus();
+            ViewboxFloatingBar.IsHitTestVisible = false;
+            BlackboardUIGridForInkReplay.IsHitTestVisible = false;
+
             if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint
                 || inkCanvas.EditingMode == InkCanvasEditingMode.EraseByStroke
                 || inkCanvas.EditingMode == InkCanvasEditingMode.Select) return;
@@ -116,6 +121,10 @@ namespace Ink_Canvas {
                 }
             }
             catch { }
+
+            inkCanvas.ReleaseStylusCapture();
+            ViewboxFloatingBar.IsHitTestVisible = true;
+            BlackboardUIGridForInkReplay.IsHitTestVisible = true;
         }
 
         private void MainWindow_StylusMove(object sender, StylusEventArgs e) {
@@ -175,6 +184,7 @@ namespace Ink_Canvas {
 
             inkCanvas.CaptureTouch(e.TouchDevice);
             ViewboxFloatingBar.IsHitTestVisible = false;
+            BlackboardUIGridForInkReplay.IsHitTestVisible = false;
 
             if (!isHidingSubPanelsWhenInking) {
                 isHidingSubPanelsWhenInking = true;
@@ -254,6 +264,7 @@ namespace Ink_Canvas {
 
             inkCanvas.CaptureTouch(e.TouchDevice);
             ViewboxFloatingBar.IsHitTestVisible = false;
+            BlackboardUIGridForInkReplay.IsHitTestVisible = false;
 
             dec.Add(e.TouchDevice.Id);
             //设备1个的时候，记录中心点
@@ -278,6 +289,7 @@ namespace Ink_Canvas {
 
             inkCanvas.ReleaseAllTouchCaptures();
             ViewboxFloatingBar.IsHitTestVisible = true;
+            BlackboardUIGridForInkReplay.IsHitTestVisible = true;
 
             //手势完成后切回之前的状态
             if (dec.Count > 1)

@@ -95,7 +95,7 @@ namespace Ink_Canvas.Helpers
                     //不能用 placement 的坐标，placement是工作区坐标，不是屏幕坐标。
 
                     //使用窗口当前的矩形调用下设置窗口位置和尺寸的方法，让Hook来进行调整窗口位置和尺寸到全屏模式
-                    Win32.User32.SetWindowPos(hwnd, (IntPtr) HwndZOrder.HWND_TOP, rect.Left, rect.Top, rect.Width,
+                    Win32.User32.SetWindowPos(hwnd, (IntPtr) HwndZOrder.HWND_TOPMOST, rect.Left, rect.Top, rect.Width,
                         rect.Height, (int) WindowPositionFlags.SWP_NOZORDER);
                 }
             }

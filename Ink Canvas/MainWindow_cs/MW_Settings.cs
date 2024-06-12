@@ -10,6 +10,7 @@ using File = System.IO.File;
 using System.Windows.Media;
 using System.Windows.Ink;
 using System.Windows.Media.Imaging;
+using System.Windows.Interop;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -874,6 +875,9 @@ namespace Ink_Canvas {
             Settings.Advanced.EraserBindTouchMultiplier = true;
             Settings.Advanced.IsLogEnabled = true;
             Settings.Advanced.IsSecondConfirmWhenShutdownApp = false;
+            Settings.Advanced.IsEnableEdgeGestureUtil = false;
+            Settings.Advanced.IsEnableFullScreenHelper = false;
+            Settings.Advanced.IsEnableForceFullScreen = false;
 
             Settings.Appearance.IsEnableDisPlayNibModeToggler = false;
             Settings.Appearance.IsColorfulViewboxFloatingBar = false;
@@ -1063,6 +1067,25 @@ namespace Ink_Canvas {
             else value = Math.Sqrt(args.Width * args.Height); //四边红外
 
             TextBlockShowCalculatedMultiplier.Text = (5 / (value * 1.1)).ToString();
+        }
+
+        private void ToggleSwitchIsEnableFullScreenHelper_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Advanced.IsEnableFullScreenHelper = ToggleSwitchIsEnableFullScreenHelper.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchIsEnableEdgeGestureUtil_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Advanced.IsEnableEdgeGestureUtil = ToggleSwitchIsEnableEdgeGestureUtil.IsOn;
+            EdgeGestureUtil.DisableEdgeGestures(new WindowInteropHelper(this).Handle, ToggleSwitchIsEnableEdgeGestureUtil.IsOn);
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchIsEnableForceFullScreen_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Advanced.IsEnableForceFullScreen = ToggleSwitchIsEnableForceFullScreen.IsOn;
+            SaveSettingsToFile();
         }
 
         private void ToggleSwitchEraserBindTouchMultiplier_Toggled(object sender, RoutedEventArgs e) {

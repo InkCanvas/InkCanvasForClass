@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using System.Windows.Controls;
-using Xceed.Wpf.Toolkit.Core.Utilities;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
