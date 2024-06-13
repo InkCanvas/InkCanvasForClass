@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
+using Hardcodet.Wpf.TaskbarNotification;
 
 namespace Ink_Canvas
 {
@@ -94,34 +95,44 @@ namespace Ink_Canvas
         }
 
         private void HideICCMainWindowTrayIconMenuItem_Checked(object sender, RoutedEventArgs e) {
+            var mi = (MenuItem)sender;
             var mainWin = (MainWindow)Application.Current.MainWindow;
-            mainWin.Hide();
-            var s = (ContextMenu)_taskbar.ContextMenu;
-            var ResetFloatingBarPositionTrayIconMenuItem = (MenuItem)s.Items[s.Items.Count - 4];
-            var FoldFloatingBarTrayIconMenuItem = (MenuItem)s.Items[s.Items.Count - 5];
-            var ForceFullScreenTrayIconMenuItem = (MenuItem)s.Items[s.Items.Count - 6];
-            ResetFloatingBarPositionTrayIconMenuItem.IsEnabled = false;
-            FoldFloatingBarTrayIconMenuItem.IsEnabled = false;
-            ForceFullScreenTrayIconMenuItem.IsEnabled = false;
-            ResetFloatingBarPositionTrayIconMenuItem.Opacity = 0.5;
-            FoldFloatingBarTrayIconMenuItem.Opacity = 0.5;
-            ForceFullScreenTrayIconMenuItem.Opacity = 0.5;
+            if (mainWin.IsLoaded) {
+                mainWin.Hide();
+                var s = ((TaskbarIcon)Application.Current.Resources["TaskbarTrayIcon"]).ContextMenu;
+                var ResetFloatingBarPositionTrayIconMenuItem = (MenuItem)s.Items[s.Items.Count - 4];
+                var FoldFloatingBarTrayIconMenuItem = (MenuItem)s.Items[s.Items.Count - 5];
+                var ForceFullScreenTrayIconMenuItem = (MenuItem)s.Items[s.Items.Count - 6];
+                ResetFloatingBarPositionTrayIconMenuItem.IsEnabled = false;
+                FoldFloatingBarTrayIconMenuItem.IsEnabled = false;
+                ForceFullScreenTrayIconMenuItem.IsEnabled = false;
+                ResetFloatingBarPositionTrayIconMenuItem.Opacity = 0.5;
+                FoldFloatingBarTrayIconMenuItem.Opacity = 0.5;
+                ForceFullScreenTrayIconMenuItem.Opacity = 0.5;
+            } else {
+                mi.IsChecked = false;
+            }
+            
         }
 
-        private void HideICCMainWindowTrayIconMenuItem_UnChecked(object sender, RoutedEventArgs e)
-        {
+        private void HideICCMainWindowTrayIconMenuItem_UnChecked(object sender, RoutedEventArgs e) {
+            var mi = (MenuItem)sender;
             var mainWin = (MainWindow)Application.Current.MainWindow;
-            mainWin.Show();
-            var s = (ContextMenu)_taskbar.ContextMenu;
-            var ResetFloatingBarPositionTrayIconMenuItem = (MenuItem)s.Items[s.Items.Count - 4];
-            var FoldFloatingBarTrayIconMenuItem = (MenuItem)s.Items[s.Items.Count - 5];
-            var ForceFullScreenTrayIconMenuItem = (MenuItem)s.Items[s.Items.Count - 6];
-            ResetFloatingBarPositionTrayIconMenuItem.IsEnabled = true;
-            FoldFloatingBarTrayIconMenuItem.IsEnabled = true;
-            ForceFullScreenTrayIconMenuItem.IsEnabled = true;
-            ResetFloatingBarPositionTrayIconMenuItem.Opacity = 1;
-            FoldFloatingBarTrayIconMenuItem.Opacity = 1;
-            ForceFullScreenTrayIconMenuItem.Opacity = 1;
+            if (mainWin.IsLoaded) {
+                mainWin.Show();
+                var s = ((TaskbarIcon)Application.Current.Resources["TaskbarTrayIcon"]).ContextMenu;
+                var ResetFloatingBarPositionTrayIconMenuItem = (MenuItem)s.Items[s.Items.Count - 4];
+                var FoldFloatingBarTrayIconMenuItem = (MenuItem)s.Items[s.Items.Count - 5];
+                var ForceFullScreenTrayIconMenuItem = (MenuItem)s.Items[s.Items.Count - 6];
+                ResetFloatingBarPositionTrayIconMenuItem.IsEnabled = true;
+                FoldFloatingBarTrayIconMenuItem.IsEnabled = true;
+                ForceFullScreenTrayIconMenuItem.IsEnabled = true;
+                ResetFloatingBarPositionTrayIconMenuItem.Opacity = 1;
+                FoldFloatingBarTrayIconMenuItem.Opacity = 1;
+                ForceFullScreenTrayIconMenuItem.Opacity = 1;
+            } else {
+                mi.IsChecked = false;
+            }
         }
 
     }

@@ -145,6 +145,7 @@ namespace Ink_Canvas.Helpers
             //the warning for the whole project, it's a nice warning and we do want 
             //it in other places so we make a nice dummy function to keep the compiler
             //happy.
+            // 代码应该在警告级别 4 下编译而不会出现任何警告，但是此结构将给出警告 CS0649：字段 [Fieldname] 从未分配，并且始终具有其默认值。您可以在项目选项中禁用 CS0649，但这将禁用整个项目的警告，这是一个很好的警告，我们确实希望它在其他地方，所以我们制作了一个不错的虚拟函数来让编译器满意。
             private void FixCS0649()
             {
                 Length = 0;

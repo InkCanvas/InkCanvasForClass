@@ -227,6 +227,7 @@
                 </MenuItem>
             </ContextMenu>
             <tb:TaskbarIcon x:Key="TaskbarTrayIcon"
+                            Visibility="Collapsed"
                             ToolTipText="InkCanvasForClass"
                             ContextMenu="{StaticResource SysTrayMenu}"
                             IconSource="/Resources/icc.ico"/>

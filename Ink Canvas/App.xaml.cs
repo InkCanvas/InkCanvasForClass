@@ -53,7 +53,7 @@ namespace Ink_Canvas
                 Environment.Exit(0);
             }
 
-            _taskbar = (TaskbarIcon)FindResource("Taskbar");
+            _taskbar = (TaskbarIcon)FindResource("TaskbarTrayIcon");
 
             StartArgs = e.Args;
         }

@@ -473,7 +473,6 @@ namespace Ink_Canvas {
 
                 ToggleSwitchIsEnableFullScreenHelper.IsOn = Settings.Advanced.IsEnableFullScreenHelper;
                 if (Settings.Advanced.IsEnableFullScreenHelper) {
-                    
                     FullScreenHelper.MarkFullscreenWindowTaskbarList(new WindowInteropHelper(this).Handle, true);
                 }
 
