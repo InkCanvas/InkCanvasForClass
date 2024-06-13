@@ -119,6 +119,8 @@ namespace Ink_Canvas
         public int FloatingBarImg { get; set; } = 0;
         [JsonProperty("viewboxFloatingBarOpacityValue")]
         public double ViewboxFloatingBarOpacityValue { get; set; } = 1.0;
+        [JsonProperty("enableTrayIcon")]
+        public bool EnableTrayIcon { get; set; } = true;
         [JsonProperty("viewboxFloatingBarOpacityInPPTValue")]
         public double ViewboxFloatingBarOpacityInPPTValue { get; set; } = 0.5;
         [JsonProperty("enableViewboxBlackBoardScaleTransform")]
@@ -354,9 +356,11 @@ namespace Ink_Canvas
     }
 
     public class RandSettings {
-        [JsonProperty("peopleCount")]
-        public int PeopleCount { get; set; } = 60;
-        [JsonProperty("isNotRepeatName")]
-        public bool IsNotRepeatName { get; set; } = false;
+        [JsonProperty("displayRandWindowNamesInputBtn")]
+        public bool DisplayRandWindowNamesInputBtn { get; set; } = false;
+        [JsonProperty("randWindowOnceCloseLatency")]
+        public double RandWindowOnceCloseLatency { get; set; } = 2.5;
+        [JsonProperty("randWindowOnceMaxStudents")]
+        public int RandWindowOnceMaxStudents { get; set; } = 10;
     }
 }

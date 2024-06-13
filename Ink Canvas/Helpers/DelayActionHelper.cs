@@ -8,7 +8,7 @@ using System.Timers;
 
 namespace Ink_Canvas.Helpers
 {
-    internal class DelayAction
+    public class DelayAction
     {
         Timer _timerDebounce;
 

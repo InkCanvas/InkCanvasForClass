@@ -732,7 +732,7 @@ namespace Ink_Canvas {
             AnimationsHelper.HideWithSlideAndFade(BorderTools);
             AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
 
-            new RandWindow().Show();
+            new RandWindow(Settings).Show();
         }
 
         public void CheckEraserTypeTab() {
@@ -800,7 +800,7 @@ namespace Ink_Canvas {
             AnimationsHelper.HideWithSlideAndFade(BorderTools);
             AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
 
-            new RandWindow(true).ShowDialog();
+            new RandWindow(Settings,true).ShowDialog();
         }
 
         private void GridInkReplayButton_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -1039,7 +1039,7 @@ namespace Ink_Canvas {
 
         private bool isViewboxFloatingBarMarginAnimationRunning = false;
 
-        private async void ViewboxFloatingBarMarginAnimation(int MarginFromEdge,
+        public async void ViewboxFloatingBarMarginAnimation(int MarginFromEdge,
             bool PosXCaculatedWithTaskbarHeight = false) {
             if (MarginFromEdge == 60) MarginFromEdge = 55;
             await Dispatcher.InvokeAsync(() => {
@@ -1102,6 +1102,94 @@ namespace Ink_Canvas {
             await Dispatcher.InvokeAsync(() => {
                 ViewboxFloatingBar.Margin = new Thickness(pos.X, pos.Y, -2000, -200);
                 if (Topmost == false) ViewboxFloatingBar.Visibility = Visibility.Hidden;
+            });
+        }
+
+        public async void PureViewboxFloatingBarMarginAnimationInDesktopMode()
+        {
+            await Dispatcher.InvokeAsync(() => {
+                ViewboxFloatingBar.Visibility = Visibility.Visible;
+                isViewboxFloatingBarMarginAnimationRunning = true;
+
+                double dpiScaleX = 1, dpiScaleY = 1;
+                var source = PresentationSource.FromVisual(this);
+                if (source != null)
+                {
+                    dpiScaleX = source.CompositionTarget.TransformToDevice.M11;
+                    dpiScaleY = source.CompositionTarget.TransformToDevice.M22;
+                }
+
+                var windowHandle = new WindowInteropHelper(this).Handle;
+                var screen = System.Windows.Forms.Screen.FromHandle(windowHandle);
+                double screenWidth = screen.Bounds.Width / dpiScaleX, screenHeight = screen.Bounds.Height / dpiScaleY;
+                var toolbarHeight = SystemParameters.PrimaryScreenHeight - SystemParameters.FullPrimaryScreenHeight -
+                                    SystemParameters.WindowCaptionHeight;
+                pos.X = (screenWidth - ViewboxFloatingBar.ActualWidth * ViewboxFloatingBarScaleTransform.ScaleX) / 2;
+
+                pos.Y = screenHeight - ViewboxFloatingBar.ActualHeight * ViewboxFloatingBarScaleTransform.ScaleY -
+                        toolbarHeight - ViewboxFloatingBarScaleTransform.ScaleY * 3;
+
+                if (pointDesktop.X != -1 || pointDesktop.Y != -1) pointDesktop = pos;
+
+                var marginAnimation = new ThicknessAnimation
+                {
+                    Duration = TimeSpan.FromSeconds(0.35),
+                    From = ViewboxFloatingBar.Margin,
+                    To = new Thickness(pos.X, pos.Y, 0, -20)
+                };
+                marginAnimation.EasingFunction = new CircleEase();
+                ViewboxFloatingBar.BeginAnimation(MarginProperty, marginAnimation);
+            });
+
+            await Task.Delay(349);
+
+            await Dispatcher.InvokeAsync(() => {
+                ViewboxFloatingBar.Margin = new Thickness(pos.X, pos.Y, -2000, -200);
+            });
+        }
+
+        public async void PureViewboxFloatingBarMarginAnimationInPPTMode()
+        {
+            await Dispatcher.InvokeAsync(() => {
+                ViewboxFloatingBar.Visibility = Visibility.Visible;
+                isViewboxFloatingBarMarginAnimationRunning = true;
+
+                double dpiScaleX = 1, dpiScaleY = 1;
+                var source = PresentationSource.FromVisual(this);
+                if (source != null)
+                {
+                    dpiScaleX = source.CompositionTarget.TransformToDevice.M11;
+                    dpiScaleY = source.CompositionTarget.TransformToDevice.M22;
+                }
+
+                var windowHandle = new WindowInteropHelper(this).Handle;
+                var screen = System.Windows.Forms.Screen.FromHandle(windowHandle);
+                double screenWidth = screen.Bounds.Width / dpiScaleX, screenHeight = screen.Bounds.Height / dpiScaleY;
+                var toolbarHeight = SystemParameters.PrimaryScreenHeight - SystemParameters.FullPrimaryScreenHeight -
+                                    SystemParameters.WindowCaptionHeight;
+                pos.X = (screenWidth - ViewboxFloatingBar.ActualWidth * ViewboxFloatingBarScaleTransform.ScaleX) / 2;
+
+                pos.Y = screenHeight - 55 * ViewboxFloatingBarScaleTransform.ScaleY;
+
+                if (pointPPT.X != -1 || pointPPT.Y != -1)
+                {
+                    pointPPT = pos;
+                }
+
+                var marginAnimation = new ThicknessAnimation
+                {
+                    Duration = TimeSpan.FromSeconds(0.35),
+                    From = ViewboxFloatingBar.Margin,
+                    To = new Thickness(pos.X, pos.Y, 0, -20)
+                };
+                marginAnimation.EasingFunction = new CircleEase();
+                ViewboxFloatingBar.BeginAnimation(MarginProperty, marginAnimation);
+            });
+
+            await Task.Delay(349);
+
+            await Dispatcher.InvokeAsync(() => {
+                ViewboxFloatingBar.Margin = new Thickness(pos.X, pos.Y, -2000, -200);
             });
         }
 
@@ -1473,12 +1561,12 @@ namespace Ink_Canvas {
 
         public static bool CloseIsFromButton = false;
 
-        private void BtnExit_Click(object sender, RoutedEventArgs e) {
+        public void BtnExit_Click(object sender, RoutedEventArgs e) {
             CloseIsFromButton = true;
             Close();
         }
 
-        private void BtnRestart_Click(object sender, RoutedEventArgs e) {
+        public void BtnRestart_Click(object sender, RoutedEventArgs e) {
             Process.Start(System.Windows.Forms.Application.ExecutablePath, "-m");
 
             CloseIsFromButton = true;

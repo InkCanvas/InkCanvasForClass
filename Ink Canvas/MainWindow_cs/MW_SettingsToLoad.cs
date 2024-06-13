@@ -1,4 +1,5 @@
-﻿using Ink_Canvas.Helpers;
+﻿using Hardcodet.Wpf.TaskbarNotification;
+using Ink_Canvas.Helpers;
 using Newtonsoft.Json;
 using OSVersionExtension;
 using System;
@@ -9,11 +10,12 @@ using System.Windows.Ink;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using File = System.IO.File;
 using OperatingSystem = OSVersionExtension.OperatingSystem;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : System.Windows.Window {
         private void LoadSettings(bool isStartup = false) {
             AppVersionTextBlock.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             try {
@@ -167,6 +169,11 @@ namespace Ink_Canvas {
                 ComboBoxChickenSoupSource.SelectedIndex = Settings.Appearance.ChickenSoupSource;
 
                 ToggleSwitchEnableQuickPanel.IsOn = Settings.Appearance.IsShowQuickPanel;
+
+                ToggleSwitchEnableTrayIcon.IsOn = Settings.Appearance.EnableTrayIcon;
+                ICCTrayIconExampleImage.Visibility = Settings.Appearance.EnableTrayIcon ? Visibility.Visible : Visibility.Collapsed;
+                var _taskbar = (TaskbarIcon)Application.Current.Resources["TaskbarTrayIcon"];
+                _taskbar.Visibility = Settings.Appearance.EnableTrayIcon ? Visibility.Visible : Visibility.Collapsed;
 
                 ViewboxFloatingBar.Opacity = Settings.Appearance.ViewboxFloatingBarOpacityValue;
 
@@ -506,6 +513,9 @@ namespace Ink_Canvas {
             // RandSettings
             if (Settings.RandSettings != null) { } else {
                 Settings.RandSettings = new RandSettings();
+                ToggleSwitchDisplayRandWindowNamesInputBtn.IsOn = Settings.RandSettings.DisplayRandWindowNamesInputBtn;
+                RandWindowOnceCloseLatencySlider.Value = Settings.RandSettings.RandWindowOnceCloseLatency;
+                RandWindowOnceMaxStudentsSlider.Value = Settings.RandSettings.RandWindowOnceMaxStudents;
             }
 
             // Automation

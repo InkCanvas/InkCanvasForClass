@@ -211,7 +211,7 @@ namespace Ink_Canvas {
             }).Start();
         }
 
-        private DelayAction dpiChangedDelayAction = new DelayAction();
+        public DelayAction dpiChangedDelayAction = new DelayAction();
 
         private void MainWindow_OnDpiChanged(object sender, DpiChangedEventArgs e)
         {
@@ -254,7 +254,7 @@ namespace Ink_Canvas {
         }
 
         [DllImport("user32.dll", SetLastError = true)]
-        internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+        public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
 
         private void MainWindow_OnSizeChanged(object sender, SizeChangedEventArgs e) {
             if (Settings.Advanced.IsEnableForceFullScreen) {

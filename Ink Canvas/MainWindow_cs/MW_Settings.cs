@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Ink;
 using System.Windows.Media.Imaging;
 using System.Windows.Interop;
+using Hardcodet.Wpf.TaskbarNotification;
 using OSVersionExtension;
 
 namespace Ink_Canvas {
@@ -157,6 +158,15 @@ namespace Ink_Canvas {
         private void ViewboxFloatingBarOpacityInPPTValueSlider_ValueChanged(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Appearance.ViewboxFloatingBarOpacityInPPTValue = ViewboxFloatingBarOpacityInPPTValueSlider.Value;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchEnableTrayIcon_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Appearance.EnableTrayIcon = ToggleSwitchEnableTrayIcon.IsOn;
+            ICCTrayIconExampleImage.Visibility = Settings.Appearance.EnableTrayIcon ? Visibility.Visible : Visibility.Collapsed;
+            var _taskbar = (TaskbarIcon)Application.Current.Resources["TaskbarTrayIcon"];
+            _taskbar.Visibility = ToggleSwitchEnableTrayIcon.IsOn? Visibility.Visible : Visibility.Collapsed;
             SaveSettingsToFile();
         }
 
@@ -939,6 +949,7 @@ namespace Ink_Canvas {
             Settings.Appearance.ChickenSoupSource = 1;
             Settings.Appearance.ViewboxFloatingBarOpacityValue = 1.0;
             Settings.Appearance.ViewboxFloatingBarOpacityInPPTValue = 1.0;
+            Settings.Appearance.EnableTrayIcon = true;
 
             Settings.Automation.IsAutoFoldInEasiNote = true;
             Settings.Automation.IsAutoFoldInEasiNoteIgnoreDesktopAnno = true;
@@ -1195,6 +1206,30 @@ namespace Ink_Canvas {
         private void ToggleSwitchIsSecondConfimeWhenShutdownApp_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Advanced.IsSecondConfirmWhenShutdownApp = ToggleSwitchIsSecondConfimeWhenShutdownApp.IsOn;
+            SaveSettingsToFile();
+        }
+
+        #endregion
+
+        #region RandSettings
+
+        private void ToggleSwitchDisplayRandWindowNamesInputBtn_OnToggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.RandSettings.DisplayRandWindowNamesInputBtn = ToggleSwitchDisplayRandWindowNamesInputBtn.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void RandWindowOnceCloseLatencySlider_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.RandSettings.RandWindowOnceCloseLatency = RandWindowOnceCloseLatencySlider.Value;
+            SaveSettingsToFile();
+        }
+
+        private void RandWindowOnceMaxStudentsSlider_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.RandSettings.RandWindowOnceMaxStudents = (int)RandWindowOnceMaxStudentsSlider.Value;
             SaveSettingsToFile();
         }
 

@@ -13,7 +13,8 @@ using System.Windows.Media.Imaging;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
-        private bool isFloatingBarFolded = false, isFloatingBarChangingHideMode = false;
+        public bool isFloatingBarFolded = false;
+        private bool isFloatingBarChangingHideMode = false;
 
         private void CloseWhiteboardImmediately() {
             if (isDisplayingOrHidingBlackboard) return;
@@ -35,11 +36,16 @@ namespace Ink_Canvas {
             })).Start();
         }
 
-        private async void FoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {
+        public async void FoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {
+            var isShouldRejectAction = false;
 
-            if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
-                ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
-            if (sender == Fold_Icon && lastBorderMouseDownObject != Fold_Icon) return;
+            await Dispatcher.InvokeAsync(() => {
+                if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
+                    ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
+                if (sender == Fold_Icon && lastBorderMouseDownObject != Fold_Icon) isShouldRejectAction = true;
+            });
+            
+            if (isShouldRejectAction) return;
 
             // FloatingBarIcons_MouseUp_New(sender);
             if (sender == null)
@@ -179,7 +185,7 @@ namespace Ink_Canvas {
             HideRightQuickPanel();
         }
 
-        private async void UnFoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {
+        public async void UnFoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {
             await Dispatcher.InvokeAsync(() => {
                 LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
                 RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;

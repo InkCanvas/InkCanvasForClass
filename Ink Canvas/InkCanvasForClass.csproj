@@ -22,27 +22,27 @@
     <ApplicationVersion>2.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>false</BootstrapperEnabled>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
     <Configurations>Debug;Release;x86 Debug</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>full</DebugType>
+    <DebugType>embedded</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <Prefer32Bit>True</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 Debug|AnyCPU'">
-    <DebugType>full</DebugType>
+    <DebugType>embedded</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <Prefer32Bit>True</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
+    <DebugType>embedded</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <Prefer32Bit>True</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icc.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\icc.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
@@ -138,6 +138,7 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="iNKORE.UI.WPF.Modern" Version="0.9.27" />
     <PackageReference Include="MdXaml" Version="1.27.0" />
     <PackageReference Include="Microsoft.Office.Interop.PowerPoint" Version="15.0.4420.1018" />
@@ -189,6 +190,7 @@
     <Resource Include="Resources\DeveloperAvatars\RaspberryKan.jpg" />
     <Resource Include="Resources\DeveloperAvatars\wwei.png" />
     <Resource Include="Resources\DeveloperAvatars\yuwenhui2020.png" />
+    <Resource Include="Resources\icc.ico" />
     <Resource Include="Resources\Icons-png\AdmoxBooth.png" />
     <Resource Include="Resources\Icons-png\AdmoxWhiteboard.png" />
     <Resource Include="Resources\Icons-png\check-box-background.png" />
@@ -464,10 +466,6 @@
     <Resource Include="Resources\new-icons\undo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icc.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icc.ico" />
     <Resource Include="Resources\new-icons\unfold-chevron.png" />
     <Resource Include="Resources\new-icons\zoom.png" />
   </ItemGroup>
@@ -475,6 +473,7 @@
     <Compile Remove="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="MainWindow.xaml~RF6c3144.TMP" />
     <None Remove="Resources\Cursors\Cursor.cur" />
     <None Remove="Resources\Cursors\Pen.cur" />
     <None Remove="Resources\DeveloperAvatars\aaaaaaccd.jpg" />
@@ -484,6 +483,7 @@
     <None Remove="Resources\DeveloperAvatars\RaspberryKan.jpg" />
     <None Remove="Resources\DeveloperAvatars\wwei.png" />
     <None Remove="Resources\DeveloperAvatars\yuwenhui2020.png" />
+    <None Remove="Resources\icc.ico" />
     <None Remove="Resources\Icons-png\AdmoxBooth.png" />
     <None Remove="Resources\Icons-png\AdmoxWhiteboard.png" />
     <None Remove="Resources\Icons-png\Donview.png" />

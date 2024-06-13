@@ -14,18 +14,22 @@ namespace Ink_Canvas {
     /// Interaction logic for RandWindow.xaml
     /// </summary>
     public partial class RandWindow : Window {
-        public RandWindow() {
+        public RandWindow(Settings settings) {
             InitializeComponent();
             AnimationsHelper.ShowWithSlideFromBottomAndFade(this, 0.25);
-            BorderBtnHelp.Visibility = RandIsDisplayListManageButton == false ? Visibility.Collapsed : Visibility.Visible;
+            BorderBtnHelp.Visibility = settings.RandSettings.DisplayRandWindowNamesInputBtn == false ? Visibility.Collapsed : Visibility.Visible;
+            RandMaxPeopleOneTime = settings.RandSettings.RandWindowOnceMaxStudents;
+            RandDoneAutoCloseWaitTime = (int)settings.RandSettings.RandWindowOnceCloseLatency*1000;
         }
 
-        public RandWindow(bool IsAutoClose) {
+        public RandWindow(Settings settings, bool IsAutoClose) {
             InitializeComponent();
             isAutoClose = IsAutoClose;
             PeopleControlPane.Opacity = 0.4;
             PeopleControlPane.IsHitTestVisible = false;
-            BorderBtnHelp.Visibility = RandIsDisplayListManageButton == false ? Visibility.Collapsed : Visibility.Visible;
+            BorderBtnHelp.Visibility = settings.RandSettings.DisplayRandWindowNamesInputBtn == false ? Visibility.Collapsed : Visibility.Visible;
+            RandMaxPeopleOneTime = settings.RandSettings.RandWindowOnceMaxStudents;
+            RandDoneAutoCloseWaitTime = (int)settings.RandSettings.RandWindowOnceCloseLatency * 1000;
 
             new Thread(new ThreadStart(() => {
                 Thread.Sleep(100);
@@ -66,7 +70,6 @@ namespace Ink_Canvas {
         public int RandWaitingThreadSleepTime = 5;
         public int RandMaxPeopleOneTime = 10;
         public int RandDoneAutoCloseWaitTime = 2500;
-        public bool RandIsDisplayListManageButton = false;
 
         private void BorderBtnRand_MouseUp(object sender, MouseButtonEventArgs e) {
             Random random = new Random();// randSeed + DateTime.Now.Millisecond / 10 % 10);

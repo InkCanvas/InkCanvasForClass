@@ -1,10 +1,13 @@
-﻿using Ink_Canvas.Helpers;
+﻿using Hardcodet.Wpf.TaskbarNotification;
+using Ink_Canvas.Helpers;
 using iNKORE.UI.WPF.Modern.Controls;
 using System;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using MessageBox = System.Windows.MessageBox;
+using Window = System.Windows.Window;
 
 namespace Ink_Canvas
 {
@@ -31,6 +34,8 @@ namespace Ink_Canvas
             e.Handled = true;
         }
 
+        private TaskbarIcon _taskbar;
+
         void App_Startup(object sender, StartupEventArgs e)
         {
             /*if (!StoreHelper.IsStoreApp) */RootPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -47,6 +52,8 @@ namespace Ink_Canvas
                 LogHelper.NewLog("Ink Canvas automatically closed");
                 Environment.Exit(0);
             }
+
+            _taskbar = (TaskbarIcon)FindResource("Taskbar");
 
             StartArgs = e.Args;
         }
