@@ -19,6 +19,9 @@ Elegant by Default. Based on `ChangSakura/InkCanvas` .
 
 </div>
 
+## 新網站即將上線！
+新網站即將上線，快來一起和InkCanvasForClass見證美好時刻吧！[點我訪問](https://icc.bliemhax.com/)
+
 ## 嚴正聲明
 本產品與peppy的osu!以及其周邊項目和產品無任何關聯，該Logo僅供娛樂用，若有侵權，請聯繫Dev協商解決。
 
