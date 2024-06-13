@@ -199,10 +199,12 @@
     <Resource Include="Resources\Icons-png\eraser-line.png" />
     <Resource Include="Resources\Icons-png\eraser-outline.png" />
     <Resource Include="Resources\Icons-png\HiteLightBoard.png" />
+    <Resource Include="Resources\Icons-png\ica.png" />
     <Resource Include="Resources\Icons-png\icc-transparent-dark-small.png" />
     <Resource Include="Resources\Icons-png\icc-transparent-dark.png" />
     <Resource Include="Resources\Icons-png\icc-transparent.png" />
     <Resource Include="Resources\Icons-png\icc.png" />
+    <Resource Include="Resources\Icons-png\InkCanvas.png" />
     <Resource Include="Resources\Icons-png\kuanciya.png" />
     <Resource Include="Resources\Icons-png\kuandogeyuanliangwo.png" />
     <Resource Include="Resources\Icons-png\kuandoujiyanhuaji.png" />
@@ -490,10 +492,13 @@
     <None Remove="Resources\Icons-png\EasiNote3.png" />
     <None Remove="Resources\Icons-png\HiteAnnotation.png" />
     <None Remove="Resources\Icons-png\HiteLightBoard.png" />
+    <None Remove="Resources\Icons-png\ica.png" />
     <None Remove="Resources\Icons-png\icc-transparent-dark-small.png" />
     <None Remove="Resources\Icons-png\icc-transparent-dark.png" />
     <None Remove="Resources\Icons-png\icc-transparent.png" />
     <None Remove="Resources\Icons-png\icc.png" />
+    <None Remove="Resources\Icons-png\idt.png" />
+    <None Remove="Resources\Icons-png\InkCanvas.png" />
     <None Remove="Resources\Icons-png\kuanciya.png" />
     <None Remove="Resources\Icons-png\kuandogeyuanliangwo.png" />
     <None Remove="Resources\Icons-png\kuandoujiyanhuaji.png" />
@@ -516,6 +521,9 @@
     <None Remove="Resources\new-icons\rotate.png" />
     <None Remove="Resources\new-icons\unfold-chevron.png" />
     <None Remove="Resources\new-icons\zoom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons-png\idt.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons-png\HiteAnnotation.png" />

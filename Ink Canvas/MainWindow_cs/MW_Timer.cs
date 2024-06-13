@@ -69,6 +69,7 @@ namespace Ink_Canvas {
             timerDisplayDate.Elapsed += TimerDisplayDate_Elapsed;
             timerDisplayDate.Interval = 1000 * 60 * 60 * 1;
             timerDisplayDate.Start();
+            timerKillProcess.Start();
             nowTimeVM.nowDate = DateTime.Now.ToShortDateString().ToString();
             nowTimeVM.nowTime = DateTime.Now.ToShortTimeString().ToString();
         }
@@ -82,6 +83,9 @@ namespace Ink_Canvas {
         }
 
         private void TimerKillProcess_Elapsed(object sender, ElapsedEventArgs e) {
+
+            Trace.WriteLine("timer up");
+
             try {
                 // 希沃相关： easinote swenserver RemoteProcess EasiNote.MediaHttpService smartnote.cloud EasiUpdate smartnote EasiUpdate3 EasiUpdate3Protect SeewoP2P CefSharp.BrowserSubprocess SeewoUploadService
                 var arg = "/F";
@@ -102,6 +106,23 @@ namespace Ink_Canvas {
                     if (processes.Length > 0) arg += " /IM HiteAnnotation.exe";
                 }
 
+                if (Settings.Automation.IsAutoKillICA) {
+                    var processesAnnotation = Process.GetProcessesByName("Ink Canvas Annotation");
+                    var processesArtistry = Process.GetProcessesByName("Ink Canvas Artistry");
+                    if (processesAnnotation.Length > 0) arg += " /IM \"Ink Canvas Annotation.exe\"";
+                    if (processesArtistry.Length > 0) arg += " /IM \"Ink Canvas Artistry.exe\"";
+                }
+
+                if (Settings.Automation.IsAutoKillInkCanvas) {
+                    var processes = Process.GetProcessesByName("Ink Canvas");
+                    if (processes.Length > 0) arg += " /IM \"Ink Canvas.exe\"";
+                }
+
+                if (Settings.Automation.IsAutoKillIDT) {
+                    var processes = Process.GetProcessesByName("智绘教");
+                    if (processes.Length > 0) arg += " /IM \"智绘教.exe\"";
+                }
+
                 if (arg != "/F") {
                     var p = new Process();
                     p.StartInfo = new ProcessStartInfo("taskkill", arg);
@@ -109,17 +130,39 @@ namespace Ink_Canvas {
                     p.Start();
 
                     if (arg.Contains("EasiNote")) {
-                        BtnSwitch_Click(BtnSwitch, null);
-                        MessageBox.Show("“希沃白板 5”已自动关闭");
+                        Dispatcher.Invoke(() => {
+                            ShowNotification("“希沃白板 5”已自动关闭");
+                        });
                     }
 
                     if (arg.Contains("HiteAnnotation")) {
-                        BtnSwitch_Click(BtnSwitch, null);
-                        MessageBox.Show("“鸿合屏幕书写”已自动关闭");
+                        Dispatcher.Invoke(() => {
+                            ShowNotification("“鸿合屏幕书写”已自动关闭");
+                        });
+                    }
+
+                    if (arg.Contains("Ink Canvas Annotation") || arg.Contains("Ink Canvas Artistry")) {
+                        Dispatcher.Invoke(() => {
+                            ShowNewMessage("“ICA”已自动关闭");
+                        });
+                    }
+
+                    if (arg.Contains("\"Ink Canvas.exe\"")) {
+                        Dispatcher.Invoke(() => {
+                            ShowNotification("“Ink Canvas”已自动关闭");
+                        });
+                    }
+
+                    if (arg.Contains("智绘教")) {
+                        Dispatcher.Invoke(() => {
+                            ShowNotification("“智绘教”已自动关闭");
+                        });
                     }
                 }
             }
-            catch { }
+            catch {
+                Trace.WriteLine("timer has error");
+            }
         }
 
 

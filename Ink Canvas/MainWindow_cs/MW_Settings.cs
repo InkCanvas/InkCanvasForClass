@@ -675,7 +675,9 @@ namespace Ink_Canvas {
             Settings.Automation.IsAutoKillPptService = ToggleSwitchAutoKillPptService.IsOn;
             SaveSettingsToFile();
 
-            if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService)
+            if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
+                Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT)
                 timerKillProcess.Start();
             else
                 timerKillProcess.Stop();
@@ -686,7 +688,8 @@ namespace Ink_Canvas {
             Settings.Automation.IsAutoKillEasiNote = ToggleSwitchAutoKillEasiNote.IsOn;
             SaveSettingsToFile();
             if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
-                Settings.Automation.IsAutoKillHiteAnnotation)
+                Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT)
                 timerKillProcess.Start();
             else
                 timerKillProcess.Stop();
@@ -697,7 +700,47 @@ namespace Ink_Canvas {
             Settings.Automation.IsAutoKillHiteAnnotation = ToggleSwitchAutoKillHiteAnnotation.IsOn;
             SaveSettingsToFile();
             if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
-                Settings.Automation.IsAutoKillHiteAnnotation)
+                Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT)
+                timerKillProcess.Start();
+            else
+                timerKillProcess.Stop();
+        }
+
+        private void ToggleSwitchAutoKillInkCanvas_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Automation.IsAutoKillInkCanvas = ToggleSwitchAutoKillInkCanvas.IsOn;
+            SaveSettingsToFile();
+            if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
+                Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT)
+                timerKillProcess.Start();
+            else
+                timerKillProcess.Stop();
+        }
+
+        private void ToggleSwitchAutoKillICA_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Automation.IsAutoKillICA = ToggleSwitchAutoKillICA.IsOn;
+            SaveSettingsToFile();
+            if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
+                Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT)
+                timerKillProcess.Start();
+            else
+                timerKillProcess.Stop();
+        }
+
+        private void ToggleSwitchAutoKillIDT_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Automation.IsAutoKillIDT = ToggleSwitchAutoKillIDT.IsOn;
+            SaveSettingsToFile();
+            if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
+                Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT)
                 timerKillProcess.Start();
             else
                 timerKillProcess.Stop();
@@ -971,6 +1014,9 @@ namespace Ink_Canvas {
             Settings.Automation.IsAutoFoldInPPTSlideShow = false;
             Settings.Automation.IsAutoKillPptService = false;
             Settings.Automation.IsAutoKillEasiNote = false;
+            Settings.Automation.IsAutoKillInkCanvas = false;
+            Settings.Automation.IsAutoKillICA = false;
+            Settings.Automation.IsAutoKillIDT = true;
             Settings.Automation.IsSaveScreenshotsInDateFolders = false;
             Settings.Automation.IsAutoSaveStrokesAtScreenshot = true;
             Settings.Automation.IsAutoSaveStrokesAtClear = true;

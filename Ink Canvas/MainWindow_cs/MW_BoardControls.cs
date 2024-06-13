@@ -59,50 +59,33 @@ namespace Ink_Canvas {
         }
 
         private async void BtnWhiteBoardPageIndex_Click(object sender, EventArgs e) {
-            if (BoardBorderLeftPageListView.Visibility == Visibility.Visible) {
-                AnimationsHelper.HideWithSlideAndFade(BoardBorderLeftPageListView);
-            } else {
-                RefreshBlackBoardLeftSidePageListView();
-
-                try {
-                    var sb = new Storyboard();
-
-                    // 渐变动画
-                    var fadeInAnimation = new DoubleAnimation {
-                        From = 0.5,
-                        To = 1,
-                        Duration = TimeSpan.FromSeconds(0.15)
-                    };
-                    fadeInAnimation.EasingFunction = new CubicEase();
-
-                    Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath(UIElement.OpacityProperty));
-
-                    // 滑动动画
-                    var slideAnimation = new DoubleAnimation {
-                        From = BoardBorderLeftPageListView.RenderTransform.Value.OffsetY + 10, // 滑动距离
-                        To = 0,
-                        Duration = TimeSpan.FromSeconds(0.15)
-                    };
-                    Storyboard.SetTargetProperty(slideAnimation,
-                        new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
-
-                    slideAnimation.EasingFunction = new CubicEase();
-
-                    sb.Children.Add(fadeInAnimation);
-                    sb.Children.Add(slideAnimation);
-
-                    BoardBorderLeftPageListView.Visibility = Visibility.Visible;
-                    BoardBorderLeftPageListView.RenderTransform = new TranslateTransform();
-
-                    sb.Begin((FrameworkElement)BoardBorderLeftPageListView);
+            if (sender == BtnLeftPageListWB) {
+                if (BoardBorderLeftPageListView.Visibility == Visibility.Visible) {
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderLeftPageListView);
+                } else {
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderRightPageListView);
+                    RefreshBlackBoardSidePageListView();
+                    AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardBorderLeftPageListView);
+                    await Task.Delay(1);
+                    ScrollViewToVerticalTop(
+                        (ListViewItem)BlackBoardLeftSidePageListView.ItemContainerGenerator.ContainerFromIndex(
+                            CurrentWhiteboardIndex - 1), BlackBoardLeftSidePageListScrollViewer);
                 }
-                catch { }
-
-                await Task.Delay(1);
-                ScrollViewToVerticalTop(
-                    (ListViewItem)BlackBoardLeftSidePageListView.ItemContainerGenerator.ContainerFromIndex(
-                        CurrentWhiteboardIndex - 1), BlackBoardLeftSidePageListScrollViewer);
+            } else if (sender == BtnRightPageListWB)
+            {
+                if (BoardBorderRightPageListView.Visibility == Visibility.Visible) {
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderRightPageListView);
+                } else {
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderLeftPageListView);
+                    RefreshBlackBoardSidePageListView();
+                    AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardBorderRightPageListView);
+                    await Task.Delay(1);
+                    ScrollViewToVerticalTop(
+                        (ListViewItem)BlackBoardRightSidePageListView.ItemContainerGenerator.ContainerFromIndex(
+                            CurrentWhiteboardIndex - 1), BlackBoardRightSidePageListScrollViewer);
+                }
             }
+
         }
 
         private void BtnWhiteBoardSwitchPrevious_Click(object sender, EventArgs e) {
@@ -157,7 +140,7 @@ namespace Ink_Canvas {
             if (WhiteboardTotalCount >= 99) BtnWhiteBoardAdd.IsEnabled = false;
 
             if (BlackBoardLeftSidePageListView.Visibility == Visibility.Visible) {
-                RefreshBlackBoardLeftSidePageListView();
+                RefreshBlackBoardSidePageListView();
             }
         }
 
@@ -215,17 +198,31 @@ namespace Ink_Canvas {
                 BtnLeftWhiteBoardSwitchPreviousLabel.Opacity = 0.5;
                 BtnLeftWhiteBoardSwitchNextGeometry.Brush = new SolidColorBrush(Color.FromArgb(255, 24, 24, 27));
                 BtnLeftWhiteBoardSwitchNextLabel.Opacity = 1;
+
+                BtnRightWhiteBoardSwitchPreviousGeometry.Brush = new SolidColorBrush(Color.FromArgb(127, 24, 24, 27));
+                BtnRightWhiteBoardSwitchPreviousLabel.Opacity = 0.5;
+                BtnRightWhiteBoardSwitchNextGeometry.Brush = new SolidColorBrush(Color.FromArgb(255, 24, 24, 27));
+                BtnRightWhiteBoardSwitchNextLabel.Opacity = 1;
             } else {
                 BtnLeftWhiteBoardSwitchPreviousGeometry.Brush = new SolidColorBrush(Color.FromArgb(255, 24, 24, 27));
                 BtnLeftWhiteBoardSwitchPreviousLabel.Opacity = 1;
 
+                BtnRightWhiteBoardSwitchPreviousGeometry.Brush = new SolidColorBrush(Color.FromArgb(255, 24, 24, 27));
+                BtnRightWhiteBoardSwitchPreviousLabel.Opacity = 1;
+
                 if (CurrentWhiteboardIndex == WhiteboardTotalCount) {
                     BtnLeftWhiteBoardSwitchNextGeometry.Brush = new SolidColorBrush(Color.FromArgb(127, 24, 24, 27));
                     BtnLeftWhiteBoardSwitchNextLabel.Opacity = 0.5;
+
+                    BtnRightWhiteBoardSwitchNextGeometry.Brush = new SolidColorBrush(Color.FromArgb(127, 24, 24, 27));
+                    BtnRightWhiteBoardSwitchNextLabel.Opacity = 0.5;
                     BtnWhiteBoardSwitchNext.IsEnabled = false;
                 } else {
                     BtnLeftWhiteBoardSwitchNextGeometry.Brush = new SolidColorBrush(Color.FromArgb(255, 24, 24, 27));
                     BtnLeftWhiteBoardSwitchNextLabel.Opacity = 1;
+
+                    BtnRightWhiteBoardSwitchNextGeometry.Brush = new SolidColorBrush(Color.FromArgb(255, 24, 24, 27));
+                    BtnRightWhiteBoardSwitchNextLabel.Opacity = 1;
                 }
             }
 

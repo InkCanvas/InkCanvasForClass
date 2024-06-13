@@ -562,7 +562,9 @@ namespace Ink_Canvas {
                 }
                 ToggleSwitchAutoFoldInPPTSlideShow.IsOn = Settings.Automation.IsAutoFoldInPPTSlideShow;
 
-                if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService) {
+                if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
+                    Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
+                    || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT) {
                     timerKillProcess.Start();
                 } else {
                     timerKillProcess.Stop();
@@ -573,6 +575,12 @@ namespace Ink_Canvas {
                 ToggleSwitchAutoKillHiteAnnotation.IsOn = Settings.Automation.IsAutoKillHiteAnnotation;
 
                 ToggleSwitchAutoKillPptService.IsOn = Settings.Automation.IsAutoKillPptService;
+
+                ToggleSwitchAutoKillInkCanvas.IsOn = Settings.Automation.IsAutoKillInkCanvas;
+
+                ToggleSwitchAutoKillICA.IsOn = Settings.Automation.IsAutoKillICA;
+
+                ToggleSwitchAutoKillIDT.IsOn = Settings.Automation.IsAutoKillIDT;
 
                 ToggleSwitchAutoSaveStrokesAtClear.IsOn = Settings.Automation.IsAutoSaveStrokesAtClear;
 

@@ -181,10 +181,16 @@ namespace Ink_Canvas {
 
             isLoaded = true;
 
-            BlackBoardLeftSidePageListView.ItemsSource = blackBoardLeftSidePageListViewObservableCollection;
+            BlackBoardLeftSidePageListView.ItemsSource = blackBoardSidePageListViewObservableCollection;
+            BlackBoardRightSidePageListView.ItemsSource = blackBoardSidePageListViewObservableCollection;
+
             BtnLeftWhiteBoardSwitchPreviousGeometry.Brush =
                 new SolidColorBrush(System.Windows.Media.Color.FromArgb(127, 24, 24, 27));
             BtnLeftWhiteBoardSwitchPreviousLabel.Opacity = 0.5;
+            BtnRightWhiteBoardSwitchPreviousGeometry.Brush =
+                new SolidColorBrush(System.Windows.Media.Color.FromArgb(127, 24, 24, 27));
+            BtnRightWhiteBoardSwitchPreviousLabel.Opacity = 0.5;
+
             BtnWhiteBoardSwitchPrevious.IsEnabled = CurrentWhiteboardIndex != 1;
             BorderInkReplayToolBox.Visibility = Visibility.Collapsed;
 

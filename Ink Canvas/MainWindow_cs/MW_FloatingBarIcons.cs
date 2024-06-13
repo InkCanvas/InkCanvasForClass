@@ -208,6 +208,7 @@ namespace Ink_Canvas {
             EraserSizePanel.Visibility = Visibility.Collapsed;
             BorderSettings.Visibility = Visibility.Collapsed;
             BoardBorderLeftPageListView.Visibility = Visibility.Collapsed;
+            BoardBorderRightPageListView.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -278,6 +279,7 @@ namespace Ink_Canvas {
             AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
             AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
             AnimationsHelper.HideWithSlideAndFade(BoardBorderLeftPageListView);
+            AnimationsHelper.HideWithSlideAndFade(BoardBorderRightPageListView);
 
             if (BorderSettings.Visibility == Visibility.Visible) {
                 BorderSettingsMask.IsHitTestVisible = false;

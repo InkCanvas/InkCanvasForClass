@@ -269,8 +269,18 @@ namespace Ink_Canvas
 
         [JsonProperty("isAutoKillEasiNote")]
         public bool IsAutoKillEasiNote { get; set; } = false;
+
         [JsonProperty("isAutoKillHiteAnnotation")]
         public bool IsAutoKillHiteAnnotation { get; set; } = false;
+
+        [JsonProperty("isAutoKillInkCanvas")]
+        public bool IsAutoKillInkCanvas { get; set; } = false;
+
+        [JsonProperty("isAutoKillICA")]
+        public bool IsAutoKillICA { get; set; } = false;
+
+        [JsonProperty("isAutoKillIDT")]
+        public bool IsAutoKillIDT { get; set; } = true;
 
         [JsonProperty("isSaveScreenshotsInDateFolders")]
         public bool IsSaveScreenshotsInDateFolders { get; set; } = false;
