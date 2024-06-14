@@ -19,6 +19,10 @@ Elegant by Default. Based on `ChangSakura/InkCanvas` .
 
 </div>
 
+## 贊助支持
+
+我已註冊愛發電，感謝各位對icc的支持！[https://afdian.net/a/dubi906w](https://afdian.net/a/dubi906w)
+
 ## 新網站即將上線！
 新網站即將上線，快來一起和InkCanvasForClass見證美好時刻吧！[點我訪問](https://icc.bliemhax.com/)
 
