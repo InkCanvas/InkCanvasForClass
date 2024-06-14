@@ -273,6 +273,12 @@ namespace Ink_Canvas
         [JsonProperty("isAutoKillHiteAnnotation")]
         public bool IsAutoKillHiteAnnotation { get; set; } = false;
 
+        [JsonProperty("isAutoKillVComYouJiao")]
+        public bool IsAutoKillVComYouJiao { get; set; } = false;
+
+        [JsonProperty("isAutoKillSeewoLauncher2DesktopAnnotation")]
+        public bool IsAutoKillSeewoLauncher2DesktopAnnotation { get; set; } = false;
+
         [JsonProperty("isAutoKillInkCanvas")]
         public bool IsAutoKillInkCanvas { get; set; } = false;
 

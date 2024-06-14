@@ -213,6 +213,7 @@
     <Resource Include="Resources\Icons-png\MaxHubWhiteboard.png" />
     <Resource Include="Resources\Icons-png\playCircle.png" />
     <Resource Include="Resources\Icons-png\redo.png" />
+    <Resource Include="Resources\Icons-png\Seewo2Annotation.png" />
     <Resource Include="Resources\Icons-png\setting.png" />
     <Resource Include="Resources\Icons-png\tiebahuaji.png" />
     <Resource Include="Resources\Icons-png\transparent-grid.png" />
@@ -330,6 +331,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons-Fluent\ic_fluent_people_24_regular.png" />
+    <Resource Include="Resources\Icons-png\VComYouJiao.png" />
     <Resource Include="Resources\Icons-png\WenXiang.png" />
     <Resource Include="Resources\Icons-png\YiYunVisualPresenter.png" />
     <Resource Include="Resources\Icons-png\YiYunWhiteboard.png" />
@@ -505,8 +507,10 @@
     <None Remove="Resources\Icons-png\kuanneikuhuaji.png" />
     <None Remove="Resources\Icons-png\kuanshounvhuaji.png" />
     <None Remove="Resources\Icons-png\MaxHubWhiteboard.png" />
+    <None Remove="Resources\Icons-png\Seewo2Annotation.png" />
     <None Remove="Resources\Icons-png\tiebahuaji.png" />
     <None Remove="Resources\Icons-png\transparent-grid.png" />
+    <None Remove="Resources\Icons-png\VComYouJiao.png" />
     <None Remove="Resources\Icons-png\WenXiang.png" />
     <None Remove="Resources\Icons-png\YiYunVisualPresenter.png" />
     <None Remove="Resources\Icons-png\YiYunWhiteboard.png" />

@@ -677,7 +677,8 @@ namespace Ink_Canvas {
 
             if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
                 Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
-                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT)
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT || Settings.Automation.IsAutoKillVComYouJiao
+                || Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation)
                 timerKillProcess.Start();
             else
                 timerKillProcess.Stop();
@@ -689,7 +690,8 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
             if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
                 Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
-                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT)
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT || Settings.Automation.IsAutoKillVComYouJiao
+                || Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation)
                 timerKillProcess.Start();
             else
                 timerKillProcess.Stop();
@@ -701,7 +703,36 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
             if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
                 Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
-                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT)
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT || Settings.Automation.IsAutoKillVComYouJiao
+                || Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation)
+                timerKillProcess.Start();
+            else
+                timerKillProcess.Stop();
+        }
+
+        private void ToggleSwitchAutoKillVComYouJiao_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Automation.IsAutoKillVComYouJiao = ToggleSwitchAutoKillVComYouJiao.IsOn;
+            SaveSettingsToFile();
+            if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
+                Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT || Settings.Automation.IsAutoKillVComYouJiao
+                || Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation)
+                timerKillProcess.Start();
+            else
+                timerKillProcess.Stop();
+        }
+
+        private void ToggleSwitchAutoKillSeewoLauncher2DesktopAnnotation_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation = ToggleSwitchAutoKillSeewoLauncher2DesktopAnnotation.IsOn;
+            SaveSettingsToFile();
+            if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
+                Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT || Settings.Automation.IsAutoKillVComYouJiao
+                || Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation)
                 timerKillProcess.Start();
             else
                 timerKillProcess.Stop();
@@ -714,7 +745,8 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
             if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
                 Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
-                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT)
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT || Settings.Automation.IsAutoKillVComYouJiao
+                || Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation)
                 timerKillProcess.Start();
             else
                 timerKillProcess.Stop();
@@ -727,7 +759,8 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
             if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
                 Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
-                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT)
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT || Settings.Automation.IsAutoKillVComYouJiao
+                || Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation)
                 timerKillProcess.Start();
             else
                 timerKillProcess.Stop();
@@ -740,7 +773,8 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
             if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
                 Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
-                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT)
+                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT || Settings.Automation.IsAutoKillVComYouJiao
+                || Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation)
                 timerKillProcess.Start();
             else
                 timerKillProcess.Stop();
@@ -1014,9 +1048,11 @@ namespace Ink_Canvas {
             Settings.Automation.IsAutoFoldInPPTSlideShow = false;
             Settings.Automation.IsAutoKillPptService = false;
             Settings.Automation.IsAutoKillEasiNote = false;
+            Settings.Automation.IsAutoKillVComYouJiao = false;
             Settings.Automation.IsAutoKillInkCanvas = false;
             Settings.Automation.IsAutoKillICA = false;
             Settings.Automation.IsAutoKillIDT = true;
+            Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation = false;
             Settings.Automation.IsSaveScreenshotsInDateFolders = false;
             Settings.Automation.IsAutoSaveStrokesAtScreenshot = true;
             Settings.Automation.IsAutoSaveStrokesAtClear = true;

@@ -564,7 +564,8 @@ namespace Ink_Canvas {
 
                 if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
                     Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
-                    || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT) {
+                    || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT || Settings.Automation.IsAutoKillVComYouJiao
+                    || Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation) {
                     timerKillProcess.Start();
                 } else {
                     timerKillProcess.Stop();
@@ -576,11 +577,16 @@ namespace Ink_Canvas {
 
                 ToggleSwitchAutoKillPptService.IsOn = Settings.Automation.IsAutoKillPptService;
 
+                ToggleSwitchAutoKillVComYouJiao.IsOn = Settings.Automation.IsAutoKillVComYouJiao;
+
                 ToggleSwitchAutoKillInkCanvas.IsOn = Settings.Automation.IsAutoKillInkCanvas;
 
                 ToggleSwitchAutoKillICA.IsOn = Settings.Automation.IsAutoKillICA;
 
                 ToggleSwitchAutoKillIDT.IsOn = Settings.Automation.IsAutoKillIDT;
+
+                ToggleSwitchAutoKillSeewoLauncher2DesktopAnnotation.IsOn =
+                    Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation;
 
                 ToggleSwitchAutoSaveStrokesAtClear.IsOn = Settings.Automation.IsAutoSaveStrokesAtClear;
 

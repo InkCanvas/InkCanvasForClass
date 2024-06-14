@@ -37,6 +37,11 @@ namespace Ink_Canvas {
         }
 
         public async void FoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {
+            await FoldFloatingBar(sender);
+        }
+
+        public async Task FoldFloatingBar(object sender)
+        {
             var isShouldRejectAction = false;
 
             await Dispatcher.InvokeAsync(() => {
@@ -44,7 +49,7 @@ namespace Ink_Canvas {
                     ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
                 if (sender == Fold_Icon && lastBorderMouseDownObject != Fold_Icon) isShouldRejectAction = true;
             });
-            
+
             if (isShouldRejectAction) return;
 
             // FloatingBarIcons_MouseUp_New(sender);
@@ -186,6 +191,11 @@ namespace Ink_Canvas {
         }
 
         public async void UnFoldFloatingBar_MouseUp(object sender, MouseButtonEventArgs e) {
+            await UnFoldFloatingBar(sender);
+        }
+
+        public async Task UnFoldFloatingBar(object sender)
+        {
             await Dispatcher.InvokeAsync(() => {
                 LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
                 RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
@@ -206,12 +216,14 @@ namespace Ink_Canvas {
             await Task.Delay(0);
 
             await Dispatcher.InvokeAsync(() => {
-                if (StackPanelPPTControls.Visibility == Visibility.Visible) {
+                if (StackPanelPPTControls.Visibility == Visibility.Visible)
+                {
                     if (Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel &&
                         isDisplayingOrHidingBlackboard == false)
                         AnimationsHelper.ShowWithSlideFromBottomAndFade(BottomViewboxPPTSidesControl);
                     if (Settings.PowerPointSettings.IsShowSidePPTNavigationPanel &&
-                        isDisplayingOrHidingBlackboard == false) {
+                        isDisplayingOrHidingBlackboard == false)
+                    {
                         AnimationsHelper.ShowWithScaleFromLeft(LeftSidePanelForPPTNavigation);
                         AnimationsHelper.ShowWithScaleFromRight(RightSidePanelForPPTNavigation);
                     }
@@ -227,8 +239,7 @@ namespace Ink_Canvas {
             isFloatingBarChangingHideMode = false;
         }
 
-        private async void
-            SidePannelMarginAnimation(int MarginFromEdge, bool isNoAnimation = false) // Possible value: -50, -10
+        private async void SidePannelMarginAnimation(int MarginFromEdge, bool isNoAnimation = false) // Possible value: -50, -10
         {
             await Dispatcher.InvokeAsync(() => {
                 if (MarginFromEdge == -10) LeftSidePanel.Visibility = Visibility.Visible;

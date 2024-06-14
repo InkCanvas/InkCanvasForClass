@@ -1405,6 +1405,33 @@
                                                          IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchAutoKillHiteAnnotation_Toggled" />
                                     </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <Image Source="/Resources/Icons-png/VComYouJiao.png" Margin="0,0,6,0"
+                                               Width="28"
+                                               Height="28" VerticalAlignment="Center" />
+                                        <TextBlock Foreground="#fafafa" Text="自动查杀 优教授课端" VerticalAlignment="Center"
+                                                   FontSize="14" Margin="0,0,16,0" />
+                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Name="ToggleSwitchAutoKillVComYouJiao"
+                                                         IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                         Toggled="ToggleSwitchAutoKillVComYouJiao_Toggled" />
+                                    </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <Image Source="/Resources/Icons-png/Seewo2Annotation.png" Margin="0,0,6,0"
+                                               Width="28"
+                                               Height="28" VerticalAlignment="Center" />
+                                        <TextBlock Foreground="#fafafa" Text="自动查杀 希沃桌面2.0 桌面批注" VerticalAlignment="Center"
+                                                   FontSize="14" Margin="0,0,16,0" />
+                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Name="ToggleSwitchAutoKillSeewoLauncher2DesktopAnnotation"
+                                                         IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                         Toggled="ToggleSwitchAutoKillSeewoLauncher2DesktopAnnotation_Toggled" />
+                                    </ui:SimpleStackPanel>
+                                    <TextBlock TextWrapping="Wrap" Foreground="#a1a1aa" >
+                                        <Run Text="# 由于希沃桌面2.0提供的桌面批注是64位应用程序，icc是32位程序无法访问，所以目前暂不做精准匹配，只匹配进程名称"/>
+                                        <Run FontFamily="Consolas">DesktopAnnotation</Run>
+                                        <Run Text="，后面会考虑封装一套基于P/Invoke和WMI的综合进程识别方案。如果遇到同进程名的软件直接不开启该选项就行了，见谅！"/>
+                                    </TextBlock>
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
                                     <TextBlock Margin="0,0,0,8" Text="同类软件查杀" FontWeight="Bold" Foreground="#fafafa"
@@ -2772,13 +2799,9 @@
                                                                             Minimum="1" Maximum="255" Width="208"
                                                                             FontFamily="Microsoft YaHei UI"
                                                                             FontSize="20"
-                                                                            IsSnapToTickEnabled="True" Value="255"
-                                                                            Foreground="#b91c1c" TickFrequency="1"
+                                                                            IsSnapToTickEnabled="True" Value="255" TickFrequency="1"
                                                                             TickPlacement="None"
-                                                                            ValueChanged="InkAlphaSlider_ValueChanged">
-                                                                        <Slider.Resources>
-                                                                        </Slider.Resources>
-                                                                    </Slider>
+                                                                            ValueChanged="InkAlphaSlider_ValueChanged"/>
                                                                     <TextBlock
                                                                         Text="{Binding Value, ElementName=InkAlphaSlider, Mode=OneWay}"
                                                                         FontFamily="Consolas"
@@ -4891,12 +4914,9 @@
                                                                         Minimum="1" Maximum="255" Width="208"
                                                                         FontFamily="Microsoft YaHei UI" FontSize="20"
                                                                         IsSnapToTickEnabled="True" Value="255"
-                                                                        Foreground="#b91c1c" TickFrequency="1"
+                                                                        TickFrequency="1"
                                                                         TickPlacement="None"
-                                                                        ValueChanged="InkAlphaSlider_ValueChanged">
-                                                                    <Slider.Resources>
-                                                                    </Slider.Resources>
-                                                                </Slider>
+                                                                        ValueChanged="InkAlphaSlider_ValueChanged"/>
                                                                 <TextBlock
                                                                     Text="{Binding Value, ElementName=InkAlphaSlider, Mode=OneWay}"
                                                                     FontFamily="Consolas" VerticalAlignment="Bottom"

@@ -83,9 +83,6 @@ namespace Ink_Canvas {
         }
 
         private void TimerKillProcess_Elapsed(object sender, ElapsedEventArgs e) {
-
-            Trace.WriteLine("timer up");
-
             try {
                 // 希沃相关： easinote swenserver RemoteProcess EasiNote.MediaHttpService smartnote.cloud EasiUpdate smartnote EasiUpdate3 EasiUpdate3Protect SeewoP2P CefSharp.BrowserSubprocess SeewoUploadService
                 var arg = "/F";
@@ -106,6 +103,12 @@ namespace Ink_Canvas {
                     if (processes.Length > 0) arg += " /IM HiteAnnotation.exe";
                 }
 
+                if (Settings.Automation.IsAutoKillVComYouJiao)
+                {
+                    var processes = Process.GetProcessesByName("VcomTeach");
+                    if (processes.Length > 0) arg += " /IM VcomTeach.exe";
+                }
+
                 if (Settings.Automation.IsAutoKillICA) {
                     var processesAnnotation = Process.GetProcessesByName("Ink Canvas Annotation");
                     var processesArtistry = Process.GetProcessesByName("Ink Canvas Artistry");
@@ -121,6 +124,12 @@ namespace Ink_Canvas {
                 if (Settings.Automation.IsAutoKillIDT) {
                     var processes = Process.GetProcessesByName("智绘教");
                     if (processes.Length > 0) arg += " /IM \"智绘教.exe\"";
+                }
+
+                if (Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation) {
+                    //由于希沃桌面2.0提供的桌面批注是64位应用程序，32位程序无法访问，目前暂不做精准匹配，只匹配进程名称，后面会考虑封装一套基于P/Invoke和WMI的综合进程识别方案。
+                    var processes = Process.GetProcessesByName("DesktopAnnotation");
+                    if (processes.Length > 0) arg += " /IM DesktopAnnotation.exe";
                 }
 
                 if (arg != "/F") {
@@ -158,11 +167,23 @@ namespace Ink_Canvas {
                             ShowNotification("“智绘教”已自动关闭");
                         });
                     }
+
+                    if (arg.Contains("VcomTeach"))
+                    {
+                        Dispatcher.Invoke(() => {
+                            ShowNotification("“优教授课端”已自动关闭");
+                        });
+                    }
+
+                    if (arg.Contains("DesktopAnnotation"))
+                    {
+                        Dispatcher.Invoke(() => {
+                            ShowNotification("“DesktopAnnotation”已自动关闭");
+                        });
+                    }
                 }
             }
-            catch {
-                Trace.WriteLine("timer has error");
-            }
+            catch {}
         }
 
 
