@@ -107,8 +107,6 @@ namespace Ink_Canvas {
 
         private void loadPenCanvas() {
             try {
-                var alpha = Settings.Canvas.InkAlpha;
-                Trace.WriteLine(alpha);
                 //drawingAttributes = new DrawingAttributes();
                 drawingAttributes = inkCanvas.DefaultDrawingAttributes;
                 drawingAttributes.Color = Ink_DefaultColor;

@@ -481,7 +481,8 @@ namespace Ink_Canvas {
 
             if (currentMode == 0)
             {
-                BottomViewboxPPTSidesControl.Visibility = Visibility.Collapsed;
+                LeftBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
+                RightBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 //进入黑板
@@ -566,13 +567,12 @@ namespace Ink_Canvas {
 
                 if (StackPanelPPTControls.Visibility == Visibility.Visible)
                 {
-                    if (Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel)
-                        AnimationsHelper.ShowWithSlideFromBottomAndFade(BottomViewboxPPTSidesControl);
-                    if (Settings.PowerPointSettings.IsShowSidePPTNavigationPanel)
-                    {
-                        AnimationsHelper.ShowWithScaleFromLeft(LeftSidePanelForPPTNavigation);
-                        AnimationsHelper.ShowWithScaleFromRight(RightSidePanelForPPTNavigation);
-                    }
+                    var dops = Settings.PowerPointSettings.PPTButtonsDisplayOption.ToString();
+                    var dopsc = dops.ToCharArray();
+                    if (dopsc[0] == '2' && isDisplayingOrHidingBlackboard == false) AnimationsHelper.ShowWithFadeIn(LeftBottomPanelForPPTNavigation);
+                    if (dopsc[1] == '2' && isDisplayingOrHidingBlackboard == false) AnimationsHelper.ShowWithFadeIn(RightBottomPanelForPPTNavigation);
+                    if (dopsc[2] == '2' && isDisplayingOrHidingBlackboard == false) AnimationsHelper.ShowWithFadeIn(LeftSidePanelForPPTNavigation);
+                    if (dopsc[3] == '2' && isDisplayingOrHidingBlackboard == false) AnimationsHelper.ShowWithFadeIn(RightSidePanelForPPTNavigation);
                 }
 
                 if (Settings.Automation.IsAutoSaveStrokesAtClear &&

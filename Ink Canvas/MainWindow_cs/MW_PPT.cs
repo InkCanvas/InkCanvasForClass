@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -60,7 +61,8 @@ namespace Ink_Canvas {
             catch {
                 //BtnCheckPPT.Visibility = Visibility.Visible;
                 StackPanelPPTControls.Visibility = Visibility.Collapsed;
-                BottomViewboxPPTSidesControl.Visibility = Visibility.Collapsed;
+                LeftBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
+                RightBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 MessageBox.Show("未找到幻灯片");
@@ -245,6 +247,145 @@ namespace Ink_Canvas {
 
         private string pptName = null;
 
+        private void UpdatePPTBtnStyleSettingsStatus() {
+            var sopt = Settings.PowerPointSettings.PPTSButtonsOption.ToString();
+            char[] soptc = sopt.ToCharArray();
+            if (soptc[0] == '2')
+            {
+                PPTLSPageButton.Visibility = Visibility.Visible;
+                PPTRSPageButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                PPTLSPageButton.Visibility = Visibility.Collapsed;
+                PPTRSPageButton.Visibility = Visibility.Collapsed;
+            }
+            if (soptc[2] == '2')
+            {
+                // 这里先堆一点屎山，没空用Resources了
+                PPTBtnLSBorder.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                PPTBtnRSBorder.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                PPTBtnLSBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(82, 82, 91));
+                PPTBtnRSBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(82, 82, 91));
+                PPTLSPreviousButtonGeometry.Brush = new SolidColorBrush(Colors.White);
+                PPTRSPreviousButtonGeometry.Brush = new SolidColorBrush(Colors.White);
+                PPTLSNextButtonGeometry.Brush = new SolidColorBrush(Colors.White);
+                PPTRSNextButtonGeometry.Brush = new SolidColorBrush(Colors.White);
+                PPTLSPreviousButtonFeedbackBorder.Background = new SolidColorBrush(Colors.White);
+                PPTRSPreviousButtonFeedbackBorder.Background = new SolidColorBrush(Colors.White);
+                PPTLSPageButtonFeedbackBorder.Background = new SolidColorBrush(Colors.White);
+                PPTRSPageButtonFeedbackBorder.Background = new SolidColorBrush(Colors.White);
+                PPTLSNextButtonFeedbackBorder.Background = new SolidColorBrush(Colors.White);
+                PPTRSNextButtonFeedbackBorder.Background = new SolidColorBrush(Colors.White);
+                TextBlock.SetForeground(PPTLSPageButton, new SolidColorBrush(Colors.White));
+                TextBlock.SetForeground(PPTRSPageButton, new SolidColorBrush(Colors.White));
+            }
+            else
+            {
+                PPTBtnLSBorder.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
+                PPTBtnRSBorder.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
+                PPTBtnLSBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
+                PPTBtnRSBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
+                PPTLSPreviousButtonGeometry.Brush = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                PPTRSPreviousButtonGeometry.Brush = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                PPTLSNextButtonGeometry.Brush = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                PPTRSNextButtonGeometry.Brush = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                PPTLSPreviousButtonFeedbackBorder.Background = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                PPTRSPreviousButtonFeedbackBorder.Background = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                PPTLSPageButtonFeedbackBorder.Background = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                PPTRSPageButtonFeedbackBorder.Background = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                PPTLSNextButtonFeedbackBorder.Background = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                PPTRSNextButtonFeedbackBorder.Background = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                TextBlock.SetForeground(PPTLSPageButton, new SolidColorBrush(Color.FromRgb(24, 24, 27)));
+                TextBlock.SetForeground(PPTRSPageButton, new SolidColorBrush(Color.FromRgb(24, 24, 27)));
+            }
+            if (soptc[1] == '2')
+            {
+                PPTBtnLSBorder.Opacity = 0.5;
+                PPTBtnRSBorder.Opacity = 0.5;
+            }
+            else
+            {
+                PPTBtnLSBorder.Opacity = 1;
+                PPTBtnRSBorder.Opacity = 1;
+            }
+
+            var bopt = Settings.PowerPointSettings.PPTBButtonsOption.ToString();
+            char[] boptc = bopt.ToCharArray();
+            if (boptc[0] == '2')
+            {
+                PPTLBPageButton.Visibility = Visibility.Visible;
+                PPTRBPageButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                PPTLBPageButton.Visibility = Visibility.Collapsed;
+                PPTRBPageButton.Visibility = Visibility.Collapsed;
+            }
+            if (boptc[2] == '2')
+            {
+                // 这里先堆一点屎山，没空用Resources了
+                PPTBtnLBBorder.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                PPTBtnRBBorder.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                PPTBtnLBBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(82, 82, 91));
+                PPTBtnRBBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(82, 82, 91));
+                PPTLBPreviousButtonGeometry.Brush = new SolidColorBrush(Colors.White);
+                PPTRBPreviousButtonGeometry.Brush = new SolidColorBrush(Colors.White);
+                PPTLBNextButtonGeometry.Brush = new SolidColorBrush(Colors.White);
+                PPTRBNextButtonGeometry.Brush = new SolidColorBrush(Colors.White);
+                PPTLBPreviousButtonFeedbackBorder.Background = new SolidColorBrush(Colors.White);
+                PPTRBPreviousButtonFeedbackBorder.Background = new SolidColorBrush(Colors.White);
+                PPTLBPageButtonFeedbackBorder.Background = new SolidColorBrush(Colors.White);
+                PPTRBPageButtonFeedbackBorder.Background = new SolidColorBrush(Colors.White);
+                PPTLBNextButtonFeedbackBorder.Background = new SolidColorBrush(Colors.White);
+                PPTRBNextButtonFeedbackBorder.Background = new SolidColorBrush(Colors.White);
+                TextBlock.SetForeground(PPTLBPageButton, new SolidColorBrush(Colors.White));
+                TextBlock.SetForeground(PPTRBPageButton, new SolidColorBrush(Colors.White));
+            }
+            else
+            {
+                PPTBtnLBBorder.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
+                PPTBtnRBBorder.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
+                PPTBtnLBBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
+                PPTBtnRBBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
+                PPTLBPreviousButtonGeometry.Brush = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                PPTRBPreviousButtonGeometry.Brush = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                PPTLBNextButtonGeometry.Brush = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                PPTRBNextButtonGeometry.Brush = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                PPTLBPreviousButtonFeedbackBorder.Background = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                PPTRBPreviousButtonFeedbackBorder.Background = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                PPTLBPageButtonFeedbackBorder.Background = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                PPTRBPageButtonFeedbackBorder.Background = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                PPTLBNextButtonFeedbackBorder.Background = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                PPTRBNextButtonFeedbackBorder.Background = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+                TextBlock.SetForeground(PPTLBPageButton, new SolidColorBrush(Color.FromRgb(24, 24, 27)));
+                TextBlock.SetForeground(PPTRBPageButton, new SolidColorBrush(Color.FromRgb(24, 24, 27)));
+            }
+            if (boptc[1] == '2')
+            {
+                PPTBtnLBBorder.Opacity = 0.5;
+                PPTBtnRBBorder.Opacity = 0.5;
+            }
+            else
+            {
+                PPTBtnLBBorder.Opacity = 1;
+                PPTBtnRBBorder.Opacity = 1;
+            }
+        }
+
+        private void UpdatePPTBtnDisplaySettingsStatus() {
+            var dopt = Settings.PowerPointSettings.PPTButtonsDisplayOption.ToString();
+            char[] doptc = dopt.ToCharArray();
+            if (doptc[0] == '2') AnimationsHelper.ShowWithFadeIn(LeftBottomPanelForPPTNavigation);
+            else LeftBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
+            if (doptc[1] == '2') AnimationsHelper.ShowWithFadeIn(RightBottomPanelForPPTNavigation);
+            else RightBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
+            if (doptc[2] == '2') AnimationsHelper.ShowWithFadeIn(LeftSidePanelForPPTNavigation);
+            else LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
+            if (doptc[3] == '2') AnimationsHelper.ShowWithFadeIn(RightSidePanelForPPTNavigation);
+            else RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
+        }
+
         private async void PptApplication_SlideShowBegin(SlideShowWindow Wn) {
             if (Settings.Automation.IsAutoFoldInPPTSlideShow && !isFloatingBarFolded)
                 await FoldFloatingBar(new object());
@@ -318,16 +459,25 @@ namespace Ink_Canvas {
 
                 StackPanelPPTControls.Visibility = Visibility.Visible;
 
-                if (Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel && !isFloatingBarFolded)
-                    AnimationsHelper.ShowWithSlideFromBottomAndFade(BottomViewboxPPTSidesControl);
-                else
-                    BottomViewboxPPTSidesControl.Visibility = Visibility.Collapsed;
-                if (Settings.PowerPointSettings.IsShowSidePPTNavigationPanel && !isFloatingBarFolded) {
-                    AnimationsHelper.ShowWithScaleFromLeft(LeftSidePanelForPPTNavigation);
-                    AnimationsHelper.ShowWithScaleFromRight(RightSidePanelForPPTNavigation);
-                } else {
-                    LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
-                    RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
+                // -- old --
+                //if (Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel && !isFloatingBarFolded)
+                //    AnimationsHelper.ShowWithSlideFromBottomAndFade(BottomViewboxPPTSidesControl);
+                //else
+                //    BottomViewboxPPTSidesControl.Visibility = Visibility.Collapsed;
+
+                //if (Settings.PowerPointSettings.IsShowSidePPTNavigationPanel && !isFloatingBarFolded) {
+
+                //    AnimationsHelper.ShowWithScaleFromRight(RightSidePanelForPPTNavigation);
+                //} else {
+                //    LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
+                //    RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
+                //}
+                // -- old --
+
+                // -- new --
+                if (!isFloatingBarFolded) {
+                    UpdatePPTBtnDisplaySettingsStatus();
+                    UpdatePPTBtnStyleSettingsStatus();
                 }
 
                 BtnPPTSlideShow.Visibility = Visibility.Collapsed;
@@ -364,7 +514,8 @@ namespace Ink_Canvas {
                     BtnColorRed_Click(null, null);
 
                 isEnteredSlideShowEndEvent = false;
-                PptNavigationTextBlock.Text = $"{Wn.View.CurrentShowPosition}/{Wn.Presentation.Slides.Count}";
+                PPTBtnPageNow.Text = $"{Wn.View.CurrentShowPosition}";
+                PPTBtnPageTotal.Text = $"/ {Wn.Presentation.Slides.Count}";
                 LogHelper.NewLog("PowerPoint Slide Show Loading process complete");
 
                 if (!isFloatingBarFolded) {
@@ -434,7 +585,8 @@ namespace Ink_Canvas {
                 BtnPPTSlideShow.Visibility = Visibility.Visible;
                 BtnPPTSlideShowEnd.Visibility = Visibility.Collapsed;
                 StackPanelPPTControls.Visibility = Visibility.Collapsed;
-                BottomViewboxPPTSidesControl.Visibility = Visibility.Collapsed;
+                LeftBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
+                RightBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
 
@@ -497,7 +649,10 @@ namespace Ink_Canvas {
                     // ignored
                 }
 
-                PptNavigationTextBlock.Text = $"{Wn.View.CurrentShowPosition}/{Wn.Presentation.Slides.Count}";
+                PPTBtnPageNow.Text = $"{Wn.View.CurrentShowPosition}";
+                PPTBtnPageTotal.Text = $"/ {Wn.Presentation.Slides.Count}";
+
+                //PptNavigationTextBlock.Text = $"{Wn.View.CurrentShowPosition}/{Wn.Presentation.Slides.Count}";
             });
             previousSlideID = Wn.View.CurrentShowPosition;
         }
@@ -540,7 +695,8 @@ namespace Ink_Canvas {
             }
             catch {
                 StackPanelPPTControls.Visibility = Visibility.Collapsed;
-                BottomViewboxPPTSidesControl.Visibility = Visibility.Collapsed;
+                LeftBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
+                RightBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
             }
@@ -580,15 +736,75 @@ namespace Ink_Canvas {
             }
             catch {
                 StackPanelPPTControls.Visibility = Visibility.Collapsed;
-                BottomViewboxPPTSidesControl.Visibility = Visibility.Collapsed;
+                LeftBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
+                RightBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
             }
         }
 
+        private async void PPTNavigationBtn_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            lastBorderMouseDownObject = sender;
+            if (sender == PPTLSPageButton)
+            {
+                PPTLSPageButtonFeedbackBorder.Opacity = 0.15;
+            }
+            else if (sender == PPTRSPageButton)
+            {
+                PPTRSPageButtonFeedbackBorder.Opacity = 0.15;
+            }
+            else if (sender == PPTLBPageButton)
+            {
+                PPTLBPageButtonFeedbackBorder.Opacity = 0.15;
+            }
+            else if (sender == PPTRBPageButton)
+            {
+                PPTRBPageButtonFeedbackBorder.Opacity = 0.15;
+            }
+        }
 
-        private async void PPTNavigationBtn_Click(object sender, MouseButtonEventArgs e) {
+        private async void PPTNavigationBtn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lastBorderMouseDownObject = null;
+            if (sender == PPTLSPageButton)
+            {
+                PPTLSPageButtonFeedbackBorder.Opacity = 0;
+            }
+            else if (sender == PPTRSPageButton)
+            {
+                PPTRSPageButtonFeedbackBorder.Opacity = 0;
+            }
+            else if (sender == PPTLBPageButton)
+            {
+                PPTLBPageButtonFeedbackBorder.Opacity = 0;
+            }
+            else if (sender == PPTRBPageButton)
+            {
+                PPTRBPageButtonFeedbackBorder.Opacity = 0;
+            }
+        }
+
+        private async void PPTNavigationBtn_MouseUp(object sender, MouseButtonEventArgs e) {
             if (lastBorderMouseDownObject != sender) return;
+
+            if (sender == PPTLSPageButton)
+            {
+                PPTLSPageButtonFeedbackBorder.Opacity = 0;
+            }
+            else if (sender == PPTRSPageButton)
+            {
+                PPTRSPageButtonFeedbackBorder.Opacity = 0;
+            }
+            else if (sender == PPTLBPageButton)
+            {
+                PPTLBPageButtonFeedbackBorder.Opacity = 0;
+            }
+            else if (sender == PPTRBPageButton)
+            {
+                PPTRBPageButtonFeedbackBorder.Opacity = 0;
+            }
+
             GridTransparencyFakeBackground.Opacity = 1;
             GridTransparencyFakeBackground.Background = new SolidColorBrush(StringToColor("#01FFFFFF"));
             CursorIcon_Click(null, null);
@@ -640,13 +856,101 @@ namespace Ink_Canvas {
             ViewboxFloatingBarMarginAnimation(100, true);
         }
 
+        private void GridPPTControlPrevious_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            lastBorderMouseDownObject = sender;
+            if (sender == PPTLSPreviousButtonBorder) {
+                PPTLSPreviousButtonFeedbackBorder.Opacity = 0.15;
+            } else if (sender == PPTRSPreviousButtonBorder) {
+                PPTRSPreviousButtonFeedbackBorder.Opacity = 0.15;
+            } else if (sender == PPTLBPreviousButtonBorder)
+            {
+                PPTLBPreviousButtonFeedbackBorder.Opacity = 0.15;
+            }
+            else if (sender == PPTRBPreviousButtonBorder)
+            {
+                PPTRBPreviousButtonFeedbackBorder.Opacity = 0.15;
+            }
+        }
+        private void GridPPTControlPrevious_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lastBorderMouseDownObject = null;
+            if (sender == PPTLSPreviousButtonBorder) {
+                PPTLSPreviousButtonFeedbackBorder.Opacity = 0;
+            } else if (sender == PPTRSPreviousButtonBorder) {
+                PPTRSPreviousButtonFeedbackBorder.Opacity = 0;
+            } else if (sender == PPTLBPreviousButtonBorder)
+            {
+                PPTLBPreviousButtonFeedbackBorder.Opacity = 0;
+            }
+            else if (sender == PPTRBPreviousButtonBorder)
+            {
+                PPTRBPreviousButtonFeedbackBorder.Opacity = 0;
+            }
+        }
         private void GridPPTControlPrevious_MouseUp(object sender, MouseButtonEventArgs e) {
             if (lastBorderMouseDownObject != sender) return;
+            if (sender == PPTLSPreviousButtonBorder) {
+                PPTLSPreviousButtonFeedbackBorder.Opacity = 0;
+            } else if (sender == PPTRSPreviousButtonBorder) {
+                PPTRSPreviousButtonFeedbackBorder.Opacity = 0;
+            } else if (sender == PPTLBPreviousButtonBorder)
+            {
+                PPTLBPreviousButtonFeedbackBorder.Opacity = 0;
+            }
+            else if (sender == PPTRBPreviousButtonBorder)
+            {
+                PPTRBPreviousButtonFeedbackBorder.Opacity = 0;
+            }
             BtnPPTSlidesUp_Click(BtnPPTSlidesUp, null);
         }
 
+
+        private void GridPPTControlNext_MouseDown(object sender, MouseButtonEventArgs e) {
+            lastBorderMouseDownObject = sender;
+            if (sender == PPTLSNextButtonBorder) {
+                PPTLSNextButtonFeedbackBorder.Opacity = 0.15;
+            } else if (sender == PPTRSNextButtonBorder) {
+                PPTRSNextButtonFeedbackBorder.Opacity = 0.15;
+            } else if (sender == PPTLBNextButtonBorder)
+            {
+                PPTLBNextButtonFeedbackBorder.Opacity = 0.15;
+            }
+            else if (sender == PPTRBNextButtonBorder)
+            {
+                PPTRBNextButtonFeedbackBorder.Opacity = 0.15;
+            }
+        }
+        private void GridPPTControlNext_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lastBorderMouseDownObject = null;
+            if (sender == PPTLSNextButtonBorder) {
+                PPTLSNextButtonFeedbackBorder.Opacity = 0;
+            } else if (sender == PPTRSNextButtonBorder) {
+                PPTRSNextButtonFeedbackBorder.Opacity = 0;
+            } else if (sender == PPTLBNextButtonBorder)
+            {
+                PPTLBNextButtonFeedbackBorder.Opacity = 0;
+            }
+            else if (sender == PPTRBNextButtonBorder)
+            {
+                PPTRBNextButtonFeedbackBorder.Opacity = 0;
+            }
+        }
         private void GridPPTControlNext_MouseUp(object sender, MouseButtonEventArgs e) {
             if (lastBorderMouseDownObject != sender) return;
+            if (sender == PPTLSNextButtonBorder) {
+                PPTLSNextButtonFeedbackBorder.Opacity = 0;
+            } else if (sender == PPTRSNextButtonBorder) {
+                PPTRSNextButtonFeedbackBorder.Opacity = 0;
+            } else if (sender == PPTLBNextButtonBorder)
+            {
+                PPTLBNextButtonFeedbackBorder.Opacity = 0;
+            }
+            else if (sender == PPTRBNextButtonBorder)
+            {
+                PPTRBNextButtonFeedbackBorder.Opacity = 0;
+            }
             BtnPPTSlidesDown_Click(BtnPPTSlidesDown, null);
         }
 

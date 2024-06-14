@@ -259,13 +259,8 @@ namespace Ink_Canvas {
 
             // PowerPointSettings
             if (Settings.PowerPointSettings != null) {
-                PptNavigationBtn.Visibility = Settings.PowerPointSettings.IsShowPPTNavigation
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-                ToggleSwitchShowButtonPPTNavigation.IsOn = Settings.PowerPointSettings.IsShowPPTNavigation;
-                ToggleSwitchShowBottomPPTNavigationPanel.IsOn =
-                    Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel;
-                ToggleSwitchShowSidePPTNavigationPanel.IsOn = Settings.PowerPointSettings.IsShowSidePPTNavigationPanel;
+                
+                
                 if (Settings.PowerPointSettings.PowerPointSupport) {
                     ToggleSwitchSupportPowerPoint.IsOn = true;
                     timerCheckPPT.Start();

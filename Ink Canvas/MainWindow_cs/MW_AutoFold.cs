@@ -87,7 +87,8 @@ namespace Ink_Canvas {
             await Task.Delay(10);
 
             await Dispatcher.InvokeAsync(() => {
-                BottomViewboxPPTSidesControl.Visibility = Visibility.Collapsed;
+                LeftBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
+                RightBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 ViewboxFloatingBarMarginAnimation(-60);
@@ -218,15 +219,12 @@ namespace Ink_Canvas {
             await Dispatcher.InvokeAsync(() => {
                 if (StackPanelPPTControls.Visibility == Visibility.Visible)
                 {
-                    if (Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel &&
-                        isDisplayingOrHidingBlackboard == false)
-                        AnimationsHelper.ShowWithSlideFromBottomAndFade(BottomViewboxPPTSidesControl);
-                    if (Settings.PowerPointSettings.IsShowSidePPTNavigationPanel &&
-                        isDisplayingOrHidingBlackboard == false)
-                    {
-                        AnimationsHelper.ShowWithScaleFromLeft(LeftSidePanelForPPTNavigation);
-                        AnimationsHelper.ShowWithScaleFromRight(RightSidePanelForPPTNavigation);
-                    }
+                    var dops = Settings.PowerPointSettings.PPTButtonsDisplayOption.ToString();
+                    var dopsc = dops.ToCharArray();
+                    if (dopsc[0] == '2' && isDisplayingOrHidingBlackboard == false) AnimationsHelper.ShowWithFadeIn(LeftBottomPanelForPPTNavigation);
+                    if (dopsc[1] == '2' && isDisplayingOrHidingBlackboard == false) AnimationsHelper.ShowWithFadeIn(RightBottomPanelForPPTNavigation);
+                    if (dopsc[2] == '2' && isDisplayingOrHidingBlackboard == false) AnimationsHelper.ShowWithFadeIn(LeftSidePanelForPPTNavigation);
+                    if (dopsc[3] == '2' && isDisplayingOrHidingBlackboard == false) AnimationsHelper.ShowWithFadeIn(RightSidePanelForPPTNavigation);
                 }
 
                 if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible)

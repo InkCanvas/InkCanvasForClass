@@ -295,42 +295,44 @@ namespace Ink_Canvas {
             LoadSettings();
         }
 
-        [Obsolete]
-        private void ToggleSwitchShowButtonPPTNavigation_OnToggled(object sender, RoutedEventArgs e) {
-            if (!isLoaded) return;
-            Settings.PowerPointSettings.IsShowPPTNavigation = ToggleSwitchShowButtonPPTNavigation.IsOn;
-            PptNavigationBtn.Visibility = Settings.PowerPointSettings.IsShowPPTNavigation
-                ? Visibility.Visible
-                : Visibility.Collapsed;
-            SaveSettingsToFile();
-        }
+        //[Obsolete]
+        //private void ToggleSwitchShowButtonPPTNavigation_OnToggled(object sender, RoutedEventArgs e) {
+        //    if (!isLoaded) return;
+        //    Settings.PowerPointSettings.IsShowPPTNavigation = ToggleSwitchShowButtonPPTNavigation.IsOn;
+        //    var vis = Settings.PowerPointSettings.IsShowPPTNavigation ? Visibility.Visible : Visibility.Collapsed;
+        //    PPTLBPageButton.Visibility = vis;
+        //    PPTRBPageButton.Visibility = vis;
+        //    PPTLSPageButton.Visibility = vis;
+        //    PPTRSPageButton.Visibility = vis;
+        //    SaveSettingsToFile();
+        //}
 
-        [Obsolete]
-        private void ToggleSwitchShowBottomPPTNavigationPanel_OnToggled(object sender, RoutedEventArgs e) {
-            if (!isLoaded) return;
-            Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel = ToggleSwitchShowBottomPPTNavigationPanel.IsOn;
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible)
-                BottomViewboxPPTSidesControl.Visibility = Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-            SaveSettingsToFile();
-        }
+        //[Obsolete]
+        //private void ToggleSwitchShowBottomPPTNavigationPanel_OnToggled(object sender, RoutedEventArgs e) {
+        //    if (!isLoaded) return;
+        //    Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel = ToggleSwitchShowBottomPPTNavigationPanel.IsOn;
+        //    if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible)
+        //        //BottomViewboxPPTSidesControl.Visibility = Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel
+        //        //    ? Visibility.Visible
+        //        //    : Visibility.Collapsed;
+        //    SaveSettingsToFile();
+        //}
 
-        [Obsolete]
-        private void ToggleSwitchShowSidePPTNavigationPanel_OnToggled(object sender, RoutedEventArgs e) {
-            if (!isLoaded) return;
-            Settings.PowerPointSettings.IsShowSidePPTNavigationPanel = ToggleSwitchShowSidePPTNavigationPanel.IsOn;
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
-                LeftSidePanelForPPTNavigation.Visibility = Settings.PowerPointSettings.IsShowSidePPTNavigationPanel
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-                RightSidePanelForPPTNavigation.Visibility = Settings.PowerPointSettings.IsShowSidePPTNavigationPanel
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-            }
+        //[Obsolete]
+        //private void ToggleSwitchShowSidePPTNavigationPanel_OnToggled(object sender, RoutedEventArgs e) {
+        //    if (!isLoaded) return;
+        //    Settings.PowerPointSettings.IsShowSidePPTNavigationPanel = ToggleSwitchShowSidePPTNavigationPanel.IsOn;
+        //    if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
+        //        LeftSidePanelForPPTNavigation.Visibility = Settings.PowerPointSettings.IsShowSidePPTNavigationPanel
+        //            ? Visibility.Visible
+        //            : Visibility.Collapsed;
+        //        RightSidePanelForPPTNavigation.Visibility = Settings.PowerPointSettings.IsShowSidePPTNavigationPanel
+        //            ? Visibility.Visible
+        //            : Visibility.Collapsed;
+        //    }
 
-            SaveSettingsToFile();
-        }
+        //    SaveSettingsToFile();
+        //}
 
         private void ToggleSwitchShowPPTButton_OnToggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
@@ -351,6 +353,7 @@ namespace Ink_Canvas {
             c[0] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTButtonsDisplayOption = int.Parse(new string(c));
             SaveSettingsToFile();
+            UpdatePPTBtnDisplaySettingsStatus();
         }
 
         private void CheckboxEnableRBPPTButton_IsCheckChanged(object sender, RoutedEventArgs e)
@@ -361,6 +364,7 @@ namespace Ink_Canvas {
             c[1] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTButtonsDisplayOption = int.Parse(new string(c));
             SaveSettingsToFile();
+            UpdatePPTBtnDisplaySettingsStatus();
         }
 
         private void CheckboxEnableLSPPTButton_IsCheckChanged(object sender, RoutedEventArgs e)
@@ -371,6 +375,7 @@ namespace Ink_Canvas {
             c[2] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTButtonsDisplayOption = int.Parse(new string(c));
             SaveSettingsToFile();
+            UpdatePPTBtnDisplaySettingsStatus();
         }
 
         private void CheckboxEnableRSPPTButton_IsCheckChanged(object sender, RoutedEventArgs e)
@@ -381,6 +386,7 @@ namespace Ink_Canvas {
             c[3] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTButtonsDisplayOption = int.Parse(new string(c));
             SaveSettingsToFile();
+            UpdatePPTBtnDisplaySettingsStatus();
         }
 
         private void CheckboxSPPTDisplayPage_IsCheckChange(object sender, RoutedEventArgs e)
@@ -391,6 +397,7 @@ namespace Ink_Canvas {
             c[0] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTSButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
+            UpdatePPTBtnStyleSettingsStatus();
         }
 
         private void CheckboxSPPTHalfOpacity_IsCheckChange(object sender, RoutedEventArgs e)
@@ -401,6 +408,7 @@ namespace Ink_Canvas {
             c[1] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTSButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
+            UpdatePPTBtnStyleSettingsStatus();
         }
 
         private void CheckboxSPPTBlackBackground_IsCheckChange(object sender, RoutedEventArgs e)
@@ -411,6 +419,7 @@ namespace Ink_Canvas {
             c[2] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTSButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
+            UpdatePPTBtnStyleSettingsStatus();
         }
 
         private void CheckboxBPPTDisplayPage_IsCheckChange(object sender, RoutedEventArgs e)
@@ -421,9 +430,10 @@ namespace Ink_Canvas {
             c[0] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTBButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
+            UpdatePPTBtnStyleSettingsStatus();
         }
 
-        private void CheckboxBPPTSHalfOpacity_IsCheckChange(object sender, RoutedEventArgs e)
+        private void CheckboxBPPTHalfOpacity_IsCheckChange(object sender, RoutedEventArgs e)
         {
             if (!isLoaded) return;
             var str = Settings.PowerPointSettings.PPTBButtonsOption.ToString();
@@ -431,9 +441,10 @@ namespace Ink_Canvas {
             c[1] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTBButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
+            UpdatePPTBtnStyleSettingsStatus();
         }
 
-        private void CheckboxBPPTSBlackBackground_IsCheckChange(object sender, RoutedEventArgs e)
+        private void CheckboxBPPTBlackBackground_IsCheckChange(object sender, RoutedEventArgs e)
         {
             if (!isLoaded) return;
             var str = Settings.PowerPointSettings.PPTBButtonsOption.ToString();
@@ -441,6 +452,7 @@ namespace Ink_Canvas {
             c[2] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTBButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
+            UpdatePPTBtnStyleSettingsStatus();
         }
 
         private void PPTButtonLeftPositionValueSlider_ValueChanged(object sender, RoutedEventArgs e) {
@@ -1287,9 +1299,9 @@ namespace Ink_Canvas {
             Settings.Automation.AutoDelSavedFiles = AutoDelSavedFilesDays;
             Settings.Automation.AutoDelSavedFilesDaysThreshold = AutoDelSavedFilesDaysThreshold;
 
-            Settings.PowerPointSettings.IsShowPPTNavigation = true;
-            Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel = false;
-            Settings.PowerPointSettings.IsShowSidePPTNavigationPanel = true;
+            //Settings.PowerPointSettings.IsShowPPTNavigation = true;
+            //Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel = false;
+            //Settings.PowerPointSettings.IsShowSidePPTNavigationPanel = true;
             Settings.PowerPointSettings.PowerPointSupport = true;
             Settings.PowerPointSettings.IsShowCanvasAtNewSlideShow = false;
             Settings.PowerPointSettings.IsNoClearStrokeOnSelectWhenInPowerPoint = true;
