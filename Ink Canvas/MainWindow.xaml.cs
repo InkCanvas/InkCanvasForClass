@@ -194,6 +194,10 @@ namespace Ink_Canvas {
             BtnWhiteBoardSwitchPrevious.IsEnabled = CurrentWhiteboardIndex != 1;
             BorderInkReplayToolBox.Visibility = Visibility.Collapsed;
 
+            // 提前加载IA库，优化第一笔等待时间
+            var strokeEmpty = new StrokeCollection();
+            InkRecognizeHelper.RecognizeShape(strokeEmpty);
+
             SystemEvents.DisplaySettingsChanged += SystemEventsOnDisplaySettingsChanged;
         }
 
