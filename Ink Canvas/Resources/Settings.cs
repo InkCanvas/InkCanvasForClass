@@ -154,11 +154,44 @@ namespace Ink_Canvas
     public class PowerPointSettings
     {
         [JsonProperty("isShowPPTNavigation")]
+
+        // -- old --
         public bool IsShowPPTNavigation { get; set; } = true;
         [JsonProperty("isShowBottomPPTNavigationPanel")]
         public bool IsShowBottomPPTNavigationPanel { get; set; } = true;
         [JsonProperty("isShowSidePPTNavigationPanel")]
         public bool IsShowSidePPTNavigationPanel { get; set; } = true;
+
+        // -- old --
+
+        // -- new --
+
+        [JsonProperty("showPPTButton")]
+        public bool ShowPPTButton { get; set; } = true;
+
+        // 每一个数位代表一个选项，2就是开启，1就是关闭
+        [JsonProperty("pptButtonsDisplayOption")]
+        public int PPTButtonsDisplayOption { get; set; } = 2222;
+
+        // 0居中，+就是往上，-就是往下
+        [JsonProperty("pptLSButtonPosition")]
+        public int PPTLSButtonPosition { get; set; } = 0;
+
+        // 0居中，+就是往上，-就是往下
+        [JsonProperty("pptRSButtonPosition")]
+        public int PPTRSButtonPosition { get; set; } = 0;
+
+        [JsonProperty("pptSButtonsOption")]
+        public int PPTSButtonsOption { get; set; } = 221;
+
+        [JsonProperty("pptBButtonsOption")]
+        public int PPTBButtonsOption { get; set; } = 121;
+
+        [JsonProperty("enablePPTButtonPageClickable")]
+        public bool EnablePPTButtonPageClickable { get; set; } = true;
+
+        // -- new --
+
         [JsonProperty("powerPointSupport")]
         public bool PowerPointSupport { get; set; } = true;
         [JsonProperty("isShowCanvasAtNewSlideShow")]

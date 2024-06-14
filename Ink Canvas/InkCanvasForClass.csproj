@@ -525,12 +525,16 @@
     <None Remove="Resources\new-icons\rotate.png" />
     <None Remove="Resources\new-icons\unfold-chevron.png" />
     <None Remove="Resources\new-icons\zoom.png" />
+    <None Remove="Resources\PresentationExample\page.jpg" />
+    <None Remove="Resources\PresentationExample\toolbar.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons-png\idt.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons-png\HiteAnnotation.png" />
+    <Resource Include="Resources\PresentationExample\page.jpg" />
+    <Resource Include="Resources\PresentationExample\toolbar.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">

@@ -171,7 +171,8 @@ namespace Ink_Canvas {
                 ToggleSwitchEnableQuickPanel.IsOn = Settings.Appearance.IsShowQuickPanel;
 
                 ToggleSwitchEnableTrayIcon.IsOn = Settings.Appearance.EnableTrayIcon;
-                ICCTrayIconExampleImage.Visibility = Settings.Appearance.EnableTrayIcon ? Visibility.Visible : Visibility.Collapsed;
+                ICCTrayIconExampleImage.Visibility =
+                    Settings.Appearance.EnableTrayIcon ? Visibility.Visible : Visibility.Collapsed;
                 var _taskbar = (TaskbarIcon)Application.Current.Resources["TaskbarTrayIcon"];
                 _taskbar.Visibility = Settings.Appearance.EnableTrayIcon ? Visibility.Visible : Visibility.Collapsed;
 
@@ -210,50 +211,36 @@ namespace Ink_Canvas {
                 }
 
                 ComboBoxFloatingBarImg.SelectedIndex = Settings.Appearance.FloatingBarImg;
-                if (ComboBoxFloatingBarImg.SelectedIndex == 0)
-                {
+                if (ComboBoxFloatingBarImg.SelectedIndex == 0) {
                     FloatingbarHeadIconImg.Source =
                         new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/icc.png"));
                     FloatingbarHeadIconImg.Margin = new Thickness(0.5);
-                }
-                else if (ComboBoxFloatingBarImg.SelectedIndex == 1)
-                {
+                } else if (ComboBoxFloatingBarImg.SelectedIndex == 1) {
                     FloatingbarHeadIconImg.Source =
-                        new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/icc-transparent-dark-small.png"));
+                        new BitmapImage(
+                            new Uri("pack://application:,,,/Resources/Icons-png/icc-transparent-dark-small.png"));
                     FloatingbarHeadIconImg.Margin = new Thickness(1.2);
-                }
-                else if (ComboBoxFloatingBarImg.SelectedIndex == 2)
-                {
+                } else if (ComboBoxFloatingBarImg.SelectedIndex == 2) {
                     FloatingbarHeadIconImg.Source =
                         new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/kuandoujiyanhuaji.png"));
                     FloatingbarHeadIconImg.Margin = new Thickness(2, 2, 2, 1.5);
-                }
-                else if (ComboBoxFloatingBarImg.SelectedIndex == 3)
-                {
+                } else if (ComboBoxFloatingBarImg.SelectedIndex == 3) {
                     FloatingbarHeadIconImg.Source =
                         new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/kuanshounvhuaji.png"));
                     FloatingbarHeadIconImg.Margin = new Thickness(2, 2, 2, 1.5);
-                }
-                else if (ComboBoxFloatingBarImg.SelectedIndex == 4)
-                {
+                } else if (ComboBoxFloatingBarImg.SelectedIndex == 4) {
                     FloatingbarHeadIconImg.Source =
                         new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/kuanciya.png"));
                     FloatingbarHeadIconImg.Margin = new Thickness(2, 2, 2, 1.5);
-                }
-                else if (ComboBoxFloatingBarImg.SelectedIndex == 5)
-                {
+                } else if (ComboBoxFloatingBarImg.SelectedIndex == 5) {
                     FloatingbarHeadIconImg.Source =
                         new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/kuanneikuhuaji.png"));
                     FloatingbarHeadIconImg.Margin = new Thickness(2, 2, 2, 1.5);
-                }
-                else if (ComboBoxFloatingBarImg.SelectedIndex == 6)
-                {
+                } else if (ComboBoxFloatingBarImg.SelectedIndex == 6) {
                     FloatingbarHeadIconImg.Source =
                         new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/kuandogeyuanliangwo.png"));
                     FloatingbarHeadIconImg.Margin = new Thickness(2, 2, 2, 1.5);
-                }
-                else if (ComboBoxFloatingBarImg.SelectedIndex == 7)
-                {
+                } else if (ComboBoxFloatingBarImg.SelectedIndex == 7) {
                     FloatingbarHeadIconImg.Source =
                         new BitmapImage(new Uri("pack://application:,,,/Resources/Icons-png/tiebahuaji.png"));
                     FloatingbarHeadIconImg.Margin = new Thickness(2, 2, 2, 1);
@@ -299,6 +286,72 @@ namespace Ink_Canvas {
                     Settings.PowerPointSettings.IsAutoSaveStrokesInPowerPoint;
 
                 ToggleSwitchNotifyPreviousPage.IsOn = Settings.PowerPointSettings.IsNotifyPreviousPage;
+
+                // -- new --
+                ToggleSwitchShowPPTButton.IsOn = Settings.PowerPointSettings.ShowPPTButton;
+
+                ToggleSwitchEnablePPTButtonPageClickable.IsOn =
+                    Settings.PowerPointSettings.EnablePPTButtonPageClickable;
+
+                var dops = Settings.PowerPointSettings.PPTButtonsDisplayOption.ToString();
+                var dopsc = dops.ToCharArray();
+                if ((dopsc[0] == '1' || dopsc[0] == '2') && (dopsc[1] == '1' || dopsc[1] == '2') &&
+                    (dopsc[2] == '1' || dopsc[2] == '2') && (dopsc[3] == '1' || dopsc[3] == '2')) {
+                    CheckboxEnableLBPPTButton.IsChecked = dopsc[0] == '2';
+                    CheckboxEnableRBPPTButton.IsChecked = dopsc[1] == '2';
+                    CheckboxEnableLSPPTButton.IsChecked = dopsc[2] == '2';
+                    CheckboxEnableRSPPTButton.IsChecked = dopsc[3] == '2';
+                } else {
+                    Settings.PowerPointSettings.PPTButtonsDisplayOption = 2222;
+                    CheckboxEnableLBPPTButton.IsChecked = true;
+                    CheckboxEnableRBPPTButton.IsChecked = true;
+                    CheckboxEnableLSPPTButton.IsChecked = true;
+                    CheckboxEnableRSPPTButton.IsChecked = true;
+                    SaveSettingsToFile();
+                }
+
+                var sops = Settings.PowerPointSettings.PPTSButtonsOption.ToString();
+                var sopsc = sops.ToCharArray();
+                if ((sopsc[0] == '1' || sopsc[0] == '2') && (sopsc[1] == '1' || sopsc[1] == '2') &&
+                    (sopsc[2] == '1' || sopsc[2] == '2'))
+                {
+                    CheckboxSPPTDisplayPage.IsChecked = sopsc[0] == '2';
+                    CheckboxSPPTHalfOpacity.IsChecked = sopsc[1] == '2';
+                    CheckboxSPPTBlackBackground.IsChecked = sopsc[2] == '2';
+                }
+                else
+                {
+                    Settings.PowerPointSettings.PPTSButtonsOption = 221;
+                    CheckboxSPPTDisplayPage.IsChecked = true;
+                    CheckboxSPPTHalfOpacity.IsChecked = true;
+                    CheckboxSPPTBlackBackground.IsChecked = false;
+                    SaveSettingsToFile();
+                }
+
+                var bops = Settings.PowerPointSettings.PPTBButtonsOption.ToString();
+                var bopsc = bops.ToCharArray();
+                if ((bopsc[0] == '1' || bopsc[0] == '2') && (bopsc[1] == '1' || bopsc[1] == '2') &&
+                    (bopsc[2] == '1' || bopsc[2] == '2'))
+                {
+                    CheckboxBPPTDisplayPage.IsChecked = bopsc[0] == '2';
+                    CheckboxBPPTHalfOpacity.IsChecked = bopsc[1] == '2';
+                    CheckboxBPPTBlackBackground.IsChecked = bopsc[2] == '2';
+                }
+                else
+                {
+                    Settings.PowerPointSettings.PPTBButtonsOption = 121;
+                    CheckboxBPPTDisplayPage.IsChecked = false;
+                    CheckboxBPPTHalfOpacity.IsChecked = true;
+                    CheckboxBPPTBlackBackground.IsChecked = false;
+                    SaveSettingsToFile();
+                }
+
+                PPTButtonLeftPositionValueSlider.Value = Settings.PowerPointSettings.PPTLSButtonPosition;
+
+                PPTButtonRightPositionValueSlider.Value = Settings.PowerPointSettings.PPTRSButtonPosition;
+
+                UpdatePPTBtnSlidersStatus();
+                // -- new --
 
                 ToggleSwitchNotifyHiddenPage.IsOn = Settings.PowerPointSettings.IsNotifyHiddenPage;
 
@@ -478,14 +531,16 @@ namespace Ink_Canvas {
 
                 ToggleSwitchIsEnableEdgeGestureUtil.IsOn = Settings.Advanced.IsEnableEdgeGestureUtil;
                 if (Settings.Advanced.IsEnableEdgeGestureUtil) {
-                    if (OSVersion.GetOperatingSystem()>=OperatingSystem.Windows10) EdgeGestureUtil.DisableEdgeGestures(new WindowInteropHelper(this).Handle, true);
+                    if (OSVersion.GetOperatingSystem() >= OperatingSystem.Windows10)
+                        EdgeGestureUtil.DisableEdgeGestures(new WindowInteropHelper(this).Handle, true);
                 }
 
                 ToggleSwitchIsEnableForceFullScreen.IsOn = Settings.Advanced.IsEnableForceFullScreen;
 
                 ToggleSwitchIsEnableDPIChangeDetection.IsOn = Settings.Advanced.IsEnableDPIChangeDetection;
 
-                ToggleSwitchIsEnableResolutionChangeDetection.IsOn = Settings.Advanced.IsEnableResolutionChangeDetection;
+                ToggleSwitchIsEnableResolutionChangeDetection.IsOn =
+                    Settings.Advanced.IsEnableResolutionChangeDetection;
             } else {
                 Settings.Advanced = new Advanced();
             }
@@ -560,11 +615,13 @@ namespace Ink_Canvas {
                     SettingsShowCanvasAtNewSlideShowStackPanel.Opacity = 0.5;
                     SettingsShowCanvasAtNewSlideShowStackPanel.IsHitTestVisible = false;
                 }
+
                 ToggleSwitchAutoFoldInPPTSlideShow.IsOn = Settings.Automation.IsAutoFoldInPPTSlideShow;
 
                 if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
                     Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
-                    || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT || Settings.Automation.IsAutoKillVComYouJiao
+                    || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT ||
+                    Settings.Automation.IsAutoKillVComYouJiao
                     || Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation) {
                     timerKillProcess.Start();
                 } else {
