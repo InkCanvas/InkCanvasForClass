@@ -106,7 +106,7 @@ namespace Ink_Canvas {
                 if (Settings.Automation.IsAutoKillVComYouJiao)
                 {
                     var processes = Process.GetProcessesByName("VcomTeach");
-                    if (processes.Length > 0) arg += " /IM VcomTeach.exe";
+                    if (processes.Length > 0) arg += " /IM VcomTeach.exe" + " /IM VcomDaemon.exe" + " /IM VcomRender.exe";
                 }
 
                 if (Settings.Automation.IsAutoKillICA) {

@@ -338,6 +338,7 @@ namespace Ink_Canvas {
             if (!isLoaded) return;
             Settings.PowerPointSettings.ShowPPTButton = ToggleSwitchShowPPTButton.IsOn;
             SaveSettingsToFile();
+            UpdatePPTBtnPreview();
         }
 
         private void ToggleSwitchEnablePPTButtonPageClickable_OnToggled(object sender, RoutedEventArgs e) {
@@ -353,7 +354,8 @@ namespace Ink_Canvas {
             c[0] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTButtonsDisplayOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            UpdatePPTBtnDisplaySettingsStatus();
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
+            UpdatePPTBtnPreview();
         }
 
         private void CheckboxEnableRBPPTButton_IsCheckChanged(object sender, RoutedEventArgs e)
@@ -364,7 +366,8 @@ namespace Ink_Canvas {
             c[1] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTButtonsDisplayOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            UpdatePPTBtnDisplaySettingsStatus();
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
+            UpdatePPTBtnPreview();
         }
 
         private void CheckboxEnableLSPPTButton_IsCheckChanged(object sender, RoutedEventArgs e)
@@ -375,7 +378,8 @@ namespace Ink_Canvas {
             c[2] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTButtonsDisplayOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            UpdatePPTBtnDisplaySettingsStatus();
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
+            UpdatePPTBtnPreview();
         }
 
         private void CheckboxEnableRSPPTButton_IsCheckChanged(object sender, RoutedEventArgs e)
@@ -386,7 +390,8 @@ namespace Ink_Canvas {
             c[3] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTButtonsDisplayOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            UpdatePPTBtnDisplaySettingsStatus();
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
+            UpdatePPTBtnPreview();
         }
 
         private void CheckboxSPPTDisplayPage_IsCheckChange(object sender, RoutedEventArgs e)
@@ -397,7 +402,8 @@ namespace Ink_Canvas {
             c[0] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTSButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            UpdatePPTBtnStyleSettingsStatus();
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
+            UpdatePPTBtnPreview();
         }
 
         private void CheckboxSPPTHalfOpacity_IsCheckChange(object sender, RoutedEventArgs e)
@@ -408,7 +414,8 @@ namespace Ink_Canvas {
             c[1] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTSButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            UpdatePPTBtnStyleSettingsStatus();
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
+            UpdatePPTBtnPreview();
         }
 
         private void CheckboxSPPTBlackBackground_IsCheckChange(object sender, RoutedEventArgs e)
@@ -419,7 +426,8 @@ namespace Ink_Canvas {
             c[2] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTSButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            UpdatePPTBtnStyleSettingsStatus();
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
+            UpdatePPTBtnPreview();
         }
 
         private void CheckboxBPPTDisplayPage_IsCheckChange(object sender, RoutedEventArgs e)
@@ -430,7 +438,8 @@ namespace Ink_Canvas {
             c[0] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTBButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            UpdatePPTBtnStyleSettingsStatus();
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
+            UpdatePPTBtnPreview();
         }
 
         private void CheckboxBPPTHalfOpacity_IsCheckChange(object sender, RoutedEventArgs e)
@@ -441,7 +450,8 @@ namespace Ink_Canvas {
             c[1] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTBButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            UpdatePPTBtnStyleSettingsStatus();
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
+            UpdatePPTBtnPreview();
         }
 
         private void CheckboxBPPTBlackBackground_IsCheckChange(object sender, RoutedEventArgs e)
@@ -452,14 +462,17 @@ namespace Ink_Canvas {
             c[2] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTBButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            UpdatePPTBtnStyleSettingsStatus();
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
+            UpdatePPTBtnPreview();
         }
 
         private void PPTButtonLeftPositionValueSlider_ValueChanged(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.PowerPointSettings.PPTLSButtonPosition = (int)PPTButtonLeftPositionValueSlider.Value;
             UpdatePPTBtnSlidersStatus();
-            SaveSettingsToFile();
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
+            SliderDelayAction.DebounceAction(2000, null, SaveSettingsToFile);
+            UpdatePPTBtnPreview();
         }
 
         private void UpdatePPTBtnSlidersStatus() {
@@ -512,6 +525,7 @@ namespace Ink_Canvas {
             UpdatePPTBtnSlidersStatus();
             Settings.PowerPointSettings.PPTLSButtonPosition = (int)PPTButtonLeftPositionValueSlider.Value;
             SaveSettingsToFile();
+            UpdatePPTBtnPreview();
         }
 
         private void PPTBtnLSMinusBtn_Clicked(object sender, RoutedEventArgs e)
@@ -521,6 +535,7 @@ namespace Ink_Canvas {
             UpdatePPTBtnSlidersStatus();
             Settings.PowerPointSettings.PPTLSButtonPosition = (int)PPTButtonLeftPositionValueSlider.Value;
             SaveSettingsToFile();
+            UpdatePPTBtnPreview();
         }
 
         private void PPTBtnLSSyncBtn_Clicked(object sender, RoutedEventArgs e)
@@ -530,6 +545,16 @@ namespace Ink_Canvas {
             UpdatePPTBtnSlidersStatus();
             Settings.PowerPointSettings.PPTRSButtonPosition = (int)PPTButtonLeftPositionValueSlider.Value;
             SaveSettingsToFile();
+            UpdatePPTBtnPreview();
+        }
+
+        private void PPTBtnLSResetBtn_Clicked(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            PPTButtonLeftPositionValueSlider.Value = 0;
+            UpdatePPTBtnSlidersStatus();
+            Settings.PowerPointSettings.PPTLSButtonPosition = 0;
+            SaveSettingsToFile();
+            UpdatePPTBtnPreview();
         }
 
         private void PPTBtnRSPlusBtn_Clicked(object sender, RoutedEventArgs e)
@@ -539,6 +564,7 @@ namespace Ink_Canvas {
             UpdatePPTBtnSlidersStatus();
             Settings.PowerPointSettings.PPTRSButtonPosition = (int)PPTButtonRightPositionValueSlider.Value;
             SaveSettingsToFile();
+            UpdatePPTBtnPreview();
         }
 
         private void PPTBtnRSMinusBtn_Clicked(object sender, RoutedEventArgs e)
@@ -548,6 +574,7 @@ namespace Ink_Canvas {
             UpdatePPTBtnSlidersStatus();
             Settings.PowerPointSettings.PPTRSButtonPosition = (int)PPTButtonRightPositionValueSlider.Value;
             SaveSettingsToFile();
+            UpdatePPTBtnPreview();
         }
 
         private void PPTBtnRSSyncBtn_Clicked(object sender, RoutedEventArgs e)
@@ -557,14 +584,104 @@ namespace Ink_Canvas {
             UpdatePPTBtnSlidersStatus();
             Settings.PowerPointSettings.PPTLSButtonPosition = (int)PPTButtonRightPositionValueSlider.Value;
             SaveSettingsToFile();
+            UpdatePPTBtnPreview();
         }
+
+        private void PPTBtnRSResetBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            PPTButtonRightPositionValueSlider.Value = 0;
+            UpdatePPTBtnSlidersStatus();
+            Settings.PowerPointSettings.PPTRSButtonPosition = 0;
+            SaveSettingsToFile();
+            UpdatePPTBtnPreview();
+        }
+
+        private DelayAction SliderDelayAction = new DelayAction();
 
         private void PPTButtonRightPositionValueSlider_ValueChanged(object sender, RoutedEventArgs e)
         {
             if (!isLoaded) return;
             Settings.PowerPointSettings.PPTRSButtonPosition = (int)PPTButtonRightPositionValueSlider.Value;
             UpdatePPTBtnSlidersStatus();
-            SaveSettingsToFile();
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
+            SliderDelayAction.DebounceAction(2000,null, SaveSettingsToFile);
+            UpdatePPTBtnPreview();
+        }
+
+        private void UpdatePPTBtnPreview() {
+            //new BitmapImage(new Uri("pack://application:,,,/Resources/new-icons/unfold-chevron.png"));
+            var bopt = Settings.PowerPointSettings.PPTBButtonsOption.ToString();
+            char[] boptc = bopt.ToCharArray();
+            if (boptc[1] == '2') {
+                PPTBtnPreviewLB.Opacity = 0.5;
+                PPTBtnPreviewRB.Opacity = 0.5;
+            } else {
+                PPTBtnPreviewLB.Opacity = 1;
+                PPTBtnPreviewRB.Opacity = 1;
+            }
+
+            if (boptc[2] == '2') {
+                PPTBtnPreviewLB.Source =
+                    new BitmapImage(
+                        new Uri("pack://application:,,,/Resources/PresentationExample/bottombar-dark.png"));
+                PPTBtnPreviewRB.Source = new BitmapImage(
+                    new Uri("pack://application:,,,/Resources/PresentationExample/bottombar-dark.png"));
+            } else {
+                PPTBtnPreviewLB.Source =
+                    new BitmapImage(
+                        new Uri("pack://application:,,,/Resources/PresentationExample/bottombar-white.png"));
+                PPTBtnPreviewRB.Source = new BitmapImage(
+                    new Uri("pack://application:,,,/Resources/PresentationExample/bottombar-white.png"));
+            }
+
+            var sopt = Settings.PowerPointSettings.PPTSButtonsOption.ToString();
+            char[] soptc = sopt.ToCharArray();
+            if (soptc[1] == '2')
+            {
+                PPTBtnPreviewLS.Opacity = 0.5;
+                PPTBtnPreviewRS.Opacity = 0.5;
+            }
+            else
+            {
+                PPTBtnPreviewLS.Opacity = 1;
+                PPTBtnPreviewRS.Opacity = 1;
+            }
+
+            if (soptc[2] == '2')
+            {
+                PPTBtnPreviewLS.Source =
+                    new BitmapImage(
+                        new Uri("pack://application:,,,/Resources/PresentationExample/sidebar-dark.png"));
+                PPTBtnPreviewRS.Source = new BitmapImage(
+                    new Uri("pack://application:,,,/Resources/PresentationExample/sidebar-dark.png"));
+            }
+            else
+            {
+                PPTBtnPreviewLS.Source =
+                    new BitmapImage(
+                        new Uri("pack://application:,,,/Resources/PresentationExample/sidebar-white.png"));
+                PPTBtnPreviewRS.Source = new BitmapImage(
+                    new Uri("pack://application:,,,/Resources/PresentationExample/sidebar-white.png"));
+            }
+
+            var dopt = Settings.PowerPointSettings.PPTButtonsDisplayOption.ToString();
+            char[] doptc = dopt.ToCharArray();
+
+            if (Settings.PowerPointSettings.ShowPPTButton) {
+                PPTBtnPreviewLB.Visibility = doptc[0] == '2' ? Visibility.Visible : Visibility.Collapsed;
+                PPTBtnPreviewRB.Visibility = doptc[1] == '2' ? Visibility.Visible : Visibility.Collapsed;
+                PPTBtnPreviewLS.Visibility = doptc[2] == '2' ? Visibility.Visible : Visibility.Collapsed;
+                PPTBtnPreviewRS.Visibility = doptc[3] == '2' ? Visibility.Visible : Visibility.Collapsed;
+            } else {
+                PPTBtnPreviewLB.Visibility = Visibility.Collapsed;
+                PPTBtnPreviewRB.Visibility = Visibility.Collapsed;
+                PPTBtnPreviewLS.Visibility = Visibility.Collapsed;
+                PPTBtnPreviewRS.Visibility = Visibility.Collapsed;
+            }
+            
+            PPTBtnPreviewRSTransform.Y = -(Settings.PowerPointSettings.PPTRSButtonPosition * 0.5);
+            PPTBtnPreviewLSTransform.Y = -(Settings.PowerPointSettings.PPTLSButtonPosition * 0.5);
         }
 
         private void ToggleSwitchShowCursor_Toggled(object sender, RoutedEventArgs e) {

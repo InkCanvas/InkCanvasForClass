@@ -58,7 +58,7 @@
     </Window.Resources>
     <!--输入命令绑定-->
     <Window.InputBindings>
-        <KeyBinding Gesture="Shift+Esc" Command="{StaticResource KeyExit}" />
+        <KeyBinding Key="Esc" Command="{StaticResource KeyExit}" />
         <KeyBinding Modifiers="Control" Key="Z" Command="{StaticResource HotKey_Command_Undo}" />
         <KeyBinding Modifiers="Control" Key="Y" Command="{StaticResource HotKey_Command_Redo}" />
         <KeyBinding Modifiers="Control" Key="E" Command="{StaticResource HotKey_Command_Clear}" />
@@ -697,14 +697,33 @@
                                           StrokeThickness="1" Margin="0,4,0,4" />
                                     <TextBlock Margin="0,0,0,8" Text="PPT翻页按钮" FontWeight="Bold" Foreground="#fafafa"
                                                FontSize="20" />
-                                    <Grid>
-                                        <Image Source="Resources/PresentationExample/page.jpg"></Image>
-                                        <Image Source="Resources/PresentationExample/toolbar.png" Height="16"
-                                               VerticalAlignment="Bottom" HorizontalAlignment="Center" />
-                                        <Canvas>
-
-                                        </Canvas>
-                                    </Grid>
+                                    <Border ClipToBounds="True" Width="324" Height="182">
+                                        <Grid>
+                                            <Image Source="Resources/PresentationExample/page.jpg"></Image>
+                                            <Image Source="Resources/PresentationExample/toolbar.png" Height="16"
+                                                   VerticalAlignment="Bottom" HorizontalAlignment="Center" />
+                                            <Image Name="PPTBtnPreviewLS" Source="Resources/PresentationExample/sidebar-white.png" Width="10"
+                                                   VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" >
+                                                <Image.RenderTransform>
+                                                    <TransformGroup>
+                                                        <TranslateTransform x:Name="PPTBtnPreviewLSTransform"/>
+                                                    </TransformGroup>
+                                                </Image.RenderTransform>
+                                            </Image>
+                                            <Image Name="PPTBtnPreviewRS" Source="Resources/PresentationExample/sidebar-white.png" Width="10"
+                                                   VerticalAlignment="Center" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5" >
+                                                <Image.RenderTransform>
+                                                    <TransformGroup>
+                                                        <TranslateTransform x:Name="PPTBtnPreviewRSTransform"/>
+                                                    </TransformGroup>
+                                                </Image.RenderTransform>
+                                            </Image>
+                                            <Image Name="PPTBtnPreviewLB" Source="Resources/PresentationExample/bottombar-white.png" Height="10"
+                                                   VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+                                            <Image Name="PPTBtnPreviewRB" Source="Resources/PresentationExample/bottombar-white.png" Height="12"
+                                                   VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+                                        </Grid>
+                                    </Border>
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="在 PPT 模式下显示翻页按钮"
                                                    VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
@@ -740,9 +759,9 @@
                                         </ui:SimpleStackPanel>
                                         <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                             <TextBlock Foreground="#fafafa" Text="左侧偏移" VerticalAlignment="Center"
-                                                       FontSize="14" Margin="0,0,16,0" />
+                                                       FontSize="14" Margin="0,0,12,0" />
                                             <Slider x:Name="PPTButtonLeftPositionValueSlider" Minimum="-500"
-                                                    Maximum="500" Width="148" FontFamily="Microsoft YaHei UI"
+                                                    Maximum="500" Width="138" FontFamily="Microsoft YaHei UI"
                                                     FontSize="20" IsSnapToTickEnabled="True" Value="0"
                                                     TickFrequency="1"
                                                     TickPlacement="None" AutoToolTipPlacement="None"
@@ -792,16 +811,31 @@
                                                     </Image.Source>
                                                 </Image>
                                             </Button>
+                                            <Button Margin="6,0,0,0" Padding="5" Name="PPTBtnLSResetBtn"
+                                                    Click="PPTBtnLSResetBtn_Clicked">
+                                                <Image Width="16" Height="16">
+                                                    <Image.Source>
+                                                        <DrawingImage>
+                                                            <DrawingImage.Drawing>
+                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                    <GeometryDrawing Brush="#f4f4f5"
+                                                                        Geometry="F0 M24,24z M0,0z M12,2.01123C10.5428,2.01123 9.14528,2.5901 8.11488,3.6205 7.08449,4.65089 6.50562,6.04841 6.50562,7.50561L6.50562,16.4944C6.50562,17.9516 7.08449,19.3491 8.11488,20.3795 9.14528,21.4099 10.5428,21.9888 12,21.9888 13.4572,21.9888 14.8547,21.4099 15.8851,20.3795 16.9135,19.3511 17.4922,17.9569 17.4944,16.5027 17.4944,16.4999 17.4944,16.4972 17.4944,16.4944L17.4944,7.50563C17.4944,7.50285 17.4944,7.50007 17.4944,7.4973 17.4922,6.0431 16.9135,4.64893 15.8851,3.6205 14.8547,2.5901 13.4572,2.01123 12,2.01123z M9.5291,5.03471C10.1844,4.37939 11.0732,4.01123 12,4.01123 12.9268,4.01123 13.8156,4.37939 14.4709,5.03471 15.1262,5.69003 15.4944,6.57884 15.4944,7.50561L15.4944,16.4944C15.4944,17.4211 15.1262,18.31 14.4709,18.9653 13.8156,19.6206 12.9268,19.9888 12,19.9888 11.0732,19.9888 10.1844,19.6206 9.5291,18.9653 8.87377,18.31 8.50562,17.4211 8.50562,16.4944L8.50562,7.50561C8.50562,6.57884,8.87377,5.69003,9.5291,5.03471z" />
+                                                                </DrawingGroup>
+                                                            </DrawingImage.Drawing>
+                                                        </DrawingImage>
+                                                    </Image.Source>
+                                                </Image>
+                                            </Button>
                                             <TextBlock
                                                 Text="{Binding ElementName=PPTButtonLeftPositionValueSlider, Path=Value}"
-                                                VerticalAlignment="Center" FontSize="14" FontFamily="Consolas"
+                                                VerticalAlignment="Center" FontSize="13"
                                                 Margin="8,0,8,0" />
                                         </ui:SimpleStackPanel>
                                         <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                             <TextBlock Foreground="#fafafa" Text="右侧偏移" VerticalAlignment="Center"
-                                                       FontSize="14" Margin="0,0,16,0" />
+                                                       FontSize="14" Margin="0,0,12,0" />
                                             <Slider x:Name="PPTButtonRightPositionValueSlider" Minimum="-500"
-                                                    Maximum="500" Width="148" FontFamily="Microsoft YaHei UI"
+                                                    Maximum="500" Width="138" FontFamily="Microsoft YaHei UI"
                                                     FontSize="20" IsSnapToTickEnabled="True" Value="0"
                                                     TickFrequency="1"
                                                     TickPlacement="None" AutoToolTipPlacement="None"
@@ -851,9 +885,24 @@
                                                     </Image.Source>
                                                 </Image>
                                             </Button>
+                                            <Button Margin="6,0,0,0" Padding="5" Name="PPTBtnRSResetBtn"
+                                                    Click="PPTBtnRSResetBtn_Clicked">
+                                                <Image Width="16" Height="16">
+                                                    <Image.Source>
+                                                        <DrawingImage>
+                                                            <DrawingImage.Drawing>
+                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                    <GeometryDrawing Brush="#f4f4f5"
+                                                                        Geometry="F0 M24,24z M0,0z M12,2.01123C10.5428,2.01123 9.14528,2.5901 8.11488,3.6205 7.08449,4.65089 6.50562,6.04841 6.50562,7.50561L6.50562,16.4944C6.50562,17.9516 7.08449,19.3491 8.11488,20.3795 9.14528,21.4099 10.5428,21.9888 12,21.9888 13.4572,21.9888 14.8547,21.4099 15.8851,20.3795 16.9135,19.3511 17.4922,17.9569 17.4944,16.5027 17.4944,16.4999 17.4944,16.4972 17.4944,16.4944L17.4944,7.50563C17.4944,7.50285 17.4944,7.50007 17.4944,7.4973 17.4922,6.0431 16.9135,4.64893 15.8851,3.6205 14.8547,2.5901 13.4572,2.01123 12,2.01123z M9.5291,5.03471C10.1844,4.37939 11.0732,4.01123 12,4.01123 12.9268,4.01123 13.8156,4.37939 14.4709,5.03471 15.1262,5.69003 15.4944,6.57884 15.4944,7.50561L15.4944,16.4944C15.4944,17.4211 15.1262,18.31 14.4709,18.9653 13.8156,19.6206 12.9268,19.9888 12,19.9888 11.0732,19.9888 10.1844,19.6206 9.5291,18.9653 8.87377,18.31 8.50562,17.4211 8.50562,16.4944L8.50562,7.50561C8.50562,6.57884,8.87377,5.69003,9.5291,5.03471z" />
+                                                                </DrawingGroup>
+                                                            </DrawingImage.Drawing>
+                                                        </DrawingImage>
+                                                    </Image.Source>
+                                                </Image>
+                                            </Button>
                                             <TextBlock
                                                 Text="{Binding ElementName=PPTButtonRightPositionValueSlider, Path=Value}"
-                                                VerticalAlignment="Center" FontSize="14" FontFamily="Consolas"
+                                                VerticalAlignment="Center" FontSize="13"
                                                 Margin="8,0,16,0" />
                                         </ui:SimpleStackPanel>
                                         <TextBlock
@@ -4932,10 +4981,10 @@
         </Grid>
 
         <!--// PPT 侧边翻页按钮 //-->
-        <Viewbox x:Name="LeftSidePanelForPPTNavigation" Visibility="Visible" Margin="6,0,0,0" Width="50"
+        <Viewbox x:Name="LeftSidePanelForPPTNavigation" Visibility="Visible"  Width="56"
                  HorizontalAlignment="Left" VerticalAlignment="Center">
             <Border BorderThickness="1" BorderBrush="#a1a1aa" Name="PPTBtnLSBorder"
-                    Background="#f4f4f5" Opacity="1" CornerRadius="6">
+                    Background="#f4f4f5" Opacity="1" CornerRadius="6" Margin="6,0,0,0">
                 <ui:SimpleStackPanel Orientation="Vertical">
                     <Border Width="50" Height="50" MouseUp="GridPPTControlPrevious_MouseUp"
                             Name="PPTLSPreviousButtonBorder"
@@ -4998,10 +5047,10 @@
                 </ui:SimpleStackPanel>
             </Border>
         </Viewbox>
-        <Viewbox x:Name="RightSidePanelForPPTNavigation" Visibility="Visible" Margin="0,0,6,0" Width="50"
+        <Viewbox x:Name="RightSidePanelForPPTNavigation" Visibility="Visible" Width="56"
                  HorizontalAlignment="Right" VerticalAlignment="Center">
             <Border BorderThickness="1" BorderBrush="#a1a1aa" Name="PPTBtnRSBorder"
-                    Background="#f4f4f5" Opacity="1" CornerRadius="6">
+                    Background="#f4f4f5" Opacity="1" CornerRadius="6"  Margin="0,0,6,0">
                 <ui:SimpleStackPanel Orientation="Vertical">
                     <Border Width="50" Height="50" MouseUp="GridPPTControlPrevious_MouseUp"
                             Name="PPTRSPreviousButtonBorder"

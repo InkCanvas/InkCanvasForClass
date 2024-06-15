@@ -47,7 +47,7 @@ namespace Ink_Canvas {
 
 
         private void KeyExit(object sender, ExecutedRoutedEventArgs e) {
-            BtnPPTSlideShowEnd_Click(BtnPPTSlideShowEnd, null);
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) BtnPPTSlideShowEnd_Click(BtnPPTSlideShowEnd, null);
         }
 
         private void KeyChangeToDrawTool(object sender, ExecutedRoutedEventArgs e) {

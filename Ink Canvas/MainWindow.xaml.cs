@@ -193,8 +193,10 @@ namespace Ink_Canvas {
             BorderInkReplayToolBox.Visibility = Visibility.Collapsed;
 
             // 提前加载IA库，优化第一笔等待时间
-            var strokeEmpty = new StrokeCollection();
-            InkRecognizeHelper.RecognizeShape(strokeEmpty);
+            if (Settings.InkToShape.IsInkToShapeEnabled && !Environment.Is64BitProcess) {
+                var strokeEmpty = new StrokeCollection();
+                InkRecognizeHelper.RecognizeShape(strokeEmpty);
+            }
 
             SystemEvents.DisplaySettingsChanged += SystemEventsOnDisplaySettingsChanged;
         }

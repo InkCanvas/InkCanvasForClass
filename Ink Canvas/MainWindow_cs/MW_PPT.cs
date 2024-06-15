@@ -374,6 +374,12 @@ namespace Ink_Canvas {
         }
 
         private void UpdatePPTBtnDisplaySettingsStatus() {
+
+            var lsp = Settings.PowerPointSettings.PPTLSButtonPosition;
+            LeftSidePanelForPPTNavigation.Margin = new Thickness(0, 0, 0, lsp*2);
+            var rsp = Settings.PowerPointSettings.PPTRSButtonPosition;
+            RightSidePanelForPPTNavigation.Margin = new Thickness(0, 0, 0, rsp*2);
+
             var dopt = Settings.PowerPointSettings.PPTButtonsDisplayOption.ToString();
             char[] doptc = dopt.ToCharArray();
             if (doptc[0] == '2') AnimationsHelper.ShowWithFadeIn(LeftBottomPanelForPPTNavigation);
@@ -530,7 +536,7 @@ namespace Ink_Canvas {
         private bool isEnteredSlideShowEndEvent = false; //防止重复调用本函数导致墨迹保存失效
 
         private async void PptApplication_SlideShowEnd(Presentation Pres) {
-            if (isFloatingBarFolded) UnFoldFloatingBar_MouseUp(null, null);
+            if (isFloatingBarFolded) await UnFoldFloatingBar(new object());
 
             LogHelper.WriteLogToFile(string.Format("PowerPoint Slide Show End"), LogHelper.LogType.Event);
             if (isEnteredSlideShowEndEvent) {
@@ -570,7 +576,7 @@ namespace Ink_Canvas {
                         }
             }
 
-            Application.Current.Dispatcher.Invoke(() => {
+            await Application.Current.Dispatcher.InvokeAsync(() => {
                 isPresentationHaveBlackSpace = false;
 
                 if (BtnSwitchTheme.Content.ToString() == "深色") {
@@ -616,7 +622,11 @@ namespace Ink_Canvas {
             });
 
             await Task.Delay(150);
-            ViewboxFloatingBarMarginAnimation(100, true);
+
+            Application.Current.Dispatcher.InvokeAsync(() => {
+                ViewboxFloatingBarMarginAnimation(100, true);
+            });
+
         }
 
         private int previousSlideID = 0;
@@ -746,6 +756,7 @@ namespace Ink_Canvas {
         private async void PPTNavigationBtn_MouseDown(object sender, MouseButtonEventArgs e)
         {
             lastBorderMouseDownObject = sender;
+            if (!Settings.PowerPointSettings.EnablePPTButtonPageClickable) return;
             if (sender == PPTLSPageButton)
             {
                 PPTLSPageButtonFeedbackBorder.Opacity = 0.15;
@@ -804,6 +815,8 @@ namespace Ink_Canvas {
             {
                 PPTRBPageButtonFeedbackBorder.Opacity = 0;
             }
+
+            if (!Settings.PowerPointSettings.EnablePPTButtonPageClickable) return;
 
             GridTransparencyFakeBackground.Opacity = 1;
             GridTransparencyFakeBackground.Background = new SolidColorBrush(StringToColor("#01FFFFFF"));

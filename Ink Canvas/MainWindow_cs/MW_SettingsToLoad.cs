@@ -346,6 +346,9 @@ namespace Ink_Canvas {
                 PPTButtonRightPositionValueSlider.Value = Settings.PowerPointSettings.PPTRSButtonPosition;
 
                 UpdatePPTBtnSlidersStatus();
+
+                UpdatePPTBtnPreview();
+
                 // -- new --
 
                 ToggleSwitchNotifyHiddenPage.IsOn = Settings.PowerPointSettings.IsNotifyHiddenPage;
