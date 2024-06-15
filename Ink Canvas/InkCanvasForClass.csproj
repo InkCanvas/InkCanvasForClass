@@ -558,4 +558,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="v6\" />
+  </ItemGroup>
 </Project>

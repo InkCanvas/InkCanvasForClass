@@ -35,6 +35,7 @@ namespace Ink_Canvas
         }
 
         private TaskbarIcon _taskbar;
+        private MainWindow mainWin = null;
 
         void App_Startup(object sender, StartupEventArgs e)
         {
@@ -51,6 +52,14 @@ namespace Ink_Canvas
                 MessageBox.Show("已有一个程序实例正在运行");
                 LogHelper.NewLog("Ink Canvas automatically closed");
                 Environment.Exit(0);
+            }
+
+            if (e.Args.Contains("--v6")) //-v6 进入ICCX（v6）
+            {
+                MessageBox.Show("检测到进入ICCX");
+            } else {
+                mainWin = new MainWindow();
+                mainWin.Show();
             }
 
             _taskbar = (TaskbarIcon)FindResource("TaskbarTrayIcon");
