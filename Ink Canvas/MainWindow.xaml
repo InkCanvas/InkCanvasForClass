@@ -58,7 +58,7 @@
     </Window.Resources>
     <!--输入命令绑定-->
     <Window.InputBindings>
-        <KeyBinding Key="Esc" Command="{StaticResource KeyExit}" />
+        <KeyBinding Gesture="Escape" Command="{StaticResource KeyExit}" />
         <KeyBinding Modifiers="Control" Key="Z" Command="{StaticResource HotKey_Command_Undo}" />
         <KeyBinding Modifiers="Control" Key="Y" Command="{StaticResource HotKey_Command_Redo}" />
         <KeyBinding Modifiers="Control" Key="E" Command="{StaticResource HotKey_Command_Clear}" />

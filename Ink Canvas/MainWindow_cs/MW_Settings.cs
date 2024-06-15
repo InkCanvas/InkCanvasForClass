@@ -1359,6 +1359,7 @@ namespace Ink_Canvas {
             Settings.Advanced.IsLogEnabled = true;
             Settings.Advanced.IsSecondConfirmWhenShutdownApp = false;
             Settings.Advanced.IsEnableEdgeGestureUtil = false;
+            Settings.Advanced.EdgeGestureUtilOnlyAffectBlackboardMode = false;
             Settings.Advanced.IsEnableFullScreenHelper = false;
             Settings.Advanced.IsEnableForceFullScreen = false;
             Settings.Advanced.IsEnableDPIChangeDetection = false;

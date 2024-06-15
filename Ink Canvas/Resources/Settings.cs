@@ -364,6 +364,9 @@ namespace Ink_Canvas
         [JsonProperty("isEnableEdgeGestureUtil")]
         public bool IsEnableEdgeGestureUtil { get; set; } = false;
 
+        [JsonProperty("edgeGestureUtilOnlyAffectBlackboardMode")]
+        public bool EdgeGestureUtilOnlyAffectBlackboardMode { get; set; } = false;
+
         [JsonProperty("isEnableForceFullScreen")]
         public bool IsEnableForceFullScreen { get; set; } = false;
 

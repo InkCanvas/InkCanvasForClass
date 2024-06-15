@@ -29,17 +29,17 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>embedded</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <Prefer32Bit>False</Prefer32Bit>
+    <Prefer32Bit>True</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='x86 Debug|AnyCPU'">
     <DebugType>embedded</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <Prefer32Bit>False</Prefer32Bit>
+    <Prefer32Bit>True</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>embedded</DebugType>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <Prefer32Bit>False</Prefer32Bit>
+    <Prefer32Bit>True</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\icc.ico</ApplicationIcon>
@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NHotkey.Wpf" Version="3.0.0" />
     <PackageReference Include="OSVersionExt" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>

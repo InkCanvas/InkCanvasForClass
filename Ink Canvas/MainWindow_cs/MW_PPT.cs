@@ -402,7 +402,6 @@ namespace Ink_Canvas {
             LogHelper.WriteLogToFile("PowerPoint Application Slide Show Begin", LogHelper.LogType.Event);
 
             await Application.Current.Dispatcher.InvokeAsync(() => {
-                if (currentMode != 0) ImageBlackboard_MouseUp(null, null);
 
                 //调整颜色
                 var screenRatio = SystemParameters.PrimaryScreenWidth / SystemParameters.PrimaryScreenHeight;
@@ -494,24 +493,27 @@ namespace Ink_Canvas {
                 if (Settings.PowerPointSettings.IsShowCanvasAtNewSlideShow &&
                     !Settings.Automation.IsAutoFoldInPPTSlideShow &&
                     GridTransparencyFakeBackground.Background == Brushes.Transparent && !isFloatingBarFolded) {
-                    if (currentMode != 0) {
-                        currentMode = 0;
-                        GridBackgroundCover.Visibility = Visibility.Collapsed;
-                        AnimationsHelper.HideWithSlideAndFade(BlackboardLeftSide);
-                        AnimationsHelper.HideWithSlideAndFade(BlackboardCenterSide);
-                        AnimationsHelper.HideWithSlideAndFade(BlackboardRightSide);
-
-                        //SaveStrokes();
-                        ClearStrokes(true);
-
-                        BtnSwitch.Content = BtnSwitchTheme.Content.ToString() == "浅色" ? "黑板" : "白板";
-                        StackPanelPPTButtons.Visibility = Visibility.Visible;
-                    }
-
                     BtnHideInkCanvas_Click(BtnHideInkCanvas, null);
                 }
 
-                ClearStrokes(true);
+                if (currentMode != 0)
+                {
+                    //currentMode = 0;
+                    //GridBackgroundCover.Visibility = Visibility.Collapsed;
+                    //AnimationsHelper.HideWithSlideAndFade(BlackboardLeftSide);
+                    //AnimationsHelper.HideWithSlideAndFade(BlackboardCenterSide);
+                    //AnimationsHelper.HideWithSlideAndFade(BlackboardRightSide);
+
+                    //SaveStrokes();
+                    //ClearStrokes(true);
+
+                    //BtnSwitch.Content = BtnSwitchTheme.Content.ToString() == "浅色" ? "黑板" : "白板";
+                    //StackPanelPPTButtons.Visibility = Visibility.Visible;
+                    ImageBlackboard_MouseUp(null,null);
+                    BtnHideInkCanvas_Click(BtnHideInkCanvas, null);
+                }
+
+                //ClearStrokes(true);
 
                 BorderFloatingBarMainControls.Visibility = Visibility.Visible;
 
@@ -527,7 +529,9 @@ namespace Ink_Canvas {
                 if (!isFloatingBarFolded) {
                     new Thread(new ThreadStart(() => {
                         Thread.Sleep(100);
-                        Application.Current.Dispatcher.Invoke(() => { ViewboxFloatingBarMarginAnimation(60); });
+                        Application.Current.Dispatcher.Invoke(() => {
+                            ViewboxFloatingBarMarginAnimation(60);
+                        });
                     })).Start();
                 }
             });
@@ -599,18 +603,20 @@ namespace Ink_Canvas {
                 ViewBoxStackPanelMain.Margin = new Thickness(10, 10, 10, 55);
 
                 if (currentMode != 0) {
-                    currentMode = 0;
-                    GridBackgroundCover.Visibility = Visibility.Collapsed;
-                    AnimationsHelper.HideWithSlideAndFade(BlackboardLeftSide);
-                    AnimationsHelper.HideWithSlideAndFade(BlackboardCenterSide);
-                    AnimationsHelper.HideWithSlideAndFade(BlackboardRightSide);
+                    
+                    //GridBackgroundCover.Visibility = Visibility.Collapsed;
+                    //AnimationsHelper.HideWithSlideAndFade(BlackboardLeftSide);
+                    //AnimationsHelper.HideWithSlideAndFade(BlackboardCenterSide);
+                    //AnimationsHelper.HideWithSlideAndFade(BlackboardRightSide);
 
                     //SaveStrokes();
-                    ClearStrokes(true);
+                    //ClearStrokes(true);
                     //RestoreStrokes(true);
 
-                    BtnSwitch.Content = BtnSwitchTheme.Content.ToString() == "浅色" ? "黑板" : "白板";
-                    StackPanelPPTButtons.Visibility = Visibility.Visible;
+                    //BtnSwitch.Content = BtnSwitchTheme.Content.ToString() == "浅色" ? "黑板" : "白板";
+                    //StackPanelPPTButtons.Visibility = Visibility.Visible;
+                    CloseWhiteboardImmediately();
+                    currentMode = 0;
                 }
 
                 ClearStrokes(true);

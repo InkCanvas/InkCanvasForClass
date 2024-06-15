@@ -1676,7 +1676,7 @@ namespace Ink_Canvas {
                     AnimationsHelper.HideWithSlideAndFade(BlackboardRightSide);
 
                     SaveStrokes(true);
-                    //ClearStrokes(true);
+                    ClearStrokes(true);
                     RestoreStrokes();
 
                     if (BtnSwitchTheme.Content.ToString() == "浅色") {
