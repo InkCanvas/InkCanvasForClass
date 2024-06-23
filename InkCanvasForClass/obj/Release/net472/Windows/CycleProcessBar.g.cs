@@ -9,8 +9,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Ink_Canvas;
 using Ink_Canvas.ProcessBars;
-using NHotkey.Wpf;
 using System;
 using System.Diagnostics;
 using System.Windows;
