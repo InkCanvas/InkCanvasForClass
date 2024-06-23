@@ -14,23 +14,23 @@
 <table>
     <tbody>
         <tr>
-            <td><a href="InkCanvasForClass/">/InkCanvasForClass</a></td>
+            <td><a href="https://gitea.bliemhax.com/kriastans/InkCanvasForClass/src/branch/master/InkCanvasForClass">/InkCanvasForClass</a></td>
             <td>InkCanvasForClass v5 舊版項目</td>
         </tr>
         <tr>
-            <td><a href="InkCanvasForClassX/">/InkCanvasForClassX</a></td>
+            <td><a href="https://gitea.bliemhax.com/kriastans/InkCanvasForClass/src/branch/master/InkCanvasForClassX">/InkCanvasForClassX</a></td>
             <td>InkCanvasForClass v6 新版項目（開發中）</td>
         </tr>
         <tr>
-            <td><a href="CvtePaintDemo/">/CvtePaintDemo</a></td>
+            <td><a href="https://gitea.bliemhax.com/kriastans/InkCanvasForClass/src/branch/master/CvtePaintDemo">/CvtePaintDemo</a></td>
             <td>基於 <code>Cvte.Paint</code> 實現的高性能白板模式 Demo</td>
         </tr>
         <tr>
-            <td><a href="Demos/">/Demos</a></td>
+            <td><a href="https://gitea.bliemhax.com/kriastans/InkCanvasForClass/src/branch/master/Demos">/Demos</a></td>
             <td>其他測試的Demo文件夾</td>
         </tr>
         <tr>
-            <td><a href="Assets/">/Assets</a></td>
+            <td><a href="https://gitea.bliemhax.com/kriastans/InkCanvasForClass/src/branch/master/Assets">/Assets</a></td>
             <td>存放InkCanvasForClass開發過程中使用到的資源</td>
         </tr>
     </tbody>
