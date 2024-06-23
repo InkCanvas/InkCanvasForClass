@@ -1,0 +1,15 @@
+D:\vs\ica\Ink Canvas\dist\InkCanvasForClass.exe
+D:\vs\ica\Ink Canvas\dist\InkCanvasForClass.exe.config
+D:\vs\ica\Ink Canvas\dist\ICSharpCode.AvalonEdit.dll
+D:\vs\ica\Ink Canvas\dist\iNKORE.UI.WPF.Modern.Controls.dll
+D:\vs\ica\Ink Canvas\dist\iNKORE.UI.WPF.Modern.dll
+D:\vs\ica\Ink Canvas\dist\iNKORE.UI.WPF.dll
+D:\vs\ica\Ink Canvas\dist\MdXaml.dll
+D:\vs\ica\Ink Canvas\dist\MdXaml.Plugins.dll
+D:\vs\ica\Ink Canvas\dist\Microsoft.Office.Interop.PowerPoint.dll
+D:\vs\ica\Ink Canvas\dist\Office.dll
+D:\vs\ica\Ink Canvas\dist\Newtonsoft.Json.dll
+D:\vs\ica\Ink Canvas\dist\System.ValueTuple.dll
+D:\vs\ica\Ink Canvas\dist\IACore.dll
+D:\vs\ica\Ink Canvas\dist\IALoader.dll
+D:\vs\ica\Ink Canvas\dist\IAWinFX.dll
