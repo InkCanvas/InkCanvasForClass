@@ -190,7 +190,7 @@ namespace InkCanvasForClassX.Libraries
         /// <summary>
         /// 獲取一個向量和另一個向量的平方距離
         /// </summary>
-        public double DistLengthSquaredVectors(Vector vec1, Vector vec2)
+        public static double DistLengthSquaredVectors(Vector vec1, Vector vec2)
         {
             var subVec = Vector.SubtractVectors(vec1, vec2);
             return subVec.LengthSquared;
@@ -206,7 +206,7 @@ namespace InkCanvasForClassX.Libraries
         /// <summary>
         /// 獲取一個向量和另一個向量的距離
         /// </summary>
-        public double DistLengthVectors(Vector vec1, Vector vec2)
+        public static double DistLengthVectors(Vector vec1, Vector vec2)
         {
             return Vector.Hypot(vec1.Y - vec2.Y, vec1.X - vec2.X);
         }
@@ -266,22 +266,49 @@ namespace InkCanvasForClassX.Libraries
         }
 
         /// <summary>
-        /// 將該向量與另一個向量插值，TODO
+        /// 將該向量與另一個向量插值
         /// </summary>
-        public Vector Interpolate(Vector vec) {
-            throw new NotImplementedException();
+        public Vector Interpolate(Vector vec, double t) {
+            Add(SubtractVectors(vec, this).Multiply(t));
             return this;
         }
 
         /// <summary>
-        /// 將一個向量與另一個向量插值，TODO
+        /// 將一個向量與另一個向量插值
         /// </summary>
-        public static Vector InterpolateVectors(Vector vec1, Vector vec2)
-        {
-            throw new NotImplementedException();
-            return new Vector();
+        public static Vector InterpolateVectors(Vector vec1, Vector vec2, double t) {
+            return AddVectors(vec1, SubtractVectors(vec2, vec1).Multiply(t));
         }
 
-        // TODO: pjr();
+        /// <summary>
+        /// 將該向量投影在向量<paramref name="vec"/>的方向上，並附加距離<paramref name="c"/>
+        /// </summary>
+        public Vector Project(Vector vec, double c) {
+            Add(vec.Multiply(c));
+            return this;
+        }
+
+        /// <summary>
+        /// 將<paramref name="vec1"/>投影在向量<paramref name="vec2"/>的方向上，並附加距離<paramref name="c"/>
+        /// </summary>
+        public static Vector ProjectVectors(Vector vec1, Vector vec2, double c) {
+            return AddVectors(vec1, MultiplyVector(vec2,c));
+        }
+
+        /// <summary>
+        /// 取得單位向量
+        /// </summary>
+        public Vector Unit()
+        {
+            return DivideByVector(this, Length);
+        }
+
+        /// <summary>
+        /// 取得單位向量
+        /// </summary>
+        public static Vector UnitVector(Vector vec)
+        {
+            return DivideByVector(vec, vec.Length);
+        }
     }
 }
