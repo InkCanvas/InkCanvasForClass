@@ -23,6 +23,9 @@ namespace InkCanvasForClassX
         public MainWindow()
         {
             InitializeComponent();
+            InkC.StrokeCollected += (object sender, InkCanvasStrokeCollectedEventArgs e) => {
+                InkP.Strokes = InkC.Strokes;
+            };
         }
     }
 }
