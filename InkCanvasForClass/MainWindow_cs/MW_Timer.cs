@@ -121,16 +121,17 @@ namespace Ink_Canvas {
                     if (processes.Length > 0) arg += " /IM \"Ink Canvas.exe\"";
                 }
 
-                if (Settings.Automation.IsAutoKillIDT) {
-                    var processes = Process.GetProcessesByName("智绘教");
-                    if (processes.Length > 0) arg += " /IM \"智绘教.exe\"";
-                }
+                // 移除了IDT的查殺
+                //if (Settings.Automation.IsAutoKillIDT) {
+                //    var processes = Process.GetProcessesByName("智绘教");
+                //    if (processes.Length > 0) arg += " /IM \"智绘教.exe\"";
+                //}
 
-                if (Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation) {
+                //if (Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation) {
                     //由于希沃桌面2.0提供的桌面批注是64位应用程序，32位程序无法访问，目前暂不做精准匹配，只匹配进程名称，后面会考虑封装一套基于P/Invoke和WMI的综合进程识别方案。
-                    var processes = Process.GetProcessesByName("DesktopAnnotation");
-                    if (processes.Length > 0) arg += " /IM DesktopAnnotation.exe";
-                }
+                //    var processes = Process.GetProcessesByName("DesktopAnnotation");
+                //    if (processes.Length > 0) arg += " /IM DesktopAnnotation.exe";
+                //}
 
                 if (arg != "/F") {
                     var p = new Process();
@@ -162,11 +163,11 @@ namespace Ink_Canvas {
                         });
                     }
 
-                    if (arg.Contains("智绘教")) {
-                        Dispatcher.Invoke(() => {
-                            ShowNotification("“智绘教”已自动关闭");
-                        });
-                    }
+                    //if (arg.Contains("智绘教")) {
+                    //    Dispatcher.Invoke(() => {
+                    //        ShowNotification("“智绘教”已自动关闭");
+                    //    });
+                    //}
 
                     if (arg.Contains("VcomTeach"))
                     {
@@ -175,12 +176,12 @@ namespace Ink_Canvas {
                         });
                     }
 
-                    if (arg.Contains("DesktopAnnotation"))
-                    {
-                        Dispatcher.Invoke(() => {
-                            ShowNotification("“DesktopAnnotation”已自动关闭");
-                        });
-                    }
+                    //if (arg.Contains("DesktopAnnotation"))
+                    //{
+                    //    Dispatcher.Invoke(() => {
+                    //        ShowNotification("“DesktopAnnotation”已自动关闭");
+                    //    });
+                    //}
                 }
             }
             catch {}

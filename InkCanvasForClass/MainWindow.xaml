@@ -1710,17 +1710,6 @@
                                                          IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchAutoKillICA_Toggled" />
                                     </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Image Source="/Resources/Icons-png/idt.png" Margin="0,0,6,0"
-                                               Width="28"
-                                               Height="28" VerticalAlignment="Center" />
-                                        <TextBlock Foreground="#fafafa" Text="自动查杀“智绘教”" VerticalAlignment="Center"
-                                                   FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAutoKillIDT"
-                                                         IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchAutoKillIDT_Toggled" />
-                                    </ui:SimpleStackPanel>
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -1876,7 +1865,12 @@
                                 </GroupBox.Header>
                                 <ui:SimpleStackPanel Spacing="12">
                                     <ui:SimpleStackPanel Orientation="Horizontal">
-                                        <TextBlock FontSize="18" FontWeight="Bold" Text="Version：" />
+                                        <TextBlock FontSize="18" FontWeight="Bold" Text="Release Version：" />
+                                        <TextBlock FontSize="18" FontWeight="Bold" FontFamily="Consolas"
+                                                   Text="20240710V1P1" />
+                                    </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Orientation="Horizontal">
+                                        <TextBlock FontSize="18" FontWeight="Bold" Text="Bundle Version：" />
                                         <TextBlock x:Name="AppVersionTextBlock" FontSize="18" FontWeight="Bold"
                                                    Text="5.X.X.X" />
                                     </ui:SimpleStackPanel>

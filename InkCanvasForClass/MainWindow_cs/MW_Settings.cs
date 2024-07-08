@@ -338,6 +338,7 @@ namespace Ink_Canvas {
             if (!isLoaded) return;
             Settings.PowerPointSettings.ShowPPTButton = ToggleSwitchShowPPTButton.IsOn;
             SaveSettingsToFile();
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
             UpdatePPTBtnPreview();
         }
 
@@ -1121,19 +1122,19 @@ namespace Ink_Canvas {
                 timerKillProcess.Stop();
         }
 
-        private void ToggleSwitchAutoKillIDT_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (!isLoaded) return;
-            Settings.Automation.IsAutoKillIDT = ToggleSwitchAutoKillIDT.IsOn;
-            SaveSettingsToFile();
-            if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
-                Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
-                || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT || Settings.Automation.IsAutoKillVComYouJiao
-                || Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation)
-                timerKillProcess.Start();
-            else
-                timerKillProcess.Stop();
-        }
+        //private void ToggleSwitchAutoKillIDT_Toggled(object sender, RoutedEventArgs e)
+        //{
+        //    if (!isLoaded) return;
+        //    Settings.Automation.IsAutoKillIDT = ToggleSwitchAutoKillIDT.IsOn;
+        //    SaveSettingsToFile();
+        //    if (Settings.Automation.IsAutoKillEasiNote || Settings.Automation.IsAutoKillPptService ||
+        //        Settings.Automation.IsAutoKillHiteAnnotation || Settings.Automation.IsAutoKillInkCanvas
+        //        || Settings.Automation.IsAutoKillICA || Settings.Automation.IsAutoKillIDT || Settings.Automation.IsAutoKillVComYouJiao
+        //        || Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation)
+        //        timerKillProcess.Start();
+        //    else
+        //        timerKillProcess.Stop();
+        //}
 
         private void ToggleSwitchSaveScreenshotsInDateFolders_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;

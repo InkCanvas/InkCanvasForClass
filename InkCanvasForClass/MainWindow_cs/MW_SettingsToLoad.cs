@@ -638,7 +638,7 @@ namespace Ink_Canvas {
 
                 ToggleSwitchAutoKillICA.IsOn = Settings.Automation.IsAutoKillICA;
 
-                ToggleSwitchAutoKillIDT.IsOn = Settings.Automation.IsAutoKillIDT;
+                //ToggleSwitchAutoKillIDT.IsOn = Settings.Automation.IsAutoKillIDT;
 
                 ToggleSwitchAutoKillSeewoLauncher2DesktopAnnotation.IsOn =
                     Settings.Automation.IsAutoKillSeewoLauncher2DesktopAnnotation;

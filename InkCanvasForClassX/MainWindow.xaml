@@ -10,5 +10,9 @@
     <Grid>
         <libraries:InkProjector Width="600" Height="600" x:Name="InkP" Margin="0,0,0,600"/>
         <InkCanvas Height="600" Width="600" Name="InkC" Margin="0,600,0,0" Background="Wheat"></InkCanvas>
+        <StackPanel>
+            <Button Click="ButtonBase1_OnClick">Change to None</Button>
+            <Button Click="ButtonBase2_OnClick">Change to Pen</Button>
+        </StackPanel>
     </Grid>
 </Window>

@@ -154,21 +154,11 @@ namespace InkCanvasForClassX.Libraries
         }
 
         /// <summary>
-        /// 將該向量點乘另一個向量
+        /// 提供兩個<c>Vector</c>，返回兩個<c>Vector</c>點乘後的数值
         /// </summary>
-        public Vector Dot(Vector vec)
+        public static double DotVectors(Vector vec1, Vector vec2)
         {
-            _x = _x * vec.X;
-            _y = _y * vec.Y;
-            return this;
-        }
-
-        /// <summary>
-        /// 提供兩個<c>Vector</c>，返回兩個<c>Vector</c>點乘後的<c>Vector</c>
-        /// </summary>
-        public static Vector DotVectors(Vector vec1, Vector vec2)
-        {
-            return new Vector(vec1.X * vec2.X, vec1.Y * vec2.Y);
+            return vec1.X * vec2.X + vec1.Y * vec2.Y;
         }
 
         /// <summary>

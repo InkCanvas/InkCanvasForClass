@@ -375,6 +375,14 @@ namespace Ink_Canvas {
 
         private void UpdatePPTBtnDisplaySettingsStatus() {
 
+            if (!Settings.PowerPointSettings.ShowPPTButton) {
+                LeftBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
+                RightBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
+                LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
+                RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
+                return;
+            }
+
             var lsp = Settings.PowerPointSettings.PPTLSButtonPosition;
             LeftSidePanelForPPTNavigation.Margin = new Thickness(0, 0, 0, lsp*2);
             var rsp = Settings.PowerPointSettings.PPTRSButtonPosition;
@@ -382,6 +390,7 @@ namespace Ink_Canvas {
 
             var dopt = Settings.PowerPointSettings.PPTButtonsDisplayOption.ToString();
             char[] doptc = dopt.ToCharArray();
+
             if (doptc[0] == '2') AnimationsHelper.ShowWithFadeIn(LeftBottomPanelForPPTNavigation);
             else LeftBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
             if (doptc[1] == '2') AnimationsHelper.ShowWithFadeIn(RightBottomPanelForPPTNavigation);
