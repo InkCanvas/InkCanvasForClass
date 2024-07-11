@@ -169,7 +169,7 @@ namespace Ink_Canvas {
             //加载设置
             LoadSettings(true);
             // HasNewUpdateWindow hasNewUpdateWindow = new HasNewUpdateWindow();
-            if (Environment.Is64BitProcess) GroupBoxInkRecognition.Visibility = Visibility.Collapsed;
+            if (Environment.Is64BitProcess) SettingsInkRecognitionGroupBox.Visibility = Visibility.Collapsed;
 
             ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
             SystemEvents_UserPreferenceChanged(null, null);

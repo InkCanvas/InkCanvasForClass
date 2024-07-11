@@ -1604,13 +1604,5 @@ namespace Ink_Canvas {
                     return false;
             return true;
         }
-
-        private void MainWindow_OnMouseMove(object sender, MouseEventArgs e) {
-            if (e.StylusDevice == null) {
-                System.Windows.Forms.Cursor.Show();
-            } else {
-                System.Windows.Forms.Cursor.Hide();
-            }
-        }
     }
 }

@@ -282,14 +282,14 @@ namespace Ink_Canvas {
             AnimationsHelper.HideWithSlideAndFade(BoardBorderRightPageListView);
 
             if (BorderSettings.Visibility == Visibility.Visible) {
-                BorderSettingsMask.IsHitTestVisible = false;
-                BorderSettingsMask.Background = null;
+                SettingsOverlay.IsHitTestVisible = false;
+                SettingsOverlay.Background = null;
                 var sb = new Storyboard();
 
                 // 滑动动画
                 var slideAnimation = new DoubleAnimation {
                     From = 0, // 滑动距离
-                    To = BorderSettings.RenderTransform.Value.OffsetX - 440,
+                    To = BorderSettings.RenderTransform.Value.OffsetX - 490,
                     Duration = TimeSpan.FromSeconds(0.6)
                 };
                 slideAnimation.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
@@ -1575,14 +1575,14 @@ namespace Ink_Canvas {
                 HideSubPanels();
             }
             else {
-                BorderSettingsMask.IsHitTestVisible = true;
-                BorderSettingsMask.Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
+                SettingsOverlay.IsHitTestVisible = true;
+                SettingsOverlay.Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
                 SettingsPanelScrollViewer.ScrollToTop();
                 var sb = new Storyboard();
 
                 // 滑动动画
                 var slideAnimation = new DoubleAnimation {
-                    From = BorderSettings.RenderTransform.Value.OffsetX - 440, // 滑动距离
+                    From = BorderSettings.RenderTransform.Value.OffsetX - 490, // 滑动距离
                     To = 0,
                     Duration = TimeSpan.FromSeconds(0.6)
                 };

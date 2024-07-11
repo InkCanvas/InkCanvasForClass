@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="1300" Width="1300">
     <Grid>
-        <libraries:InkProjector Width="600" Height="600" x:Name="InkP" Margin="0,0,0,600"/>
+        <libraries:InkCanvas x:Name="inkCanvas" Width="600" Height="600" Margin="0,0,0,600"/>
+        <!--<libraries:InkCanvas InkStrokes="{Binding ElementName=InkC, Path=Strokes}" x:Name="inkCanvas" Width="600" Height="600" Margin="0,0,0,600"/>-->
         <InkCanvas Height="600" Width="600" Name="InkC" Margin="0,600,0,0" Background="Wheat"></InkCanvas>
         <StackPanel>
             <Button Click="ButtonBase1_OnClick">Change to None</Button>

@@ -219,8 +219,27 @@ namespace Ink_Canvas {
             if (!isLoaded) return;
             Settings.Appearance.EnableViewboxBlackBoardScaleTransform =
                 ToggleSwitchEnableViewboxBlackBoardScaleTransform.IsOn;
+
+            if (Settings.Appearance.EnableViewboxBlackBoardScaleTransform) // 画板 UI 缩放 80%
+            {
+                ViewboxBlackboardLeftSideScaleTransform.ScaleX = 0.8;
+                ViewboxBlackboardLeftSideScaleTransform.ScaleY = 0.8;
+                ViewboxBlackboardCenterSideScaleTransform.ScaleX = 0.8;
+                ViewboxBlackboardCenterSideScaleTransform.ScaleY = 0.8;
+                ViewboxBlackboardRightSideScaleTransform.ScaleX = 0.8;
+                ViewboxBlackboardRightSideScaleTransform.ScaleY = 0.8;
+            }
+            else
+            {
+                ViewboxBlackboardLeftSideScaleTransform.ScaleX = 1;
+                ViewboxBlackboardLeftSideScaleTransform.ScaleY = 1;
+                ViewboxBlackboardCenterSideScaleTransform.ScaleX = 1;
+                ViewboxBlackboardCenterSideScaleTransform.ScaleY = 1;
+                ViewboxBlackboardRightSideScaleTransform.ScaleX = 1;
+                ViewboxBlackboardRightSideScaleTransform.ScaleY = 1;
+            }
+
             SaveSettingsToFile();
-            LoadSettings();
         }
 
         public void ComboBoxFloatingBarImg_SelectionChanged(object sender, RoutedEventArgs e) {
@@ -277,7 +296,6 @@ namespace Ink_Canvas {
             }
 
             SaveSettingsToFile();
-            LoadSettings();
         }
 
         private void ToggleSwitchEnableChickenSoupInWhiteboardMode_Toggled(object sender, RoutedEventArgs e) {
@@ -292,7 +310,6 @@ namespace Ink_Canvas {
             }
 
             SaveSettingsToFile();
-            LoadSettings();
         }
 
         //[Obsolete]
@@ -1014,11 +1031,11 @@ namespace Ink_Canvas {
             Settings.Automation.IsAutoFoldInPPTSlideShow = ToggleSwitchAutoFoldInPPTSlideShow.IsOn;
             if (Settings.Automation.IsAutoFoldInPPTSlideShow)
             {
-                SettingsPPTInkingAndAutoFoldExplictBorder.Visibility = Visibility.Visible;
+                SettingsPPTInkingAndAutoFoldExplictBorder.IsOpen = true;
                 SettingsShowCanvasAtNewSlideShowStackPanel.Opacity = 0.5;
                 SettingsShowCanvasAtNewSlideShowStackPanel.IsHitTestVisible = false;
             } else {
-                SettingsPPTInkingAndAutoFoldExplictBorder.Visibility = Visibility.Collapsed;
+                SettingsPPTInkingAndAutoFoldExplictBorder.IsOpen = false;
                 SettingsShowCanvasAtNewSlideShowStackPanel.Opacity = 1;
                 SettingsShowCanvasAtNewSlideShowStackPanel.IsHitTestVisible = true;
             }
@@ -1343,6 +1360,54 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
+        private void ToggleSwitchDisableGestureEraser_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Gesture.DisableGestureEraser = ToggleSwitchDisableGestureEraser.IsOn;
+            if (Settings.Gesture.DisableGestureEraser) {
+                GestureEraserSettingsItemsPanel.Opacity = 0.5;
+                GestureEraserSettingsItemsPanel.IsHitTestVisible = false;
+                SettingsGestureEraserDisabledBorder.IsOpen = true;
+            } else {
+                GestureEraserSettingsItemsPanel.Opacity = 1;
+                GestureEraserSettingsItemsPanel.IsHitTestVisible = true;
+                SettingsGestureEraserDisabledBorder.IsOpen = false;
+            }
+            SaveSettingsToFile();
+        }
+
+        private void ComboBoxDefaultMultiPointHandWriting_SelectionChanged(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Gesture.DefaultMultiPointHandWritingMode = ComboBoxDefaultMultiPointHandWriting.SelectedIndex;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchHideCursorWhenUsingTouchDevice_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Gesture.HideCursorWhenUsingTouchDevice = ToggleSwitchHideCursorWhenUsingTouchDevice.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchEnableMouseGesture_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Gesture.EnableMouseGesture = ToggleSwitchEnableMouseGesture.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchEnableMouseRightBtnGesture_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Gesture.EnableMouseRightBtnGesture = ToggleSwitchEnableMouseRightBtnGesture.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchEnableMouseWheelGesture_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Gesture.EnableMouseWheelGesture = ToggleSwitchEnableMouseWheelGesture.IsOn;
+            SaveSettingsToFile();
+        }
+
         #endregion
 
         #region Reset
@@ -1451,6 +1516,12 @@ namespace Ink_Canvas {
             Settings.Gesture.IsEnableTwoFingerZoom = false;
             Settings.Gesture.IsEnableTwoFingerRotation = false;
             Settings.Gesture.IsEnableTwoFingerRotationOnSelection = false;
+            Settings.Gesture.DisableGestureEraser = true;
+            Settings.Gesture.DefaultMultiPointHandWritingMode = 2;
+            Settings.Gesture.HideCursorWhenUsingTouchDevice = true;
+            Settings.Gesture.EnableMouseGesture = true;
+            Settings.Gesture.EnableMouseRightBtnGesture = true;
+            Settings.Gesture.EnableMouseWheelGesture = true;
 
             Settings.InkToShape.IsInkToShapeEnabled = true;
             Settings.InkToShape.IsInkToShapeNoFakePressureRectangle = false;
@@ -1648,6 +1719,13 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
+        private void ToggleSwitchEnsureFloatingBarVisibleInScreen_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Advanced.IsEnableDPIChangeDetection = ToggleSwitchEnsureFloatingBarVisibleInScreen.IsOn;
+            Settings.Advanced.IsEnableResolutionChangeDetection = ToggleSwitchEnsureFloatingBarVisibleInScreen.IsOn;
+            SaveSettingsToFile();
+        }
+
         #endregion
 
         #region RandSettings
@@ -1670,6 +1748,179 @@ namespace Ink_Canvas {
             if (!isLoaded) return;
             Settings.RandSettings.RandWindowOnceMaxStudents = (int)RandWindowOnceMaxStudentsSlider.Value;
             SaveSettingsToFile();
+        }
+
+        #endregion
+
+        #region SettingsPane
+
+        public void SettingsPane_ScrollChanged(object sender, RoutedEventArgs e) {
+            UpdateSettingsIndexSidebarDisplayStatus();
+        }
+
+        public void UpdateSettingsIndexSidebarDisplayStatus() {
+
+            if (Math.Truncate(SettingsAboutGroupBox.MinHeight) != Math.Truncate(SettingsPanelScrollViewer.ActualHeight)) SettingsAboutGroupBox.MinHeight = SettingsPanelScrollViewer.ActualHeight;
+
+            SettingsStartupJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
+            SettingsStartupJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
+            SettingsCanvasJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
+            SettingsCanvasJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
+            SettingsGestureJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
+            SettingsGestureJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
+            SettingsInkRecognitionJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
+            SettingsInkRecognitionJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
+            SettingsAppearanceJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
+            SettingsAppearanceJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
+            SettingsPPTJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
+            SettingsPPTJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
+            SettingsAdvancedJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
+            SettingsAdvancedJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
+            SettingsAutomationJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
+            SettingsAutomationJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
+            SettingsRandWindowJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
+            SettingsRandWindowJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
+            SettingsAboutJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
+            SettingsAboutJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
+
+            var SettingsStartupGroupBoxTransform = SettingsStartupGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var SettingsStartupGroupBoxTopPosition = SettingsStartupGroupBoxTransform.Transform(new Point(0, 0));
+            var SettingsStartupGroupBoxBottomPosition = SettingsStartupGroupBoxTransform.Transform(new Point(0, SettingsStartupGroupBox.ActualHeight));
+
+            var SettingsCanvasGroupBoxTransform = SettingsCanvasGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var SettingsCanvasGroupBoxTopPosition = SettingsCanvasGroupBoxTransform.Transform(new Point(0, 0));
+            var SettingsCanvasGroupBoxBottomPosition = SettingsCanvasGroupBoxTransform.Transform(new Point(0, SettingsCanvasGroupBox.ActualHeight));
+
+            var SettingsGestureGroupBoxTransform = SettingsGestureGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var SettingsGestureGroupBoxTopPosition = SettingsGestureGroupBoxTransform.Transform(new Point(0, 0));
+            var SettingsGestureGroupBoxBottomPosition = SettingsGestureGroupBoxTransform.Transform(new Point(0, SettingsGestureGroupBox.ActualHeight));
+
+            var SettingsInkRecognitionGroupBoxTransform = SettingsInkRecognitionGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var SettingsInkRecognitionGroupBoxTopPosition = SettingsInkRecognitionGroupBoxTransform.Transform(new Point(0, 0));
+            var SettingsInkRecognitionGroupBoxBottomPosition = SettingsInkRecognitionGroupBoxTransform.Transform(new Point(0, SettingsInkRecognitionGroupBox.ActualHeight));
+
+            var SettingsAppearanceGroupBoxTransform = SettingsAppearanceGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var SettingsAppearanceGroupBoxTopPosition = SettingsAppearanceGroupBoxTransform.Transform(new Point(0, 0));
+            var SettingsAppearanceGroupBoxBottomPosition = SettingsAppearanceGroupBoxTransform.Transform(new Point(0, SettingsAppearanceGroupBox.ActualHeight));
+
+            var SettingsPPTGroupBoxTransform = SettingsPPTGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var SettingsPPTGroupBoxTopPosition = SettingsPPTGroupBoxTransform.Transform(new Point(0, 0));
+            var SettingsPPTGroupBoxBottomPosition = SettingsPPTGroupBoxTransform.Transform(new Point(0, SettingsPPTGroupBox.ActualHeight));
+
+            var SettingsAdvancedGroupBoxTransform = SettingsAdvancedGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var SettingsAdvancedGroupBoxTopPosition = SettingsAdvancedGroupBoxTransform.Transform(new Point(0, 0));
+            var SettingsAdvancedGroupBoxBottomPosition = SettingsAdvancedGroupBoxTransform.Transform(new Point(0, SettingsAdvancedGroupBox.ActualHeight));
+
+            var SettingsAutomationGroupBoxTransform = SettingsAutomationGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var SettingsAutomationGroupBoxTopPosition = SettingsAutomationGroupBoxTransform.Transform(new Point(0, 0));
+            var SettingsAutomationGroupBoxBottomPosition = SettingsAutomationGroupBoxTransform.Transform(new Point(0, SettingsAutomationGroupBox.ActualHeight));
+
+            var SettingsRandWindowGroupBoxTransform = SettingsRandWindowGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var SettingsRandWindowGroupBoxTopPosition = SettingsRandWindowGroupBoxTransform.Transform(new Point(0, 0));
+            var SettingsRandWindowGroupBoxBottomPosition = SettingsRandWindowGroupBoxTransform.Transform(new Point(0, SettingsRandWindowGroupBox.ActualHeight));
+
+            if (SettingsStartupGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight /2  && SettingsStartupGroupBoxBottomPosition.Y > 50) {
+                SettingsStartupJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
+                SettingsStartupJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+            } else if (SettingsCanvasGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight / 2 && SettingsCanvasGroupBoxBottomPosition.Y > 50) {
+                SettingsCanvasJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
+                SettingsCanvasJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+            } else if (SettingsGestureGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight / 2 && SettingsGestureGroupBoxBottomPosition.Y > 50) {
+                SettingsGestureJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
+                SettingsGestureJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+            } else if (SettingsInkRecognitionGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight / 2 && SettingsInkRecognitionGroupBoxBottomPosition.Y > 50) {
+                SettingsInkRecognitionJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
+                SettingsInkRecognitionJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+            } else if (SettingsAppearanceGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight / 2 && SettingsAppearanceGroupBoxBottomPosition.Y > 50) {
+                SettingsAppearanceJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
+                SettingsAppearanceJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+            } else if (SettingsPPTGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight / 2 && SettingsPPTGroupBoxBottomPosition.Y > 50) {
+                SettingsPPTJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
+                SettingsPPTJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+            } else if (SettingsAdvancedGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight * 0.9 && SettingsAdvancedGroupBoxBottomPosition.Y > 50) {
+                SettingsAdvancedJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
+                SettingsAdvancedJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+            } else if (SettingsAutomationGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight * 0.9 && SettingsAutomationGroupBoxBottomPosition.Y > 50) {
+                SettingsAutomationJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
+                SettingsAutomationJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+            } else if (SettingsRandWindowGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight * 0.9 && SettingsRandWindowGroupBoxBottomPosition.Y > 50) {
+                SettingsRandWindowJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
+                SettingsRandWindowJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+            } else {
+                SettingsAboutJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
+                SettingsAboutJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+            }
+
+            Trace.WriteLine(SettingsRandWindowGroupBoxBottomPosition.Y);
+        }
+
+        public void SettingsStartupJumpToGroupBox(object sender, MouseButtonEventArgs e) {
+            var transform = SettingsStartupGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var position = transform.Transform(new Point(0, 0));
+            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+        }
+
+        public void SettingsCanvasJumpToGroupBox(object sender, MouseButtonEventArgs e)
+        {
+            var transform = SettingsCanvasGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var position = transform.Transform(new Point(0, 0));
+            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+        }
+
+        public void SettingsGestureJumpToGroupBox(object sender, MouseButtonEventArgs e)
+        {
+            var transform = SettingsGestureGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var position = transform.Transform(new Point(0, 0));
+            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+        }
+
+        public void SettingsInkRecognitionJumpToGroupBox(object sender, MouseButtonEventArgs e)
+        {
+            var transform = SettingsInkRecognitionGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var position = transform.Transform(new Point(0, 0));
+            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+        }
+
+        public void SettingsAppearanceJumpToGroupBox(object sender, MouseButtonEventArgs e)
+        {
+            var transform = SettingsAppearanceGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var position = transform.Transform(new Point(0, 0));
+            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+        }
+
+        public void SettingsPPTJumpToGroupBox(object sender, MouseButtonEventArgs e)
+        {
+            var transform = SettingsPPTGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var position = transform.Transform(new Point(0, 0));
+            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+        }
+
+        public void SettingsAdvancedJumpToGroupBox(object sender, MouseButtonEventArgs e)
+        {
+            var transform = SettingsAdvancedGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var position = transform.Transform(new Point(0, 0));
+            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+        }
+
+        public void SettingsAutomationJumpToGroupBox(object sender, MouseButtonEventArgs e)
+        {
+            var transform = SettingsAutomationGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var position = transform.Transform(new Point(0, 0));
+            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+        }
+
+        public void SettingsRandWindowJumpToGroupBox(object sender, MouseButtonEventArgs e)
+        {
+            var transform = SettingsRandWindowGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var position = transform.Transform(new Point(0, 0));
+            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+        }
+
+        public void SettingsAboutJumpToGroupBox(object sender, MouseButtonEventArgs e)
+        {
+            var transform = SettingsAboutGroupBox.TransformToVisual(SettingsPanelScrollViewer);
+            var position = transform.Transform(new Point(0, 0));
+            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
         }
 
         #endregion

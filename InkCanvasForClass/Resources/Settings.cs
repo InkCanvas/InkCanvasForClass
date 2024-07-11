@@ -81,6 +81,18 @@ namespace Ink_Canvas
         public bool IsEnableTwoFingerRotation { get; set; } = false;
         [JsonProperty("isEnableTwoFingerRotationOnSelection")]
         public bool IsEnableTwoFingerRotationOnSelection { get; set; } = false;
+        [JsonProperty("disableGestureEraser")] 
+        public bool DisableGestureEraser { get; set; } = true;
+        [JsonProperty("defaultMultiPointHandWritingMode")]
+        public int DefaultMultiPointHandWritingMode { get; set; } = 2;
+        [JsonProperty("hideCursorWhenUsingTouchDevice")]
+        public bool HideCursorWhenUsingTouchDevice { get; set; } = true;
+        [JsonProperty("enableMouseGesture")]
+        public bool EnableMouseGesture { get; set; } = true;
+        [JsonProperty("enableMouseRightBtnGesture")]
+        public bool EnableMouseRightBtnGesture { get; set; } = true;
+        [JsonProperty("enableMouseWheelGesture")]
+        public bool EnableMouseWheelGesture { get; set; } = true;
     }
 
     public class Startup

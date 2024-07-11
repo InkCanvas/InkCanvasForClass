@@ -51,38 +51,38 @@ namespace InkCanvasForClassX
         {
             InitializeComponent();
             InkC.StrokeCollected += (object sender, InkCanvasStrokeCollectedEventArgs e) => {
-                InkP.Strokes = InkC.Strokes;
-                var stylusPtsList = new List<PerfectFreehandJint.StylusPointLite>();
-                foreach (var strokeStylusPoint in e.Stroke.StylusPoints) {
-                    stylusPtsList.Add(new PerfectFreehandJint.StylusPointLite()
-                    {
-                        x = Math.Round(strokeStylusPoint.X,2) ,
-                        y = Math.Round(strokeStylusPoint.Y,2),
-                        pressure = strokeStylusPoint.PressureFactor,
-                    });
-                }
-                var aaa = new PerfectFreehandJint();
-                var ccc = aaa.GetSVGPathStroke(stylusPtsList.ToArray(), new PerfectFreehandJint.StrokeOptions() {
-                    size = 16,
-                    thinning = 0.5,
-                    smoothing = 0.5,
-                    streamline = 0.5,
-                    simulatePressure = true,
-                    easing = (t)=>t,
-                    last = true,
-                    start = new PerfectFreehandJint.StrokeCapOptions() {
-                        cap = true,
-                        taper = 0,
-                        easing = (t)=>t,
-                    },
-                    end = new PerfectFreehandJint.StrokeCapOptions()
-                    {
-                        cap = true,
-                        taper = 0,
-                        easing = (t) => t,
-                    },
-                });
-                Trace.WriteLine(ccc);
+                inkCanvas.InkStrokes = InkC.Strokes;
+                //var stylusPtsList = new List<PerfectFreehandJint.StylusPointLite>();
+                //foreach (var strokeStylusPoint in e.Stroke.StylusPoints) {
+                //    stylusPtsList.Add(new PerfectFreehandJint.StylusPointLite()
+                //    {
+                //        x = Math.Round(strokeStylusPoint.X,2) ,
+                //        y = Math.Round(strokeStylusPoint.Y,2),
+                //        pressure = strokeStylusPoint.PressureFactor,
+                //    });
+                //}
+                //var aaa = new PerfectFreehandJint();
+                //var ccc = aaa.GetSVGPathStroke(stylusPtsList.ToArray(), new PerfectFreehandJint.StrokeOptions() {
+                //    size = 16,
+                //    thinning = 0.5,
+                //    smoothing = 0.5,
+                //    streamline = 0.5,
+                //    simulatePressure = true,
+                //    easing = (t)=>t,
+                //    last = true,
+                //    start = new PerfectFreehandJint.StrokeCapOptions() {
+                //        cap = true,
+                //        taper = 0,
+                //        easing = (t)=>t,
+                //    },
+                //    end = new PerfectFreehandJint.StrokeCapOptions()
+                //    {
+                //        cap = true,
+                //        taper = 0,
+                //        easing = (t) => t,
+                //    },
+                //});
+                //Trace.WriteLine(ccc);
             };
 
             InkC.MouseRightButtonDown += Inkcanv_MouseRightButtonDown;
@@ -135,7 +135,7 @@ namespace InkCanvasForClassX
                 {
                     stroke.Transform(new Matrix(1, 0, 0, 1, delta.X, delta.Y), false);
                 }
-                InkP.Strokes = InkC.Strokes;
+                inkCanvas.InkStrokes = InkC.Strokes;
 
                 startPoint = currentPoint;
             }

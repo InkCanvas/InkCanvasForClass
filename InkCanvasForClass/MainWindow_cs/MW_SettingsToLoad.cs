@@ -3,6 +3,7 @@ using Ink_Canvas.Helpers;
 using Newtonsoft.Json;
 using OSVersionExtension;
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -180,21 +181,21 @@ namespace Ink_Canvas {
 
                 if (Settings.Appearance.EnableViewboxBlackBoardScaleTransform) // 画板 UI 缩放 80%
                 {
-                    //ViewboxBlackboardLeftSideScaleTransform.ScaleX = 0.8;
-                    //ViewboxBlackboardLeftSideScaleTransform.ScaleY = 0.8;
+                    ViewboxBlackboardLeftSideScaleTransform.ScaleX = 0.8;
+                    ViewboxBlackboardLeftSideScaleTransform.ScaleY = 0.8;
                     ViewboxBlackboardCenterSideScaleTransform.ScaleX = 0.8;
                     ViewboxBlackboardCenterSideScaleTransform.ScaleY = 0.8;
-                    //ViewboxBlackboardRightSideScaleTransform.ScaleX = 0.8;
-                    //ViewboxBlackboardRightSideScaleTransform.ScaleY = 0.8;
+                    ViewboxBlackboardRightSideScaleTransform.ScaleX = 0.8;
+                    ViewboxBlackboardRightSideScaleTransform.ScaleY = 0.8;
 
                     ToggleSwitchEnableViewboxBlackBoardScaleTransform.IsOn = true;
                 } else {
-                    //ViewboxBlackboardLeftSideScaleTransform.ScaleX = 1;
-                    //ViewboxBlackboardLeftSideScaleTransform.ScaleY = 1;
+                    ViewboxBlackboardLeftSideScaleTransform.ScaleX = 1;
+                    ViewboxBlackboardLeftSideScaleTransform.ScaleY = 1;
                     ViewboxBlackboardCenterSideScaleTransform.ScaleX = 1;
                     ViewboxBlackboardCenterSideScaleTransform.ScaleY = 1;
-                    //ViewboxBlackboardRightSideScaleTransform.ScaleX = 1;
-                    //ViewboxBlackboardRightSideScaleTransform.ScaleY = 1;
+                    ViewboxBlackboardRightSideScaleTransform.ScaleX = 1;
+                    ViewboxBlackboardRightSideScaleTransform.ScaleY = 1;
 
                     ToggleSwitchEnableViewboxBlackBoardScaleTransform.IsOn = false;
                 }
@@ -383,19 +384,41 @@ namespace Ink_Canvas {
                 ToggleSwitchEnableTwoFingerRotationOnSelection.IsOn =
                     Settings.Gesture.IsEnableTwoFingerRotationOnSelection;
 
-                if (Settings.Gesture.AutoSwitchTwoFingerGesture) {
-                    if (Topmost) {
-                        ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
-                        BoardToggleSwitchEnableTwoFingerTranslate.IsOn = false;
-                        Settings.Gesture.IsEnableTwoFingerTranslate = false;
-                        if (!isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = true;
-                    } else {
-                        ToggleSwitchEnableTwoFingerTranslate.IsOn = true;
-                        BoardToggleSwitchEnableTwoFingerTranslate.IsOn = true;
-                        Settings.Gesture.IsEnableTwoFingerTranslate = true;
-                        if (isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = false;
-                    }
+                //if (Settings.Gesture.AutoSwitchTwoFingerGesture) {
+                //    if (Topmost) {
+                //        ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
+                //        BoardToggleSwitchEnableTwoFingerTranslate.IsOn = false;
+                //        Settings.Gesture.IsEnableTwoFingerTranslate = false;
+                //        if (!isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                //    } else {
+                //        ToggleSwitchEnableTwoFingerTranslate.IsOn = true;
+                //        BoardToggleSwitchEnableTwoFingerTranslate.IsOn = true;
+                //        Settings.Gesture.IsEnableTwoFingerTranslate = true;
+                //        if (isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = false;
+                //    }
+                //}
+
+                ToggleSwitchDisableGestureEraser.IsOn = Settings.Gesture.DisableGestureEraser;
+
+                if (Settings.Gesture.DisableGestureEraser) {
+                    GestureEraserSettingsItemsPanel.Opacity = 0.5;
+                    GestureEraserSettingsItemsPanel.IsHitTestVisible = false;
+                    SettingsGestureEraserDisabledBorder.IsOpen = true;
+                } else {
+                    GestureEraserSettingsItemsPanel.Opacity = 1;
+                    GestureEraserSettingsItemsPanel.IsHitTestVisible = true;
+                    SettingsGestureEraserDisabledBorder.IsOpen = false;
                 }
+
+                ComboBoxDefaultMultiPointHandWriting.SelectedIndex = Settings.Gesture.DefaultMultiPointHandWritingMode;
+
+                if (Settings.Gesture.DefaultMultiPointHandWritingMode == 0) {
+                    ToggleSwitchEnableMultiTouchMode.IsOn = true;
+                } else if (Settings.Gesture.DefaultMultiPointHandWritingMode == 1) {
+                    ToggleSwitchEnableMultiTouchMode.IsOn = false;
+                }
+
+                ToggleSwitchHideCursorWhenUsingTouchDevice.IsOn = Settings.Gesture.HideCursorWhenUsingTouchDevice;
 
                 CheckEnableTwoFingerGestureBtnColorPrompt();
             } else {
@@ -539,6 +562,9 @@ namespace Ink_Canvas {
 
                 ToggleSwitchIsEnableResolutionChangeDetection.IsOn =
                     Settings.Advanced.IsEnableResolutionChangeDetection;
+
+                ToggleSwitchEnsureFloatingBarVisibleInScreen.IsOn = Settings.Advanced.IsEnableDPIChangeDetection &&
+                                                                    Settings.Advanced.IsEnableResolutionChangeDetection;
             } else {
                 Settings.Advanced = new Advanced();
             }
@@ -607,9 +633,9 @@ namespace Ink_Canvas {
 
                 ToggleSwitchAutoFoldInMaxHubWhiteboard.IsOn = Settings.Automation.IsAutoFoldInMaxHubWhiteboard;
 
-                SettingsPPTInkingAndAutoFoldExplictBorder.Visibility = Visibility.Collapsed;
+                SettingsPPTInkingAndAutoFoldExplictBorder.IsOpen = false;
                 if (Settings.Automation.IsAutoFoldInPPTSlideShow) {
-                    SettingsPPTInkingAndAutoFoldExplictBorder.Visibility = Visibility.Visible;
+                    SettingsPPTInkingAndAutoFoldExplictBorder.IsOpen = true;
                     SettingsShowCanvasAtNewSlideShowStackPanel.Opacity = 0.5;
                     SettingsShowCanvasAtNewSlideShowStackPanel.IsHitTestVisible = false;
                 }
