@@ -141,25 +141,25 @@ namespace Ink_Canvas {
 
                     if (arg.Contains("EasiNote")) {
                         Dispatcher.Invoke(() => {
-                            ShowNotification("“希沃白板 5”已自动关闭");
+                            ShowNotificationAsync("“希沃白板 5”已自动关闭");
                         });
                     }
 
                     if (arg.Contains("HiteAnnotation")) {
                         Dispatcher.Invoke(() => {
-                            ShowNotification("“鸿合屏幕书写”已自动关闭");
+                            ShowNotificationAsync("“鸿合屏幕书写”已自动关闭");
                         });
                     }
 
                     if (arg.Contains("Ink Canvas Annotation") || arg.Contains("Ink Canvas Artistry")) {
                         Dispatcher.Invoke(() => {
-                            ShowNewMessage("“ICA”已自动关闭");
+                            ShowNotificationAsync("“ICA”已自动关闭");
                         });
                     }
 
                     if (arg.Contains("\"Ink Canvas.exe\"")) {
                         Dispatcher.Invoke(() => {
-                            ShowNotification("“Ink Canvas”已自动关闭");
+                            ShowNotificationAsync("“Ink Canvas”已自动关闭");
                         });
                     }
 
@@ -172,7 +172,7 @@ namespace Ink_Canvas {
                     if (arg.Contains("VcomTeach"))
                     {
                         Dispatcher.Invoke(() => {
-                            ShowNotification("“优教授课端”已自动关闭");
+                            ShowNotificationAsync("“优教授课端”已自动关闭");
                         });
                     }
 

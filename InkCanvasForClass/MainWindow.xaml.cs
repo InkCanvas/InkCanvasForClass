@@ -164,6 +164,16 @@ namespace Ink_Canvas {
         public static string settingsFileName = "Settings.json";
         private bool isLoaded = false;
 
+        [DllImport("user32.dll")]
+        static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+        [DllImport("user32.dll")]
+        static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
+
+        const uint MF_BYCOMMAND = 0x00000000;
+        const uint MF_GRAYED = 0x00000001;
+        const uint SC_CLOSE = 0xF060;
+
         private void Window_Loaded(object sender, RoutedEventArgs e) {
             loadPenCanvas();
             //加载设置
@@ -199,11 +209,20 @@ namespace Ink_Canvas {
             }
 
             SystemEvents.DisplaySettingsChanged += SystemEventsOnDisplaySettingsChanged;
+
+            if (Settings.Advanced.IsDisableCloseWindow) {
+                // Disable close button
+                IntPtr hwnd = new WindowInteropHelper(this).Handle;
+                IntPtr hMenu = GetSystemMenu(hwnd, false);
+                if (hMenu != IntPtr.Zero) {
+                    EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
+                }
+            }
         }
 
         private void SystemEventsOnDisplaySettingsChanged(object sender, EventArgs e) {
             if (!Settings.Advanced.IsEnableResolutionChangeDetection) return;
-            ShowNotification($"检测到显示器信息变化，变为{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width}x{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height}");
+            ShowNotificationAsync($"检测到显示器信息变化，变为{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width}x{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height}");
             new Thread(() => {
                 var isFloatingBarOutsideScreen = false;
                 var isInPPTPresentationMode = false;
@@ -227,7 +246,7 @@ namespace Ink_Canvas {
         {
             if (e.OldDpi.DpiScaleX != e.NewDpi.DpiScaleX && e.OldDpi.DpiScaleY != e.NewDpi.DpiScaleY && Settings.Advanced.IsEnableDPIChangeDetection)
             {
-                ShowNotification($"系统DPI发生变化，从 {e.OldDpi.DpiScaleX}x{e.OldDpi.DpiScaleY} 变化为 {e.NewDpi.DpiScaleX}x{e.NewDpi.DpiScaleY}");
+                ShowNotificationAsync($"系统DPI发生变化，从 {e.OldDpi.DpiScaleX}x{e.OldDpi.DpiScaleY} 变化为 {e.NewDpi.DpiScaleX}x{e.NewDpi.DpiScaleY}");
 
                 new Thread(() => {
                     var isFloatingBarOutsideScreen = false;
@@ -249,15 +268,8 @@ namespace Ink_Canvas {
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
             LogHelper.WriteLogToFile("Ink Canvas closing", LogHelper.LogType.Event);
-            if (!CloseIsFromButton && Settings.Advanced.IsSecondConfirmWhenShutdownApp) {
+            if (!CloseIsFromButton) {
                 e.Cancel = true;
-                if (MessageBox.Show("是否继续关闭 InkCanvasForClass，这将丢失当前未保存的墨迹。", "InkCanvasForClass",
-                        MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
-                    if (MessageBox.Show("真的狠心关闭 InkCanvasForClass吗？", "InkCanvasForClass", MessageBoxButton.OKCancel,
-                            MessageBoxImage.Error) == MessageBoxResult.OK)
-                        if (MessageBox.Show("是否取消关闭 InkCanvasForClass？", "InkCanvasForClass", MessageBoxButton.OKCancel,
-                                MessageBoxImage.Error) != MessageBoxResult.OK)
-                            e.Cancel = false;
             }
 
             if (e.Cancel) LogHelper.WriteLogToFile("Ink Canvas closing cancelled", LogHelper.LogType.Event);
@@ -268,7 +280,7 @@ namespace Ink_Canvas {
 
         private void MainWindow_OnSizeChanged(object sender, SizeChangedEventArgs e) {
             if (Settings.Advanced.IsEnableForceFullScreen) {
-                if (isLoaded) ShowNotification(
+                if (isLoaded) ShowNotificationAsync(
                     $"检测到窗口大小变化，已自动恢复到全屏：{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width}x{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height}（缩放比例为{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth}x{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / SystemParameters.PrimaryScreenHeight}）");
                 WindowState = WindowState.Maximized;
                 MoveWindow(new WindowInteropHelper(this).Handle, 0, 0,

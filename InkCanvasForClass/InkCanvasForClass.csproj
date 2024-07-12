@@ -212,6 +212,8 @@
     <Resource Include="Resources\Icons-png\kuanneikuhuaji.png" />
     <Resource Include="Resources\Icons-png\kuanshounvhuaji.png" />
     <Resource Include="Resources\Icons-png\MaxHubWhiteboard.png" />
+    <Resource Include="Resources\Icons-png\menu-back-highlighted.png" />
+    <Resource Include="Resources\Icons-png\menu-back.png" />
     <Resource Include="Resources\Icons-png\playCircle.png" />
     <Resource Include="Resources\Icons-png\redo.png" />
     <Resource Include="Resources\Icons-png\Seewo2Annotation.png" />
@@ -508,6 +510,8 @@
     <None Remove="Resources\Icons-png\kuanneikuhuaji.png" />
     <None Remove="Resources\Icons-png\kuanshounvhuaji.png" />
     <None Remove="Resources\Icons-png\MaxHubWhiteboard.png" />
+    <None Remove="Resources\Icons-png\menu-back-highlighted.png" />
+    <None Remove="Resources\Icons-png\menu-back.png" />
     <None Remove="Resources\Icons-png\Seewo2Annotation.png" />
     <None Remove="Resources\Icons-png\tiebahuaji.png" />
     <None Remove="Resources\Icons-png\transparent-grid.png" />

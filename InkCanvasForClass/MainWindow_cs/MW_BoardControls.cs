@@ -105,7 +105,7 @@ namespace Ink_Canvas {
             Trace.WriteLine("113223234");
 
             if (Settings.Automation.IsAutoSaveStrokesAtClear &&
-                inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) SaveScreenShot(true);
+                inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) SaveScreenshot(true);
             if (CurrentWhiteboardIndex >= WhiteboardTotalCount) {
                 BtnWhiteBoardAdd_Click(sender, e);
                 return;
@@ -124,7 +124,7 @@ namespace Ink_Canvas {
         private void BtnWhiteBoardAdd_Click(object sender, EventArgs e) {
             if (WhiteboardTotalCount >= 99) return;
             if (Settings.Automation.IsAutoSaveStrokesAtClear &&
-                inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) SaveScreenShot(true);
+                inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) SaveScreenshot(true);
             SaveStrokes();
             ClearStrokes(true);
 

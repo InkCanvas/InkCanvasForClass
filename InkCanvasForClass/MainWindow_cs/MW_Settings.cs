@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Interop;
 using Hardcodet.Wpf.TaskbarNotification;
 using OSVersionExtension;
+using System.Windows.Media.Animation;
+using System.Xml.Linq;
+using iNKORE.UI.WPF.Modern.Media.Animation;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -1423,13 +1426,13 @@ namespace Ink_Canvas {
             Settings.Advanced.FingerModeBoundsWidth = 20;
             Settings.Advanced.EraserBindTouchMultiplier = true;
             Settings.Advanced.IsLogEnabled = true;
-            Settings.Advanced.IsSecondConfirmWhenShutdownApp = false;
             Settings.Advanced.IsEnableEdgeGestureUtil = false;
             Settings.Advanced.EdgeGestureUtilOnlyAffectBlackboardMode = false;
             Settings.Advanced.IsEnableFullScreenHelper = false;
             Settings.Advanced.IsEnableForceFullScreen = false;
             Settings.Advanced.IsEnableDPIChangeDetection = false;
             Settings.Advanced.IsEnableResolutionChangeDetection = false;
+            Settings.Advanced.IsDisableCloseWindow = true;
 
             Settings.Appearance.IsEnableDisPlayNibModeToggler = false;
             Settings.Appearance.IsColorfulViewboxFloatingBar = false;
@@ -1551,7 +1554,7 @@ namespace Ink_Canvas {
             }
             catch { }
 
-            ShowNotification("设置已重置为默认推荐设置~");
+            ShowNotificationAsync("设置已重置为默认推荐设置~");
         }
 
         private async void SpecialVersionResetToSuggestion_Click() {
@@ -1713,16 +1716,16 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
-        private void ToggleSwitchIsSecondConfimeWhenShutdownApp_Toggled(object sender, RoutedEventArgs e) {
-            if (!isLoaded) return;
-            Settings.Advanced.IsSecondConfirmWhenShutdownApp = ToggleSwitchIsSecondConfimeWhenShutdownApp.IsOn;
-            SaveSettingsToFile();
-        }
-
         private void ToggleSwitchEnsureFloatingBarVisibleInScreen_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Advanced.IsEnableDPIChangeDetection = ToggleSwitchEnsureFloatingBarVisibleInScreen.IsOn;
             Settings.Advanced.IsEnableResolutionChangeDetection = ToggleSwitchEnsureFloatingBarVisibleInScreen.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchIsDisableCloseWindow_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Advanced.IsDisableCloseWindow = ToggleSwitchIsDisableCloseWindow.IsOn;
             SaveSettingsToFile();
         }
 
@@ -1756,6 +1759,80 @@ namespace Ink_Canvas {
 
         public void SettingsPane_ScrollChanged(object sender, RoutedEventArgs e) {
             UpdateSettingsIndexSidebarDisplayStatus();
+            UpdateSettingsPaneCustomScrollBarStatus();
+        }
+
+        public void UpdateSettingsPaneCustomScrollBarStatus() {
+            var scrollPercentage = SettingsPanelScrollViewer.VerticalOffset /
+                                   (SettingsPanelScrollViewer.ExtentHeight - SettingsPanelScrollViewer.ActualHeight);
+            // 6 is top and bottom track padding
+            var scrollBarTraceTranslateActualHeight =
+                SettingsPaneScrollBarTrack.ActualHeight - SettingsPaneScrollBarThumb.ActualHeight - 6;
+            SettingsPaneScrollBarThumbTranslateTransform.Y = Math.Round(scrollBarTraceTranslateActualHeight * scrollPercentage);
+        }
+
+        public void SettingsPaneBackBtn_MouseEnter(object sender, MouseEventArgs e) {
+            var sb = new Storyboard();
+            var fadeAnimation = new DoubleAnimation {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromSeconds(0.1)
+            };
+            fadeAnimation.EasingFunction = new CubicBezierEase();
+            Storyboard.SetTargetProperty(fadeAnimation, new PropertyPath(UIElement.OpacityProperty));
+            sb.Children.Add(fadeAnimation);
+            sb.Begin((FrameworkElement)SettingsPaneBackBtnHighlight);
+            sb.Completed += (o, args) => {
+                SettingsPaneBackBtnHighlight.Opacity = 1;
+            };
+        }
+
+        public void SettingsPaneBackBtn_MouseLeave(object sender, MouseEventArgs e) {
+            var sb = new Storyboard();
+            var fadeAnimation = new DoubleAnimation
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(0.1)
+            };
+            fadeAnimation.EasingFunction = new CubicBezierEase();
+            Storyboard.SetTargetProperty(fadeAnimation, new PropertyPath(UIElement.OpacityProperty));
+            sb.Children.Add(fadeAnimation);
+            sb.Begin((FrameworkElement)SettingsPaneBackBtnHighlight);
+            sb.Completed += (o, args) => {
+                SettingsPaneBackBtnHighlight.Opacity = 0;
+            };
+        }
+
+        public void ScrollToTrackPositionByMouseEvent(MouseEventArgs e) {
+            var position = e.GetPosition(SettingsPaneScrollBarTrack);
+            var scrollOffset = (SettingsPanelScrollViewer.ExtentHeight - SettingsPanelScrollViewer.ActualHeight) *
+                               (position.Y / (SettingsPaneScrollBarTrack.ActualHeight - 3));
+            Trace.WriteLine(scrollOffset);
+            SettingsPanelScrollViewer.ScrollToVerticalOffset(scrollOffset);
+        }
+
+        public void SettingsPaneScrollBarTrack_MouseDown(object sender, MouseButtonEventArgs e) {
+            ScrollToTrackPositionByMouseEvent(e);
+        }
+
+        private bool isSettingsPaneScrollBarThumbMouseButtonDown = false;
+
+        public void SettingsPaneScrollBarThumb_MouseDown(object sender, MouseButtonEventArgs e) {
+            ScrollToTrackPositionByMouseEvent(e);
+            SettingsPaneScrollBarThumb.CaptureMouse();
+            isSettingsPaneScrollBarThumbMouseButtonDown = true;
+        }
+
+        public void SettingsPaneScrollBarThumb_MouseMove(object sender, MouseEventArgs e) {
+            if (isSettingsPaneScrollBarThumbMouseButtonDown) ScrollToTrackPositionByMouseEvent(e);
+        }
+
+        public void SettingsPaneScrollBarThumb_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ScrollToTrackPositionByMouseEvent(e);
+            SettingsPaneScrollBarThumb.ReleaseMouseCapture();
+            isSettingsPaneScrollBarThumbMouseButtonDown = false;
         }
 
         public void UpdateSettingsIndexSidebarDisplayStatus() {
@@ -1850,8 +1927,6 @@ namespace Ink_Canvas {
                 SettingsAboutJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
                 SettingsAboutJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
             }
-
-            Trace.WriteLine(SettingsRandWindowGroupBoxBottomPosition.Y);
         }
 
         public void SettingsStartupJumpToGroupBox(object sender, MouseButtonEventArgs e) {

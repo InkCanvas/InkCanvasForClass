@@ -388,8 +388,8 @@ namespace Ink_Canvas
         [JsonProperty("isEnableDPIChangeDetection")]
         public bool IsEnableDPIChangeDetection { get; set; } = false;
 
-        [JsonProperty("isSecondConfirmWhenShutdownApp")]
-        public bool IsSecondConfirmWhenShutdownApp { get; set; } = false;
+        [JsonProperty("isDisableCloseWindow")]
+        public bool IsDisableCloseWindow { get; set; } = true;
     }
 
     public class InkToShape
