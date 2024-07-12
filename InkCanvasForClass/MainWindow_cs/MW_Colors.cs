@@ -1,6 +1,7 @@
 ﻿using Ink_Canvas.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,19 +70,21 @@ namespace Ink_Canvas {
         private void CheckColorTheme(bool changeColorTheme = false) {
             if (changeColorTheme)
                 if (currentMode != 0) {
-                    if (Settings.Canvas.UsingWhiteboard) {
-                        GridBackgroundCover.Background = new SolidColorBrush(Color.FromRgb(234, 235, 237));
-                        WaterMarkTime.Foreground = new SolidColorBrush(Color.FromRgb(22, 41, 36));
-                        WaterMarkDate.Foreground = new SolidColorBrush(Color.FromRgb(22, 41, 36));
-                        BlackBoardWaterMark.Foreground = new SolidColorBrush(Color.FromRgb(22, 41, 36));
-                        isUselightThemeColor = false;
-                    }
-                    else {
-                        GridBackgroundCover.Background = new SolidColorBrush(Color.FromRgb(22, 41, 36));
+                    var bgC = BoardPagesSettingsList[CurrentWhiteboardIndex - 1].BackgroundColor;
+                    GridBackgroundCover.Background = new SolidColorBrush(BoardBackgroundColors[(int)bgC]);
+                    if (bgC == BlackboardBackgroundColorEnum.BlackBoardGreen
+                        || bgC == BlackboardBackgroundColorEnum.BlueBlack
+                        || bgC == BlackboardBackgroundColorEnum.GrayBlack
+                        || bgC == BlackboardBackgroundColorEnum.RealBlack) {
                         WaterMarkTime.Foreground = new SolidColorBrush(Color.FromRgb(234, 235, 237));
                         WaterMarkDate.Foreground = new SolidColorBrush(Color.FromRgb(234, 235, 237));
                         BlackBoardWaterMark.Foreground = new SolidColorBrush(Color.FromRgb(234, 235, 237));
                         isUselightThemeColor = true;
+                    } else {
+                        WaterMarkTime.Foreground = new SolidColorBrush(Color.FromRgb(22, 22,22));
+                        WaterMarkDate.Foreground = new SolidColorBrush(Color.FromRgb(22, 22, 22));
+                        BlackBoardWaterMark.Foreground = new SolidColorBrush(Color.FromRgb(22, 22, 22));
+                        isUselightThemeColor = false;
                     }
                 }
 

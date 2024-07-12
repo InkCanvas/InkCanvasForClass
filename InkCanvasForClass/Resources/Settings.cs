@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Ink_Canvas
 {
@@ -49,11 +50,29 @@ namespace Ink_Canvas
         [JsonProperty("clearCanvasAndClearTimeMachine")]
         public bool ClearCanvasAndClearTimeMachine { get; set; } = false;
 
+        [Obsolete("已经使用多背景色“blackboardBackgroundColor”替换该选项")]
         [JsonProperty("usingWhiteboard")]
         public bool UsingWhiteboard { get; set; }
 
         [JsonProperty("hyperbolaAsymptoteOption")]
         public OptionalOperation HyperbolaAsymptoteOption { get; set; } = OptionalOperation.Ask;
+
+        [JsonProperty("blackboardBackgroundColor")]
+        public BlackboardBackgroundColorEnum BlackboardBackgroundColor { get; set; } =
+            BlackboardBackgroundColorEnum.White;
+
+        [JsonProperty("blackboardBackgroundPattern")]
+        public BlackboardBackgroundPatternEnum BlackboardBackgroundPattern { get; set; } =
+            BlackboardBackgroundPatternEnum.None;
+
+        [JsonProperty("useDefaultBackgroundColorForEveryNewAddedBlackboardPage")]
+        public bool UseDefaultBackgroundColorForEveryNewAddedBlackboardPage { get; set; } = false;
+
+        [JsonProperty("useDefaultBackgroundPatternForEveryNewAddedBlackboardPage")]
+        public bool UseDefaultBackgroundPatternForEveryNewAddedBlackboardPage { get; set; } = false;
+
+        [JsonProperty("isEnableAutoConvertInkColorWhenBackgroundChanged")]
+        public bool IsEnableAutoConvertInkColorWhenBackgroundChanged { get; set; } = false;
     }
 
     public enum OptionalOperation
@@ -61,6 +80,23 @@ namespace Ink_Canvas
         Yes,
         No,
         Ask
+    }
+
+    public enum BlackboardBackgroundColorEnum
+    {
+        GrayBlack,
+        BlackBoardGreen,
+        White,
+        BlueBlack,
+        EyeProtectionGreen,
+        RealBlack
+    }
+
+    public enum BlackboardBackgroundPatternEnum
+    {
+        None,
+        Dots,
+        Grid
     }
 
     public class Gesture

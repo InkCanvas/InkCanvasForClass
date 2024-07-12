@@ -435,18 +435,24 @@ namespace Ink_Canvas {
 
                 ComboBoxHyperbolaAsymptoteOption.SelectedIndex = (int)Settings.Canvas.HyperbolaAsymptoteOption;
 
-                if (Settings.Canvas.UsingWhiteboard) {
-                    GridBackgroundCover.Background = new SolidColorBrush(Color.FromRgb(234, 235, 237));
-                    WaterMarkTime.Foreground = new SolidColorBrush(Color.FromRgb(22, 41, 36));
-                    WaterMarkDate.Foreground = new SolidColorBrush(Color.FromRgb(22, 41, 36));
-                    BlackBoardWaterMark.Foreground = new SolidColorBrush(Color.FromRgb(22, 41, 36));
-                    isUselightThemeColor = false;
-                } else {
-                    GridBackgroundCover.Background = new SolidColorBrush(Color.FromRgb(22, 41, 36));
+                var bgC = BoardPagesSettingsList[CurrentWhiteboardIndex - 1].BackgroundColor;
+                GridBackgroundCover.Background = new SolidColorBrush(BoardBackgroundColors[(int)bgC]);
+                if (bgC == BlackboardBackgroundColorEnum.BlackBoardGreen
+                    || bgC == BlackboardBackgroundColorEnum.BlueBlack
+                    || bgC == BlackboardBackgroundColorEnum.GrayBlack
+                    || bgC == BlackboardBackgroundColorEnum.RealBlack)
+                {
                     WaterMarkTime.Foreground = new SolidColorBrush(Color.FromRgb(234, 235, 237));
                     WaterMarkDate.Foreground = new SolidColorBrush(Color.FromRgb(234, 235, 237));
                     BlackBoardWaterMark.Foreground = new SolidColorBrush(Color.FromRgb(234, 235, 237));
                     isUselightThemeColor = true;
+                }
+                else
+                {
+                    WaterMarkTime.Foreground = new SolidColorBrush(Color.FromRgb(22, 22, 22));
+                    WaterMarkDate.Foreground = new SolidColorBrush(Color.FromRgb(22, 22, 22));
+                    BlackBoardWaterMark.Foreground = new SolidColorBrush(Color.FromRgb(22, 22, 22));
+                    isUselightThemeColor = false;
                 }
 
                 if (Settings.Canvas.IsShowCursor) {
@@ -523,6 +529,20 @@ namespace Ink_Canvas {
                     ToggleSwitchFitToCurve.IsOn = false;
                     drawingAttributes.FitToCurve = false;
                 }
+
+                ComboBoxBlackboardBackgroundColor.SelectedIndex = (int)Settings.Canvas.BlackboardBackgroundColor;
+                ComboBoxBlackboardBackgroundPattern.SelectedIndex = (int)Settings.Canvas.BlackboardBackgroundPattern;
+
+                BoardPagesSettingsList[0].BackgroundColor = Settings.Canvas.BlackboardBackgroundColor;
+                BoardPagesSettingsList[0].BackgroundPattern = Settings.Canvas.BlackboardBackgroundPattern;
+
+                ToggleSwitchUseDefaultBackgroundColorForEveryNewAddedBlackboardPage.IsOn =
+                    Settings.Canvas.UseDefaultBackgroundColorForEveryNewAddedBlackboardPage;
+                ToggleSwitchUseDefaultBackgroundPatternForEveryNewAddedBlackboardPage.IsOn =
+                    Settings.Canvas.UseDefaultBackgroundPatternForEveryNewAddedBlackboardPage;
+
+                ToggleSwitchIsEnableAutoConvertInkColorWhenBackgroundChanged.IsOn =
+                    Settings.Canvas.IsEnableAutoConvertInkColorWhenBackgroundChanged;
             } else {
                 Settings.Canvas = new Canvas();
             }

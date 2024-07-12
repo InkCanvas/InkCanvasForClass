@@ -886,6 +886,45 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
+        private void ComboBoxBlackboardBackgroundColor_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Canvas.BlackboardBackgroundColor = (BlackboardBackgroundColorEnum)ComboBoxBlackboardBackgroundColor.SelectedIndex;
+            SaveSettingsToFile();
+        }
+
+        private void ComboBoxBlackboardBackgroundPattern_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Canvas.BlackboardBackgroundPattern = (BlackboardBackgroundPatternEnum)ComboBoxBlackboardBackgroundPattern.SelectedIndex;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchUseDefaultBackgroundColorForEveryNewAddedBlackboardPage_Toggled(object sender,
+            RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Canvas.UseDefaultBackgroundColorForEveryNewAddedBlackboardPage =
+                ToggleSwitchUseDefaultBackgroundColorForEveryNewAddedBlackboardPage.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchUseDefaultBackgroundPatternForEveryNewAddedBlackboardPage_Toggled(object sender,
+            RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Canvas.UseDefaultBackgroundPatternForEveryNewAddedBlackboardPage =
+                ToggleSwitchUseDefaultBackgroundPatternForEveryNewAddedBlackboardPage.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchIsEnableAutoConvertInkColorWhenBackgroundChanged_Toggled(object sender,
+            RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Canvas.IsEnableAutoConvertInkColorWhenBackgroundChanged =
+                ToggleSwitchIsEnableAutoConvertInkColorWhenBackgroundChanged.IsOn;
+            SaveSettingsToFile();
+        }
+
         #endregion
 
         #region Automation
@@ -1513,6 +1552,11 @@ namespace Ink_Canvas {
             Settings.Canvas.FitToCurve = true;
             Settings.Canvas.UsingWhiteboard = false;
             Settings.Canvas.HyperbolaAsymptoteOption = 0;
+            Settings.Canvas.BlackboardBackgroundColor = BlackboardBackgroundColorEnum.White;
+            Settings.Canvas.BlackboardBackgroundPattern = BlackboardBackgroundPatternEnum.None;
+            Settings.Canvas.IsEnableAutoConvertInkColorWhenBackgroundChanged = false;
+            Settings.Canvas.UseDefaultBackgroundColorForEveryNewAddedBlackboardPage = false;
+            Settings.Canvas.UseDefaultBackgroundPatternForEveryNewAddedBlackboardPage = false;
 
             Settings.Gesture.AutoSwitchTwoFingerGesture = true;
             Settings.Gesture.IsEnableTwoFingerTranslate = true;

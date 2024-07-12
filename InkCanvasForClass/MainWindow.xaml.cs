@@ -201,6 +201,7 @@ namespace Ink_Canvas {
 
             BtnWhiteBoardSwitchPrevious.IsEnabled = CurrentWhiteboardIndex != 1;
             BorderInkReplayToolBox.Visibility = Visibility.Collapsed;
+            BoardBackgroundPopup.Visibility = Visibility.Collapsed;
 
             // 提前加载IA库，优化第一笔等待时间
             if (Settings.InkToShape.IsInkToShapeEnabled && !Environment.Is64BitProcess) {

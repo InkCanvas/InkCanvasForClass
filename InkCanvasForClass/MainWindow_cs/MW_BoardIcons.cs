@@ -8,17 +8,11 @@ using System.Windows.Input;
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
         private void BoardChangeBackgroundColorBtn_MouseUp(object sender, RoutedEventArgs e) {
-            if (!isLoaded) return;
-            Settings.Canvas.UsingWhiteboard = !Settings.Canvas.UsingWhiteboard;
-            SaveSettingsToFile();
-            if (Settings.Canvas.UsingWhiteboard) {
-                if (inkColor == 5) lastBoardInkColor = 0;
+            if (BoardBackgroundPopup.Visibility == Visibility.Visible) {
+                AnimationsHelper.HideWithSlideAndFade(BoardBackgroundPopup);
+            } else {
+                AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardBackgroundPopup);
             }
-            else {
-                if (inkColor == 0) lastBoardInkColor = 5;
-            }
-
-            CheckColorTheme(true);
         }
 
         private void BoardEraserIcon_Click(object sender, RoutedEventArgs e) {

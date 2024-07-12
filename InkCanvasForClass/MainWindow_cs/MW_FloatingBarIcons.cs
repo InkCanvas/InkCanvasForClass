@@ -45,6 +45,7 @@ namespace Ink_Canvas {
                 AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
                 AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
                 AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
+                AnimationsHelper.HideWithSlideAndFade(BoardBackgroundPopup);
             }
             else {
                 AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
@@ -59,6 +60,7 @@ namespace Ink_Canvas {
                 AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
                 AnimationsHelper.ShowWithSlideFromBottomAndFade(TwoFingerGestureBorder);
                 AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardTwoFingerGestureBorder);
+                AnimationsHelper.HideWithSlideAndFade(BoardBackgroundPopup);
             }
         }
 
@@ -209,6 +211,7 @@ namespace Ink_Canvas {
             BorderSettings.Visibility = Visibility.Collapsed;
             BoardBorderLeftPageListView.Visibility = Visibility.Collapsed;
             BoardBorderRightPageListView.Visibility = Visibility.Collapsed;
+            BoardBackgroundPopup.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -280,6 +283,7 @@ namespace Ink_Canvas {
             AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
             AnimationsHelper.HideWithSlideAndFade(BoardBorderLeftPageListView);
             AnimationsHelper.HideWithSlideAndFade(BoardBorderRightPageListView);
+            AnimationsHelper.HideWithSlideAndFade(BoardBackgroundPopup);
 
             if (BorderSettings.Visibility == Visibility.Visible) {
                 SettingsOverlay.IsHitTestVisible = false;
@@ -795,6 +799,10 @@ namespace Ink_Canvas {
 
         private void GridInkReplayButton_MouseUp(object sender, MouseButtonEventArgs e) {
             if (lastBorderMouseDownObject != sender) return;
+            if (inkCanvas.Strokes.Count == 0) {
+                HideSubPanels();
+                return;
+            };
 
             AnimationsHelper.HideWithSlideAndFade(BorderTools);
             AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
@@ -1750,14 +1758,13 @@ namespace Ink_Canvas {
                             ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
                         }
 
-                        if (Settings.Canvas.UsingWhiteboard)
-                        {
-                            BtnColorBlack_Click(null, null);
-                        }
-                        else
-                        {
+                        var bgC = BoardPagesSettingsList[CurrentWhiteboardIndex - 1].BackgroundColor;
+                        if (bgC == BlackboardBackgroundColorEnum.BlackBoardGreen
+                            || bgC == BlackboardBackgroundColorEnum.BlueBlack
+                            || bgC == BlackboardBackgroundColorEnum.GrayBlack
+                            || bgC == BlackboardBackgroundColorEnum.RealBlack) 
                             BtnColorWhite_Click(null, null);
-                        }
+                        else BtnColorBlack_Click(null, null);
 
                         StackPanelPPTButtons.Visibility = Visibility.Collapsed;
                         Topmost = false;
