@@ -5,6 +5,7 @@ using OSVersionExtension;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Security.Principal;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
@@ -40,9 +41,28 @@ namespace Ink_Canvas {
             }
 
             try {
+                var identity = WindowsIdentity.GetCurrent();
+                var principal = new WindowsPrincipal(identity);
+                if (principal.IsInRole(WindowsBuiltInRole.Administrator)) {
+                    AdministratorPrivilegeIndicateText.Text = "icc目前以管理员身份运行";
+                    RunAsAdminButton.Visibility = Visibility.Collapsed;
+                    RunAsUserButton.Visibility = Visibility.Visible;
+                } else {
+                    AdministratorPrivilegeIndicateText.Text = "icc目前以非管理员身份运行";
+                    RunAsAdminButton.Visibility = Visibility.Visible;
+                    RunAsUserButton.Visibility = Visibility.Collapsed;
+                }
+            }
+            catch (Exception e) {
+                LogHelper.WriteLogToFile(e.ToString(), LogHelper.LogType.Error);
+            }
+
+            try {
                 if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) +
-                                "\\Ink Canvas Annotation.lnk")) {
+                                "\\InkCanvasForClass.lnk")) {
                     ToggleSwitchRunAtStartup.IsOn = true;
+                } else {
+                    ToggleSwitchRunAtStartup.IsOn = false;
                 }
             }
             catch (Exception ex) {
@@ -253,6 +273,11 @@ namespace Ink_Canvas {
                 ToggleSwitchEnableChickenSoupInWhiteboardMode.IsOn =
                     Settings.Appearance.EnableChickenSoupInWhiteboardMode;
 
+                ToggleSwitchFloatingBarButtonLabelVisibility.IsOn =
+                    Settings.Appearance.FloatingBarButtonLabelVisibility;
+
+                FloatingBarTextVisibilityBindingLikeAPieceOfShit.Visibility = Settings.Appearance.FloatingBarButtonLabelVisibility ? Visibility.Visible : Visibility.Collapsed;
+
                 SystemEvents_UserPreferenceChanged(null, null);
             } else {
                 Settings.Appearance = new Appearance();
@@ -419,6 +444,10 @@ namespace Ink_Canvas {
                 }
 
                 ToggleSwitchHideCursorWhenUsingTouchDevice.IsOn = Settings.Gesture.HideCursorWhenUsingTouchDevice;
+
+                ToggleSwitchEnableMouseGesture.IsOn = Settings.Gesture.EnableMouseGesture;
+                ToggleSwitchEnableMouseRightBtnGesture.IsOn = Settings.Gesture.EnableMouseRightBtnGesture;
+                ToggleSwitchEnableMouseWheelGesture.IsOn = Settings.Gesture.EnableMouseWheelGesture;
 
                 CheckEnableTwoFingerGestureBtnColorPrompt();
             } else {

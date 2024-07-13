@@ -219,6 +219,8 @@ namespace Ink_Canvas {
                     EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
                 }
             }
+
+            UpdateFloatingBarIconsLayout();
         }
 
         private void SystemEventsOnDisplaySettingsChanged(object sender, EventArgs e) {

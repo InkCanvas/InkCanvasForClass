@@ -8,6 +8,7 @@ using System.Windows.Input;
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
         private void BoardChangeBackgroundColorBtn_MouseUp(object sender, RoutedEventArgs e) {
+            UpdateBoardBackgroundPanelDisplayStatus();
             if (BoardBackgroundPopup.Visibility == Visibility.Visible) {
                 AnimationsHelper.HideWithSlideAndFade(BoardBackgroundPopup);
             } else {
@@ -69,6 +70,10 @@ namespace Ink_Canvas {
                 CancelSingleFingerDragMode();
 
                 HideSubPanels("eraser");
+
+                // update tool selection
+                SelectedMode = ICCToolsEnum.EraseByGeometryMode;
+                ForceUpdateToolSelection(null);
             }
         }
 
@@ -88,6 +93,9 @@ namespace Ink_Canvas {
                 CancelSingleFingerDragMode();
 
                 HideSubPanels("eraserByStrokes");
+                // update tool selection
+                SelectedMode = ICCToolsEnum.EraseByStrokeMode;
+                ForceUpdateToolSelection(null);
             //}
         }
 

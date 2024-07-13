@@ -16,6 +16,9 @@ using OSVersionExtension;
 using System.Windows.Media.Animation;
 using System.Xml.Linq;
 using iNKORE.UI.WPF.Modern.Media.Animation;
+using System.Security.Principal;
+using System.IO;
+using System.Reflection;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -53,11 +56,46 @@ namespace Ink_Canvas {
         private void ToggleSwitchRunAtStartup_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             if (ToggleSwitchRunAtStartup.IsOn) {
-                StartAutomaticallyDel("InkCanvas");
-                StartAutomaticallyCreate("Ink Canvas Annotation");
+                StartAutomaticallyDel("InkCanvasForClass");
+                StartAutomaticallyCreate("InkCanvasForClass");
             } else {
-                StartAutomaticallyDel("InkCanvas");
-                StartAutomaticallyDel("Ink Canvas Annotation");
+                StartAutomaticallyDel("InkCanvasForClass");
+            }
+        }
+
+        private void RunAsAdminButton_Click(object sender, RoutedEventArgs e) {
+            var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            if (!principal.IsInRole(WindowsBuiltInRole.Administrator)) {
+                var file = new FileInfo(Assembly.GetExecutingAssembly().Location);
+                var exe = Path.Combine(file.DirectoryName, file.Name.Replace(file.Extension, "") + ".exe");
+
+                var proc = new Process
+                {
+                    StartInfo = {
+                        FileName = exe,
+                        Verb = "runas",
+                        UseShellExecute = true,
+                        Arguments = "-m"
+                    }
+                };
+                proc.Start();
+
+                CloseIsFromButton = true;
+                Application.Current.Shutdown();
+            }
+        }
+
+        private void RunAsUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            if (principal.IsInRole(WindowsBuiltInRole.Administrator))
+            {
+                Process.Start("explorer.exe", Assembly.GetEntryAssembly().Location);
+
+                CloseIsFromButton = true;
+                Application.Current.Shutdown();
             }
         }
 
@@ -84,6 +122,19 @@ namespace Ink_Canvas {
 
             Settings.PowerPointSettings.IsShowCanvasAtNewSlideShow = ToggleSwitchShowCanvasAtNewSlideShow.IsOn;
             SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchRegistryShowSlideShowToolbar_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+
+            Settings.PowerPointSettings.RegistryShowSlideShowToolbar = ToggleSwitchRegistryShowSlideShowToolbar.IsOn;
+        }
+
+        private void ToggleSwitchRegistryShowBlackScreenLastSlideShow_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+
+            Settings.PowerPointSettings.RegistryShowBlackScreenLastSlideShow = ToggleSwitchRegistryShowBlackScreenLastSlideShow.IsOn;
         }
 
         #endregion
@@ -711,6 +762,15 @@ namespace Ink_Canvas {
             Settings.Canvas.IsShowCursor = ToggleSwitchShowCursor.IsOn;
             inkCanvas_EditingModeChanged(inkCanvas, null);
 
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchFloatingBarButtonLabelVisibility_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+
+            Settings.Appearance.FloatingBarButtonLabelVisibility = ToggleSwitchFloatingBarButtonLabelVisibility.IsOn;
+            FloatingBarTextVisibilityBindingLikeAPieceOfShit.Visibility = Settings.Appearance.FloatingBarButtonLabelVisibility ? Visibility.Visible : Visibility.Collapsed;
+            UpdateFloatingBarIconsLayout();
             SaveSettingsToFile();
         }
 
@@ -1491,6 +1551,7 @@ namespace Ink_Canvas {
             Settings.Appearance.ViewboxFloatingBarOpacityValue = 1.0;
             Settings.Appearance.ViewboxFloatingBarOpacityInPPTValue = 1.0;
             Settings.Appearance.EnableTrayIcon = true;
+            Settings.Appearance.FloatingBarButtonLabelVisibility = true;
 
             Settings.Automation.IsAutoFoldInEasiNote = true;
             Settings.Automation.IsAutoFoldInEasiNoteIgnoreDesktopAnno = true;
@@ -1539,6 +1600,8 @@ namespace Ink_Canvas {
             Settings.PowerPointSettings.IsEnableTwoFingerGestureInPresentationMode = false;
             Settings.PowerPointSettings.IsEnableFingerGestureSlideShowControl = false;
             Settings.PowerPointSettings.IsSupportWPS = true;
+            Settings.PowerPointSettings.RegistryShowBlackScreenLastSlideShow = false;
+            Settings.PowerPointSettings.RegistryShowSlideShowToolbar = false;
 
             Settings.Canvas.InkWidth = 2.5;
             Settings.Canvas.IsShowCursor = false;
@@ -2070,5 +2133,6 @@ namespace Ink_Canvas {
             Process.Start("https://github.com/WXRIW/Ink-Canvas");
             HideSubPanels();
         }
+
     }
 }

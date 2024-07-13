@@ -196,7 +196,10 @@ namespace Ink_Canvas
         [JsonProperty("isShowModeFingerToggleSwitch")]
         public bool IsShowModeFingerToggleSwitch { get; set; } = true;
         [JsonProperty("theme")]
-        public int Theme { get; set; } = 0;            
+        public int Theme { get; set; } = 0;
+
+        [JsonProperty("floatingBarButtonLabelVisibility")]
+        public bool FloatingBarButtonLabelVisibility = true;
     }
 
     public class PowerPointSettings
@@ -253,6 +256,12 @@ namespace Ink_Canvas
         public bool IsEnableFingerGestureSlideShowControl { get; set; } = true;
         [JsonProperty("isSupportWPS")]
         public bool IsSupportWPS { get; set; } = true;
+
+        [JsonProperty("registryShowSlideShowToolbar")]
+        public bool RegistryShowSlideShowToolbar { get; set; } = false;
+
+        [JsonProperty("registryShowBlackScreenLastSlideShow")]
+        public bool RegistryShowBlackScreenLastSlideShow { get; set; } = false;
     }
 
     public class Automation

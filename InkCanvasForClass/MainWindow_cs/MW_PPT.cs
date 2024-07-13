@@ -863,6 +863,9 @@ namespace Ink_Canvas {
             })).Start();
 
             HideSubPanels("cursor");
+            // update tool selection
+            SelectedMode = ICCToolsEnum.CursorMode;
+            ForceUpdateToolSelection(null);
             await Task.Delay(150);
             ViewboxFloatingBarMarginAnimation(100, true);
         }

@@ -23,6 +23,7 @@ using System.Text;
 using System.Globalization;
 using System.Windows.Data;
 using System.Xml.Linq;
+using Image = System.Windows.Controls.Image;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -46,8 +47,7 @@ namespace Ink_Canvas {
                 AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
                 AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
                 AnimationsHelper.HideWithSlideAndFade(BoardBackgroundPopup);
-            }
-            else {
+            } else {
                 AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
                 AnimationsHelper.HideWithSlideAndFade(BorderTools);
                 AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
@@ -73,7 +73,7 @@ namespace Ink_Canvas {
                 TwoFingerGestureSimpleStackPanel.IsHitTestVisible = false;
                 EnableTwoFingerGestureBtn.Source =
                     new BitmapImage(new Uri("/Resources/new-icons/gesture.png", UriKind.Relative));
-                
+
                 BoardGesture.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
                 BoardGestureGeometry.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
                 BoardGestureGeometry2.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
@@ -81,26 +81,25 @@ namespace Ink_Canvas {
                 BoardGesture.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
                 BoardGestureGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.DisabledGestureIcon);
                 BoardGestureGeometry2.Geometry = Geometry.Parse("F0 M24,24z M0,0z");
-            }
-            else {
+            } else {
                 TwoFingerGestureSimpleStackPanel.Opacity = 1;
                 TwoFingerGestureSimpleStackPanel.IsHitTestVisible = true;
                 if (Settings.Gesture.IsEnableTwoFingerGesture) {
                     EnableTwoFingerGestureBtn.Source =
                         new BitmapImage(new Uri("/Resources/new-icons/gesture-enabled.png", UriKind.Relative));
-                    
+
                     BoardGesture.Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
                     BoardGestureGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
                     BoardGestureGeometry2.Brush = new SolidColorBrush(Colors.GhostWhite);
                     BoardGestureLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
                     BoardGesture.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
                     BoardGestureGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.EnabledGestureIcon);
-                    BoardGestureGeometry2.Geometry = Geometry.Parse("F0 M24,24z M0,0z "+XamlGraphicsIconGeometries.EnabledGestureIconBadgeCheck);
-                }
-                else {
+                    BoardGestureGeometry2.Geometry =
+                        Geometry.Parse("F0 M24,24z M0,0z " + XamlGraphicsIconGeometries.EnabledGestureIconBadgeCheck);
+                } else {
                     EnableTwoFingerGestureBtn.Source =
                         new BitmapImage(new Uri("/Resources/new-icons/gesture.png", UriKind.Relative));
-                    
+
                     BoardGesture.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
                     BoardGestureGeometry.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
                     BoardGestureGeometry2.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
@@ -119,13 +118,11 @@ namespace Ink_Canvas {
             if (StackPanelCanvasControls.Visibility != Visibility.Visible
                 || BorderFloatingBarMainControls.Visibility != Visibility.Visible) {
                 EnableTwoFingerGestureBorder.Visibility = Visibility.Collapsed;
-            }
-            else if (isVisible == true) {
+            } else if (isVisible == true) {
                 if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible)
                     EnableTwoFingerGestureBorder.Visibility = Visibility.Collapsed;
                 else EnableTwoFingerGestureBorder.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 EnableTwoFingerGestureBorder.Visibility = Visibility.Collapsed;
             }
         }
@@ -174,8 +171,7 @@ namespace Ink_Canvas {
                 if (BorderFloatingBarMainControls.Visibility == Visibility.Visible) {
                     BorderFloatingBarMainControls.Visibility = Visibility.Collapsed;
                     CheckEnableTwoFingerGestureBtnVisibility(false);
-                }
-                else {
+                } else {
                     BorderFloatingBarMainControls.Visibility = Visibility.Visible;
                     CheckEnableTwoFingerGestureBtnVisibility(true);
                 }
@@ -191,8 +187,7 @@ namespace Ink_Canvas {
         /// <summary>
         /// 隱藏形狀繪製面板
         /// </summary>
-        private void CollapseBorderDrawShape()
-        {
+        private void CollapseBorderDrawShape() {
             AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
             AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
         }
@@ -200,8 +195,7 @@ namespace Ink_Canvas {
         /// <summary>
         ///     <c>HideSubPanels</c>的青春版。目前需要修改<c>BorderSettings</c>的關閉機制（改為動畫關閉）。
         /// </summary>
-        private void HideSubPanelsImmediately()
-        {
+        private void HideSubPanelsImmediately() {
             BorderTools.Visibility = Visibility.Collapsed;
             BoardBorderTools.Visibility = Visibility.Collapsed;
             PenPalette.Visibility = Visibility.Collapsed;
@@ -322,110 +316,18 @@ namespace Ink_Canvas {
                 AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
             }
 
-            if (mode != null) {
-                if (mode != "clear") {
-                    CursorIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
-                    CursorIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.LinedCursorIcon);
-                    PenIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
-                    PenIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.LinedPenIcon);
-                    StrokeEraserIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
-                    StrokeEraserIconGeometry.Geometry =
-                        Geometry.Parse(XamlGraphicsIconGeometries.LinedEraserStrokeIcon);
-                    CircleEraserIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
-                    CircleEraserIconGeometry.Geometry =
-                        Geometry.Parse(XamlGraphicsIconGeometries.LinedEraserCircleIcon);
-                    LassoSelectIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
-                    LassoSelectIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.LinedLassoSelectIcon);
-
-                    BoardPen.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
-                    BoardSelect.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
-                    BoardEraser.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
-                    BoardSelectGeometry.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
-                    BoardPenGeometry.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
-                    BoardEraserGeometry.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
-                    BoardPenLabel.Foreground = new SolidColorBrush(Color.FromRgb(24, 24, 27));
-                    BoardSelectLabel.Foreground = new SolidColorBrush(Color.FromRgb(24, 24, 27));
-                    BoardEraserLabel.Foreground = new SolidColorBrush(Color.FromRgb(24, 24, 27));
-                    BoardSelect.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
-                    BoardEraser.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
-                    BoardPen.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
-
-                    FloatingbarSelectionBG.Visibility = Visibility.Hidden;
-                    System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 0);
-                }
-
-                switch (mode) {
-                    case "pen":
-                    case "color": {
-                        PenIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
-                        PenIconGeometry.Geometry = Geometry.Parse(XamlGraphicsIconGeometries.SolidPenIcon);
-                        BoardPen.Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
-                        BoardPen.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
-                        BoardPenGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
-                        BoardPenLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
-
-                        FloatingbarSelectionBG.Visibility = Visibility.Visible;
-                        System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 28);
-                            break;
-                    }
-                    case "eraser": {
-                        CircleEraserIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
-                        CircleEraserIconGeometry.Geometry =
-                            Geometry.Parse(XamlGraphicsIconGeometries.SolidEraserCircleIcon);
-                        BoardEraser.Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
-                        BoardEraser.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
-                        BoardEraserGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
-                        BoardEraserLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
-
-                        FloatingbarSelectionBG.Visibility = Visibility.Visible;
-                        System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 28 * 3);
-                            break;
-                    }
-                    case "eraserByStrokes": {
-                        StrokeEraserIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
-                        StrokeEraserIconGeometry.Geometry =
-                            Geometry.Parse(XamlGraphicsIconGeometries.SolidEraserStrokeIcon);
-                        BoardEraser.Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
-                        BoardEraser.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
-                        BoardEraserGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
-                        BoardEraserLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
-
-                        FloatingbarSelectionBG.Visibility = Visibility.Visible;
-                        System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 28 * 4);
-                            break;
-                    }
-                    case "select": {
-                        LassoSelectIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
-                        LassoSelectIconGeometry.Geometry =
-                            Geometry.Parse(XamlGraphicsIconGeometries.SolidLassoSelectIcon);
-                        BoardSelect.Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
-                        BoardSelect.BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
-                        BoardSelectGeometry.Brush = new SolidColorBrush(Colors.GhostWhite);
-                        BoardSelectLabel.Foreground = new SolidColorBrush(Colors.GhostWhite);
-
-                        FloatingbarSelectionBG.Visibility = Visibility.Visible;
-                        System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 28 * 5);
-                            break;
-                    }
-                }
-
-
-                if (autoAlignCenter) // 控制居中
+            if (mode != null && autoAlignCenter) {
+                if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
+                    await Task.Delay(50);
+                    ViewboxFloatingBarMarginAnimation(60);
+                } else if (Topmost == true) //非黑板
                 {
-                    if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
-                        await Task.Delay(50);
-                        ViewboxFloatingBarMarginAnimation(60);
-                    }
-                    else if (Topmost == true) //非黑板
-                    {
-                        await Task.Delay(50);
-                        ViewboxFloatingBarMarginAnimation(100, true);
-                    }
-                    else //黑板
-                    {
-                        await Task.Delay(50);
-                        ViewboxFloatingBarMarginAnimation(60);
-                    }
+                    await Task.Delay(50);
+                    ViewboxFloatingBarMarginAnimation(100, true);
+                } else //黑板
+                {
+                    await Task.Delay(50);
+                    ViewboxFloatingBarMarginAnimation(60);
                 }
             }
 
@@ -436,6 +338,7 @@ namespace Ink_Canvas {
         #endregion
 
         #region 撤銷重做按鈕
+
         private void SymbolIconUndo_MouseUp(object sender, MouseButtonEventArgs e) {
             //if (lastBorderMouseDownObject != sender) return;
 
@@ -467,8 +370,7 @@ namespace Ink_Canvas {
         //private bool Not_Enter_Blackboard_fir_Mouse_Click = true;
         private bool isDisplayingOrHidingBlackboard = false;
 
-        private void ImageBlackboard_MouseUp(object sender, MouseButtonEventArgs e)
-        {
+        private void ImageBlackboard_MouseUp(object sender, MouseButtonEventArgs e) {
 
             if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
@@ -483,8 +385,7 @@ namespace Ink_Canvas {
 
             if (inkCanvas.EditingMode == InkCanvasEditingMode.Select) PenIcon_Click(null, null);
 
-            if (currentMode == 0)
-            {
+            if (currentMode == 0) {
                 LeftBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 RightBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 LeftSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
@@ -506,10 +407,8 @@ namespace Ink_Canvas {
                 })).Start();
 
                 HideSubPanels();
-                if (GridTransparencyFakeBackground.Background == Brushes.Transparent)
-                {
-                    if (currentMode == 1)
-                    {
+                if (GridTransparencyFakeBackground.Background == Brushes.Transparent) {
+                    if (currentMode == 1) {
                         currentMode = 0;
                         GridBackgroundCover.Visibility = Visibility.Collapsed;
                         AnimationsHelper.HideWithSlideAndFade(BlackboardLeftSide);
@@ -526,8 +425,7 @@ namespace Ink_Canvas {
                     if (isInMultiTouchMode) ToggleSwitchEnableMultiTouchMode.IsOn = false;
                 }
 
-                if (Settings.Appearance.EnableTimeDisplayInWhiteboardMode == true)
-                {
+                if (Settings.Appearance.EnableTimeDisplayInWhiteboardMode == true) {
                     WaterMarkTime.Visibility = Visibility.Visible;
                     WaterMarkDate.Visibility = Visibility.Visible;
                 } else {
@@ -535,8 +433,7 @@ namespace Ink_Canvas {
                     WaterMarkDate.Visibility = Visibility.Collapsed;
                 }
 
-                if (Settings.Appearance.EnableChickenSoupInWhiteboardMode == true)
-                {
+                if (Settings.Appearance.EnableChickenSoupInWhiteboardMode == true) {
                     BlackBoardWaterMark.Visibility = Visibility.Visible;
                 } else {
                     BlackBoardWaterMark.Visibility = Visibility.Collapsed;
@@ -553,20 +450,21 @@ namespace Ink_Canvas {
                     BlackBoardWaterMark.Text = ChickenSoup.GaoKaoPhrases[randChickenSoupIndex];
                 }
 
-            }
-            else
-            {
+            } else {
                 //关闭黑板
                 HideSubPanelsImmediately();
 
-                if (StackPanelPPTControls.Visibility == Visibility.Visible)
-                {
+                if (StackPanelPPTControls.Visibility == Visibility.Visible) {
                     var dops = Settings.PowerPointSettings.PPTButtonsDisplayOption.ToString();
                     var dopsc = dops.ToCharArray();
-                    if (dopsc[0] == '2' && isDisplayingOrHidingBlackboard == false) AnimationsHelper.ShowWithFadeIn(LeftBottomPanelForPPTNavigation);
-                    if (dopsc[1] == '2' && isDisplayingOrHidingBlackboard == false) AnimationsHelper.ShowWithFadeIn(RightBottomPanelForPPTNavigation);
-                    if (dopsc[2] == '2' && isDisplayingOrHidingBlackboard == false) AnimationsHelper.ShowWithFadeIn(LeftSidePanelForPPTNavigation);
-                    if (dopsc[3] == '2' && isDisplayingOrHidingBlackboard == false) AnimationsHelper.ShowWithFadeIn(RightSidePanelForPPTNavigation);
+                    if (dopsc[0] == '2' && isDisplayingOrHidingBlackboard == false)
+                        AnimationsHelper.ShowWithFadeIn(LeftBottomPanelForPPTNavigation);
+                    if (dopsc[1] == '2' && isDisplayingOrHidingBlackboard == false)
+                        AnimationsHelper.ShowWithFadeIn(RightBottomPanelForPPTNavigation);
+                    if (dopsc[2] == '2' && isDisplayingOrHidingBlackboard == false)
+                        AnimationsHelper.ShowWithFadeIn(LeftSidePanelForPPTNavigation);
+                    if (dopsc[3] == '2' && isDisplayingOrHidingBlackboard == false)
+                        AnimationsHelper.ShowWithFadeIn(RightSidePanelForPPTNavigation);
                 }
 
                 if (Settings.Automation.IsAutoSaveStrokesAtClear &&
@@ -583,7 +481,7 @@ namespace Ink_Canvas {
                         Application.Current.Dispatcher.Invoke(() => { ViewboxFloatingBarMarginAnimation(60); });
                     })).Start();
 
-                if (System.Windows.Controls.Canvas.GetLeft(FloatingbarSelectionBG)!=28) PenIcon_Click(null, null);
+                if (System.Windows.Controls.Canvas.GetLeft(FloatingbarSelectionBG) != 28) PenIcon_Click(null, null);
 
                 if (Settings.Gesture.AutoSwitchTwoFingerGesture) // 自动启用多指书写
                     ToggleSwitchEnableTwoFingerTranslate.IsOn = false;
@@ -612,11 +510,11 @@ namespace Ink_Canvas {
         }
 
         #endregion
+
         private async void SymbolIconCursor_Click(object sender, RoutedEventArgs e) {
             if (currentMode != 0) {
                 ImageBlackboard_MouseUp(null, null);
-            }
-            else {
+            } else {
                 BtnHideInkCanvas_Click(BtnHideInkCanvas, null);
 
                 if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
@@ -637,8 +535,7 @@ namespace Ink_Canvas {
             if (inkCanvas.GetSelectedStrokes().Count > 0) {
                 inkCanvas.Strokes.Remove(inkCanvas.GetSelectedStrokes());
                 GridInkCanvasSelectionCover.Visibility = Visibility.Collapsed;
-            }
-            else if (inkCanvas.Strokes.Count > 0) {
+            } else if (inkCanvas.Strokes.Count > 0) {
                 if (Settings.Automation.IsAutoSaveStrokesAtClear &&
                     inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) {
                     if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible)
@@ -653,7 +550,290 @@ namespace Ink_Canvas {
 
         #endregion
 
+        #region 工具栏状态管理和高亮相关
+
+        public enum ICCToolsEnum {
+            CursorMode,
+            PenMode,
+            EraseByStrokeMode,
+            EraseByGeometryMode,
+            LassoMode,
+        }
+
+        public ICCToolsEnum SelectedMode = ICCToolsEnum.CursorMode;
+
+        /// <summary>
+        ///     设置当前正在使用的工具和浮动工具栏、白板按钮的状态和样式管理
+        /// </summary>
+        /// <param name="customMode">设置后不遵守SelectedMode，直接使用该变量传入的Mode进行设置</param>
+        public void ForceUpdateToolSelection(ICCToolsEnum? customMode) {
+            ICCToolsEnum mode = customMode ?? SelectedMode;
+
+            GeometryDrawing[] iconGeometryDrawingsFloatingBar = new GeometryDrawing[] {
+                CursorIconGeometry,
+                PenIconGeometry,
+                StrokeEraserIconGeometry,
+                CircleEraserIconGeometry,
+                LassoSelectIconGeometry
+            };
+            string[] iconGeometryPathStringsFloatingBar = new string[] {
+                XamlGraphicsIconGeometries.LinedCursorIcon,
+                XamlGraphicsIconGeometries.LinedPenIcon,
+                XamlGraphicsIconGeometries.LinedEraserStrokeIcon,
+                XamlGraphicsIconGeometries.LinedEraserCircleIcon,
+                XamlGraphicsIconGeometries.LinedLassoSelectIcon,
+                XamlGraphicsIconGeometries.SolidCursorIcon,
+                XamlGraphicsIconGeometries.SolidPenIcon,
+                XamlGraphicsIconGeometries.SolidEraserStrokeIcon,
+                XamlGraphicsIconGeometries.SolidEraserCircleIcon,
+                XamlGraphicsIconGeometries.SolidLassoSelectIcon
+            };
+
+            Border[] iconBordersWhiteboard = new Border[] {
+                BoardSelect,
+                BoardPen,
+                BoardEraser
+            };
+            GeometryDrawing[] iconGeometryDrawingsWhiteboard = new GeometryDrawing[] {
+                BoardSelectGeometry,
+                BoardPenGeometry,
+                BoardEraserGeometry
+            };
+            TextBlock[] iconLabelsWhiteboard = new TextBlock[] {
+                BoardSelectLabel,
+                BoardPenLabel,
+                BoardEraserLabel
+            };
+
+            foreach (var gd in iconGeometryDrawingsFloatingBar) {
+                gd.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
+                gd.Geometry = Geometry.Parse(iconGeometryPathStringsFloatingBar[Array.IndexOf(iconGeometryDrawingsFloatingBar, gd)]);
+            }
+
+            foreach (var ib in iconBordersWhiteboard) {
+                ib.Background = new SolidColorBrush(Color.FromRgb(244, 244, 245));
+                ib.BorderBrush = new SolidColorBrush(Color.FromRgb(161, 161, 170));
+            }
+
+            foreach (var gd in iconGeometryDrawingsWhiteboard) gd.Brush = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+            foreach (var txt in iconLabelsWhiteboard) txt.Foreground = new SolidColorBrush(Color.FromRgb(24, 24, 27));
+
+            FloatingbarSelectionBG.Visibility = Visibility.Hidden;
+            System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 0);
+
+            var highlightStepWidth = Settings.Appearance.FloatingBarButtonLabelVisibility ? 28 : 21;
+
+            if (mode != ICCToolsEnum.CursorMode) {
+                // floating bar
+                var ngdf = iconGeometryDrawingsFloatingBar[(int)mode];
+                ngdf.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
+                ngdf.Geometry = Geometry.Parse(iconGeometryPathStringsFloatingBar[(int)mode+5]);
+                FloatingbarSelectionBG.Visibility = Visibility.Visible;
+                var iconPosI = (int)mode == 1 ? highlightStepWidth :
+                    (int)mode > 1 ? highlightStepWidth * ((int)mode + 1) : 0;
+                System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, iconPosI);
+
+                // whiteboard
+                var wmi = mode == ICCToolsEnum.LassoMode ? 0 :
+                    mode == ICCToolsEnum.PenMode ? 1 :
+                    mode == ICCToolsEnum.EraseByGeometryMode || mode == ICCToolsEnum.EraseByStrokeMode ? 2 : 0;
+                iconBordersWhiteboard[wmi].Background = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                iconBordersWhiteboard[wmi].BorderBrush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+                iconGeometryDrawingsWhiteboard[wmi].Brush = new SolidColorBrush(Colors.GhostWhite);
+                iconLabelsWhiteboard[wmi].Foreground = new SolidColorBrush(Colors.GhostWhite);
+            }
+
+        }
+
+        #endregion
+
         #region 主要的工具按鈕事件
+
+        private async void CursorIcon_Click(object sender, RoutedEventArgs e)
+        {
+            if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
+                ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
+            if (sender == Cursor_Icon && lastBorderMouseDownObject != Cursor_Icon) return;
+
+            // 切换前自动截图保存墨迹
+            if (inkCanvas.Strokes.Count > 0 &&
+                inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber)
+            {
+                if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) SavePPTScreenshot($"{pptName}/{previousSlideID}_{DateTime.Now:HH-mm-ss}");
+                else SaveScreenshot(true);
+            }
+
+            if (BtnPPTSlideShowEnd.Visibility != Visibility.Visible)
+            {
+                if (Settings.Canvas.HideStrokeWhenSelecting)
+                {
+                    inkCanvas.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    inkCanvas.IsHitTestVisible = false;
+                    inkCanvas.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (Settings.PowerPointSettings.IsShowStrokeOnSelectInPowerPoint)
+                {
+                    inkCanvas.Visibility = Visibility.Visible;
+                    inkCanvas.IsHitTestVisible = true;
+                }
+                else
+                {
+                    if (Settings.Canvas.HideStrokeWhenSelecting)
+                    {
+                        inkCanvas.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        inkCanvas.IsHitTestVisible = false;
+                        inkCanvas.Visibility = Visibility.Visible;
+                    }
+                }
+            }
+
+            GridTransparencyFakeBackground.Opacity = 0;
+            GridTransparencyFakeBackground.Background = Brushes.Transparent;
+
+            GridBackgroundCoverHolder.Visibility = Visibility.Collapsed;
+            inkCanvas.Select(new StrokeCollection());
+            GridInkCanvasSelectionCover.Visibility = Visibility.Collapsed;
+
+            if (currentMode != 0)
+            {
+                SaveStrokes();
+                RestoreStrokes(true);
+            }
+
+            BtnSwitch.Content = BtnSwitchTheme.Content.ToString() == "浅色" ? "黑板" : "白板";
+
+            StackPanelPPTButtons.Visibility = Visibility.Visible;
+            BtnHideInkCanvas.Content = "显示\n画板";
+            CheckEnableTwoFingerGestureBtnVisibility(false);
+
+
+            StackPanelCanvasControls.Visibility = Visibility.Collapsed;
+
+            if (isFloatingBarFolded) return;
+            HideSubPanels("cursor", true);
+
+            // update tool selection
+            SelectedMode = ICCToolsEnum.CursorMode;
+            ForceUpdateToolSelection(null);
+
+            await Task.Delay(50);
+
+            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible)
+                ViewboxFloatingBarMarginAnimation(60);
+            else
+                ViewboxFloatingBarMarginAnimation(100, true);
+        }
+
+        private void PenIcon_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
+                ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
+            if (sender == Pen_Icon && lastBorderMouseDownObject != Pen_Icon) return;
+
+            FloatingbarSelectionBG.Visibility = Visibility.Visible;
+            System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 28);
+
+            if (Pen_Icon.Background == null || StackPanelCanvasControls.Visibility == Visibility.Collapsed)
+            {
+                inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+
+                GridTransparencyFakeBackground.Opacity = 1;
+                GridTransparencyFakeBackground.Background = new SolidColorBrush(StringToColor("#01FFFFFF"));
+
+                inkCanvas.IsHitTestVisible = true;
+                inkCanvas.Visibility = Visibility.Visible;
+
+                GridBackgroundCoverHolder.Visibility = Visibility.Visible;
+                GridInkCanvasSelectionCover.Visibility = Visibility.Collapsed;
+
+                /*if (forceEraser && currentMode == 0)
+                    BtnColorRed_Click(sender, null);*/
+
+                if (GridBackgroundCover.Visibility == Visibility.Collapsed)
+                {
+                    if (BtnSwitchTheme.Content.ToString() == "浅色")
+                        BtnSwitch.Content = "黑板";
+                    else
+                        BtnSwitch.Content = "白板";
+                    StackPanelPPTButtons.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    BtnSwitch.Content = "屏幕";
+                    StackPanelPPTButtons.Visibility = Visibility.Collapsed;
+                }
+
+                BtnHideInkCanvas.Content = "隐藏\n画板";
+
+                StackPanelCanvasControls.Visibility = Visibility.Visible;
+                //AnimationsHelper.ShowWithSlideFromLeftAndFade(StackPanelCanvasControls);
+                CheckEnableTwoFingerGestureBtnVisibility(true);
+                inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+                ColorSwitchCheck();
+                HideSubPanels("pen", true);
+
+                // update tool selection
+                SelectedMode = ICCToolsEnum.PenMode;
+                ForceUpdateToolSelection(null);
+            }
+            else
+            {
+                if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink)
+                {
+                    if (PenPalette.Visibility == Visibility.Visible)
+                    {
+                        AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
+                        AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(PenPalette);
+                        AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
+                        AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
+                        AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
+                        AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
+                        AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
+                        AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
+                    }
+                    else
+                    {
+                        AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
+                        AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
+                        AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
+                        AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
+                        AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                        AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
+                        AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
+                        AnimationsHelper.ShowWithSlideFromBottomAndFade(PenPalette);
+                        AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardPenPalette);
+                    }
+                }
+                else
+                {
+                    inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+                    ColorSwitchCheck();
+                    HideSubPanels("pen", true);
+
+                    // update tool selection
+                    SelectedMode = ICCToolsEnum.PenMode;
+                    ForceUpdateToolSelection(null);
+                }
+            }
+        }
+
 
         /// <summary>
         ///     浮動工具欄的“套索選”按鈕事件，重定向到舊UI的<c>BtnSelect_Click</c>方法
@@ -671,6 +851,177 @@ namespace Ink_Canvas {
             System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 140);
             BtnSelect_Click(null, null);
             HideSubPanels("select");
+
+            // update tool selection
+            SelectedMode = ICCToolsEnum.LassoMode;
+            ForceUpdateToolSelection(null);
+        }
+
+        private void EraserIcon_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
+                ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
+            if (sender == Eraser_Icon && lastBorderMouseDownObject != Eraser_Icon) return;
+
+            FloatingbarSelectionBG.Visibility = Visibility.Visible;
+            System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 84);
+
+            forceEraser = true;
+            forcePointEraser = true;
+            if (Settings.Canvas.EraserShapeType == 0)
+            {
+                double k = 1;
+                switch (Settings.Canvas.EraserSize)
+                {
+                    case 0:
+                        k = 0.5;
+                        break;
+                    case 1:
+                        k = 0.8;
+                        break;
+                    case 3:
+                        k = 1.25;
+                        break;
+                    case 4:
+                        k = 1.8;
+                        break;
+                }
+
+                inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
+            }
+            else if (Settings.Canvas.EraserShapeType == 1)
+            {
+                double k = 1;
+                switch (Settings.Canvas.EraserSize)
+                {
+                    case 0:
+                        k = 0.7;
+                        break;
+                    case 1:
+                        k = 0.9;
+                        break;
+                    case 3:
+                        k = 1.2;
+                        break;
+                    case 4:
+                        k = 1.6;
+                        break;
+                }
+
+                inkCanvas.EraserShape = new RectangleStylusShape(k * 90 * 0.6, k * 90);
+            }
+
+            if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint)
+            {
+                if (EraserSizePanel.Visibility == Visibility.Collapsed)
+                {
+                    AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(PenPalette);
+                    AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
+                    AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
+                    AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                    AnimationsHelper.ShowWithSlideFromBottomAndFade(EraserSizePanel);
+                    AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardEraserSizePanel);
+                }
+                else
+                {
+                    AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
+                    AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(PenPalette);
+                    AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
+                    AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
+                    AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
+                    AnimationsHelper.HideWithSlideAndFade(BorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
+                    AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
+                    AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
+                }
+            }
+            else
+            {
+                HideSubPanels("eraser");
+
+                // update tool selection
+                SelectedMode = ICCToolsEnum.EraseByGeometryMode;
+                ForceUpdateToolSelection(null);
+            }
+
+            inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
+            drawingShapeMode = 0;
+
+            inkCanvas_EditingModeChanged(inkCanvas, null);
+            CancelSingleFingerDragMode();
+        }
+
+        private void EraserIconByStrokes_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
+                ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
+            if (sender == EraserByStrokes_Icon && lastBorderMouseDownObject != EraserByStrokes_Icon) return;
+
+            FloatingbarSelectionBG.Visibility = Visibility.Visible;
+            System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 112);
+
+            forceEraser = true;
+            forcePointEraser = false;
+
+            inkCanvas.EraserShape = new EllipseStylusShape(5, 5);
+            inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
+            drawingShapeMode = 0;
+
+            inkCanvas_EditingModeChanged(inkCanvas, null);
+            CancelSingleFingerDragMode();
+
+            HideSubPanels("eraserByStrokes");
+
+            // update tool selection
+            SelectedMode = ICCToolsEnum.EraseByStrokeMode;
+            ForceUpdateToolSelection(null);
+        }
+
+        #endregion
+
+        #region 按钮布局更新
+
+        public void UpdateFloatingBarIconsLayout() {
+            FrameworkElement[] IconsArray = new FrameworkElement[13] {
+                Cursor_Icon,
+                Pen_Icon,
+                SymbolIconDelete,
+                Eraser_Icon,
+                EraserByStrokes_Icon,
+                SymbolIconSelect,
+                ShapeDrawFloatingBarBtn,
+                SymbolIconUndo,
+                SymbolIconRedo,
+                CursorWithDelFloatingBarBtn,
+                WhiteboardFloatingBarBtn,
+                ToolsFloatingBarBtn,
+                Fold_Icon
+            };
+            var barHeight = Settings.Appearance.FloatingBarButtonLabelVisibility ? 36 : 28;
+            foreach (var iconElement in IconsArray) {
+                var elem = (SimpleStackPanel)iconElement;
+                if (elem.Children[0] is Image) {
+                    ((Image)elem.Children[0]).Margin = new Thickness(0, Settings.Appearance.FloatingBarButtonLabelVisibility ? 3 : 0, 0, 0);
+                    ((Image)elem.Children[0]).Height = Settings.Appearance.FloatingBarButtonLabelVisibility ? 17 : 15;
+                }
+                elem.Width = Settings.Appearance.FloatingBarButtonLabelVisibility ? 28 : 21;
+                elem.VerticalAlignment = Settings.Appearance.FloatingBarButtonLabelVisibility ? VerticalAlignment.Stretch : VerticalAlignment.Center;
+            }
+            BorderFloatingBarMoveControls.Width = barHeight;
+            BorderFloatingBarMoveControls.Height = barHeight;
+            BorderFloatingBarMainControls.Height = barHeight;
+            EnableTwoFingerGestureBorder.Height = barHeight;
+            EnableTwoFingerGestureBorder.Width = barHeight;
+            ViewboxFloatingBar.Height = Settings.Appearance.FloatingBarButtonLabelVisibility ? 58 : 46;
         }
 
         #endregion
@@ -1191,279 +1542,10 @@ namespace Ink_Canvas {
             });
         }
 
-        private async void CursorIcon_Click(object sender, RoutedEventArgs e) {
-            if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
-                ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
-            if (sender==Cursor_Icon && lastBorderMouseDownObject != Cursor_Icon) return;
-            // 隱藏高亮
-            FloatingbarSelectionBG.Visibility = Visibility.Hidden;
-            System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 0);
-
-            // 切换前自动截图保存墨迹
-            if (inkCanvas.Strokes.Count > 0 &&
-                inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) {
-                if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) SavePPTScreenshot($"{pptName}/{previousSlideID}_{DateTime.Now:HH-mm-ss}");
-                else SaveScreenshot(true);
-            }
-
-            if (BtnPPTSlideShowEnd.Visibility != Visibility.Visible) {
-                if (Settings.Canvas.HideStrokeWhenSelecting) {
-                    inkCanvas.Visibility = Visibility.Collapsed;
-                }
-                else {
-                    inkCanvas.IsHitTestVisible = false;
-                    inkCanvas.Visibility = Visibility.Visible;
-                }
-            }
-            else {
-                if (Settings.PowerPointSettings.IsShowStrokeOnSelectInPowerPoint) {
-                    inkCanvas.Visibility = Visibility.Visible;
-                    inkCanvas.IsHitTestVisible = true;
-                }
-                else {
-                    if (Settings.Canvas.HideStrokeWhenSelecting) {
-                        inkCanvas.Visibility = Visibility.Collapsed;
-                    }
-                    else {
-                        inkCanvas.IsHitTestVisible = false;
-                        inkCanvas.Visibility = Visibility.Visible;
-                    }
-                }
-            }
-
-            GridTransparencyFakeBackground.Opacity = 0;
-            GridTransparencyFakeBackground.Background = Brushes.Transparent;
-
-            GridBackgroundCoverHolder.Visibility = Visibility.Collapsed;
-            inkCanvas.Select(new StrokeCollection());
-            GridInkCanvasSelectionCover.Visibility = Visibility.Collapsed;
-
-            if (currentMode != 0) {
-                SaveStrokes();
-                RestoreStrokes(true);
-            }
-
-            if (BtnSwitchTheme.Content.ToString() == "浅色")
-                BtnSwitch.Content = "黑板";
-            else
-                BtnSwitch.Content = "白板";
-
-            StackPanelPPTButtons.Visibility = Visibility.Visible;
-            BtnHideInkCanvas.Content = "显示\n画板";
-            CheckEnableTwoFingerGestureBtnVisibility(false);
-
-
-            StackPanelCanvasControls.Visibility = Visibility.Collapsed;
-
-            if (!isFloatingBarFolded) {
-                HideSubPanels("cursor", true);
-                await Task.Delay(50);
-
-                if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible)
-                    ViewboxFloatingBarMarginAnimation(60);
-                else
-                    ViewboxFloatingBarMarginAnimation(100, true);
-            }
-        }
-
-        private void PenIcon_Click(object sender, RoutedEventArgs e) {
-
-            if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
-                ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
-            if (sender == Pen_Icon && lastBorderMouseDownObject != Pen_Icon) return;
-
-            FloatingbarSelectionBG.Visibility = Visibility.Visible;
-            System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 28);
-
-            if (Pen_Icon.Background == null || StackPanelCanvasControls.Visibility == Visibility.Collapsed) {
-                inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
-
-                GridTransparencyFakeBackground.Opacity = 1;
-                GridTransparencyFakeBackground.Background = new SolidColorBrush(StringToColor("#01FFFFFF"));
-
-                inkCanvas.IsHitTestVisible = true;
-                inkCanvas.Visibility = Visibility.Visible;
-
-                GridBackgroundCoverHolder.Visibility = Visibility.Visible;
-                GridInkCanvasSelectionCover.Visibility = Visibility.Collapsed;
-
-                /*if (forceEraser && currentMode == 0)
-                    BtnColorRed_Click(sender, null);*/
-
-                if (GridBackgroundCover.Visibility == Visibility.Collapsed) {
-                    if (BtnSwitchTheme.Content.ToString() == "浅色")
-                        BtnSwitch.Content = "黑板";
-                    else
-                        BtnSwitch.Content = "白板";
-                    StackPanelPPTButtons.Visibility = Visibility.Visible;
-                }
-                else {
-                    BtnSwitch.Content = "屏幕";
-                    StackPanelPPTButtons.Visibility = Visibility.Collapsed;
-                }
-
-                BtnHideInkCanvas.Content = "隐藏\n画板";
-
-                StackPanelCanvasControls.Visibility = Visibility.Visible;
-                //AnimationsHelper.ShowWithSlideFromLeftAndFade(StackPanelCanvasControls);
-                CheckEnableTwoFingerGestureBtnVisibility(true);
-                inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
-                ColorSwitchCheck();
-                HideSubPanels("pen", true);
-            }
-            else {
-                if (inkCanvas.EditingMode == InkCanvasEditingMode.Ink) {
-                    if (PenPalette.Visibility == Visibility.Visible) {
-                        AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
-                        AnimationsHelper.HideWithSlideAndFade(BorderTools);
-                        AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
-                        AnimationsHelper.HideWithSlideAndFade(PenPalette);
-                        AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
-                        AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
-                        AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
-                        AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
-                        AnimationsHelper.HideWithSlideAndFade(BorderTools);
-                        AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
-                        AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
-                        AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
-                    }
-                    else {
-                        AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
-                        AnimationsHelper.HideWithSlideAndFade(BorderTools);
-                        AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
-                        AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
-                        AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
-                        AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
-                        AnimationsHelper.HideWithSlideAndFade(BorderTools);
-                        AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
-                        AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
-                        AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
-                        AnimationsHelper.ShowWithSlideFromBottomAndFade(PenPalette);
-                        AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardPenPalette);
-                    }
-                }
-                else {
-                    inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
-                    ColorSwitchCheck();
-                    HideSubPanels("pen", true);
-                }
-            }
-        }
-
         private void ColorThemeSwitch_MouseUp(object sender, RoutedEventArgs e) {
             isUselightThemeColor = !isUselightThemeColor;
             if (currentMode == 0) isDesktopUselightThemeColor = isUselightThemeColor;
             CheckColorTheme();
-        }
-
-        private void EraserIcon_Click(object sender, RoutedEventArgs e) {
-
-            if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
-                ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
-            if (sender == Eraser_Icon && lastBorderMouseDownObject != Eraser_Icon) return;
-
-            FloatingbarSelectionBG.Visibility = Visibility.Visible;
-            System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 84);
-
-            forceEraser = true;
-            forcePointEraser = true;
-            if (Settings.Canvas.EraserShapeType == 0) {
-                double k = 1;
-                switch (Settings.Canvas.EraserSize) {
-                    case 0:
-                        k = 0.5;
-                        break;
-                    case 1:
-                        k = 0.8;
-                        break;
-                    case 3:
-                        k = 1.25;
-                        break;
-                    case 4:
-                        k = 1.8;
-                        break;
-                }
-
-                inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
-            }
-            else if (Settings.Canvas.EraserShapeType == 1) {
-                double k = 1;
-                switch (Settings.Canvas.EraserSize) {
-                    case 0:
-                        k = 0.7;
-                        break;
-                    case 1:
-                        k = 0.9;
-                        break;
-                    case 3:
-                        k = 1.2;
-                        break;
-                    case 4:
-                        k = 1.6;
-                        break;
-                }
-
-                inkCanvas.EraserShape = new RectangleStylusShape(k * 90 * 0.6, k * 90);
-            }
-
-            if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint) {
-                if (EraserSizePanel.Visibility == Visibility.Collapsed) {
-                    AnimationsHelper.HideWithSlideAndFade(BorderTools);
-                    AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
-                    AnimationsHelper.HideWithSlideAndFade(PenPalette);
-                    AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
-                    AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
-                    AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
-                    AnimationsHelper.HideWithSlideAndFade(BorderTools);
-                    AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
-                    AnimationsHelper.ShowWithSlideFromBottomAndFade(EraserSizePanel);
-                    AnimationsHelper.ShowWithSlideFromBottomAndFade(BoardEraserSizePanel);
-                } else {
-                    AnimationsHelper.HideWithSlideAndFade(EraserSizePanel);
-                    AnimationsHelper.HideWithSlideAndFade(BorderTools);
-                    AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
-                    AnimationsHelper.HideWithSlideAndFade(PenPalette);
-                    AnimationsHelper.HideWithSlideAndFade(BoardPenPalette);
-                    AnimationsHelper.HideWithSlideAndFade(BorderDrawShape);
-                    AnimationsHelper.HideWithSlideAndFade(BoardBorderDrawShape);
-                    AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
-                    AnimationsHelper.HideWithSlideAndFade(BorderTools);
-                    AnimationsHelper.HideWithSlideAndFade(BoardBorderTools);
-                    AnimationsHelper.HideWithSlideAndFade(TwoFingerGestureBorder);
-                    AnimationsHelper.HideWithSlideAndFade(BoardTwoFingerGestureBorder);
-                }
-            }
-            else {
-                HideSubPanels("eraser");
-            }
-
-            inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
-            drawingShapeMode = 0;
-
-            inkCanvas_EditingModeChanged(inkCanvas, null);
-            CancelSingleFingerDragMode();
-        }
-
-        private void EraserIconByStrokes_Click(object sender, RoutedEventArgs e) {
-
-            if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
-                ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
-            if (sender == EraserByStrokes_Icon && lastBorderMouseDownObject != EraserByStrokes_Icon) return;
-
-            FloatingbarSelectionBG.Visibility = Visibility.Visible;
-            System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 112);
-
-            forceEraser = true;
-            forcePointEraser = false;
-
-            inkCanvas.EraserShape = new EllipseStylusShape(5, 5);
-            inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
-            drawingShapeMode = 0;
-
-            inkCanvas_EditingModeChanged(inkCanvas, null);
-            CancelSingleFingerDragMode();
-
-            HideSubPanels("eraserByStrokes");
         }
 
         private void CursorWithDelIcon_Click(object sender, RoutedEventArgs e) {
@@ -1495,12 +1577,23 @@ namespace Ink_Canvas {
         private void DrawShapePromptToPen() {
             if (isLongPressSelected == true) {
                 HideSubPanels("pen");
+                // update tool selection
+                SelectedMode = ICCToolsEnum.PenMode;
+                ForceUpdateToolSelection(null);
             }
             else {
-                if (StackPanelCanvasControls.Visibility == Visibility.Visible)
+                if (StackPanelCanvasControls.Visibility == Visibility.Visible) {
                     HideSubPanels("pen");
-                else
+                    // update tool selection
+                    SelectedMode = ICCToolsEnum.PenMode;
+                    ForceUpdateToolSelection(null);
+                } else {
                     HideSubPanels("cursor");
+                    // update tool selection
+                    SelectedMode = ICCToolsEnum.CursorMode;
+                    ForceUpdateToolSelection(null);
+                }
+                    
             }
         }
 
@@ -1860,6 +1953,9 @@ namespace Ink_Canvas {
                 StackPanelCanvasControls.Visibility = Visibility.Collapsed;
                 CheckEnableTwoFingerGestureBtnVisibility(false);
                 HideSubPanels("cursor");
+                // update tool selection
+                SelectedMode = ICCToolsEnum.CursorMode;
+                ForceUpdateToolSelection(null);
             }
             else {
                 AnimationsHelper.ShowWithSlideFromLeftAndFade(StackPanelCanvasControls);

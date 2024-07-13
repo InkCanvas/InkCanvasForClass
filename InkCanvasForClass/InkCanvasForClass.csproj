@@ -182,7 +182,9 @@
     <None Include="Resources\TimerDownNotice.wav" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Cursors\close-hand-cursor.cur" />
     <Resource Include="Resources\Cursors\Cursor.cur" />
+    <Resource Include="Resources\Cursors\open-hand-cursor.cur" />
     <Resource Include="Resources\Cursors\Pen.cur" />
     <Resource Include="Resources\DeveloperAvatars\aaaaaaccd.jpg" />
     <Resource Include="Resources\DeveloperAvatars\Alan-CRL.png" />
@@ -220,6 +222,7 @@
     <Resource Include="Resources\Icons-png\setting.png" />
     <Resource Include="Resources\Icons-png\tiebahuaji.png" />
     <Resource Include="Resources\Icons-png\transparent-grid.png" />
+    <Resource Include="Resources\Icons-png\uac_icon.png" />
     <Resource Include="Resources\Icons-png\undo.png" />
     <Resource Include="Resources\Icons-png\minimize.png" />
     <Resource Include="Resources\Icons-png\penUpright.png" />
@@ -481,7 +484,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="MainWindow.xaml~RF6c3144.TMP" />
+    <None Remove="Resources\Cursors\close-hand-cursor.cur" />
     <None Remove="Resources\Cursors\Cursor.cur" />
+    <None Remove="Resources\Cursors\open-hand-cursor.cur" />
     <None Remove="Resources\Cursors\Pen.cur" />
     <None Remove="Resources\DeveloperAvatars\aaaaaaccd.jpg" />
     <None Remove="Resources\DeveloperAvatars\Alan-CRL.png" />
@@ -515,6 +520,7 @@
     <None Remove="Resources\Icons-png\Seewo2Annotation.png" />
     <None Remove="Resources\Icons-png\tiebahuaji.png" />
     <None Remove="Resources\Icons-png\transparent-grid.png" />
+    <None Remove="Resources\Icons-png\uac_icon.png" />
     <None Remove="Resources\Icons-png\VComYouJiao.png" />
     <None Remove="Resources\Icons-png\WenXiang.png" />
     <None Remove="Resources\Icons-png\YiYunVisualPresenter.png" />

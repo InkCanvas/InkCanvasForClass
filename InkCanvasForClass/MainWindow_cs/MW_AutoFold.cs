@@ -91,6 +91,9 @@ namespace Ink_Canvas {
                 RightSidePanelForPPTNavigation.Visibility = Visibility.Collapsed;
                 ViewboxFloatingBarMarginAnimation(-60);
                 HideSubPanels("cursor");
+                // update tool selection
+                SelectedMode = ICCToolsEnum.CursorMode;
+                ForceUpdateToolSelection(null);
                 SidePannelMarginAnimation(-10);
             });
             isFloatingBarChangingHideMode = false;

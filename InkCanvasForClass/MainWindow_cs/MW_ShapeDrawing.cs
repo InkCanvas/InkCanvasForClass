@@ -1446,6 +1446,7 @@ namespace Ink_Canvas {
         }
 
         private void inkCanvas_MouseMove(object sender, MouseEventArgs e) {
+            if (Settings.Gesture.EnableMouseGesture) InkCanvas_MouseGesture_MouseMove(sender, e);
             if (isMouseDown) MouseTouchMove(e.GetPosition(inkCanvas));
         }
 

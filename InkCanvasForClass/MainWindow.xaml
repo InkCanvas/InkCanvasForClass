@@ -126,6 +126,8 @@
                        MouseDown="inkCanvas_MouseDown"
                        MouseMove="inkCanvas_MouseMove"
                        MouseUp="inkCanvas_MouseUp"
+                       PreviewMouseRightButtonDown="InkCanvas_MouseRightButtonDown"
+                       PreviewMouseRightButtonUp="InkCanvas_MouseRightButtonUp"
                        ManipulationStarting="inkCanvas_ManipulationStarting"
                        SelectionChanged="inkCanvas_SelectionChanged"
                        StrokeCollected="inkCanvas_StrokeCollected" ClipToBounds="False" Background="Transparent" />
@@ -3210,14 +3212,44 @@
             </Border>
         </Viewbox>
 
+        <Border Name="FloatingBarTextVisibilityBindingLikeAPieceOfShit" Width="0" Height="0" Visibility="Collapsed"/>
+
         <Grid Name="FloatingbarUIForInkReplay">
+
             <Viewbox Name="ViewboxFloatingBar" Margin="100,5,0,0"
                      HorizontalAlignment="Left" Height="58" VerticalAlignment="Top"
                      RenderTransformOrigin="0.5,0.5">
                 <Viewbox.LayoutTransform>
                     <ScaleTransform x:Name="ViewboxFloatingBarScaleTransform" ScaleX="1" ScaleY="1" />
                 </Viewbox.LayoutTransform>
-                <ui:SimpleStackPanel Orientation="Horizontal">
+                <ui:SimpleStackPanel Orientation="Horizontal" Name="_FloatingBar_SimpleStackPanel">
+                    <Grid ZIndex="1000" Width="0" Height="0" Margin="0,0,0,0" VerticalAlignment="Top">
+                        <Canvas Name="FloatingBarUpSidePopupArea" VerticalAlignment="Bottom" Width="{Binding ElementName=_FloatingBar_SimpleStackPanel , Path=ActualWidth}" Height="78">
+                            <Grid Width="{Binding ElementName=FloatingBarUpSidePopupArea, Path=ActualWidth}" Height="{Binding ElementName=FloatingBarUpSidePopupArea, Path=ActualHeight}">
+                                <Border Name="MouseRightButtonGestureTipPopup" Visibility="Collapsed" Width="196" Height="24" VerticalAlignment="Bottom" Margin="0,0,0,8" Background="#DD18181b" CornerRadius="3">
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                                        <Image Margin="0,0,3,0" Width="16"
+                                               Height="16" VerticalAlignment="Center">
+                                            <Image.Source>
+                                                <DrawingImage>
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                            <GeometryDrawing Brush="#FFFFFFFF"
+                                                                             Geometry="F0 M24,24z M0,0z M18.75,7C18.75,5.74022 18.2496,4.53204 17.3588,3.64124 16.468,2.75044 15.2598,2.25 14,2.25L10,2.25C8.74022,2.25 7.53204,2.75044 6.64124,3.64124 5.75044,4.53204 5.25,5.74022 5.25,7L5.25,17C5.25,18.2598 5.75044,19.468 6.64124,20.3588 7.53204,21.2496 8.74022,21.75 10,21.75L14,21.75C15.2598,21.75 16.468,21.2496 17.3588,20.3588 18.2496,19.468 18.75,18.2598 18.75,17L18.75,7z M10,3.75C9.13805,3.75 8.3114,4.09241 7.7019,4.7019 7.09241,5.3114 6.75,6.13805 6.75,7L6.75,9.25 11.25,9.25 11.25,3.75 10,3.75z M6.75,10.75L6.75,17C6.75,17.862 7.09241,18.6886 7.7019,19.2981 8.3114,19.9076 9.13805,20.25 10,20.25L14,20.25C14.862,20.25 15.6886,19.9076 16.2981,19.2981 16.9076,18.6886 17.25,17.862 17.25,17L17.25,10.75 6.75,10.75z" />
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock FontSize="10" VerticalAlignment="Center" Foreground="White">
+                                            <Run Text="按住鼠标右键移动" FontWeight="Bold"/>
+                                            <Run Text="可拖动画布"/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Canvas>
+                    </Grid>
                     <Border x:Name="BorderFloatingBarMoveControls" Width="36" Height="36" CornerRadius="5"
                             Background="#fafafa" BorderThickness="1" BorderBrush="#9952525b"
                             MouseDown="SymbolIconEmoji_MouseDown" MouseUp="SymbolIconEmoji_MouseUp">
@@ -3232,12 +3264,10 @@
                             BorderBrush="#9952525b">
                         <Grid>
                             <Canvas Name="FloatingbarSelectionBGCanvas" Margin="2,0,2,0">
-                                <Border Name="FloatingbarSelectionBG" Visibility="Hidden" Width="28" Height="34"
+                                <Border Name="FloatingbarSelectionBG" Visibility="Hidden" Width="{Binding ElementName=Cursor_Icon, Path=Width}" Height="34"
                                         Canvas.Left="28" Margin="0,-2,0,-2" Background="#153b82f6">
-                                    <Canvas>
-                                        <Border Canvas.Bottom="0" Canvas.Left="8" Width="12" Height="2"
-                                                CornerRadius="1,1,0,0" Background="#2563eb" />
-                                    </Canvas>
+                                    <Border VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="12" Height="2"
+                                            CornerRadius="1,1,0,0" Background="#2563eb" />
                                 </Border>
                             </Canvas>
                             <ui:SimpleStackPanel Margin="2,0" Name="StackPanelFloatingBar" Orientation="Horizontal">
@@ -3261,7 +3291,7 @@
                                         </Image.Source>
                                     </Image>
                                     <TextBlock x:Name="SelectionToolBarTextBlock" Text="鼠标" Foreground="Black"
-                                               FontSize="8"
+                                               FontSize="8" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}"
                                                Margin="0,1,0,0" TextAlignment="Center" />
                                 </ui:SimpleStackPanel>
                                 <ui:SimpleStackPanel Name="Pen_Icon"
@@ -3284,7 +3314,7 @@
                                         </Image.Source>
                                     </Image>
                                     <TextBlock x:Name="PenToolbarTextBlock" Text="批注" Foreground="Black" FontSize="8"
-                                               Margin="0,1,0,0" TextAlignment="Center" />
+                                               Margin="0,1,0,0" TextAlignment="Center" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}" />
                                 </ui:SimpleStackPanel>
                                 <ui:SimpleStackPanel Name="SymbolIconDelete"
                                                      MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
@@ -3304,7 +3334,7 @@
                                             </DrawingImage>
                                         </Image.Source>
                                     </Image>
-                                    <TextBlock x:Name="TrashBinToolbarTextBlock" Text="清空" Foreground="#B91C1C"
+                                    <TextBlock x:Name="TrashBinToolbarTextBlock" Text="清空" Foreground="#B91C1C" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}"
                                                FontWeight="Bold" FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                                 </ui:SimpleStackPanel>
                                 <ui:SimpleStackPanel Name="StackPanelCanvasControls" Visibility="Visible"
@@ -4086,6 +4116,29 @@
                                         </Grid>
                                     </ui:SimpleStackPanel>
 
+                                    <ui:SimpleStackPanel Name="EraserByStrokes_Icon"
+                                                         MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
+                                                         MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
+                                                         MouseUp="EraserIconByStrokes_Click"
+                                                         Background="Transparent" Orientation="Vertical" Width="28"
+                                                         Margin="0,-2" HorizontalAlignment="Center">
+                                        <Image x:Name="StrokeEraserToolbarIconImage"
+                                               RenderOptions.BitmapScalingMode="HighQuality" Height="17"
+                                               Margin="0,3,0,0">
+                                            <Image.Source>
+                                                <DrawingImage>
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                            <GeometryDrawing x:Name="StrokeEraserIconGeometry"
+                                                                             Geometry="" />
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock x:Name="InkEraserToolbarTextBlock" Text="线擦" Foreground="Black" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}"
+                                                   FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
+                                    </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Name="Eraser_Icon"
                                                          MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
                                                          MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
@@ -4107,30 +4160,7 @@
                                             </Image.Source>
                                         </Image>
                                         <TextBlock x:Name="CircleEraserToolbarTextBlock" Text="面积擦" Foreground="Black"
-                                                   FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
-                                    </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Name="EraserByStrokes_Icon"
-                                                         MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
-                                                         MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
-                                                         MouseUp="EraserIconByStrokes_Click"
-                                                         Background="Transparent" Orientation="Vertical" Width="28"
-                                                         Margin="0,-2" HorizontalAlignment="Center">
-                                        <Image x:Name="StrokeEraserToolbarIconImage"
-                                               RenderOptions.BitmapScalingMode="HighQuality" Height="17"
-                                               Margin="0,3,0,0">
-                                            <Image.Source>
-                                                <DrawingImage>
-                                                    <DrawingImage.Drawing>
-                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
-                                                            <GeometryDrawing x:Name="StrokeEraserIconGeometry"
-                                                                             Geometry="" />
-                                                        </DrawingGroup>
-                                                    </DrawingImage.Drawing>
-                                                </DrawingImage>
-                                            </Image.Source>
-                                        </Image>
-                                        <TextBlock x:Name="InkEraserToolbarTextBlock" Text="线擦" Foreground="Black"
-                                                   FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
+                                                   FontSize="8" Margin="0,1,0,0" TextAlignment="Center" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Name="SymbolIconSelect"
                                                          MouseDown="FloatingBarToolBtnMouseDownFeedback_Panel"
@@ -4151,7 +4181,7 @@
                                                 </DrawingImage>
                                             </Image.Source>
                                         </Image>
-                                        <TextBlock x:Name="LassoToolToolbarTextBlock" Text="套索选" Foreground="Black"
+                                        <TextBlock x:Name="LassoToolToolbarTextBlock" Text="套索选" Foreground="Black" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}"
                                                    FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel
@@ -4175,7 +4205,7 @@
                                                 </DrawingImage>
                                             </Image.Source>
                                         </Image>
-                                        <TextBlock x:Name="ShapesToolbarTextBlock" Text="几何" Foreground="Black"
+                                        <TextBlock x:Name="ShapesToolbarTextBlock" Text="几何" Foreground="Black" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}"
                                                    FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                                     </ui:SimpleStackPanel>
 
@@ -4441,7 +4471,7 @@
                                                 </DrawingImage>
                                             </Image.Source>
                                         </Image>
-                                        <TextBlock x:Name="UndoToolbarTextBlock" Text="撤销"
+                                        <TextBlock x:Name="UndoToolbarTextBlock" Text="撤销" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}"
                                                    Opacity="{Binding ElementName=BtnUndo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}"
                                                    Foreground="Black" FontSize="8" Margin="0,1,0,0"
                                                    TextAlignment="Center" />
@@ -4469,7 +4499,7 @@
                                                 </DrawingImage>
                                             </Image.Source>
                                         </Image>
-                                        <TextBlock x:Name="RedoToolbarTextBlock" Text="重做"
+                                        <TextBlock x:Name="RedoToolbarTextBlock" Text="重做" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}"
                                                    Opacity="{Binding ElementName=BtnRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}"
                                                    Foreground="Black" FontSize="8" Margin="0,1,0,0"
                                                    TextAlignment="Center" />
@@ -4495,7 +4525,7 @@
                                             </Image.Source>
                                         </Image>
                                         <TextBlock x:Name="ClearAndMouseToolbarTextBlock" Text="清并鼠" Foreground="Black"
-                                                   FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
+                                                   FontSize="8" Margin="0,1,0,0" TextAlignment="Center" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}" />
                                     </ui:SimpleStackPanel>
                                 </ui:SimpleStackPanel>
                                 <Grid Width="0">
@@ -4614,7 +4644,7 @@
                                             </Image.Source>
                                         </Image>
                                         <TextBlock x:Name="WhiteboardToolbarTextBlock" Text="白板" Foreground="Black"
-                                                   FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
+                                                   FontSize="8" Margin="0,1,0,0" TextAlignment="Center" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel
                                         Name="ToolsFloatingBarBtn"
@@ -4637,7 +4667,7 @@
                                             </Image.Source>
                                         </Image>
                                         <TextBlock x:Name="ToolsToolbarTextBlock" Text="工具" Foreground="Black"
-                                                   FontSize="8"
+                                                   FontSize="8" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}"
                                                    Margin="0,1,0,0" TextAlignment="Center" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel
@@ -4661,7 +4691,7 @@
                                             </Image.Source>
                                         </Image>
                                         <TextBlock x:Name="HideToolbarTextBlock" Text="隐藏" Foreground="Black"
-                                                   FontSize="8"
+                                                   FontSize="8" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}"
                                                    Margin="0,1,0,0" TextAlignment="Center" />
                                     </ui:SimpleStackPanel>
                                     <Grid Width="0">
@@ -4891,7 +4921,7 @@
                             Height="36" CornerRadius="5" Background="#fafafa" BorderBrush="#9952525b"
                             BorderThickness="1">
                         <ui:SimpleStackPanel
-
+                            
                             MouseUp="TwoFingerGestureBorder_MouseUp" Background="Transparent"
                             Orientation="Vertical" HorizontalAlignment="Center" Width="36" Margin="0">
                             <Image x:Name="EnableTwoFingerGestureBtn" Source="/Resources/new-icons/gesture.png"
@@ -5529,6 +5559,23 @@
                                                          IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchFoldAtStartup_Toggled" />
                                     </ui:SimpleStackPanel>
+                                    <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
+                                          StrokeThickness="1" Margin="0,4,0,4" />
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="icc目前以非管理员身份运行" VerticalAlignment="Center"
+                                                   FontSize="14" Margin="0,0,16,0" Name="AdministratorPrivilegeIndicateText" />
+                                        <Button Name="RunAsAdminButton" Click="RunAsAdminButton_Click">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Width="18" Height="18" Source="Resources/Icons-png/uac_icon.png" RenderOptions.BitmapScalingMode="HighQuality" />
+                                                <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" FontSize="12" Text="以管理员身份重启"></TextBlock>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Height="30" Name="RunAsUserButton" Click="RunAsUserButton_Click">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" FontSize="12" Text="以普通用户身份重启"></TextBlock>
+                                            </StackPanel>
+                                        </Button>
+                                    </ui:SimpleStackPanel>
                                     <!--
                 <ui:ToggleSwitch OnContent="" OffContent="" Name="ToggleSwitchAutoHideCanvas" Header="自动隐藏画板" FontFamily="Microsoft YaHei UI" Toggled="ToggleSwitchAutoHideCanvas_Toggled"/>
                 <ui:ToggleSwitch OnContent="" OffContent="" Name="ToggleSwitchAutoEnterModeFinger" Header="自动进入手指模式" FontFamily="Microsoft YaHei UI" Toggled="ToggleSwitchAutoEnterModeFinger_Toggled"/>
@@ -6060,8 +6107,9 @@
                                         <TextBlock Foreground="#fafafa" Text="浮动工具栏显示按钮文字"
                                                    VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
                                         <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Toggled="ToggleSwitchFloatingBarButtonLabelVisibility_Toggled"
                                                          Name="ToggleSwitchFloatingBarButtonLabelVisibility" IsOn="True"
-                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"/>
+                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="浮动工具栏图标" VerticalAlignment="Center"
@@ -6277,6 +6325,73 @@
                                         Message="由于WPS像素级抄袭Office，并且抄的一坨狗屎，开启后会导致退出WPS时卡顿，请谨慎开启！" />
                                     <TextBlock
                                         Text="# 可支持 WPS，但目前无法同时支持 MSOffice 和 WPS。若要启用WPS支持，请确保 WPS 是否在 “配置工具” 中开启了 “WPS Office 兼容第三方系统和软件” 选项，否则将无法识别到WPS！"
+                                        TextWrapping="Wrap" Foreground="#a1a1aa" />
+                                    <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
+                                          StrokeThickness="1" Margin="0,4,0,4" />
+                                    <ui:InfoBar
+                                        IsOpen="True"
+                                        IsClosable="False"
+                                        Severity="Error"
+                                        Title="没有管理员权限"
+                                        Message="该区块选项需要管理员权限才能够操作，请确保 icc 运行在管理员模式下或以管理员身份重启icc。" />
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="PPT放映时不显示自带工具按钮"
+                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,6,0" />
+                                        <Border Height="20" CornerRadius="3" Background="#854d0e" Margin="0,0,12,0"
+                                                Padding="4,0">
+                                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="3"
+                                                                 VerticalAlignment="Center">
+                                                <Image Width="15" Height="15" VerticalAlignment="Center">
+                                                    <Image.Source>
+                                                        <DrawingImage>
+                                                            <DrawingImage.Drawing>
+                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                    <GeometryDrawing Brush="#fef9c3" Geometry="F1 M24,24z M0,0z M11.0128,12.0001L11.0128,21.7541C8.82443,21.0462 6.86303,19.7703 5.32881,18.0567 3.79459,16.3431 2.74247,14.2532 2.27982,12.0001L11.0138,12.0001 11.0128,12.0001z M20.2968,15.7941C18.6969,18.6172,16.0991,20.7399,13.0138,21.7451L13.0128,12.0001 21.7208,12.0001C21.448,13.3316,20.9675,14.6119,20.2968,15.7941z M11.0138,2.52612L11.0128,10.0001 2.02682,10.0001C1.95882,8.56812 2.12782,7.12012 2.54082,5.71812 2.60393,5.50338 2.73726,5.31601 2.91947,5.18602 3.10167,5.05603 3.32223,4.99092 3.54582,5.00112 6.13403,5.11958 8.68099,4.32065 10.7378,2.74512L11.0138,2.52612z M13.0128,10.0001L13.0128,2.54712 12.9228,2.47412C14.9401,4.14969,17.4897,5.04942,20.1118,5.01112L20.4538,5.00112C20.6774,4.99092 20.898,5.05603 21.0802,5.18602 21.2624,5.31601 21.3957,5.50338 21.4588,5.71812 21.8718,7.12112 22.0408,8.56812 21.9728,10.0001L13.0128,10.0001z" />
+                                                                </DrawingGroup>
+                                                            </DrawingImage.Drawing>
+                                                        </DrawingImage>
+                                                    </Image.Source>
+                                                </Image>
+                                                <TextBlock Foreground="#fef9c3" Text="管理员" FontSize="12"
+                                                           VerticalAlignment="Center">
+                                                </TextBlock>
+                                            </ui:SimpleStackPanel>
+                                        </Border>
+                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Name="ToggleSwitchRegistryShowSlideShowToolbar" IsOn="True"
+                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                         Toggled="ToggleSwitchRegistryShowSlideShowToolbar_Toggled" />
+                                    </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="PPT放映结束时是否显示黑色背景页面"
+                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,6,0" />
+                                        <Border Height="20" CornerRadius="3" Background="#854d0e" Margin="0,0,12,0"
+                                                Padding="4,0">
+                                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="3"
+                                                                 VerticalAlignment="Center">
+                                                <Image Width="15" Height="15" VerticalAlignment="Center">
+                                                    <Image.Source>
+                                                        <DrawingImage>
+                                                            <DrawingImage.Drawing>
+                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                    <GeometryDrawing Brush="#fef9c3" Geometry="F1 M24,24z M0,0z M11.0128,12.0001L11.0128,21.7541C8.82443,21.0462 6.86303,19.7703 5.32881,18.0567 3.79459,16.3431 2.74247,14.2532 2.27982,12.0001L11.0138,12.0001 11.0128,12.0001z M20.2968,15.7941C18.6969,18.6172,16.0991,20.7399,13.0138,21.7451L13.0128,12.0001 21.7208,12.0001C21.448,13.3316,20.9675,14.6119,20.2968,15.7941z M11.0138,2.52612L11.0128,10.0001 2.02682,10.0001C1.95882,8.56812 2.12782,7.12012 2.54082,5.71812 2.60393,5.50338 2.73726,5.31601 2.91947,5.18602 3.10167,5.05603 3.32223,4.99092 3.54582,5.00112 6.13403,5.11958 8.68099,4.32065 10.7378,2.74512L11.0138,2.52612z M13.0128,10.0001L13.0128,2.54712 12.9228,2.47412C14.9401,4.14969,17.4897,5.04942,20.1118,5.01112L20.4538,5.00112C20.6774,4.99092 20.898,5.05603 21.0802,5.18602 21.2624,5.31601 21.3957,5.50338 21.4588,5.71812 21.8718,7.12112 22.0408,8.56812 21.9728,10.0001L13.0128,10.0001z" />
+                                                                </DrawingGroup>
+                                                            </DrawingImage.Drawing>
+                                                        </DrawingImage>
+                                                    </Image.Source>
+                                                </Image>
+                                                <TextBlock Foreground="#fef9c3" Text="管理员" FontSize="12"
+                                                           VerticalAlignment="Center">
+                                                </TextBlock>
+                                            </ui:SimpleStackPanel>
+                                        </Border>
+                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Name="ToggleSwitchRegistryShowBlackScreenLastSlideShow" IsOn="True"
+                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                         Toggled="ToggleSwitchRegistryShowBlackScreenLastSlideShow_Toggled" />
+                                    </ui:SimpleStackPanel>
+                                    <TextBlock
+                                        Text="# 以上功能会修改注册表，需要管理员权限运行。操作前请先备份注册表。选项仅支持最新Office 365，在其他版本上未经测试。"
                                         TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
@@ -6565,7 +6680,7 @@
                                                          Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="进入 PPT 放映时自动进入批注模式"
                                                    VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                        <ui:ToggleSwitch OnContent="" OffContent="" MinWidth="0"
                                                          Name="ToggleSwitchShowCanvasAtNewSlideShow" IsOn="True"
                                                          FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchShowCanvasAtNewSlideShow_Toggled" />
@@ -8096,18 +8211,16 @@
                         </Border>
                         <Image IsHitTestVisible="True" MouseDown="BtnSettings_Click"
                                MouseEnter="SettingsPaneBackBtn_MouseEnter" MouseLeave="SettingsPaneBackBtn_MouseLeave"
-                               Height="70" Source="/Resources/Icons-png/menu-back.png" Margin="-10,20,0,0"
+                               Height="60" Source="/Resources/Icons-png/menu-back.png" Margin="-10,30,0,0"
                                HorizontalAlignment="Left">
                         </Image>
-                        <Image Name="SettingsPaneBackBtnHighlight" IsHitTestVisible="False" Height="70"
-                               Source="/Resources/Icons-png/menu-back-highlighted.png" Margin="-10,20,0,0"
+                        <Image Name="SettingsPaneBackBtnHighlight" IsHitTestVisible="False" Height="60"
+                               Source="/Resources/Icons-png/menu-back-highlighted.png" Margin="-10,30,0,0"
                                HorizontalAlignment="Left" Opacity="0">
                         </Image>
                     </Grid>
                 </Grid>
             </Border>
         </Grid>
-
-
     </Grid>
 </Window>
