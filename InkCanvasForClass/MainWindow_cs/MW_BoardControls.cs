@@ -44,18 +44,19 @@ namespace Ink_Canvas {
 
         #region Board Background
 
-        private void ChangeBoardBackground(int id) {
-            BoardPagesSettingsList[CurrentWhiteboardIndex - 1].BackgroundColor = (BlackboardBackgroundColorEnum)id;
+        /// <summary>
+        ///     更新白板模式下每頁的背景顏色，可以直接根據當前的<c>CurrentWhiteboardIndex</c>獲取背景配置並更新，也可以自己修改當前的背景顏色
+        /// </summary>
+        /// <param name="id">要修改的背景顏色的ID，傳入null會根據當前的<c>CurrentWhiteboardIndex</c>去讀取有關背景顏色的配置並更新</param>
+        private void UpdateBoardBackground(int? id) {
+            if (id != null) BoardPagesSettingsList[CurrentWhiteboardIndex - 1].BackgroundColor = (BlackboardBackgroundColorEnum)id;
             var bgC = BoardPagesSettingsList[CurrentWhiteboardIndex - 1].BackgroundColor;
             if (bgC == BlackboardBackgroundColorEnum.BlackBoardGreen
                 || bgC == BlackboardBackgroundColorEnum.BlueBlack
                 || bgC == BlackboardBackgroundColorEnum.GrayBlack
-                || bgC == BlackboardBackgroundColorEnum.RealBlack)
-            {
+                || bgC == BlackboardBackgroundColorEnum.RealBlack) {
                 if (inkColor == 0) lastBoardInkColor = 5;
-            }
-            else
-            {
+            } else {
                 if (inkColor == 5) lastBoardInkColor = 0;
             }
             CheckColorTheme(true);
@@ -63,28 +64,27 @@ namespace Ink_Canvas {
         }
 
         private void BoardBackgroundColor1Border_MouseUp(object sender, MouseButtonEventArgs e) {
-            ChangeBoardBackground(0);
+            UpdateBoardBackground(0);
         }
 
         private void BoardBackgroundColor2Border_MouseUp(object sender, MouseButtonEventArgs e) {
-            ChangeBoardBackground(1);
+            UpdateBoardBackground(1);
         }
 
         private void BoardBackgroundColor3Border_MouseUp(object sender, MouseButtonEventArgs e) {
-            ChangeBoardBackground(2);
+            UpdateBoardBackground(2);
         }
 
         private void BoardBackgroundColor4Border_MouseUp(object sender, MouseButtonEventArgs e) {
-            ChangeBoardBackground(3);
+            UpdateBoardBackground(3);
         }
 
         private void BoardBackgroundColor5Border_MouseUp(object sender, MouseButtonEventArgs e) {
-            ChangeBoardBackground(4);
+            UpdateBoardBackground(4);
         }
 
-        private void BoardBackgroundColor6Border_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            ChangeBoardBackground(5);
+        private void BoardBackgroundColor6Border_MouseUp(object sender, MouseButtonEventArgs e) {
+            UpdateBoardBackground(5);
         }
 
         private void UpdateBoardBackgroundPanelDisplayStatus() {
@@ -185,6 +185,7 @@ namespace Ink_Canvas {
             RestoreStrokes();
 
             UpdateIndexInfoDisplay();
+            UpdateBoardBackground(null);
         }
 
         private void BtnWhiteBoardSwitchNext_Click(object sender, EventArgs e) {
@@ -205,6 +206,7 @@ namespace Ink_Canvas {
             RestoreStrokes();
 
             UpdateIndexInfoDisplay();
+            UpdateBoardBackground(null);
         }
 
         private void BtnWhiteBoardAdd_Click(object sender, EventArgs e) {
@@ -213,6 +215,11 @@ namespace Ink_Canvas {
                 inkCanvas.Strokes.Count > Settings.Automation.MinimumAutomationStrokeNumber) SaveScreenshot(true);
             SaveStrokes();
             ClearStrokes(true);
+
+            BoardPagesSettingsList.Insert(CurrentWhiteboardIndex, new BoardPageSettings() {
+                BackgroundColor = Settings.Canvas.UseDefaultBackgroundColorForEveryNewAddedBlackboardPage ? Settings.Canvas.BlackboardBackgroundColor : BoardPagesSettingsList[CurrentWhiteboardIndex-1].BackgroundColor,
+                BackgroundPattern = Settings.Canvas.UseDefaultBackgroundPatternForEveryNewAddedBlackboardPage ?  Settings.Canvas.BlackboardBackgroundPattern : BoardPagesSettingsList[CurrentWhiteboardIndex - 1].BackgroundPattern,
+            });
 
             WhiteboardTotalCount++;
             CurrentWhiteboardIndex++;
@@ -228,6 +235,8 @@ namespace Ink_Canvas {
             if (BlackBoardLeftSidePageListView.Visibility == Visibility.Visible) {
                 RefreshBlackBoardSidePageListView();
             }
+
+            UpdateBoardBackground(null);
         }
 
         private void BtnWhiteBoardDelete_Click(object sender, RoutedEventArgs e) {

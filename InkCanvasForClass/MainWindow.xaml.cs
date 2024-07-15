@@ -20,6 +20,26 @@ using Microsoft.Win32;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
+
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+
+            if (e.Property.Name == nameof(Topmost) && isLoaded) {
+                if (Topmost && Settings.Advanced.IsEnableForceFullScreen) {
+                    Trace.WriteLine("Topmost true");
+                    SetWindowPos(new WindowInteropHelper(this).Handle, new IntPtr(-1), 0, 0,
+                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width,
+                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height, 0x0040);
+                } else if (!Topmost && Settings.Advanced.IsEnableForceFullScreen) {
+                    Trace.WriteLine("Topmost false");
+                    SetWindowPos(new WindowInteropHelper(this).Handle, new IntPtr(-2), 0, 0,
+                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width,
+                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height, 0x0040);
+                }
+            }
+        }
+
         #region Window Initialization
 
         public MainWindow() {
@@ -158,7 +178,7 @@ namespace Ink_Canvas {
 
         #endregion Ink Canvas
 
-        #region Definations and Loading
+        #region Definitions and Loading
 
         public static Settings Settings = new Settings();
         public static string settingsFileName = "Settings.json";
@@ -169,6 +189,9 @@ namespace Ink_Canvas {
 
         [DllImport("user32.dll")]
         static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, UInt32 uFlags);
 
         const uint MF_BYCOMMAND = 0x00000000;
         const uint MF_GRAYED = 0x00000001;

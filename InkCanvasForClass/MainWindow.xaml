@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
         xmlns:c="clr-namespace:Ink_Canvas.Converter"
-        xmlns:Controls="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+        xmlns:Controls="http://schemas.microsoft.com/netfx/2009/xaml/presentation" xmlns:popups="clr-namespace:Ink_Canvas.Popups"
         mc:Ignorable="d"
         AllowsTransparency="True"
         WindowStyle="None"
@@ -105,6 +105,10 @@
     </Window.CommandBindings>
 
     <Grid x:Name="Main_Grid">
+
+        <Popup IsOpen="True" StaysOpen="True" AllowsTransparency="True" Placement="AbsolutePoint">
+            <popups:ColorPalette Width="300" Height="450"/>
+        </Popup>
 
         <!--// 黑/白 板幕布 //-->
         <Grid Name="GridBackgroundCoverHolder">
@@ -3212,7 +3216,7 @@
             </Border>
         </Viewbox>
 
-        <Border Name="FloatingBarTextVisibilityBindingLikeAPieceOfShit" Width="0" Height="0" Visibility="Collapsed"/>
+        <Border Name="FloatingBarTextVisibilityBindingLikeAPieceOfShit" Width="0" Height="0" Visibility="Collapsed" />
 
         <Grid Name="FloatingbarUIForInkReplay">
 
@@ -3242,8 +3246,8 @@
                                             </Image.Source>
                                         </Image>
                                         <TextBlock FontSize="10" VerticalAlignment="Center" Foreground="White">
-                                            <Run Text="按住鼠标右键移动" FontWeight="Bold"/>
-                                            <Run Text="可拖动画布"/>
+                                            <Run Text="按住鼠标右键移动" FontWeight="Bold" />
+                                            <Run Text="可拖动画布" />
                                         </TextBlock>
                                     </StackPanel>
                                 </Border>
@@ -4921,7 +4925,7 @@
                             Height="36" CornerRadius="5" Background="#fafafa" BorderBrush="#9952525b"
                             BorderThickness="1">
                         <ui:SimpleStackPanel
-                            
+
                             MouseUp="TwoFingerGestureBorder_MouseUp" Background="Transparent"
                             Orientation="Vertical" HorizontalAlignment="Center" Width="36" Margin="0">
                             <Image x:Name="EnableTwoFingerGestureBtn" Source="/Resources/new-icons/gesture.png"
@@ -7008,7 +7012,7 @@
                                                          FontFamily="Microsoft YaHei UI" FontWeight="Bold" />
                                     </ui:SimpleStackPanel>
                                     <TextBlock TextWrapping="Wrap" Foreground="#a1a1aa"
-                                               Text="# 当检测到窗口大小变化时，自动使用Win32API将本窗口的大小设置为主显示器大小（设备像素大小），实时生效。" />
+                                               Text="# 当检测到窗口大小变化时，自动使用Win32API将本窗口的大小设置为主显示器大小（设备像素大小），同时如果窗口被遮挡，则会立刻恢复置顶。该选项重启icc后生效。" />
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="实时确保浮动工具栏显示在屏幕内"
                                                    VerticalAlignment="Center"
@@ -7542,10 +7546,169 @@
                                         </ui:SimpleStackPanel>
                                         <TextBlock Text="# 请注意检查保存文件夹是否有写入权限" TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     </ui:SimpleStackPanel>
-
-
-                                    <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
-                                          StrokeThickness="1" Margin="0,4,0,4" />
+                                </ui:SimpleStackPanel>
+                            </GroupBox>
+                            <GroupBox Name="SettingsStorageGroupBox">
+                                <GroupBox.Header>
+                                    <Canvas Height="56">
+                                        <TextBlock Text="Storage" Foreground="#fafafa" Opacity="0.1"
+                                                   FontSize="20" Canvas.Top="30" Canvas.Left="16" />
+                                        <TextBlock Margin="0,12,0,0" Text="存储" FontWeight="Bold" Foreground="#fafafa"
+                                                   FontSize="26" Canvas.Top="0" />
+                                    </Canvas>
+                                </GroupBox.Header>
+                                <ui:SimpleStackPanel Spacing="6">
+                                    <TextBlock Margin="0,0,0,8" Text="存储位置" FontWeight="Bold" Foreground="#fafafa"
+                                               FontSize="20" />
+                                    <TextBlock Text="# 设置的存储位置用于存放手动保存的墨迹、自动保存的墨迹、手动保存的板书、缓存文件、部分功能的配置文件和屏幕截图。注意icc的设置档存放在icc的安装目录下，无法迁移到设置的存储目录。"
+                                               TextWrapping="Wrap" Foreground="#a1a1aa" />
+                                    <ComboBox Name="ComboBoxStoragePath" FontFamily="Microsoft YaHei UI"
+                                              SelectedIndex="1" HorizontalAlignment="Center">
+                                        <ComboBoxItem HorizontalContentAlignment="Left">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
+                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/system-drive.png" Controls:RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
+                                                    <Run FontWeight="Bold" Text="系统盘 "/>
+                                                    <Run Text="C:\Users\Dubi906w\InkCanvasForClass"/>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem HorizontalContentAlignment="Left">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
+                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/disk-drive.png" Controls:RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
+                                                    <Run FontWeight="Bold" Text="D盘 "/>
+                                                    <Run Text="D:\InkCanvasForClass"/>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem HorizontalContentAlignment="Left">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
+                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/disk-drive.png" Controls:RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
+                                                    <Run FontWeight="Bold" Text="E盘 "/>
+                                                    <Run Text="E:\InkCanvasForClass"/>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem HorizontalContentAlignment="Left">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
+                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/documents-folder.png" Controls:RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
+                                                    <Run FontWeight="Bold" Text="用户“文档”目录 "/>
+                                                    <Run Text="C:\Users\Dubi906w\Documents"/>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem HorizontalContentAlignment="Left">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
+                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/folder.png" Controls:RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
+                                                    <Run FontWeight="Bold" Text="icc 运行目录下"/>
+                                                    <Run Text=".\UserData\"/>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </ComboBoxItem>
+                                    </ComboBox>
+                                    <TextBlock Text="# 请注意检查文件夹是否有写入权限" TextWrapping="Wrap" Foreground="#a1a1aa" />
+                                    <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0"
+                                          Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4" />
+                                    <TextBlock Margin="0,0,0,8" Text="存储分析" FontWeight="Bold" Foreground="#fafafa"
+                                               FontSize="20" />
+                                    <TextBlock Text="# 仅分析存储目录下的所有文件"
+                                               TextWrapping="Wrap" Foreground="#a1a1aa" />
+                                    <ui:SimpleStackPanel Spacing="12" Margin="0,4,0,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
+                                                <Image.Source>
+                                                    <DrawingImage>
+                                                        <DrawingImage.Drawing>
+                                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M7,2C6.20435,2 5.44129,2.31607 4.87868,2.87868 4.31607,3.44129 4,4.20435 4,5L4,19C4,19.7957 4.31607,20.5587 4.87868,21.1213 5.44129,21.6839 6.20435,22 7,22L17,22C17.7957,22 18.5587,21.6839 19.1213,21.1213 19.6839,20.5587 20,19.7957 20,19L20,8C20,7.73478,19.8946,7.48043,19.7071,7.29289L14.7071,2.29289C14.5196,2.10536,14.2652,2,14,2L7,2z M15,9C14.4696,9 13.9609,8.78929 13.5858,8.41421 13.2107,8.03914 13,7.53043 13,7L13,4 7,4C6.73478,4 6.48043,4.10536 6.29289,4.29289 6.10536,4.48043 6,4.73478 6,5L6,19C6,19.2652 6.10536,19.5196 6.29289,19.7071 6.48043,19.8946 6.73478,20 7,20L17,20C17.2652,20 17.5196,19.8946 17.7071,19.7071 17.8946,19.5196 18,19.2652 18,19L18,9 15,9z M15,7L16.5858,7 15,5.41421 15,7z" />
+                                                            </DrawingGroup>
+                                                        </DrawingImage.Drawing>
+                                                    </DrawingImage>
+                                                </Image.Source>
+                                            </Image>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock FontSize="16" FontWeight="Bold">所有用户文件</TextBlock>
+                                                <TextBlock FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">占用891.89MB的空间，总数100103个</TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
+                                                <Image.Source>
+                                                    <DrawingImage>
+                                                        <DrawingImage.Drawing>
+                                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.87868,2.87868C5.44129,2.31607,6.20435,2,7,2L14,2C14.2652,2,14.5196,2.10536,14.7071,2.29289L19.7071,7.29289C19.8946,7.48043,20,7.73478,20,8L20,19C20,19.7957 19.6839,20.5587 19.1213,21.1213 18.5587,21.6839 17.7957,22 17,22L7,22C6.20435,22 5.44129,21.6839 4.87868,21.1213 4.31607,20.5587 4,19.7957 4,19L4,5C4,4.20435,4.31607,3.44129,4.87868,2.87868z M13.5858,8.41421C13.9609,8.78929,14.4696,9,15,9L18,9 18,19C18,19.2652 17.8946,19.5196 17.7071,19.7071 17.5196,19.8946 17.2652,20 17,20L7,20C6.73478,20 6.48043,19.8946 6.29289,19.7071 6.10536,19.5196 6,19.2652 6,19L6,5C6,4.73478 6.10536,4.48043 6.29289,4.29289 6.48043,4.10536 6.73478,4 7,4L13,4 13,7C13,7.53043,13.2107,8.03914,13.5858,8.41421z M16.5858,7L15,7 15,5.41421 16.5858,7z M14,9.58594C13.3597,9.58594,12.7456,9.84029,12.2929,10.293L7.29289,15.293C7.10536,15.4806,7,15.7349,7,16.0002L7,18.0002C7,18.5524,7.44772,19.0002,8,19.0002L10,19.0002C10.2652,19.0002,10.5196,18.8948,10.7071,18.7073L15.7071,13.7073C16.1599,13.2545 16.4142,12.6404 16.4142,12.0002 16.4142,11.3599 16.1599,10.7458 15.7071,10.293 15.2544,9.84029 14.6403,9.58594 14,9.58594z M13.7071,11.7073C13.7848,11.6296 13.8901,11.5859 14,11.5859 14.1099,11.5859 14.2152,11.6296 14.2929,11.7073 14.3706,11.7849 14.4142,11.8903 14.4142,12.0002 14.4142,12.11 14.3706,12.2154 14.2929,12.293L9.58579,17.0002 9,17.0002 9,16.4144 13.7071,11.7073z" />
+                                                            </DrawingGroup>
+                                                        </DrawingImage.Drawing>
+                                                    </DrawingImage>
+                                                </Image.Source>
+                                            </Image>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock FontSize="16" FontWeight="Bold">自动保存的墨迹文件</TextBlock>
+                                                <TextBlock FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">78%，占用654.31MB的空间，总数73920个</TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
+                                                <Image.Source>
+                                                    <DrawingImage>
+                                                        <DrawingImage.Drawing>
+                                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.87868,2.87868C5.44129,2.31607,6.20435,2,7,2L14,2C14.2652,2,14.5196,2.10536,14.7071,2.29289L19.7071,7.29289C19.8946,7.48043,20,7.73478,20,8L20,19C20,19.7957 19.6839,20.5587 19.1213,21.1213 18.5587,21.6839 17.7957,22 17,22L7,22C6.20435,22 5.44129,21.6839 4.87868,21.1213 4.31607,20.5587 4,19.7957 4,19L4,5C4,4.20435,4.31607,3.44129,4.87868,2.87868z M13.5858,8.41421C13.9609,8.78929,14.4696,9,15,9L18,9 18,19C18,19.2652 17.8946,19.5196 17.7071,19.7071 17.5196,19.8946 17.2652,20 17,20L7,20C6.73478,20 6.48043,19.8946 6.29289,19.7071 6.10536,19.5196 6,19.2652 6,19L6,5C6,4.73478 6.10536,4.48043 6.29289,4.29289 6.48043,4.10536 6.73478,4 7,4L13,4 13,7C13,7.53043,13.2107,8.03914,13.5858,8.41421z M16.5858,7L15,7 15,5.41421 16.5858,7z M14,9.58594C13.3597,9.58594,12.7456,9.84029,12.2929,10.293L7.29289,15.293C7.10536,15.4806,7,15.7349,7,16.0002L7,18.0002C7,18.5524,7.44772,19.0002,8,19.0002L10,19.0002C10.2652,19.0002,10.5196,18.8948,10.7071,18.7073L15.7071,13.7073C16.1599,13.2545 16.4142,12.6404 16.4142,12.0002 16.4142,11.3599 16.1599,10.7458 15.7071,10.293 15.2544,9.84029 14.6403,9.58594 14,9.58594z M13.7071,11.7073C13.7848,11.6296 13.8901,11.5859 14,11.5859 14.1099,11.5859 14.2152,11.6296 14.2929,11.7073 14.3706,11.7849 14.4142,11.8903 14.4142,12.0002 14.4142,12.11 14.3706,12.2154 14.2929,12.293L9.58579,17.0002 9,17.0002 9,16.4144 13.7071,11.7073z" />
+                                                            </DrawingGroup>
+                                                        </DrawingImage.Drawing>
+                                                    </DrawingImage>
+                                                </Image.Source>
+                                            </Image>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock FontSize="16" FontWeight="Bold">手动保存的板书</TextBlock>
+                                                <TextBlock FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">1%，占用34.1MB的空间，总数3个</TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
+                                                <Image.Source>
+                                                    <DrawingImage>
+                                                        <DrawingImage.Drawing>
+                                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.58579,4.58579C4.96086,4.21071,5.46957,4,6,4L18,4C18.5304,4 19.0391,4.21071 19.4142,4.58579 19.7893,4.96086 20,5.46957 20,6L20,13.5856 18.7071,12.2927 18.6934,12.2793C18.0792,11.6883 17.3227,11.3301 16.5,11.3301 15.6773,11.3301 14.9208,11.6883 14.3066,12.2793L14.2929,12.2927 14,12.5856 11.7071,10.2927 11.6934,10.2793C11.0792,9.68828 10.3227,9.33008 9.5,9.33008 8.67726,9.33008 7.92076,9.68828 7.30661,10.2793L7.29289,10.2927 4,13.5856 4,6C4,5.46957,4.21071,4.96086,4.58579,4.58579z M15.4142,13.9998L15.6997,13.7144C16.011,13.4172 16.2882,13.3301 16.5,13.3301 16.7118,13.3301 16.989,13.4172 17.3003,13.7144L20,16.414 20,18C20,18.5304 19.7893,19.0391 19.4142,19.4142 19.0391,19.7893 18.5304,20 18,20L6,20C5.46957,20 4.96086,19.7893 4.58579,19.4142 4.21071,19.0391 4,18.5304 4,18L4,16.414 8.69967,11.7144C9.01097,11.4172 9.28816,11.3301 9.5,11.3301 9.71184,11.3301 9.98903,11.4172 10.3003,11.7144L13.2929,14.7069 15.2929,16.7069C15.6834,17.0975 16.3166,17.0975 16.7071,16.7069 17.0976,16.3164 17.0976,15.6832 16.7071,15.2927L15.4142,13.9998z M22,16.0008L22,18C22,19.0609 21.5786,20.0783 20.8284,20.8284 20.0783,21.5786 19.0609,22 18,22L6,22C4.93913,22 3.92172,21.5786 3.17157,20.8284 2.42143,20.0783 2,19.0609 2,18L2,16 2,15.9997 2,6C2,4.93913 2.42143,3.92172 3.17157,3.17157 3.92172,2.42143 4.93913,2 6,2L18,2C19.0609,2 20.0783,2.42143 20.8284,3.17157 21.5786,3.92172 22,4.93913 22,6L22,15.9988C22,15.9995,22,16.0002,22,16.0008z M15,7C14.4477,7 14,7.44772 14,8 14,8.55228 14.4477,9 15,9L15.01,9C15.5623,9 16.01,8.55228 16.01,8 16.01,7.44772 15.5623,7 15.01,7L15,7z" />
+                                                            </DrawingGroup>
+                                                        </DrawingImage.Drawing>
+                                                    </DrawingImage>
+                                                </Image.Source>
+                                            </Image>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock FontSize="16" FontWeight="Bold">截图文件</TextBlock>
+                                                <TextBlock FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">0%</TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
+                                                <Image.Source>
+                                                    <DrawingImage>
+                                                        <DrawingImage.Drawing>
+                                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M7,2C6.20435,2 5.44129,2.31607 4.87868,2.87868 4.31607,3.44129 4,4.20435 4,5L4,19C4,19.7957 4.31607,20.5587 4.87868,21.1213 5.44129,21.6839 6.20435,22 7,22L17,22C17.7957,22 18.5587,21.6839 19.1213,21.1213 19.6839,20.5587 20,19.7957 20,19L20,8C20,7.73478,19.8946,7.48043,19.7071,7.29289L14.7071,2.29289C14.5196,2.10536,14.2652,2,14,2L7,2z M15,9C14.4696,9 13.9609,8.78929 13.5858,8.41421 13.2107,8.03914 13,7.53043 13,7L13,4 7,4C6.73478,4 6.48043,4.10536 6.29289,4.29289 6.10536,4.48043 6,4.73478 6,5L6,19C6,19.2652 6.10536,19.5196 6.29289,19.7071 6.48043,19.8946 6.73478,20 7,20L17,20C17.2652,20 17.5196,19.8946 17.7071,19.7071 17.8946,19.5196 18,19.2652 18,19L18,9 15,9z M15,7L16.5858,7 15,5.41421 15,7z" />
+                                                            </DrawingGroup>
+                                                        </DrawingImage.Drawing>
+                                                    </DrawingImage>
+                                                </Image.Source>
+                                            </Image>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock FontSize="16" FontWeight="Bold">缓存文件</TextBlock>
+                                                <TextBlock FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">0%</TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <Button Content="清理缓存文件"/>
+                                    </ui:SimpleStackPanel>
+                                    <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0"
+                                          Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4" />
+                                    <TextBlock Margin="0,0,0,8" Text="定时清理" FontWeight="Bold" Foreground="#fafafa"
+                                               FontSize="20" />
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="定期自动删除超过保存时间的墨迹、截图文件"
                                                    VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
@@ -7554,10 +7717,8 @@
                                                          FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchAutoDelSavedFiles_Toggled" />
                                     </ui:SimpleStackPanel>
-                                    <TextBlock Text="# 请注意如果开启自动删除功能，将会删除自动保存目录下所有后缀名为 .icstk 和 .png 的文件！"
+                                    <TextBlock Text="# 请注意如果开启自动删除功能，将会删除自动保存目录下所有后缀名为 .icstk、.iccink 和 .png 的文件！手动保存不受影响！"
                                                TextWrapping="Wrap" Foreground="#a1a1aa" />
-                                    <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
-                                          StrokeThickness="1" Margin="0,4,0,4" />
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="保存时长" VerticalAlignment="Center"
                                                    FontSize="14" Margin="0,0,16,0" />

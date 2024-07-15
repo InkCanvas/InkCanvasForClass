@@ -1,9 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=System.Runtime">
-    <system:String x:Key="InstallerWindowTitle">InkCanvasForClass 安装向导</system:String>
-    <system:String x:Key="ProductName">InkCanvasForClass</system:String>
-    <system:String x:Key="ProductSlogan">开源的简单易用小巧强大的屏幕批注软件</system:String>
-    <system:String x:Key="ProductBundleVersion">20240710V1P1</system:String>
-    <BitmapImage x:Key="ProductIcon" UriSource="pack://application:,,,/resources/icc.png"/>
-</ResourceDictionary>

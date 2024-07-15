@@ -740,9 +740,6 @@ namespace Ink_Canvas {
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == Pen_Icon && lastBorderMouseDownObject != Pen_Icon) return;
 
-            FloatingbarSelectionBG.Visibility = Visibility.Visible;
-            System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 28);
-
             if (Pen_Icon.Background == null || StackPanelCanvasControls.Visibility == Visibility.Collapsed)
             {
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
@@ -847,8 +844,6 @@ namespace Ink_Canvas {
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == SymbolIconSelect && lastBorderMouseDownObject != SymbolIconSelect) return;
 
-            FloatingbarSelectionBG.Visibility = Visibility.Visible;
-            System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 140);
             BtnSelect_Click(null, null);
             HideSubPanels("select");
 
@@ -863,9 +858,6 @@ namespace Ink_Canvas {
             if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == Eraser_Icon && lastBorderMouseDownObject != Eraser_Icon) return;
-
-            FloatingbarSelectionBG.Visibility = Visibility.Visible;
-            System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 84);
 
             forceEraser = true;
             forcePointEraser = true;
@@ -966,9 +958,6 @@ namespace Ink_Canvas {
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == EraserByStrokes_Icon && lastBorderMouseDownObject != EraserByStrokes_Icon) return;
 
-            FloatingbarSelectionBG.Visibility = Visibility.Visible;
-            System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, 112);
-
             forceEraser = true;
             forcePointEraser = false;
 
@@ -1010,11 +999,12 @@ namespace Ink_Canvas {
             foreach (var iconElement in IconsArray) {
                 var elem = (SimpleStackPanel)iconElement;
                 if (elem.Children[0] is Image) {
-                    ((Image)elem.Children[0]).Margin = new Thickness(0, Settings.Appearance.FloatingBarButtonLabelVisibility ? 3 : 0, 0, 0);
+                    ((Image)elem.Children[0]).Margin = new Thickness(0, Settings.Appearance.FloatingBarButtonLabelVisibility ? 3 : 5, 0, 0);
                     ((Image)elem.Children[0]).Height = Settings.Appearance.FloatingBarButtonLabelVisibility ? 17 : 15;
                 }
                 elem.Width = Settings.Appearance.FloatingBarButtonLabelVisibility ? 28 : 21;
-                elem.VerticalAlignment = Settings.Appearance.FloatingBarButtonLabelVisibility ? VerticalAlignment.Stretch : VerticalAlignment.Center;
+                elem.Height = Settings.Appearance.FloatingBarButtonLabelVisibility ? 34 : 28;
+                FloatingbarSelectionBG.Height = Settings.Appearance.FloatingBarButtonLabelVisibility ? 34 : 26;
             }
             BorderFloatingBarMoveControls.Width = barHeight;
             BorderFloatingBarMoveControls.Height = barHeight;

@@ -19,6 +19,7 @@ using iNKORE.UI.WPF.Modern.Media.Animation;
 using System.Security.Principal;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -765,12 +766,14 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
-        private void ToggleSwitchFloatingBarButtonLabelVisibility_Toggled(object sender, RoutedEventArgs e) {
+        private async void ToggleSwitchFloatingBarButtonLabelVisibility_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
 
             Settings.Appearance.FloatingBarButtonLabelVisibility = ToggleSwitchFloatingBarButtonLabelVisibility.IsOn;
             FloatingBarTextVisibilityBindingLikeAPieceOfShit.Visibility = Settings.Appearance.FloatingBarButtonLabelVisibility ? Visibility.Visible : Visibility.Collapsed;
             UpdateFloatingBarIconsLayout();
+            await Task.Delay(1);
+            ViewboxFloatingBarMarginAnimation(60,true);
             SaveSettingsToFile();
         }
 
@@ -1944,95 +1947,54 @@ namespace Ink_Canvas {
 
         public void UpdateSettingsIndexSidebarDisplayStatus() {
 
-            if (Math.Truncate(SettingsAboutGroupBox.MinHeight) != Math.Truncate(SettingsPanelScrollViewer.ActualHeight)) SettingsAboutGroupBox.MinHeight = SettingsPanelScrollViewer.ActualHeight;
+            if (Math.Truncate(SettingsAboutGroupBox.MinHeight) != Math.Truncate(SettingsPanelScrollViewer.ActualHeight)) 
+                SettingsAboutGroupBox.MinHeight = SettingsPanelScrollViewer.ActualHeight;
 
-            SettingsStartupJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
-            SettingsStartupJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
-            SettingsCanvasJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
-            SettingsCanvasJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
-            SettingsGestureJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
-            SettingsGestureJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
-            SettingsInkRecognitionJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
-            SettingsInkRecognitionJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
-            SettingsAppearanceJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
-            SettingsAppearanceJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
-            SettingsPPTJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
-            SettingsPPTJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
-            SettingsAdvancedJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
-            SettingsAdvancedJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
-            SettingsAutomationJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
-            SettingsAutomationJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
-            SettingsRandWindowJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
-            SettingsRandWindowJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
-            SettingsAboutJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 0, 0);
-            SettingsAboutJumpToGroupBoxButton.Background = new SolidColorBrush(Colors.Transparent);
+            GroupBox[] settingsPaneGroupBoxes = new GroupBox[] {
+                SettingsStartupGroupBox,
+                SettingsCanvasGroupBox,
+                SettingsGestureGroupBox,
+                SettingsInkRecognitionGroupBox,
+                SettingsAppearanceGroupBox,
+                SettingsPPTGroupBox,
+                SettingsAdvancedGroupBox,
+                SettingsAutomationGroupBox,
+                SettingsRandWindowGroupBox,
+                SettingsAboutGroupBox
+            };
+            
+            Border[] jumpToBorders = new Border[] {
+                SettingsStartupJumpToGroupBoxButton,
+                SettingsCanvasJumpToGroupBoxButton,
+                SettingsGestureJumpToGroupBoxButton,
+                SettingsInkRecognitionJumpToGroupBoxButton,
+                SettingsAppearanceJumpToGroupBoxButton,
+                SettingsPPTJumpToGroupBoxButton,
+                SettingsAdvancedJumpToGroupBoxButton,
+                SettingsAutomationJumpToGroupBoxButton,
+                SettingsRandWindowJumpToGroupBoxButton,
+                SettingsAboutJumpToGroupBoxButton
+            };
 
-            var SettingsStartupGroupBoxTransform = SettingsStartupGroupBox.TransformToVisual(SettingsPanelScrollViewer);
-            var SettingsStartupGroupBoxTopPosition = SettingsStartupGroupBoxTransform.Transform(new Point(0, 0));
-            var SettingsStartupGroupBoxBottomPosition = SettingsStartupGroupBoxTransform.Transform(new Point(0, SettingsStartupGroupBox.ActualHeight));
+            foreach (var jtb in jumpToBorders) {
+                jtb.BorderThickness = new Thickness(0, 0, 0, 0);
+                jtb.Background = new SolidColorBrush(Colors.Transparent);
+            }
 
-            var SettingsCanvasGroupBoxTransform = SettingsCanvasGroupBox.TransformToVisual(SettingsPanelScrollViewer);
-            var SettingsCanvasGroupBoxTopPosition = SettingsCanvasGroupBoxTransform.Transform(new Point(0, 0));
-            var SettingsCanvasGroupBoxBottomPosition = SettingsCanvasGroupBoxTransform.Transform(new Point(0, SettingsCanvasGroupBox.ActualHeight));
-
-            var SettingsGestureGroupBoxTransform = SettingsGestureGroupBox.TransformToVisual(SettingsPanelScrollViewer);
-            var SettingsGestureGroupBoxTopPosition = SettingsGestureGroupBoxTransform.Transform(new Point(0, 0));
-            var SettingsGestureGroupBoxBottomPosition = SettingsGestureGroupBoxTransform.Transform(new Point(0, SettingsGestureGroupBox.ActualHeight));
-
-            var SettingsInkRecognitionGroupBoxTransform = SettingsInkRecognitionGroupBox.TransformToVisual(SettingsPanelScrollViewer);
-            var SettingsInkRecognitionGroupBoxTopPosition = SettingsInkRecognitionGroupBoxTransform.Transform(new Point(0, 0));
-            var SettingsInkRecognitionGroupBoxBottomPosition = SettingsInkRecognitionGroupBoxTransform.Transform(new Point(0, SettingsInkRecognitionGroupBox.ActualHeight));
-
-            var SettingsAppearanceGroupBoxTransform = SettingsAppearanceGroupBox.TransformToVisual(SettingsPanelScrollViewer);
-            var SettingsAppearanceGroupBoxTopPosition = SettingsAppearanceGroupBoxTransform.Transform(new Point(0, 0));
-            var SettingsAppearanceGroupBoxBottomPosition = SettingsAppearanceGroupBoxTransform.Transform(new Point(0, SettingsAppearanceGroupBox.ActualHeight));
-
-            var SettingsPPTGroupBoxTransform = SettingsPPTGroupBox.TransformToVisual(SettingsPanelScrollViewer);
-            var SettingsPPTGroupBoxTopPosition = SettingsPPTGroupBoxTransform.Transform(new Point(0, 0));
-            var SettingsPPTGroupBoxBottomPosition = SettingsPPTGroupBoxTransform.Transform(new Point(0, SettingsPPTGroupBox.ActualHeight));
-
-            var SettingsAdvancedGroupBoxTransform = SettingsAdvancedGroupBox.TransformToVisual(SettingsPanelScrollViewer);
-            var SettingsAdvancedGroupBoxTopPosition = SettingsAdvancedGroupBoxTransform.Transform(new Point(0, 0));
-            var SettingsAdvancedGroupBoxBottomPosition = SettingsAdvancedGroupBoxTransform.Transform(new Point(0, SettingsAdvancedGroupBox.ActualHeight));
-
-            var SettingsAutomationGroupBoxTransform = SettingsAutomationGroupBox.TransformToVisual(SettingsPanelScrollViewer);
-            var SettingsAutomationGroupBoxTopPosition = SettingsAutomationGroupBoxTransform.Transform(new Point(0, 0));
-            var SettingsAutomationGroupBoxBottomPosition = SettingsAutomationGroupBoxTransform.Transform(new Point(0, SettingsAutomationGroupBox.ActualHeight));
-
-            var SettingsRandWindowGroupBoxTransform = SettingsRandWindowGroupBox.TransformToVisual(SettingsPanelScrollViewer);
-            var SettingsRandWindowGroupBoxTopPosition = SettingsRandWindowGroupBoxTransform.Transform(new Point(0, 0));
-            var SettingsRandWindowGroupBoxBottomPosition = SettingsRandWindowGroupBoxTransform.Transform(new Point(0, SettingsRandWindowGroupBox.ActualHeight));
-
-            if (SettingsStartupGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight /2  && SettingsStartupGroupBoxBottomPosition.Y > 50) {
-                SettingsStartupJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
-                SettingsStartupJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
-            } else if (SettingsCanvasGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight / 2 && SettingsCanvasGroupBoxBottomPosition.Y > 50) {
-                SettingsCanvasJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
-                SettingsCanvasJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
-            } else if (SettingsGestureGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight / 2 && SettingsGestureGroupBoxBottomPosition.Y > 50) {
-                SettingsGestureJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
-                SettingsGestureJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
-            } else if (SettingsInkRecognitionGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight / 2 && SettingsInkRecognitionGroupBoxBottomPosition.Y > 50) {
-                SettingsInkRecognitionJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
-                SettingsInkRecognitionJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
-            } else if (SettingsAppearanceGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight / 2 && SettingsAppearanceGroupBoxBottomPosition.Y > 50) {
-                SettingsAppearanceJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
-                SettingsAppearanceJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
-            } else if (SettingsPPTGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight / 2 && SettingsPPTGroupBoxBottomPosition.Y > 50) {
-                SettingsPPTJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
-                SettingsPPTJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
-            } else if (SettingsAdvancedGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight * 0.9 && SettingsAdvancedGroupBoxBottomPosition.Y > 50) {
-                SettingsAdvancedJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
-                SettingsAdvancedJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
-            } else if (SettingsAutomationGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight * 0.9 && SettingsAutomationGroupBoxBottomPosition.Y > 50) {
-                SettingsAutomationJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
-                SettingsAutomationJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
-            } else if (SettingsRandWindowGroupBoxTopPosition.Y < SettingsPanelScrollViewer.ActualHeight * 0.9 && SettingsRandWindowGroupBoxBottomPosition.Y > 50) {
-                SettingsRandWindowJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
-                SettingsRandWindowJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
-            } else {
-                SettingsAboutJumpToGroupBoxButton.BorderThickness = new Thickness(0, 0, 4, 0);
-                SettingsAboutJumpToGroupBoxButton.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+            foreach (var gbx in settingsPaneGroupBoxes) {
+                var transform = gbx.TransformToVisual(SettingsPanelScrollViewer);
+                var top = transform.Transform(new Point(0, 0));
+                var bottom = transform.Transform(new Point(0, gbx.ActualHeight));
+                if (settingsPaneGroupBoxes.Length - Array.IndexOf(settingsPaneGroupBoxes, gbx) - 1 <= 4) {
+                    if (!(top.Y < SettingsPanelScrollViewer.ActualHeight * 0.9) || !(bottom.Y > 50)) continue;
+                    jumpToBorders[Array.IndexOf(settingsPaneGroupBoxes, gbx)].BorderThickness = new Thickness(0, 0, 4, 0);
+                    jumpToBorders[Array.IndexOf(settingsPaneGroupBoxes, gbx)].Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                    break;
+                } else if (top.Y < SettingsPanelScrollViewer.ActualHeight / 2 && bottom.Y > 50) {
+                    jumpToBorders[Array.IndexOf(settingsPaneGroupBoxes, gbx)].BorderThickness = new Thickness(0, 0, 4, 0);
+                    jumpToBorders[Array.IndexOf(settingsPaneGroupBoxes, gbx)].Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                    break;
+                }
             }
         }
 
