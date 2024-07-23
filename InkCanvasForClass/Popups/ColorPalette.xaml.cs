@@ -16,8 +16,14 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ColorPicker;
 using iNKORE.UI.WPF.Helpers;
 using static Ink_Canvas.Popups.ColorPalette;
+using System.Drawing;
+using Ink_Canvas.Helpers;
+using Color = System.Windows.Media.Color;
+using Point = System.Windows.Point;
+using Image = System.Windows.Controls.Image;
 
 namespace Ink_Canvas.Popups {
     public partial class ColorPalette : UserControl {
@@ -36,10 +42,11 @@ namespace Ink_Canvas.Popups {
             ColorPurple,
             ColorFuchsia,
             ColorPink,
-            ColorRose
+            ColorRose,
+            ColorCustom
         };
 
-        private Color[] _lightColors = new Color[] {
+        private Color[] _darkColors = new Color[] {
             Color.FromRgb(9, 9, 11),
             Color.FromRgb(250, 250, 250),
             Color.FromRgb(220, 38, 38),
@@ -48,13 +55,31 @@ namespace Ink_Canvas.Popups {
             Color.FromRgb(101, 163, 13),
             Color.FromRgb(22, 163, 74),
             Color.FromRgb(13, 148, 136),
-            Color.FromRgb(2, 132, 199),
+            Color.FromRgb(8, 145, 178),
             Color.FromRgb(37, 99, 235),
             Color.FromRgb(79, 70, 229),
             Color.FromRgb(124, 58, 237),
             Color.FromRgb(192, 38, 211),
             Color.FromRgb(219, 39, 119),
             Color.FromRgb(225, 29, 72), 
+        };
+
+        private Color[] _lightColors = new Color[] {
+            Color.FromRgb(9, 9, 11),
+            Color.FromRgb(250, 250, 250),
+            Color.FromRgb(239, 68, 68),
+            Color.FromRgb(249, 115, 22),
+            Color.FromRgb(253, 224, 71),
+            Color.FromRgb(163, 230, 53),
+            Color.FromRgb(74, 222, 128),
+            Color.FromRgb(94, 234, 212),
+            Color.FromRgb(34, 211, 238),
+            Color.FromRgb(59, 130, 246),
+            Color.FromRgb(129, 140, 248),
+            Color.FromRgb(168, 85, 247),
+            Color.FromRgb(217, 70, 239),
+            Color.FromRgb(236, 72, 153),
+            Color.FromRgb(244, 63, 94),
         };
 
         public string[] ColorPaletteColorStrings = new[] {
@@ -67,6 +92,22 @@ namespace Ink_Canvas.Popups {
         public SimpleStackPanel[] PenModeTabButtonIndicators;
         public GeometryDrawing[] PenModeTabButtonIcons;
         public TextBlock[] PenModeTabButtonTexts;
+
+        private bool _usingDarkColors = true;
+
+        public bool UsingDarkColors {
+            get => _usingDarkColors;
+            set {
+                var pre = _usingDarkColors;
+                _usingDarkColors = value;
+                ColorModeChanged?.Invoke(this, new ColorModeChangedEventArgs()
+                {
+                    IsPreviousUsedDarkColor = pre,
+                    IsNowUsingDarkColor = value,
+                    TriggerMode = TriggerMode.TriggeredByCode,
+                });
+            }
+        }
 
         private ColorPaletteColor _colorSelected = ColorPaletteColor.ColorRed;
         public ColorPaletteColor SelectedColor {
@@ -114,7 +155,6 @@ namespace Ink_Canvas.Popups {
             var recogQua = ircm.Items[3] as MenuItem;
             var recogEll = ircm.Items[4] as MenuItem;
             var recogPlg = ircm.Items[5] as MenuItem;
-            var ft2Curve = ircm.Items[7] as MenuItem;
             var recogSub = new MenuItem[] {
                 recogTri, recogQua, recogEll, recogPlg,
             };
@@ -233,11 +273,13 @@ namespace Ink_Canvas.Popups {
             var pressSub = new MenuItem[] {
                 pointSP, velocitySP, noneSP
             };
+            isSimulatePressureCheckedByUser = false;
             foreach (var mi in pressSub) {
                 if (mi.Name=="PointSP") mi.IsChecked = _simulatePressure == PressureSimulation.PointSimulate;
                 else if (mi.Name == "VelocitySP") mi.IsChecked = _simulatePressure == PressureSimulation.VelocitySimulate;
                 else if (mi.Name == "NoneSP") mi.IsChecked = _simulatePressure == PressureSimulation.None;
             }
+            isSimulatePressureCheckedByUser = true;
         }
 
         private void SimulatePressureContextMenu_Closed(object sender, RoutedEventArgs e) {
@@ -250,8 +292,23 @@ namespace Ink_Canvas.Popups {
             UpdateSimulatePressureContextMenuDisplayStatus();
         }
 
+        private bool isSimulatePressureCheckedByUser = true;
+
         private void SimulatePressureContextMenuItem_Checked(object sender, RoutedEventArgs e) {
-            
+            if (!isSimulatePressureCheckedByUser) return;
+            var mi = (MenuItem)sender;
+            var pre = _simulatePressure;
+            Trace.WriteLine(mi.Name);
+            _simulatePressure = mi.Name == "PointSP" ? PressureSimulation.PointSimulate : mi.Name == "VelocitySP" ? PressureSimulation.VelocitySimulate : PressureSimulation.None;
+            SimulatePressureToggleSwitchImage.Source =
+                this.FindResource(_simulatePressure != PressureSimulation.None ? "SwitchOnImage" : "SwitchOffImage") as DrawingImage;
+            UpdateSimulatePressureContextMenuDisplayStatus();
+            PressureSimulationChanged?.Invoke(this, new PressureSimulationChangedEventArgs()
+            {
+                PreviousMode = pre,
+                NowMode = _simulatePressure,
+                TriggerMode = TriggerMode.TriggeredByUser,
+            });
         }
 
         private void SimulatePressureToggleSwitchButton_Clicked(object sender, RoutedEventArgs e) {
@@ -284,6 +341,8 @@ namespace Ink_Canvas.Popups {
                 bd.Child = null;
             }
 
+            UpdateCustomColorButtonDisplayStatus();
+            if (_colorSelected == ColorPaletteColor.ColorCustom) return;
             var index = (int)_colorSelected;
             var bdSel = ColorPaletteColorButtonBorders[index];
             Image checkedImage = new Image();
@@ -291,8 +350,7 @@ namespace Ink_Canvas.Popups {
             checkedImage.Height = 24;
             var checkLight = this.FindResource("CheckedLightIcon");
             var checkDark = this.FindResource("CheckedDarkIcon");
-            if (_colorSelected == ColorPaletteColor.ColorWhite
-                || _colorSelected == ColorPaletteColor.ColorYellow) checkedImage.Source = checkDark as DrawingImage;
+            if (ColorUtilities.GetReverseForegroundColor(ColorUtilities.GetGrayLevel((_usingDarkColors?_darkColors:_lightColors)[(int)_colorSelected])) == Colors.Black) checkedImage.Source = checkDark as DrawingImage;
             else checkedImage.Source = checkLight as DrawingImage;
             bdSel.Child = checkedImage;
         }
@@ -355,6 +413,43 @@ namespace Ink_Canvas.Popups {
             });
         }
 
+        private void UpdateCustomColorPickerDisplayStatus() {
+            if (_customColor == null) {
+                CustomColorHexTextBox.Text = "请在上方选择一个颜色";
+                CustomColorHexBorder.Background = new SolidColorBrush(Colors.Transparent);
+            } else {
+                CustomColorHexTextBox.Text = "#" + CustomColorPicker.SelectedColor.R.ToString("X2") + CustomColorPicker.SelectedColor.G.ToString("X2") + CustomColorPicker.SelectedColor.B.ToString("X2");
+                CustomColorHexBorder.Background = new SolidColorBrush(CustomColorPicker.SelectedColor);
+            }
+        }
+
+        private void UpdateCustomColorButtonDisplayStatus() {
+            if (_customColor == null) {
+                CustomColorButtonColorBorder.Visibility = Visibility.Collapsed;
+                CustomColorButtonIcon.Visibility = Visibility.Visible;
+            } else {
+                CustomColorButtonColorBorder.Visibility = Visibility.Visible;
+                CustomColorButtonColorBorder.Background = new SolidColorBrush((Color)_customColor);
+                CustomColorButtonIcon.Visibility = Visibility.Collapsed;
+                if (_colorSelected == ColorPaletteColor.ColorCustom)
+                    CustomColorButtonColorBorderCheckIcon.Visibility = Visibility.Visible;
+                else CustomColorButtonColorBorderCheckIcon.Visibility = Visibility.Collapsed;
+                CustomColorButtonColorBorderCheckIcon.Source =
+                    this.FindResource(ColorUtilities.GetReverseForegroundColor(ColorUtilities.GetGrayLevel((Color)_customColor)) == Colors.White
+                        ? "CheckedLightIcon"
+                        : "CheckedDarkIcon") as DrawingImage;
+            }
+        }
+
+        private void CustomColorPicker_ColorChanged(object sender, RoutedEventArgs e) {
+            var cp = sender as SquarePicker;
+            _customColor = cp.SelectedColor;
+            if (_colorSelected != ColorPaletteColor.ColorCustom) _colorSelected = ColorPaletteColor.ColorCustom;
+            UpdateCustomColorPickerDisplayStatus();
+            UpdateCustomColorButtonDisplayStatus();
+            UpdateColorButtonsDisplayStatus();
+        }
+
         private void ColorBtnStoryBoardScaleAnimation(object sender, double from, double to) {
             var border = sender as Border;
 
@@ -403,6 +498,38 @@ namespace Ink_Canvas.Popups {
             public ColorPaletteColor PreviousColor { get; set; }
             public ColorPaletteColor NowColor { get; set; }
             public TriggerMode TriggerMode { get; set; }
+            public Color CustomColor { get; set; }
+        }
+
+        public class ColorModeChangedEventArgs : EventArgs
+        {
+            public bool IsPreviousUsedDarkColor { get; set; }
+            public bool IsNowUsingDarkColor { get; set; }
+            public TriggerMode TriggerMode { get; set; }
+        }
+
+        private void UpdateColorPaletteColorsAndColorModeChangeButton() {
+            foreach (var bd in ColorPaletteColorButtonBorders) {
+                bd.Background =
+                    new SolidColorBrush((_usingDarkColors ? _darkColors : _lightColors)[
+                        Array.IndexOf(ColorPaletteColorStrings, bd.Name.ToLower())]);
+            }
+
+            var tb = ((SimpleStackPanel)ColorModeChangeButton.Content).Children.OfType<TextBlock>().Single();
+            tb.Text = _usingDarkColors ? "亮色" : "暗色";
+        }
+
+        private void ColorModeChangeButton_Clicked(object sender, RoutedEventArgs e) {
+            var pre = _usingDarkColors;
+            _usingDarkColors = !_usingDarkColors;
+            UpdateColorPaletteColorsAndColorModeChangeButton();
+            UpdateColorButtonsDisplayStatus();
+            ColorModeChanged?.Invoke(this, new ColorModeChangedEventArgs()
+            {
+                IsPreviousUsedDarkColor = pre,
+                IsNowUsingDarkColor = _usingDarkColors,
+                TriggerMode = TriggerMode.TriggeredByUser,
+            });
         }
 
         public class PenModeChangedEventArgs : EventArgs
@@ -425,7 +552,26 @@ namespace Ink_Canvas.Popups {
             public bool isRecognizeTriangle;
             public bool isRecognizeQuadrilateral;
             public bool isRecognizePolygon;
-            public bool isFitToCurve;
+        }
+
+        private Color? _customColor = null;
+
+        private void CustomColorButton_Clicked(object sender, RoutedEventArgs e) {
+            if (_customColor == null) {
+                CustomColorPanel.Visibility = Visibility.Visible;
+            } else {
+                if (_colorSelected == ColorPaletteColor.ColorCustom) CustomColorPanel.Visibility = Visibility.Visible;
+                else {
+                    _colorSelected = ColorPaletteColor.ColorCustom;
+                    UpdateColorButtonsDisplayStatus();
+                    UpdateCustomColorButtonDisplayStatus();
+                    UpdateCustomColorPickerDisplayStatus();
+                }
+            }
+        }
+
+        private void BackToPaletteButton_Clicked(object sender, RoutedEventArgs e) {
+            CustomColorPanel.Visibility = Visibility.Collapsed;
         }
 
         public class InkRecognitionChangedEventArgs : EventArgs {
@@ -439,6 +585,7 @@ namespace Ink_Canvas.Popups {
         public event EventHandler<PenModeChangedEventArgs> PenModeChanged;
         public event EventHandler<InkRecognitionChangedEventArgs> InkRecognitionChanged;
         public event EventHandler<PressureSimulationChangedEventArgs> PressureSimulationChanged;
+        public event EventHandler<ColorModeChangedEventArgs> ColorModeChanged;
 
         public ColorPalette() {
             InitializeComponent();
@@ -464,6 +611,7 @@ namespace Ink_Canvas.Popups {
 
             UpdatePenModeButtonsDisplayStatus();
             UpdateColorButtonsDisplayStatus();
+            UpdateColorPaletteColorsAndColorModeChangeButton();
         }
     }
 }

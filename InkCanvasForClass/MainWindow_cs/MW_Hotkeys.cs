@@ -1,22 +1,54 @@
-﻿using System.Windows;
+﻿using System;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Input;
+using static Ink_Canvas.Popups.ColorPalette;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
         private void Window_MouseWheel(object sender, MouseWheelEventArgs e) {
-            if (StackPanelPPTControls.Visibility != Visibility.Visible || currentMode != 0) return;
+            if (BorderFloatingBarExitPPTBtn.Visibility != Visibility.Visible || currentMode != 0) return;
             if (e.Delta >= 120)
-                BtnPPTSlidesUp_Click(BtnPPTSlidesUp, null);
-            else if (e.Delta <= -120) BtnPPTSlidesDown_Click(BtnPPTSlidesDown, null);
+                BtnPPTSlidesUp_Click(null, null);
+            else if (e.Delta <= -120) BtnPPTSlidesDown_Click(null, null);
         }
 
         private void Main_Grid_PreviewKeyDown(object sender, KeyEventArgs e) {
-            if (StackPanelPPTControls.Visibility != Visibility.Visible || currentMode != 0) return;
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible || currentMode == 0) {
+                if (e.Key == Key.Down || e.Key == Key.PageDown || e.Key == Key.Right || e.Key == Key.N ||
+                    e.Key == Key.Space) BtnPPTSlidesDown_Click(null, null);
+                if (e.Key == Key.Up || e.Key == Key.PageUp || e.Key == Key.Left || e.Key == Key.P)
+                    BtnPPTSlidesUp_Click(null, null);
+            };
+            if (e.Key == Key.LeftCtrl) {
+                Trace.WriteLine("KeyDown");
+                isControlKeyDown = true;
+                ControlKeyDownEvent?.Invoke(this,e);
+            }
+            if (e.Key == Key.LeftShift) {
+                Trace.WriteLine("KeyDown");
+                isShiftKeyDown = true;
+                ShiftKeyDownEvent?.Invoke(this,e);
+            }
+        }
 
-            if (e.Key == Key.Down || e.Key == Key.PageDown || e.Key == Key.Right || e.Key == Key.N ||
-                e.Key == Key.Space) BtnPPTSlidesDown_Click(BtnPPTSlidesDown, null);
-            if (e.Key == Key.Up || e.Key == Key.PageUp || e.Key == Key.Left || e.Key == Key.P)
-                BtnPPTSlidesUp_Click(BtnPPTSlidesUp, null);
+        public bool isControlKeyDown = false;
+        public bool isShiftKeyDown = false;
+
+        public event EventHandler<KeyEventArgs> ControlKeyDownEvent;
+        public event EventHandler<KeyEventArgs> ShiftKeyDownEvent;
+        public event EventHandler<KeyEventArgs> ControlKeyUpEvent;
+        public event EventHandler<KeyEventArgs> ShiftKeyUpEvent;
+
+        private void Main_Grid_PreviewKeyUp(object sender, KeyEventArgs e) {
+            if (e.Key == Key.LeftCtrl) {
+                isControlKeyDown = false;
+                ControlKeyUpEvent?.Invoke(this,e);
+            };
+            if (e.Key == Key.LeftShift) {
+                isShiftKeyDown = false;
+                ShiftKeyUpEvent?.Invoke(this,e);
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e) {
@@ -47,7 +79,7 @@ namespace Ink_Canvas {
 
 
         private void KeyExit(object sender, ExecutedRoutedEventArgs e) {
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) BtnPPTSlideShowEnd_Click(BtnPPTSlideShowEnd, null);
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) BtnPPTSlideShowEnd_Click(null, null);
         }
 
         private void KeyChangeToDrawTool(object sender, ExecutedRoutedEventArgs e) {

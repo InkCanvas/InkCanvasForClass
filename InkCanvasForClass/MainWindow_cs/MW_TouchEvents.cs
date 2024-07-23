@@ -95,22 +95,21 @@ namespace Ink_Canvas {
         }
 
         private void MainWindow_StylusDown(object sender, StylusDownEventArgs e) {
+            if (e.StylusDevice.TabletDevice.Type == TabletDeviceType.Touch) {
+                if (!isCursorHidden && Settings.Gesture.HideCursorWhenUsingTouchDevice && e.StylusDevice.TabletDevice.Type == TabletDeviceType.Touch) {
+                    System.Windows.Forms.Cursor.Hide();
+                    isCursorHidden = true;
+                }
+                
+                ViewboxFloatingBar.IsHitTestVisible = false;
+                BlackboardUIGridForInkReplay.IsHitTestVisible = false;
 
-            if (!isCursorHidden && Settings.Gesture.HideCursorWhenUsingTouchDevice && e.StylusDevice.TabletDevice.Type == TabletDeviceType.Touch) {
-                System.Windows.Forms.Cursor.Hide();
-                isCursorHidden = true;
+                if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint
+                    || inkCanvas.EditingMode == InkCanvasEditingMode.EraseByStroke
+                    || inkCanvas.EditingMode == InkCanvasEditingMode.Select) return;
+
+                TouchDownPointsList[e.StylusDevice.Id] = InkCanvasEditingMode.None;
             }
-            
-
-            inkCanvas.CaptureStylus();
-            ViewboxFloatingBar.IsHitTestVisible = false;
-            BlackboardUIGridForInkReplay.IsHitTestVisible = false;
-
-            if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint
-                || inkCanvas.EditingMode == InkCanvasEditingMode.EraseByStroke
-                || inkCanvas.EditingMode == InkCanvasEditingMode.Select) return;
-
-            TouchDownPointsList[e.StylusDevice.Id] = InkCanvasEditingMode.None;
         }
 
         private async void MainWindow_StylusUp(object sender, StylusEventArgs e) {
@@ -119,31 +118,27 @@ namespace Ink_Canvas {
                     inkCanvas.Strokes.Add(GetStrokeVisual(e.StylusDevice.Id).Stroke);
                     await Task.Delay(5); // 避免渲染墨迹完成前预览墨迹被删除导致墨迹闪烁
                     inkCanvas.Children.Remove(GetVisualCanvas(e.StylusDevice.Id));
-
-                    inkCanvas_StrokeCollected(inkCanvas,
-                        new InkCanvasStrokeCollectedEventArgs(GetStrokeVisual(e.StylusDevice.Id).Stroke));
-                }
-                catch (Exception ex) {
+                    inkCanvas_StrokeCollected(inkCanvas, new InkCanvasStrokeCollectedEventArgs(GetStrokeVisual(e.StylusDevice.Id).Stroke));
+                } catch (Exception ex) {
                     Label.Content = ex.ToString();
                 }
-            }
 
-            try {
-                StrokeVisualList.Remove(e.StylusDevice.Id);
-                VisualCanvasList.Remove(e.StylusDevice.Id);
-                TouchDownPointsList.Remove(e.StylusDevice.Id);
-                if (StrokeVisualList.Count == 0 || VisualCanvasList.Count == 0 || TouchDownPointsList.Count == 0) {
-                    inkCanvas.Children.Clear();
-                    StrokeVisualList.Clear();
-                    VisualCanvasList.Clear();
-                    TouchDownPointsList.Clear();
+                try {
+                    StrokeVisualList.Remove(e.StylusDevice.Id);
+                    VisualCanvasList.Remove(e.StylusDevice.Id);
+                    TouchDownPointsList.Remove(e.StylusDevice.Id);
+                    if (StrokeVisualList.Count == 0 || VisualCanvasList.Count == 0 || TouchDownPointsList.Count == 0) {
+                        inkCanvas.Children.Clear();
+                        StrokeVisualList.Clear();
+                        VisualCanvasList.Clear();
+                        TouchDownPointsList.Clear();
+                    }
                 }
-            }
-            catch { }
+                catch { }
 
-            inkCanvas.ReleaseStylusCapture();
-            ViewboxFloatingBar.IsHitTestVisible = true;
-            BlackboardUIGridForInkReplay.IsHitTestVisible = true;
+                ViewboxFloatingBar.IsHitTestVisible = true;
+                BlackboardUIGridForInkReplay.IsHitTestVisible = true;
+            }
         }
 
         private void MainWindow_StylusMove(object sender, StylusEventArgs e) {
@@ -154,22 +149,21 @@ namespace Ink_Canvas {
                 isCursorHidden = true;
             }
 
-            Trace.WriteLine(e.Inverted);
-
-            try {
-                if (GetTouchDownPointsList(e.StylusDevice.Id) != InkCanvasEditingMode.None) return;
+            if (e.StylusDevice.TabletDevice.Type == TabletDeviceType.Touch) {
                 try {
-                    if (e.StylusDevice.StylusButtons[1].StylusButtonState == StylusButtonState.Down) return;
-                }
-                catch { }
+                    if (GetTouchDownPointsList(e.StylusDevice.Id) != InkCanvasEditingMode.None) return;
+                    try {
+                        if (e.StylusDevice.StylusButtons[1].StylusButtonState == StylusButtonState.Down) return;
+                    }
+                    catch { }
 
-                var strokeVisual = GetStrokeVisual(e.StylusDevice.Id);
-                var stylusPointCollection = e.GetStylusPoints(this);
-                foreach (var stylusPoint in stylusPointCollection)
-                    strokeVisual.Add(new StylusPoint(stylusPoint.X, stylusPoint.Y, stylusPoint.PressureFactor));
-                strokeVisual.Redraw();
+                    var strokeVisual = GetStrokeVisual(e.StylusDevice.Id);
+                    var stylusPointCollection = e.GetStylusPoints(this);
+                    foreach (var stylusPoint in stylusPointCollection)
+                        strokeVisual.Add(new StylusPoint(stylusPoint.X, stylusPoint.Y, stylusPoint.PressureFactor));
+                    strokeVisual.Redraw();
+                } catch { }
             }
-            catch { }
         }
 
         private StrokeVisual GetStrokeVisual(int id) {
@@ -277,16 +271,8 @@ namespace Ink_Canvas {
                         inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
                     }
                     else {
-                        if (StackPanelPPTControls.Visibility == Visibility.Visible && inkCanvas.Strokes.Count == 0 &&
-                            Settings.PowerPointSettings.IsEnableFingerGestureSlideShowControl) {
-                            isLastTouchEraser = false;
-                            inkCanvas.EditingMode = InkCanvasEditingMode.GestureOnly;
-                            inkCanvas.Opacity = 0.1;
-                        }
-                        else {
-                            inkCanvas.EraserShape = new EllipseStylusShape(5, 5);
-                            inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
-                        }
+                        inkCanvas.EraserShape = new EllipseStylusShape(5, 5);
+                        inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
                     }
                 }
                 else {
@@ -396,8 +382,7 @@ namespace Ink_Canvas {
         private void Main_Grid_ManipulationDelta(object sender, ManipulationDeltaEventArgs e) {
             if (isInMultiTouchMode || !Settings.Gesture.IsEnableTwoFingerGesture) return;
             if ((dec.Count >= 2 && (Settings.PowerPointSettings.IsEnableTwoFingerGestureInPresentationMode ||
-                                    StackPanelPPTControls.Visibility != Visibility.Visible ||
-                                    StackPanelPPTButtons.Visibility == Visibility.Collapsed)) ||
+                                    BorderFloatingBarExitPPTBtn.Visibility != Visibility.Visible)) ||
                 isSingleFingerDragMode) {
                 var md = e.DeltaManipulation;
                 var trans = md.Translation; // 获得位移矢量

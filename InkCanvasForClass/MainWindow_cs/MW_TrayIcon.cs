@@ -85,7 +85,7 @@ namespace Ink_Canvas
             if (mainWin.IsLoaded) {
                 var isInPPTPresentationMode = false;
                 Dispatcher.Invoke(() => {
-                    isInPPTPresentationMode = mainWin.BtnPPTSlideShowEnd.Visibility == Visibility.Visible;
+                    isInPPTPresentationMode = mainWin.BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible;
                 });
                 if (!mainWin.isFloatingBarFolded) {
                     if (!isInPPTPresentationMode) mainWin.PureViewboxFloatingBarMarginAnimationInDesktopMode();

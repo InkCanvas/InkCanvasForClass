@@ -147,7 +147,9 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NHotkey.Wpf" Version="3.0.0" />
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
     <PackageReference Include="OSVersionExt" Version="3.0.0" />
+    <PackageReference Include="PixiEditor.ColorPicker" Version="3.4.1" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
@@ -183,7 +185,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Cursors\close-hand-cursor.cur" />
-    <Resource Include="Resources\Cursors\Cursor.cur" />
+    <Resource Include="Resources\Cursors\cursor-move.cur" />
+    <Resource Include="Resources\Cursors\cursor-resize-lr.cur" />
+    <Resource Include="Resources\Cursors\cursor-resize-lt-rb.cur" />
+    <Resource Include="Resources\Cursors\cursor-resize-rt-lb.cur" />
+    <Resource Include="Resources\Cursors\cursor-resize-tb.cur" />
     <Resource Include="Resources\Cursors\open-hand-cursor.cur" />
     <Resource Include="Resources\Cursors\Pen.cur" />
     <Resource Include="Resources\DeveloperAvatars\aaaaaaccd.jpg" />
@@ -343,6 +349,7 @@
     <Resource Include="Resources\Icons-Fluent\ic_fluent_people_24_regular.png" />
     <Resource Include="Resources\Icons-png\VComYouJiao.png" />
     <Resource Include="Resources\Icons-png\WenXiang.png" />
+    <Resource Include="Resources\Icons-png\windows-ink.png" />
     <Resource Include="Resources\Icons-png\YiYunVisualPresenter.png" />
     <Resource Include="Resources\Icons-png\YiYunWhiteboard.png" />
     <Resource Include="Resources\new-icons\chevron-left.png" />
@@ -489,7 +496,11 @@
   <ItemGroup>
     <None Remove="MainWindow.xaml~RF6c3144.TMP" />
     <None Remove="Resources\Cursors\close-hand-cursor.cur" />
-    <None Remove="Resources\Cursors\Cursor.cur" />
+    <None Remove="Resources\Cursors\cursor-move.cur" />
+    <None Remove="Resources\Cursors\cursor-resize-lr.cur" />
+    <None Remove="Resources\Cursors\cursor-resize-lt-rb.cur" />
+    <None Remove="Resources\Cursors\cursor-resize-rt-lb.cur" />
+    <None Remove="Resources\Cursors\cursor-resize-tb.cur" />
     <None Remove="Resources\Cursors\open-hand-cursor.cur" />
     <None Remove="Resources\Cursors\Pen.cur" />
     <None Remove="Resources\DeveloperAvatars\aaaaaaccd.jpg" />
@@ -531,6 +542,7 @@
     <None Remove="Resources\Icons-png\uac_icon.png" />
     <None Remove="Resources\Icons-png\VComYouJiao.png" />
     <None Remove="Resources\Icons-png\WenXiang.png" />
+    <None Remove="Resources\Icons-png\windows-ink.png" />
     <None Remove="Resources\Icons-png\YiYunVisualPresenter.png" />
     <None Remove="Resources\Icons-png\YiYunWhiteboard.png" />
     <None Remove="Resources\new-icons\chevron-left.png" />

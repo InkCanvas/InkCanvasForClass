@@ -152,15 +152,11 @@ namespace Ink_Canvas {
         }
 
         private void TimeMachine_OnUndoStateChanged(bool status) {
-            var result = status ? Visibility.Visible : Visibility.Collapsed;
-            BtnUndo.Visibility = result;
-            BtnUndo.IsEnabled = status;
+            SymbolIconUndo.IsEnabled = status;
         }
 
         private void TimeMachine_OnRedoStateChanged(bool status) {
-            var result = status ? Visibility.Visible : Visibility.Collapsed;
-            BtnRedo.Visibility = result;
-            BtnRedo.IsEnabled = status;
+            SymbolIconRedo.IsEnabled = status;
         }
 
         private void StrokesOnStrokesChanged(object sender, StrokeCollectionChangedEventArgs e) {

@@ -98,7 +98,7 @@ namespace Ink_Canvas {
                     drawingShapeMode = 2;
                 else if (sender == ImageDrawParallelLine || sender == BoardImageDrawParallelLine) drawingShapeMode = 15;
                 isLongPressSelected = true;
-                if (isSingleFingerDragMode) BtnFingerDragMode_Click(BtnFingerDragMode, null);
+                if (isSingleFingerDragMode) BtnFingerDragMode_Click(null, null);
             }
         }
 

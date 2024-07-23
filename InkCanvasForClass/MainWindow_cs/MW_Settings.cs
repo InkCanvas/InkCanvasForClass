@@ -20,6 +20,7 @@ using System.Security.Principal;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using Ookii.Dialogs.Wpf;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -157,6 +158,12 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
+        private void ToggleSwitchEnableWindowChromeRendering_Toggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Startup.EnableWindowChromeRendering = ToggleSwitchEnableWindowChromeRendering.IsOn;
+            SaveSettingsToFile();
+        }
+
         #endregion
 
         #region Appearance
@@ -197,7 +204,7 @@ namespace Ink_Canvas {
             ViewboxFloatingBarScaleTransform.ScaleY =
                 val > 0.5 && val < 1.25 ? val : val <= 0.5 ? 0.5 : val >= 1.25 ? 1.25 : 1;
             // auto align
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible)
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible)
                 ViewboxFloatingBarMarginAnimation(60);
             else
                 ViewboxFloatingBarMarginAnimation(100, true);
@@ -410,7 +417,7 @@ namespace Ink_Canvas {
             if (!isLoaded) return;
             Settings.PowerPointSettings.ShowPPTButton = ToggleSwitchShowPPTButton.IsOn;
             SaveSettingsToFile();
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
             UpdatePPTBtnPreview();
         }
 
@@ -427,7 +434,7 @@ namespace Ink_Canvas {
             c[0] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTButtonsDisplayOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
             UpdatePPTBtnPreview();
         }
 
@@ -439,7 +446,7 @@ namespace Ink_Canvas {
             c[1] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTButtonsDisplayOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
             UpdatePPTBtnPreview();
         }
 
@@ -451,7 +458,7 @@ namespace Ink_Canvas {
             c[2] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTButtonsDisplayOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
             UpdatePPTBtnPreview();
         }
 
@@ -463,7 +470,7 @@ namespace Ink_Canvas {
             c[3] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTButtonsDisplayOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
             UpdatePPTBtnPreview();
         }
 
@@ -475,7 +482,7 @@ namespace Ink_Canvas {
             c[0] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTSButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
             UpdatePPTBtnPreview();
         }
 
@@ -487,7 +494,7 @@ namespace Ink_Canvas {
             c[1] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTSButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
             UpdatePPTBtnPreview();
         }
 
@@ -499,7 +506,7 @@ namespace Ink_Canvas {
             c[2] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTSButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
             UpdatePPTBtnPreview();
         }
 
@@ -511,7 +518,7 @@ namespace Ink_Canvas {
             c[0] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTBButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
             UpdatePPTBtnPreview();
         }
 
@@ -523,7 +530,7 @@ namespace Ink_Canvas {
             c[1] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTBButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
             UpdatePPTBtnPreview();
         }
 
@@ -535,7 +542,7 @@ namespace Ink_Canvas {
             c[2] = (bool)((CheckBox)sender).IsChecked ? '2' : '1';
             Settings.PowerPointSettings.PPTBButtonsOption = int.Parse(new string(c));
             SaveSettingsToFile();
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) UpdatePPTBtnStyleSettingsStatus();
             UpdatePPTBtnPreview();
         }
 
@@ -543,7 +550,7 @@ namespace Ink_Canvas {
             if (!isLoaded) return;
             Settings.PowerPointSettings.PPTLSButtonPosition = (int)PPTButtonLeftPositionValueSlider.Value;
             UpdatePPTBtnSlidersStatus();
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
             SliderDelayAction.DebounceAction(2000, null, SaveSettingsToFile);
             UpdatePPTBtnPreview();
         }
@@ -677,7 +684,7 @@ namespace Ink_Canvas {
             if (!isLoaded) return;
             Settings.PowerPointSettings.PPTRSButtonPosition = (int)PPTButtonRightPositionValueSlider.Value;
             UpdatePPTBtnSlidersStatus();
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) UpdatePPTBtnDisplaySettingsStatus();
             SliderDelayAction.DebounceAction(2000,null, SaveSettingsToFile);
             UpdatePPTBtnPreview();
         }
@@ -797,6 +804,7 @@ namespace Ink_Canvas {
         private void ComboBoxEraserSize_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (!isLoaded) return;
             Settings.Canvas.EraserSize = ComboBoxEraserSize.SelectedIndex;
+
             SaveSettingsToFile();
         }
 
@@ -812,46 +820,28 @@ namespace Ink_Canvas {
                 ComboBoxEraserSizeFloatingBar.SelectedIndex = s.SelectedIndex;
                 ComboBoxEraserSize.SelectedIndex = s.SelectedIndex;
             }
-            if (Settings.Canvas.EraserShapeType == 0) {
-                double k = 1;
-                switch (s.SelectedIndex) {
-                    case 0:
-                        k = 0.5;
-                        break;
-                    case 1:
-                        k = 0.8;
-                        break;
-                    case 3:
-                        k = 1.25;
-                        break;
-                    case 4:
-                        k = 1.8;
-                        break;
-                }
-
-                inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
-            } else if (Settings.Canvas.EraserShapeType == 1) {
-                double k = 1;
-                switch (s.SelectedIndex) {
-                    case 0:
-                        k = 0.7;
-                        break;
-                    case 1:
-                        k = 0.9;
-                        break;
-                    case 3:
-                        k = 1.2;
-                        break;
-                    case 4:
-                        k = 1.6;
-                        break;
-                }
-
-                inkCanvas.EraserShape = new RectangleStylusShape(k * 90 * 0.6, k * 90);
+            double width = 24;
+            switch (Settings.Canvas.EraserSize)
+            {
+                case 0:
+                    width = 24;
+                    break;
+                case 1:
+                    width = 38;
+                    break;
+                case 2:
+                    width = 46;
+                    break;
+                case 3:
+                    width = 62;
+                    break;
+                case 4:
+                    width = 78;
+                    break;
             }
 
-            inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
-            inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
+            eraserWidth = width;
+            isEraserCircleShape = Settings.Canvas.EraserShapeType == 0;
             SaveSettingsToFile();
         }
 
@@ -860,25 +850,7 @@ namespace Ink_Canvas {
             Settings.Canvas.EraserShapeType = 0;
             SaveSettingsToFile();
             CheckEraserTypeTab();
-            double k = 1;
-            switch (ComboBoxEraserSizeFloatingBar.SelectedIndex) {
-                case 0:
-                    k = 0.5;
-                    break;
-                case 1:
-                    k = 0.8;
-                    break;
-                case 3:
-                    k = 1.25;
-                    break;
-                case 4:
-                    k = 1.8;
-                    break;
-            }
-
-            inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
-            inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
-            inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
+            isEraserCircleShape = true;
         }
 
         private void SwitchToRectangleEraser(object sender, MouseButtonEventArgs e) {
@@ -886,25 +858,7 @@ namespace Ink_Canvas {
             Settings.Canvas.EraserShapeType = 1;
             SaveSettingsToFile();
             CheckEraserTypeTab();
-            double k = 1;
-            switch (ComboBoxEraserSizeFloatingBar.SelectedIndex) {
-                case 0:
-                    k = 0.7;
-                    break;
-                case 1:
-                    k = 0.9;
-                    break;
-                case 3:
-                    k = 1.2;
-                    break;
-                case 4:
-                    k = 1.6;
-                    break;
-            }
-
-            inkCanvas.EraserShape = new RectangleStylusShape(k * 90 * 0.6, k * 90);
-            inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
-            inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
+            isEraserCircleShape = false;
         }
 
 
@@ -1369,16 +1323,24 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
+
+        private void ToggleSwitchLimitAutoSaveAmount_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Automation.IsEnableLimitAutoSaveAmount = ToggleSwitchLimitAutoSaveAmount.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ComboBoxLimitAutoSaveAmount_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Automation.LimitAutoSaveAmount = ComboBoxLimitAutoSaveAmount.SelectedIndex;
+            SaveSettingsToFile();
+        }
+
         #endregion
 
         #region Gesture
-
-        private void ToggleSwitchEnableFingerGestureSlideShowControl_Toggled(object sender, RoutedEventArgs e) {
-            if (!isLoaded) return;
-            Settings.PowerPointSettings.IsEnableFingerGestureSlideShowControl =
-                ToggleSwitchEnableFingerGestureSlideShowControl.IsOn;
-            SaveSettingsToFile();
-        }
 
         private void ToggleSwitchAutoSwitchTwoFingerGesture_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
@@ -1513,6 +1475,18 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
+        private void ComboBoxWindowsInkEraserButtonAction_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Gesture.WindowsInkEraserButtonAction = ComboBoxWindowsInkEraserButtonAction.SelectedIndex;
+            SaveSettingsToFile();
+        }
+
+        private void ComboBoxWindowsInkBarrelButtonAction_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Gesture.WindowsInkBarrelButtonAction = ComboBoxWindowsInkBarrelButtonAction.SelectedIndex;
+            SaveSettingsToFile();
+        }
+
         #endregion
 
         #region Reset
@@ -1555,6 +1529,7 @@ namespace Ink_Canvas {
             Settings.Appearance.ViewboxFloatingBarOpacityInPPTValue = 1.0;
             Settings.Appearance.EnableTrayIcon = true;
             Settings.Appearance.FloatingBarButtonLabelVisibility = true;
+            Settings.Advanced.EnableForceTopMost = false;
 
             Settings.Automation.IsAutoFoldInEasiNote = true;
             Settings.Automation.IsAutoFoldInEasiNoteIgnoreDesktopAnno = true;
@@ -1588,6 +1563,8 @@ namespace Ink_Canvas {
             Settings.Automation.MinimumAutomationStrokeNumber = 0;
             Settings.Automation.AutoDelSavedFiles = AutoDelSavedFilesDays;
             Settings.Automation.AutoDelSavedFilesDaysThreshold = AutoDelSavedFilesDaysThreshold;
+            Settings.Automation.IsEnableLimitAutoSaveAmount = false;
+            Settings.Automation.LimitAutoSaveAmount = 3;
 
             //Settings.PowerPointSettings.IsShowPPTNavigation = true;
             //Settings.PowerPointSettings.IsShowBottomPPTNavigationPanel = false;
@@ -1601,7 +1578,6 @@ namespace Ink_Canvas {
             Settings.PowerPointSettings.IsNotifyPreviousPage = false;
             Settings.PowerPointSettings.IsNotifyHiddenPage = false;
             Settings.PowerPointSettings.IsEnableTwoFingerGestureInPresentationMode = false;
-            Settings.PowerPointSettings.IsEnableFingerGestureSlideShowControl = false;
             Settings.PowerPointSettings.IsSupportWPS = true;
             Settings.PowerPointSettings.RegistryShowBlackScreenLastSlideShow = false;
             Settings.PowerPointSettings.RegistryShowSlideShowToolbar = false;
@@ -1615,7 +1591,7 @@ namespace Ink_Canvas {
             Settings.Canvas.EraserShapeType = 1;
             Settings.Canvas.HideStrokeWhenSelecting = false;
             Settings.Canvas.ClearCanvasAndClearTimeMachine = false;
-            Settings.Canvas.FitToCurve = true;
+            Settings.Canvas.FitToCurve = false;
             Settings.Canvas.UsingWhiteboard = false;
             Settings.Canvas.HyperbolaAsymptoteOption = 0;
             Settings.Canvas.BlackboardBackgroundColor = BlackboardBackgroundColorEnum.White;
@@ -1635,6 +1611,8 @@ namespace Ink_Canvas {
             Settings.Gesture.EnableMouseGesture = true;
             Settings.Gesture.EnableMouseRightBtnGesture = true;
             Settings.Gesture.EnableMouseWheelGesture = true;
+            Settings.Gesture.WindowsInkEraserButtonAction = 2;
+            Settings.Gesture.WindowsInkBarrelButtonAction = 2;
 
             Settings.InkToShape.IsInkToShapeEnabled = true;
             Settings.InkToShape.IsInkToShapeNoFakePressureRectangle = false;
@@ -1650,6 +1628,8 @@ namespace Ink_Canvas {
             Settings.Startup.AutoUpdateWithSilenceStartTime = "18:20";
             Settings.Startup.AutoUpdateWithSilenceEndTime = "07:40";
             Settings.Startup.IsFoldAtStartup = false;
+            Settings.Startup.EnableWindowChromeRendering = false;
+
         }
 
         private void BtnResetToSuggestion_Click(object sender, RoutedEventArgs e) {
@@ -1836,6 +1816,13 @@ namespace Ink_Canvas {
         private void ToggleSwitchIsDisableCloseWindow_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Advanced.IsDisableCloseWindow = ToggleSwitchIsDisableCloseWindow.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchEnableForceTopMost_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (!isLoaded) return;
+            Settings.Advanced.EnableForceTopMost = ToggleSwitchEnableForceTopMost.IsOn;
             SaveSettingsToFile();
         }
 
@@ -2086,8 +2073,14 @@ namespace Ink_Canvas {
             HideSubPanels();
         }
 
+        private void HyperlinkSourceToICCGithubRepository_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/InkCanvas/InkCanvasForClass");
+            HideSubPanels();
+        }
+
         private void HyperlinkSourceToPresentRepository_Click(object sender, RoutedEventArgs e) {
-            Process.Start("https://github.com/ChangSakura/Ink-Canvas");
+            Process.Start("https://github.com/InkCanvas/Ink-Canvas-Artistry");
             HideSubPanels();
         }
 

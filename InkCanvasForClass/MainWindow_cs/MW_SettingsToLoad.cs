@@ -111,6 +111,9 @@ namespace Ink_Canvas {
                 AutoUpdateWithSilenceEndTimeComboBox.SelectedItem = Settings.Startup.AutoUpdateWithSilenceEndTime;
 
                 ToggleSwitchFoldAtStartup.IsOn = Settings.Startup.IsFoldAtStartup;
+
+                ToggleSwitchEnableWindowChromeRendering.IsOn = Settings.Startup.EnableWindowChromeRendering;
+
             } else {
                 Settings.Startup = new Startup();
             }
@@ -220,17 +223,6 @@ namespace Ink_Canvas {
                     ToggleSwitchEnableViewboxBlackBoardScaleTransform.IsOn = false;
                 }
 
-                if (Settings.Appearance.IsTransparentButtonBackground) {
-                    BtnExit.Background = new SolidColorBrush(StringToColor("#7F909090"));
-                } else {
-                    //Light
-                    BtnExit.Background = BtnSwitchTheme.Content.ToString() == "深色"
-                        ? new SolidColorBrush(StringToColor("#FFCCCCCC"))
-                        :
-                        //Dark
-                        new SolidColorBrush(StringToColor("#FF555555"));
-                }
-
                 ComboBoxFloatingBarImg.SelectedIndex = Settings.Appearance.FloatingBarImg;
                 if (ComboBoxFloatingBarImg.SelectedIndex == 0) {
                     FloatingbarHeadIconImg.Source =
@@ -299,9 +291,6 @@ namespace Ink_Canvas {
 
                 ToggleSwitchEnableTwoFingerGestureInPresentationMode.IsOn =
                     Settings.PowerPointSettings.IsEnableTwoFingerGestureInPresentationMode;
-
-                ToggleSwitchEnableFingerGestureSlideShowControl.IsOn =
-                    Settings.PowerPointSettings.IsEnableFingerGestureSlideShowControl;
 
                 ToggleSwitchAutoSaveStrokesInPowerPoint.IsOn =
                     Settings.PowerPointSettings.IsAutoSaveStrokesInPowerPoint;
@@ -448,6 +437,9 @@ namespace Ink_Canvas {
                 ToggleSwitchEnableMouseGesture.IsOn = Settings.Gesture.EnableMouseGesture;
                 ToggleSwitchEnableMouseRightBtnGesture.IsOn = Settings.Gesture.EnableMouseRightBtnGesture;
                 ToggleSwitchEnableMouseWheelGesture.IsOn = Settings.Gesture.EnableMouseWheelGesture;
+
+                ComboBoxWindowsInkEraserButtonAction.SelectedIndex = Settings.Gesture.WindowsInkEraserButtonAction;
+                ComboBoxWindowsInkBarrelButtonAction.SelectedIndex = Settings.Gesture.WindowsInkBarrelButtonAction;
 
                 CheckEnableTwoFingerGestureBtnColorPrompt();
             } else {
@@ -614,6 +606,7 @@ namespace Ink_Canvas {
                                                                     Settings.Advanced.IsEnableResolutionChangeDetection;
 
                 ToggleSwitchIsDisableCloseWindow.IsOn = Settings.Advanced.IsDisableCloseWindow;
+                ToggleSwitchEnableForceTopMost.IsOn = Settings.Advanced.EnableForceTopMost;
             } else {
                 Settings.Advanced = new Advanced();
             }
@@ -730,12 +723,16 @@ namespace Ink_Canvas {
                 ToggleSwitchAutoDelSavedFiles.IsOn = Settings.Automation.AutoDelSavedFiles;
                 ComboBoxAutoDelSavedFilesDaysThreshold.Text =
                     Settings.Automation.AutoDelSavedFilesDaysThreshold.ToString();
+
+                ToggleSwitchLimitAutoSaveAmount.IsOn = Settings.Automation.IsEnableLimitAutoSaveAmount;
+                ComboBoxLimitAutoSaveAmount.SelectedIndex = Settings.Automation.LimitAutoSaveAmount;
+
             } else {
                 Settings.Automation = new Automation();
             }
 
             // auto align
-            if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible) {
+            if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) {
                 ViewboxFloatingBarMarginAnimation(60);
             } else {
                 ViewboxFloatingBarMarginAnimation(100, true);

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Ink_Canvas.Popups"
              xmlns:modern="http://schemas.inkore.net/lib/ui/wpf/modern"
+             xmlns:colorPicker="clr-namespace:ColorPicker;assembly=ColorPicker"
              mc:Ignorable="d" Width="300" Height="450" UseLayoutRounding="True">
     <UserControl.Resources>
         <DrawingImage x:Key="CheckedLightIcon">
@@ -28,8 +29,6 @@
             <MenuItem IsCheckable="True" Name="RecogQua" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="识别四边形"/>
             <MenuItem IsCheckable="True" Name="RecogEll" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="识别椭圆"/>
             <MenuItem IsCheckable="True" Name="RecogPlg" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="识别多边形"/>
-            <Separator/>
-            <MenuItem IsCheckable="True" Name="Ft2Curve" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="启用墨迹平滑"/>
         </ContextMenu>
         <ContextMenu x:Key="SimulatePressureContextMenu" Placement="Relative" Closed="SimulatePressureContextMenu_Closed" Opened="SimulatePressureContextMenu_Opened">
             <MenuItem IsCheckable="True" Name="PointSP" Checked="SimulatePressureContextMenuItem_Checked" Unchecked="SimulatePressureContextMenuItem_Checked" Header="点集笔锋"/>
@@ -343,21 +342,21 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Black" Grid.Row="0" Grid.Column="0" Margin="2" CornerRadius="3" Background="#09090b" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="White" Grid.Row="0" Grid.Column="1" Margin="2" CornerRadius="3" Background="#fafafa" BorderBrush="#a1a1aa" BorderThickness="1" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Red" Grid.Row="0" Grid.Column="2" Margin="2" CornerRadius="3" Background="#dc2626" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Orange" Grid.Row="0" Grid.Column="3" Margin="2" CornerRadius="3" Background="#ea580c" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Yellow" Grid.Row="0" Grid.Column="4" Margin="2" CornerRadius="3" Background="#facc15" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Lime" Grid.Row="1" Grid.Column="0" Margin="2,6,2,2" CornerRadius="3" Background="#65a30d" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Green" Grid.Row="1" Grid.Column="1" Margin="2,6,2,2" CornerRadius="3" Background="#16a34a" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Teal" Grid.Row="1" Grid.Column="2" Margin="2,6,2,2" CornerRadius="3" Background="#0d9488" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Cyan" Grid.Row="1" Grid.Column="3" Margin="2,6,2,2" CornerRadius="3" Background="#0284c7" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Blue" Grid.Row="1" Grid.Column="4" Margin="2,6,2,2" CornerRadius="3" Background="#2563eb" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Indigo" Grid.Row="2" Grid.Column="0" Margin="2,6,2,2" CornerRadius="3" Background="#4f46e5" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Purple" Grid.Row="2" Grid.Column="1" Margin="2,6,2,2" CornerRadius="3" Background="#7c3aed" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Fuchsia" Grid.Row="2" Grid.Column="2" Margin="2,6,2,2" CornerRadius="3" Background="#c026d3" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Pink" Grid.Row="2" Grid.Column="3" Margin="2,6,2,2" CornerRadius="3" Background="#db2777" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Rose" Grid.Row="2" Grid.Column="4" Margin="2,6,2,2" CornerRadius="3" Background="#e11d48" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Black" Grid.Row="0" Grid.Column="0" Margin="2" CornerRadius="3" Background="#09090b" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="White" Grid.Row="0" Grid.Column="1" Margin="2" CornerRadius="3" Background="#fafafa" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Red" Grid.Row="0" Grid.Column="2" Margin="2" CornerRadius="3" Background="#dc2626" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Orange" Grid.Row="0" Grid.Column="3" Margin="2" CornerRadius="3" Background="#ea580c" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Yellow" Grid.Row="0" Grid.Column="4" Margin="2" CornerRadius="3" Background="#facc15" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Lime" Grid.Row="1" Grid.Column="0" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#65a30d" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Green" Grid.Row="1" Grid.Column="1" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#16a34a" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Teal" Grid.Row="1" Grid.Column="2" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#0d9488" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Cyan" Grid.Row="1" Grid.Column="3" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#0284c7" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Blue" Grid.Row="1" Grid.Column="4" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#2563eb" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Indigo" Grid.Row="2" Grid.Column="0" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#4f46e5" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Purple" Grid.Row="2" Grid.Column="1" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#7c3aed" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Fuchsia" Grid.Row="2" Grid.Column="2" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#c026d3" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Pink" Grid.Row="2" Grid.Column="3" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#db2777" Width="42" Height="36"></Border>
+                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Rose" Grid.Row="2" Grid.Column="4" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#e11d48" Width="42" Height="36"></Border>
                                 </Grid>
                                 <Grid Margin="12,0">
                                     <Grid.ColumnDefinitions>
@@ -381,9 +380,12 @@
                                             <TextBlock Text="随机" VerticalAlignment="Center"></TextBlock>
                                         </modern:SimpleStackPanel>
                                     </Button>
-                                    <Button Grid.Column="1" HorizontalAlignment="Stretch" Margin="3,0,3,0">
+                                    <Button Name="CustomColorButton" Click="CustomColorButton_Clicked" ClipToBounds="False" Grid.Column="1" HorizontalAlignment="Stretch" Margin="3,0,3,0">
                                         <modern:SimpleStackPanel Orientation="Horizontal" Spacing="4">
-                                            <Image Height="19" Width="19">
+                                            <Border Name="CustomColorButtonColorBorder" VerticalAlignment="Center" Width="19" Height="19" Visibility="Collapsed" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1">
+                                                <Image HorizontalAlignment="Center" VerticalAlignment="Center" Name="CustomColorButtonColorBorderCheckIcon" Height="16" Width="16" Source="{StaticResource CheckedDarkIcon}"/>
+                                            </Border>
+                                            <Image Name="CustomColorButtonIcon" Height="19" Width="19">
                                                 <Image.Source>
                                                     <DrawingImage>
                                                         <DrawingImage.Drawing>
@@ -397,7 +399,7 @@
                                             <TextBlock Text="自定" VerticalAlignment="Center"></TextBlock>
                                         </modern:SimpleStackPanel>
                                     </Button>
-                                    <Button Grid.Column="2" HorizontalAlignment="Stretch" Margin="3,0,0,0">
+                                    <Button Name="ColorModeChangeButton" Click="ColorModeChangeButton_Clicked" Grid.Column="2" HorizontalAlignment="Stretch" Margin="3,0,0,0">
                                         <modern:SimpleStackPanel Orientation="Horizontal" Spacing="4">
                                             <Image Height="19" Width="19">
                                                 <Image.Source>
@@ -414,6 +416,37 @@
                                         </modern:SimpleStackPanel>
                                     </Button>
                                 </Grid>
+                            </modern:SimpleStackPanel>
+                        </Grid>
+                    </Border>
+                    <!--custom color panel-->
+                    <Border Name="CustomColorPanel" Visibility="Collapsed" Margin="6" CornerRadius="6" Background="#fafafa" BorderBrush="#d4d4d8" BorderThickness="1">
+                        <Grid>
+                            <modern:SimpleStackPanel Orientation="Vertical" Spacing="6">
+                                <TextBlock FontSize="18" FontWeight="Bold" VerticalAlignment="Bottom" Foreground="#27272a" Margin="16,12,10,2" Text="自定义颜色"></TextBlock>
+                                <Grid>
+                                    <colorPicker:SquarePicker Name="CustomColorPicker" ColorChanged="CustomColorPicker_ColorChanged" HorizontalAlignment="Center" Width="242" Height="242"/>
+                                </Grid>
+                                <Grid Margin="12,2,12,0">
+                                    <Border Name="CustomColorHexBorder" HorizontalAlignment="Left" Width="32" Height="32" CornerRadius="3" BorderBrush="#6618181b" BorderThickness="1"/>
+                                    <TextBox Name="CustomColorHexTextBox" Margin="36,0,0,0" HorizontalAlignment="Stretch" Text="#000000"></TextBox>
+                                </Grid>
+                                <Button Click="BackToPaletteButton_Clicked" HorizontalAlignment="Stretch" Margin="12,0">
+                                    <modern:SimpleStackPanel Orientation="Horizontal" Spacing="4">
+                                        <Image Height="19" Width="19">
+                                            <Image.Source>
+                                                <DrawingImage>
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                            <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M12.7071,5.70711C13.0976,5.31658 13.0976,4.68342 12.7071,4.29289 12.3166,3.90237 11.6834,3.90237 11.2929,4.29289L4.29289,11.2929C3.90237,11.6834,3.90237,12.3166,4.29289,12.7071L11.2929,19.7071C11.6834,20.0976 12.3166,20.0976 12.7071,19.7071 13.0976,19.3166 13.0976,18.6834 12.7071,18.2929L7.41421,13 19,13C19.5523,13 20,12.5523 20,12 20,11.4477 19.5523,11 19,11L7.41421,11 12.7071,5.70711z" />
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock Text="返回调色盘" VerticalAlignment="Center"></TextBlock>
+                                    </modern:SimpleStackPanel>
+                                </Button>
                             </modern:SimpleStackPanel>
                         </Grid>
                     </Border>

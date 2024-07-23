@@ -25,8 +25,7 @@ namespace Ink_Canvas {
             WaterMarkTime.Visibility = Visibility.Collapsed;
             WaterMarkDate.Visibility = Visibility.Collapsed;
             BlackBoardWaterMark.Visibility = Visibility.Collapsed;
-            BtnSwitch_Click(BtnSwitch, null);
-            BtnExit.Foreground = Brushes.White;
+            BtnSwitch_Click(null, null);
             ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
             new Thread(new ThreadStart(() => {
                 Thread.Sleep(200);
@@ -202,7 +201,7 @@ namespace Ink_Canvas {
                 LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
                 RightUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
             });
-            if (sender == null || StackPanelPPTControls.Visibility == Visibility.Visible)
+            if (sender == null || BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible)
                 unfoldFloatingBarByUser = false;
             else
                 unfoldFloatingBarByUser = true;
@@ -218,7 +217,7 @@ namespace Ink_Canvas {
             await Task.Delay(0);
 
             await Dispatcher.InvokeAsync(() => {
-                if (StackPanelPPTControls.Visibility == Visibility.Visible)
+                if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible)
                 {
                     var dops = Settings.PowerPointSettings.PPTButtonsDisplayOption.ToString();
                     var dopsc = dops.ToCharArray();
@@ -228,7 +227,7 @@ namespace Ink_Canvas {
                     if (dopsc[3] == '2' && isDisplayingOrHidingBlackboard == false) AnimationsHelper.ShowWithFadeIn(RightSidePanelForPPTNavigation);
                 }
 
-                if (BtnPPTSlideShowEnd.Visibility == Visibility.Visible)
+                if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible)
                     ViewboxFloatingBarMarginAnimation(60);
                 else
                     ViewboxFloatingBarMarginAnimation(100, true);

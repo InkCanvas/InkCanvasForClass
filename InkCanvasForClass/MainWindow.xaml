@@ -6,8 +6,9 @@
         xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
         xmlns:c="clr-namespace:Ink_Canvas.Converter"
         xmlns:Controls="http://schemas.microsoft.com/netfx/2009/xaml/presentation" xmlns:popups="clr-namespace:Ink_Canvas.Popups"
+        xmlns:inkCanvas="clr-namespace:Ink_Canvas"
+        xmlns:helpers="clr-namespace:Ink_Canvas.Helpers"
         mc:Ignorable="d"
-        AllowsTransparency="True"
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowState="Maximized"
@@ -20,6 +21,7 @@
         Closing="Window_Closing"
         Closed="Window_Closed"
         PreviewKeyDown="Main_Grid_PreviewKeyDown"
+        PreviewKeyUp="Main_Grid_PreviewKeyUp"
         Height="12000" Width="1440"
         FontFamily="Microsoft YaHei UI"
         MouseWheel="Window_MouseWheel"
@@ -30,31 +32,41 @@
         Stylus.IsFlicksEnabled="False"
         Stylus.IsTapFeedbackEnabled="False"
         DpiChanged="MainWindow_OnDpiChanged"
+        PreviewStylusButtonDown="mainWin_StylusButtonDown"
+        PreviewStylusButtonUp="mainWin_StylusButtonUp"
+        PreviewStylusMove="mainWin_StylusMove"
+        PreviewStylusInAirMove="mainWin_StylusInAirMove"
         Stylus.IsTouchFeedbackEnabled="False">
     <!--资源中添加命令-->
     <Window.Resources>
-        <c:IsEnabledToOpacityConverter x:Key="IsEnabledToOpacityConverter" />
-        <c:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <c:IntNumberToString x:Key="IntNumberToString" />
-        <c:IntNumberToString2 x:Key="IntNumberToString2" />
-        <RoutedUICommand x:Key="KeyExit" Text=" " />
-        <RoutedUICommand x:Key="HotKey_Command_Undo" Text=" " />
-        <RoutedUICommand x:Key="HotKey_Command_Redo" Text=" " />
-        <RoutedUICommand x:Key="HotKey_Command_Clear" Text=" " />
-        <RoutedUICommand x:Key="HotKey_Capture" Text=" " />
-        <RoutedUICommand x:Key="HotKey_Hide" Text=" " />
-        <RoutedUICommand x:Key="HotKey_ChangeToDrawTool" Text=" " />
-        <RoutedUICommand x:Key="HotKey_ChangeToQuitDrawTool" Text=" " />
-        <RoutedUICommand x:Key="HotKey_ChangeToSelect" Text=" " />
-        <RoutedUICommand x:Key="HotKey_ChangeToEraser" Text=" " />
-        <RoutedUICommand x:Key="HotKey_ChangeToBoard" Text=" " />
-        <RoutedUICommand x:Key="HotKey_ChangeToPen1" Text=" " />
-        <RoutedUICommand x:Key="HotKey_ChangeToPen2" Text=" " />
-        <RoutedUICommand x:Key="HotKey_ChangeToPen3" Text=" " />
-        <RoutedUICommand x:Key="HotKey_ChangeToPen4" Text=" " />
-        <RoutedUICommand x:Key="HotKey_ChangeToPen5" Text=" " />
-        <RoutedUICommand x:Key="HotKey_DrawLine" Text=" " />
-        <RoutedUICommand x:Key="NothingWillHappened" Text=" " />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="MainWindow_cs/MW_ContextMenus.xaml"/>
+                <ResourceDictionary Source="MainWindow_cs/MW_Eraser.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <c:IsEnabledToOpacityConverter x:Key="IsEnabledToOpacityConverter" />
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <c:IntNumberToString x:Key="IntNumberToString" />
+            <c:IntNumberToString2 x:Key="IntNumberToString2" />
+            <RoutedUICommand x:Key="KeyExit" Text=" " />
+            <RoutedUICommand x:Key="HotKey_Command_Undo" Text=" " />
+            <RoutedUICommand x:Key="HotKey_Command_Redo" Text=" " />
+            <RoutedUICommand x:Key="HotKey_Command_Clear" Text=" " />
+            <RoutedUICommand x:Key="HotKey_Capture" Text=" " />
+            <RoutedUICommand x:Key="HotKey_Hide" Text=" " />
+            <RoutedUICommand x:Key="HotKey_ChangeToDrawTool" Text=" " />
+            <RoutedUICommand x:Key="HotKey_ChangeToQuitDrawTool" Text=" " />
+            <RoutedUICommand x:Key="HotKey_ChangeToSelect" Text=" " />
+            <RoutedUICommand x:Key="HotKey_ChangeToEraser" Text=" " />
+            <RoutedUICommand x:Key="HotKey_ChangeToBoard" Text=" " />
+            <RoutedUICommand x:Key="HotKey_ChangeToPen1" Text=" " />
+            <RoutedUICommand x:Key="HotKey_ChangeToPen2" Text=" " />
+            <RoutedUICommand x:Key="HotKey_ChangeToPen3" Text=" " />
+            <RoutedUICommand x:Key="HotKey_ChangeToPen4" Text=" " />
+            <RoutedUICommand x:Key="HotKey_ChangeToPen5" Text=" " />
+            <RoutedUICommand x:Key="HotKey_DrawLine" Text=" " />
+            <RoutedUICommand x:Key="NothingWillHappened" Text=" " />
+        </ResourceDictionary>
     </Window.Resources>
     <!--输入命令绑定-->
     <Window.InputBindings>
@@ -106,8 +118,8 @@
 
     <Grid x:Name="Main_Grid">
 
-        <Popup IsOpen="True" StaysOpen="True" AllowsTransparency="True" Placement="AbsolutePoint">
-            <popups:ColorPalette Width="300" Height="450"/>
+        <Popup Name="PenPaletteV2Popup" PopupAnimation="Fade" IsOpen="False" StaysOpen="True" AllowsTransparency="True" Placement="AbsolutePoint">
+            <popups:ColorPalette x:Name="PenPaletteV2" Width="300" />
         </Popup>
 
         <!--// 黑/白 板幕布 //-->
@@ -117,26 +129,27 @@
         <Grid Name="GridTransparencyFakeBackground" Opacity="0" />
         <Label Name="Label" Visibility="Collapsed" Foreground="Gray" Content="0" />
         <Grid Name="InkCanvasGridForInkReplay">
+            <helpers:RectangleSelectionViewer x:Name="RectangleSelection" />
             <InkCanvas x:Name="inkCanvas" ForceCursor="False"
-                       TouchUp="Main_Grid_TouchUp" TouchDown="Main_Grid_TouchDown"
-                       TouchMove="inkCanvas_TouchMove"
-                       ManipulationDelta="Main_Grid_ManipulationDelta"
-                       ManipulationCompleted="Main_Grid_ManipulationCompleted"
-                       ManipulationInertiaStarting="inkCanvas_ManipulationInertiaStarting"
-                       IsManipulationEnabled="True"
-                       EditingModeChanged="inkCanvas_EditingModeChanged"
-                       PreviewTouchDown="inkCanvas_PreviewTouchDown"
-                       PreviewTouchUp="inkCanvas_PreviewTouchUp"
-                       MouseDown="inkCanvas_MouseDown"
-                       MouseMove="inkCanvas_MouseMove"
-                       MouseUp="inkCanvas_MouseUp"
-                       PreviewMouseRightButtonDown="InkCanvas_MouseRightButtonDown"
-                       PreviewMouseRightButtonUp="InkCanvas_MouseRightButtonUp"
-                       ManipulationStarting="inkCanvas_ManipulationStarting"
-                       SelectionChanged="inkCanvas_SelectionChanged"
-                       StrokeCollected="inkCanvas_StrokeCollected" ClipToBounds="False" Background="Transparent" />
+                          TouchUp="Main_Grid_TouchUp" TouchDown="Main_Grid_TouchDown"
+                          TouchMove="inkCanvas_TouchMove"
+                          ManipulationDelta="Main_Grid_ManipulationDelta"
+                          ManipulationCompleted="Main_Grid_ManipulationCompleted"
+                          ManipulationInertiaStarting="inkCanvas_ManipulationInertiaStarting"
+                          IsManipulationEnabled="True"
+                          EditingModeChanged="inkCanvas_EditingModeChanged"
+                          EditingModeInverted="None"
+                          PreviewTouchDown="inkCanvas_PreviewTouchDown"
+                          PreviewTouchUp="inkCanvas_PreviewTouchUp"
+                          MouseDown="inkCanvas_MouseDown"
+                          MouseMove="inkCanvas_MouseMove"
+                          MouseUp="inkCanvas_MouseUp"
+                          PreviewMouseRightButtonDown="InkCanvas_MouseRightButtonDown"
+                          PreviewMouseRightButtonUp="InkCanvas_MouseRightButtonUp"
+                          ManipulationStarting="inkCanvas_ManipulationStarting"
+                          SelectionChanged="inkCanvas_SelectionChanged"
+                          StrokeCollected="inkCanvas_StrokeCollected" ClipToBounds="False" Background="Transparent" />
         </Grid>
-
         <Canvas IsHitTestVisible="False">
             <ui:SimpleStackPanel Canvas.Left="25" Canvas.Top="15" Orientation="Vertical">
                 <TextBlock Text="{Binding nowTime}" Name="WaterMarkTime" Visibility="Collapsed" FontSize="30"
@@ -155,124 +168,324 @@
                   ManipulationStarting="GridInkCanvasSelectionCover_ManipulationStarting"
                   ManipulationCompleted="GridInkCanvasSelectionCover_ManipulationCompleted"
                   ManipulationDelta="GridInkCanvasSelectionCover_ManipulationDelta"
-                  PreviewTouchDown="GridInkCanvasSelectionCover_PreviewTouchDown"
-                  PreviewTouchUp="GridInkCanvasSelectionCover_PreviewTouchUp"
-                  TouchDown="GridInkCanvasSelectionCover_TouchDown"
-                  TouchUp="GridInkCanvasSelectionCover_TouchUp"
                   Background="#01FFFFFF" Opacity="0.01" Visibility="Visible" Margin="1,0,-1,0" />
-            <Border Name="BorderStrokeSelectionControl"
-                    HorizontalAlignment="Left" VerticalAlignment="Top" Margin="800,900,0,0"
-                    CornerRadius="5" Height="80"
-                    Background="{DynamicResource FloatBarBackground}"
-                    Visibility="{Binding ElementName=GridInkCanvasSelectionCover, Path=Visibility}"
-                    BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
-                <Viewbox Margin="0,-2.5">
-                    <ui:SimpleStackPanel Orientation="Horizontal" Spacing="10" Height="60">
-                        <Border Name="BorderStrokeSelectionClone" Margin="0,2,-9,2" Background="Transparent"
-                                CornerRadius="{Binding ElementName=BorderStrokeSelectionControl, Path=CornerRadius}"
-                                Width="40" MouseDown="Border_MouseDown" MouseUp="BorderStrokeSelectionClone_MouseUp">
-                            <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Image Source="/Resources/Icons-Fluent/ic_fluent_copy_24_regular.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25" />
-                                <TextBlock Text="克隆" FontSize="10" Foreground="{DynamicResource FloatBarForeground}"
-                                           HorizontalAlignment="Center" />
-                            </ui:SimpleStackPanel>
-                        </Border>
-                        <Border Name="BorderStrokeSelectionCloneToNewBoard" Margin="0,2,-9,2" Background="Transparent"
-                                CornerRadius="{Binding ElementName=BorderStrokeSelectionControl, Path=CornerRadius}"
-                                Width="40" MouseDown="Border_MouseDown"
-                                MouseUp="BorderStrokeSelectionCloneToNewBoard_MouseUp"
-                                Visibility="{Binding Visibility, ElementName=GridBackgroundCover}">
-                            <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Image Source="/Resources/Icons-Fluent/ic_fluent_copy_add_24_regular.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25" />
-                                <TextBlock Text="克隆至新页" FontSize="8" Foreground="{DynamicResource FloatBarForeground}"
-                                           HorizontalAlignment="Center" />
-                            </ui:SimpleStackPanel>
-                        </Border>
-                        <Border Width="1" Height="45" BorderBrush="{DynamicResource FloatBarForeground}"
-                                Background="{DynamicResource FloatBarForeground}" />
-                        <Border CornerRadius="{Binding ElementName=BorderStrokeSelectionControl, Path=CornerRadius}"
-                                Height="40">
-                            <ui:SimpleStackPanel VerticalAlignment="Center" Spacing="5" Margin="0,-10">
-                                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="10">
-                                    <Image Source="{DynamicResource Rotate45DrawingImage}" Height="22"
-                                           MouseDown="Border_MouseDown" MouseUp="ImageRotate45_MouseUp" />
-                                    <Image Source="{DynamicResource Rotate90DrawingImage}" Height="22"
-                                           MouseDown="Border_MouseDown" MouseUp="ImageRotate90_MouseUp" />
-                                </ui:SimpleStackPanel>
-                                <TextBlock Text="旋转" FontSize="10" HorizontalAlignment="Center"
-                                           Foreground="{DynamicResource FloatBarForeground}" />
-                            </ui:SimpleStackPanel>
-                        </Border>
-                        <Border Width="1" Height="45" BorderBrush="{DynamicResource FloatBarForeground}"
-                                Background="{DynamicResource FloatBarForeground}" />
-                        <Border CornerRadius="{Binding ElementName=BorderStrokeSelectionControl, Path=CornerRadius}"
-                                Height="40">
-                            <ui:SimpleStackPanel VerticalAlignment="Center" Margin="0,-10">
-                                <ui:SimpleStackPanel Orientation="Horizontal">
-                                    <Image MouseDown="Border_MouseDown" MouseUp="ImageFlipHorizontal_MouseUp"
-                                           Source="/Resources/Icons-Fluent/ic_fluent_flip_horizontal_24_regular.png"
-                                           RenderOptions.BitmapScalingMode="HighQuality" Height="30" Width="30" />
-                                    <Image MouseDown="Border_MouseDown" MouseUp="ImageFlipVertical_MouseUp"
-                                           Source="/Resources/Icons-Fluent/ic_fluent_flip_vertical_24_regular.png"
-                                           RenderOptions.BitmapScalingMode="HighQuality" Height="30" Width="30" />
-                                </ui:SimpleStackPanel>
-                                <TextBlock Text="翻转" FontSize="10" HorizontalAlignment="Center"
-                                           Foreground="{DynamicResource FloatBarForeground}" />
-                            </ui:SimpleStackPanel>
-                        </Border>
-                        <Border Width="1" Height="45" BorderBrush="{DynamicResource FloatBarForeground}"
-                                Background="{DynamicResource FloatBarForeground}" />
-                        <Border CornerRadius="{Binding ElementName=BorderStrokeSelectionControl, Path=CornerRadius}"
-                                Height="40">
-                            <ui:SimpleStackPanel VerticalAlignment="Center" Spacing="5" Margin="0,-10">
-                                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5">
-                                    <Grid MouseDown="Border_MouseDown" MouseUp="GridPenWidthDecrease_MouseUp">
-                                        <Image Source="/Resources/Icons-Fluent/ic_fluent_edit_24_regular.png"
-                                               RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25" />
-                                        <TextBlock Text="-" Foreground="{DynamicResource FloatBarForeground}"
-                                                   VerticalAlignment="Bottom" HorizontalAlignment="Right"
-                                                   Margin="0,0,-2,-7" FontSize="15" />
+            <InkCanvas Background="Transparent" EditingMode="None" IsHitTestVisible="False" Name="InkSelectionStrokesBackgroundInkCanvas" Visibility="Collapsed" />
+            <helpers:InkStrokesOverlay x:Name="InkSelectionStrokesOverlay" IsHitTestVisible="False" />
+            <helpers:DrawingVisualCanvas x:Name="InkSelectionRotateGuidelineOverlay" Visibility="Collapsed" IsHitTestVisible="False" />
+            <!--RectangleSelectionHitTestBorder 用于矩形选择的HitTest-->
+            <Border Visibility="Collapsed" Background="Transparent" Name="RectangleSelectionHitTestBorder" MouseDown="RectangleSelectionHitTestBorder_MouseDown" MouseUp="RectangleSelectionHitTestBorder_MouseUp" MouseMove="RectangleSelectionHitTestBorder_MouseMove" />
+            <Canvas Name="InkCanvasSelectFakeAdornerCanvas" Visibility="Collapsed">
+                <Border Visibility="Collapsed" Name="StrokeSelectionBorder"
+                        Canvas.Top="125" Canvas.Left="35" Width="225" Height="195">
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform x:Name="StrokeSelectionBorderRotateTransform" CenterX="0" CenterY="0" />
+                            <TranslateTransform x:Name="StrokeSelectionBorderTranslateTransform" X="0" Y="0"/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
+                    <Grid Margin="-9" Name="StrokeSelectionBorderGrid">
+                        <Border BorderBrush="#2563eb" BorderThickness="2" />
+                        <Line Name="StrokeSelectionRotateHandleConnectLine" HorizontalAlignment="Center" X1="0" Y1="0" X2="0" Y2="-48" Height="0" VerticalAlignment="Top" Stroke="#2563eb" StrokeThickness="2" />
+                        <Border Name="StrokeSelectionCursorArea" MouseUp="StrokeSelectionBorder_MouseUp"
+                                MouseMove="StrokeSelectionBorder_MouseMove" MouseDown="StrokeSelectionBorder_MouseDown"
+                                MouseEnter="StrokeSelectionBorder_MouseEnter" MouseLeave="StrokeSelectionBorder_MouseLeave"
+                                Background="#0560a5fa" />
+                        <Border Name="StrokeSelectionLTHandle" Width="24" Height="24" CornerRadius="12" Background="White" BorderBrush="#2563eb" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-12" />
+                        <Border Name="StrokeSelectionRTHandle" Width="24" Height="24" CornerRadius="12" Background="White" BorderBrush="#2563eb" BorderThickness="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-12" />
+                        <Border Name="StrokeSelectionLBHandle" Width="24" Height="24" CornerRadius="12" Background="White" BorderBrush="#2563eb" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="-12" />
+                        <Border Name="StrokeSelectionRBHandle" Width="24" Height="24" CornerRadius="12" Background="White" BorderBrush="#2563eb" BorderThickness="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="-12" />
+                        <Border Name="StrokeSelectionLHandle" Width="16" Height="16" CornerRadius="4" Background="White" BorderBrush="#2563eb" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-8" />
+                        <Border Name="StrokeSelectionRHandle" Width="16" Height="16" CornerRadius="4" Background="White" BorderBrush="#2563eb" BorderThickness="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="-8" />
+                        <Border Name="StrokeSelectionTHandle" Width="16" Height="16" CornerRadius="4" Background="White" BorderBrush="#2563eb" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-8" />
+                        <Border Name="StrokeSelectionBHandle" Width="16" Height="16" CornerRadius="4" Background="White" BorderBrush="#2563eb" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="-8" />
+                        <Grid Margin="0,-48,0,0">
+                            <Border Name="StrokeSelectionRotateHandle" Width="20" Height="20" CornerRadius="12" Background="#dcfce7" BorderBrush="#22c55e" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-10" />
+                        </Grid>
+                        <Canvas>
+                            <Border Name="StrokeSelectionSizeToast" Visibility="Collapsed" Margin="12" Padding="6,2" Background="#CC18181b" CornerRadius="3">
+                                <StackPanel Orientation="Horizontal" Name="StrokeSelectionSizeToastInner">
+                                    <TextBlock Foreground="White" Text="293" />
+                                    <Grid VerticalAlignment="Center" Width="8" Height="8" Margin="4,0">
+                                        <Line X1="0" Y1="0" X2="8" Y2="8" Stroke="White" StrokeThickness="1.25" />
+                                        <Line X1="8" Y1="0" X2="0" Y2="8" Stroke="White" StrokeThickness="1.25" />
                                     </Grid>
-                                    <Grid MouseDown="Border_MouseDown" MouseUp="GridPenWidthIncrease_MouseUp">
-                                        <Image Source="/Resources/Icons-Fluent/ic_fluent_edit_24_regular.png"
-                                               RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25" />
-                                        <TextBlock Text="+" Foreground="{DynamicResource FloatBarForeground}"
-                                                   VerticalAlignment="Bottom" HorizontalAlignment="Right"
-                                                   Margin="0,0,-3,-4" FontSize="11" />
-                                    </Grid>
-                                    <Grid MouseDown="Border_MouseDown" MouseUp="GridPenWidthRestore_MouseUp">
-                                        <Image Source="/Resources/Icons-Fluent/ic_fluent_edit_24_regular.png"
-                                               RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25" />
-                                        <Image Source="{DynamicResource AndroidRefreshDrawingImage}"
-                                               VerticalAlignment="Bottom" HorizontalAlignment="Right"
-                                               Margin="0,0,-2,-2" Width="8" />
-                                    </Grid>
-                                </ui:SimpleStackPanel>
-                                <TextBlock Text="画笔粗细" FontSize="10" HorizontalAlignment="Center"
-                                           Foreground="{DynamicResource FloatBarForeground}" />
+                                    <TextBlock Foreground="White" Text="1920" />
+                                </StackPanel>
+                            </Border>
+                            <Border Name="StrokeSelectionMoveToast" Visibility="Collapsed" Margin="12" Padding="6,2" Background="#CC18181b" CornerRadius="3">
+                                <StackPanel Orientation="Vertical" Name="StrokeSelectionMoveToastInner">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Foreground="White" Margin="0,0,8,0" Text="X: 293" />
+                                        <TextBlock Foreground="White" Text="Y: 1920" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Foreground="White" Margin="0,0,3,0" FontWeight="Bold" Text="偏移: " />
+                                        <TextBlock Foreground="White" Margin="0,0,8,0" Text="Δx: 293" />
+                                        <TextBlock Foreground="White" Text="Δy: 1920" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                            <Border Name="StrokeSelectionRotateToast" Visibility="Collapsed" Margin="12" Padding="6,2" Background="#CC18181b" CornerRadius="3">
+                                <TextBlock Foreground="White" Text="120°" />
+                            </Border>
+                        </Canvas>
+                    </Grid>
+                </Border>
+            </Canvas>
+            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Name="BorderStrokeSelectionControl" Visibility="{Binding ElementName=GridInkCanvasSelectionCover, Path=Visibility}"
+                  Width="660" Height="48" Margin="800,600,0,0">
+                <Border HorizontalAlignment="Center" VerticalAlignment="Center"
+                        CornerRadius="6" Height="48"
+                        Background="#f4f4f5"
+                        BorderThickness="1" BorderBrush="#a1a1aa">
+                    <ui:SimpleStackPanel Orientation="Horizontal" Height="44" Margin="2,0">
+                        <Border Padding="10,0" Margin="-3,-2,3,-2" CornerRadius="6,0,0,6" Background="#2563eb">
+                            <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="4" Orientation="Horizontal">
+                                <Image Width="24" Height="24">
+                                    <Image.Source>
+                                        <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                    <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M12,4C7.3338,4 4,6.90564 4,10 4,10.712 4.16669,11.4004 4.48142,12.0452 4.65151,12.0153 4.82497,12 5,12 5.79565,12 6.55871,12.3161 7.12132,12.8787 7.68393,13.4413 8,14.2044 8,15 8,15.0632 7.998,15.1262 7.99405,15.1889 9.16608,15.7017 10.5322,16 12,16 16.6662,16 20,13.0944 20,10 20,6.90564 16.6662,4 12,4z M2,10C2,11.079 2.26528,12.1019 2.73768,13.0297 2.26354,13.5741 2,14.2735 2,15 2,15.7956 2.31607,16.5587 2.87868,17.1213 3.20674,17.4494 3.60297,17.6936 4.03406,17.8402 4.13882,19.119 4.4887,20.3727 5.13211,21.4968 5.40647,21.9761 6.01744,22.1422 6.49676,21.8679 6.97608,21.5935 7.14224,20.9826 6.86789,20.5032 6.40974,19.7028 6.13635,18.787 6.03975,17.8141 6.44225,17.6653 6.81207,17.4306 7.12132,17.1213 7.15156,17.0911 7.18108,17.0603 7.20988,17.0289 8.63854,17.651 10.2724,18 12,18 17.2738,18 22,14.6376 22,10 22,5.36236 17.2738,2 12,2 6.7262,2 2,5.36236 2,10z M5,16C5.26522,16 5.51957,15.8946 5.70711,15.7071 5.80039,15.6138 5.87334,15.504 5.9231,15.3846 5.92608,15.3769 5.92917,15.3692 5.93235,15.3616 5.97665,15.2473 6,15.1249 6,15 6,14.7348 5.89464,14.4804 5.70711,14.2929 5.51957,14.1054 5.26522,14 5,14 4.73478,14 4.48043,14.1054 4.29289,14.2929 4.10536,14.4804 4,14.7348 4,15 4,15.2652 4.10536,15.5196 4.29289,15.7071 4.48043,15.8946 4.73478,16 5,16z" />
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                        </DrawingImage>
+                                    </Image.Source>
+                                </Image>
                             </ui:SimpleStackPanel>
                         </Border>
-                        <Border Width="1" Height="45" BorderBrush="{DynamicResource FloatBarForeground}"
-                                Background="{DynamicResource FloatBarForeground}" />
-                        <Border Margin="-8,0,0,0"
-                                CornerRadius="{Binding ElementName=BorderStrokeSelectionControl, Path=CornerRadius}"
-                                Width="40" MouseDown="Border_MouseDown" MouseUp="BorderStrokeSelectionDelete_MouseUp">
-                            <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Image Source="/Resources/Icons-Fluent/ic_fluent_delete_24_regular.png"
-                                       RenderOptions.BitmapScalingMode="HighQuality" Height="25" Width="25" />
-                                <TextBlock Margin="0,5,0,0" Text="删除" FontSize="10"
-                                           Foreground="{DynamicResource FloatBarForeground}"
-                                           HorizontalAlignment="Center" />
-                            </ui:SimpleStackPanel>
+                        <Border Name="BorderStrokeSelectionClone" Background="Transparent" MouseDown="BorderStrokeSelectionToolButton_MouseDown" MouseLeave="BorderStrokeSelectionToolButton_MouseLeave"
+                                MouseUp="BorderStrokeSelectionClone_MouseUp">
+                            <Border Padding="7,0" Margin="3" CornerRadius="4">
+                                <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="4" Orientation="Horizontal">
+                                    <Image Width="24" Height="24">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing x:Name="BorderStrokeSelectionCloneGeometryIcon" Brush="#18181b" Geometry="F0 M24,24z M0,0z M4,5C4,4.45228,4.45228,4,5,4L15,4C15.1876,4 15.266,4.04268 15.3156,4.07864 15.3868,4.13032 15.4886,4.23877 15.626,4.486 15.8945,4.96868 16.5033,5.14237 16.986,4.87396 17.4687,4.60554 17.6424,3.99667 17.374,3.514 17.1694,3.14623 16.8962,2.75468 16.4904,2.46011 16.063,2.14982 15.5624,2 15,2L5,2C3.34772,2,2,3.34772,2,5L2,15 2,15.0024C2.00128,15.5315 2.1422,16.0508 2.40853,16.5079 2.67485,16.965 3.05714,17.3437 3.51674,17.6057 3.99654,17.8793 4.60722,17.7121 4.88075,17.2323 5.15427,16.7525 4.98705,16.1418 4.50726,15.8683 4.35355,15.7806 4.2257,15.654 4.13662,15.5011 4.04772,15.3485 4.0006,15.1752 4,14.9986L4,5z M8.48825,8.48825C8.80088,8.17563,9.22488,8,9.667,8L18.333,8C18.5519,8 18.7687,8.04312 18.9709,8.12689 19.1732,8.21067 19.357,8.33346 19.5117,8.48825 19.6665,8.64305 19.7893,8.82682 19.8731,9.02907 19.9569,9.23132 20,9.44808 20,9.667L20,18.333C20,18.5519 19.9569,18.7687 19.8731,18.9709 19.7893,19.1732 19.6665,19.3569 19.5117,19.5117 19.3569,19.6665 19.1732,19.7893 18.9709,19.8731 18.7687,19.9569 18.5519,20 18.333,20L9.667,20C9.44808,20 9.23132,19.9569 9.02907,19.8731 8.82682,19.7893 8.64305,19.6665 8.48825,19.5117 8.33346,19.357 8.21067,19.1732 8.12689,18.9709 8.04312,18.7687 8,18.5519 8,18.333L8,9.667C8,9.22488,8.17563,8.80088,8.48825,8.48825z M9.667,6C8.69445,6 7.76174,6.38634 7.07404,7.07404 6.38634,7.76174 6,8.69445 6,9.667L6,18.333C6,18.8146 6.09485,19.2914 6.27913,19.7363 6.46342,20.1812 6.73353,20.5854 7.07404,20.926 7.41455,21.2665 7.8188,21.5366 8.2637,21.7209 8.7086,21.9052 9.18544,22 9.667,22L18.333,22C18.8146,22 19.2914,21.9052 19.7363,21.7209 20.1812,21.5366 20.5854,21.2665 20.926,20.926 21.2665,20.5854 21.5366,20.1812 21.7209,19.7363 21.9052,19.2914 22,18.8146 22,18.333L22,9.667C22,9.18544 21.9052,8.7086 21.7209,8.2637 21.5366,7.8188 21.2665,7.41455 20.926,7.07404 20.5854,6.73353 20.1812,6.46342 19.7363,6.27913 19.2914,6.09485 18.8146,6 18.333,6L9.667,6z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
+                                </ui:SimpleStackPanel>
+                            </Border>
+                        </Border>
+                        <Border Name="BorderStrokeSelectionCloneToNewBoard" Background="Transparent" MouseDown="BorderStrokeSelectionToolButton_MouseDown" MouseLeave="BorderStrokeSelectionToolButton_MouseLeave" 
+                                MouseUp="BorderStrokeSelectionCloneToNewBoard_MouseUp">
+                            <Border Padding="9,0" Margin="3" CornerRadius="4">
+                                <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="5" Orientation="Horizontal">
+                                    <Image Width="24" Height="24">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M18.333,6C19.3055,6 20.2383,6.38634 20.926,7.07404 21.6137,7.76174 22,8.69445 22,9.667L22,18.333C22,19.3055 21.6137,20.2383 20.926,20.926 20.2383,21.6137 19.3055,22 18.333,22L9.667,22C8.69445,22 7.76174,21.6137 7.07404,20.926 6.38634,20.2383 6,19.3055 6,18.333L6,9.667C6,8.69445 6.38634,7.76174 7.07404,7.07404 7.76174,6.38634 8.69445,6 9.667,6L18.333,6z M14,10C13.7348,10 13.4804,10.1054 13.2929,10.2929 13.1054,10.4804 13,10.7348 13,11L13,13 11,13C10.7551,13 10.5187,13.09 10.3356,13.2527 10.1526,13.4155 10.0357,13.6397 10.007,13.883L10,14C10,14.2652 10.1054,14.5196 10.2929,14.7071 10.4804,14.8946 10.7348,15 11,15L13,15 13,17C13,17.2449 13.09,17.4813 13.2527,17.6644 13.4155,17.8474 13.6397,17.9643 13.883,17.993L14,18C14.2652,18 14.5196,17.8946 14.7071,17.7071 14.8946,17.5196 15,17.2652 15,17L15,15 17,15C17.2449,15 17.4813,14.91 17.6644,14.7473 17.8474,14.5845 17.9643,14.3603 17.993,14.117L18,14C18,13.7348 17.8946,13.4804 17.7071,13.2929 17.5196,13.1054 17.2652,13 17,13L15,13 15,11C15,10.7551 14.91,10.5187 14.7473,10.3356 14.5845,10.1526 14.3603,10.0357 14.117,10.007L14,10z M15,2C16.094,2 16.828,2.533 17.374,3.514 17.4378,3.62878 17.4784,3.755 17.4935,3.88546 17.5085,4.01592 17.4977,4.14807 17.4617,4.27436 17.4256,4.40065 17.3651,4.5186 17.2835,4.62149 17.2019,4.72437 17.1008,4.81018 16.986,4.874 16.8712,4.93782 16.745,4.97841 16.6145,4.99345 16.4841,5.0085 16.3519,4.99769 16.2256,4.96167 16.0994,4.92564 15.9814,4.86509 15.8785,4.78347 15.7756,4.70186 15.6898,4.60078 15.626,4.486 15.405,4.088 15.284,4 15,4L5,4C4.452,4,4,4.452,4,5L4,14.998C4,15.318,4.154,15.616,4.407,15.803L4.507,15.868C4.62112,15.933 4.72132,16.0198 4.80187,16.1236 4.88243,16.2273 4.94176,16.3459 4.97649,16.4725 5.01122,16.5992 5.02066,16.7315 5.00428,16.8618 4.98789,16.9921 4.946,17.1179 4.881,17.232 4.816,17.3461 4.72915,17.4463 4.62542,17.5269 4.5217,17.6074 4.40312,17.6668 4.27646,17.7015 4.1498,17.7362 4.01754,17.7457 3.88723,17.7293 3.75692,17.7129 3.63112,17.671 3.517,17.606 3.05661,17.3442 2.67374,16.9652 2.40729,16.5074 2.14085,16.0497 2.00032,15.5296 2,15L2,5C2,3.348,3.348,2,5,2L15,2z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock Name="BorderStrokeSelectionCloneToNewBoardTextBlock" Text="克隆至新页" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#18181b" />
+                                </ui:SimpleStackPanel>
+                            </Border>
+                        </Border>
+                        <Line X1="0" X2="0" Y1="0" Y2="47" Height="47" Margin="2,-2" StrokeThickness="1" Stroke="#66a1a1aa"/>
+                        <Border Name="BorderImageRotateClockwise" Background="Transparent" RenderTransformOrigin="0.5,0.5"
+                                MouseDown="BorderStrokeSelectionToolButton_MouseDown" MouseLeave="BorderStrokeSelectionToolButton_MouseLeave" MouseUp="ImageRotateClockwise_MouseUp">
+                            <Border Padding="7,0" Margin="3" CornerRadius="4">
+                                <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="4" Orientation="Horizontal">
+                                    <Image Width="24" Height="24">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F0 M24,24z M0,0z M11.9909,21.0397C14.1799,21.0463 16.2962,20.2548 17.9437,18.8135 19.5913,17.3722 20.657,15.3799 20.9415,13.2094 21.0133,12.6618 20.6276,12.1597 20.08,12.088 19.5324,12.0162 19.0303,12.4019 18.9585,12.9495 18.7372,14.6376 17.9083,16.1872 16.6269,17.3082 15.3455,18.4292 13.6994,19.0448 11.9969,19.0397 10.2944,19.0346 8.65206,18.4092 7.37739,17.2806 6.10271,16.1519 5.28307,14.5974 5.0719,12.908 4.86072,11.2186 5.27249,9.51015 6.23012,8.10246 7.18775,6.69476 8.62559,5.68434 10.2745,5.26032 11.9234,4.8363 13.6703,5.02775 15.1882,5.79885 16.2399,6.33311 17.1317,7.12026 17.7899,8.07948L14.95,8.07948C14.3977,8.07948 13.95,8.52719 13.95,9.07948 13.95,9.63177 14.3977,10.0795 14.95,10.0795L19.4273,10.0795C19.4426,10.0798,19.4579,10.0798,19.4733,10.0795L19.95,10.0795C20.5023,10.0795,20.95,9.63177,20.95,9.07948L20.95,4.07948C20.95,3.5272 20.5023,3.07948 19.95,3.07948 19.3977,3.07948 18.95,3.5272 18.95,4.07948L18.95,6.29994C18.1705,5.35859 17.2012,4.57817 16.094,4.01574 14.1424,3.02433 11.8964,2.77817 9.77639,3.32334 7.65638,3.8685 5.80773,5.16762 4.57649,6.97751 3.34525,8.7874 2.81583,10.984 3.08734,13.1561 3.35885,15.3281 4.41267,17.3268 6.05154,18.7779 7.69041,20.2291 9.80196,21.0332 11.9909,21.0397z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
+                                </ui:SimpleStackPanel>
+                            </Border>
+                        </Border>
+                        <Border Name="BorderImageRotate45" Background="Transparent"
+                                MouseDown="BorderStrokeSelectionToolButton_MouseDown" MouseLeave="BorderStrokeSelectionToolButton_MouseLeave" MouseUp="ImageRotate_MouseUp">
+                            <Border Padding="7,0" Margin="3" CornerRadius="4">
+                                <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="4" Orientation="Horizontal">
+                                    <Image Height="18">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V17 H34 V0 H0 Z">
+                                                        <DrawingGroup.Transform>
+                                                            <TranslateTransform X="9.0724505241723818E-08" Y="3.0544207163529791E-08" />
+                                                        </DrawingGroup.Transform>
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F0 M34,17z M0,0z M9.30925,0.0490854C9.72116,0.183031,10,0.56693,10,1.00007L10,11.0001 11,11.0001C11.5523,11.0001 12,11.4478 12,12.0001 12,12.5524 11.5523,13.0001 11,13.0001L10,13.0001 10,16.0001C10,16.5524 9.55229,17.0001 9,17.0001 8.44772,17.0001 8,16.5524 8,16.0001L8,13.0001 1,13.0001C0.62388,13.0001 0.279566,12.789 0.108889,12.4538 -0.0617876,12.1187 -0.0299577,11.7161 0.191268,11.4119L8.19127,0.411896C8.44603,0.0616019,8.89734,-0.0848601,9.30925,0.0490854z M8,11.0001L8,4.07525 2.96377,11.0001 8,11.0001z" />
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F0 M34,17z M0,0z M14,1C14,0.447715,14.4477,3.39787E-09,15,3.39787E-09L23,3.39787E-09C23.5523,3.39787E-09 24,0.447715 24,1 24,1.55228 23.5523,2 23,2L16,2 16,7.5 19,7.5C20.306,7.5 21.5705,7.98578 22.5124,8.86881 23.4565,9.75389 24,10.9686 24,12.25 24,13.5314 23.4565,14.7461 22.5124,15.6312 21.5705,16.5142 20.306,17 19,17L15,17C14.4477,17 14,16.5523 14,16 14,15.4477 14.4477,15 15,15L19,15C19.8157,15 20.5861,14.6956 21.1445,14.1721 21.7007,13.6507 22,12.9578 22,12.25 22,11.5422 21.7007,10.8493 21.1445,10.3279 20.5861,9.80439 19.8157,9.5 19,9.5L15,9.5C14.4477,9.5,14,9.05229,14,8.5L14,1z" />
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F0 M34,17z M0,0z M28.4693,0.304482C28.9546,0.103463 29.4747,1.69894E-09 30,1.69894E-09 30.5253,1.69894E-09 31.0454,0.103463 31.5307,0.304482 32.016,0.505501 32.457,0.800139 32.8284,1.17157 33.1999,1.54301 33.4945,1.98396 33.6955,2.46927 33.8965,2.95457 34,3.47471 34,4 34,4.52529 33.8965,5.04543 33.6955,5.53073 33.4945,6.01604 33.1999,6.45699 32.8284,6.82843 32.457,7.19986 32.016,7.4945 31.5307,7.69552 31.0454,7.89654 30.5253,8 30,8 29.4747,8 28.9546,7.89654 28.4693,7.69552 27.984,7.4945 27.543,7.19986 27.1716,6.82843 26.8001,6.45699 26.5055,6.01604 26.3045,5.53073 26.1035,5.04543 26,4.52529 26,4 26,3.47471 26.1035,2.95457 26.3045,2.46927 26.5055,1.98396 26.8001,1.54301 27.1716,1.17157 27.543,0.800138 27.984,0.505501 28.4693,0.304482z M30,2C29.7374,2 29.4773,2.05173 29.2346,2.15224 28.992,2.25275 28.7715,2.40007 28.5858,2.58579 28.4001,2.7715 28.2528,2.99198 28.1522,3.23463 28.0517,3.47728 28,3.73736 28,4 28,4.26264 28.0517,4.52272 28.1522,4.76537 28.2528,5.00802 28.4001,5.2285 28.5858,5.41421 28.7715,5.59993 28.992,5.74725 29.2346,5.84776 29.4773,5.94827 29.7374,6 30,6 30.2626,6 30.5227,5.94827 30.7654,5.84776 31.008,5.74725 31.2285,5.59993 31.4142,5.41421 31.5999,5.2285 31.7473,5.00802 31.8478,4.76537 31.9483,4.52272 32,4.26264 32,4 32,3.73736 31.9483,3.47728 31.8478,3.23463 31.7473,2.99198 31.5999,2.7715 31.4142,2.58579 31.2285,2.40007 31.008,2.25275 30.7654,2.15224 30.5227,2.05173 30.2626,2 30,2z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
+                                </ui:SimpleStackPanel>
+                            </Border>
+                        </Border>
+                        <Border Name="BorderImageRotate90" Background="Transparent"
+                                MouseDown="BorderStrokeSelectionToolButton_MouseDown" MouseLeave="BorderStrokeSelectionToolButton_MouseLeave" MouseUp="ImageRotate_MouseUp">
+                            <Border Padding="7,0" Margin="3" CornerRadius="4">
+                                <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="4" Orientation="Horizontal">
+                                    <Image Height="18">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V17 H32 V0 H0 Z">
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F0 M32,17z M0,0z M1.48,1.37C2.42,0.49 3.69,0 5,0 6.31,0 7.57,0.49 8.52,1.37 9.46,2.26 10,3.47 10,4.75L10,12.26C10,13.54 9.46,14.75 8.52,15.64 7.58,16.52 6.31,17.01 5,17.01 3.69,17.01 2.43,16.52 1.48,15.64 0.54,14.75 0,13.54 0,12.26 0,11.71 0.45,11.27 1,11.27 1.55,11.27 2,11.71 2,12.26 2,12.97 2.3,13.67 2.86,14.19 3.42,14.71 4.19,15.02 5,15.02 5.81,15.02 6.58,14.72 7.14,14.19 7.7,13.67 8,12.97 8,12.26L8,9.49C7.14,10.11 6.08,10.44 5,10.44 3.69,10.44 2.43,9.95 1.48,9.07 0.54,8.18 0,6.97 0,5.69L0,4.75C0,3.47,0.54,2.26,1.48,1.37z M7.14,2.82C7.7,3.34,8,4.04,8,4.75L8,5.69C8,6.4 7.7,7.1 7.14,7.62 6.58,8.14 5.81,8.45 5,8.45 4.19,8.45 3.42,8.15 2.86,7.62 2.3,7.1 2,6.4 2,5.69L2,4.75C2,4.04 2.3,3.34 2.86,2.82 3.42,2.3 4.19,1.99 5,1.99 5.81,1.99 6.58,2.29 7.14,2.82z" />
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F0 M32,17z M0,0z M17,0C15.69,0 14.43,0.49 13.48,1.37 12.54,2.26 12,3.47 12,4.75L12,12.26C12,13.54 12.54,14.75 13.48,15.64 14.42,16.52 15.69,17.01 17,17.01 18.31,17.01 19.57,16.52 20.52,15.64 21.46,14.75 22,13.54 22,12.26L22,4.75C22,3.47 21.46,2.26 20.52,1.37 19.58,0.49 18.31,0 17,0z M14.86,2.82C15.42,2.3 16.19,1.99 17,1.99 17.81,1.99 18.58,2.29 19.14,2.82 19.7,3.34 20,4.04 20,4.75L20,12.26C20,12.97 19.7,13.67 19.14,14.19 18.58,14.71 17.81,15.02 17,15.02 16.19,15.02 15.42,14.72 14.86,14.19 14.3,13.67 14,12.97 14,12.26L14,4.75C14,4.04,14.3,3.34,14.86,2.82z" />
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F0 M32,17z M0,0z M28,0.0599976C27.48,0.0599976 26.96,0.159998 26.47,0.359998 25.98,0.559998 25.54,0.859998 25.17,1.23 24.8,1.6 24.5,2.04 24.3,2.53 24.1,3.01 24,3.54 24,4.06 24,4.58 24.1,5.1 24.3,5.59 24.5,6.08 24.8,6.52 25.17,6.89 25.54,7.26 25.98,7.56 26.47,7.76 26.95,7.96 27.48,8.06 28,8.06 28.52,8.06 29.04,7.96 29.53,7.76 30.02,7.56 30.46,7.26 30.83,6.89 31.2,6.52 31.5,6.08 31.7,5.59 31.9,5.11 32,4.58 32,4.06 32,3.54 31.9,3.02 31.7,2.53 31.5,2.04 31.2,1.6 30.83,1.23 30.46,0.859998 30.01,0.559998 29.53,0.359998 29.05,0.159998 28.52,0.0599976 28,0.0599976z M27.23,2.21C27.48,2.11 27.74,2.06 28,2.06 28.27,2.06 28.53,2.11 28.77,2.21 29.01,2.31 29.23,2.45 29.42,2.64 29.6,2.83 29.75,3.05 29.85,3.29 29.95,3.54 30,3.79 30,4.06 30,4.33 29.95,4.59 29.85,4.83 29.75,5.07 29.61,5.29 29.42,5.48 29.23,5.66 29.01,5.81 28.77,5.91 28.52,6.01 28.27,6.06 28,6.06 27.73,6.06 27.47,6.01 27.23,5.91 26.99,5.81 26.77,5.67 26.58,5.48 26.4,5.29 26.25,5.07 26.15,4.83 26.05,4.58 26,4.33 26,4.06 26,3.79 26.05,3.53 26.15,3.29 26.25,3.05 26.39,2.83 26.58,2.64 26.77,2.46 26.99,2.31 27.23,2.21z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
+                                </ui:SimpleStackPanel>
+                            </Border>
+                        </Border>
+                        <Line X1="0" X2="0" Y1="0" Y2="47" Height="47" Margin="2,-2" StrokeThickness="1" Stroke="#66a1a1aa"/>
+                        <Border Name="BorderImageFlipHorizontal" Background="Transparent"
+                                MouseDown="BorderStrokeSelectionToolButton_MouseDown" MouseLeave="BorderStrokeSelectionToolButton_MouseLeave" MouseUp="ImageFlip_MouseUp">
+                            <Border Padding="7,0" Margin="3" CornerRadius="4">
+                                <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="4" Orientation="Horizontal">
+                                    <Image Width="24" Height="24">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F0 M24,24z M0,0z M12,2C12.5523,2,13,2.44772,13,3L13,21C13,21.5523 12.5523,22 12,22 11.4477,22 11,21.5523 11,21L11,3C11,2.44772,11.4477,2,12,2z M15.7702,6.02675C16.2216,5.9202,16.687,6.13797,16.8944,6.55279L21.8944,16.5528C22.0494,16.8628 22.0329,17.2309 21.8507,17.5257 21.6684,17.8205 21.3466,18 21,18L16,18C15.4477,18,15,17.5523,15,17L15,7C15,6.53622,15.3189,6.13331,15.7702,6.02675z M17,11.2361L17,16 19.382,16 17,11.2361z M9,7C9,6.53622 8.68112,6.13331 8.22975,6.02675 7.77838,5.9202 7.31298,6.13797 7.10557,6.55279L2.10557,16.5528C1.95058,16.8628 1.96714,17.2309 2.14935,17.5257 2.33156,17.8205 2.65342,18 3,18L8,18C8.55229,18,9,17.5523,9,17L9,7z M7,16L4.61803,16 7,11.2361 7,16z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
+                                </ui:SimpleStackPanel>
+                            </Border>
+                        </Border>
+                        <Border Name="BorderImageFlipVertical" Background="Transparent"
+                                MouseDown="BorderStrokeSelectionToolButton_MouseDown" MouseLeave="BorderStrokeSelectionToolButton_MouseLeave" MouseUp="ImageFlip_MouseUp">
+                            <Border Padding="7,0" Margin="3" CornerRadius="4">
+                                <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="4" Orientation="Horizontal">
+                                    <Image Width="24" Height="24">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F0 M24,24z M0,0z M7.44721,2.10557C7.13723,1.95058 6.76909,1.96714 6.47427,2.14935 6.17945,2.33156 6,2.65342 6,3L6,8C6,8.55229,6.44772,9,7,9L17,9C17.4638,9 17.8667,8.68112 17.9732,8.22975 18.0798,7.77838 17.862,7.31298 17.4472,7.10557L7.44721,2.10557z M8,7L8,4.61804 12.7639,7 8,7z M2,12C2,11.4477,2.44772,11,3,11L21,11C21.5523,11 22,11.4477 22,12 22,12.5523 21.5523,13 21,13L3,13C2.44772,13,2,12.5523,2,12z M6,16C6,15.4477,6.44772,15,7,15L17,15C17.4638,15 17.8667,15.3189 17.9732,15.7702 18.0798,16.2216 17.862,16.687 17.4472,16.8944L7.44721,21.8944C7.13723,22.0494 6.76909,22.0329 6.47427,21.8507 6.17945,21.6684 6,21.3466 6,21L6,16z M8,17L8,19.382 12.7639,17 8,17z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
+                                </ui:SimpleStackPanel>
+                            </Border>
+                        </Border>
+                        <Line X1="0" X2="0" Y1="0" Y2="47" Height="47" Margin="2,-2" StrokeThickness="1" Stroke="#66a1a1aa"/>
+                        <Border Name="BorderStrokeSelectionLock" Background="Transparent"
+                                MouseDown="BorderStrokeSelectionToolButton_MouseDown" MouseLeave="BorderStrokeSelectionToolButton_MouseLeave" MouseUp="BorderStrokeSelectionLock_MouseUp">
+                            <Border Padding="7,0" Margin="3" CornerRadius="4" >
+                                <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="4" Orientation="Horizontal">
+                                    <Image Width="24" Height="24" Name="BorderStrokeSelectionLock_LockClose" Visibility="Collapsed">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M12,2C13.3261,2 14.5979,2.52678 15.5355,3.46447 16.4732,4.40215 17,5.67392 17,7L17,10C17.7956,10 18.5587,10.3161 19.1213,10.8787 19.6839,11.4413 20,12.2044 20,13L20,19C20,19.7956 19.6839,20.5587 19.1213,21.1213 18.5587,21.6839 17.7956,22 17,22L7,22C6.20435,22 5.44129,21.6839 4.87868,21.1213 4.31607,20.5587 4,19.7956 4,19L4,13C4,12.2044 4.31607,11.4413 4.87868,10.8787 5.44129,10.3161 6.20435,10 7,10L7,7C7,5.67392 7.52678,4.40215 8.46447,3.46447 9.40215,2.52678 10.6739,2 12,2z M12,14C11.4954,13.9998 11.0094,14.1904 10.6395,14.5335 10.2695,14.8766 10.0428,15.3468 10.005,15.85L10,16C10,16.3956 10.1173,16.7822 10.3371,17.1111 10.5568,17.44 10.8692,17.6964 11.2346,17.8478 11.6001,17.9991 12.0022,18.0387 12.3902,17.9616 12.7781,17.8844 13.1345,17.6939 13.4142,17.4142 13.6939,17.1345 13.8844,16.7781 13.9616,16.3902 14.0387,16.0022 13.9991,15.6001 13.8478,15.2346 13.6964,14.8692 13.44,14.5568 13.1111,14.3371 12.7822,14.1173 12.3956,14 12,14z M12,4C11.2044,4 10.4413,4.31607 9.87868,4.87868 9.31607,5.44129 9,6.20435 9,7L9,10 15,10 15,7C15,6.20435 14.6839,5.44129 14.1213,4.87868 13.5587,4.31607 12.7956,4 12,4z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
+                                    <Image Width="24" Height="24" Name="BorderStrokeSelectionLock_LockOpen">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F0 M24,24z M0,0z M9.87868,3.87868C10.4413,3.31607 11.2044,3 12,3 12.7956,3 13.5587,3.31607 14.1213,3.87868 14.6839,4.44129 15,5.20435 15,6 15,6.55228 15.4477,7 16,7 16.5523,7 17,6.55228 17,6 17,4.67392 16.4732,3.40215 15.5355,2.46447 14.5979,1.52678 13.3261,1 12,1 10.6739,1 9.40215,1.52678 8.46447,2.46447 7.52678,3.40215 7,4.67392 7,6L7,10C6.20435,10 5.44129,10.3161 4.87868,10.8787 4.31607,11.4413 4,12.2044 4,13L4,19C4,19.7957 4.31607,20.5587 4.87868,21.1213 5.44129,21.6839 6.20435,22 7,22L17,22C17.7957,22 18.5587,21.6839 19.1213,21.1213 19.6839,20.5587 20,19.7957 20,19L20,13C20,12.2043 19.6839,11.4413 19.1213,10.8787 18.5587,10.3161 17.7957,10 17,10L9,10 9,6C9,5.20435,9.31607,4.44129,9.87868,3.87868z M8,12L7,12C6.73478,12 6.48043,12.1054 6.29289,12.2929 6.10536,12.4804 6,12.7348 6,13L6,19C6,19.2652 6.10536,19.5196 6.29289,19.7071 6.48043,19.8946 6.73478,20 7,20L17,20C17.2652,20 17.5196,19.8946 17.7071,19.7071 17.8946,19.5196 18,19.2652 18,19L18,13C18,12.7348 17.8946,12.4804 17.7071,12.2929 17.5196,12.1054 17.2652,12 17,12L8,12z M10.5858,14.5858C10.9609,14.2107 11.4696,14 12,14 12.5304,14 13.0391,14.2107 13.4142,14.5858 13.7893,14.9609 14,15.4696 14,16 14,16.5304 13.7893,17.0391 13.4142,17.4142 13.0391,17.7893 12.5304,18 12,18 11.4696,18 10.9609,17.7893 10.5858,17.4142 10.2107,17.0391 10,16.5304 10,16 10,15.4696 10.2107,14.9609 10.5858,14.5858z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
+                                </ui:SimpleStackPanel>
+                            </Border>
+                        </Border>
+                        <Border Name="BorderStrokePaletteButton" Background="Transparent"
+                                MouseDown="Border_MouseDown">
+                            <Border Padding="7,0" Margin="3" CornerRadius="4" Background="#1809090b">
+                                <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="4" Orientation="Horizontal">
+                                    <Image Width="24" Height="24">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F0 M24,24z M0,0z M6.34315,6.34315C7.84344,4.84285 9.87827,4 12,4 16.5317,4 20,7.24178 20,11 20,11.7543 19.6636,12.5066 19.0177,13.0805 18.3676,13.6582 17.463,14 16.5,14L14.0073,14C13.3411,13.9912 12.6909,14.2044 12.1593,14.6061 11.6253,15.0096 11.2415,15.5801 11.0691,16.2268 10.8966,16.8735 10.9454,17.5592 11.2076,18.175 11.447,18.7374 11.8519,19.2118 12.3664,19.5366 12.3885,19.5691 12.4042,19.6058 12.4122,19.6447 12.4249,19.7061 12.418,19.77 12.3926,19.8272 12.3671,19.8845 12.3243,19.9324 12.2702,19.9641 12.2162,19.9959 12.1535,20.0099 12.0911,20.0042 12.0608,20.0014 12.0304,20 12,20 9.87827,20 7.84344,19.1571 6.34315,17.6569 4.84285,16.1566 4,14.1217 4,12 4,9.87827 4.84285,7.84344 6.34315,6.34315z M12,2C9.34784,2 6.8043,3.05357 4.92893,4.92893 3.05357,6.8043 2,9.34784 2,12 2,14.6522 3.05357,17.1957 4.92893,19.0711 6.79478,20.9369 9.32205,21.9893 11.9596,21.9999 12.4214,22.0319 12.8826,21.9237 13.2825,21.6891 13.697,21.4458 14.025,21.0788 14.2202,20.6395 14.4154,20.2003 14.4681,19.7109 14.3709,19.2402 14.2737,18.7695 14.0314,18.341 13.6781,18.0151 13.6192,17.9607 13.554,17.9137 13.4839,17.8749 13.2886,17.7669 13.1351,17.5968 13.0477,17.3915 12.9603,17.1862 12.9441,16.9576 13.0015,16.7421 13.059,16.5265 13.1869,16.3364 13.3649,16.2019 13.543,16.0674 13.7608,15.9963 13.9839,15.9999L14,16 16.5,16C17.923,16 19.3084,15.4978 20.3463,14.5755 21.3884,13.6494 22,12.3657 22,11 22,5.92222 17.4083,2 12,2z M8.5,8.5C7.96957,8.5 7.46086,8.71071 7.08579,9.08579 6.71071,9.46086 6.5,9.96957 6.5,10.5 6.5,11.0304 6.71071,11.5391 7.08579,11.9142 7.46086,12.2893 7.96957,12.5 8.5,12.5 9.03043,12.5 9.53914,12.2893 9.91421,11.9142 10.2893,11.5391 10.5,11.0304 10.5,10.5 10.5,9.96957 10.2893,9.46086 9.91421,9.08579 9.53914,8.71071 9.03043,8.5 8.5,8.5z M11.0858,6.08579C11.4609,5.71071 11.9696,5.5 12.5,5.5 13.0304,5.5 13.5391,5.71071 13.9142,6.08579 14.2893,6.46086 14.5,6.96957 14.5,7.5 14.5,8.03043 14.2893,8.53914 13.9142,8.91421 13.5391,9.28929 13.0304,9.5 12.5,9.5 11.9696,9.5 11.4609,9.28929 11.0858,8.91421 10.7107,8.53914 10.5,8.03043 10.5,7.5 10.5,6.96957 10.7107,6.46086 11.0858,6.08579z M16.5,8.5C15.9696,8.5 15.4609,8.71071 15.0858,9.08579 14.7107,9.46086 14.5,9.96957 14.5,10.5 14.5,11.0304 14.7107,11.5391 15.0858,11.9142 15.4609,12.2893 15.9696,12.5 16.5,12.5 17.0304,12.5 17.5391,12.2893 17.9142,11.9142 18.2893,11.5391 18.5,11.0304 18.5,10.5 18.5,9.96957 18.2893,9.46086 17.9142,9.08579 17.5391,8.71071 17.0304,8.5 16.5,8.5z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
+                                </ui:SimpleStackPanel>
+                            </Border>
+                        </Border>
+                        <Border Name="BorderStrokeSelectionDelete" Background="Transparent"
+                                MouseDown="BorderStrokeSelectionToolButton_MouseDown" MouseLeave="BorderStrokeSelectionToolButton_MouseLeave" MouseUp="BorderStrokeSelectionDelete_MouseUp">
+                            <Border Padding="7,0" Margin="3" CornerRadius="4">
+                                <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="4" Orientation="Horizontal">
+                                    <Image Width="24" Height="24">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing Brush="#dc2626" Geometry="F0 M24,24z M0,0z M15.4142,2.58579C15.0391,2.21071,14.5304,2,14,2L10,2 9.85,2.005C9.34685,2.04284 8.87659,2.26947 8.5335,2.63945 8.19041,3.00943 7.99984,3.49542 8,4 8.00028,4.25488 8.09788,4.50003 8.27285,4.68537 8.44782,4.8707 8.68695,4.98223 8.94139,4.99717 9.19584,5.01211 9.44638,4.92933 9.64183,4.76574 9.83729,4.60214 9.9629,4.3701 9.993,4.117L10,4 14,4 14.007,4.117C14.0371,4.3701 14.1627,4.60214 14.3582,4.76574 14.5536,4.92933 14.8042,5.01211 15.0586,4.99717 15.313,4.98223 15.5522,4.8707 15.7272,4.68537 15.9021,4.50003 15.9997,4.25488 16,4 16,3.46957 15.7893,2.96086 15.4142,2.58579z M20.6855,6.27285C20.5001,6.09788,20.255,6.00028,20.0001,6L4.00011,6 3.88311,6.007C3.63002,6.0371 3.39797,6.16271 3.23438,6.35817 3.07079,6.55362 2.988,6.80416 3.00294,7.05861 3.01788,7.31305 3.12941,7.55218 3.31474,7.72715 3.50008,7.90212 3.74523,7.99972 4.00011,8L4.08011,8 5.00311,19.083 5.00811,19.25C5.09611,20.751,6.40211,22,8.00011,22L16.0001,22 16.1761,21.995C16.94,21.9501 17.6579,21.615 18.1828,21.0583 18.7078,20.5015 19.0002,19.7652 19.0001,19L19.9191,8 20.0001,8 20.1171,7.993C20.3702,7.9629 20.6023,7.83729 20.7658,7.64183 20.9294,7.44638 21.0122,7.19584 20.9973,6.94139 20.9823,6.68695 20.8708,6.44782 20.6855,6.27285z M9.81412,11.0166C10.0537,10.9714,10.3016,11.0153,10.5111,11.14L10.6131,11.21 10.7071,11.293 12.0001,12.585 13.2931,11.293C13.4731,11.1137 13.7145,11.0095 13.9685,11.0018 14.2224,10.994 14.4698,11.0832 14.6604,11.2512 14.851,11.4193 14.9704,11.6536 14.9945,11.9065 15.0186,12.1594 14.9455,12.412 14.7901,12.613L14.7071,12.707 13.4151,14 14.7071,15.293C14.8865,15.473 14.9906,15.7144 14.9983,15.9684 15.0061,16.2223 14.9169,16.4697 14.7489,16.6603 14.5808,16.8508 14.3466,16.9703 14.0936,16.9944 13.8407,17.0185 13.5881,16.9454 13.3871,16.79L13.2931,16.707 12.0001,15.415 10.7071,16.707C10.5272,16.8863 10.2857,16.9905 10.0317,16.9982 9.77778,17.006 9.5304,16.9168 9.33983,16.7488 9.14927,16.5807 9.02981,16.3464 9.00571,16.0935 8.98162,15.8406 9.0547,15.588 9.21011,15.387L9.29311,15.293 10.5851,14 9.29311,12.707C9.12055,12.5347 9.01687,12.3054 9.00157,12.062 8.98628,11.8187 9.06042,11.5781 9.21006,11.3856 9.3597,11.1931 9.57452,11.0619 9.81412,11.0166z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
+                                </ui:SimpleStackPanel>
+                            </Border>
+                        </Border>
+                        <Line X1="0" X2="0" Y1="0" Y2="47" Height="47" Margin="2,-2" StrokeThickness="1" Stroke="#66a1a1aa"/>
+                        <Border Name="BorderStrokeMoreMenuButton" Background="Transparent"
+                                MouseDown="BorderStrokeSelectionToolButton_MouseDown" MouseLeave="BorderStrokeSelectionToolButton_MouseLeave"
+                                MouseUp="BorderStrokeMoreMenuButton_MouseUp">
+                            <Border Padding="7,0" Margin="3" CornerRadius="4">
+                                <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="4" Orientation="Horizontal">
+                                    <Image Width="24" Height="24">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                        <GeometryDrawing Brush="#18181b" Geometry="F0 M24,24z M0,0z M3.58579,10.5858C3.96086,10.2107 4.46957,10 5,10 5.53043,10 6.03914,10.2107 6.41421,10.5858 6.78929,10.9609 7,11.4696 7,12 7,12.5304 6.78929,13.0391 6.41421,13.4142 6.03914,13.7893 5.53043,14 5,14 4.46957,14 3.96086,13.7893 3.58579,13.4142 3.21071,13.0391 3,12.5304 3,12 3,11.4696 3.21071,10.9609 3.58579,10.5858z M10.5858,10.5858C10.9609,10.2107 11.4696,10 12,10 12.5304,10 13.0391,10.2107 13.4142,10.5858 13.7893,10.9609 14,11.4696 14,12 14,12.5304 13.7893,13.0391 13.4142,13.4142 13.0391,13.7893 12.5304,14 12,14 11.4696,14 10.9609,13.7893 10.5858,13.4142 10.2107,13.0391 10,12.5304 10,12 10,11.4696 10.2107,10.9609 10.5858,10.5858z M19,10C18.4696,10 17.9609,10.2107 17.5858,10.5858 17.2107,10.9609 17,11.4696 17,12 17,12.5304 17.2107,13.0391 17.5858,13.4142 17.9609,13.7893 18.4696,14 19,14 19.5304,14 20.0391,13.7893 20.4142,13.4142 20.7893,13.0391 21,12.5304 21,12 21,11.4696 20.7893,10.9609 20.4142,10.5858 20.0391,10.2107 19.5304,10 19,10z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
+                                </ui:SimpleStackPanel>
+                            </Border>
                         </Border>
                     </ui:SimpleStackPanel>
-                </Viewbox>
+                </Border>
             </Border>
         </Grid>
+        <Grid Background="Transparent" Name="GridEraserOverlay" Visibility="Collapsed" IsHitTestVisible="True">
+            <Border Loaded="EraserOverlay_Loaded" Background="Transparent" ForceCursor="True" Cursor="Arrow"/>
+            <helpers:DrawingVisualCanvas IsHitTestVisible="False" x:Name="EraserOverlay_DrawingVisual"/>
+        </Grid>
 
-        <Grid Visibility="Collapsed">
+            <Grid Visibility="Collapsed">
             <Grid Visibility="{Binding ElementName=GridBackgroundCoverHolder, Path=Visibility}">
                 <Viewbox Margin="10" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                     <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5">
@@ -2224,13 +2437,13 @@
                                     <Border x:Name="BoardUndo" Width="60" Height="50" MouseDown="Border_MouseDown"
                                             MouseUp="SymbolIconUndo_MouseUp" BorderThickness="0,1,0,1"
                                             BorderBrush="#a1a1aa"
-                                            IsEnabled="{Binding ElementName=BtnUndo, Path=IsEnabled}"
+                                            IsEnabled="{Binding ElementName=SymbolIconUndo, Path=IsEnabled}"
                                             Background="#f4f4f5"
                                             Opacity="0.95">
                                         <Grid Margin="6,6,6,4">
                                             <Image VerticalAlignment="Top"
                                                    RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"
-                                                   Opacity="{Binding ElementName=BtnUndo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}">
+                                                   Opacity="{Binding ElementName=SymbolIconUndo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}">
                                                 <Image.Source>
                                                     <DrawingImage>
                                                         <DrawingImage.Drawing>
@@ -2242,7 +2455,8 @@
                                                     </DrawingImage>
                                                 </Image.Source>
                                             </Image>
-                                            <TextBlock Text="撤销" Foreground="Black" VerticalAlignment="Bottom"
+                                            <TextBlock Opacity="{Binding ElementName=SymbolIconUndo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}"
+                                                       Text="撤销" Foreground="Black" VerticalAlignment="Bottom"
                                                        HorizontalAlignment="Center" FontSize="12" />
                                         </Grid>
                                     </Border>
@@ -2250,13 +2464,13 @@
                                             MouseDown="Border_MouseDown" MouseUp="SymbolIconRedo_MouseUp"
                                             BorderThickness="0,1,1,1"
                                             BorderBrush="#a1a1aa"
-                                            IsEnabled="{Binding ElementName=BtnRedo, Path=IsEnabled}"
+                                            IsEnabled="{Binding ElementName=SymbolIconRedo, Path=IsEnabled}"
                                             Background="#f4f4f5"
                                             Opacity="0.95">
                                         <Grid Margin="6,6,6,4">
                                             <Image VerticalAlignment="Top"
                                                    RenderOptions.BitmapScalingMode="HighQuality" Height="20" Width="20"
-                                                   Opacity="{Binding ElementName=BtnRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}">
+                                                   Opacity="{Binding ElementName=SymbolIconRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}">
                                                 <Image.Source>
                                                     <DrawingImage>
                                                         <DrawingImage.Drawing>
@@ -2268,7 +2482,7 @@
                                                     </DrawingImage>
                                                 </Image.Source>
                                             </Image>
-                                            <TextBlock Text="重做" Foreground="Black" VerticalAlignment="Bottom"
+                                            <TextBlock Text="重做" Opacity="{Binding ElementName=SymbolIconRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}" Foreground="Black" VerticalAlignment="Bottom"
                                                        HorizontalAlignment="Center" FontSize="12" />
                                         </Grid>
                                     </Border>
@@ -2810,7 +3024,7 @@
             </Border>
         </Grid>
         <!--// Old UI //-->
-        <Viewbox Name="ViewBoxStackPanelMain" Visibility="Collapsed" Margin="10,10,10,55" HorizontalAlignment="Right"
+        <!--<Viewbox Name="ViewBoxStackPanelMain" Visibility="Collapsed" Margin="10,10,10,55" HorizontalAlignment="Right"
                  VerticalAlignment="Bottom" Width="46">
             <StackPanel Name="StackPanelMain" Width="46">
                 <StackPanel Name="StackPanelControl">
@@ -2827,7 +3041,7 @@
                             Margin="0,10,0,0" Width="{Binding ElementName=StackPanelMain, Path=ActualWidth}"
                             Foreground="{Binding ElementName=BtnExit, Path=Foreground}"
                             Background="{Binding ElementName=BtnExit, Path=Background}" />
-                    <!-- Click="BtnSwitchTheme_Click" -->
+                    --><!-- Click="BtnSwitchTheme_Click" --><!--
 
                     <Button Name="BtnSwitch" Content="背景" FontFamily="Microsoft YaHei UI"
                             Margin="0,10,0,0" Width="{Binding ElementName=StackPanelMain, Path=ActualWidth}"
@@ -2930,7 +3144,7 @@
                 <Grid Name="GridForLeftSideReservedSpace"
                       Height="{Binding ElementName=StackPanelInfo, Path=ActualHeight}" />
             </StackPanel>
-        </Viewbox>
+        </Viewbox>-->
 
         <!--// PPT 工具栏 //-->
         <Grid>
@@ -4459,11 +4673,11 @@
                                         MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                         Background="Transparent" Orientation="Vertical"
                                         HorizontalAlignment="Center" Margin="0,-2"
-                                        IsEnabled="{Binding ElementName=BtnUndo, Path=IsEnabled}"
+                                        IsEnabled="False"
                                         Width="28">
                                         <Image RenderOptions.BitmapScalingMode="HighQuality" Height="17"
                                                Margin="0,3,0,0"
-                                               Opacity="{Binding ElementName=BtnUndo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}">
+                                               Opacity="{Binding ElementName=SymbolIconUndo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}">
                                             <Image.Source>
                                                 <DrawingImage>
                                                     <DrawingImage.Drawing>
@@ -4476,7 +4690,7 @@
                                             </Image.Source>
                                         </Image>
                                         <TextBlock x:Name="UndoToolbarTextBlock" Text="撤销" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}"
-                                                   Opacity="{Binding ElementName=BtnUndo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}"
+                                                   Opacity="{Binding ElementName=SymbolIconUndo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}"
                                                    Foreground="Black" FontSize="8" Margin="0,1,0,0"
                                                    TextAlignment="Center" />
                                     </ui:SimpleStackPanel>
@@ -4487,11 +4701,11 @@
                                         MouseLeave="FloatingBarToolBtnMouseLeaveFeedback_Panel"
                                         Background="Transparent" Orientation="Vertical"
                                         HorizontalAlignment="Center"
-                                        IsEnabled="{Binding ElementName=BtnRedo, Path=IsEnabled}"
+                                        IsEnabled="False"
                                         Width="28" Margin="0,-2">
                                         <Image RenderOptions.BitmapScalingMode="HighQuality" Height="17"
                                                Margin="0,3,0,0"
-                                               Opacity="{Binding ElementName=BtnRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}">
+                                               Opacity="{Binding ElementName=SymbolIconRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}">
                                             <Image.Source>
                                                 <DrawingImage>
                                                     <DrawingImage.Drawing>
@@ -4504,7 +4718,7 @@
                                             </Image.Source>
                                         </Image>
                                         <TextBlock x:Name="RedoToolbarTextBlock" Text="重做" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}"
-                                                   Opacity="{Binding ElementName=BtnRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}"
+                                                   Opacity="{Binding ElementName=SymbolIconRedo, Path=IsEnabled, Converter={StaticResource IsEnabledToOpacityConverter}}"
                                                    Foreground="Black" FontSize="8" Margin="0,1,0,0"
                                                    TextAlignment="Center" />
                                     </ui:SimpleStackPanel>
@@ -5055,7 +5269,7 @@
                             MouseDown="Border_MouseDown" MouseUp="ImagePPTControlEnd_MouseUp"
                             Background="{DynamicResource FloatBarBackground}" CornerRadius="4" BorderThickness="1"
                             BorderBrush="{DynamicResource FloatBarBorderBrush}"
-                            Visibility="{Binding ElementName=BtnPPTSlideShowEnd, Path=Visibility}">
+                            Visibility="Collapsed">
                         <ui:SimpleStackPanel Background="Transparent" Orientation="Vertical"
                                              HorizontalAlignment="Center"
                                              Width="28" Margin="0,0">
@@ -5580,10 +5794,43 @@
                                             </StackPanel>
                                         </Button>
                                     </ui:SimpleStackPanel>
-                                    <!--
-                <ui:ToggleSwitch OnContent="" OffContent="" Name="ToggleSwitchAutoHideCanvas" Header="自动隐藏画板" FontFamily="Microsoft YaHei UI" Toggled="ToggleSwitchAutoHideCanvas_Toggled"/>
-                <ui:ToggleSwitch OnContent="" OffContent="" Name="ToggleSwitchAutoEnterModeFinger" Header="自动进入手指模式" FontFamily="Microsoft YaHei UI" Toggled="ToggleSwitchAutoEnterModeFinger_Toggled"/>
-                -->
+                                    <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
+                                          StrokeThickness="1" Margin="0,4,0,4" />
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="以WindowChrome模式渲染" VerticalAlignment="Center"
+                                                   FontSize="14" Margin="0,0,6,0" />
+                                        <Border Height="20" CornerRadius="3" Background="#7f1d1d"
+                                                Padding="4,0" Margin="0,0,12,0">
+                                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="3"
+                                                                 VerticalAlignment="Center">
+                                                <Image Width="15" Height="15" VerticalAlignment="Center">
+                                                    <Image.Source>
+                                                        <DrawingImage>
+                                                            <DrawingImage.Drawing>
+                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                    <GeometryDrawing Brush="#fca5a5"
+                                                                                     Geometry="F1 M24,24z M0,0z M20.1758,20.0951L15.1058,9.97512C15.0358,9.83512,14.9958,9.68512,14.9958,9.52512L14.9958,2.99512 15.4958,2.99512C16.0458,2.99512 16.4958,2.54512 16.4958,1.99512 16.4958,1.44512 16.0458,0.995117 15.4958,0.995117L8.49582,0.995117C7.94582,0.995117 7.49582,1.44512 7.49582,1.99512 7.49582,2.54512 7.94582,2.99512 8.49582,2.99512L8.99582,2.99512 8.99582,9.52512C8.99582,9.67512,8.95582,9.83512,8.89582,9.97512L3.82582,20.0951C3.67582,20.4051 3.59582,20.7451 3.61582,21.0851 3.62582,21.4251 3.73582,21.7651 3.91582,22.0551 4.09582,22.3451 4.34582,22.5851 4.64582,22.7551 4.94582,22.9151 5.27582,23.0051 5.60582,23.0051L18.3758,23.0051C18.7558,23.0051 19.0558,22.9251 19.3558,22.7551 19.6558,22.5851 19.9058,22.3451 20.0858,22.0551 20.2658,21.7651 20.3658,21.4351 20.3858,21.0851 20.3958,20.7451 20.3258,20.4051 20.1758,20.1051L20.1758,20.0951z M10.6858,10.8651C10.8958,10.4451,11.0058,9.98512,11.0058,9.52512L11.0058,2.99512 13.0058,2.99512 13.0058,9.52512C13.0058,9.98512,13.1158,10.4551,13.3258,10.8651L15.3858,14.9951 8.62582,14.9951 10.6958,10.8651 10.6858,10.8651z" />
+                                                                </DrawingGroup>
+                                                            </DrawingImage.Drawing>
+                                                        </DrawingImage>
+                                                    </Image.Source>
+                                                </Image>
+                                                <TextBlock Foreground="#fca5a5" Text="实验性选项" FontSize="12"
+                                                           VerticalAlignment="Center">
+                                                </TextBlock>
+                                            </ui:SimpleStackPanel>
+                                        </Border>
+                                        <ui:ToggleSwitch OnContent="" OffContent="" Name="ToggleSwitchEnableWindowChromeRendering"
+                                                         IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                         Toggled="ToggleSwitchEnableWindowChromeRendering_Toggled" />
+                                    </ui:SimpleStackPanel>
+                                    <TextBlock Text="# 使用更高性能的WindowChrome绘制透明窗口而不是低性能的AllowTransparency。AllowTransparency可以在窗口透明的区域穿透鼠标事件，而WindowChrome则提供了更高的渲染性能，但代价是旧版的PPT控件和浮动工具栏将无法正常使用。因此开启该选项后会强制开启浮动工具栏V2和PPT控件Popup化。" TextWrapping="Wrap" Foreground="#a1a1aa" />
+                                    <ui:InfoBar
+                                        IsOpen="True"
+                                        IsClosable="False"
+                                        Severity="Warning"
+                                        Title="该功能为高度实验性选项"
+                                        Message="由于该功能依靠DWM的绘制合成，因此如果在Win7的Basic主题下运行会导致透明背景变为黑色" />
                                 </ui:SimpleStackPanel>
                             </GroupBox>
                             <GroupBox Name="SettingsCanvasGroupBox">
@@ -6019,6 +6266,61 @@
                                                          FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchEnableMouseWheelGesture_Toggled" />
                                     </ui:SimpleStackPanel>
+                                    <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
+                                          StrokeThickness="1" Margin="0,4,0,4" />
+                                    <TextBlock Margin="0,0,0,8" Text="Windows Ink 支持" FontWeight="Bold" Foreground="#fafafa"
+                                               FontSize="20" />
+                                    <TextBlock
+                                        Text="# 可以修改Windows Ink 触笔设备的快捷键操作，下图触笔设备仅供参考，请以你实际使用的设备和具体的驱动配置为准。"
+                                        TextWrapping="Wrap"
+                                        Foreground="#a1a1aa" />
+                                    <Grid>
+                                        <Image Source="Resources/Icons-png/windows-ink.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                        <Canvas>
+                                            <Border Canvas.Top="7" Canvas.Left="95" CornerRadius="6.25" Background="#5522c55e" Height="12.5" Width="25.75"></Border>
+                                            <Border Canvas.Top="7" Canvas.Left="124.5" CornerRadius="6.25" Background="#553b82f6" Height="12.5" Width="25.75"></Border>
+                                        </Canvas>
+                                    </Grid>
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="绿色按钮按下时，触发"
+                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
+                                        <ComboBox Name="ComboBoxWindowsInkEraserButtonAction"
+                                                  FontFamily="Microsoft YaHei UI"
+                                                  SelectedIndex="2"
+                                                  SelectionChanged="ComboBoxWindowsInkEraserButtonAction_SelectionChanged">
+                                            <ComboBoxItem Content="什么都不干" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="墨迹擦" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="面积擦" FontFamily="Microsoft YaHei UI" />
+                                        </ComboBox>
+                                    </ui:SimpleStackPanel>
+                                    <TextBlock
+                                        Text="# 绿色按钮为触笔设备的橡皮擦按钮。"
+                                        TextWrapping="Wrap"
+                                        Foreground="#a1a1aa" />
+                                    <ui:InfoBar
+                                        IsOpen="True"
+                                        IsClosable="False"
+                                        Severity="Warning"
+                                        Title="有关橡皮按钮触发的提示"
+                                        Message="如果您正在使用 OpenTabletDriver 等自定义数位板驱动软件，或通过其他方式修改了橡皮按钮的触发方式，从“按住触发”修改为“切换触发”模式后，可能会导致出现未知问题！" />
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="蓝色按钮按下时，"
+                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
+                                        <ComboBox Name="ComboBoxWindowsInkBarrelButtonAction"
+                                                  FontFamily="Microsoft YaHei UI"
+                                                  SelectedIndex="0"
+                                                  SelectionChanged="ComboBoxWindowsInkBarrelButtonAction_SelectionChanged">
+                                            <ComboBoxItem Content="什么都不干" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="矩形框选模式" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="全选墨迹" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="撤销操作" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="打开快捷面板" FontFamily="Microsoft YaHei UI" />
+                                        </ComboBox>
+                                    </ui:SimpleStackPanel>
+                                    <TextBlock
+                                        Text="# 蓝色按钮为触笔设备的功能按钮，在 icc 中会被当做 BarrelButton 处理，如果触发有问题，可以不使用该功能。"
+                                        TextWrapping="Wrap"
+                                        Foreground="#a1a1aa" />
                                 </ui:SimpleStackPanel>
                             </GroupBox>
                             <GroupBox Name="SettingsInkRecognitionGroupBox">
@@ -6704,17 +7006,6 @@
                                                          IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchEnableTwoFingerGestureInPresentationMode_Toggled" />
                                     </ui:SimpleStackPanel>
-                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <TextBlock Foreground="#fafafa" Text="允许使用手指手势进行幻灯片翻页"
-                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
-                                        <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchEnableFingerGestureSlideShowControl"
-                                                         IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
-                                                         Toggled="ToggleSwitchEnableFingerGestureSlideShowControl_Toggled" />
-                                    </ui:SimpleStackPanel>
-                                    <TextBlock
-                                        Text="# 允许开启画板时使用手指手势进行幻灯片翻页（启用后，在幻灯片放映模式下，当画板无墨迹时，使用手指（笔尖或手掌无法识别）左右滑动即可控制幻灯片翻页。）"
-                                        TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -6982,6 +7273,37 @@
                                                          Name="ToggleSwitchIsDisableCloseWindow" IsOn="True"
                                                          FontFamily="Microsoft YaHei UI" FontWeight="Bold" />
                                     </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="强制置顶窗口"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="14" Margin="0,0,6,0" />
+                                        <Border Height="20" CornerRadius="3" Background="#1e3a8a" Margin="0,0,12,0"
+                                                Padding="4,0">
+                                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="3"
+                                                                 VerticalAlignment="Center">
+                                                <Image Width="16" Height="16" VerticalAlignment="Center">
+                                                    <Image.Source>
+                                                        <DrawingImage>
+                                                            <DrawingImage.Drawing>
+                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                    <GeometryDrawing Brush="#dbeafe"
+                                                                                     Geometry="F0 M24,24z M0,0z M18.75,4C18.75,3.58579 18.4142,3.25 18,3.25 17.5858,3.25 17.25,3.58579 17.25,4 17.25,4.33152 17.1183,4.64946 16.8839,4.88388 16.6495,5.1183 16.3315,5.25 16,5.25 15.5858,5.25 15.25,5.58579 15.25,6 15.25,6.41421 15.5858,6.75 16,6.75 16.3315,6.75 16.6495,6.8817 16.8839,7.11612 17.1183,7.35054 17.25,7.66848 17.25,8 17.25,8.41421 17.5858,8.75 18,8.75 18.4142,8.75 18.75,8.41421 18.75,8 18.75,7.66848 18.8817,7.35054 19.1161,7.11612 19.3505,6.8817 19.6685,6.75 20,6.75 20.4142,6.75 20.75,6.41421 20.75,6 20.75,5.58579 20.4142,5.25 20,5.25 19.6685,5.25 19.3505,5.1183 19.1161,4.88388 18.8817,4.64946 18.75,4.33152 18.75,4z M9.75,6C9.75,5.58579 9.41421,5.25 9,5.25 8.58579,5.25 8.25,5.58579 8.25,6 8.25,7.39239 7.69688,8.72774 6.71231,9.71231 5.72774,10.6969 4.39239,11.25 3,11.25 2.58579,11.25 2.25,11.5858 2.25,12 2.25,12.4142 2.58579,12.75 3,12.75 4.39239,12.75 5.72774,13.3031 6.71231,14.2877 7.69688,15.2723 8.25,16.6076 8.25,18 8.25,18.4142 8.58579,18.75 9,18.75 9.41421,18.75 9.75,18.4142 9.75,18 9.75,16.6076 10.3031,15.2723 11.2877,14.2877 12.2723,13.3031 13.6076,12.75 15,12.75 15.4142,12.75 15.75,12.4142 15.75,12 15.75,11.5858 15.4142,11.25 15,11.25 13.6076,11.25 12.2723,10.6969 11.2877,9.71231 10.3031,8.72774 9.75,7.39239 9.75,6z M18.75,16C18.75,15.5858 18.4142,15.25 18,15.25 17.5858,15.25 17.25,15.5858 17.25,16 17.25,16.3315 17.1183,16.6495 16.8839,16.8839 16.6495,17.1183 16.3315,17.25 16,17.25 15.5858,17.25 15.25,17.5858 15.25,18 15.25,18.4142 15.5858,18.75 16,18.75 16.3315,18.75 16.6495,18.8817 16.8839,19.1161 17.1183,19.3505 17.25,19.6685 17.25,20 17.25,20.4142 17.5858,20.75 18,20.75 18.4142,20.75 18.75,20.4142 18.75,20 18.75,19.6685 18.8817,19.3505 19.1161,19.1161 19.3505,18.8817 19.6685,18.75 20,18.75 20.4142,18.75 20.75,18.4142 20.75,18 20.75,17.5858 20.4142,17.25 20,17.25 19.6685,17.25 19.3505,17.1183 19.1161,16.8839 18.8817,16.6495 18.75,16.3315 18.75,16z" />
+                                                                </DrawingGroup>
+                                                            </DrawingImage.Drawing>
+                                                        </DrawingImage>
+                                                    </Image.Source>
+                                                </Image>
+                                                <TextBlock Foreground="#dbeafe" Text="新功能" FontSize="12"
+                                                           VerticalAlignment="Center" />
+                                            </ui:SimpleStackPanel>
+                                        </Border>
+                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Toggled="ToggleSwitchEnableForceTopMost_Toggled"
+                                                         Name="ToggleSwitchEnableForceTopMost" IsOn="True"
+                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold" />
+                                    </ui:SimpleStackPanel>
+                                    <TextBlock TextWrapping="Wrap" Foreground="#a1a1aa"
+                                               Text="# 该功能在 Windows 7 系统下非常有用，可以解决某些玄学的窗口置顶问题，感谢《智绘教》开发者“Alan_CRL”提供的方法！" />
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="让ICC窗口始终可见且全屏显示"
                                                    VerticalAlignment="Center"
@@ -7566,46 +7888,46 @@
                                               SelectedIndex="1" HorizontalAlignment="Center">
                                         <ComboBoxItem HorizontalContentAlignment="Left">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
-                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/system-drive.png" Controls:RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/system-drive.png" Controls:RenderOptions.BitmapScalingMode="HighQuality" />
                                                 <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
-                                                    <Run FontWeight="Bold" Text="系统盘 "/>
-                                                    <Run Text="C:\Users\Dubi906w\InkCanvasForClass"/>
+                                                    <Run FontWeight="Bold" Text="系统盘 " />
+                                                    <Run Text="C:\Users\Dubi906w\InkCanvasForClass" />
                                                 </TextBlock>
                                             </StackPanel>
                                         </ComboBoxItem>
                                         <ComboBoxItem HorizontalContentAlignment="Left">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
-                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/disk-drive.png" Controls:RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/disk-drive.png" Controls:RenderOptions.BitmapScalingMode="HighQuality" />
                                                 <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
-                                                    <Run FontWeight="Bold" Text="D盘 "/>
-                                                    <Run Text="D:\InkCanvasForClass"/>
+                                                    <Run FontWeight="Bold" Text="D盘 " />
+                                                    <Run Text="D:\InkCanvasForClass" />
                                                 </TextBlock>
                                             </StackPanel>
                                         </ComboBoxItem>
                                         <ComboBoxItem HorizontalContentAlignment="Left">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
-                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/disk-drive.png" Controls:RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/disk-drive.png" Controls:RenderOptions.BitmapScalingMode="HighQuality" />
                                                 <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
-                                                    <Run FontWeight="Bold" Text="E盘 "/>
-                                                    <Run Text="E:\InkCanvasForClass"/>
+                                                    <Run FontWeight="Bold" Text="E盘 " />
+                                                    <Run Text="E:\InkCanvasForClass" />
                                                 </TextBlock>
                                             </StackPanel>
                                         </ComboBoxItem>
                                         <ComboBoxItem HorizontalContentAlignment="Left">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
-                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/documents-folder.png" Controls:RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/documents-folder.png" Controls:RenderOptions.BitmapScalingMode="HighQuality" />
                                                 <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
-                                                    <Run FontWeight="Bold" Text="用户“文档”目录 "/>
-                                                    <Run Text="C:\Users\Dubi906w\Documents"/>
+                                                    <Run FontWeight="Bold" Text="用户“文档”目录 " />
+                                                    <Run Text="C:\Users\Dubi906w\Documents" />
                                                 </TextBlock>
                                             </StackPanel>
                                         </ComboBoxItem>
                                         <ComboBoxItem HorizontalContentAlignment="Left">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
-                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/folder.png" Controls:RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/folder.png" Controls:RenderOptions.BitmapScalingMode="HighQuality" />
                                                 <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
-                                                    <Run FontWeight="Bold" Text="icc 运行目录下"/>
-                                                    <Run Text=".\UserData\"/>
+                                                    <Run FontWeight="Bold" Text="icc 运行目录下" />
+                                                    <Run Text=".\UserData\" />
                                                 </TextBlock>
                                             </StackPanel>
                                         </ComboBoxItem>
@@ -7703,11 +8025,11 @@
                                                 <TextBlock FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">0%</TextBlock>
                                             </StackPanel>
                                         </StackPanel>
-                                        <Button Content="清理缓存文件"/>
+                                        <Button Content="清理缓存文件" />
                                     </ui:SimpleStackPanel>
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0"
                                           Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4" />
-                                    <TextBlock Margin="0,0,0,8" Text="定时清理" FontWeight="Bold" Foreground="#fafafa"
+                                    <TextBlock Margin="0,0,0,8" Text="自动清理" FontWeight="Bold" Foreground="#fafafa"
                                                FontSize="20" />
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="定期自动删除超过保存时间的墨迹、截图文件"
@@ -7737,6 +8059,36 @@
                                             <ComboBoxItem Content="365" FontFamily="Microsoft YaHei UI" />
                                         </ComboBox>
                                         <TextBlock Foreground="#fafafa" Text="天" VerticalAlignment="Center"
+                                                   FontSize="14" Margin="8,0,0,0" />
+                                    </ui:SimpleStackPanel>
+                                    <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0"
+                                          Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4" />
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="限制自动保存的墨迹数量"
+                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
+                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Name="ToggleSwitchLimitAutoSaveAmount" IsOn="True"
+                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                         Toggled="ToggleSwitchLimitAutoSaveAmount_Toggled" />
+                                    </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="最多保存" VerticalAlignment="Center"
+                                                   FontSize="14" Margin="0,0,16,0" />
+                                        <ComboBox Name="ComboBoxLimitAutoSaveAmount"
+                                                  FontFamily="Microsoft YaHei UI"
+                                                  SelectedIndex="3"
+                                                  SelectionChanged="ComboBoxLimitAutoSaveAmount_SelectionChanged">
+                                            <ComboBoxItem Content="10" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="25" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="30" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="50" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="100" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="150" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="200" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="500" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="999" FontFamily="Microsoft YaHei UI" />
+                                        </ComboBox>
+                                        <TextBlock Foreground="#fafafa" Text="份墨迹" VerticalAlignment="Center"
                                                    FontSize="14" Margin="8,0,0,0" />
                                     </ui:SimpleStackPanel>
                                 </ui:SimpleStackPanel>
@@ -7805,7 +8157,7 @@
                                     <ui:SimpleStackPanel Orientation="Horizontal">
                                         <TextBlock FontSize="18" FontWeight="Bold" Text="Release Version：" />
                                         <TextBlock FontSize="18" FontWeight="Bold" FontFamily="Consolas"
-                                                   Text="20240710V1P1" />
+                                                   Text="6.0.0" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal">
                                         <TextBlock FontSize="18" FontWeight="Bold" Text="Bundle Version：" />
@@ -7871,7 +8223,7 @@
                                             </TextBlock>
                                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
                                                        FontSize="12" Foreground="White">
-                                                ICC 的开发者
+                                                InkCanvasForClass
                                             </TextBlock>
                                         </ui:SimpleStackPanel>
                                         <ui:SimpleStackPanel Grid.Column="1" Orientation="Vertical">
@@ -7890,7 +8242,7 @@
                                             </TextBlock>
                                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
                                                        FontSize="12" Foreground="White">
-                                                ICA 的开发者
+                                                Ink Canvas Artistry
                                             </TextBlock>
                                         </ui:SimpleStackPanel>
                                         <ui:SimpleStackPanel Grid.Column="2" Orientation="Vertical">
@@ -7909,23 +8261,30 @@
                                             </TextBlock>
                                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
                                                        FontSize="12" Foreground="White">
-                                                Ink Canvas 的开发者
+                                                Ink Canvas
                                             </TextBlock>
                                         </ui:SimpleStackPanel>
                                     </Grid>
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
                                     <TextBlock FontSize="15">
-                                        <Bold>ICC 仓库源:</Bold>
+                                        <Bold>icc! Gitea源:</Bold>
                                         <Hyperlink Click="HyperlinkSourceToICCRepository_Click">
                                             <TextBlock Margin="2,0" Text="gitea:kriastans/InkCanvasForClass"
                                                        TextWrapping="Wrap" />
                                         </Hyperlink>
                                     </TextBlock>
                                     <TextBlock FontSize="15">
+                                        <Bold>icc! Github源:</Bold>
+                                        <Hyperlink Click="HyperlinkSourceToICCGithubRepository_Click">
+                                            <TextBlock Margin="2,0" Text="InkCanvas/InkCanvasForClass"
+                                                       TextWrapping="Wrap" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                    <TextBlock FontSize="15">
                                         <Bold>ICA 仓库源:</Bold>
                                         <Hyperlink Click="HyperlinkSourceToPresentRepository_Click">
-                                            <TextBlock Margin="2,0" Text="ChangSakura/Ink-Canvas" TextWrapping="Wrap" />
+                                            <TextBlock Margin="2,0" Text="InkCanvas/Ink-Canvas-Artistry" TextWrapping="Wrap" />
                                         </Hyperlink>
                                     </TextBlock>
                                     <TextBlock FontSize="15">
@@ -8116,7 +8475,10 @@
                                             Text="© 2024 Dubi906w(Kriastans) 版权所有" FontWeight="Bold"
                                             TextWrapping="Wrap" Foreground="White" />
                                         <TextBlock
-                                            Text="© 2022-2024 HarkoTek Studio 提供技术支持"
+                                            Text="© 2022-2024 HARKOTEK Studio 提供技术支持"
+                                            TextWrapping="Wrap" Foreground="#a1a1aa" />
+                                        <TextBlock
+                                            Text="osu! 相关素材：© ppy powered 2007-2024"
                                             TextWrapping="Wrap" Foreground="#a1a1aa" />
                                         <TextBlock
                                             Text="We love Open-Source forever!" FontWeight="Bold"

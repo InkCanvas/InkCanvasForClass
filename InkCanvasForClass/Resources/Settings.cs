@@ -129,6 +129,10 @@ namespace Ink_Canvas
         public bool EnableMouseRightBtnGesture { get; set; } = true;
         [JsonProperty("enableMouseWheelGesture")]
         public bool EnableMouseWheelGesture { get; set; } = true;
+        [JsonProperty("windowsInkEraserButtonAction")]
+        public int WindowsInkEraserButtonAction { get; set; } = 2;
+        [JsonProperty("windowsInkBarrelButtonAction")]
+        public int WindowsInkBarrelButtonAction { get; set; } = 0;
     }
 
     public class Startup
@@ -151,6 +155,8 @@ namespace Ink_Canvas
         public bool IsAutoEnterModeFinger { get; set; } = false;*/
         [JsonProperty("isFoldAtStartup")]
         public bool IsFoldAtStartup { get; set; } = false;
+        [JsonProperty("enableWindowChromeRendering")]
+        public bool EnableWindowChromeRendering { get; set; } = false;
     }
 
     public class Appearance
@@ -252,8 +258,6 @@ namespace Ink_Canvas
         public bool IsNotifyAutoPlayPresentation { get; set; } = true;
         [JsonProperty("isEnableTwoFingerGestureInPresentationMode")]
         public bool IsEnableTwoFingerGestureInPresentationMode { get; set; } = false;
-        [JsonProperty("isEnableFingerGestureSlideShowControl")]
-        public bool IsEnableFingerGestureSlideShowControl { get; set; } = true;
         [JsonProperty("isSupportWPS")]
         public bool IsSupportWPS { get; set; } = true;
 
@@ -390,6 +394,12 @@ namespace Ink_Canvas
 
         [JsonProperty("autoDelSavedFilesDaysThreshold")]
         public int AutoDelSavedFilesDaysThreshold = 15;
+
+        [JsonProperty("isEnableLimitAutoSaveAmount")]
+        public bool IsEnableLimitAutoSaveAmount { get; set; } = false;
+
+        [JsonProperty("limitAutoSaveAmount")]
+        public int LimitAutoSaveAmount { get; set; } = 3;
     }
 
     public class Advanced
@@ -435,6 +445,8 @@ namespace Ink_Canvas
 
         [JsonProperty("isDisableCloseWindow")]
         public bool IsDisableCloseWindow { get; set; } = true;
+        [JsonProperty("enableForceTopMost")]
+        public bool EnableForceTopMost { get; set; } = false;
     }
 
     public class InkToShape

@@ -17,6 +17,10 @@ using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Win32;
+using System.Text;
+using System.Windows.Documents;
+using Ink_Canvas.Popups;
+using iNKORE.UI.WPF.Modern.Controls;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -65,8 +69,10 @@ namespace Ink_Canvas {
 
             //if (!App.StartArgs.Contains("-o"))
 
-            ViewBoxStackPanelMain.Visibility = Visibility.Collapsed;
-            ViewBoxStackPanelShapes.Visibility = Visibility.Collapsed;
+            // old ui
+            //ViewBoxStackPanelMain.Visibility = Visibility.Collapsed;
+            //ViewBoxStackPanelShapes.Visibility = Visibility.Collapsed;
+
             ViewboxFloatingBar.Margin = new Thickness((SystemParameters.WorkArea.Width - 284) / 2,
                 SystemParameters.WorkArea.Height - 60, -2000, -200);
             ViewboxFloatingBarMarginAnimation(100, true);
@@ -138,25 +144,7 @@ namespace Ink_Canvas {
                 drawingAttributes.FitToCurve = Settings.Canvas.FitToCurve;
 
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
-                inkCanvas.Gesture += InkCanvas_Gesture;
-            }
-            catch { }
-        }
-
-        //ApplicationGesture lastApplicationGesture = ApplicationGesture.AllGestures;
-        private DateTime lastGestureTime = DateTime.Now;
-
-        private void InkCanvas_Gesture(object sender, InkCanvasGestureEventArgs e) {
-            var gestures = e.GetGestureRecognitionResults();
-            try {
-                foreach (var gest in gestures)
-                    //Trace.WriteLine(string.Format("Gesture: {0}, Confidence: {1}", gest.ApplicationGesture, gest.RecognitionConfidence));
-                    if (StackPanelPPTControls.Visibility == Visibility.Visible) {
-                        if (gest.ApplicationGesture == ApplicationGesture.Left)
-                            BtnPPTSlidesDown_Click(BtnPPTSlidesDown, null);
-                        if (gest.ApplicationGesture == ApplicationGesture.Right)
-                            BtnPPTSlidesUp_Click(BtnPPTSlidesUp, null);
-                    }
+                //inkCanvas.Gesture += InkCanvas_Gesture;
             }
             catch { }
         }
@@ -174,6 +162,18 @@ namespace Ink_Canvas {
             }
 
             if (inkCanvas1.EditingMode == InkCanvasEditingMode.Ink) forcePointEraser = !forcePointEraser;
+
+            if ((inkCanvas1.EditingMode == InkCanvasEditingMode.EraseByPoint &&
+                 SelectedMode == ICCToolsEnum.EraseByGeometryMode) || (inkCanvas1.EditingMode == InkCanvasEditingMode.EraseByStroke &&
+                                                                       SelectedMode == ICCToolsEnum.EraseByStrokeMode)) {
+                GridEraserOverlay.Visibility = Visibility.Visible;
+            } else {
+                GridEraserOverlay.Visibility = Visibility.Collapsed;
+            }
+
+            inkCanvas1.EditingModeInverted = inkCanvas1.EditingMode;
+
+            RectangleSelectionHitTestBorder.Visibility = inkCanvas1.EditingMode == InkCanvasEditingMode.Select ? Visibility.Visible : Visibility.Collapsed;
         }
 
         #endregion Ink Canvas
@@ -244,6 +244,8 @@ namespace Ink_Canvas {
             }
 
             UpdateFloatingBarIconsLayout();
+
+            StylusInvertedListenerInit();
         }
 
         private void SystemEventsOnDisplaySettingsChanged(object sender, EventArgs e) {
@@ -254,7 +256,7 @@ namespace Ink_Canvas {
                 var isInPPTPresentationMode = false;
                 Dispatcher.Invoke(() => {
                     isFloatingBarOutsideScreen = IsOutsideOfScreenHelper.IsOutsideOfScreen(ViewboxFloatingBar);
-                    isInPPTPresentationMode = BtnPPTSlideShowEnd.Visibility == Visibility.Visible;
+                    isInPPTPresentationMode = BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible;
                 });
                 if (isFloatingBarOutsideScreen) dpiChangedDelayAction.DebounceAction(3000, null, () => {
                     if (!isFloatingBarFolded)
@@ -279,7 +281,7 @@ namespace Ink_Canvas {
                     var isInPPTPresentationMode = false;
                     Dispatcher.Invoke(() => {
                         isFloatingBarOutsideScreen = IsOutsideOfScreenHelper.IsOutsideOfScreen(ViewboxFloatingBar);
-                        isInPPTPresentationMode = BtnPPTSlideShowEnd.Visibility == Visibility.Visible;
+                        isInPPTPresentationMode = BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible;
                     });
                     if (isFloatingBarOutsideScreen) dpiChangedDelayAction.DebounceAction(3000,null, () => {
                         if (!isFloatingBarFolded)

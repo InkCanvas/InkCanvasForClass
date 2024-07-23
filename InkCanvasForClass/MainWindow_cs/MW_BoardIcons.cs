@@ -63,6 +63,11 @@ namespace Ink_Canvas {
                     }
                     inkCanvas.EraserShape = new RectangleStylusShape(k * 90 * 0.6, k * 90);
                 }
+
+                // update tool selection
+                SelectedMode = ICCToolsEnum.EraseByGeometryMode;
+                ForceUpdateToolSelection(null);
+
                 inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
                 drawingShapeMode = 0;
 
@@ -70,10 +75,6 @@ namespace Ink_Canvas {
                 CancelSingleFingerDragMode();
 
                 HideSubPanels("eraser");
-
-                // update tool selection
-                SelectedMode = ICCToolsEnum.EraseByGeometryMode;
-                ForceUpdateToolSelection(null);
             }
         }
 
@@ -85,6 +86,10 @@ namespace Ink_Canvas {
                 forceEraser = true;
                 forcePointEraser = false;
 
+                // update tool selection
+                SelectedMode = ICCToolsEnum.EraseByStrokeMode;
+                ForceUpdateToolSelection(null);
+
                 inkCanvas.EraserShape = new EllipseStylusShape(5, 5);
                 inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
                 drawingShapeMode = 0;
@@ -93,9 +98,6 @@ namespace Ink_Canvas {
                 CancelSingleFingerDragMode();
 
                 HideSubPanels("eraserByStrokes");
-                // update tool selection
-                SelectedMode = ICCToolsEnum.EraseByStrokeMode;
-                ForceUpdateToolSelection(null);
             //}
         }
 

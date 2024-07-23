@@ -1,0 +1,90 @@
+﻿<Window x:Class="Ink_Canvas.Popups.FloatingBarWindowV2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Ink_Canvas.Popups"
+        xmlns:modern="http://schemas.inkore.net/lib/ui/wpf/modern"
+        mc:Ignorable="d" WindowStyle="None" ResizeMode="NoResize"
+        Background="Transparent" AllowsTransparency="True" Topmost="True"
+        Title="FloatingBarWindowV2">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Themes/DarkFloatingBarTheme.xaml"/>
+                <ResourceDictionary Source="FloatingBarV2Resources.xaml"/>
+                <ResourceDictionary Source="../Resources/GeometryIcons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <modern:SimpleStackPanel Orientation="Horizontal" Spacing="6" Margin="6">
+            <Border Style="{DynamicResource ICCHeadButtonStyleBorder}" Height="42" Width="42">
+                <Image Width="28" Height="28" Source="{DynamicResource ICCHeadButtonIcon}"></Image>
+            </Border>
+            <Border Height="42" Padding="4,0" Style="{DynamicResource FloatingBarBorder}">
+                <StackPanel Orientation="Horizontal">
+                    <Grid Width="42" Height="42">
+                        <modern:SimpleStackPanel Orientation="Vertical" Spacing="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Width="22" Height="22" Source="{DynamicResource CursorIconV2}"></Image>
+                        </modern:SimpleStackPanel>
+                    </Grid>
+                    <Grid Width="42" Height="42">
+                        <modern:SimpleStackPanel Orientation="Vertical" Spacing="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Width="22" Height="22" Source="{DynamicResource PenIconV2}"/>
+                        </modern:SimpleStackPanel>
+                    </Grid>
+                    <Grid Width="42" Height="42">
+                        <modern:SimpleStackPanel Orientation="Vertical" Spacing="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Width="22" Height="22" Source="{DynamicResource TrashBinIconV2}"/>
+                        </modern:SimpleStackPanel>
+                    </Grid>
+                    <Grid Width="42" Height="42">
+                        <modern:SimpleStackPanel Orientation="Vertical" Spacing="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Width="22" Height="22" Source="{DynamicResource EraserIconV2}"/>
+                        </modern:SimpleStackPanel>
+                    </Grid>
+                    <Grid Width="42" Height="42">
+                        <modern:SimpleStackPanel Orientation="Vertical" Spacing="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Width="22" Height="22" Source="{DynamicResource LassoSelectIconV2}"/>
+                        </modern:SimpleStackPanel>
+                    </Grid>
+                    <Grid Width="42" Height="42">
+                        <modern:SimpleStackPanel Orientation="Vertical" Spacing="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Width="22" Height="22" Source="{DynamicResource ShapesIconV2}"/>
+                        </modern:SimpleStackPanel>
+                    </Grid>
+                    <Grid Width="42" Height="42">
+                        <modern:SimpleStackPanel Orientation="Vertical" Spacing="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Width="22" Height="22" Source="{DynamicResource UndoIconV2}"/>
+                        </modern:SimpleStackPanel>
+                    </Grid>
+                    <Grid Width="42" Height="42">
+                        <modern:SimpleStackPanel Orientation="Vertical" Spacing="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Width="22" Height="22" Source="{DynamicResource RedoIconV2}"/>
+                        </modern:SimpleStackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+            <Border Height="42" Padding="4,0" Style="{DynamicResource FloatingBarBorder}">
+                <StackPanel Orientation="Horizontal">
+                    <Grid Width="42" Height="42">
+                        <modern:SimpleStackPanel Orientation="Vertical" Spacing="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Width="22" Height="22" Source="{DynamicResource MoreToolsIconV2}"></Image>
+                        </modern:SimpleStackPanel>
+                    </Grid>
+                    <Grid Width="42" Height="42">
+                        <modern:SimpleStackPanel Orientation="Vertical" Spacing="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Width="22" Height="22" Source="{DynamicResource GestureIconV2}"></Image>
+                        </modern:SimpleStackPanel>
+                    </Grid>
+                    <Grid Width="42" Height="42">
+                        <modern:SimpleStackPanel Orientation="Vertical" Spacing="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Width="22" Height="22" Source="{DynamicResource EyeOffIconV2}"></Image>
+                        </modern:SimpleStackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </modern:SimpleStackPanel>
+    </Grid>
+</Window>
