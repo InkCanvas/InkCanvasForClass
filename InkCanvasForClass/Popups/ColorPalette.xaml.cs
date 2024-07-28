@@ -24,6 +24,7 @@ using Ink_Canvas.Helpers;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
 using Image = System.Windows.Controls.Image;
+using System.Reflection;
 
 namespace Ink_Canvas.Popups {
     public partial class ColorPalette : UserControl {
@@ -93,13 +94,37 @@ namespace Ink_Canvas.Popups {
         public GeometryDrawing[] PenModeTabButtonIcons;
         public TextBlock[] PenModeTabButtonTexts;
 
+        private void SCManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e) {
+            e.Handled = true;
+        }
+
+        private void QuickActionsScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scrollViewer = (ScrollViewer)sender;
+            if (e.Delta < 0) {
+                scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset + 24);
+            } else {
+                scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset - 24);
+            }
+            e.Handled = true;
+        }
+
+        #region 暗色亮色成員
+
+        /// <summary>
+        /// 內部變量，代表是否使用暗色配色方案
+        /// </summary>
         private bool _usingDarkColors = true;
 
+        /// <summary>
+        /// 公共成員，讀取或修改是否使用暗色配色方案
+        /// </summary>
         public bool UsingDarkColors {
             get => _usingDarkColors;
             set {
                 var pre = _usingDarkColors;
                 _usingDarkColors = value;
+                UpdateColorPaletteColorsAndColorModeChangeButton();
                 ColorModeChanged?.Invoke(this, new ColorModeChangedEventArgs()
                 {
                     IsPreviousUsedDarkColor = pre,
@@ -109,19 +134,357 @@ namespace Ink_Canvas.Popups {
             }
         }
 
+        public class ColorModeChangedEventArgs : EventArgs
+        {
+            public bool IsPreviousUsedDarkColor { get; set; }
+            public bool IsNowUsingDarkColor { get; set; }
+            public TriggerMode TriggerMode { get; set; }
+        }
+
+        #endregion
+
+        #region 選中顏色成員
+
+        /// <summary>
+        /// 內部變量，代表當前選中的顏色
+        /// </summary>
         private ColorPaletteColor _colorSelected = ColorPaletteColor.ColorRed;
+
+        /// <summary>
+        /// 公共成員，讀取或修改當前選中的顏色，實時生效
+        /// </summary>
         public ColorPaletteColor SelectedColor {
             get => _colorSelected;
             set {
                 var pre = _colorSelected;
                 _colorSelected = value;
+                UpdateColorButtonsCheckedDisplayStatus();
+                UpdateCustomColorButtonCheckedDisplayStatus();
                 ColorSelectionChanged?.Invoke(this, new ColorSelectionChangedEventArgs {
+                    PreviousColor = pre,
+                    NowColor = value,
+                    TriggerMode = TriggerMode.TriggeredByCode,
+                    CustomColor = value == ColorPaletteColor.ColorCustom ? (Color)_customColor : new Color(),
+                });
+            }
+        }
+
+        public class ColorSelectionChangedEventArgs : EventArgs {
+            public ColorPaletteColor PreviousColor { get; set; }
+            public ColorPaletteColor NowColor { get; set; }
+            public TriggerMode TriggerMode { get; set; }
+            public Color CustomColor { get; set; }
+        }
+
+        #endregion
+
+        #region 自定義顏色成員
+
+        private Color? _customColor = null;
+
+        public Color? CustomColor {
+            get => _customColor;
+            set {
+                var pre = _customColor;
+                _customColor = value;
+                CustomColorChanged?.Invoke(this, new CustomColorChangedEventArgs {
                     PreviousColor = pre,
                     NowColor = value,
                     TriggerMode = TriggerMode.TriggeredByCode,
                 });
             }
         }
+
+        public class CustomColorChangedEventArgs : EventArgs
+        {
+            public Color? PreviousColor { get; set; }
+            public Color? NowColor { get; set; }
+            public TriggerMode TriggerMode { get; set; }
+        }
+
+        #endregion
+
+        #region 墨跡顏色相關邏輯
+
+        /// <summary>
+        /// 按下的顏色按鈕，用於顏色按鈕鼠標事件
+        /// </summary>
+        private Border lastColorBtnDown;
+
+        #region 顏色按鈕和自定義顏色按鈕 選中狀態管理
+
+        /// <summary>
+        /// 顏色按鈕的選中狀態更新函數，根據選中的顏色判斷對勾的前景色
+        /// </summary>
+        public void UpdateColorButtonsCheckedDisplayStatus() {
+            foreach (var bd in ColorPaletteColorButtonBorders) {
+                bd.Child = null;
+            }
+
+            UpdateCustomColorButtonCheckedDisplayStatus();
+            if (_colorSelected == ColorPaletteColor.ColorCustom) return;
+            var index = (int)_colorSelected;
+            var bdSel = ColorPaletteColorButtonBorders[index];
+            Image checkedImage = new Image();
+            checkedImage.Width = 24;
+            checkedImage.Height = 24;
+            var checkLight = this.FindResource("CheckedLightIcon");
+            var checkDark = this.FindResource("CheckedDarkIcon");
+            if (ColorUtilities.GetReverseForegroundColor(ColorUtilities.GetGrayLevel((_usingDarkColors?_darkColors:_lightColors)[(int)_colorSelected])) == Colors.Black) checkedImage.Source = checkDark as DrawingImage;
+            else checkedImage.Source = checkLight as DrawingImage;
+            bdSel.Child = checkedImage;
+        }
+
+        /// <summary>
+        /// 更新自定義顏色按鈕的選中狀態
+        /// </summary>
+        private void UpdateCustomColorButtonCheckedDisplayStatus() {
+            if (_customColor == null) {
+                CustomColorButtonColorBorder.Visibility = Visibility.Collapsed;
+                CustomColorButtonIcon.Visibility = Visibility.Visible;
+            } else {
+                CustomColorButtonColorBorder.Visibility = Visibility.Visible;
+                CustomColorButtonColorBorder.Background = new SolidColorBrush((Color)_customColor);
+                CustomColorButtonIcon.Visibility = Visibility.Collapsed;
+                if (_colorSelected == ColorPaletteColor.ColorCustom)
+                    CustomColorButtonColorBorderCheckIcon.Visibility = Visibility.Visible;
+                else CustomColorButtonColorBorderCheckIcon.Visibility = Visibility.Collapsed;
+                CustomColorButtonColorBorderCheckIcon.Source =
+                    this.FindResource(ColorUtilities.GetReverseForegroundColor(ColorUtilities.GetGrayLevel((Color)_customColor)) == Colors.White
+                        ? "CheckedLightIcon"
+                        : "CheckedDarkIcon") as DrawingImage;
+            }
+        }
+
+        #endregion
+
+        #region 顏色按鈕的鼠標事件
+
+        private void ColorButton_MouseDown(object sender, MouseButtonEventArgs e) {
+            lastColorBtnDown = sender as Border;
+            ColorBtnStoryboardScaleSmaller(sender);
+        }
+
+        private void ColorButton_MouseUp(object sender, MouseButtonEventArgs e) {
+            if (lastColorBtnDown != sender) return;
+            lastColorBtnDown = null;
+            var border = (Border)sender;
+            var index = Array.IndexOf(ColorPaletteColorStrings, border.Name.ToLower());
+
+            var pre = _colorSelected;
+            _colorSelected = (ColorPaletteColor)index;
+            UpdateColorButtonsCheckedDisplayStatus();
+            ColorBtnStoryboardScaleLarger(sender);
+
+            ColorSelectionChanged?.Invoke(this, new ColorSelectionChangedEventArgs {
+                PreviousColor = pre,
+                NowColor = (ColorPaletteColor)index,
+                TriggerMode = TriggerMode.TriggeredByUser,
+            });
+        }
+
+        private void ColorButton_MouseLeave(object sender, MouseEventArgs e) {
+            if (lastColorBtnDown != null) {
+                var la = lastColorBtnDown as Border;
+                var st = la.RenderTransform as ScaleTransform;
+                if (st.ScaleX != 1 && st.ScaleY != 1) ColorBtnStoryboardScaleLarger(lastColorBtnDown);
+            }
+
+            lastColorBtnDown = null;
+        }
+
+        #endregion
+
+        #region 自定義顏色 Picker 相關邏輯
+
+        private void UpdateCustomColorPickerDisplayStatus() {
+            if (_customColor == null) {
+                CustomColorHexTextBox.Text = "请在上方选择一个颜色";
+                CustomColorHexBorder.Background = new SolidColorBrush(Colors.Transparent);
+            } else {
+                CustomColorHexTextBox.Text = "#" + CustomColorPicker.SelectedColor.R.ToString("X2") + CustomColorPicker.SelectedColor.G.ToString("X2") + CustomColorPicker.SelectedColor.B.ToString("X2");
+                CustomColorHexBorder.Background = new SolidColorBrush(CustomColorPicker.SelectedColor);
+            }
+        }
+
+        private void CustomColorPicker_ColorChanged(object sender, RoutedEventArgs e) {
+            var cp = sender as SquarePicker;
+            var pre = _customColor;
+            _customColor = cp.SelectedColor;
+            Trace.WriteLine(_customColor);
+            if (_colorSelected != ColorPaletteColor.ColorCustom) {
+                var mode_pre = _colorSelected;
+                _colorSelected = ColorPaletteColor.ColorCustom;
+                ColorSelectionChanged?.Invoke(this, new ColorSelectionChangedEventArgs {
+                    PreviousColor = mode_pre,
+                    NowColor = _colorSelected,
+                    TriggerMode = TriggerMode.TriggeredByUser,
+                    CustomColor = cp.SelectedColor,
+                });
+            }
+            CustomColorChanged?.Invoke(this, new CustomColorChangedEventArgs {
+                PreviousColor = pre,
+                NowColor = _customColor,
+                TriggerMode = TriggerMode.TriggeredByUser,
+            });
+            UpdateCustomColorPickerDisplayStatus();
+            UpdateCustomColorButtonCheckedDisplayStatus();
+            UpdateColorButtonsCheckedDisplayStatus();
+        }
+
+        #endregion
+
+        #region 顏色按鈕Storyboard動畫邏輯
+
+        private void ColorBtnStoryBoardScaleAnimation(object sender, double from, double to) {
+            var border = sender as Border;
+
+            var sb = new Storyboard();
+            var scaleAnimationX = new DoubleAnimation() {
+                From = from,
+                To = to,
+                Duration = new Duration(TimeSpan.FromMilliseconds(100))
+            };
+            var scaleAnimationY = new DoubleAnimation() {
+                From = from,
+                To = to,
+                Duration = new Duration(TimeSpan.FromMilliseconds(100))
+            };
+            scaleAnimationY.EasingFunction = new CubicEase();
+            scaleAnimationX.EasingFunction = new CubicEase();
+            Storyboard.SetTargetProperty(scaleAnimationX,
+                new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleX)"));
+            Storyboard.SetTargetProperty(scaleAnimationY,
+                new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleY)"));
+            sb.Children.Add(scaleAnimationX);
+            sb.Children.Add(scaleAnimationY);
+
+            sb.Begin(border);
+        }
+
+        private void ColorBtnStoryboardScaleSmaller(object sender) {
+            ColorBtnStoryBoardScaleAnimation(sender, 1D, 0.9);
+        }
+
+        private void ColorBtnStoryboardScaleLarger(object sender) {
+            ColorBtnStoryBoardScaleAnimation(sender, 0.9, 1D);
+        }
+
+        #endregion
+
+        #region 顏色按鈕的亮色暗色和切換按鈕 相關邏輯
+
+        /// <summary>
+        /// 根據是否使用暗色配色方案來更新顏色按鈕的背景顏色，並更新切換按鈕的UI文字
+        /// </summary>
+        private void UpdateColorPaletteColorsAndColorModeChangeButton() {
+            foreach (var bd in ColorPaletteColorButtonBorders) {
+                bd.Background =
+                    new SolidColorBrush((_usingDarkColors ? _darkColors : _lightColors)[
+                        Array.IndexOf(ColorPaletteColorStrings, bd.Name.ToLower())]);
+            }
+
+            ChangedColorButtonsTransparentVisibility(_penModeSelected == PenMode.HighlighterMode);
+
+            var tb = ((SimpleStackPanel)ColorModeChangeButton.Content).Children.OfType<TextBlock>().Single();
+            tb.Text = _usingDarkColors ? "亮色" : "暗色";
+        }
+
+        private void ColorModeChangeButton_Clicked(object sender, RoutedEventArgs e) {
+            var pre = _usingDarkColors;
+            _usingDarkColors = !_usingDarkColors;
+            UpdateColorPaletteColorsAndColorModeChangeButton();
+            UpdateColorButtonsCheckedDisplayStatus();
+            ColorModeChanged?.Invoke(this, new ColorModeChangedEventArgs()
+            {
+                IsPreviousUsedDarkColor = pre,
+                IsNowUsingDarkColor = _usingDarkColors,
+                TriggerMode = TriggerMode.TriggeredByUser,
+            });
+        }
+
+        #endregion
+
+        #region GetRawColor
+
+        /// <summary>
+        /// 根據傳入的 <paramref name="color"/> 獲取對應的顏色
+        /// </summary>
+        /// <param name="color">傳入 <c>ColorPaletteColor</c></param>
+        /// <param name="doNotFollowPaletteColor">如果傳入<c>true</c>，則不會遵循調色板的亮色暗色配色方案，<paramref name="isDarkPalette"/> 則不能為<c>null</c>。</param>
+        /// <param name="isDarkPalette">指定是否使用暗色配色方案，如果為 <c>false</c>，使用亮色，如果在 <paramref name="doNotFollowPaletteColor"/> 為 <c>true</c> 的情況下傳入 <c>null</c> 會報錯。</param>
+        /// <returns>傳入的 <c>ColorPaletteColor</c> 對應的顏色</returns>
+        public Color GetColor(ColorPaletteColor color, bool doNotFollowPaletteColor, bool? isDarkPalette) {
+            if (doNotFollowPaletteColor && isDarkPalette == null) throw new ArgumentNullException(nameof(isDarkPalette),"指定了自訂的配色方案卻沒有傳入正確的 isDarkPalette。");
+            if (color == ColorPaletteColor.ColorCustom) return _customColor??new Color();
+            return (doNotFollowPaletteColor
+                ? ((bool)isDarkPalette ? _darkColors : _lightColors)
+                : (_usingDarkColors ? _darkColors : _lightColors))[(int)color];
+        }
+
+        #endregion
+
+        #region 隨機切換顏色按鈕 邏輯
+
+        public static int StrictNext(int maxValue = int.MaxValue) {
+            return new Random(BitConverter.ToInt32(Guid.NewGuid().ToByteArray(), 0)).Next(maxValue);
+        }
+
+        private void RandomColorButton_Clicked(object sender, RoutedEventArgs e) {
+            var pre = _colorSelected;
+            _colorSelected = (ColorPaletteColor)StrictNext(14);
+            UpdateColorButtonsCheckedDisplayStatus();
+            UpdateCustomColorButtonCheckedDisplayStatus();
+            ColorSelectionChanged?.Invoke(this, new ColorSelectionChangedEventArgs {
+                PreviousColor = pre,
+                NowColor = _colorSelected,
+                TriggerMode = TriggerMode.TriggeredByUser,
+            });
+        }
+
+        #endregion
+
+        #region 顏色按鈕透明度 邏輯
+
+        private void ChangedColorButtonsTransparentVisibility(bool isTransparent) {
+            foreach (var bd in ColorPaletteColorButtonBorders) {
+                var ori_color = ((SolidColorBrush)bd.Background).Color;
+                if (isTransparent) ori_color.A = (byte)Math.Round(byte.MaxValue * 0.6,0);
+                    else ori_color.A = byte.MaxValue;
+                bd.Background = new SolidColorBrush(ori_color);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 自定義顏色 相關邏輯
+
+        private void CustomColorButton_Clicked(object sender, RoutedEventArgs e) {
+            if (_customColor == null) {
+                CustomColorPanel.Visibility = Visibility.Visible;
+            } else {
+                if (_colorSelected == ColorPaletteColor.ColorCustom) CustomColorPanel.Visibility = Visibility.Visible;
+                else {
+                    var pre = _colorSelected;
+                    _colorSelected = ColorPaletteColor.ColorCustom;
+                    ColorSelectionChanged?.Invoke(this, new ColorSelectionChangedEventArgs() {
+                        PreviousColor = pre,
+                        NowColor = _colorSelected,
+                        TriggerMode = TriggerMode.TriggeredByUser,
+                        CustomColor = (Color)_customColor,
+                    });
+                    UpdateColorButtonsCheckedDisplayStatus();
+                    UpdateCustomColorButtonCheckedDisplayStatus();
+                    UpdateCustomColorPickerDisplayStatus();
+                }
+            }
+        }
+
+        #endregion
+
+        #region 墨跡糾正成員
 
         private bool _inkRecognition = true;
         public bool InkRecognition {
@@ -138,16 +501,33 @@ namespace Ink_Canvas.Popups {
             }
         }
 
+        public class InkRecognitionChangedEventArgs : EventArgs {
+            public bool PreviousStatus { get; set; }
+            public bool NowStatus { get; set; }
+            public TriggerMode TriggerMode { get; set; }
+            public InkRecognitionOptions Options { get; set; }
+        }
+
+        #endregion
+
+        #region 墨跡糾正相關邏輯
+
         private void InkRecognitionMoreButton_MouseDown(object sender, MouseButtonEventArgs e) {
             var ircm = this.FindResource("InkRecognitionContextMenu") as ContextMenu;
             var transform = InkRecognitionMoreButton.TransformToVisual(this);
             var pt = transform.Transform(new Point(0, 0));
             ircm.VerticalOffset = pt.Y-4;
             ircm.HorizontalOffset = pt.X-4;
-            ircm.IsOpen = !ircm.IsOpen;
+            ircm.IsOpen = true;
+            ircm.StaysOpen = true;
         }
 
-        private void UpdateInkRecognitionContextMenyDisplayStatus() {
+        #region 墨跡糾正更多菜單 相關邏輯
+
+        /// <summary>
+        /// 更新墨跡糾正菜單裡面菜單項的選中狀態，根據_inkRecognition來做更新
+        /// </summary>
+        private void UpdateInkRecognitionContextMenuDisplayStatus() {
             var ircm = (ContextMenu)this.FindResource("InkRecognitionContextMenu");
             var enableRecog = ircm.Items[0] as MenuItem;
             enableRecog.IsChecked = _inkRecognition;
@@ -160,7 +540,7 @@ namespace Ink_Canvas.Popups {
             };
             foreach (var mi in recogSub) mi.IsEnabled = _inkRecognition;
         }
-
+        
         private void InkRecognitionContextMenuItem_Checked(object sender, RoutedEventArgs e) {
             var mi = (MenuItem)sender;
             if (mi.Name == "EnableRecog") {
@@ -168,7 +548,7 @@ namespace Ink_Canvas.Popups {
                 Trace.WriteLine(mi.IsChecked);
                 _inkRecognition = mi.IsChecked;
 
-                UpdateInkRecognitionContextMenyDisplayStatus();
+                UpdateInkRecognitionContextMenuDisplayStatus();
                 InkRecognitionToggleSwitchImage.Source =
                     this.FindResource(_inkRecognition ? "SwitchOnImage" : "SwitchOffImage") as DrawingImage;
 
@@ -179,7 +559,7 @@ namespace Ink_Canvas.Popups {
                     TriggerMode = TriggerMode.TriggeredByUser,
                 });
             } else {
-                UpdateInkRecognitionContextMenyDisplayStatus();
+                UpdateInkRecognitionContextMenuDisplayStatus();
                 InkRecognitionChanged?.Invoke(this, new InkRecognitionChangedEventArgs
                 {
                     PreviousStatus = _inkRecognition,
@@ -189,12 +569,26 @@ namespace Ink_Canvas.Popups {
             }
         }
 
+        private void InkRecognitionContextMenu_Closed(object sender, RoutedEventArgs e) {
+            InkRecognitionMoreButton.Background = new SolidColorBrush(Colors.Transparent);
+            UpdateInkRecognitionContextMenuDisplayStatus();
+        }
+
+        private void InkRecognitionContextMenu_Opened(object sender, RoutedEventArgs e) {
+            InkRecognitionMoreButton.Background = new SolidColorBrush(Color.FromArgb(34,39, 39, 42));
+            UpdateInkRecognitionContextMenuDisplayStatus();
+        }
+
+        #endregion
+
+        #region 墨跡糾正開關 相關邏輯
+
         private void InkRecognitionToggleSwitchButton_Clicked(object sender, RoutedEventArgs e) {
             var pre = _inkRecognition;
             _inkRecognition = !_inkRecognition;
             InkRecognitionToggleSwitchImage.Source =
                 this.FindResource(_inkRecognition ? "SwitchOnImage" : "SwitchOffImage") as DrawingImage;
-            UpdateInkRecognitionContextMenyDisplayStatus();
+            UpdateInkRecognitionContextMenuDisplayStatus();
             InkRecognitionChanged?.Invoke(this, new InkRecognitionChangedEventArgs
             {
                 PreviousStatus = pre,
@@ -203,15 +597,34 @@ namespace Ink_Canvas.Popups {
             });
         }
 
-        private void InkRecognitionContextMenu_Closed(object sender, RoutedEventArgs e) {
-            InkRecognitionMoreButton.Background = new SolidColorBrush(Colors.Transparent);
-            UpdateInkRecognitionContextMenyDisplayStatus();
+        #endregion
+
+        #endregion
+
+        #region 關閉彈窗 邏輯
+
+        private bool isCloseButtonDown = false;
+
+        private void CloseButtonBorder_MouseDown(object sender, MouseButtonEventArgs e) {
+            isCloseButtonDown = true;
+            CloseButtonBorder.Background = new SolidColorBrush(Color.FromArgb(34, 220, 38, 38));
         }
 
-        private void InkRecognitionContextMenu_Opened(object sender, RoutedEventArgs e) {
-            InkRecognitionMoreButton.Background = new SolidColorBrush(Color.FromArgb(34,39, 39, 42));
-            UpdateInkRecognitionContextMenyDisplayStatus();
+        private void CloseButtonBorder_MouseLeave(object sender, MouseEventArgs e) {
+            isCloseButtonDown = false;
+            CloseButtonBorder.Background = new SolidColorBrush(Colors.Transparent);
         }
+
+        private void CloseButtonBorder_MouseUp(object sender, MouseButtonEventArgs e) {
+            if (!isCloseButtonDown) return;
+
+            CloseButtonBorder_MouseLeave(null, null);
+            PaletteShouldCloseEvent?.Invoke(this,new RoutedEventArgs());
+        }
+
+        #endregion
+
+        #region 筆觸模式 成員
 
         public enum PenMode {
             PenMode,
@@ -227,6 +640,9 @@ namespace Ink_Canvas.Popups {
             {
                 var pre = _penModeSelected;
                 _penModeSelected = value;
+                UpdatePenModeButtonsCheckedDisplayStatus();
+                ChangedColorButtonsTransparentVisibility(_penModeSelected == PenMode.HighlighterMode);
+
                 PenModeChanged?.Invoke(this, new PenModeChangedEventArgs()
                 {
                     PreviousMode = pre,
@@ -235,6 +651,55 @@ namespace Ink_Canvas.Popups {
                 });
             }
         }
+
+        public class PenModeChangedEventArgs : EventArgs
+        {
+            public PenMode PreviousMode { get; set; }
+            public PenMode NowMode { get; set; }
+            public TriggerMode TriggerMode { get; set; }
+        }
+
+        #endregion
+
+        #region 筆觸模式 相關邏輯
+
+        public void UpdatePenModeButtonsCheckedDisplayStatus() {
+            foreach (var bd in PenModeTabButtonBorders) {
+                bd.Background = new SolidColorBrush(Colors.Transparent);
+            }
+            foreach (var indicator in PenModeTabButtonIndicators) {
+                indicator.Visibility = Visibility.Hidden;
+            }
+            foreach (var gd in PenModeTabButtonIcons) {
+                gd.Brush = new SolidColorBrush(Color.FromRgb(63, 63, 70));
+            }
+            foreach (var text in PenModeTabButtonTexts) {
+                text.Foreground = new SolidColorBrush(Color.FromRgb(63, 63, 70));
+                text.FontWeight = FontWeights.Normal;
+            }
+
+            PenModeTabButtonBorders[(int)_penModeSelected].Background = new SolidColorBrush(Color.FromArgb(34, 59, 130, 246));
+            PenModeTabButtonIndicators[(int)_penModeSelected].Visibility = Visibility.Visible;
+            PenModeTabButtonIcons[(int)_penModeSelected].Brush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+            PenModeTabButtonTexts[(int)_penModeSelected].Foreground = new SolidColorBrush(Color.FromRgb(37, 99, 235));
+            PenModeTabButtonTexts[(int)_penModeSelected].FontWeight = FontWeights.Bold;
+        }
+
+        private void PenTabButton_MouseDown(object sender, MouseButtonEventArgs e) {
+            var pre = _penModeSelected;
+            _penModeSelected = (PenMode)Array.IndexOf(PenModeTabButtonBorders, (Border)sender);
+            UpdatePenModeButtonsCheckedDisplayStatus();
+            ChangedColorButtonsTransparentVisibility(_penModeSelected == PenMode.HighlighterMode);
+
+            PenModeChanged?.Invoke(this, new PenModeChangedEventArgs()
+            {
+                PreviousMode = pre,
+                NowMode = _penModeSelected,
+                TriggerMode = TriggerMode.TriggeredByUser,
+            });
+        }
+
+        #endregion
 
         public enum TriggerMode {
             TriggeredByUser,
@@ -334,210 +799,6 @@ namespace Ink_Canvas.Popups {
             spcm.IsOpen = !spcm.IsOpen;
         }
 
-        private Border lastColorBtnDown;
-
-        public void UpdateColorButtonsDisplayStatus() {
-            foreach (var bd in ColorPaletteColorButtonBorders) {
-                bd.Child = null;
-            }
-
-            UpdateCustomColorButtonDisplayStatus();
-            if (_colorSelected == ColorPaletteColor.ColorCustom) return;
-            var index = (int)_colorSelected;
-            var bdSel = ColorPaletteColorButtonBorders[index];
-            Image checkedImage = new Image();
-            checkedImage.Width = 24;
-            checkedImage.Height = 24;
-            var checkLight = this.FindResource("CheckedLightIcon");
-            var checkDark = this.FindResource("CheckedDarkIcon");
-            if (ColorUtilities.GetReverseForegroundColor(ColorUtilities.GetGrayLevel((_usingDarkColors?_darkColors:_lightColors)[(int)_colorSelected])) == Colors.Black) checkedImage.Source = checkDark as DrawingImage;
-            else checkedImage.Source = checkLight as DrawingImage;
-            bdSel.Child = checkedImage;
-        }
-
-        public void UpdatePenModeButtonsDisplayStatus() {
-            foreach (var bd in PenModeTabButtonBorders) {
-                bd.Background = new SolidColorBrush(Colors.Transparent);
-            }
-            foreach (var indicator in PenModeTabButtonIndicators) {
-                indicator.Visibility = Visibility.Hidden;
-            }
-            foreach (var gd in PenModeTabButtonIcons) {
-                gd.Brush = new SolidColorBrush(Color.FromRgb(63, 63, 70));
-            }
-            foreach (var text in PenModeTabButtonTexts) {
-                text.Foreground = new SolidColorBrush(Color.FromRgb(63, 63, 70));
-                text.FontWeight = FontWeights.Normal;
-            }
-
-            PenModeTabButtonBorders[(int)_penModeSelected].Background = new SolidColorBrush(Color.FromArgb(34, 59, 130, 246));
-            PenModeTabButtonIndicators[(int)_penModeSelected].Visibility = Visibility.Visible;
-            PenModeTabButtonIcons[(int)_penModeSelected].Brush = new SolidColorBrush(Color.FromRgb(37, 99, 235));
-            PenModeTabButtonTexts[(int)_penModeSelected].Foreground = new SolidColorBrush(Color.FromRgb(37, 99, 235));
-            PenModeTabButtonTexts[(int)_penModeSelected].FontWeight = FontWeights.Bold;
-        }
-
-        private void PenTabButton_MouseDown(object sender, MouseButtonEventArgs e) {
-            var pre = _penModeSelected;
-            _penModeSelected = (PenMode)Array.IndexOf(PenModeTabButtonBorders, (Border)sender);
-            UpdatePenModeButtonsDisplayStatus();
-
-            PenModeChanged?.Invoke(this, new PenModeChangedEventArgs()
-            {
-                PreviousMode = pre,
-                NowMode = _penModeSelected,
-                TriggerMode = TriggerMode.TriggeredByUser,
-            });
-        }
-
-        private void ColorButton_MouseDown(object sender, MouseButtonEventArgs e) {
-            lastColorBtnDown = sender as Border;
-            ColorBtnStoryboardScaleSmaller(sender);
-        }
-
-        private void ColorButton_MouseUp(object sender, MouseButtonEventArgs e) {
-            if (lastColorBtnDown != sender) return;
-            lastColorBtnDown = null;
-            var border = (Border)sender;
-            var index = Array.IndexOf(ColorPaletteColorStrings, border.Name.ToLower());
-
-            var pre = _colorSelected;
-            _colorSelected = (ColorPaletteColor)index;
-            UpdateColorButtonsDisplayStatus();
-            ColorBtnStoryboardScaleLarger(sender);
-
-            ColorSelectionChanged?.Invoke(this, new ColorSelectionChangedEventArgs {
-                PreviousColor = pre,
-                NowColor = (ColorPaletteColor)index,
-                TriggerMode = TriggerMode.TriggeredByUser,
-            });
-        }
-
-        private void UpdateCustomColorPickerDisplayStatus() {
-            if (_customColor == null) {
-                CustomColorHexTextBox.Text = "请在上方选择一个颜色";
-                CustomColorHexBorder.Background = new SolidColorBrush(Colors.Transparent);
-            } else {
-                CustomColorHexTextBox.Text = "#" + CustomColorPicker.SelectedColor.R.ToString("X2") + CustomColorPicker.SelectedColor.G.ToString("X2") + CustomColorPicker.SelectedColor.B.ToString("X2");
-                CustomColorHexBorder.Background = new SolidColorBrush(CustomColorPicker.SelectedColor);
-            }
-        }
-
-        private void UpdateCustomColorButtonDisplayStatus() {
-            if (_customColor == null) {
-                CustomColorButtonColorBorder.Visibility = Visibility.Collapsed;
-                CustomColorButtonIcon.Visibility = Visibility.Visible;
-            } else {
-                CustomColorButtonColorBorder.Visibility = Visibility.Visible;
-                CustomColorButtonColorBorder.Background = new SolidColorBrush((Color)_customColor);
-                CustomColorButtonIcon.Visibility = Visibility.Collapsed;
-                if (_colorSelected == ColorPaletteColor.ColorCustom)
-                    CustomColorButtonColorBorderCheckIcon.Visibility = Visibility.Visible;
-                else CustomColorButtonColorBorderCheckIcon.Visibility = Visibility.Collapsed;
-                CustomColorButtonColorBorderCheckIcon.Source =
-                    this.FindResource(ColorUtilities.GetReverseForegroundColor(ColorUtilities.GetGrayLevel((Color)_customColor)) == Colors.White
-                        ? "CheckedLightIcon"
-                        : "CheckedDarkIcon") as DrawingImage;
-            }
-        }
-
-        private void CustomColorPicker_ColorChanged(object sender, RoutedEventArgs e) {
-            var cp = sender as SquarePicker;
-            _customColor = cp.SelectedColor;
-            if (_colorSelected != ColorPaletteColor.ColorCustom) _colorSelected = ColorPaletteColor.ColorCustom;
-            UpdateCustomColorPickerDisplayStatus();
-            UpdateCustomColorButtonDisplayStatus();
-            UpdateColorButtonsDisplayStatus();
-        }
-
-        private void ColorBtnStoryBoardScaleAnimation(object sender, double from, double to) {
-            var border = sender as Border;
-
-            var sb = new Storyboard();
-            var scaleAnimationX = new DoubleAnimation() {
-                From = from,
-                To = to,
-                Duration = new Duration(TimeSpan.FromMilliseconds(100))
-            };
-            var scaleAnimationY = new DoubleAnimation() {
-                From = from,
-                To = to,
-                Duration = new Duration(TimeSpan.FromMilliseconds(100))
-            };
-            scaleAnimationY.EasingFunction = new CubicEase();
-            scaleAnimationX.EasingFunction = new CubicEase();
-            Storyboard.SetTargetProperty(scaleAnimationX,
-                new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleX)"));
-            Storyboard.SetTargetProperty(scaleAnimationY,
-                new PropertyPath("(UIElement.RenderTransform).(ScaleTransform.ScaleY)"));
-            sb.Children.Add(scaleAnimationX);
-            sb.Children.Add(scaleAnimationY);
-
-            sb.Begin(border);
-        }
-
-        private void ColorBtnStoryboardScaleSmaller(object sender) {
-            ColorBtnStoryBoardScaleAnimation(sender, 1D, 0.9);
-        }
-
-        private void ColorBtnStoryboardScaleLarger(object sender) {
-            ColorBtnStoryBoardScaleAnimation(sender, 0.9, 1D);
-        }
-
-        private void ColorButton_MouseLeave(object sender, MouseEventArgs e) {
-            if (lastColorBtnDown != null) {
-                var la = lastColorBtnDown as Border;
-                var st = la.RenderTransform as ScaleTransform;
-                if (st.ScaleX != 1 && st.ScaleY != 1) ColorBtnStoryboardScaleLarger(lastColorBtnDown);
-            }
-
-            lastColorBtnDown = null;
-        }
-
-        public class ColorSelectionChangedEventArgs : EventArgs {
-            public ColorPaletteColor PreviousColor { get; set; }
-            public ColorPaletteColor NowColor { get; set; }
-            public TriggerMode TriggerMode { get; set; }
-            public Color CustomColor { get; set; }
-        }
-
-        public class ColorModeChangedEventArgs : EventArgs
-        {
-            public bool IsPreviousUsedDarkColor { get; set; }
-            public bool IsNowUsingDarkColor { get; set; }
-            public TriggerMode TriggerMode { get; set; }
-        }
-
-        private void UpdateColorPaletteColorsAndColorModeChangeButton() {
-            foreach (var bd in ColorPaletteColorButtonBorders) {
-                bd.Background =
-                    new SolidColorBrush((_usingDarkColors ? _darkColors : _lightColors)[
-                        Array.IndexOf(ColorPaletteColorStrings, bd.Name.ToLower())]);
-            }
-
-            var tb = ((SimpleStackPanel)ColorModeChangeButton.Content).Children.OfType<TextBlock>().Single();
-            tb.Text = _usingDarkColors ? "亮色" : "暗色";
-        }
-
-        private void ColorModeChangeButton_Clicked(object sender, RoutedEventArgs e) {
-            var pre = _usingDarkColors;
-            _usingDarkColors = !_usingDarkColors;
-            UpdateColorPaletteColorsAndColorModeChangeButton();
-            UpdateColorButtonsDisplayStatus();
-            ColorModeChanged?.Invoke(this, new ColorModeChangedEventArgs()
-            {
-                IsPreviousUsedDarkColor = pre,
-                IsNowUsingDarkColor = _usingDarkColors,
-                TriggerMode = TriggerMode.TriggeredByUser,
-            });
-        }
-
-        public class PenModeChangedEventArgs : EventArgs
-        {
-            public PenMode PreviousMode { get; set; }
-            public PenMode NowMode { get; set; }
-            public TriggerMode TriggerMode { get; set; }
-        }
 
         public class PressureSimulationChangedEventArgs : EventArgs
         {
@@ -554,38 +815,44 @@ namespace Ink_Canvas.Popups {
             public bool isRecognizePolygon;
         }
 
-        private Color? _customColor = null;
-
-        private void CustomColorButton_Clicked(object sender, RoutedEventArgs e) {
-            if (_customColor == null) {
-                CustomColorPanel.Visibility = Visibility.Visible;
-            } else {
-                if (_colorSelected == ColorPaletteColor.ColorCustom) CustomColorPanel.Visibility = Visibility.Visible;
-                else {
-                    _colorSelected = ColorPaletteColor.ColorCustom;
-                    UpdateColorButtonsDisplayStatus();
-                    UpdateCustomColorButtonDisplayStatus();
-                    UpdateCustomColorPickerDisplayStatus();
-                }
-            }
-        }
-
         private void BackToPaletteButton_Clicked(object sender, RoutedEventArgs e) {
             CustomColorPanel.Visibility = Visibility.Collapsed;
         }
 
-        public class InkRecognitionChangedEventArgs : EventArgs {
+        private bool _isDisplayQuickActions = true;
+        public bool IsDisplayQuickActions
+        {
+            get => _isDisplayQuickActions;
+            set
+            {
+                var pre = _isDisplayQuickActions;
+                _isDisplayQuickActions = value;
+                QuickActionsVisibilityChanged?.Invoke(this, new QuickActionsVisibilityChangedEventsArgs()
+                {
+                    PreviousStatus = pre,
+                    NowStatus = value,
+                    TriggerMode = TriggerMode.TriggeredByCode,
+                });
+            }
+        }
+
+
+        
+
+        public class QuickActionsVisibilityChangedEventsArgs : EventArgs {
             public bool PreviousStatus { get; set; }
             public bool NowStatus { get; set; }
             public TriggerMode TriggerMode { get; set; }
-            public InkRecognitionOptions Options { get; set; }
         }
 
         public event EventHandler<ColorSelectionChangedEventArgs> ColorSelectionChanged;
+        public event EventHandler<CustomColorChangedEventArgs> CustomColorChanged;
         public event EventHandler<PenModeChangedEventArgs> PenModeChanged;
         public event EventHandler<InkRecognitionChangedEventArgs> InkRecognitionChanged;
         public event EventHandler<PressureSimulationChangedEventArgs> PressureSimulationChanged;
         public event EventHandler<ColorModeChangedEventArgs> ColorModeChanged;
+        public event EventHandler<QuickActionsVisibilityChangedEventsArgs> QuickActionsVisibilityChanged;
+        public event EventHandler<RoutedEventArgs> PaletteShouldCloseEvent;
 
         public ColorPalette() {
             InitializeComponent();
@@ -609,9 +876,10 @@ namespace Ink_Canvas.Popups {
                 bd.RenderTransform = new ScaleTransform(1, 1);
             }
 
-            UpdatePenModeButtonsDisplayStatus();
-            UpdateColorButtonsDisplayStatus();
+            UpdatePenModeButtonsCheckedDisplayStatus();
+            UpdateColorButtonsCheckedDisplayStatus();
             UpdateColorPaletteColorsAndColorModeChangeButton();
+            ChangedColorButtonsTransparentVisibility(false);
         }
     }
 }

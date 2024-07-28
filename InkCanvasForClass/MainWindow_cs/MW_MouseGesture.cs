@@ -44,8 +44,7 @@ namespace Ink_Canvas
             Point currentPoint = e.GetPosition(inkCanvas);
             System.Windows.Vector delta = currentPoint - startPoint;
 
-            foreach (Stroke stroke in inkCanvas.Strokes)
-            {
+            foreach (Stroke stroke in inkCanvas.Strokes) {
                 stroke.Transform(new Matrix(1, 0, 0, 1, delta.X, delta.Y), false);
             }
                 

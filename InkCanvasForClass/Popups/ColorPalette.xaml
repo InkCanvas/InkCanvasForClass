@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:Ink_Canvas.Popups"
              xmlns:modern="http://schemas.inkore.net/lib/ui/wpf/modern"
              xmlns:colorPicker="clr-namespace:ColorPicker;assembly=ColorPicker"
-             mc:Ignorable="d" Width="300" Height="450" UseLayoutRounding="True">
+             xmlns:helpers="clr-namespace:Ink_Canvas.Helpers"
+             mc:Ignorable="d" Width="300" Height="462" UseLayoutRounding="True">
     <UserControl.Resources>
         <DrawingImage x:Key="CheckedLightIcon">
             <DrawingImage.Drawing>
@@ -22,19 +23,240 @@
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
-        <ContextMenu x:Key="InkRecognitionContextMenu" Placement="Relative" Closed="InkRecognitionContextMenu_Closed" Opened="InkRecognitionContextMenu_Opened">
-            <MenuItem IsCheckable="True" Name="EnableRecog" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="启用墨迹转形状"/>
-            <Separator/>
-            <MenuItem IsCheckable="True" Name="RecogTri" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="识别三角形"/>
-            <MenuItem IsCheckable="True" Name="RecogQua" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="识别四边形"/>
-            <MenuItem IsCheckable="True" Name="RecogEll" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="识别椭圆"/>
-            <MenuItem IsCheckable="True" Name="RecogPlg" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="识别多边形"/>
+        <ContextMenu x:Key="InkRecognitionContextMenu" Placement="Absolute" Closed="InkRecognitionContextMenu_Closed" Opened="InkRecognitionContextMenu_Opened">
+            <MenuItem IsCheckable="True" Name="EnableRecog" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="启用墨迹转形状" />
+            <Separator />
+            <MenuItem IsCheckable="True" Name="RecogTri" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="识别三角形" />
+            <MenuItem IsCheckable="True" Name="RecogQua" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="识别四边形" />
+            <MenuItem IsCheckable="True" Name="RecogEll" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="识别椭圆" />
+            <MenuItem IsCheckable="True" Name="RecogPlg" Checked="InkRecognitionContextMenuItem_Checked" Unchecked="InkRecognitionContextMenuItem_Checked" Header="识别多边形" />
         </ContextMenu>
-        <ContextMenu x:Key="SimulatePressureContextMenu" Placement="Relative" Closed="SimulatePressureContextMenu_Closed" Opened="SimulatePressureContextMenu_Opened">
-            <MenuItem IsCheckable="True" Name="PointSP" Checked="SimulatePressureContextMenuItem_Checked" Unchecked="SimulatePressureContextMenuItem_Checked" Header="点集笔锋"/>
-            <MenuItem IsCheckable="True" Name="VelocitySP" Checked="SimulatePressureContextMenuItem_Checked" Unchecked="SimulatePressureContextMenuItem_Checked" Header="速度笔锋"/>
-            <MenuItem IsCheckable="True" Name="NoneSP" Checked="SimulatePressureContextMenuItem_Checked" Unchecked="SimulatePressureContextMenuItem_Checked" Header="强制硬件压感"/>
+        <ContextMenu x:Key="SimulatePressureContextMenu" Placement="Absolute" Closed="SimulatePressureContextMenu_Closed" Opened="SimulatePressureContextMenu_Opened">
+            <MenuItem IsCheckable="True" Name="PointSP" Checked="SimulatePressureContextMenuItem_Checked" Unchecked="SimulatePressureContextMenuItem_Checked" Header="点集笔锋" />
+            <MenuItem IsCheckable="True" Name="VelocitySP" Checked="SimulatePressureContextMenuItem_Checked" Unchecked="SimulatePressureContextMenuItem_Checked" Header="速度笔锋" />
+            <MenuItem IsCheckable="True" Name="NoneSP" Checked="SimulatePressureContextMenuItem_Checked" Unchecked="SimulatePressureContextMenuItem_Checked" Header="强制硬件压感" />
         </ContextMenu>
+        <DrawingImage x:Key="TransparentBackgroundImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V144 H144 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <DrawingGroup.ClipGeometry>
+                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,144,144" />
+                        </DrawingGroup.ClipGeometry>
+                        <GeometryDrawing Brush="#FFFFFFFF">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,144,144" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="32,0,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="64,0,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="96,0,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="16,16,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="48,16,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="80,16,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="112,16,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,32,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="32,32,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="64,32,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="96,32,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="16,48,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="48,48,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="80,48,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="112,48,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,64,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="32,64,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="64,64,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="96,64,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="16,80,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="48,80,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="80,80,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="112,80,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,96,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="32,96,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="64,96,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="96,96,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="16,112,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="48,112,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="80,112,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="112,112,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,128,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="32,128,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="64,128,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="96,128,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="128,0,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="128,32,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="128,64,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="128,96,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FFD9D9D9">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="0" RadiusY="0" Rect="128,128,16,16" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
         <DrawingImage x:Key="SwitchOnImage">
             <DrawingImage.Drawing>
                 <DrawingGroup ClipGeometry="M0,0 V20 H53 V0 H0 Z">
@@ -71,7 +293,7 @@
     <Grid>
         <Border Margin="8" Background="#f4f4f5" BorderBrush="#3b82f6" BorderThickness="2" CornerRadius="6">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="5" Opacity="0.2"/>
+                <DropShadowEffect BlurRadius="5" Opacity="0.2" />
             </Border.Effect>
             <Grid>
                 <modern:SimpleStackPanel Spacing="4" Margin="8,0" Height="40" VerticalAlignment="Top" Orientation="Horizontal">
@@ -196,7 +418,8 @@
                         </Grid>
                     </Border>
                 </modern:SimpleStackPanel>
-                <Border Height="34" Width="34" CornerRadius="6" Background="#22dc2626" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,6,8,0">
+                <Border Name="CloseButtonBorder" MouseDown="CloseButtonBorder_MouseDown" MouseUp="CloseButtonBorder_MouseUp" MouseLeave="CloseButtonBorder_MouseLeave"
+                        Height="34" Width="34" CornerRadius="6" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,6,8,0">
                     <Image Height="24" Width="24">
                         <Image.Source>
                             <DrawingImage>
@@ -233,11 +456,11 @@
                                         </Image>
                                     </Button>
                                     <Slider x:Name="HighlighterWidthSlider" Minimum="15"
-                                            Maximum="45" Width="172" Margin="0,-3,0,-3"
+                                            Maximum="45" Width="145" Margin="0,-3,31,-3"
                                             FontFamily="Microsoft YaHei UI" FontSize="20" VerticalAlignment="Center"
                                             IsSnapToTickEnabled="True" Value="20" HorizontalAlignment="Center"
-                                            TickFrequency="1" TickPlacement="None"/>
-                                    <Button Padding="3" HorizontalAlignment="Right">
+                                            TickFrequency="1" TickPlacement="None" />
+                                    <Button Padding="3" HorizontalAlignment="Right" Margin="0,0,30,0">
                                         <Image Height="19" Width="19">
                                             <Image.Source>
                                                 <DrawingImage>
@@ -250,121 +473,226 @@
                                             </Image.Source>
                                         </Image>
                                     </Button>
+                                    <Button Padding="3" HorizontalAlignment="Right">
+                                        <Image Height="19" Width="19">
+                                            <Image.Source>
+                                                <DrawingImage>
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                            <GeometryDrawing Brush="#FF000000" Geometry="F0 M24,24z M0,0z M19,6.304L19,3.99996C19,3.44768 19.4477,2.99996 20,2.99996 20.5523,2.99996 21,3.44768 21,3.99996L21,8.99996C21,9.55225,20.5523,9.99996,20,9.99996L15,9.99996C14.4477,9.99996 14,9.55225 14,8.99996 14,8.44768 14.4477,7.99996 15,7.99996L17.7723,7.99996C16.143,5.63455 13.162,4.47625 10.2568,5.2212 9.02629,5.53779 7.90511,6.18336 7.01353,7.08868 6.12187,7.99408 5.49349,9.12512 5.19579,10.3605 4.89808,11.5959 4.94228,12.889 5.32364,14.1012 5.705,15.3134 6.40914,16.3989 7.36053,17.2413 8.31193,18.0837 9.4747,18.6512 10.7241,18.883 11.9736,19.1148 13.2625,19.0021 14.4528,18.557 15.643,18.1119 16.6897,17.3512 17.4804,16.3565 18.2712,15.3618 18.7763,14.1706 18.9416,12.9106 19.0134,12.363 19.5155,11.9773 20.0631,12.0491 20.6107,12.1209 20.9964,12.6231 20.9246,13.1707 20.7121,14.7906 20.0627,16.3222 19.046,17.6011 18.0293,18.88 16.6836,19.8581 15.1533,20.4303 13.623,21.0026 11.9657,21.1475 10.3593,20.8494 8.7529,20.5514 7.25792,19.8217 6.03469,18.7386 4.81147,17.6555 3.90615,16.2599 3.41583,14.7014 2.92551,13.1429 2.86868,11.4803 3.25145,9.89195 3.63421,8.3036 4.44212,6.8494 5.58854,5.68532 6.73496,4.52123 8.17663,3.69118 9.75895,3.28417L9.75963,3.28399C13.2427,2.39068,16.8325,3.6344,19,6.304z" />
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                            </Image.Source>
+                                        </Image>
+                                    </Button>
                                 </Grid>
-                                <Line X1="0" Y1="0" X2="240" Y2="0" Margin="0,2" HorizontalAlignment="Center" Stroke="#a1a1aa"/>
-                                <Grid Margin="14,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Height="96" Background="#f4f4f5" BorderBrush="#d4d4d8" CornerRadius="3" BorderThickness="1" Margin="0,0,3,0">
-                                        <Grid>
-                                            <modern:SimpleStackPanel Spacing="2" Orientation="Vertical" VerticalAlignment="Center">
-                                                <Image Height="28" Width="28">
-                                                    <Image.Source>
-                                                        <DrawingImage>
-                                                            <DrawingImage.Drawing>
-                                                                <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
-                                                                    <GeometryDrawing Brush="#27272a" Geometry="F1 M16,16z M0,0z M12.4565,1C12.0615,1.00001 11.6788,1.13756 11.3742,1.38903 11.0695,1.6405 10.8619,1.9902 10.7871,2.37806L4.21558,3.57272C4.05651,3.32218 3.83674,3.11586 3.57665,2.97293 3.31656,2.83 3.02459,2.7551 2.72782,2.75514 2.26051,2.75514 1.81234,2.94078 1.4819,3.27122 1.15146,3.60166 0.965821,4.04983 0.96582,4.51714 0.965884,4.8698 1.07177,5.2143 1.26978,5.50612 1.46779,5.79794 1.74882,6.02365 2.0765,6.15402L2.0765,11.6474C1.74963,11.7734 1.46858,11.9954 1.27033,12.2842 1.07208,12.573 0.965914,12.9151 0.96582,13.2654 0.965821,13.7255 1.14857,14.1667 1.47387,14.492 1.79916,14.8173 2.24036,15 2.70039,15 3.16043,15 3.60163,14.8173 3.92692,14.492 4.25222,14.1667 4.43497,13.7255 4.43497,13.2654 4.4343,13.1024 4.41064,12.9402 4.36469,12.7838L7.12253,10.487C7.39871,10.6501 7.71365,10.7359 8.03438,10.7356 8.485,10.7354 8.91898,10.5652 9.24961,10.2591L11.6098,11.4383C11.6076,11.4737 11.6064,11.5091 11.6064,11.5446 11.6064,11.7697 11.6507,11.9925 11.7368,12.2005 11.823,12.4084 11.9492,12.5974 12.1084,12.7565 12.2676,12.9157 12.4565,13.042 12.6645,13.1281 12.8724,13.2142 13.0953,13.2586 13.3204,13.2586 13.5455,13.2586 13.7684,13.2142 13.9763,13.1281 14.1843,13.042 14.3732,12.9157 14.5324,12.7565 14.6915,12.5974 14.8178,12.4084 14.9039,12.2005 14.9901,11.9925 15.0344,11.7697 15.0344,11.5446 15.0341,11.1676 14.9094,10.8012 14.6798,10.5022 14.4502,10.2032 14.1284,9.98819 13.7643,9.89055L13.197,4.22919C13.4844,4.09016 13.7268,3.87305 13.8966,3.60266 14.0663,3.33228 14.1565,3.01955 14.1568,2.70029 14.1568,2.24935 13.9777,1.81689 13.6588,1.49803 13.3399,1.17916 12.9075,1 12.4565,1z M11.0579,3.66528C11.2593,3.95732,11.5469,4.17907,11.8806,4.29946L12.4582,10.0637C12.3625,10.1194,12.2724,10.1842,12.1891,10.2573L9.81866,9.07125C9.82185,9.02962 9.82357,8.98789 9.82384,8.94613 9.82384,8.71114 9.77755,8.47844 9.68763,8.26133 9.5977,8.04423 9.4659,7.84698 9.29973,7.68082 9.13357,7.51466 8.9363,7.38285 8.7192,7.29292 8.5021,7.20299 8.26941,7.15671 8.03441,7.15671 7.79942,7.1567 7.56673,7.20299 7.34962,7.29292 7.13251,7.38284 6.93525,7.51466 6.76908,7.68082 6.60291,7.84698 6.4711,8.04423 6.38117,8.26133 6.29124,8.47844 6.24496,8.71114 6.24496,8.94613 6.24475,9.11487 6.26841,9.28279 6.31523,9.44491L3.54711,11.752C3.497,11.7237,3.44552,11.698,3.39285,11.6748L3.39285,6.14887C3.66164,6.03912 3.89914,5.86466 4.08423,5.64099 4.26933,5.41732 4.39629,5.15137 4.45382,4.8668L11.0579,3.66528z" />
-                                                                </DrawingGroup>
-                                                            </DrawingImage.Drawing>
-                                                        </DrawingImage>
-                                                    </Image.Source>
-                                                </Image>
-                                                <TextBlock FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#27272a">墨迹纠正</TextBlock>
-                                                <Button Name="InkRecognitionToggleSwitchButton" Click="InkRecognitionToggleSwitchButton_Clicked" Style="{x:Null}" ClipToBounds="False" BorderBrush="Transparent" BorderThickness="0" Padding="0" Background="Transparent" HorizontalAlignment="Center" Margin="0,6,0,0">
-                                                    <Image Name="InkRecognitionToggleSwitchImage" Height="20" Source="{StaticResource SwitchOnImage}"/>
-                                                </Button>
-                                            </modern:SimpleStackPanel>
-                                            <Border Name="InkRecognitionMoreButton" MouseDown="InkRecognitionMoreButton_MouseDown" Height="26" Width="26" CornerRadius="3" Background="#2227272a" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,4,4,0">
-                                                <Image Height="24" Width="24">
-                                                    <Image.Source>
-                                                        <DrawingImage>
-                                                            <DrawingImage.Drawing>
-                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
-                                                                    <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M9,6.00024C9,5.14824,9.986,4.70324,10.623,5.21724L10.707,5.29324 16.707,11.2932C16.8792,11.4654 16.9826,11.6945 16.9979,11.9376 17.0132,12.1806 16.9393,12.4208 16.79,12.6132L16.707,12.7072 10.707,18.7072 10.613,18.7902 10.536,18.8442 10.44,18.8982 10.404,18.9152 10.337,18.9422 10.229,18.9742 10.176,18.9842 10.116,18.9942 10.059,18.9982 10,19.0002 9.941,18.9982 9.883,18.9932 9.823,18.9842 9.771,18.9742 9.663,18.9422 9.596,18.9152 9.464,18.8452 9.374,18.7802 9.293,18.7072 9.21,18.6132 9.156,18.5362 9.102,18.4402 9.085,18.4042 9.058,18.3372 9.026,18.2292 9.016,18.1762 9.006,18.1162 9.002,18.0592 9,6.00024z" />
-                                                                </DrawingGroup>
-                                                            </DrawingImage.Drawing>
-                                                        </DrawingImage>
-                                                    </Image.Source>
-                                                </Image>
+                                <Line X1="0" Y1="0" X2="240" Y2="0" Margin="0,2" HorizontalAlignment="Center" Stroke="#a1a1aa" />
+                                <Grid>
+                                    <modern:ScrollViewerEx PreviewMouseWheel="QuickActionsScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly" Orientation="Horizontal" ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback">
+                                        <modern:SimpleStackPanel Margin="14,0,14,0" Orientation="Horizontal" Spacing="6">
+                                            <Border Width="117" Height="96" Background="#f4f4f5" BorderBrush="#d4d4d8" CornerRadius="3" BorderThickness="1">
+                                                <Grid>
+                                                    <modern:SimpleStackPanel Spacing="2" Orientation="Vertical" VerticalAlignment="Center">
+                                                        <Image Height="28" Width="28">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="#27272a" Geometry="F1 M16,16z M0,0z M12.4565,1C12.0615,1.00001 11.6788,1.13756 11.3742,1.38903 11.0695,1.6405 10.8619,1.9902 10.7871,2.37806L4.21558,3.57272C4.05651,3.32218 3.83674,3.11586 3.57665,2.97293 3.31656,2.83 3.02459,2.7551 2.72782,2.75514 2.26051,2.75514 1.81234,2.94078 1.4819,3.27122 1.15146,3.60166 0.965821,4.04983 0.96582,4.51714 0.965884,4.8698 1.07177,5.2143 1.26978,5.50612 1.46779,5.79794 1.74882,6.02365 2.0765,6.15402L2.0765,11.6474C1.74963,11.7734 1.46858,11.9954 1.27033,12.2842 1.07208,12.573 0.965914,12.9151 0.96582,13.2654 0.965821,13.7255 1.14857,14.1667 1.47387,14.492 1.79916,14.8173 2.24036,15 2.70039,15 3.16043,15 3.60163,14.8173 3.92692,14.492 4.25222,14.1667 4.43497,13.7255 4.43497,13.2654 4.4343,13.1024 4.41064,12.9402 4.36469,12.7838L7.12253,10.487C7.39871,10.6501 7.71365,10.7359 8.03438,10.7356 8.485,10.7354 8.91898,10.5652 9.24961,10.2591L11.6098,11.4383C11.6076,11.4737 11.6064,11.5091 11.6064,11.5446 11.6064,11.7697 11.6507,11.9925 11.7368,12.2005 11.823,12.4084 11.9492,12.5974 12.1084,12.7565 12.2676,12.9157 12.4565,13.042 12.6645,13.1281 12.8724,13.2142 13.0953,13.2586 13.3204,13.2586 13.5455,13.2586 13.7684,13.2142 13.9763,13.1281 14.1843,13.042 14.3732,12.9157 14.5324,12.7565 14.6915,12.5974 14.8178,12.4084 14.9039,12.2005 14.9901,11.9925 15.0344,11.7697 15.0344,11.5446 15.0341,11.1676 14.9094,10.8012 14.6798,10.5022 14.4502,10.2032 14.1284,9.98819 13.7643,9.89055L13.197,4.22919C13.4844,4.09016 13.7268,3.87305 13.8966,3.60266 14.0663,3.33228 14.1565,3.01955 14.1568,2.70029 14.1568,2.24935 13.9777,1.81689 13.6588,1.49803 13.3399,1.17916 12.9075,1 12.4565,1z M11.0579,3.66528C11.2593,3.95732,11.5469,4.17907,11.8806,4.29946L12.4582,10.0637C12.3625,10.1194,12.2724,10.1842,12.1891,10.2573L9.81866,9.07125C9.82185,9.02962 9.82357,8.98789 9.82384,8.94613 9.82384,8.71114 9.77755,8.47844 9.68763,8.26133 9.5977,8.04423 9.4659,7.84698 9.29973,7.68082 9.13357,7.51466 8.9363,7.38285 8.7192,7.29292 8.5021,7.20299 8.26941,7.15671 8.03441,7.15671 7.79942,7.1567 7.56673,7.20299 7.34962,7.29292 7.13251,7.38284 6.93525,7.51466 6.76908,7.68082 6.60291,7.84698 6.4711,8.04423 6.38117,8.26133 6.29124,8.47844 6.24496,8.71114 6.24496,8.94613 6.24475,9.11487 6.26841,9.28279 6.31523,9.44491L3.54711,11.752C3.497,11.7237,3.44552,11.698,3.39285,11.6748L3.39285,6.14887C3.66164,6.03912 3.89914,5.86466 4.08423,5.64099 4.26933,5.41732 4.39629,5.15137 4.45382,4.8668L11.0579,3.66528z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                        <TextBlock FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#27272a">墨迹纠正</TextBlock>
+                                                        <Button Name="InkRecognitionToggleSwitchButton" Click="InkRecognitionToggleSwitchButton_Clicked" Style="{x:Null}" ClipToBounds="False" BorderBrush="Transparent" BorderThickness="0" Padding="0" Background="Transparent" HorizontalAlignment="Center" Margin="0,6,0,0">
+                                                            <Image Name="InkRecognitionToggleSwitchImage" Height="20" Source="{StaticResource SwitchOnImage}" />
+                                                        </Button>
+                                                    </modern:SimpleStackPanel>
+                                                    <Border Name="InkRecognitionMoreButton" MouseDown="InkRecognitionMoreButton_MouseDown" Height="26" Width="26" CornerRadius="3" Background="#2227272a" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,4,4,0">
+                                                        <Image Height="24" Width="24">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M9,6.00024C9,5.14824,9.986,4.70324,10.623,5.21724L10.707,5.29324 16.707,11.2932C16.8792,11.4654 16.9826,11.6945 16.9979,11.9376 17.0132,12.1806 16.9393,12.4208 16.79,12.6132L16.707,12.7072 10.707,18.7072 10.613,18.7902 10.536,18.8442 10.44,18.8982 10.404,18.9152 10.337,18.9422 10.229,18.9742 10.176,18.9842 10.116,18.9942 10.059,18.9982 10,19.0002 9.941,18.9982 9.883,18.9932 9.823,18.9842 9.771,18.9742 9.663,18.9422 9.596,18.9152 9.464,18.8452 9.374,18.7802 9.293,18.7072 9.21,18.6132 9.156,18.5362 9.102,18.4402 9.085,18.4042 9.058,18.3372 9.026,18.2292 9.016,18.1762 9.006,18.1162 9.002,18.0592 9,6.00024z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                    </Border>
+                                                </Grid>
                                             </Border>
-                                        </Grid>
-                                        
-                                    </Border>
-                                    <Border Grid.Column="1" Height="96" Background="#f4f4f5" BorderBrush="#d4d4d8" CornerRadius="3" BorderThickness="1" Margin="3,0,0,0">
-                                        <Grid>
-                                            <modern:SimpleStackPanel Spacing="2" Orientation="Vertical" VerticalAlignment="Center">
-                                                <Image Height="28" Width="28">
-                                                    <Image.Source>
-                                                        <DrawingImage>
-                                                            <DrawingImage.Drawing>
-                                                                <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
-                                                                    <GeometryDrawing Brush="#27272a" Geometry="F0 M16,16z M0,0z M4.80227,1.875C6.00275,1.15471 7.13561,1 7.13561,1 4.41946,3.625 4.07311,7.125 4.51061,11.5 2.76061,11.9375 3.63561,14.125 3.63561,14.125L2.76061,15C2.76061,15 2.37775,14.125 2.29576,12.375 2.29576,12.375 0.709825,11.582 1.01061,8 1.01061,6.6694 1.8856,3.625 4.80227,1.875z M8.01047,7.61719C8.01047,7.34773,8.40072,7.125,8.88547,7.125L12.3855,7.125C12.8702,7.125,13.2605,7.34773,13.2605,7.61719L13.2605,8.38281C13.2605,8.65227,12.8702,8.875,12.3855,8.875L14.1355,8.875C14.6181,8.875,15.1274,9.33921,15.0105,9.88672L14.1355,13.9883C14.0185,14.5358,13.7431,15,13.2605,15L8.01047,15C7.52783,15,7.2524,14.5358,7.13547,13.9883L6.28781,9.88672C6.17087,9.33921,6.65281,8.875,7.13547,8.875L8.88547,8.875C8.40072,8.875,8.01047,8.65227,8.01047,8.38281L8.01047,7.61719z" />
-                                                                </DrawingGroup>
-                                                            </DrawingImage.Drawing>
-                                                        </DrawingImage>
-                                                    </Image.Source>
-                                                </Image>
-                                                <TextBlock FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#27272a">模拟笔锋</TextBlock>
-                                                <Button Name="SimulatePressureToggleSwitchButton" Click="SimulatePressureToggleSwitchButton_Clicked" Style="{x:Null}" ClipToBounds="False" BorderBrush="Transparent" BorderThickness="0" Padding="0" Background="Transparent" HorizontalAlignment="Center" Margin="0,6,0,0">
-                                                    <Image Name="SimulatePressureToggleSwitchImage" Height="20" Source="{StaticResource SwitchOnImage}"/>
-                                                </Button>
-                                            </modern:SimpleStackPanel>
-                                            <Border Name="SimulatePressureMoreButton" MouseDown="SimulatePressureMoreButton_MouseDown" Height="26" Width="26" CornerRadius="3" Background="#2227272a" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,4,4,0">
-                                                <Image Height="24" Width="24">
-                                                    <Image.Source>
-                                                        <DrawingImage>
-                                                            <DrawingImage.Drawing>
-                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
-                                                                    <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M9,6.00024C9,5.14824,9.986,4.70324,10.623,5.21724L10.707,5.29324 16.707,11.2932C16.8792,11.4654 16.9826,11.6945 16.9979,11.9376 17.0132,12.1806 16.9393,12.4208 16.79,12.6132L16.707,12.7072 10.707,18.7072 10.613,18.7902 10.536,18.8442 10.44,18.8982 10.404,18.9152 10.337,18.9422 10.229,18.9742 10.176,18.9842 10.116,18.9942 10.059,18.9982 10,19.0002 9.941,18.9982 9.883,18.9932 9.823,18.9842 9.771,18.9742 9.663,18.9422 9.596,18.9152 9.464,18.8452 9.374,18.7802 9.293,18.7072 9.21,18.6132 9.156,18.5362 9.102,18.4402 9.085,18.4042 9.058,18.3372 9.026,18.2292 9.016,18.1762 9.006,18.1162 9.002,18.0592 9,6.00024z" />
-                                                                </DrawingGroup>
-                                                            </DrawingImage.Drawing>
-                                                        </DrawingImage>
-                                                    </Image.Source>
-                                                </Image>
+                                            <Border Width="117" Height="96" Background="#f4f4f5" BorderBrush="#d4d4d8" CornerRadius="3" BorderThickness="1">
+                                                <Grid>
+                                                    <modern:SimpleStackPanel Spacing="2" Orientation="Vertical" VerticalAlignment="Center">
+                                                        <Image Height="28" Width="28">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="#27272a" Geometry="F0 M16,16z M0,0z M4.80227,1.875C6.00275,1.15471 7.13561,1 7.13561,1 4.41946,3.625 4.07311,7.125 4.51061,11.5 2.76061,11.9375 3.63561,14.125 3.63561,14.125L2.76061,15C2.76061,15 2.37775,14.125 2.29576,12.375 2.29576,12.375 0.709825,11.582 1.01061,8 1.01061,6.6694 1.8856,3.625 4.80227,1.875z M8.01047,7.61719C8.01047,7.34773,8.40072,7.125,8.88547,7.125L12.3855,7.125C12.8702,7.125,13.2605,7.34773,13.2605,7.61719L13.2605,8.38281C13.2605,8.65227,12.8702,8.875,12.3855,8.875L14.1355,8.875C14.6181,8.875,15.1274,9.33921,15.0105,9.88672L14.1355,13.9883C14.0185,14.5358,13.7431,15,13.2605,15L8.01047,15C7.52783,15,7.2524,14.5358,7.13547,13.9883L6.28781,9.88672C6.17087,9.33921,6.65281,8.875,7.13547,8.875L8.88547,8.875C8.40072,8.875,8.01047,8.65227,8.01047,8.38281L8.01047,7.61719z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                        <TextBlock FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#27272a">模拟笔锋</TextBlock>
+                                                        <Button Name="SimulatePressureToggleSwitchButton" Click="SimulatePressureToggleSwitchButton_Clicked" Style="{x:Null}" ClipToBounds="False" BorderBrush="Transparent" BorderThickness="0" Padding="0" Background="Transparent" HorizontalAlignment="Center" Margin="0,6,0,0">
+                                                            <Image Name="SimulatePressureToggleSwitchImage" Height="20" Source="{StaticResource SwitchOnImage}" />
+                                                        </Button>
+                                                    </modern:SimpleStackPanel>
+                                                    <Border Name="SimulatePressureMoreButton" MouseDown="SimulatePressureMoreButton_MouseDown" Height="26" Width="26" CornerRadius="3" Background="#2227272a" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,4,4,0">
+                                                        <Image Height="24" Width="24">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="#18181b" Geometry="F1 M24,24z M0,0z M9,6.00024C9,5.14824,9.986,4.70324,10.623,5.21724L10.707,5.29324 16.707,11.2932C16.8792,11.4654 16.9826,11.6945 16.9979,11.9376 17.0132,12.1806 16.9393,12.4208 16.79,12.6132L16.707,12.7072 10.707,18.7072 10.613,18.7902 10.536,18.8442 10.44,18.8982 10.404,18.9152 10.337,18.9422 10.229,18.9742 10.176,18.9842 10.116,18.9942 10.059,18.9982 10,19.0002 9.941,18.9982 9.883,18.9932 9.823,18.9842 9.771,18.9742 9.663,18.9422 9.596,18.9152 9.464,18.8452 9.374,18.7802 9.293,18.7072 9.21,18.6132 9.156,18.5362 9.102,18.4402 9.085,18.4042 9.058,18.3372 9.026,18.2292 9.016,18.1762 9.006,18.1162 9.002,18.0592 9,6.00024z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                    </Border>
+                                                </Grid>
                                             </Border>
-                                        </Grid>
-                                        
+                                            <Border Width="117" Height="96" Background="#f4f4f5" BorderBrush="#d4d4d8" CornerRadius="3" BorderThickness="1">
+                                                <Grid>
+                                                    <modern:SimpleStackPanel Spacing="2" Orientation="Vertical" VerticalAlignment="Center">
+                                                        <Image Height="28" Width="28">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V17 H17 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="#18181b" Geometry="F0 M17,17z M0,0z M12.8619,1.53958C13.1164,1.27815 13.4627,1.12597 13.8273,1.11539 15.1066,1.07854 15.7644,2.63232 14.8476,3.52524L9.41539,8.9282C8.97043,8.07844,8.27949,7.3875,7.42973,6.94254L12.8619,1.53958z M5.01998,15.112C7.08804,15.1212 8.76457,13.4355 8.76457,11.3674 8.76457,9.29935 7.08806,7.62284 5.01998,7.62284 2.9519,7.62284 1.27539,9.29935 1.27539,11.3674L1.27539,15.112 5.01998,15.112z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                        <TextBlock FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#27272a">圆形笔尖</TextBlock>
+                                                        <Button Name="StylusTipShapeButton" Click="SimulatePressureToggleSwitchButton_Clicked" Style="{x:Null}" ClipToBounds="False" BorderBrush="Transparent" BorderThickness="0" Padding="0" Background="Transparent" HorizontalAlignment="Center" Margin="0,6,0,0">
+                                                            <Image Name="StylusTipShapeToggleSwitchImage" Height="20" Source="{StaticResource SwitchOnImage}" />
+                                                        </Button>
+                                                    </modern:SimpleStackPanel>
+                                                </Grid>
+                                            </Border>
+                                            <Border Width="117" Height="96" Background="#f4f4f5" BorderBrush="#d4d4d8" CornerRadius="3" BorderThickness="1">
+                                                <Grid>
+                                                    <modern:SimpleStackPanel Spacing="2" Orientation="Vertical" VerticalAlignment="Center">
+                                                        <Image Height="28" Width="28">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="#18181b" Geometry="F1 M16,16z M0,0z M7.08831,3.6385C7.00086,3.6421 6.91445,3.65879 6.83196,3.68802 6.77659,3.70768 6.72335,3.73287 6.67303,3.76319 6.64829,3.7785 6.62434,3.79502 6.60125,3.81271 6.53072,3.86518 6.4685,3.92798 6.41668,3.99899 6.34819,4.09373 6.29938,4.20123 6.27313,4.31515 6.26659,4.34337 6.26146,4.3719 6.25775,4.40064 6.25359,4.43354 6.25131,4.46666 6.25091,4.49982L6.25091,8.87478 6.25091,11.8347 4.01729,10.717C3.82176,10.6189 3.59654,10.5975 3.38603,10.6571 3.17552,10.7168 2.99499,10.8531 2.88003,11.0393 2.76507,11.2255 2.72403,11.4479 2.76498,11.6629 2.80594,11.8778 2.92592,12.0696 3.10129,12.2004L6.58245,14.81 6.60125,14.8254C6.60969,14.8313 6.61824,14.8369 6.62688,14.8425 6.64029,14.852 6.65397,14.8611 6.66789,14.8698 6.67803,14.8757 6.68829,14.8814 6.69866,14.8868 6.71159,14.894 6.72469,14.9008 6.73796,14.9073 6.75369,14.9152 6.76965,14.9226 6.78582,14.9295 6.79655,14.9343 6.80737,14.9389 6.81829,14.9432 6.8363,14.9501 6.85454,14.9563 6.87297,14.962 6.88148,14.9645 6.89003,14.9668 6.89861,14.969 6.91333,14.9728 6.92815,14.9762 6.94304,14.9792 6.96003,14.9832 6.97712,14.9866 6.99431,14.9895 7.0017,14.9907 7.00911,14.9919 7.01653,14.993 7.04037,14.9957 7.06431,14.9975 7.0883,14.9982 7.10082,14.999 7.11336,14.9995 7.1259,14.9997L11.5009,14.9997C11.5009,14.9997 11.9023,15.0118 12.3297,14.7981 12.7572,14.5843 13.2508,13.9789 13.2508,13.2497L13.2508,9.74977C13.2509,9.55451 13.1857,9.36483 13.0655,9.21092 12.9454,9.05702 12.7772,8.94772 12.5878,8.90041L9.0878,8.02542C9.01847,8.00826,8.9473,7.99965,8.87589,7.99979L8.00089,7.99979 8.00089,4.49982C7.99966,4.41215 7.98526,4.32516 7.95817,4.24177 7.93084,4.15825 7.89109,4.07932 7.84025,4.00764 7.82373,3.984 7.80604,3.9612 7.78727,3.93931 7.73013,3.87272 7.6633,3.81511 7.58903,3.7684 7.56409,3.75345 7.53843,3.73976 7.51213,3.72737 7.48597,3.71407 7.45916,3.7021 7.4318,3.69149 7.40433,3.68156 7.37639,3.67299 7.34807,3.66585 7.31991,3.65816 7.29139,3.65188 7.26261,3.64704 7.20495,3.63832 7.14656,3.6356 7.08831,3.6385z" />
+                                                                            <GeometryDrawing Geometry="F1 M16,16z M0,0z M7.12594,1C5.20333,1 3.62598,2.57736 3.62598,4.49996 3.62598,5.78324 4.33688,6.90019 5.37596,7.50946L5.37596,4.49996C5.37596,3.54561 6.17159,2.74998 7.12594,2.74998 8.08029,2.74998 8.87592,3.54561 8.87592,4.49996L8.87592,7.12494C8.94734,7.1248,9.01851,7.13341,9.08784,7.15057L9.31171,7.20702C10.1054,6.56354 10.6259,5.59334 10.6259,4.49996 10.6259,2.57736 9.04855,1 7.12594,1z">
+                                                                                <GeometryDrawing.Brush>
+                                                                                    <SolidColorBrush Color="#18181b" Opacity="0.5" />
+                                                                                </GeometryDrawing.Brush>
+                                                                            </GeometryDrawing>
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                        <TextBlock FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#27272a">手指模式</TextBlock>
+                                                        <Button Name="FingerModeButton" Click="SimulatePressureToggleSwitchButton_Clicked" Style="{x:Null}" ClipToBounds="False" BorderBrush="Transparent" BorderThickness="0" Padding="0" Background="Transparent" HorizontalAlignment="Center" Margin="0,6,0,0">
+                                                            <Image Name="FingerModeToggleSwitchImage" Height="20" Source="{StaticResource SwitchOnImage}" />
+                                                        </Button>
+                                                    </modern:SimpleStackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </modern:SimpleStackPanel>
+                                    </modern:ScrollViewerEx>
+                                    <Border Width="14" HorizontalAlignment="Left">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                                <LinearGradientBrush.GradientStops>
+                                                    <GradientStop Color="#fafafa" Offset="0"/>
+                                                    <GradientStop Color="#00ffffff" Offset="0.5"/>
+                                                    <GradientStop Color="#00ffffff" Offset="1"/>
+                                                </LinearGradientBrush.GradientStops>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                    <Border Width="14" HorizontalAlignment="Right">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                                <LinearGradientBrush.GradientStops>
+                                                    <GradientStop Color="#fafafa" Offset="1"/>
+                                                    <GradientStop Color="#00ffffff" Offset="0.5"/>
+                                                    <GradientStop Color="#00ffffff" Offset="0"/>
+                                                </LinearGradientBrush.GradientStops>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
                                     </Border>
                                 </Grid>
-                                <Line X1="0" Y1="0" X2="240" Y2="0" Margin="0,2" HorizontalAlignment="Center" Stroke="#a1a1aa"/>
-                                <Grid Margin="10,0,10,0" >
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Black" Grid.Row="0" Grid.Column="0" Margin="2" CornerRadius="3" Background="#09090b" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="White" Grid.Row="0" Grid.Column="1" Margin="2" CornerRadius="3" Background="#fafafa" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Red" Grid.Row="0" Grid.Column="2" Margin="2" CornerRadius="3" Background="#dc2626" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Orange" Grid.Row="0" Grid.Column="3" Margin="2" CornerRadius="3" Background="#ea580c" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Yellow" Grid.Row="0" Grid.Column="4" Margin="2" CornerRadius="3" Background="#facc15" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Lime" Grid.Row="1" Grid.Column="0" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#65a30d" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Green" Grid.Row="1" Grid.Column="1" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#16a34a" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Teal" Grid.Row="1" Grid.Column="2" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#0d9488" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Cyan" Grid.Row="1" Grid.Column="3" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#0284c7" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Blue" Grid.Row="1" Grid.Column="4" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#2563eb" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Indigo" Grid.Row="2" Grid.Column="0" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#4f46e5" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Purple" Grid.Row="2" Grid.Column="1" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#7c3aed" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Fuchsia" Grid.Row="2" Grid.Column="2" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#c026d3" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Pink" Grid.Row="2" Grid.Column="3" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#db2777" Width="42" Height="36"></Border>
-                                    <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Rose" Grid.Row="2" Grid.Column="4" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#e11d48" Width="42" Height="36"></Border>
+                                <Grid Margin="14,3,14,0" Height="5">
+                                    <modern:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="3">
+                                        <Border Height="5" Width="5" CornerRadius="2.5" Background="#d4d4d8"/>
+                                        <Border Height="5" Width="5" CornerRadius="2.5" Background="#27272a"/>
+                                        <Border Height="5" Width="5" CornerRadius="2.5" Background="#d4d4d8"/>
+                                    </modern:SimpleStackPanel>
                                 </Grid>
+                                <Line X1="0" Y1="0" X2="240" Y2="0" Margin="0,2" HorizontalAlignment="Center" Stroke="#a1a1aa" />
+                                <Grid>
+                                    <Grid Margin="10,0,10,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Black" Grid.Row="0" Grid.Column="0" Margin="2" CornerRadius="3" Background="#09090b" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="White" Grid.Row="0" Grid.Column="1" Margin="2" CornerRadius="3" Background="#fafafa" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Red" Grid.Row="0" Grid.Column="2" Margin="2" CornerRadius="3" Background="#dc2626" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Orange" Grid.Row="0" Grid.Column="3" Margin="2" CornerRadius="3" Background="#ea580c" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Yellow" Grid.Row="0" Grid.Column="4" Margin="2" CornerRadius="3" Background="#facc15" BorderBrush="#5518181b" BorderThickness="1" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Lime" Grid.Row="1" Grid.Column="0" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#65a30d" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Green" Grid.Row="1" Grid.Column="1" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#16a34a" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Teal" Grid.Row="1" Grid.Column="2" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#0d9488" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Cyan" Grid.Row="1" Grid.Column="3" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#0284c7" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Blue" Grid.Row="1" Grid.Column="4" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#2563eb" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Indigo" Grid.Row="2" Grid.Column="0" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#4f46e5" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Purple" Grid.Row="2" Grid.Column="1" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#7c3aed" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Fuchsia" Grid.Row="2" Grid.Column="2" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#c026d3" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Pink" Grid.Row="2" Grid.Column="3" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#db2777" Width="42" Height="36">
+                                        </Border>
+                                        <Border MouseDown="ColorButton_MouseDown" MouseUp="ColorButton_MouseUp" MouseLeave="ColorButton_MouseLeave" Name="Rose" Grid.Row="2" Grid.Column="4" Margin="2,6,2,2" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1" Background="#e11d48" Width="42" Height="36">
+                                        </Border>
+                                    </Grid>
+                                </Grid>
+                                
                                 <Grid Margin="12,0">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    <Button Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,0,3,0">
+                                    <Button Click="RandomColorButton_Clicked" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0,0,3,0">
                                         <modern:SimpleStackPanel Orientation="Horizontal" Spacing="4">
                                             <Image Height="19" Width="19">
                                                 <Image.Source>
@@ -383,7 +711,7 @@
                                     <Button Name="CustomColorButton" Click="CustomColorButton_Clicked" ClipToBounds="False" Grid.Column="1" HorizontalAlignment="Stretch" Margin="3,0,3,0">
                                         <modern:SimpleStackPanel Orientation="Horizontal" Spacing="4">
                                             <Border Name="CustomColorButtonColorBorder" VerticalAlignment="Center" Width="19" Height="19" Visibility="Collapsed" CornerRadius="3" BorderBrush="#5518181b" BorderThickness="1">
-                                                <Image HorizontalAlignment="Center" VerticalAlignment="Center" Name="CustomColorButtonColorBorderCheckIcon" Height="16" Width="16" Source="{StaticResource CheckedDarkIcon}"/>
+                                                <Image HorizontalAlignment="Center" VerticalAlignment="Center" Name="CustomColorButtonColorBorderCheckIcon" Height="16" Width="16" Source="{StaticResource CheckedDarkIcon}" />
                                             </Border>
                                             <Image Name="CustomColorButtonIcon" Height="19" Width="19">
                                                 <Image.Source>
@@ -425,10 +753,10 @@
                             <modern:SimpleStackPanel Orientation="Vertical" Spacing="6">
                                 <TextBlock FontSize="18" FontWeight="Bold" VerticalAlignment="Bottom" Foreground="#27272a" Margin="16,12,10,2" Text="自定义颜色"></TextBlock>
                                 <Grid>
-                                    <colorPicker:SquarePicker Name="CustomColorPicker" ColorChanged="CustomColorPicker_ColorChanged" HorizontalAlignment="Center" Width="242" Height="242"/>
+                                    <colorPicker:SquarePicker Name="CustomColorPicker" ColorChanged="CustomColorPicker_ColorChanged" HorizontalAlignment="Center" Width="242" Height="242" />
                                 </Grid>
                                 <Grid Margin="12,2,12,0">
-                                    <Border Name="CustomColorHexBorder" HorizontalAlignment="Left" Width="32" Height="32" CornerRadius="3" BorderBrush="#6618181b" BorderThickness="1"/>
+                                    <Border Name="CustomColorHexBorder" HorizontalAlignment="Left" Width="32" Height="32" CornerRadius="3" BorderBrush="#6618181b" BorderThickness="1" />
                                     <TextBox Name="CustomColorHexTextBox" Margin="36,0,0,0" HorizontalAlignment="Stretch" Text="#000000"></TextBox>
                                 </Grid>
                                 <Button Click="BackToPaletteButton_Clicked" HorizontalAlignment="Stretch" Margin="12,0">

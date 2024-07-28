@@ -10,20 +10,17 @@ namespace Ink_Canvas
         int lastNotificationShowTime = 0;
         int notificationShowTime = 2500;
 
-        public static void ShowNewMessage(string notice, bool isShowImmediately = true) {
-            (Application.Current?.Windows.Cast<Window>().FirstOrDefault(window => window is MainWindow) as MainWindow)?.ShowNotificationAsync(notice, isShowImmediately);
+        public static void ShowNewMessage(string notice) {
+            (Application.Current?.Windows.Cast<Window>().FirstOrDefault(window => window is MainWindow) as MainWindow)?.ShowNotification(notice);
         }
 
-        public async Task ShowNotificationAsync(string notice, bool isShowImmediately = true)
-        {
-            try
-            {
-                TextBlockNotice.Text = notice;
-                AnimationsHelper.ShowWithSlideFromBottomAndFade(GridNotifications);
-                await Task.Delay(2000);
-                AnimationsHelper.HideWithSlideAndFade(GridNotifications);
-            }
-            catch { }
+        public MW_Toast ShowNotification(string notice) {
+            var notification = new MW_Toast(MW_Toast.ToastType.Informative, notice, (self) => {
+                GridNotifications.Children.Remove(self);
+            });
+            GridNotifications.Children.Add(notification);
+            notification.ShowAnimatedWithAutoDispose(3000 + notice.Length * 10);
+            return notification;
         }
     }
 }

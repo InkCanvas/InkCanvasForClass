@@ -118,7 +118,7 @@
 
     <Grid x:Name="Main_Grid">
 
-        <Popup Name="PenPaletteV2Popup" PopupAnimation="Fade" IsOpen="False" StaysOpen="True" AllowsTransparency="True" Placement="AbsolutePoint">
+        <Popup Name="PenPaletteV2Popup" PopupAnimation="Fade" IsOpen="False" StaysOpen="True" AllowsTransparency="True" Placement="Bottom">
             <popups:ColorPalette x:Name="PenPaletteV2" Width="300" />
         </Popup>
 
@@ -130,7 +130,7 @@
         <Label Name="Label" Visibility="Collapsed" Foreground="Gray" Content="0" />
         <Grid Name="InkCanvasGridForInkReplay">
             <helpers:RectangleSelectionViewer x:Name="RectangleSelection" />
-            <InkCanvas x:Name="inkCanvas" ForceCursor="False"
+            <inkCanvas:IccInkCanvas x:Name="inkCanvas" ForceCursor="False"
                           TouchUp="Main_Grid_TouchUp" TouchDown="Main_Grid_TouchDown"
                           TouchMove="inkCanvas_TouchMove"
                           ManipulationDelta="Main_Grid_ManipulationDelta"
@@ -485,40 +485,6 @@
             <helpers:DrawingVisualCanvas IsHitTestVisible="False" x:Name="EraserOverlay_DrawingVisual"/>
         </Grid>
 
-            <Grid Visibility="Collapsed">
-            <Grid Visibility="{Binding ElementName=GridBackgroundCoverHolder, Path=Visibility}">
-                <Viewbox Margin="10" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5">
-                        <Border Width="36" Height="36" CornerRadius="5"
-                                Background="{DynamicResource FloatBarBackground}" BorderThickness="1"
-                                BorderBrush="{DynamicResource FloatBarBorderBrush}">
-                            <Grid Margin="6" MouseUp="GridPPTControlPrevious_MouseUp">
-                                <Image
-                                    Source="{DynamicResource ResourceKey=SeewoImageSource.HorizontalPreviousSlideNormal}" />
-                            </Grid>
-                        </Border>
-                        <Border Visibility="{Binding ElementName=PptNavigationBtn, Path=Visibility}" Width="36"
-                                Height="36" CornerRadius="5" Background="{DynamicResource FloatBarBackground}"
-                                BorderThickness="1" BorderBrush="{DynamicResource FloatBarBorderBrush}">
-                            <Grid MouseUp="PPTNavigationBtn_MouseUp">
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                           Foreground="{Binding ElementName=PptNavigationTextBlock, Path=Foreground}"
-                                           FontSize="{Binding ElementName=PptNavigationTextBlock, Path=FontSize}"
-                                           Text="{Binding ElementName=PptNavigationTextBlock, Path=Text}" />
-                            </Grid>
-                        </Border>
-                        <Border Width="36" Height="36" CornerRadius="5"
-                                Background="{DynamicResource FloatBarBackground}" BorderThickness="1"
-                                BorderBrush="{DynamicResource FloatBarBorderBrush}">
-                            <Grid Margin="6" MouseUp="GridPPTControlNext_MouseUp">
-                                <Image
-                                    Source="{DynamicResource ResourceKey=SeewoImageSource.HorizontalNextSlideNormal}" />
-                            </Grid>
-                        </Border>
-                    </ui:SimpleStackPanel>
-                </Viewbox>
-            </Grid>
-        </Grid>
         <!--// BlackBoard 界面 //-->
         <Grid Name="BlackboardUIGridForInkReplay">
             <Grid Visibility="{Binding ElementName=GridBackgroundCoverHolder, Path=Visibility}">
@@ -3015,14 +2981,8 @@
 
 
         <!-- 通知弹窗 -->
-        <Grid Name="GridNotifications" Margin="0,110" Visibility="Collapsed" HorizontalAlignment="Center"
-              VerticalAlignment="Bottom">
-            <Border CornerRadius="6" MaxHeight="200" Padding="20 10" Background="White" Opacity="0.95"
-                    BorderBrush="#b91c1c" BorderThickness="1.5">
-                <TextBlock Name="TextBlockNotice" Text="测试文本" VerticalAlignment="Center" HorizontalAlignment="Center"
-                           FontSize="16" />
-            </Border>
-        </Grid>
+        <Grid Name="GridNotifications" Margin="0,110" Visibility="Visible" HorizontalAlignment="Center"
+              VerticalAlignment="Bottom"/>
         <!--// Old UI //-->
         <!--<Viewbox Name="ViewBoxStackPanelMain" Visibility="Collapsed" Margin="10,10,10,55" HorizontalAlignment="Right"
                  VerticalAlignment="Bottom" Width="46">
@@ -3041,7 +3001,9 @@
                             Margin="0,10,0,0" Width="{Binding ElementName=StackPanelMain, Path=ActualWidth}"
                             Foreground="{Binding ElementName=BtnExit, Path=Foreground}"
                             Background="{Binding ElementName=BtnExit, Path=Background}" />
-                    --><!-- Click="BtnSwitchTheme_Click" --><!--
+                    -->
+        <!-- Click="BtnSwitchTheme_Click" -->
+        <!--
 
                     <Button Name="BtnSwitch" Content="背景" FontFamily="Microsoft YaHei UI"
                             Margin="0,10,0,0" Width="{Binding ElementName=StackPanelMain, Path=ActualWidth}"
@@ -8164,6 +8126,7 @@
                                         <TextBlock x:Name="AppVersionTextBlock" FontSize="18" FontWeight="Bold"
                                                    Text="5.X.X.X" />
                                     </ui:SimpleStackPanel>
+                                    <Image Name="CustomCopyrightBanner"/>
                                     <TextBlock
                                         Text="# 使用和分发本软件前，请您应当且务必知晓相关开源协议，且您应当知晓本软件基于 https://github.com/WXRIW/Ink-Canvas 修改而成。"
                                         TextWrapping="Wrap" Foreground="#a1a1aa" />
@@ -8295,181 +8258,11 @@
                                     </TextBlock>
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
-                                    <TextBlock FontSize="18" FontWeight="Bold" Margin="0,0,0,4" Text="感谢下列贡献者：" />
-                                    <Grid Margin="8,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <ui:SimpleStackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical">
-                                            <Image Source="/Resources/DeveloperAvatars/RaspberryKan.jpg"
-                                                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                   RenderOptions.BitmapScalingMode="HighQuality" Width="48"
-                                                   Margin="0,0,0,6" Height="48">
-                                                <Image.Clip>
-                                                    <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
-                                                </Image.Clip>
-                                            </Image>
-                                            <TextBlock Margin="0,0,0,2" VerticalAlignment="Center"
-                                                       HorizontalAlignment="Center" FontSize="12" Foreground="White">
-                                                Raspberry Kan
-                                            </TextBlock>
-                                        </ui:SimpleStackPanel>
-                                        <ui:SimpleStackPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical">
-                                            <Image Source="/Resources/DeveloperAvatars/kengwang.png"
-                                                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                   RenderOptions.BitmapScalingMode="HighQuality" Width="48"
-                                                   Margin="0,0,0,6" Height="48">
-                                                <Image.Clip>
-                                                    <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
-                                                </Image.Clip>
-                                            </Image>
-                                            <TextBlock Margin="0,0,0,2" VerticalAlignment="Center"
-                                                       HorizontalAlignment="Center" FontSize="12" Foreground="White">
-                                                Kengwang
-                                            </TextBlock>
-                                        </ui:SimpleStackPanel>
-                                        <ui:SimpleStackPanel Grid.Column="2" Grid.Row="0" Orientation="Vertical">
-                                            <Image Source="/Resources/DeveloperAvatars/jiajiaxd.jpg"
-                                                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                   RenderOptions.BitmapScalingMode="HighQuality" Width="48"
-                                                   Margin="0,0,0,6" Height="48">
-                                                <Image.Clip>
-                                                    <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
-                                                </Image.Clip>
-                                            </Image>
-                                            <TextBlock Margin="0,0,0,2" VerticalAlignment="Center"
-                                                       HorizontalAlignment="Center" FontSize="12" Foreground="White">
-                                                Charles Jia
-                                            </TextBlock>
-                                        </ui:SimpleStackPanel>
-                                        <ui:SimpleStackPanel Grid.Column="3" Grid.Row="0" Orientation="Vertical">
-                                            <Image Source="/Resources/DeveloperAvatars/clover-yan.png"
-                                                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                   RenderOptions.BitmapScalingMode="HighQuality" Width="48"
-                                                   Margin="0,0,0,6" Height="48">
-                                                <Image.Clip>
-                                                    <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
-                                                </Image.Clip>
-                                            </Image>
-                                            <TextBlock Margin="0,0,0,2" VerticalAlignment="Center"
-                                                       HorizontalAlignment="Center" FontSize="12" Foreground="White">
-                                                clover_yan
-                                            </TextBlock>
-                                        </ui:SimpleStackPanel>
-                                        <ui:SimpleStackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical"
-                                                             Margin="0,16,0,0">
-                                            <Image Source="/Resources/DeveloperAvatars/NetheriteBowl.png"
-                                                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                   RenderOptions.BitmapScalingMode="HighQuality" Width="48"
-                                                   Margin="0,0,0,6" Height="48">
-                                                <Image.Clip>
-                                                    <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
-                                                </Image.Clip>
-                                            </Image>
-                                            <TextBlock Margin="0,0,0,2" VerticalAlignment="Center"
-                                                       HorizontalAlignment="Center" FontSize="12" Foreground="White">
-                                                Netherite_Bowl
-                                            </TextBlock>
-                                        </ui:SimpleStackPanel>
-                                        <ui:SimpleStackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical"
-                                                             Margin="0,16,0,0">
-                                            <Image Source="/Resources/DeveloperAvatars/NotYoojun.png"
-                                                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                   RenderOptions.BitmapScalingMode="HighQuality" Width="48"
-                                                   Margin="0,0,0,6" Height="48">
-                                                <Image.Clip>
-                                                    <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
-                                                </Image.Clip>
-                                            </Image>
-                                            <TextBlock Margin="0,0,0,2" VerticalAlignment="Center"
-                                                       HorizontalAlignment="Center" FontSize="12" Foreground="White">
-                                                Yoojun Zhou
-                                            </TextBlock>
-                                        </ui:SimpleStackPanel>
-                                        <ui:SimpleStackPanel Grid.Column="2" Grid.Row="1" Orientation="Vertical"
-                                                             Margin="0,16,0,0">
-                                            <Image Source="/Resources/DeveloperAvatars/yuwenhui2020.png"
-                                                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                   RenderOptions.BitmapScalingMode="HighQuality" Width="48"
-                                                   Margin="0,0,0,6" Height="48">
-                                                <Image.Clip>
-                                                    <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
-                                                </Image.Clip>
-                                            </Image>
-                                            <TextBlock Margin="0,0,0,2" VerticalAlignment="Center"
-                                                       HorizontalAlignment="Center" FontSize="12" Foreground="White">
-                                                YuWenHui2020
-                                            </TextBlock>
-                                        </ui:SimpleStackPanel>
-                                        <ui:SimpleStackPanel Grid.Column="3" Grid.Row="1" Orientation="Vertical"
-                                                             Margin="0,16,0,0">
-                                            <Image Source="/Resources/DeveloperAvatars/STBBRD.png"
-                                                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                   RenderOptions.BitmapScalingMode="HighQuality" Width="48"
-                                                   Margin="0,0,0,6" Height="48">
-                                                <Image.Clip>
-                                                    <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
-                                                </Image.Clip>
-                                            </Image>
-                                            <TextBlock Margin="0,0,0,2" VerticalAlignment="Center"
-                                                       HorizontalAlignment="Center" FontSize="12" Foreground="White">
-                                                ZongziTEK
-                                            </TextBlock>
-                                        </ui:SimpleStackPanel>
-                                        <ui:SimpleStackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical"
-                                                             Margin="0,16,0,0">
-                                            <Image Source="/Resources/DeveloperAvatars/aaaaaaccd.jpg"
-                                                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                   RenderOptions.BitmapScalingMode="HighQuality" Width="48"
-                                                   Margin="0,0,0,6" Height="48">
-                                                <Image.Clip>
-                                                    <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
-                                                </Image.Clip>
-                                            </Image>
-                                            <TextBlock Margin="0,0,0,2" VerticalAlignment="Center"
-                                                       HorizontalAlignment="Center" FontSize="12" Foreground="White">
-                                                Aesthed
-                                            </TextBlock>
-                                        </ui:SimpleStackPanel>
-                                        <ui:SimpleStackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical"
-                                                             Margin="0,16,0,0">
-                                            <Image Source="/Resources/DeveloperAvatars/wwei.png"
-                                                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                   RenderOptions.BitmapScalingMode="HighQuality" Width="48"
-                                                   Margin="0,0,0,6" Height="48">
-                                                <Image.Clip>
-                                                    <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
-                                                </Image.Clip>
-                                            </Image>
-                                            <TextBlock Margin="0,0,0,2" VerticalAlignment="Center"
-                                                       HorizontalAlignment="Center" FontSize="12" Foreground="White">
-                                                Wei
-                                            </TextBlock>
-                                        </ui:SimpleStackPanel>
-                                        <ui:SimpleStackPanel Grid.Column="2" Grid.Row="2" Orientation="Vertical"
-                                                             Margin="0,16,0,0">
-                                            <Image Source="/Resources/DeveloperAvatars/Alan-CRL.png"
-                                                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                                                   RenderOptions.BitmapScalingMode="HighQuality" Width="48"
-                                                   Margin="0,0,0,6" Height="48">
-                                                <Image.Clip>
-                                                    <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
-                                                </Image.Clip>
-                                            </Image>
-                                            <TextBlock Margin="0,0,0,2" VerticalAlignment="Center"
-                                                       HorizontalAlignment="Center" FontSize="12" Foreground="White">
-                                                Alan-CRL
-                                            </TextBlock>
-                                        </ui:SimpleStackPanel>
-                                    </Grid>
+                                    <TextBlock FontSize="18" FontWeight="Bold" Text="感谢下列贡献者和支持者：" />
+                                    <TextBlock
+                                        Text="# 排名不分先后"
+                                        TextWrapping="Wrap" Foreground="#a1a1aa" />
+                                    <Image Source="Resources/contributors.png"/>
                                     <ui:SimpleStackPanel Spacing="3" Orientation="Vertical">
                                         <TextBlock
                                             Text="© 2024 Dubi906w(Kriastans) 版权所有" FontWeight="Bold"

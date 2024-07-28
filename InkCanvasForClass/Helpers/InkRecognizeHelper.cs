@@ -67,13 +67,6 @@ namespace Ink_Canvas.Helpers
 
     //Recognizer 的实现
 
-    public enum RecognizeLanguage
-    {
-        SimplifiedChinese = 0x0804,
-        TraditionalChinese = 0x7c03,
-        English = 0x0809
-    }
-
     public class ShapeRecognizeResult
     {
         public ShapeRecognizeResult(Point centroid, PointCollection hotPoints, AnalysisAlternate analysisAlternate, InkDrawingNode node)

@@ -45,10 +45,10 @@ namespace Ink_Canvas {
 
         private TimeMachine timeMachine = new TimeMachine();
 
-        private void ApplyHistoryToCanvas(TimeMachineHistory item, InkCanvas applyCanvas = null) {
+        private void ApplyHistoryToCanvas(TimeMachineHistory item, IccInkCanvas applyCanvas = null) {
             _currentCommitType = CommitReason.CodeInput;
             var canvas = inkCanvas;
-            if (applyCanvas != null && applyCanvas is InkCanvas) {
+            if (applyCanvas != null && applyCanvas is IccInkCanvas) {
                 canvas = applyCanvas;
             }
 
@@ -136,7 +136,7 @@ namespace Ink_Canvas {
         }
 
         private StrokeCollection ApplyHistoriesToNewStrokeCollection(TimeMachineHistory[] items) {
-            InkCanvas fakeInkCanv = new InkCanvas() {
+            IccInkCanvas fakeInkCanv = new IccInkCanvas() {
                 Width = inkCanvas.ActualWidth,
                 Height = inkCanvas.ActualHeight,
                 EditingMode = InkCanvasEditingMode.None,
@@ -159,11 +159,14 @@ namespace Ink_Canvas {
             SymbolIconRedo.IsEnabled = status;
         }
 
+        private bool _mouseGesturingPrevious = false;
+
         private void StrokesOnStrokesChanged(object sender, StrokeCollectionChangedEventArgs e) {
             if (!isHidingSubPanelsWhenInking) {
                 isHidingSubPanelsWhenInking = true;
                 HideSubPanels(); // 书写时自动隐藏二级菜单
             }
+
 
             foreach (var stroke in e?.Removed) {
                 stroke.StylusPointsChanged -= Stroke_StylusPointsChanged;
@@ -255,10 +258,12 @@ namespace Ink_Canvas {
         }
 
         private void Stroke_StylusPointsReplaced(object sender, StylusPointsReplacedEventArgs e) {
+            if (isMouseGesturing) return;
             StrokeInitialHistory[sender as Stroke] = e.NewStylusPoints.Clone();
         }
 
         private void Stroke_StylusPointsChanged(object sender, EventArgs e) {
+            if (isMouseGesturing) return;
             var selectedStrokes = inkCanvas.GetSelectedStrokes();
             var count = selectedStrokes.Count;
             if (count == 0) count = inkCanvas.Strokes.Count;

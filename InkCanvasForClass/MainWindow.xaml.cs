@@ -21,6 +21,10 @@ using System.Text;
 using System.Windows.Documents;
 using Ink_Canvas.Popups;
 using iNKORE.UI.WPF.Modern.Controls;
+using System.Windows.Forms;
+using Jint.Runtime;
+using Button = System.Windows.Controls.Button;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -197,7 +201,7 @@ namespace Ink_Canvas {
         const uint MF_GRAYED = 0x00000001;
         const uint SC_CLOSE = 0xF060;
 
-        private void Window_Loaded(object sender, RoutedEventArgs e) {
+        private async void Window_Loaded(object sender, RoutedEventArgs e) {
             loadPenCanvas();
             //加载设置
             LoadSettings(true);
@@ -246,11 +250,13 @@ namespace Ink_Canvas {
             UpdateFloatingBarIconsLayout();
 
             StylusInvertedListenerInit();
+
+            PenPaletteV2Init();
         }
 
         private void SystemEventsOnDisplaySettingsChanged(object sender, EventArgs e) {
             if (!Settings.Advanced.IsEnableResolutionChangeDetection) return;
-            ShowNotificationAsync($"检测到显示器信息变化，变为{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width}x{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height}");
+            ShowNotification($"检测到显示器信息变化，变为{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width}x{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height}");
             new Thread(() => {
                 var isFloatingBarOutsideScreen = false;
                 var isInPPTPresentationMode = false;
@@ -270,11 +276,11 @@ namespace Ink_Canvas {
 
         public DelayAction dpiChangedDelayAction = new DelayAction();
 
-        private void MainWindow_OnDpiChanged(object sender, DpiChangedEventArgs e)
+        private void MainWindow_OnDpiChanged(object sender, System.Windows.DpiChangedEventArgs e)
         {
             if (e.OldDpi.DpiScaleX != e.NewDpi.DpiScaleX && e.OldDpi.DpiScaleY != e.NewDpi.DpiScaleY && Settings.Advanced.IsEnableDPIChangeDetection)
             {
-                ShowNotificationAsync($"系统DPI发生变化，从 {e.OldDpi.DpiScaleX}x{e.OldDpi.DpiScaleY} 变化为 {e.NewDpi.DpiScaleX}x{e.NewDpi.DpiScaleY}");
+                ShowNotification($"系统DPI发生变化，从 {e.OldDpi.DpiScaleX}x{e.OldDpi.DpiScaleY} 变化为 {e.NewDpi.DpiScaleX}x{e.NewDpi.DpiScaleY}");
 
                 new Thread(() => {
                     var isFloatingBarOutsideScreen = false;
@@ -308,7 +314,7 @@ namespace Ink_Canvas {
 
         private void MainWindow_OnSizeChanged(object sender, SizeChangedEventArgs e) {
             if (Settings.Advanced.IsEnableForceFullScreen) {
-                if (isLoaded) ShowNotificationAsync(
+                if (isLoaded) ShowNotification(
                     $"检测到窗口大小变化，已自动恢复到全屏：{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width}x{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height}（缩放比例为{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth}x{System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / SystemParameters.PrimaryScreenHeight}）");
                 WindowState = WindowState.Maximized;
                 MoveWindow(new WindowInteropHelper(this).Handle, 0, 0,

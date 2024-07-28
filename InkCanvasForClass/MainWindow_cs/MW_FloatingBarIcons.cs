@@ -318,20 +318,23 @@ namespace Ink_Canvas {
 
             if (mode != null && autoAlignCenter) {
                 if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) {
-                    await Task.Delay(50);
+                    await Task.Delay(1);
                     ViewboxFloatingBarMarginAnimation(60);
                 } else if (Topmost == true) //非黑板
                 {
-                    await Task.Delay(50);
+                    await Task.Delay(1);
                     ViewboxFloatingBarMarginAnimation(100, true);
                 } else //黑板
                 {
-                    await Task.Delay(50);
+                    await Task.Delay(1);
                     ViewboxFloatingBarMarginAnimation(60);
                 }
             }
 
-            await Task.Delay(150);
+            // new popup
+            PenPaletteV2Popup.IsOpen = false;
+
+            await Task.Delay(10);
             isHidingSubPanelsWhenInking = false;
         }
 
@@ -718,7 +721,7 @@ namespace Ink_Canvas {
             SelectedMode = ICCToolsEnum.CursorMode;
             ForceUpdateToolSelection(null);
 
-            await Task.Delay(50);
+            await Task.Delay(5);
 
             if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible)
                 ViewboxFloatingBarMarginAnimation(60);
@@ -1515,7 +1518,7 @@ namespace Ink_Canvas {
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == CursorWithDelFloatingBarBtn && lastBorderMouseDownObject != CursorWithDelFloatingBarBtn) return;
 
-            SymbolIconDelete_MouseUp(sender, null);
+            SymbolIconDelete_MouseUp(null, null);
             CursorIcon_Click(null, null);
         }
 

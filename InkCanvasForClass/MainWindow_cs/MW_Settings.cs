@@ -1644,7 +1644,7 @@ namespace Ink_Canvas {
             }
             catch { }
 
-            ShowNotificationAsync("设置已重置为默认推荐设置~");
+            ShowNotification("设置已重置为默认推荐设置~");
         }
 
         private async void SpecialVersionResetToSuggestion_Click() {

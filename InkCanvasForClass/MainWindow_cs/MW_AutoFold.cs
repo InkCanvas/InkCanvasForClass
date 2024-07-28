@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -76,12 +77,12 @@ namespace Ink_Canvas {
                 if (currentMode != 0) CloseWhiteboardImmediately();
                 if (StackPanelCanvasControls.Visibility == Visibility.Visible)
                     if (foldFloatingBarByUser && inkCanvas.Strokes.Count > 2)
-                        ShowNotificationAsync("正在清空墨迹并收纳至侧边栏，可进入批注模式后通过【撤销】功能来恢复原先墨迹。");
-                lastBorderMouseDownObject = sender;
-                CursorWithDelIcon_Click(sender, null);
+                        ShowNotification("正在清空墨迹并收纳至侧边栏，可进入批注模式后通过【撤销】功能来恢复原先墨迹。");
+                CursorWithDelIcon_Click(null, null);
+                RectangleSelectionHitTestBorder.Visibility = Visibility.Collapsed;
             });
 
-            await Task.Delay(10);
+            await Task.Delay(5);
 
             await Dispatcher.InvokeAsync(() => {
                 LeftBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
@@ -94,6 +95,7 @@ namespace Ink_Canvas {
                 SelectedMode = ICCToolsEnum.CursorMode;
                 ForceUpdateToolSelection(null);
                 SidePannelMarginAnimation(-10);
+
             });
             isFloatingBarChangingHideMode = false;
         }

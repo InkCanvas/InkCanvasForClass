@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using Ink_Canvas.Popups;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -677,7 +678,7 @@ namespace Ink_Canvas {
             CheckPenTypeUIState();
             ColorSwitchCheck();
         }
-
+       
         private Color StringToColor(string colorStr) {
             var argb = new byte[4];
             for (var i = 0; i < 4; i++) {
@@ -694,5 +695,46 @@ namespace Ink_Canvas {
             var b = (byte)"0123456789ABCDEF".IndexOf(c);
             return b;
         }
+
+        #region PenPaletteV2
+
+        private void PenPaletteV2Init() {
+            PenPaletteV2.ColorSelectionChanged += PenpaletteV2_ColorSelectionChanged;
+            PenPaletteV2.ColorModeChanged += PenpaletteV2_ColorModeChanged;
+            PenPaletteV2.CustomColorChanged += PenpaletteV2_CustomColorChanged;
+            PenPaletteV2.PaletteShouldCloseEvent += PenpaletteV2_PaletteShouldCloseEvent;
+            PenPaletteV2.PenModeChanged += PenpaletteV2_PenModeChanged;
+            PenPaletteV2.SelectedColor = ColorPalette.ColorPaletteColor.ColorRed;
+        }
+
+        private void PenpaletteV2_ColorSelectionChanged(object sender, ColorPalette.ColorSelectionChangedEventArgs e) {
+            if (e.TriggerMode == ColorPalette.TriggerMode.TriggeredByCode) return;
+            drawingAttributes.Color = PenPaletteV2.GetColor(e.NowColor, false, null);
+        }
+
+        private void PenpaletteV2_ColorModeChanged(object sender, ColorPalette.ColorModeChangedEventArgs e) {
+            if (e.TriggerMode == ColorPalette.TriggerMode.TriggeredByCode) return;
+            drawingAttributes.Color = PenPaletteV2.GetColor(PenPaletteV2.SelectedColor, false, null);
+        }
+
+        private void PenpaletteV2_CustomColorChanged(object sender, ColorPalette.CustomColorChangedEventArgs e) {
+            if (e.TriggerMode == ColorPalette.TriggerMode.TriggeredByCode) return;
+            if (PenPaletteV2.SelectedColor == ColorPalette.ColorPaletteColor.ColorCustom) 
+                drawingAttributes.Color = e.NowColor??new Color();
+        }
+
+        private void PenpaletteV2_PaletteShouldCloseEvent(object sender, RoutedEventArgs e) {
+            PenPaletteV2Popup.IsOpen = false;
+        }
+
+        private void PenpaletteV2_PenModeChanged(object sender, ColorPalette.PenModeChangedEventArgs e) {
+            penType = e.NowMode == ColorPalette.PenMode.HighlighterMode ? 1 : 0;
+            drawingAttributes.Width = e.NowMode == ColorPalette.PenMode.HighlighterMode ? Settings.Canvas.HighlighterWidth / 2 : Settings.Canvas.InkWidth;
+            drawingAttributes.Height = e.NowMode == ColorPalette.PenMode.HighlighterMode ? Settings.Canvas.HighlighterWidth : Settings.Canvas.InkWidth;
+            drawingAttributes.StylusTip = e.NowMode == ColorPalette.PenMode.HighlighterMode ? StylusTip.Rectangle : StylusTip.Ellipse;
+            drawingAttributes.IsHighlighter = e.NowMode == ColorPalette.PenMode.HighlighterMode;
+        }
+
+        #endregion
     }
 }

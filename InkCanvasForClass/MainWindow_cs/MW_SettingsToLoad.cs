@@ -1,11 +1,13 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using Ink_Canvas.Helpers;
 using Newtonsoft.Json;
+using Ookii.Dialogs.Wpf;
 using OSVersionExtension;
 using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Security.Principal;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
@@ -18,6 +20,28 @@ using OperatingSystem = OSVersionExtension.OperatingSystem;
 
 namespace Ink_Canvas {
     public partial class MainWindow : System.Windows.Window {
+
+        private void DisplayWelcomePopup() {
+            if( TaskDialog.OSSupportsTaskDialogs ) {
+                var t = new Thread(() => {
+                    using (TaskDialog dialog = new TaskDialog()) {
+                        dialog.WindowTitle = "感谢使用 InkCanvasForClass!";
+                        dialog.MainInstruction = "感谢您使用 InkCanvasForClass!";
+                        dialog.Content =
+                            "您需要知道的是该版本正处于开发阶段，可能会有无法预测的问题出现。出现任何问题以及未捕获的异常，请及时提供日志文件然后上报给开发者。";
+                        dialog.Footer =
+                            "加入 InkCanvasForClass 交流群 <a href=\"https://qm.qq.com/q/Dgzdt7RjQQ\">825759306</a>。";
+                        dialog.FooterIcon = TaskDialogIcon.Information;
+                        dialog.EnableHyperlinks = true;
+                        TaskDialogButton okButton = new TaskDialogButton(ButtonType.Ok);
+                        dialog.Buttons.Add(okButton);
+                        TaskDialogButton button = dialog.Show();
+                    }
+                });
+                t.Start();
+            }
+        }
+
         private void LoadSettings(bool isStartup = false) {
             AppVersionTextBlock.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             try {
@@ -29,6 +53,23 @@ namespace Ink_Canvas {
                     catch { }
                 } else {
                     BtnResetToSuggestion_Click(null, null);
+                    DisplayWelcomePopup();
+                }
+            }
+            catch (Exception ex) {
+                LogHelper.WriteLogToFile(ex.ToString(), LogHelper.LogType.Error);
+            }
+
+            try {
+                if (File.Exists(App.RootPath + "custom-copyright-banner.png")) {
+                    try {
+                        CustomCopyrightBanner.Visibility = Visibility.Visible;
+                        CustomCopyrightBanner.Source =
+                            new BitmapImage(new Uri($"file://{App.RootPath + "custom-copyright-banner.png"}"));
+                    }
+                    catch { }
+                } else {
+                    CustomCopyrightBanner.Visibility = Visibility.Collapsed;
                 }
             }
             catch (Exception ex) {
