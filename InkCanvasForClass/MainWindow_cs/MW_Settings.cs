@@ -20,6 +20,8 @@ using System.Security.Principal;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using System.Timers;
+using Ink_Canvas.Popups;
 using Ookii.Dialogs.Wpf;
 
 namespace Ink_Canvas {
@@ -1644,7 +1646,7 @@ namespace Ink_Canvas {
             }
             catch { }
 
-            ShowNotification("设置已重置为默认推荐设置~");
+            ShowNewToast("设置已重置为默认推荐设置~", MW_Toast.ToastType.Success, 2500);
         }
 
         private async void SpecialVersionResetToSuggestion_Click() {
@@ -1859,6 +1861,26 @@ namespace Ink_Canvas {
             UpdateSettingsPaneCustomScrollBarStatus();
         }
 
+        public void SettingsPaneScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e) {
+            var scrollViewer = (ScrollViewer)sender;
+            var sb = new Storyboard();
+            var ofs = scrollViewer.VerticalOffset;
+            var animation = new DoubleAnimation
+            {
+                From = ofs,
+                To = ofs - e.Delta * 2.5,
+                Duration = TimeSpan.FromMilliseconds(155)
+            };
+            animation.EasingFunction = new CubicEase() {
+                EasingMode = EasingMode.EaseOut,
+            };
+            Storyboard.SetTargetProperty(animation, new PropertyPath(ColorPalette.ScrollViewerBehavior.VerticalOffsetProperty));
+            Storyboard.SetTargetName(animation,"SettingsPanelScrollViewer");
+            sb.Children.Add(animation);
+            scrollViewer.ScrollToVerticalOffset(ofs);
+            sb.Begin(scrollViewer);
+        }
+
         public void UpdateSettingsPaneCustomScrollBarStatus() {
             var scrollPercentage = SettingsPanelScrollViewer.VerticalOffset /
                                    (SettingsPanelScrollViewer.ExtentHeight - SettingsPanelScrollViewer.ActualHeight);
@@ -1985,73 +2007,92 @@ namespace Ink_Canvas {
             }
         }
 
+        private void SettingsPaneScrollViewer_ScrollToAnimated(double offset) {
+            var sb = new Storyboard();
+            var ofs = SettingsPanelScrollViewer.VerticalOffset;
+            var animation = new DoubleAnimation
+            {
+                From = ofs,
+                To = offset,
+                Duration = TimeSpan.FromMilliseconds(155)
+            };
+            animation.EasingFunction = new CubicEase() {
+                EasingMode = EasingMode.EaseOut,
+            };
+            Storyboard.SetTargetProperty(animation, new PropertyPath(ColorPalette.ScrollViewerBehavior.VerticalOffsetProperty));
+            Storyboard.SetTargetName(animation,"SettingsPanelScrollViewer");
+            sb.Children.Add(animation);
+            SettingsPanelScrollViewer.ScrollToVerticalOffset(ofs);
+            sb.Begin(SettingsPanelScrollViewer);
+        }
+
         public void SettingsStartupJumpToGroupBox(object sender, MouseButtonEventArgs e) {
             var transform = SettingsStartupGroupBox.TransformToVisual(SettingsPanelScrollViewer);
             var position = transform.Transform(new Point(0, 0));
-            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+            SettingsPaneScrollViewer_ScrollToAnimated(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
         }
 
         public void SettingsCanvasJumpToGroupBox(object sender, MouseButtonEventArgs e)
         {
             var transform = SettingsCanvasGroupBox.TransformToVisual(SettingsPanelScrollViewer);
             var position = transform.Transform(new Point(0, 0));
-            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+            SettingsPaneScrollViewer_ScrollToAnimated(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
         }
 
         public void SettingsGestureJumpToGroupBox(object sender, MouseButtonEventArgs e)
         {
             var transform = SettingsGestureGroupBox.TransformToVisual(SettingsPanelScrollViewer);
             var position = transform.Transform(new Point(0, 0));
-            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+            SettingsPaneScrollViewer_ScrollToAnimated(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
         }
 
         public void SettingsInkRecognitionJumpToGroupBox(object sender, MouseButtonEventArgs e)
         {
             var transform = SettingsInkRecognitionGroupBox.TransformToVisual(SettingsPanelScrollViewer);
             var position = transform.Transform(new Point(0, 0));
-            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+            SettingsPaneScrollViewer_ScrollToAnimated(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
         }
 
         public void SettingsAppearanceJumpToGroupBox(object sender, MouseButtonEventArgs e)
         {
             var transform = SettingsAppearanceGroupBox.TransformToVisual(SettingsPanelScrollViewer);
             var position = transform.Transform(new Point(0, 0));
-            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+            SettingsPaneScrollViewer_ScrollToAnimated(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
         }
 
         public void SettingsPPTJumpToGroupBox(object sender, MouseButtonEventArgs e)
         {
             var transform = SettingsPPTGroupBox.TransformToVisual(SettingsPanelScrollViewer);
             var position = transform.Transform(new Point(0, 0));
-            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+            SettingsPaneScrollViewer_ScrollToAnimated(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
         }
 
         public void SettingsAdvancedJumpToGroupBox(object sender, MouseButtonEventArgs e)
         {
             var transform = SettingsAdvancedGroupBox.TransformToVisual(SettingsPanelScrollViewer);
             var position = transform.Transform(new Point(0, 0));
-            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+            SettingsPaneScrollViewer_ScrollToAnimated(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
         }
 
         public void SettingsAutomationJumpToGroupBox(object sender, MouseButtonEventArgs e)
         {
             var transform = SettingsAutomationGroupBox.TransformToVisual(SettingsPanelScrollViewer);
             var position = transform.Transform(new Point(0, 0));
-            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+            SettingsPaneScrollViewer_ScrollToAnimated(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
         }
 
         public void SettingsRandWindowJumpToGroupBox(object sender, MouseButtonEventArgs e)
         {
             var transform = SettingsRandWindowGroupBox.TransformToVisual(SettingsPanelScrollViewer);
             var position = transform.Transform(new Point(0, 0));
-            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+            SettingsPaneScrollViewer_ScrollToAnimated(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
         }
 
         public void SettingsAboutJumpToGroupBox(object sender, MouseButtonEventArgs e)
         {
             var transform = SettingsAboutGroupBox.TransformToVisual(SettingsPanelScrollViewer);
             var position = transform.Transform(new Point(0, 0));
-            SettingsPanelScrollViewer.ScrollToVerticalOffset(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
+            SettingsPaneScrollViewer_ScrollToAnimated(SettingsPanelScrollViewer.VerticalOffset + position.Y - 10);
         }
 
         #endregion

@@ -94,21 +94,6 @@ namespace Ink_Canvas.Popups {
         public GeometryDrawing[] PenModeTabButtonIcons;
         public TextBlock[] PenModeTabButtonTexts;
 
-        private void SCManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e) {
-            e.Handled = true;
-        }
-
-        private void QuickActionsScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            ScrollViewer scrollViewer = (ScrollViewer)sender;
-            if (e.Delta < 0) {
-                scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset + 24);
-            } else {
-                scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset - 24);
-            }
-            e.Handled = true;
-        }
-
         #region 暗色亮色成員
 
         /// <summary>
@@ -663,7 +648,7 @@ namespace Ink_Canvas.Popups {
 
         #region 筆觸模式 相關邏輯
 
-        public void UpdatePenModeButtonsCheckedDisplayStatus() {
+        private void UpdatePenModeButtonsCheckedDisplayStatus() {
             foreach (var bd in PenModeTabButtonBorders) {
                 bd.Background = new SolidColorBrush(Colors.Transparent);
             }
@@ -685,11 +670,41 @@ namespace Ink_Canvas.Popups {
             PenModeTabButtonTexts[(int)_penModeSelected].FontWeight = FontWeights.Bold;
         }
 
+        /// <summary>
+        /// 根據傳入的觸筆模式修改Quick Action 子項目的可見性。
+        /// </summary>
+        /// <param name="penMode"></param>
+        private void UpdateQuickActionItemsVisibilityByPenMode(PenMode penMode) {
+            _isDisplayQuickActions = true;
+            if (penMode == PenMode.PenMode) {
+                _isDisplayInkRecognitionQuickAction = true;
+                _isDisplayInkPressureQuickAction = true;
+                _isDisplayCircleTipShapeQuickAction = false;
+                _isDisplayFingerModeQuickAction = true;
+            } else if (penMode == PenMode.HighlighterMode) {
+                _isDisplayInkRecognitionQuickAction = true;
+                _isDisplayInkPressureQuickAction = false;
+                _isDisplayCircleTipShapeQuickAction = true;
+                _isDisplayFingerModeQuickAction = true;
+            } else if (penMode == PenMode.LaserPenMode) {
+                _isDisplayQuickActions = false;
+            }
+            UpdateQuickActionVisibility(_isDisplayQuickActions);
+            UpdateQuickActionItemsVisibility(new QuickActionItemsVisibility() {
+                InkRecognition = _isDisplayInkRecognitionQuickAction,
+                InkPressure = _isDisplayInkPressureQuickAction,
+                CircleTipShape = _isDisplayCircleTipShapeQuickAction,
+                FingerMode = _isDisplayFingerModeQuickAction
+            });
+        }
+
         private void PenTabButton_MouseDown(object sender, MouseButtonEventArgs e) {
             var pre = _penModeSelected;
             _penModeSelected = (PenMode)Array.IndexOf(PenModeTabButtonBorders, (Border)sender);
+            QuickActionItemsScrollToLeft();
             UpdatePenModeButtonsCheckedDisplayStatus();
             ChangedColorButtonsTransparentVisibility(_penModeSelected == PenMode.HighlighterMode);
+            UpdateQuickActionItemsVisibilityByPenMode(_penModeSelected);
 
             PenModeChanged?.Invoke(this, new PenModeChangedEventArgs()
             {
@@ -697,6 +712,231 @@ namespace Ink_Canvas.Popups {
                 NowMode = _penModeSelected,
                 TriggerMode = TriggerMode.TriggeredByUser,
             });
+        }
+
+        #endregion
+
+        #region Quick Action 滾動邏輯
+
+        private void SCManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e) {
+            e.Handled = true;
+        }
+
+        public static class ScrollViewerBehavior
+        {
+            public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.RegisterAttached("HorizontalOffset", typeof(double), typeof(ScrollViewerBehavior), new UIPropertyMetadata(0.0, OnHorizontalOffsetChanged));
+            public static void SetHorizontalOffset(FrameworkElement target, double value) => target.SetValue(HorizontalOffsetProperty, value);
+            public static double GetHorizontalOffset(FrameworkElement target) => (double)target.GetValue(HorizontalOffsetProperty);
+            private static void OnHorizontalOffsetChanged(DependencyObject target, DependencyPropertyChangedEventArgs e) => (target as ScrollViewer)?.ScrollToHorizontalOffset((double)e.NewValue);
+
+            public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.RegisterAttached("VerticalOffset", typeof(double), typeof(ScrollViewerBehavior), new UIPropertyMetadata(0.0, OnVerticalOffsetChanged));
+            public static void SetVerticalOffset(FrameworkElement target, double value) => target.SetValue(VerticalOffsetProperty, value);
+            public static double GetVerticalOffset(FrameworkElement target) => (double)target.GetValue(VerticalOffsetProperty);
+            private static void OnVerticalOffsetChanged(DependencyObject target, DependencyPropertyChangedEventArgs e) => (target as ScrollViewer)?.ScrollToVerticalOffset((double)e.NewValue);
+        }
+
+        private void UpdateQuickActionsDotsIndicatorDisplayStatus(int highlightedDotIndex) {
+            if (highlightedDotIndex == 1) {
+                QuickActionDot1.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                QuickActionDot2.Background = new SolidColorBrush(Color.FromRgb(212, 212, 216));
+            } else {
+                QuickActionDot2.Background = new SolidColorBrush(Color.FromRgb(39, 39, 42));
+                QuickActionDot1.Background = new SolidColorBrush(Color.FromRgb(212, 212, 216));
+            }
+        }
+
+        private void QuickActionsScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e) {
+            UpdateQuickActionsDotsIndicatorDisplayStatus(((ScrollViewer)sender).HorizontalOffset >= 110 ? 2 : 1);
+        }
+
+        private void QuickActionsScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scrollViewer = (ScrollViewer)sender;
+            if (e.Delta < 0) {
+                //scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset + 270);
+                var sb = new Storyboard();
+                var ofs = scrollViewer.HorizontalOffset;
+                var animation = new DoubleAnimation
+                {
+                    From = ofs,
+                    To = 120,
+                    Duration = TimeSpan.FromMilliseconds(200)
+                };
+                animation.EasingFunction = new CubicEase() {
+                    EasingMode = EasingMode.EaseOut,
+                };
+                Storyboard.SetTargetProperty(animation, new PropertyPath(ScrollViewerBehavior.HorizontalOffsetProperty));
+                Storyboard.SetTargetName(animation,"QuickActionScrollViewer");
+                sb.Children.Add(animation);
+                scrollViewer.ScrollToHorizontalOffset(ofs);
+                sb.Begin(scrollViewer);
+            } else {
+                //scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset - 270);
+                var sb = new Storyboard();
+                var ofs = scrollViewer.HorizontalOffset;
+                var animation = new DoubleAnimation
+                {
+                    From = ofs,
+                    To = 0,
+                    Duration = TimeSpan.FromMilliseconds(200)
+                };
+                animation.EasingFunction = new CubicEase(){
+                    EasingMode = EasingMode.EaseOut,
+                };
+                Storyboard.SetTargetProperty(animation, new PropertyPath(ScrollViewerBehavior.HorizontalOffsetProperty));
+                Storyboard.SetTargetName(animation,"QuickActionScrollViewer");
+                sb.Children.Add(animation);
+                scrollViewer.ScrollToHorizontalOffset(ofs);
+                sb.Begin(scrollViewer);
+            }
+            e.Handled = true;
+        }
+
+        private void QuickActionItemsScrollToLeft() {
+            var sb = new Storyboard();
+            var ofs = QuickActionScrollViewer.HorizontalOffset;
+            var animation = new DoubleAnimation
+            {
+                From = ofs,
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(200)
+            };
+            animation.EasingFunction = new CubicEase(){
+                EasingMode = EasingMode.EaseOut,
+            };
+            Storyboard.SetTargetProperty(animation, new PropertyPath(ScrollViewerBehavior.HorizontalOffsetProperty));
+            Storyboard.SetTargetName(animation,"QuickActionScrollViewer");
+            sb.Children.Add(animation);
+            QuickActionScrollViewer.ScrollToHorizontalOffset(ofs);
+            sb.Begin(QuickActionScrollViewer);
+        }
+
+        #endregion
+
+        #region Quick Action 可見性管理 成員
+
+        private bool _isDisplayQuickActions = true;
+        public bool IsDisplayQuickActions
+        {
+            get => _isDisplayQuickActions;
+            set
+            {
+                var pre = _isDisplayQuickActions;
+                _isDisplayQuickActions = value;
+                UpdateQuickActionVisibility(value);
+                UpdateQuickActionItemsVisibility(new QuickActionItemsVisibility() {
+                    InkRecognition = _isDisplayInkRecognitionQuickAction,
+                    InkPressure = _isDisplayInkPressureQuickAction,
+                    CircleTipShape = _isDisplayCircleTipShapeQuickAction,
+                    FingerMode = _isDisplayFingerModeQuickAction
+                });
+
+                QuickActionsVisibilityChanged?.Invoke(this, new QuickActionsVisibilityChangedEventsArgs()
+                {
+                    PreviousStatus = pre,
+                    NowStatus = value,
+                    TriggerMode = TriggerMode.TriggeredByCode,
+                });
+            }
+        }
+
+        public struct QuickActionItemsVisibility {
+            public bool InkRecognition;
+            public bool InkPressure;
+            public bool CircleTipShape;
+            public bool FingerMode;
+        }
+
+        public class QuickActionsVisibilityChangedEventsArgs : EventArgs {
+            public bool PreviousStatus { get; set; }
+            public bool NowStatus { get; set; }
+            public TriggerMode TriggerMode { get; set; }
+            public bool IsItemsVisibilityChanged { get; set; } = false;
+            public QuickActionItemsVisibility ItemsVisibility { get; set; }
+        }
+
+        private void InvokeQuickActionItemsVisibilityEvent() {
+            UpdateQuickActionItemsVisibility(new QuickActionItemsVisibility() {
+                InkRecognition = _isDisplayInkRecognitionQuickAction,
+                InkPressure = _isDisplayInkPressureQuickAction,
+                CircleTipShape = _isDisplayCircleTipShapeQuickAction,
+                FingerMode = _isDisplayFingerModeQuickAction
+            });
+            QuickActionsVisibilityChanged?.Invoke(this, new QuickActionsVisibilityChangedEventsArgs()
+            {
+                PreviousStatus = _isDisplayQuickActions,
+                NowStatus = _isDisplayQuickActions,
+                TriggerMode = TriggerMode.TriggeredByCode,
+                IsItemsVisibilityChanged = true,
+                ItemsVisibility = new QuickActionItemsVisibility() {
+                    InkRecognition = _isDisplayInkRecognitionQuickAction,
+                    InkPressure = _isDisplayInkPressureQuickAction,
+                    CircleTipShape = _isDisplayCircleTipShapeQuickAction,
+                    FingerMode = _isDisplayFingerModeQuickAction
+                }
+            });
+        }
+
+        private bool _isDisplayInkRecognitionQuickAction = true;
+
+        public bool IsDisplayInkRecognitionQuickAction {
+            get => _isDisplayInkRecognitionQuickAction;
+            set {
+                _isDisplayInkRecognitionQuickAction = value;
+                InvokeQuickActionItemsVisibilityEvent();
+            }
+        }
+
+        private bool _isDisplayInkPressureQuickAction = true;
+
+        public bool IsDisplayInkPressureQuickAction {
+            get => _isDisplayInkPressureQuickAction;
+            set {
+                _isDisplayInkPressureQuickAction = value;
+                InvokeQuickActionItemsVisibilityEvent();
+            }
+        }
+
+        private bool _isDisplayCircleTipShapeQuickAction = true;
+
+        public bool IsDisplayCircleTipShapeQuickAction {
+            get => _isDisplayCircleTipShapeQuickAction;
+            set {
+                _isDisplayCircleTipShapeQuickAction = value;
+                InvokeQuickActionItemsVisibilityEvent();
+            }
+        }
+
+        private bool _isDisplayFingerModeQuickAction = true;
+
+        public bool IsDisplayFingerModeQuickAction {
+            get => _isDisplayFingerModeQuickAction;
+            set {
+                _isDisplayFingerModeQuickAction = value;
+                InvokeQuickActionItemsVisibilityEvent();
+            }
+        }
+
+        #endregion
+
+        #region Quick Action 可見性管理 相關邏輯
+
+        private void UpdateQuickActionItemsVisibility(QuickActionItemsVisibility visibility) {
+            QuickActionItems.Children[0].Visibility = visibility.InkRecognition ? Visibility.Visible : Visibility.Collapsed;
+            QuickActionItems.Children[1].Visibility = visibility.InkPressure ? Visibility.Visible : Visibility.Collapsed;
+            QuickActionItems.Children[2].Visibility = visibility.CircleTipShape ? Visibility.Visible : Visibility.Collapsed;
+            QuickActionItems.Children[3].Visibility = visibility.FingerMode ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void UpdateQuickActionVisibility(bool isVisible) {
+            foreach (var fe in new FrameworkElement[] {
+                         _QuickAction_Grid,
+                         _QuickAction_Dots,
+                         _QuickAction_Line1,
+                         _QuickAction_Line2
+                     }) {
+                fe.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         #endregion
@@ -819,32 +1059,6 @@ namespace Ink_Canvas.Popups {
             CustomColorPanel.Visibility = Visibility.Collapsed;
         }
 
-        private bool _isDisplayQuickActions = true;
-        public bool IsDisplayQuickActions
-        {
-            get => _isDisplayQuickActions;
-            set
-            {
-                var pre = _isDisplayQuickActions;
-                _isDisplayQuickActions = value;
-                QuickActionsVisibilityChanged?.Invoke(this, new QuickActionsVisibilityChangedEventsArgs()
-                {
-                    PreviousStatus = pre,
-                    NowStatus = value,
-                    TriggerMode = TriggerMode.TriggeredByCode,
-                });
-            }
-        }
-
-
-        
-
-        public class QuickActionsVisibilityChangedEventsArgs : EventArgs {
-            public bool PreviousStatus { get; set; }
-            public bool NowStatus { get; set; }
-            public TriggerMode TriggerMode { get; set; }
-        }
-
         public event EventHandler<ColorSelectionChangedEventArgs> ColorSelectionChanged;
         public event EventHandler<CustomColorChangedEventArgs> CustomColorChanged;
         public event EventHandler<PenModeChangedEventArgs> PenModeChanged;
@@ -880,6 +1094,8 @@ namespace Ink_Canvas.Popups {
             UpdateColorButtonsCheckedDisplayStatus();
             UpdateColorPaletteColorsAndColorModeChangeButton();
             ChangedColorButtonsTransparentVisibility(false);
+            UpdateQuickActionsDotsIndicatorDisplayStatus(1);
+            UpdateQuickActionItemsVisibilityByPenMode(PenMode.PenMode);
         }
     }
 }

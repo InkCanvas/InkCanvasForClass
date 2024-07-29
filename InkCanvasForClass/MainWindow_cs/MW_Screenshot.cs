@@ -29,7 +29,7 @@ namespace Ink_Canvas
             }
             if (!isHideNotification)
             {
-                ShowNotification("截图成功保存至 " + savePath);
+                ShowNewToast("截图成功保存至 " + savePath, MW_Toast.ToastType.Success, 3000);
             }
         }
 
@@ -38,7 +38,7 @@ namespace Ink_Canvas
             var bitmap = GetScreenshotBitmap();
             string savePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             bitmap.Save(savePath + @"\" + DateTime.Now.ToString("u").Replace(':', '-') + ".png", ImageFormat.Png);
-            ShowNotification("截图成功保存至【桌面" + @"\" + DateTime.Now.ToString("u").Replace(':', '-') + ".png】");
+            ShowNewToast("截图成功保存至【桌面" + @"\" + DateTime.Now.ToString("u").Replace(':', '-') + ".png】", MW_Toast.ToastType.Success, 3000);
             if (Settings.Automation.IsAutoSaveStrokesAtScreenshot) SaveInkCanvasStrokes(false, false);
         }
 

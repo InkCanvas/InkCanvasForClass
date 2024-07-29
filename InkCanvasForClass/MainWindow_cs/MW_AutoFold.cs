@@ -77,7 +77,7 @@ namespace Ink_Canvas {
                 if (currentMode != 0) CloseWhiteboardImmediately();
                 if (StackPanelCanvasControls.Visibility == Visibility.Visible)
                     if (foldFloatingBarByUser && inkCanvas.Strokes.Count > 2)
-                        ShowNotification("正在清空墨迹并收纳至侧边栏，可进入批注模式后通过【撤销】功能来恢复原先墨迹。");
+                        ShowNewToast("正在清空墨迹并收纳至屏幕两边，可进入批注模式后通过 “撤销” 功能来恢复原先墨迹。",MW_Toast.ToastType.Informative, 3000);
                 CursorWithDelIcon_Click(null, null);
                 RectangleSelectionHitTestBorder.Visibility = Visibility.Collapsed;
             });

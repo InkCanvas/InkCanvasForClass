@@ -563,6 +563,15 @@ namespace Ink_Canvas {
                 CircleEraserIconGeometry,
                 LassoSelectIconGeometry
             };
+
+            TextBlock[] iconTextBlocksFloatingBar = new TextBlock[] {
+                SelectionToolBarTextBlock,
+                PenToolbarTextBlock,
+                InkEraserToolbarTextBlock,
+                CircleEraserToolbarTextBlock,
+                LassoToolToolbarTextBlock
+            };
+
             string[] iconGeometryPathStringsFloatingBar = new string[] {
                 XamlGraphicsIconGeometries.LinedCursorIcon,
                 XamlGraphicsIconGeometries.LinedPenIcon,
@@ -592,6 +601,10 @@ namespace Ink_Canvas {
                 BoardEraserLabel
             };
 
+            foreach (var tb in iconTextBlocksFloatingBar) {
+                tb.Foreground = new SolidColorBrush(Colors.Black);
+            }
+
             foreach (var gd in iconGeometryDrawingsFloatingBar) {
                 gd.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
                 gd.Geometry = Geometry.Parse(iconGeometryPathStringsFloatingBar[Array.IndexOf(iconGeometryDrawingsFloatingBar, gd)]);
@@ -613,7 +626,8 @@ namespace Ink_Canvas {
             if (mode != ICCToolsEnum.CursorMode) {
                 // floating bar
                 var ngdf = iconGeometryDrawingsFloatingBar[(int)mode];
-                ngdf.Brush = new SolidColorBrush(Color.FromRgb(30, 58, 138));
+                ngdf.Brush = new SolidColorBrush(Colors.White);
+                iconTextBlocksFloatingBar[(int)mode].Foreground = new SolidColorBrush(Colors.White);
                 ngdf.Geometry = Geometry.Parse(iconGeometryPathStringsFloatingBar[(int)mode+5]);
                 FloatingbarSelectionBG.Visibility = Visibility.Visible;
                 var iconPosI = (int)mode == 1 ? highlightStepWidth :

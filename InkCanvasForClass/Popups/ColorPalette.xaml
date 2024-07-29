@@ -487,10 +487,10 @@
                                         </Image>
                                     </Button>
                                 </Grid>
-                                <Line X1="0" Y1="0" X2="240" Y2="0" Margin="0,2" HorizontalAlignment="Center" Stroke="#a1a1aa" />
-                                <Grid>
-                                    <modern:ScrollViewerEx PreviewMouseWheel="QuickActionsScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly" Orientation="Horizontal" ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback">
-                                        <modern:SimpleStackPanel Margin="14,0,14,0" Orientation="Horizontal" Spacing="6">
+                                <Line X1="0" Y1="0" X2="240" Y2="0" Margin="0,2" Name="_QuickAction_Line1" HorizontalAlignment="Center" Stroke="#a1a1aa" />
+                                <Grid Name="_QuickAction_Grid">
+                                    <modern:ScrollViewerEx ScrollChanged="QuickActionsScrollViewer_ScrollChanged" Name="QuickActionScrollViewer" PreviewMouseWheel="QuickActionsScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" PanningMode="HorizontalOnly" Orientation="Horizontal" ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback">
+                                        <modern:SimpleStackPanel Margin="14,0,14,0" Orientation="Horizontal" Spacing="6" Name="QuickActionItems">
                                             <Border Width="117" Height="96" Background="#f4f4f5" BorderBrush="#d4d4d8" CornerRadius="3" BorderThickness="1">
                                                 <Grid>
                                                     <modern:SimpleStackPanel Spacing="2" Orientation="Vertical" VerticalAlignment="Center">
@@ -631,14 +631,13 @@
                                         </Border.Background>
                                     </Border>
                                 </Grid>
-                                <Grid Margin="14,3,14,0" Height="5">
+                                <Grid Margin="14,3,14,0" Height="5" Name="_QuickAction_Dots">
                                     <modern:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="3">
-                                        <Border Height="5" Width="5" CornerRadius="2.5" Background="#d4d4d8"/>
-                                        <Border Height="5" Width="5" CornerRadius="2.5" Background="#27272a"/>
-                                        <Border Height="5" Width="5" CornerRadius="2.5" Background="#d4d4d8"/>
+                                        <Border Height="5" Width="5" Name="QuickActionDot1" CornerRadius="2.5" Background="#d4d4d8"/>
+                                        <Border Height="5" Width="5" Name="QuickActionDot2" CornerRadius="2.5" Background="#27272a"/>
                                     </modern:SimpleStackPanel>
                                 </Grid>
-                                <Line X1="0" Y1="0" X2="240" Y2="0" Margin="0,2" HorizontalAlignment="Center" Stroke="#a1a1aa" />
+                                <Line Name="_QuickAction_Line2" X1="0" Y1="0" X2="240" Y2="0" Margin="0,2" HorizontalAlignment="Center" Stroke="#a1a1aa" />
                                 <Grid>
                                     <Grid Margin="10,0,10,0">
                                         <Grid.RowDefinitions>

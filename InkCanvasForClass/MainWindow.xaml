@@ -3445,10 +3445,7 @@
                         <Grid>
                             <Canvas Name="FloatingbarSelectionBGCanvas" Margin="2,0,2,0">
                                 <Border Name="FloatingbarSelectionBG" Visibility="Hidden" Width="{Binding ElementName=Cursor_Icon, Path=Width}" Height="34"
-                                        Canvas.Left="28" Margin="0,-2,0,-2" Background="#153b82f6">
-                                    <Border VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="12" Height="2"
-                                            CornerRadius="1,1,0,0" Background="#2563eb" />
-                                </Border>
+                                        Canvas.Left="28" Margin="0,-2,0,-2" Background="#2563eb"/>
                             </Canvas>
                             <ui:SimpleStackPanel Margin="2,0" Name="StackPanelFloatingBar" Orientation="Horizontal">
                                 <!--<ui:SimpleStackPanel Name="Cursor_Icon" MouseDown="Border_MouseDown" MouseUp="CursorIcon_Click"-->
@@ -4339,7 +4336,7 @@
                                                 </DrawingImage>
                                             </Image.Source>
                                         </Image>
-                                        <TextBlock x:Name="CircleEraserToolbarTextBlock" Text="面积擦" Foreground="Black"
+                                        <TextBlock x:Name="CircleEraserToolbarTextBlock" Text="板擦" Foreground="Black"
                                                    FontSize="8" Margin="0,1,0,0" TextAlignment="Center" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Name="SymbolIconSelect"
@@ -4361,7 +4358,7 @@
                                                 </DrawingImage>
                                             </Image.Source>
                                         </Image>
-                                        <TextBlock x:Name="LassoToolToolbarTextBlock" Text="套索选" Foreground="Black" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}"
+                                        <TextBlock x:Name="LassoToolToolbarTextBlock" Text="套选" Foreground="Black" Visibility="{Binding ElementName=FloatingBarTextVisibilityBindingLikeAPieceOfShit, Path=Visibility}"
                                                    FontSize="8" Margin="0,1,0,0" TextAlignment="Center" />
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel
@@ -5566,7 +5563,7 @@
                 <Grid>
                     <ui:ScrollViewerEx Margin="0,80,12,0" VerticalScrollBarVisibility="Hidden"
                                        PanningMode="VerticalOnly" ui:ThemeManager.RequestedTheme="Dark"
-                                       ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback"
+                                       ManipulationBoundaryFeedback="SCManipulationBoundaryFeedback" PreviewMouseWheel="SettingsPaneScrollViewer_PreviewMouseWheel"
                                        Name="SettingsPanelScrollViewer" ScrollChanged="SettingsPane_ScrollChanged">
                         <StackPanel Margin="70,20,20,20">
                             <Border Margin="0,0,0,10" Height="100" CornerRadius="5" BorderBrush="#a1a1aa"

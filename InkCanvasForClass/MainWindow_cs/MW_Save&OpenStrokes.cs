@@ -35,10 +35,10 @@ namespace Ink_Canvas {
                     savePathWithName = savePath + @"\" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss-fff") + ".icstk";
                 var fs = new FileStream(savePathWithName, FileMode.Create);
                 inkCanvas.Strokes.Save(fs);
-                if (newNotice) ShowNotification("墨迹成功保存至 " + savePathWithName);
+                if (newNotice) ShowNewToast("墨迹成功保存至 " + savePathWithName, MW_Toast.ToastType.Success, 2500);
             }
             catch (Exception ex) {
-                ShowNotification("墨迹保存失败");
+                ShowNewToast("墨迹保存失败！", MW_Toast.ToastType.Error, 3000);
                 LogHelper.WriteLogToFile("墨迹保存失败 | " + ex.ToString(), LogHelper.LogType.Error);
             }
         }
@@ -81,7 +81,7 @@ namespace Ink_Canvas {
                 if (inkCanvas.Visibility != Visibility.Visible) SymbolIconCursor_Click(sender, null);
             }
             catch {
-                ShowNotification("墨迹打开失败");
+                ShowNewToast("墨迹打开失败！", MW_Toast.ToastType.Error, 3000);
             }
         }
     }

@@ -22,5 +22,14 @@ namespace Ink_Canvas
             notification.ShowAnimatedWithAutoDispose(3000 + notice.Length * 10);
             return notification;
         }
+
+        public MW_Toast ShowNewToast(string notice, MW_Toast.ToastType type, int autoCloseMs) {
+            var notification = new MW_Toast(type, notice, (self) => {
+                GridNotifications.Children.Remove(self);
+            });
+            GridNotifications.Children.Add(notification);
+            notification.ShowAnimatedWithAutoDispose(autoCloseMs + notice.Length * 10);
+            return notification;
+        }
     }
 }
