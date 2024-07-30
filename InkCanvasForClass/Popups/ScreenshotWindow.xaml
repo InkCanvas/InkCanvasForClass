@@ -1,0 +1,118 @@
+﻿<Window x:Class="Ink_Canvas.Popups.ScreenshotWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Ink_Canvas.Popups"
+        xmlns:modern="http://schemas.inkore.net/lib/ui/wpf/modern"
+        mc:Ignorable="d" AllowsTransparency="True" Background="Transparent"
+        WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False"
+        Title="ScreenshotWindow" Height="220" Width="360" Topmost="True">
+    <Grid>
+        <Border Background="#fafafa" BorderBrush="#3b82f6" BorderThickness="2" CornerRadius="24,12,24,24" Margin="12">
+            <modern:SimpleStackPanel Orientation="Vertical" Spacing="2">
+                <Grid Margin="16,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Border Name="FullScreenIcon" Margin="0,0,4,0" Grid.Column="0" CornerRadius="18" Background="#1618181b" Height="78">
+                        <modern:SimpleStackPanel Spacing="2" Orientation="Vertical" VerticalAlignment="Center">
+                            <Image Width="40" Height="40">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                <GeometryDrawing x:Name="FullScreenIconGeometry" Brush="#18181b" Geometry="F0 M24,24z M0,0z M2.58579,3.58579C2.96086,3.21071,3.46957,3,4,3L20,3C20.5304,3 21.0391,3.21071 21.4142,3.58579 21.7893,3.96086 22,4.46957 22,5L22,15C22,15.5304 21.7893,16.0391 21.4142,16.4142 21.0391,16.7893 20.5304,17 20,17L16,17 16,19 17,19C17.5523,19 18,19.4477 18,20 18,20.5523 17.5523,21 17,21L7,21C6.44772,21 6,20.5523 6,20 6,19.4477 6.44772,19 7,19L8,19 8,17 4,17C3.46957,17 2.96086,16.7893 2.58579,16.4142 2.21071,16.0391 2,15.5304 2,15L2,5C2,4.46957,2.21071,3.96086,2.58579,3.58579z M20,5L20,15 4,15 4,5 20,5z" />
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock Name="FullScreenIconText" Text="全屏截图" FontSize="14" HorizontalAlignment="Center"></TextBlock>
+                        </modern:SimpleStackPanel>
+                    </Border>
+                    <Border Name="WindowIcon" Margin="4,0,4,0" Grid.Column="1" CornerRadius="18" Background="#1618181b" Height="78">
+                        <modern:SimpleStackPanel Spacing="2" Orientation="Vertical" VerticalAlignment="Center">
+                            <Image Width="40" Height="40">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                <GeometryDrawing x:Name="WindowIconsGeometry" Brush="#18181b" Geometry="F0 M24,24z M0,0z M5,6C4.73478,6 4.48043,6.10536 4.29289,6.29289 4.10536,6.48043 4,6.73478 4,7L4,17C4,17.2652 4.10536,17.5196 4.29289,17.7071 4.48043,17.8946 4.73478,18 5,18L19,18C19.2652,18 19.5196,17.8946 19.7071,17.7071 19.8946,17.5196 20,17.2652 20,17L20,7C20,6.73478 19.8946,6.48043 19.7071,6.29289 19.5196,6.10536 19.2652,6 19,6L5,6z M2.87868,4.87868C3.44129,4.31607,4.20435,4,5,4L19,4C19.7957,4 20.5587,4.31607 21.1213,4.87868 21.6839,5.44129 22,6.20435 22,7L22,17C22,17.7957 21.6839,18.5587 21.1213,19.1213 20.5587,19.6839 19.7957,20 19,20L5,20C4.20435,20 3.44129,19.6839 2.87868,19.1213 2.31607,18.5587 2,17.7956 2,17L2,7C2,6.20435,2.31607,5.44129,2.87868,4.87868z M5,8C5,7.44772,5.44772,7,6,7L6.01,7C6.56228,7 7.01,7.44772 7.01,8 7.01,8.55228 6.56228,9 6.01,9L6,9C5.44772,9,5,8.55228,5,8z M9,7C8.44772,7 8,7.44772 8,8 8,8.55228 8.44772,9 9,9L9.01,9C9.56228,9 10.01,8.55228 10.01,8 10.01,7.44772 9.56228,7 9.01,7L9,7z" />
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock Name="WindowIconText" Text="窗口截图" FontSize="14" HorizontalAlignment="Center"></TextBlock>
+                        </modern:SimpleStackPanel>
+                    </Border>
+                    <Border Name="SelectionIcon" Margin="4,0,0,0" Grid.Column="2" CornerRadius="18" Background="#1618181b" Height="78">
+                        <modern:SimpleStackPanel Spacing="2" Orientation="Vertical" VerticalAlignment="Center">
+                            <Image Width="40" Height="40">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                <GeometryDrawing x:Name="SelectionIconGeometry" Brush="#18181b" Geometry="F0 M24,24z M0,0z M10,5C9.73478,5 9.48043,5.10536 9.29289,5.29289 9.10536,5.48043 9,5.73478 9,6L9,8 9,8.08584 12.0858,5 10,5z M7,7L7,6C7,5.20435 7.31607,4.44129 7.87868,3.87868 8.44129,3.31607 9.20435,3 10,3L18,3C18.7956,3 19.5587,3.31607 20.1213,3.87868 20.6839,4.44129 21,5.20435 21,6L21,14C21,14.7957 20.6839,15.5587 20.1213,16.1213 19.5587,16.6839 18.7957,17 18,17L17,17 17,18C17,18.7957 16.6839,19.5587 16.1213,20.1213 15.5587,20.6839 14.7957,21 14,21L6,21C5.20435,21 4.44129,20.6839 3.87868,20.1213 3.31607,19.5587 3,18.7956 3,18L3,10C3,9.20435 3.31607,8.44129 3.87868,7.87868 4.44129,7.31607 5.20435,7 6,7L7,7z M15,17L15,18C15,18.2652 14.8946,18.5196 14.7071,18.7071 14.5196,18.8946 14.2652,19 14,19L6,19C5.73478,19 5.48043,18.8946 5.29289,18.7071 5.10536,18.5196 5,18.2652 5,18L5,10C5,9.73478 5.10536,9.48043 5.29289,9.29289 5.48043,9.10536 5.73478,9 6,9L7,9 7,14C7,14.7957 7.31607,15.5587 7.87868,16.1213 8.44129,16.6839 9.20435,17 10,17L13.4822,17C13.4856,17 13.4889,17.0001 13.4923,17.0001 13.4981,17.0001 13.5039,17.0001 13.5097,17L15,17z M16,15L18,15C18.2652,15 18.5196,14.8946 18.7071,14.7071 18.8946,14.5196 19,14.2652 19,14L19,11.9103 15.9103,15 16,15z M9,13.5858L9,10.9143 14.9143,5 17.5858,5 9,13.5858z M10.4142,15L19,6.41419 19,9.08185 13.0819,15 10.4142,15z" />
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock Name="SelectionIconText" Text="选区截图" FontSize="14" HorizontalAlignment="Center"></TextBlock>
+                        </modern:SimpleStackPanel>
+                    </Border>
+                </Grid>
+                <Grid>
+                    <Border Name="CaptureButton" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Margin="20,0,0,0" Height="72" Width="72" CornerRadius="36" BorderBrush="#2563eb" BorderThickness="5">
+                        <Border.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1"></ScaleTransform>
+                        </Border.RenderTransform>
+                        <Border Height="52" Width="52" CornerRadius="24" Background="#2563eb">
+                            <Image Width="28" Height="28">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                <GeometryDrawing Brush="White" Geometry="F1 M24,24z M0,0z M15,3C15.5046,2.99984 15.9906,3.19041 16.3605,3.5335 16.7305,3.87659 16.9572,4.34684 16.995,4.85L17,5C17,5.24493 17.09,5.48134 17.2527,5.66437 17.4155,5.84741 17.6397,5.96434 17.883,5.993L18,6 19,6C19.7652,5.99996 20.5015,6.29233 21.0583,6.81728 21.615,7.34224 21.9501,8.06011 21.995,8.824L22,9 22,18C22,18.7652 21.7077,19.5015 21.1827,20.0583 20.6578,20.615 19.9399,20.9501 19.176,20.995L19,21 5,21C4.23479,21 3.49849,20.7077 2.94174,20.1827 2.38499,19.6578 2.04989,18.9399 2.005,18.176L2,18 2,9C1.99996,8.23479 2.29233,7.49849 2.81728,6.94174 3.34224,6.38499 4.06011,6.04989 4.824,6.005L5,6 6,6C6.26522,6 6.51957,5.89464 6.70711,5.70711 6.89464,5.51957 7,5.26522 7,5 6.99984,4.49542 7.19041,4.00943 7.5335,3.63945 7.87659,3.26947 8.34685,3.04284 8.85,3.005L9,3 15,3z M12,10C11.2566,9.99994 10.5396,10.2759 9.98813,10.7744 9.43662,11.2729 9.08984,11.9584 9.015,12.698L9.004,12.85 9,13 9.004,13.15C9.03335,13.7362 9.23402,14.301 9.58117,14.7743 9.92832,15.2476 10.4067,15.6087 10.957,15.8128 11.5074,16.0169 12.1055,16.0551 12.6773,15.9226 13.2491,15.7901 13.7695,15.4928 14.174,15.0675 14.5786,14.6422 14.8494,14.1076 14.9531,13.5298 15.0568,12.9521 14.9887,12.3566 14.7572,11.8172 14.5258,11.2778 14.1412,10.8181 13.6511,10.4951 13.1611,10.1721 12.587,9.99995 12,10z" />
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                        </Border>
+                    </Border>
+                    <modern:SimpleStackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0">
+                        <modern:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <CheckBox MinWidth="0" Name="ToggleSwitchAutoHideToolbar" IsChecked="True" FontWeight="Bold"/>
+                            <TextBlock Foreground="#18181b" Text="截图时隐藏ICC" VerticalAlignment="Center"
+                                       FontSize="14" />
+                        </modern:SimpleStackPanel>
+                        <modern:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <CheckBox MinWidth="0" Name="ToggleSwitchAttachInk" IsChecked="True"
+                                                 FontFamily="Microsoft YaHei UI" FontWeight="Bold"/>
+                            <TextBlock Foreground="#18181b" Text="附带批注墨迹" VerticalAlignment="Center"
+                                       FontSize="14" />
+                        </modern:SimpleStackPanel>
+                    </modern:SimpleStackPanel>
+                </Grid>
+            </modern:SimpleStackPanel>
+        </Border>
+        <Border MouseDown="CloseButton_CloseWindow" BorderBrush="#2563eb" BorderThickness="1" Width="32" Height="32" CornerRadius="16" Background="#3b82f6" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Image Height="21" Width="21">
+                <Image.Source>
+                    <DrawingImage>
+                        <DrawingImage.Drawing>
+                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M18.7071,6.70711C19.0976,6.31658 19.0976,5.68342 18.7071,5.29289 18.3166,4.90237 17.6834,4.90237 17.2929,5.29289L12,10.5858 6.70711,5.29289C6.31658,4.90237 5.68342,4.90237 5.29289,5.29289 4.90237,5.68342 4.90237,6.31658 5.29289,6.70711L10.5858,12 5.29289,17.2929C4.90237,17.6834 4.90237,18.3166 5.29289,18.7071 5.68342,19.0976 6.31658,19.0976 6.70711,18.7071L12,13.4142 17.2929,18.7071C17.6834,19.0976 18.3166,19.0976 18.7071,18.7071 19.0976,18.3166 19.0976,17.6834 18.7071,17.2929L13.4142,12 18.7071,6.70711z" />
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+                </Image.Source>
+            </Image>
+        </Border>
+    </Grid>
+</Window>

@@ -23,6 +23,7 @@ using System.Text;
 using System.Globalization;
 using System.Windows.Data;
 using System.Xml.Linq;
+using Ink_Canvas.Popups;
 using Image = System.Windows.Controls.Image;
 
 namespace Ink_Canvas {
@@ -1026,10 +1027,10 @@ namespace Ink_Canvas {
         private async void SymbolIconScreenshot_MouseUp(object sender, MouseButtonEventArgs e) {
             HideSubPanelsImmediately();
             await Task.Delay(50);
-            SaveScreenShotToDesktop();
+            //SaveScreenShotToDesktop();
+            var scrwin = new ScreenshotWindow(this);
+            scrwin.Show();
         }
-
-        
 
         private void ImageCountdownTimer_MouseUp(object sender, MouseButtonEventArgs e) {
             LeftUnFoldButtonQuickPanel.Visibility = Visibility.Collapsed;
