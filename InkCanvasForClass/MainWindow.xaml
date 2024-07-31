@@ -7811,8 +7811,8 @@
                                         <TextBlock Foreground="#fafafa" Text="墨迹与截图的保存路径" VerticalAlignment="Center"
                                                    FontSize="14" Margin="0,0,16,0" />
                                         <ui:SimpleStackPanel Orientation="Horizontal" Spacing="10">
-                                            <TextBox Width="320" x:Name="AutoSavedStrokesLocation" Text="D:\Ink Canvas"
-                                                     TextWrapping="Wrap"
+                                            <TextBox ui:TextBoxHelper.IsDeleteButtonVisible="False" Width="320" x:Name="AutoSavedStrokesLocation" Text="D:\Ink Canvas"
+                                                     TextWrapping="Wrap" AcceptsTab="False" AcceptsReturn="False" 
                                                      TextChanged="AutoSavedStrokesLocationTextBox_TextChanged" />
                                             <Button Name="AutoSavedStrokesLocationButton" Content="浏览"
                                                     Click="AutoSavedStrokesLocationButton_Click" />
@@ -8068,7 +8068,7 @@
                                         <ui:ToggleSwitch OnContent="" OffContent=""
                                                          Name="ToggleSwitchScreenshotUsingMagnificationAPI"
                                                          IsOn="True" FontFamily="Microsoft YaHei UI"
-                                                         FontWeight="Bold"/>
+                                                         FontWeight="Bold" Toggled="ToggleSwitchScreenshotUsingMagnificationAPI_OnToggled"/>
                                     </ui:SimpleStackPanel>
                                     <TextBlock Text="# 使用 Magnification API 和弃用的函数 MagSetImageScalingCallback 实现过滤ICC窗口截图。"
                                                TextWrapping="Wrap" Foreground="#a1a1aa" />
@@ -8116,8 +8116,8 @@
                                         <TextBlock Foreground="#fafafa" Text="截图文件文件名" VerticalAlignment="Center"
                                                    FontSize="14" Margin="0,0,16,0" />
                                         <ui:SimpleStackPanel Orientation="Horizontal" Spacing="10">
-                                            <TextBox Width="320" x:Name="ScreenshotFileName" Text='Screenshot-[YYYY]-[MM]-[DD]-[HH]-[mm]-[ss].png'
-                                                     TextWrapping="NoWrap"
+                                            <TextBox ui:TextBoxHelper.IsDeleteButtonVisible="False" Width="320" x:Name="ScreenshotFileName" Text='Screenshot-[YYYY]-[MM]-[DD]-[HH]-[mm]-[ss].png'
+                                                     TextWrapping="NoWrap" AcceptsTab="False" AcceptsReturn="False" 
                                                      TextChanged="AutoSavedStrokesLocationTextBox_TextChanged" />
                                             <Button Name="ScreenshotFileNameResetButton" Content="浏览"
                                                     Click="AutoSavedStrokesLocationButton_Click" />

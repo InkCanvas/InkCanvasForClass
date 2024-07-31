@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -189,7 +190,7 @@ namespace Ink_Canvas.Popups
 
         private WindowScreenshotGridWindow _screenshotGridWindow = null;
 
-        private void IconMouseUp(object sender, MouseButtonEventArgs e) {
+        private async void IconMouseUp(object sender, MouseButtonEventArgs e) {
             if (lastDownIcon == null) return;
             IconMouseLeave(sender, null);
             var index = Array.IndexOf(iconList, (Border)sender);
@@ -197,13 +198,20 @@ namespace Ink_Canvas.Popups
             UpdateModeIconSelection();
 
             if (selectedMode == 1) {
-                _screenshotGridWindow = new WindowScreenshotGridWindow(mainWindow.GetAllWindows(new HWND[] {
-                    new HWND(new WindowInteropHelper(this).Handle), new HWND(new WindowInteropHelper(mainWindow).Handle)
-                }), mainWindow);
-                _screenshotGridWindow.Show();
-            } else if (_screenshotGridWindow != null) {
-                _screenshotGridWindow.Close();
-                _screenshotGridWindow = null;
+                try {
+                    MainWindow.WindowInformation[] windows = await mainWindow.GetAllWindowsAsync(new HWND[] {
+                        new HWND(new WindowInteropHelper(this).Handle), new HWND(new WindowInteropHelper(mainWindow).Handle)
+                    });
+                    _screenshotGridWindow = new WindowScreenshotGridWindow(windows, mainWindow);
+                    _screenshotGridWindow.Show();
+                }
+                catch (TaskCanceledException) {}
+                catch (Exception ex) {}
+            } else {
+                try {
+                    _screenshotGridWindow.Close();
+                } catch (Exception ex) { }
+                
             }
         }
 

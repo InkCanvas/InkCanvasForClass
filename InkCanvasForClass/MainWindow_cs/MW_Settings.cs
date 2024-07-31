@@ -2047,7 +2047,9 @@ namespace Ink_Canvas {
         #region Screenshot
 
         private void ToggleSwitchScreenshotUsingMagnificationAPI_OnToggled(object sender, RoutedEventArgs e) {
-
+            if (!isLoaded) return;
+            Settings.Snapshot.ScreenshotUsingMagnificationAPI = ToggleSwitchScreenshotUsingMagnificationAPI.IsOn;
+            SaveSettingsToFile();
         }
 
         #endregion

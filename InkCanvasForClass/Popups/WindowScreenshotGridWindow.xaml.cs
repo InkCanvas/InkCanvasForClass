@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -43,9 +44,20 @@ namespace Ink_Canvas.Popups
             }
         }
 
+        private static ImageSource IconToImageSource(Icon icon)
+        {
+            ImageSource imageSource = Imaging.CreateBitmapSourceFromHIcon(
+                icon.Handle,
+                Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions());
+
+            return imageSource;
+        }
+
         private class Win {
             public string Title { get; set; }
             public BitmapImage Bitmap { get; set; }
+            public ImageSource Icon { get; set; }
             public HWND Handle { get; set; }
             public Bitmap OriginBitmap { get; set; }
         }
@@ -56,7 +68,6 @@ namespace Ink_Canvas.Popups
 
         public WindowScreenshotGridWindow(MainWindow.WindowInformation[] wins, MainWindow mainWindow) {
             InitializeComponent();
-            _windows.Clear();
             WindowsItemControl.ItemsSource = _windows;
             foreach (var windowInformation in wins) {
                 _windows.Add(new Win() {
@@ -64,11 +75,17 @@ namespace Ink_Canvas.Popups
                     Bitmap = BitmapToImageSource(windowInformation.WindowBitmap),
                     Handle = windowInformation.hwnd,
                     OriginBitmap = windowInformation.WindowBitmap,
+                    Icon = IconToImageSource(windowInformation.AppIcon)
                 });
                 Trace.WriteLine(windowInformation.Title);
             }
 
             this.mainWindow = mainWindow;
+        }
+
+        protected override void OnClosed(EventArgs e) {
+            base.OnClosed(e);
+            _windows.Clear();
         }
 
         private void WindowItem_MouseUp(object sender, MouseButtonEventArgs e) {

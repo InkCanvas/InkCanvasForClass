@@ -23,6 +23,13 @@ namespace Ink_Canvas
         public Startup Startup { get; set; } = new Startup();
         [JsonProperty("randSettings")]
         public RandSettings RandSettings { get; set; } = new RandSettings();
+        [JsonProperty("snapshot")]
+        public Snapshot Snapshot { get; set; } = new Snapshot();
+    }
+
+    public class Snapshot {
+        [JsonProperty("usingMagnificationAPI")]
+        public bool ScreenshotUsingMagnificationAPI { get; set; } = false;
     }
 
     public class Canvas

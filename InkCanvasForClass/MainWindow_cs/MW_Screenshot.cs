@@ -8,13 +8,17 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Shell;
 using Acornima.Ast;
 using OSVersionExtension;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.Gdi32;
+using Color = System.Drawing.Color;
 using OperatingSystem = OSVersionExtension.OperatingSystem;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
@@ -68,18 +72,24 @@ namespace Ink_Canvas {
             if (!Magnification.MagInitialize()) return;
 
             // 創建宿主窗體
-            var mainWinMag = new Window();
-            mainWinMag.WindowState = WindowState.Maximized;
-            mainWinMag.WindowStyle = WindowStyle.None;
-            mainWinMag.ResizeMode = ResizeMode.NoResize;
-            mainWinMag.Background = new SolidColorBrush(Colors.Transparent);
-            mainWinMag.AllowsTransparency = true;
+            var mainWinMag = new Form();
             mainWinMag.Show();
-            var handle = new HWND(new WindowInteropHelper(mainWinMag).Handle);
+            var handle = new HWND(mainWinMag.Handle);
             User32.SetWindowPos(handle, HWND.HWND_NOTOPMOST, 0, 0, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width,
                 System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height, User32.SetWindowPosFlags.SWP_HIDEWINDOW); // SWP_HIDEWINDOW
-            SetWindowLongPtr(handle.DangerousGetHandle(), -20, new IntPtr((int)GetWindowLongPtr(handle.DangerousGetHandle(), -20) | 0x00080000));
+            Trace.WriteLine(handle);
+            User32.SetWindowLong(handle, User32.WindowLongFlags.GWL_STYLE,
+                new IntPtr((int)User32.WindowStyles.WS_SIZEBOX | (int)User32.WindowStyles.WS_SYSMENU | (int)User32.WindowStyles.WS_CLIPCHILDREN | (int)User32.WindowStyles.WS_CAPTION | (int)User32.WindowStyles.WS_MAXIMIZEBOX));
+            Trace.WriteLine(handle);
+            var exptr = User32.GetWindowLong(handle, User32.WindowLongFlags.GWL_EXSTYLE);
+            Trace.WriteLine(exptr);
+            User32.SetWindowLong(handle, User32.WindowLongFlags.GWL_EXSTYLE,
+                new IntPtr(exptr |
+                           (int)User32.WindowStylesEx.WS_EX_LAYERED | (int)User32.WindowStylesEx.WS_EX_TOPMOST));
+            Trace.WriteLine(handle);
             User32.SetLayeredWindowAttributes(handle,0, 255, User32.LayeredWindowAttributes.LWA_ALPHA);
+
+            Trace.WriteLine(handle);
 
             // 創建放大鏡窗體（使用Win32方法）
             var hwndMag = User32.CreateWindow(Magnification.WC_MAGNIFIER, "ICCMagnifierWindow",
@@ -115,8 +125,8 @@ namespace Ink_Canvas {
             bmp.Save(savePath + @"\" + DateTime.Now.ToString("u").Replace(':', '-') + ".png", ImageFormat.Png);
 
             // 關閉宿主窗體
-            Magnification.MagUninitialize();
-            mainWinMag.Close();
+            //Magnification.MagUninitialize();
+            //mainWinMag.Close();
         }
 
         public unsafe void SaveScreenshotToDesktopByMagnificationAPI(bool isExcludeMode, HWND[] hwndsList,
@@ -248,7 +258,7 @@ namespace Ink_Canvas {
             return icn;
         }
 
-        public struct WindowInformation {
+        public class WindowInformation {
             public string Title { get; set; }
             public Bitmap WindowBitmap { get; set; }
             public Icon AppIcon { get; set; }
@@ -330,10 +340,18 @@ namespace Ink_Canvas {
                             Placement = placement,
                         });
                         memoryGraphics.ReleaseHdc(hdc);
+                        System.GC.Collect();
+                        System.GC.WaitForPendingFinalizers();
                         return true;
                     }),
                     IntPtr.Zero)) return new WindowInformation[] { };
             return windows.ToArray();
+        }
+
+        public async Task<WindowInformation[]> GetAllWindowsAsync(HWND[] excludedHwnds)
+        {
+            var windows = await Task.Run(() => GetAllWindows(excludedHwnds));
+            return windows;
         }
 
         #endregion
