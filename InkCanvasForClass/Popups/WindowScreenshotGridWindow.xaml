@@ -17,7 +17,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <modern:SimpleStackPanel Width="164" Height="164">
+                        <modern:SimpleStackPanel Width="164" Height="164" Tag="{Binding}" MouseUp="WindowItem_MouseUp">
                             <Image Width="148" Height="148" Source="{Binding Bitmap}"/>
                             <TextBlock FontSize="16" Foreground="White" Text="{Binding Title}"/>
                         </modern:SimpleStackPanel>

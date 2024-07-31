@@ -126,7 +126,7 @@ namespace Ink_Canvas.Popups
         }
 
         private void CaptureFullScreen() {
-            mainWindow.SaveScreenshotToDesktopByMagnificationAPI(new HWND[] {
+            mainWindow.SaveScreenshotToDesktopByMagnificationAPI(true, new HWND[] {
                 new WindowInteropHelper(mainWindow).Handle,
                 new WindowInteropHelper(this).Handle,
             }, async bitmap => {
@@ -197,7 +197,9 @@ namespace Ink_Canvas.Popups
             UpdateModeIconSelection();
 
             if (selectedMode == 1) {
-                _screenshotGridWindow = new WindowScreenshotGridWindow(mainWindow.GetAllWindows());
+                _screenshotGridWindow = new WindowScreenshotGridWindow(mainWindow.GetAllWindows(new HWND[] {
+                    new HWND(new WindowInteropHelper(this).Handle), new HWND(new WindowInteropHelper(mainWindow).Handle)
+                }), mainWindow);
                 _screenshotGridWindow.Show();
             } else if (_screenshotGridWindow != null) {
                 _screenshotGridWindow.Close();

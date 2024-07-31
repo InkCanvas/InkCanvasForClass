@@ -73,6 +73,7 @@
 	<FileVersion>bundled</FileVersion>
 	<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 	<PlatformTarget>AnyCPU</PlatformTarget>
+	<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
 	<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
