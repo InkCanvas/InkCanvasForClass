@@ -126,7 +126,7 @@ namespace Ink_Canvas.Popups
         }
 
         private void CaptureFullScreen() {
-            mainWindow.SaveScreenshotToDesktopByMagnificationAPI(true, new HWND[] {
+            mainWindow.SaveScreenshotToDesktopByMagnificationAPIEx(true, new HWND[] {
                 new WindowInteropHelper(mainWindow).Handle,
                 new WindowInteropHelper(this).Handle,
             }, async bitmap => {

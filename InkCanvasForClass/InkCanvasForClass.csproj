@@ -161,7 +161,9 @@
 	<PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
 	<PackageReference Include="OSVersionExt" Version="3.0.0" />
 	<PackageReference Include="PixiEditor.ColorPicker" Version="3.4.1" />
+	<PackageReference Include="Vanara.PInvoke.Kernel32" Version="4.0.2" />
 	<PackageReference Include="Vanara.PInvoke.Magnification" Version="4.0.2" />
+	<PackageReference Include="Vanara.PInvoke.User32" Version="4.0.2" />
   </ItemGroup>
   <ItemGroup>
 	<COMReference Include="IWshRuntimeLibrary">

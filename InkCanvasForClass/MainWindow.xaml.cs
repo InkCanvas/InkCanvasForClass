@@ -23,6 +23,7 @@ using Ink_Canvas.Popups;
 using iNKORE.UI.WPF.Modern.Controls;
 using System.Windows.Forms;
 using Jint.Runtime;
+using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using TextBox = System.Windows.Controls.TextBox;
 
@@ -307,6 +308,7 @@ namespace Ink_Canvas {
             }
 
             if (e.Cancel) LogHelper.WriteLogToFile("Ink Canvas closing cancelled", LogHelper.LogType.Event);
+                else Application.Current.Shutdown();
         }
 
         [DllImport("user32.dll", SetLastError = true)]
