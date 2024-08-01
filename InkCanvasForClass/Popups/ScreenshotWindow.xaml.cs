@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -18,6 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using Vanara.PInvoke;
+using Color = System.Windows.Media.Color;
 
 namespace Ink_Canvas.Popups
 {
@@ -126,17 +129,28 @@ namespace Ink_Canvas.Popups
             if (selectedMode == 0) CaptureFullScreen();
         }
 
-        private void CaptureFullScreen() {
-            mainWindow.SaveScreenshotToDesktopByMagnificationAPIEx(true, new HWND[] {
-                new WindowInteropHelper(mainWindow).Handle,
-                new WindowInteropHelper(this).Handle,
-            }, async bitmap => {
-                string savePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-                bitmap.Save(savePath + @"\" + DateTime.Now.ToString("u").Replace(':', '-') + ".bmp", ImageFormat.Bmp);
-                mainWindow.ShowNewToast("已保存截图到桌面！",MW_Toast.ToastType.Success,3000);
-                await Task.Delay(50);
+        private async void CaptureFullScreen() {
+            try {
+                var bm = await mainWindow.FullscreenSnapshot(new MainWindow.SnapshotConfig() {
+                    BitmapSavePath =
+                        new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)),
+                    ExcludedHwnds = new HWND[] {
+                        new HWND(new WindowInteropHelper(this).Handle)
+                    },
+                    IsCopyToClipboard = true,
+                    IsSaveToLocal = true,
+                    OutputMIMEType = MainWindow.OutputImageMIMEFormat.Png,
+                });
+                bm.Dispose();
+                mainWindow.ShowNewToast("已保存截图到桌面！", MW_Toast.ToastType.Success, 3000);
+                await Task.Delay(1);
                 Close();
-            });
+            }
+            catch (Exception e) {
+                mainWindow.ShowNewToast($"截图失败！{e.Message}", MW_Toast.ToastType.Error, 3000);
+                await Task.Delay(1);
+                Close();
+            }
         }
 
         private void CaptureButton_MouseLeave(object sender, MouseEventArgs e) {

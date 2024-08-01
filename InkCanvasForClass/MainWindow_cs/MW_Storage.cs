@@ -269,6 +269,10 @@ namespace Ink_Canvas {
             StartAnalyzeStorage();
         }
 
+
+
+        //private DirectoryInfo GetDirectoryBySettings()
+
         private DirectoryInfo GetDirectoryInfoByIndex(int index) {
             var autoSavedInkPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\AutoSavedInk");
             var autoSavedSnapshotPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\AutoSavedSnapshot");

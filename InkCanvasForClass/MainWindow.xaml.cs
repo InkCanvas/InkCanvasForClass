@@ -22,7 +22,6 @@ using System.Windows.Documents;
 using Ink_Canvas.Popups;
 using iNKORE.UI.WPF.Modern.Controls;
 using System.Windows.Forms;
-using Jint.Runtime;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using TextBox = System.Windows.Controls.TextBox;
