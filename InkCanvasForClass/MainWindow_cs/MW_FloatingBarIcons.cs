@@ -1021,6 +1021,8 @@ namespace Ink_Canvas {
         private void SymbolIconSettings_Click(object sender, RoutedEventArgs e) {
             if (isOpeningOrHidingSettingsPane != false) return;
             HideSubPanels();
+            InitStorageFoldersStructure(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path);
+            StartAnalyzeStorage();
             BtnSettings_Click(null, null);
         }
 

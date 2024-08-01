@@ -87,7 +87,7 @@ namespace Ink_Canvas {
                 new IntPtr(exptr |
                            (int)User32.WindowStylesEx.WS_EX_LAYERED | (int)User32.WindowStylesEx.WS_EX_TOPMOST));
             Trace.WriteLine(handle);
-            User32.SetLayeredWindowAttributes(handle,0, 255, User32.LayeredWindowAttributes.LWA_ALPHA);
+            User32.SetLayeredWindowAttributes(handle,0, 0, User32.LayeredWindowAttributes.LWA_ALPHA);
 
             Trace.WriteLine(handle);
 
@@ -123,6 +123,9 @@ namespace Ink_Canvas {
 
             string savePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             bmp.Save(savePath + @"\" + DateTime.Now.ToString("u").Replace(':', '-') + ".png", ImageFormat.Png);
+
+            Trace.WriteLine(bmp.GetPixel(123,123));
+            Trace.WriteLine(bmp.GetPixel(163,174));
 
             // 關閉宿主窗體
             //Magnification.MagUninitialize();

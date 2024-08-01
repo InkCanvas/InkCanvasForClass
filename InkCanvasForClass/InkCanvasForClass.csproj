@@ -211,10 +211,11 @@
 	<Resource Include="Resources\Icons-png\AdmoxBooth.png" />
 	<Resource Include="Resources\Icons-png\AdmoxWhiteboard.png" />
 	<Resource Include="Resources\Icons-png\check-box-background.png" />
+	<Resource Include="Resources\Icons-png\classic-icons\desktop-folder.png" />
 	<Resource Include="Resources\Icons-png\classic-icons\disk-drive.png" />
 	<Resource Include="Resources\Icons-png\classic-icons\documents-folder.png" />
 	<Resource Include="Resources\Icons-png\classic-icons\folder.png" />
-	<Resource Include="Resources\Icons-png\classic-icons\system-drive.png" />
+	<Resource Include="Resources\Icons-png\classic-icons\user-folder.png" />
 	<Resource Include="Resources\Icons-png\Donview.png" />
 	<Resource Include="Resources\Icons-png\EasiNote3.png" />
 	<Resource Include="Resources\Icons-png\eraser-line.png" />
@@ -510,10 +511,11 @@
 	<None Remove="Resources\icc.ico" />
 	<None Remove="Resources\Icons-png\AdmoxBooth.png" />
 	<None Remove="Resources\Icons-png\AdmoxWhiteboard.png" />
+	<None Remove="Resources\Icons-png\classic-icons\desktop-folder.png" />
 	<None Remove="Resources\Icons-png\classic-icons\disk-drive.png" />
 	<None Remove="Resources\Icons-png\classic-icons\documents-folder.png" />
 	<None Remove="Resources\Icons-png\classic-icons\folder.png" />
-	<None Remove="Resources\Icons-png\classic-icons\system-drive.png" />
+	<None Remove="Resources\Icons-png\classic-icons\user-folder.png" />
 	<None Remove="Resources\Icons-png\Donview.png" />
 	<None Remove="Resources\Icons-png\EasiNote3.png" />
 	<None Remove="Resources\Icons-png\HiteAnnotation.png" />

@@ -7845,147 +7845,269 @@
                                                TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     <ComboBox Name="ComboBoxStoragePath" FontFamily="Microsoft YaHei UI"
                                               SelectedIndex="1" HorizontalAlignment="Center">
-                                        <ComboBoxItem HorizontalContentAlignment="Left">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
-                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/system-drive.png" Controls:RenderOptions.BitmapScalingMode="HighQuality" />
-                                                <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
-                                                    <Run FontWeight="Bold" Text="系统盘 " />
-                                                    <Run Text="C:\Users\Dubi906w\InkCanvasForClass" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </ComboBoxItem>
-                                        <ComboBoxItem HorizontalContentAlignment="Left">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
-                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/disk-drive.png" Controls:RenderOptions.BitmapScalingMode="HighQuality" />
-                                                <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
-                                                    <Run FontWeight="Bold" Text="D盘 " />
-                                                    <Run Text="D:\InkCanvasForClass" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </ComboBoxItem>
-                                        <ComboBoxItem HorizontalContentAlignment="Left">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
-                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/disk-drive.png" Controls:RenderOptions.BitmapScalingMode="HighQuality" />
-                                                <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
-                                                    <Run FontWeight="Bold" Text="E盘 " />
-                                                    <Run Text="E:\InkCanvasForClass" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </ComboBoxItem>
-                                        <ComboBoxItem HorizontalContentAlignment="Left">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
-                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/documents-folder.png" Controls:RenderOptions.BitmapScalingMode="HighQuality" />
-                                                <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
-                                                    <Run FontWeight="Bold" Text="用户“文档”目录 " />
-                                                    <Run Text="C:\Users\Dubi906w\Documents" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </ComboBoxItem>
-                                        <ComboBoxItem HorizontalContentAlignment="Left">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
-                                                <Image Width="20" Height="20" Source="Resources/Icons-png/classic-icons/folder.png" Controls:RenderOptions.BitmapScalingMode="HighQuality" />
-                                                <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
-                                                    <Run FontWeight="Bold" Text="icc 运行目录下" />
-                                                    <Run Text=".\UserData\" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </ComboBoxItem>
+                                        <ComboBox.ItemContainerStyle>
+                                            <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                                            </Style>
+                                        </ComboBox.ItemContainerStyle>
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="326">
+                                                    <Image Width="20" Height="20" Source="{Binding Icon}" Controls:RenderOptions.BitmapScalingMode="HighQuality" />
+                                                    <TextBlock Width="300" TextTrimming="CharacterEllipsis" Margin="6,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI">
+                                                        <Run FontWeight="Bold" Text="{Binding Title}" />
+                                                        <Run Text="{Binding Path}" />
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
                                     </ComboBox>
                                     <TextBlock Text="# 请注意检查文件夹是否有写入权限" TextWrapping="Wrap" Foreground="#a1a1aa" />
-                                    <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0"
-                                          Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4" />
-                                    <TextBlock Margin="0,0,0,8" Text="存储分析" FontWeight="Bold" Foreground="#fafafa"
-                                               FontSize="20" />
-                                    <TextBlock Text="# 仅分析存储目录下的所有文件"
-                                               TextWrapping="Wrap" Foreground="#a1a1aa" />
-                                    <ui:SimpleStackPanel Spacing="12" Margin="0,4,0,0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
-                                                <Image.Source>
-                                                    <DrawingImage>
-                                                        <DrawingImage.Drawing>
-                                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
-                                                                <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M7,2C6.20435,2 5.44129,2.31607 4.87868,2.87868 4.31607,3.44129 4,4.20435 4,5L4,19C4,19.7957 4.31607,20.5587 4.87868,21.1213 5.44129,21.6839 6.20435,22 7,22L17,22C17.7957,22 18.5587,21.6839 19.1213,21.1213 19.6839,20.5587 20,19.7957 20,19L20,8C20,7.73478,19.8946,7.48043,19.7071,7.29289L14.7071,2.29289C14.5196,2.10536,14.2652,2,14,2L7,2z M15,9C14.4696,9 13.9609,8.78929 13.5858,8.41421 13.2107,8.03914 13,7.53043 13,7L13,4 7,4C6.73478,4 6.48043,4.10536 6.29289,4.29289 6.10536,4.48043 6,4.73478 6,5L6,19C6,19.2652 6.10536,19.5196 6.29289,19.7071 6.48043,19.8946 6.73478,20 7,20L17,20C17.2652,20 17.5196,19.8946 17.7071,19.7071 17.8946,19.5196 18,19.2652 18,19L18,9 15,9z M15,7L16.5858,7 15,5.41421 15,7z" />
-                                                            </DrawingGroup>
-                                                        </DrawingImage.Drawing>
-                                                    </DrawingImage>
-                                                </Image.Source>
-                                            </Image>
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock FontSize="16" FontWeight="Bold">所有用户文件</TextBlock>
-                                                <TextBlock FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">占用891.89MB的空间，总数100103个</TextBlock>
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
-                                                <Image.Source>
-                                                    <DrawingImage>
-                                                        <DrawingImage.Drawing>
-                                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
-                                                                <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.87868,2.87868C5.44129,2.31607,6.20435,2,7,2L14,2C14.2652,2,14.5196,2.10536,14.7071,2.29289L19.7071,7.29289C19.8946,7.48043,20,7.73478,20,8L20,19C20,19.7957 19.6839,20.5587 19.1213,21.1213 18.5587,21.6839 17.7957,22 17,22L7,22C6.20435,22 5.44129,21.6839 4.87868,21.1213 4.31607,20.5587 4,19.7957 4,19L4,5C4,4.20435,4.31607,3.44129,4.87868,2.87868z M13.5858,8.41421C13.9609,8.78929,14.4696,9,15,9L18,9 18,19C18,19.2652 17.8946,19.5196 17.7071,19.7071 17.5196,19.8946 17.2652,20 17,20L7,20C6.73478,20 6.48043,19.8946 6.29289,19.7071 6.10536,19.5196 6,19.2652 6,19L6,5C6,4.73478 6.10536,4.48043 6.29289,4.29289 6.48043,4.10536 6.73478,4 7,4L13,4 13,7C13,7.53043,13.2107,8.03914,13.5858,8.41421z M16.5858,7L15,7 15,5.41421 16.5858,7z M14,9.58594C13.3597,9.58594,12.7456,9.84029,12.2929,10.293L7.29289,15.293C7.10536,15.4806,7,15.7349,7,16.0002L7,18.0002C7,18.5524,7.44772,19.0002,8,19.0002L10,19.0002C10.2652,19.0002,10.5196,18.8948,10.7071,18.7073L15.7071,13.7073C16.1599,13.2545 16.4142,12.6404 16.4142,12.0002 16.4142,11.3599 16.1599,10.7458 15.7071,10.293 15.2544,9.84029 14.6403,9.58594 14,9.58594z M13.7071,11.7073C13.7848,11.6296 13.8901,11.5859 14,11.5859 14.1099,11.5859 14.2152,11.6296 14.2929,11.7073 14.3706,11.7849 14.4142,11.8903 14.4142,12.0002 14.4142,12.11 14.3706,12.2154 14.2929,12.293L9.58579,17.0002 9,17.0002 9,16.4144 13.7071,11.7073z" />
-                                                            </DrawingGroup>
-                                                        </DrawingImage.Drawing>
-                                                    </DrawingImage>
-                                                </Image.Source>
-                                            </Image>
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock FontSize="16" FontWeight="Bold">自动保存的墨迹文件</TextBlock>
-                                                <TextBlock FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">78%，占用654.31MB的空间，总数73920个</TextBlock>
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
-                                                <Image.Source>
-                                                    <DrawingImage>
-                                                        <DrawingImage.Drawing>
-                                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
-                                                                <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.87868,2.87868C5.44129,2.31607,6.20435,2,7,2L14,2C14.2652,2,14.5196,2.10536,14.7071,2.29289L19.7071,7.29289C19.8946,7.48043,20,7.73478,20,8L20,19C20,19.7957 19.6839,20.5587 19.1213,21.1213 18.5587,21.6839 17.7957,22 17,22L7,22C6.20435,22 5.44129,21.6839 4.87868,21.1213 4.31607,20.5587 4,19.7957 4,19L4,5C4,4.20435,4.31607,3.44129,4.87868,2.87868z M13.5858,8.41421C13.9609,8.78929,14.4696,9,15,9L18,9 18,19C18,19.2652 17.8946,19.5196 17.7071,19.7071 17.5196,19.8946 17.2652,20 17,20L7,20C6.73478,20 6.48043,19.8946 6.29289,19.7071 6.10536,19.5196 6,19.2652 6,19L6,5C6,4.73478 6.10536,4.48043 6.29289,4.29289 6.48043,4.10536 6.73478,4 7,4L13,4 13,7C13,7.53043,13.2107,8.03914,13.5858,8.41421z M16.5858,7L15,7 15,5.41421 16.5858,7z M14,9.58594C13.3597,9.58594,12.7456,9.84029,12.2929,10.293L7.29289,15.293C7.10536,15.4806,7,15.7349,7,16.0002L7,18.0002C7,18.5524,7.44772,19.0002,8,19.0002L10,19.0002C10.2652,19.0002,10.5196,18.8948,10.7071,18.7073L15.7071,13.7073C16.1599,13.2545 16.4142,12.6404 16.4142,12.0002 16.4142,11.3599 16.1599,10.7458 15.7071,10.293 15.2544,9.84029 14.6403,9.58594 14,9.58594z M13.7071,11.7073C13.7848,11.6296 13.8901,11.5859 14,11.5859 14.1099,11.5859 14.2152,11.6296 14.2929,11.7073 14.3706,11.7849 14.4142,11.8903 14.4142,12.0002 14.4142,12.11 14.3706,12.2154 14.2929,12.293L9.58579,17.0002 9,17.0002 9,16.4144 13.7071,11.7073z" />
-                                                            </DrawingGroup>
-                                                        </DrawingImage.Drawing>
-                                                    </DrawingImage>
-                                                </Image.Source>
-                                            </Image>
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock FontSize="16" FontWeight="Bold">手动保存的板书</TextBlock>
-                                                <TextBlock FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">1%，占用34.1MB的空间，总数3个</TextBlock>
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
-                                                <Image.Source>
-                                                    <DrawingImage>
-                                                        <DrawingImage.Drawing>
-                                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
-                                                                <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.58579,4.58579C4.96086,4.21071,5.46957,4,6,4L18,4C18.5304,4 19.0391,4.21071 19.4142,4.58579 19.7893,4.96086 20,5.46957 20,6L20,13.5856 18.7071,12.2927 18.6934,12.2793C18.0792,11.6883 17.3227,11.3301 16.5,11.3301 15.6773,11.3301 14.9208,11.6883 14.3066,12.2793L14.2929,12.2927 14,12.5856 11.7071,10.2927 11.6934,10.2793C11.0792,9.68828 10.3227,9.33008 9.5,9.33008 8.67726,9.33008 7.92076,9.68828 7.30661,10.2793L7.29289,10.2927 4,13.5856 4,6C4,5.46957,4.21071,4.96086,4.58579,4.58579z M15.4142,13.9998L15.6997,13.7144C16.011,13.4172 16.2882,13.3301 16.5,13.3301 16.7118,13.3301 16.989,13.4172 17.3003,13.7144L20,16.414 20,18C20,18.5304 19.7893,19.0391 19.4142,19.4142 19.0391,19.7893 18.5304,20 18,20L6,20C5.46957,20 4.96086,19.7893 4.58579,19.4142 4.21071,19.0391 4,18.5304 4,18L4,16.414 8.69967,11.7144C9.01097,11.4172 9.28816,11.3301 9.5,11.3301 9.71184,11.3301 9.98903,11.4172 10.3003,11.7144L13.2929,14.7069 15.2929,16.7069C15.6834,17.0975 16.3166,17.0975 16.7071,16.7069 17.0976,16.3164 17.0976,15.6832 16.7071,15.2927L15.4142,13.9998z M22,16.0008L22,18C22,19.0609 21.5786,20.0783 20.8284,20.8284 20.0783,21.5786 19.0609,22 18,22L6,22C4.93913,22 3.92172,21.5786 3.17157,20.8284 2.42143,20.0783 2,19.0609 2,18L2,16 2,15.9997 2,6C2,4.93913 2.42143,3.92172 3.17157,3.17157 3.92172,2.42143 4.93913,2 6,2L18,2C19.0609,2 20.0783,2.42143 20.8284,3.17157 21.5786,3.92172 22,4.93913 22,6L22,15.9988C22,15.9995,22,16.0002,22,16.0008z M15,7C14.4477,7 14,7.44772 14,8 14,8.55228 14.4477,9 15,9L15.01,9C15.5623,9 16.01,8.55228 16.01,8 16.01,7.44772 15.5623,7 15.01,7L15,7z" />
-                                                            </DrawingGroup>
-                                                        </DrawingImage.Drawing>
-                                                    </DrawingImage>
-                                                </Image.Source>
-                                            </Image>
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock FontSize="16" FontWeight="Bold">截图文件</TextBlock>
-                                                <TextBlock FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">0%</TextBlock>
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
-                                                <Image.Source>
-                                                    <DrawingImage>
-                                                        <DrawingImage.Drawing>
-                                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
-                                                                <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M7,2C6.20435,2 5.44129,2.31607 4.87868,2.87868 4.31607,3.44129 4,4.20435 4,5L4,19C4,19.7957 4.31607,20.5587 4.87868,21.1213 5.44129,21.6839 6.20435,22 7,22L17,22C17.7957,22 18.5587,21.6839 19.1213,21.1213 19.6839,20.5587 20,19.7957 20,19L20,8C20,7.73478,19.8946,7.48043,19.7071,7.29289L14.7071,2.29289C14.5196,2.10536,14.2652,2,14,2L7,2z M15,9C14.4696,9 13.9609,8.78929 13.5858,8.41421 13.2107,8.03914 13,7.53043 13,7L13,4 7,4C6.73478,4 6.48043,4.10536 6.29289,4.29289 6.10536,4.48043 6,4.73478 6,5L6,19C6,19.2652 6.10536,19.5196 6.29289,19.7071 6.48043,19.8946 6.73478,20 7,20L17,20C17.2652,20 17.5196,19.8946 17.7071,19.7071 17.8946,19.5196 18,19.2652 18,19L18,9 15,9z M15,7L16.5858,7 15,5.41421 15,7z" />
-                                                            </DrawingGroup>
-                                                        </DrawingImage.Drawing>
-                                                    </DrawingImage>
-                                                </Image.Source>
-                                            </Image>
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock FontSize="16" FontWeight="Bold">缓存文件</TextBlock>
-                                                <TextBlock FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">0%</TextBlock>
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <Button Content="清理缓存文件" />
+                                    <ui:SimpleStackPanel Orientation="Vertical" Spacing="6" Name="StorageAnalazeWaitingGroup">
+                                        <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0"
+                                              Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4" />
+                                        <TextBlock Margin="0,0,0,8" Text="存储分析" FontWeight="Bold" Foreground="#fafafa"
+                                                   FontSize="20" />
+                                        <TextBlock Text="# 请等待，正在分析中..."
+                                                   TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Orientation="Vertical" Spacing="6" Name="StorageAnalazeGroup">
+                                        <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0"
+                                              Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4" />
+                                        <TextBlock Margin="0,0,0,8" Text="存储分析" FontWeight="Bold" Foreground="#fafafa"
+                                                   FontSize="20" />
+                                        <Border Height="24" Background="#27272a" Width="388">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Background="#0ea5e9" Name="DiskUsageUsedSpaceBorder" Width="123"/>
+                                                <Border Background="#ef4444" Name="DiskUsageICCSpaceBorder" Width="3"/>
+                                            </StackPanel>
+                                        </Border>
+                                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Width="12" Height="12" Background="#0ea5e9"/>
+                                                <TextBlock Text="硬盘其他占用" Margin="3,0,0,0" VerticalAlignment="Center" Foreground="#f4f4f5" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Width="12" Height="12" Background="#ef4444"/>
+                                                <TextBlock Text="ICC数据占用" Margin="3,0,0,0" VerticalAlignment="Center" Foreground="#f4f4f5" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Width="12" Height="12" Background="#27272a"/>
+                                                <TextBlock Text="空闲空间" Margin="3,0,0,0" VerticalAlignment="Center" Foreground="#f4f4f5" />
+                                            </StackPanel>
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Orientation="Vertical" Spacing="1">
+                                            <TextBlock Name="StorageNowLocationTextBlock" Text="当前位置：C:\Users\Dubi906w\InkCanvasForClass" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Foreground="#a1a1aa" />
+                                            <TextBlock Name="StorageDiskUsageTextBlock" Text="磁盘使用情况：已用 291.13 GB、剩余 8932.12 GB" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Foreground="#a1a1aa" />
+                                            <TextBlock Name="StorageDirectoryUsageTextBlock" Text="目录占用情况：已用 256.00 MB，共 1 个文件" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Foreground="#a1a1aa" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Orientation="Vertical" Spacing="6" Name="ICCDirectoryStorageAnalyzeGroup">
+                                            <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0"
+                                              Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4" />
+                                            <Border Height="24" Background="#27272a" Width="388">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Border Name="StorageDirectoryAutoSavedInkUsageBorder" Background="#f97316" Width="48"/>
+                                                    <Border Name="StorageDirectoryQuotedPhotoUsageBorder" Background="#eab308" Width="12"/>
+                                                    <Border Name="StorageDirectoryExportedInkUsageBorder" Background="#22c55e" Width="67"/>
+                                                    <Border Name="StorageDirectoryCachesUsageBorder" Background="#0ea5e9" Width="193"/>
+                                                    <Border Name="StorageDirectoryAutoSavedSnapshotUsageBorder" Background="#a855f7" Width="68"/>
+                                                </StackPanel>
+                                            </Border>
+                                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Border Width="12" Height="12" Background="#f97316"/>
+                                                    <TextBlock Text="自动保存的墨迹" Margin="3,0,0,0" VerticalAlignment="Center" Foreground="#f4f4f5" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Border Width="12" Height="12" Background="#eab308"/>
+                                                    <TextBlock Text="板书的图片引用" Margin="3,0,0,0" VerticalAlignment="Center" Foreground="#f4f4f5" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Border Width="12" Height="12" Background="#22c55e"/>
+                                                    <TextBlock Text="导出的板书文件" Margin="3,0,0,0" VerticalAlignment="Center" Foreground="#f4f4f5" />
+                                                </StackPanel>
+                                            </ui:SimpleStackPanel>
+                                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="16">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Border Width="12" Height="12" Background="#0ea5e9"/>
+                                                    <TextBlock Text="缓存文件" Margin="3,0,0,0" VerticalAlignment="Center" Foreground="#f4f4f5" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Border Width="12" Height="12" Background="#a855f7"/>
+                                                    <TextBlock Text="自动保存的截图文件" Margin="3,0,0,0" VerticalAlignment="Center" Foreground="#f4f4f5" />
+                                                </StackPanel>
+                                            </ui:SimpleStackPanel>
+                                            <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0"
+                                              Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4" />
+                                            <ui:SimpleStackPanel Spacing="12" Margin="0,4,0,0">
+                                                <Grid>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.87868,2.87868C5.44129,2.31607,6.20435,2,7,2L14,2C14.2652,2,14.5196,2.10536,14.7071,2.29289L19.7071,7.29289C19.8946,7.48043,20,7.73478,20,8L20,19C20,19.7957 19.6839,20.5587 19.1213,21.1213 18.5587,21.6839 17.7957,22 17,22L7,22C6.20435,22 5.44129,21.6839 4.87868,21.1213 4.31607,20.5587 4,19.7957 4,19L4,5C4,4.20435,4.31607,3.44129,4.87868,2.87868z M13.5858,8.41421C13.9609,8.78929,14.4696,9,15,9L18,9 18,19C18,19.2652 17.8946,19.5196 17.7071,19.7071 17.5196,19.8946 17.2652,20 17,20L7,20C6.73478,20 6.48043,19.8946 6.29289,19.7071 6.10536,19.5196 6,19.2652 6,19L6,5C6,4.73478 6.10536,4.48043 6.29289,4.29289 6.48043,4.10536 6.73478,4 7,4L13,4 13,7C13,7.53043,13.2107,8.03914,13.5858,8.41421z M16.5858,7L15,7 15,5.41421 16.5858,7z M14,9.58594C13.3597,9.58594,12.7456,9.84029,12.2929,10.293L7.29289,15.293C7.10536,15.4806,7,15.7349,7,16.0002L7,18.0002C7,18.5524,7.44772,19.0002,8,19.0002L10,19.0002C10.2652,19.0002,10.5196,18.8948,10.7071,18.7073L15.7071,13.7073C16.1599,13.2545 16.4142,12.6404 16.4142,12.0002 16.4142,11.3599 16.1599,10.7458 15.7071,10.293 15.2544,9.84029 14.6403,9.58594 14,9.58594z M13.7071,11.7073C13.7848,11.6296 13.8901,11.5859 14,11.5859 14.1099,11.5859 14.2152,11.6296 14.2929,11.7073 14.3706,11.7849 14.4142,11.8903 14.4142,12.0002 14.4142,12.11 14.3706,12.2154 14.2929,12.293L9.58579,17.0002 9,17.0002 9,16.4144 13.7071,11.7073z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                        <StackPanel Orientation="Vertical">
+                                                            <TextBlock FontSize="16" FontWeight="Bold">自动保存的墨迹</TextBlock>
+                                                            <TextBlock Name="StorageAutoSavedInkDescription" FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">78%，占用654.31MB的空间</TextBlock>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <Border Name="StorageJumpToFolderBtn1" VerticalAlignment="Center" HorizontalAlignment="Right" Width="38" Height="38" CornerRadius="19">
+                                                        <Image Width="24" Height="24">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.50024,5.5C4.23503,5.5 3.98067,5.60536 3.79314,5.79289 3.6056,5.98043 3.50024,6.23478 3.50024,6.5L3.50024,17.5C3.50024,17.7652 3.6056,18.0196 3.79314,18.2071 3.82261,18.2366 3.85373,18.264 3.88628,18.2893L6.32087,11.798 6.32087,11.798C6.46375,11.4169 6.71956,11.0883 7.05401,10.8564 7.38851,10.6245 7.78582,10.5002 8.19287,10.5L19.5002,10.5 19.5002,9.5C19.5002,9.23478 19.3949,8.98043 19.2073,8.79289 19.0198,8.60536 18.7655,8.5 18.5002,8.5L11.5002,8.5C11.235,8.5,10.9807,8.39464,10.7931,8.20711L8.08603,5.5 4.50024,5.5z M20.4995,12.5L8.19362,12.5 5.94331,18.5 18.526,18.5 18.526,18.5C18.7585,18.4999 18.984,18.4187 19.1632,18.2705 19.3424,18.1222 19.4644,17.916 19.508,17.6875L20.4995,12.5z M21.5002,10.7682C21.699,10.883 21.8769,11.0315 22.0259,11.2073 22.2135,11.4288 22.3507,11.6885 22.4278,11.9684 22.505,12.2483 22.5203,12.5416 22.4727,12.828L22.4685,12.8517 21.4725,18.0625C21.3417,18.748 20.9759,19.3665 20.4382,19.8114 19.9004,20.2563 19.2244,20.4998 18.5265,20.5L4.50024,20.5C3.70459,20.5 2.94153,20.1839 2.37892,19.6213 1.81631,19.0587 1.50024,18.2956 1.50024,17.5L1.50024,6.5C1.50024,5.70435 1.81631,4.94129 2.37892,4.37868 2.94153,3.81607 3.70459,3.5 4.50024,3.5L8.50024,3.5C8.76546,3.5,9.01981,3.60536,9.20735,3.79289L11.9145,6.5 18.5002,6.5C19.2959,6.5 20.059,6.81607 20.6216,7.37868 21.1842,7.94129 21.5002,8.70435 21.5002,9.5L21.5002,10.7682z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                    </Border>
+                                                </Grid>
+                                                <Grid>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.58579,4.58579C4.96086,4.21071,5.46957,4,6,4L18,4C18.5304,4 19.0391,4.21071 19.4142,4.58579 19.7893,4.96086 20,5.46957 20,6L20,13.5856 18.7071,12.2927 18.6934,12.2793C18.0792,11.6883 17.3227,11.3301 16.5,11.3301 15.6773,11.3301 14.9208,11.6883 14.3066,12.2793L14.2929,12.2927 14,12.5856 11.7071,10.2927 11.6934,10.2793C11.0792,9.68828 10.3227,9.33008 9.5,9.33008 8.67726,9.33008 7.92076,9.68828 7.30661,10.2793L7.29289,10.2927 4,13.5856 4,6C4,5.46957,4.21071,4.96086,4.58579,4.58579z M15.4142,13.9998L15.6997,13.7144C16.011,13.4172 16.2882,13.3301 16.5,13.3301 16.7118,13.3301 16.989,13.4172 17.3003,13.7144L20,16.414 20,18C20,18.5304 19.7893,19.0391 19.4142,19.4142 19.0391,19.7893 18.5304,20 18,20L6,20C5.46957,20 4.96086,19.7893 4.58579,19.4142 4.21071,19.0391 4,18.5304 4,18L4,16.414 8.69967,11.7144C9.01097,11.4172 9.28816,11.3301 9.5,11.3301 9.71184,11.3301 9.98903,11.4172 10.3003,11.7144L13.2929,14.7069 15.2929,16.7069C15.6834,17.0975 16.3166,17.0975 16.7071,16.7069 17.0976,16.3164 17.0976,15.6832 16.7071,15.2927L15.4142,13.9998z M22,16.0008L22,18C22,19.0609 21.5786,20.0783 20.8284,20.8284 20.0783,21.5786 19.0609,22 18,22L6,22C4.93913,22 3.92172,21.5786 3.17157,20.8284 2.42143,20.0783 2,19.0609 2,18L2,16 2,15.9997 2,6C2,4.93913 2.42143,3.92172 3.17157,3.17157 3.92172,2.42143 4.93913,2 6,2L18,2C19.0609,2 20.0783,2.42143 20.8284,3.17157 21.5786,3.92172 22,4.93913 22,6L22,15.9988C22,15.9995,22,16.0002,22,16.0008z M15,7C14.4477,7 14,7.44772 14,8 14,8.55228 14.4477,9 15,9L15.01,9C15.5623,9 16.01,8.55228 16.01,8 16.01,7.44772 15.5623,7 15.01,7L15,7z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                        <StackPanel Orientation="Vertical">
+                                                            <TextBlock FontSize="16" FontWeight="Bold">板书的图片引用</TextBlock>
+                                                            <TextBlock Name="StorageQuotedPhotosDescription" FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">0%</TextBlock>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <Border Name="StorageJumpToFolderBtn2" VerticalAlignment="Center" HorizontalAlignment="Right" Width="38" Height="38" CornerRadius="19">
+                                                        <Image Width="24" Height="24">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.50024,5.5C4.23503,5.5 3.98067,5.60536 3.79314,5.79289 3.6056,5.98043 3.50024,6.23478 3.50024,6.5L3.50024,17.5C3.50024,17.7652 3.6056,18.0196 3.79314,18.2071 3.82261,18.2366 3.85373,18.264 3.88628,18.2893L6.32087,11.798 6.32087,11.798C6.46375,11.4169 6.71956,11.0883 7.05401,10.8564 7.38851,10.6245 7.78582,10.5002 8.19287,10.5L19.5002,10.5 19.5002,9.5C19.5002,9.23478 19.3949,8.98043 19.2073,8.79289 19.0198,8.60536 18.7655,8.5 18.5002,8.5L11.5002,8.5C11.235,8.5,10.9807,8.39464,10.7931,8.20711L8.08603,5.5 4.50024,5.5z M20.4995,12.5L8.19362,12.5 5.94331,18.5 18.526,18.5 18.526,18.5C18.7585,18.4999 18.984,18.4187 19.1632,18.2705 19.3424,18.1222 19.4644,17.916 19.508,17.6875L20.4995,12.5z M21.5002,10.7682C21.699,10.883 21.8769,11.0315 22.0259,11.2073 22.2135,11.4288 22.3507,11.6885 22.4278,11.9684 22.505,12.2483 22.5203,12.5416 22.4727,12.828L22.4685,12.8517 21.4725,18.0625C21.3417,18.748 20.9759,19.3665 20.4382,19.8114 19.9004,20.2563 19.2244,20.4998 18.5265,20.5L4.50024,20.5C3.70459,20.5 2.94153,20.1839 2.37892,19.6213 1.81631,19.0587 1.50024,18.2956 1.50024,17.5L1.50024,6.5C1.50024,5.70435 1.81631,4.94129 2.37892,4.37868 2.94153,3.81607 3.70459,3.5 4.50024,3.5L8.50024,3.5C8.76546,3.5,9.01981,3.60536,9.20735,3.79289L11.9145,6.5 18.5002,6.5C19.2959,6.5 20.059,6.81607 20.6216,7.37868 21.1842,7.94129 21.5002,8.70435 21.5002,9.5L21.5002,10.7682z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                    </Border>
+                                                </Grid>
+                                                <Grid>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.87868,2.87868C5.44129,2.31607,6.20435,2,7,2L14,2C14.2652,2,14.5196,2.10536,14.7071,2.29289L19.7071,7.29289C19.8946,7.48043,20,7.73478,20,8L20,19C20,19.7957 19.6839,20.5587 19.1213,21.1213 18.5587,21.6839 17.7957,22 17,22L7,22C6.20435,22 5.44129,21.6839 4.87868,21.1213 4.31607,20.5587 4,19.7957 4,19L4,5C4,4.20435,4.31607,3.44129,4.87868,2.87868z M13.5858,8.41421C13.9609,8.78929,14.4696,9,15,9L18,9 18,19C18,19.2652 17.8946,19.5196 17.7071,19.7071 17.5196,19.8946 17.2652,20 17,20L7,20C6.73478,20 6.48043,19.8946 6.29289,19.7071 6.10536,19.5196 6,19.2652 6,19L6,5C6,4.73478 6.10536,4.48043 6.29289,4.29289 6.48043,4.10536 6.73478,4 7,4L13,4 13,7C13,7.53043,13.2107,8.03914,13.5858,8.41421z M16.5858,7L15,7 15,5.41421 16.5858,7z M14,9.58594C13.3597,9.58594,12.7456,9.84029,12.2929,10.293L7.29289,15.293C7.10536,15.4806,7,15.7349,7,16.0002L7,18.0002C7,18.5524,7.44772,19.0002,8,19.0002L10,19.0002C10.2652,19.0002,10.5196,18.8948,10.7071,18.7073L15.7071,13.7073C16.1599,13.2545 16.4142,12.6404 16.4142,12.0002 16.4142,11.3599 16.1599,10.7458 15.7071,10.293 15.2544,9.84029 14.6403,9.58594 14,9.58594z M13.7071,11.7073C13.7848,11.6296 13.8901,11.5859 14,11.5859 14.1099,11.5859 14.2152,11.6296 14.2929,11.7073 14.3706,11.7849 14.4142,11.8903 14.4142,12.0002 14.4142,12.11 14.3706,12.2154 14.2929,12.293L9.58579,17.0002 9,17.0002 9,16.4144 13.7071,11.7073z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                        <StackPanel Orientation="Vertical">
+                                                            <TextBlock FontSize="16" FontWeight="Bold">导出的板书文件</TextBlock>
+                                                            <TextBlock Name="StorageExportedInkDescription" FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">1%，占用34.1MB的空间</TextBlock>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <Border Name="StorageJumpToFolderBtn3" VerticalAlignment="Center" HorizontalAlignment="Right" Width="38" Height="38" CornerRadius="19">
+                                                        <Image Width="24" Height="24">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.50024,5.5C4.23503,5.5 3.98067,5.60536 3.79314,5.79289 3.6056,5.98043 3.50024,6.23478 3.50024,6.5L3.50024,17.5C3.50024,17.7652 3.6056,18.0196 3.79314,18.2071 3.82261,18.2366 3.85373,18.264 3.88628,18.2893L6.32087,11.798 6.32087,11.798C6.46375,11.4169 6.71956,11.0883 7.05401,10.8564 7.38851,10.6245 7.78582,10.5002 8.19287,10.5L19.5002,10.5 19.5002,9.5C19.5002,9.23478 19.3949,8.98043 19.2073,8.79289 19.0198,8.60536 18.7655,8.5 18.5002,8.5L11.5002,8.5C11.235,8.5,10.9807,8.39464,10.7931,8.20711L8.08603,5.5 4.50024,5.5z M20.4995,12.5L8.19362,12.5 5.94331,18.5 18.526,18.5 18.526,18.5C18.7585,18.4999 18.984,18.4187 19.1632,18.2705 19.3424,18.1222 19.4644,17.916 19.508,17.6875L20.4995,12.5z M21.5002,10.7682C21.699,10.883 21.8769,11.0315 22.0259,11.2073 22.2135,11.4288 22.3507,11.6885 22.4278,11.9684 22.505,12.2483 22.5203,12.5416 22.4727,12.828L22.4685,12.8517 21.4725,18.0625C21.3417,18.748 20.9759,19.3665 20.4382,19.8114 19.9004,20.2563 19.2244,20.4998 18.5265,20.5L4.50024,20.5C3.70459,20.5 2.94153,20.1839 2.37892,19.6213 1.81631,19.0587 1.50024,18.2956 1.50024,17.5L1.50024,6.5C1.50024,5.70435 1.81631,4.94129 2.37892,4.37868 2.94153,3.81607 3.70459,3.5 4.50024,3.5L8.50024,3.5C8.76546,3.5,9.01981,3.60536,9.20735,3.79289L11.9145,6.5 18.5002,6.5C19.2959,6.5 20.059,6.81607 20.6216,7.37868 21.1842,7.94129 21.5002,8.70435 21.5002,9.5L21.5002,10.7682z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                    </Border>
+                                                </Grid>
+                                                <Grid>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M7,2C6.20435,2 5.44129,2.31607 4.87868,2.87868 4.31607,3.44129 4,4.20435 4,5L4,19C4,19.7957 4.31607,20.5587 4.87868,21.1213 5.44129,21.6839 6.20435,22 7,22L17,22C17.7957,22 18.5587,21.6839 19.1213,21.1213 19.6839,20.5587 20,19.7957 20,19L20,8C20,7.73478,19.8946,7.48043,19.7071,7.29289L14.7071,2.29289C14.5196,2.10536,14.2652,2,14,2L7,2z M15,9C14.4696,9 13.9609,8.78929 13.5858,8.41421 13.2107,8.03914 13,7.53043 13,7L13,4 7,4C6.73478,4 6.48043,4.10536 6.29289,4.29289 6.10536,4.48043 6,4.73478 6,5L6,19C6,19.2652 6.10536,19.5196 6.29289,19.7071 6.48043,19.8946 6.73478,20 7,20L17,20C17.2652,20 17.5196,19.8946 17.7071,19.7071 17.8946,19.5196 18,19.2652 18,19L18,9 15,9z M15,7L16.5858,7 15,5.41421 15,7z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                        <StackPanel Orientation="Vertical">
+                                                            <TextBlock FontSize="16" FontWeight="Bold">缓存文件</TextBlock>
+                                                            <TextBlock Name="StorageCachesDescription" FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">0%</TextBlock>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <Border Name="StorageJumpToFolderBtn4" VerticalAlignment="Center" HorizontalAlignment="Right" Width="38" Height="38" CornerRadius="19">
+                                                        <Image Width="24" Height="24">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.50024,5.5C4.23503,5.5 3.98067,5.60536 3.79314,5.79289 3.6056,5.98043 3.50024,6.23478 3.50024,6.5L3.50024,17.5C3.50024,17.7652 3.6056,18.0196 3.79314,18.2071 3.82261,18.2366 3.85373,18.264 3.88628,18.2893L6.32087,11.798 6.32087,11.798C6.46375,11.4169 6.71956,11.0883 7.05401,10.8564 7.38851,10.6245 7.78582,10.5002 8.19287,10.5L19.5002,10.5 19.5002,9.5C19.5002,9.23478 19.3949,8.98043 19.2073,8.79289 19.0198,8.60536 18.7655,8.5 18.5002,8.5L11.5002,8.5C11.235,8.5,10.9807,8.39464,10.7931,8.20711L8.08603,5.5 4.50024,5.5z M20.4995,12.5L8.19362,12.5 5.94331,18.5 18.526,18.5 18.526,18.5C18.7585,18.4999 18.984,18.4187 19.1632,18.2705 19.3424,18.1222 19.4644,17.916 19.508,17.6875L20.4995,12.5z M21.5002,10.7682C21.699,10.883 21.8769,11.0315 22.0259,11.2073 22.2135,11.4288 22.3507,11.6885 22.4278,11.9684 22.505,12.2483 22.5203,12.5416 22.4727,12.828L22.4685,12.8517 21.4725,18.0625C21.3417,18.748 20.9759,19.3665 20.4382,19.8114 19.9004,20.2563 19.2244,20.4998 18.5265,20.5L4.50024,20.5C3.70459,20.5 2.94153,20.1839 2.37892,19.6213 1.81631,19.0587 1.50024,18.2956 1.50024,17.5L1.50024,6.5C1.50024,5.70435 1.81631,4.94129 2.37892,4.37868 2.94153,3.81607 3.70459,3.5 4.50024,3.5L8.50024,3.5C8.76546,3.5,9.01981,3.60536,9.20735,3.79289L11.9145,6.5 18.5002,6.5C19.2959,6.5 20.059,6.81607 20.6216,7.37868 21.1842,7.94129 21.5002,8.70435 21.5002,9.5L21.5002,10.7682z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                    </Border>
+                                                </Grid>
+                                                <Grid>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Margin="0,0,8,0" Height="32" Width="32" VerticalAlignment="Top">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.58579,4.58579C4.96086,4.21071,5.46957,4,6,4L18,4C18.5304,4 19.0391,4.21071 19.4142,4.58579 19.7893,4.96086 20,5.46957 20,6L20,13.5856 18.7071,12.2927 18.6934,12.2793C18.0792,11.6883 17.3227,11.3301 16.5,11.3301 15.6773,11.3301 14.9208,11.6883 14.3066,12.2793L14.2929,12.2927 14,12.5856 11.7071,10.2927 11.6934,10.2793C11.0792,9.68828 10.3227,9.33008 9.5,9.33008 8.67726,9.33008 7.92076,9.68828 7.30661,10.2793L7.29289,10.2927 4,13.5856 4,6C4,5.46957,4.21071,4.96086,4.58579,4.58579z M15.4142,13.9998L15.6997,13.7144C16.011,13.4172 16.2882,13.3301 16.5,13.3301 16.7118,13.3301 16.989,13.4172 17.3003,13.7144L20,16.414 20,18C20,18.5304 19.7893,19.0391 19.4142,19.4142 19.0391,19.7893 18.5304,20 18,20L6,20C5.46957,20 4.96086,19.7893 4.58579,19.4142 4.21071,19.0391 4,18.5304 4,18L4,16.414 8.69967,11.7144C9.01097,11.4172 9.28816,11.3301 9.5,11.3301 9.71184,11.3301 9.98903,11.4172 10.3003,11.7144L13.2929,14.7069 15.2929,16.7069C15.6834,17.0975 16.3166,17.0975 16.7071,16.7069 17.0976,16.3164 17.0976,15.6832 16.7071,15.2927L15.4142,13.9998z M22,16.0008L22,18C22,19.0609 21.5786,20.0783 20.8284,20.8284 20.0783,21.5786 19.0609,22 18,22L6,22C4.93913,22 3.92172,21.5786 3.17157,20.8284 2.42143,20.0783 2,19.0609 2,18L2,16 2,15.9997 2,6C2,4.93913 2.42143,3.92172 3.17157,3.17157 3.92172,2.42143 4.93913,2 6,2L18,2C19.0609,2 20.0783,2.42143 20.8284,3.17157 21.5786,3.92172 22,4.93913 22,6L22,15.9988C22,15.9995,22,16.0002,22,16.0008z M15,7C14.4477,7 14,7.44772 14,8 14,8.55228 14.4477,9 15,9L15.01,9C15.5623,9 16.01,8.55228 16.01,8 16.01,7.44772 15.5623,7 15.01,7L15,7z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                        <StackPanel Orientation="Vertical">
+                                                            <TextBlock FontSize="16" FontWeight="Bold">自动保存的截图文件</TextBlock>
+                                                            <TextBlock Name="StorageAutoSavedSnapshotDescription" FontSize="14" Foreground="#a1a1aa" Margin="0,2,0,0">0%</TextBlock>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <Border Name="StorageJumpToFolderBtn5" VerticalAlignment="Center" HorizontalAlignment="Right" Width="38" Height="38" CornerRadius="19">
+                                                        <Image Width="24" Height="24">
+                                                            <Image.Source>
+                                                                <DrawingImage>
+                                                                    <DrawingImage.Drawing>
+                                                                        <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                            <GeometryDrawing Brush="White" Geometry="F0 M24,24z M0,0z M4.50024,5.5C4.23503,5.5 3.98067,5.60536 3.79314,5.79289 3.6056,5.98043 3.50024,6.23478 3.50024,6.5L3.50024,17.5C3.50024,17.7652 3.6056,18.0196 3.79314,18.2071 3.82261,18.2366 3.85373,18.264 3.88628,18.2893L6.32087,11.798 6.32087,11.798C6.46375,11.4169 6.71956,11.0883 7.05401,10.8564 7.38851,10.6245 7.78582,10.5002 8.19287,10.5L19.5002,10.5 19.5002,9.5C19.5002,9.23478 19.3949,8.98043 19.2073,8.79289 19.0198,8.60536 18.7655,8.5 18.5002,8.5L11.5002,8.5C11.235,8.5,10.9807,8.39464,10.7931,8.20711L8.08603,5.5 4.50024,5.5z M20.4995,12.5L8.19362,12.5 5.94331,18.5 18.526,18.5 18.526,18.5C18.7585,18.4999 18.984,18.4187 19.1632,18.2705 19.3424,18.1222 19.4644,17.916 19.508,17.6875L20.4995,12.5z M21.5002,10.7682C21.699,10.883 21.8769,11.0315 22.0259,11.2073 22.2135,11.4288 22.3507,11.6885 22.4278,11.9684 22.505,12.2483 22.5203,12.5416 22.4727,12.828L22.4685,12.8517 21.4725,18.0625C21.3417,18.748 20.9759,19.3665 20.4382,19.8114 19.9004,20.2563 19.2244,20.4998 18.5265,20.5L4.50024,20.5C3.70459,20.5 2.94153,20.1839 2.37892,19.6213 1.81631,19.0587 1.50024,18.2956 1.50024,17.5L1.50024,6.5C1.50024,5.70435 1.81631,4.94129 2.37892,4.37868 2.94153,3.81607 3.70459,3.5 4.50024,3.5L8.50024,3.5C8.76546,3.5,9.01981,3.60536,9.20735,3.79289L11.9145,6.5 18.5002,6.5C19.2959,6.5 20.059,6.81607 20.6216,7.37868 21.1842,7.94129 21.5002,8.70435 21.5002,9.5L21.5002,10.7682z" />
+                                                                        </DrawingGroup>
+                                                                    </DrawingImage.Drawing>
+                                                                </DrawingImage>
+                                                            </Image.Source>
+                                                        </Image>
+                                                    </Border>
+                                                </Grid>
+                                                <ui:SimpleStackPanel Orientation="Horizontal" Spacing="6">
+                                                    <Button Content="清理缓存文件" Name="ClearCacheFilesButton" Click="ClearCacheFilesButton_Clicked" />
+                                                    <Button Content="清理自动保存的截图" Name="ClearAutoSavedSnapshotButton" Click="ClearAutoSavedSnapshotButton_Clicked" />
+                                                </ui:SimpleStackPanel>
+                                            </ui:SimpleStackPanel>
+                                        </ui:SimpleStackPanel>
+                                    </ui:SimpleStackPanel>
+                                    
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0"
                                           Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4" />
                                     <TextBlock Margin="0,0,0,8" Text="自动清理" FontWeight="Bold" Foreground="#fafafa"
@@ -8064,7 +8186,28 @@
                                 <ui:SimpleStackPanel Spacing="6">
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="使用MagnificationAPI截图"
-                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
+                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,6,0" />
+                                        <Border Height="20" CornerRadius="3" Background="#7f1d1d" Margin="0,0,12,0"
+                                                Padding="4,0">
+                                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="3"
+                                                                 VerticalAlignment="Center">
+                                                <Image Width="15" Height="15" VerticalAlignment="Center">
+                                                    <Image.Source>
+                                                        <DrawingImage>
+                                                            <DrawingImage.Drawing>
+                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                    <GeometryDrawing Brush="#fca5a5"
+                                                                                     Geometry="F1 M24,24z M0,0z M20.1758,20.0951L15.1058,9.97512C15.0358,9.83512,14.9958,9.68512,14.9958,9.52512L14.9958,2.99512 15.4958,2.99512C16.0458,2.99512 16.4958,2.54512 16.4958,1.99512 16.4958,1.44512 16.0458,0.995117 15.4958,0.995117L8.49582,0.995117C7.94582,0.995117 7.49582,1.44512 7.49582,1.99512 7.49582,2.54512 7.94582,2.99512 8.49582,2.99512L8.99582,2.99512 8.99582,9.52512C8.99582,9.67512,8.95582,9.83512,8.89582,9.97512L3.82582,20.0951C3.67582,20.4051 3.59582,20.7451 3.61582,21.0851 3.62582,21.4251 3.73582,21.7651 3.91582,22.0551 4.09582,22.3451 4.34582,22.5851 4.64582,22.7551 4.94582,22.9151 5.27582,23.0051 5.60582,23.0051L18.3758,23.0051C18.7558,23.0051 19.0558,22.9251 19.3558,22.7551 19.6558,22.5851 19.9058,22.3451 20.0858,22.0551 20.2658,21.7651 20.3658,21.4351 20.3858,21.0851 20.3958,20.7451 20.3258,20.4051 20.1758,20.1051L20.1758,20.0951z M10.6858,10.8651C10.8958,10.4451,11.0058,9.98512,11.0058,9.52512L11.0058,2.99512 13.0058,2.99512 13.0058,9.52512C13.0058,9.98512,13.1158,10.4551,13.3258,10.8651L15.3858,14.9951 8.62582,14.9951 10.6958,10.8651 10.6858,10.8651z" />
+                                                                </DrawingGroup>
+                                                            </DrawingImage.Drawing>
+                                                        </DrawingImage>
+                                                    </Image.Source>
+                                                </Image>
+                                                <TextBlock Foreground="#fca5a5" Text="实验性选项" FontSize="12"
+                                                           VerticalAlignment="Center">
+                                                </TextBlock>
+                                            </ui:SimpleStackPanel>
+                                        </Border>
                                         <ui:ToggleSwitch OnContent="" OffContent=""
                                                          Name="ToggleSwitchScreenshotUsingMagnificationAPI"
                                                          IsOn="True" FontFamily="Microsoft YaHei UI"
@@ -8084,25 +8227,25 @@
                                         <TextBlock Foreground="#fafafa" Text="截图后以 .png 格式复制到剪贴板"
                                                    VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
                                         <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchCopyScreenshotToClipbard"
+                                                         Name="ToggleSwitchCopyScreenshotToClipboard"
                                                          IsOn="True" FontFamily="Microsoft YaHei UI"
-                                                         FontWeight="Bold"/>
+                                                         FontWeight="Bold" Toggled="ToggleSwitchCopyScreenshotToClipboard_OnToggled"/>
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="截图时隐藏ICC主窗口"
                                                    VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
                                         <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchHideMainWinWhenScreenShot"
+                                                         Name="ToggleSwitchHideMainWinWhenScreenshot"
                                                          IsOn="True" FontFamily="Microsoft YaHei UI"
-                                                         FontWeight="Bold"/>
+                                                         FontWeight="Bold" Toggled="ToggleSwitchHideMainWinWhenScreenshot_OnToggled"/>
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="截图时附加墨迹到截图文件上"
                                                    VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
                                         <ui:ToggleSwitch OnContent="" OffContent=""
-                                                         Name="ToggleSwitchAttatchInkWhenScreenshot"
+                                                         Name="ToggleSwitchAttachInkWhenScreenshot"
                                                          IsOn="True" FontFamily="Microsoft YaHei UI"
-                                                         FontWeight="Bold"/>
+                                                         FontWeight="Bold" Toggled="ToggleSwitchAttachInkWhenScreenshot_OnToggled"/>
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="窗口截图只截取最大化窗口"
@@ -8110,7 +8253,7 @@
                                         <ui:ToggleSwitch OnContent="" OffContent=""
                                                          Name="ToggleSwitchOnlySnapshotMaximizeWindow"
                                                          IsOn="True" FontFamily="Microsoft YaHei UI"
-                                                         FontWeight="Bold"/>
+                                                         FontWeight="Bold" Toggled="ToggleSwitchOnlySnapshotMaximizeWindow_OnToggled"/>
                                     </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Vertical" HorizontalAlignment="Left" Spacing="8">
                                         <TextBlock Foreground="#fafafa" Text="截图文件文件名" VerticalAlignment="Center"
@@ -8118,8 +8261,8 @@
                                         <ui:SimpleStackPanel Orientation="Horizontal" Spacing="10">
                                             <TextBox ui:TextBoxHelper.IsDeleteButtonVisible="False" Width="320" x:Name="ScreenshotFileName" Text='Screenshot-[YYYY]-[MM]-[DD]-[HH]-[mm]-[ss].png'
                                                      TextWrapping="NoWrap" AcceptsTab="False" AcceptsReturn="False" 
-                                                     TextChanged="AutoSavedStrokesLocationTextBox_TextChanged" />
-                                            <Button Name="ScreenshotFileNameResetButton" Content="浏览"
+                                                     TextChanged="ScreenshotFileName_TextChanged" />
+                                            <Button Name="ScreenshotFileNameResetButton" Content="重置"
                                                     Click="AutoSavedStrokesLocationButton_Click" />
                                         </ui:SimpleStackPanel>
                                         <ui:SimpleStackPanel Orientation="Vertical" Spacing="2">
@@ -8142,7 +8285,7 @@
                                                 <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Foreground="#a1a1aa" Text="[mm] - 日期分钟数"/>
                                                 <TextBlock Grid.Column="2" Grid.Row="1" TextWrapping="Wrap" Foreground="#a1a1aa" Text="[ss] - 日期秒数"/>
                                                 <TextBlock Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" Foreground="#a1a1aa" Text="[width] - 图片宽度"/>
-                                                <TextBlock Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Foreground="#a1a1aa" Text="[width] - 图片高度"/>
+                                                <TextBlock Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Foreground="#a1a1aa" Text="[height] - 图片高度"/>
                                             </Grid>
                                         </ui:SimpleStackPanel>
                                     </ui:SimpleStackPanel>

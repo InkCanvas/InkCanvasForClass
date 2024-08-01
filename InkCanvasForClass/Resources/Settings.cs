@@ -25,11 +25,30 @@ namespace Ink_Canvas
         public RandSettings RandSettings { get; set; } = new RandSettings();
         [JsonProperty("snapshot")]
         public Snapshot Snapshot { get; set; } = new Snapshot();
+        [JsonProperty("storage")]
+        public Storage Storage { get; set; } = new Storage();
     }
 
     public class Snapshot {
         [JsonProperty("usingMagnificationAPI")]
         public bool ScreenshotUsingMagnificationAPI { get; set; } = false;
+        [JsonProperty("copyScreenshotToClipboard")]
+        public bool CopyScreenshotToClipboard { get; set; } = true;
+        [JsonProperty("hideMainWinWhenScreenshot")]
+        public bool HideMainWinWhenScreenshot { get; set; } = true;
+        [JsonProperty("attachInkWhenScreenshot")]
+        public bool AttachInkWhenScreenshot { get; set; } = true;
+        [JsonProperty("onlySnapshotMaximizeWindow")]
+        public bool OnlySnapshotMaximizeWindow { get; set; } = false;
+        [JsonProperty("screenshotFileName")]
+        public string ScreenshotFileName { get; set; } = "Screenshot-[YYYY]-[MM]-[DD]-[HH]-[mm]-[ss].png";
+    }
+
+    public class Storage {
+        [JsonProperty("storageLocation")] 
+        public string StorageLocation { get; set; } = "a-";
+        [JsonProperty("userStorageLocation")] 
+        public string UserStorageLocation { get; set; } = "";
     }
 
     public class Canvas

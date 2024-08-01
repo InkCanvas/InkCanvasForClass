@@ -253,6 +253,8 @@ namespace Ink_Canvas {
             StylusInvertedListenerInit();
 
             PenPaletteV2Init();
+
+            InitStorageManagementModule();
         }
 
         private void SystemEventsOnDisplaySettingsChanged(object sender, EventArgs e) {

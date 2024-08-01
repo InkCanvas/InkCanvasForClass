@@ -2052,6 +2052,40 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
+        private void ToggleSwitchCopyScreenshotToClipboard_OnToggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Snapshot.CopyScreenshotToClipboard = ToggleSwitchCopyScreenshotToClipboard.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchHideMainWinWhenScreenshot_OnToggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Snapshot.HideMainWinWhenScreenshot = ToggleSwitchHideMainWinWhenScreenshot.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchAttachInkWhenScreenshot_OnToggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Snapshot.AttachInkWhenScreenshot = ToggleSwitchAttachInkWhenScreenshot.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchOnlySnapshotMaximizeWindow_OnToggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Snapshot.OnlySnapshotMaximizeWindow = ToggleSwitchOnlySnapshotMaximizeWindow.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private DelayAction screenshotFileNameDelayAction = new DelayAction();
+
+        private void ScreenshotFileName_TextChanged(object sender, TextChangedEventArgs e) {
+            if (!isLoaded) return;
+            screenshotFileNameDelayAction.DebounceAction(2000,null, () => {
+                Settings.Snapshot.ScreenshotFileName = ScreenshotFileName.Text;
+            });
+            SaveSettingsToFile();
+        }
+
         #endregion
 
         public static void SaveSettingsToFile() {
