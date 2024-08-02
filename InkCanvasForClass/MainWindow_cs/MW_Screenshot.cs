@@ -17,10 +17,13 @@ using Vanara.PInvoke;
 using Encoder = System.Drawing.Imaging.Encoder;
 using OperatingSystem = OSVersionExtension.OperatingSystem;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
+using System.Management;
+using System.Windows.Shapes;
+using Path = System.IO.Path;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
-
         #region MagnificationAPI 获取屏幕截图并过滤ICC窗口
 
         #region Dubi906w 的轮子
@@ -155,7 +158,8 @@ namespace Ink_Canvas {
                 IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
             // 設定窗體樣式和排布
             int style = GetWindowLong(windowHostHandle, GWL_STYLE);
-            style &= ~WS_CAPTION; // 隐藏标题栏style &= ~WS_THICKFRAME; // 禁止窗口拉伸
+            style &= ~WS_CAPTION; // 隐藏标题栏
+            style &= ~WS_THICKFRAME; // 禁止窗口拉伸
             SetWindowLong(windowHostHandle, GWL_STYLE, style);
             SetWindowPos(windowHostHandle, IntPtr.Zero, 0, 0, 0, 0, SWP_NOSIZE | SWP_FRAMECHANGED);
             // 設定額外樣式
@@ -166,11 +170,42 @@ namespace Ink_Canvas {
             // 設定放大鏡工廠
             Magnification.MAGTRANSFORM matrix = new Magnification.MAGTRANSFORM();
             matrix[0, 0] = 1.0f;
+            matrix[0, 1] = 0.0f;
+            matrix[0, 2] = 0.0f;
+            matrix[1, 0] = 0.0f;
             matrix[1, 1] = 1.0f;
-            matrix[2, 2] = 1.0f;
+            matrix[1, 2] = 0.0f;
+            matrix[2, 0] = 1.0f;
+            matrix[2, 1] = 0.0f;
+            matrix[2, 2] = 0.0f;
             if (!Magnification.MagSetWindowTransform(hwndMag, matrix)) return;
             // 設定放大鏡轉化矩乘陣列
             Magnification.MAGCOLOREFFECT magEffect = new Magnification.MAGCOLOREFFECT();
+            magEffect[0, 0] = 1.0f;
+            magEffect[0, 1] = 0.0f;
+            magEffect[0, 2] = 0.0f;
+            magEffect[0, 3] = 0.0f;
+            magEffect[0, 4] = 0.0f;
+            magEffect[1, 0] = 0.0f;
+            magEffect[1, 1] = 1.0f;
+            magEffect[1, 2] = 0.0f;
+            magEffect[1, 3] = 0.0f;
+            magEffect[1, 4] = 0.0f;
+            magEffect[2, 0] = 0.0f;
+            magEffect[2, 1] = 0.0f;
+            magEffect[2, 2] = 1.0f;
+            magEffect[2, 3] = 0.0f;
+            magEffect[2, 4] = 0.0f;
+            magEffect[3, 0] = 0.0f;
+            magEffect[3, 1] = 0.0f;
+            magEffect[3, 2] = 0.0f;
+            magEffect[3, 3] = 1.0f;
+            magEffect[3, 4] = 0.0f;
+            magEffect[4, 0] = 0.0f;
+            magEffect[4, 1] = 0.0f;
+            magEffect[4, 2] = 0.0f;
+            magEffect[4, 3] = 0.0f;
+            magEffect[4, 4] = 1.0f;
             if (!Magnification.MagSetColorEffect(hwndMag, magEffect)) return;
             // 顯示窗體
             ShowWindow(windowHostHandle, SW_SHOW);
@@ -202,6 +237,7 @@ namespace Ink_Canvas {
                 memoryGraphics.ReleaseHdc();
                 callbackAction(bmp);
             }
+
             // 反注册宿主窗口
             UnregisterClass("ICCMagnifierWindowHost", IntPtr.Zero);
             // 销毁宿主窗口
@@ -209,10 +245,11 @@ namespace Ink_Canvas {
             DestroyWindow(windowHostHandle);
         }
 
-        public Task<Bitmap> SaveScreenshotToDesktopByMagnificationAPIAsync(HWND[] hwndsList, bool isUsingCallback = false) {
+        public Task<Bitmap> SaveScreenshotToDesktopByMagnificationAPIAsync(HWND[] hwndsList,
+            bool isUsingCallback = false) {
             return Task.Run(() => {
                 var t = new TaskCompletionSource<Bitmap>();
-                SaveScreenshotToDesktopByMagnificationAPI(hwndsList, bitmap => t.TrySetResult(bitmap),isUsingCallback);
+                SaveScreenshotToDesktopByMagnificationAPI(hwndsList, bitmap => t.TrySetResult(bitmap), isUsingCallback);
                 return t.Task;
             });
         }
@@ -229,9 +266,9 @@ namespace Ink_Canvas {
         static extern IntPtr SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
         public static IntPtr GetClassLongPtr(IntPtr hWnd, int nIndex) {
-            if (IntPtr.Size > 4) 
+            if (IntPtr.Size > 4)
                 return GetClassLongPtr64(hWnd, nIndex);
-            else 
+            else
                 return new IntPtr(GetClassLongPtr32(hWnd, nIndex));
         }
 
@@ -276,6 +313,45 @@ namespace Ink_Canvas {
 
         [DllImport("dwmapi.dll")]
         static extern int DwmGetWindowAttribute(IntPtr hwnd, int dwAttribute, out bool pvAttribute, int cbAttribute);
+        [DllImport("dwmapi.dll")]
+        static extern int DwmGetWindowAttribute(IntPtr hwnd, DwmWindowAttribute dwAttribute, out RECT pvAttribute, int cbAttribute);
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetLayeredWindowAttributes(IntPtr hwnd, out uint crKey, out byte bAlpha, out uint dwFlags);
+        public delegate bool EnumWindowsProc(IntPtr hwnd, IntPtr lParam);
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool EnumChildWindows(IntPtr hwndParent, EnumWindowsProc lpEnumFunc, IntPtr lParam);
+        [DllImport("user32.dll", SetLastError=true)]
+        static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+
+        enum DwmWindowAttribute : uint {
+            NCRenderingEnabled = 1,
+            NCRenderingPolicy,
+            TransitionsForceDisabled,
+            AllowNCPaint,
+            CaptionButtonBounds,
+            NonClientRtlLayout,
+            ForceIconicRepresentation,
+            Flip3DPolicy,
+            ExtendedFrameBounds,
+            HasIconicBitmap,
+            DisallowPeek,
+            ExcludedFromPeek,
+            Cloak,
+            Cloaked,
+            FreezeRepresentation,
+            PassiveUpdateMode,
+            UseHostBackdropBrush,
+            UseImmersiveDarkMode = 20,
+            WindowCornerPreference = 33,
+            BorderColor,
+            CaptionColor,
+            TextColor,
+            VisibleFrameBorderThickness,
+            SystemBackdropType,
+            Last
+        }
 
         public Icon GetAppIcon(IntPtr hwnd) {
             IntPtr iconHandle = SendMessage(hwnd, 0x7F, 2, 0);
@@ -303,6 +379,9 @@ namespace Ink_Canvas {
             public RECT Rect { get; set; }
             public WINDOWPLACEMENT Placement { get; set; }
             public HWND hwnd { get; set; }
+            public RECT RealRect { get; set; }
+            public Rectangle ContentRect { get; set; }
+            public IntPtr Handle { get; set; }
         }
 
         public struct WINDOWPLACEMENT {
@@ -334,7 +413,7 @@ namespace Ink_Canvas {
                 new HWND(hShellWnd), new HWND(hDefView), new HWND(folderView), new HWND(taskBar)
             };
             var excludedWindowTitle = new string[] {
-                "NVIDIA GeForce Overlay"
+                "NVIDIA GeForce Overlay", "Ink Canvas 画板", "Ink Canvas Annotation", "Ink Canvas Artistry", "InkCanvasForClass"
             };
             excluded.AddRange(excludedHwnds);
             if (!EnumDesktopWindows(IntPtr.Zero, new EnumDesktopWindowsDelegate((hwnd, param) => {
@@ -342,16 +421,19 @@ namespace Ink_Canvas {
                         var isvisible = IsWindowVisible(hwnd);
                         if (!isvisible) return true;
                         var windowLong = (int)GetWindowLongPtr(hwnd, -20);
+                        GetLayeredWindowAttributes(hwnd, out uint crKey, out byte bAlpha, out uint dwFlags);
                         if ((windowLong & 0x00000080L) != 0) return true;
-                        DwmGetWindowAttribute(hwnd, 14, out bool isCloacked, Marshal.SizeOf(typeof(bool)));
+                        if ((windowLong & 0x00080000) != 0 && (dwFlags & 0x00000002) != 0 && bAlpha == 0) return true; //分层窗口且全透明
+                        DwmGetWindowAttribute(hwnd, (int)DwmWindowAttribute.Cloaked, out bool isCloacked, Marshal.SizeOf(typeof(bool)));
+                        DwmGetWindowAttribute(hwnd, DwmWindowAttribute.ExtendedFrameBounds, out RECT realRect, Marshal.SizeOf(typeof(RECT)));
                         if (isCloacked) return true;
                         var icon = GetAppIcon(hwnd);
                         var length = GetWindowTextLength(hwnd) + 1;
                         var title = new StringBuilder(length);
                         GetWindowText(hwnd, title, length);
-                        if (title.ToString().Length == 0) return true;
+                        // if (title.ToString().Length == 0) return true;
                         // 這裡懶得做 Alt Tab窗口的校驗了，直接窗體標題黑名單
-                        if (excludedWindowTitle.Contains(title.ToString())) return true;
+                        if (excludedWindowTitle.Equals(title.ToString())) return true;
                         RECT rect;
                         WINDOWPLACEMENT placement = new WINDOWPLACEMENT();
                         GetWindowPlacement(hwnd, ref placement);
@@ -359,6 +441,7 @@ namespace Ink_Canvas {
                         GetWindowRect(hwnd, out rect);
                         var w = rect.Width;
                         var h = rect.Height;
+                        Trace.WriteLine($"x: {realRect.X - rect.X} y: {realRect.Y - rect.Y} w: {realRect.Width} h: {realRect.Height}");
                         if (w == 0 || h == 0) return true;
                         Bitmap bmp = new Bitmap(rect.Width, rect.Height);
                         Graphics memoryGraphics = Graphics.FromImage(bmp);
@@ -373,6 +456,9 @@ namespace Ink_Canvas {
                             Height = h,
                             Rect = rect,
                             Placement = placement,
+                            RealRect = realRect,
+                            Handle = hwnd,
+                            ContentRect = new Rectangle(realRect.X - rect.X, realRect.Y - rect.Y, realRect.Width, realRect.Height),
                         });
                         memoryGraphics.ReleaseHdc(hdc);
                         System.GC.Collect();
@@ -383,9 +469,57 @@ namespace Ink_Canvas {
             return windows.ToArray();
         }
 
+        public static string GetProcessPathByPid(int processId) {
+            string query = $"SELECT Name, ExecutablePath FROM Win32_Process WHERE ProcessId = {processId}";
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+            foreach (ManagementObject obj in searcher.Get()) {
+                string executablePath = obj["ExecutablePath"]?.ToString();
+                if (!string.IsNullOrEmpty(executablePath)) return executablePath;
+            }
+            return "";
+        }
+
+        public async Task<string> GetProcessPathByPidAsync(int processId) {
+            var result = await Task.Run(() => GetProcessPathByPid(processId));
+            return result;
+        }
+
+        private static string GetAppFriendlyName(string filePath)
+        {
+            var versionInfo = FileVersionInfo.GetVersionInfo(filePath);
+            return versionInfo.FileDescription;
+        }
+
         public async Task<WindowInformation[]> GetAllWindowsAsync(HWND[] excludedHwnds) {
             var windows = await Task.Run(() => GetAllWindows(excludedHwnds));
-            return windows;
+            var _wins = new List<WindowInformation>(){};
+            foreach (var w in windows) {
+                _wins.Add(w);
+            }
+            foreach (var windowInformation in windows) {
+                if (windowInformation.Title.Length == 0) {
+                    GetWindowThreadProcessId(windowInformation.Handle, out uint Pid);
+                    if (Pid != 0) {
+                        var _path = Path.GetFullPath(await GetProcessPathByPidAsync((int)Pid));
+                        var processPath = Path.GetFullPath(Process.GetCurrentProcess().MainModule.FileName);
+                        if (string.Equals(_path, processPath, StringComparison.OrdinalIgnoreCase) || _path == "") {
+                            _wins.Remove(windowInformation);
+                        } else {
+                            var _des = GetAppFriendlyName(_path);
+                            Trace.WriteLine(_des);
+                            if (_des == null) {
+                                _wins.Remove(windowInformation);
+                            } else {
+                                var index = _wins.IndexOf(windowInformation);
+                                _wins[index].Title = _des;
+                            }
+                        }
+                    } else {
+                        _wins.Remove(windowInformation);
+                    }
+                }
+            }
+            return _wins.ToArray();
         }
 
         #endregion
@@ -398,6 +532,7 @@ namespace Ink_Canvas {
             using (Graphics memoryGrahics = Graphics.FromImage(bitmap)) {
                 memoryGrahics.CopyFromScreen(rc.X, rc.Y, 0, 0, rc.Size, CopyPixelOperation.SourceCopy);
             }
+
             return bitmap;
         }
 
@@ -405,10 +540,8 @@ namespace Ink_Canvas {
 
         #region 通用截圖API
 
-        private BitmapImage BitmapToImageSource(Bitmap bitmap)
-        {
-            using (MemoryStream memory = new MemoryStream())
-            {
+        private BitmapImage BitmapToImageSource(Bitmap bitmap) {
+            using (MemoryStream memory = new MemoryStream()) {
                 bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
                 memory.Position = 0;
                 BitmapImage bitmapimage = new BitmapImage();
@@ -444,40 +577,48 @@ namespace Ink_Canvas {
             public HWND[] ExcludedHwnds { get; set; } = new HWND[] { };
         }
 
-        private static ImageCodecInfo GetEncoderInfo(string mimeType)
-        {
+        private static ImageCodecInfo GetEncoderInfo(string mimeType) {
             foreach (ImageCodecInfo codec in ImageCodecInfo.GetImageEncoders())
                 if (codec.MimeType == mimeType)
                     return codec;
 
             return null;
         }
-        
+
         public async Task<Bitmap> FullscreenSnapshot(SnapshotConfig config) {
-            Bitmap bitmap = new Bitmap(1,1);
+            Bitmap bitmap = new Bitmap(1, 1);
             var ex = new List<HWND>() { new HWND(new WindowInteropHelper(this).Handle) };
             ex.AddRange(config.ExcludedHwnds);
             if (config.SnapshotMethod == SnapshotMethod.Auto) {
                 if (OSVersion.GetOperatingSystem() >= OperatingSystem.Windows81) {
-                    bitmap = await SaveScreenshotToDesktopByMagnificationAPIAsync(ex.ToArray(),false);
+                    bitmap = await SaveScreenshotToDesktopByMagnificationAPIAsync(ex.ToArray(), false);
                 } else {
-                    if (ex.Count != 0) foreach (var hwnd in ex) ShowWindow(hwnd.DangerousGetHandle(), 0);
+                    if (ex.Count != 0)
+                        foreach (var hwnd in ex)
+                            ShowWindow(hwnd.DangerousGetHandle(), 0);
                     bitmap = GetScreenshotBitmap();
                     foreach (var hwnd in ex) ShowWindow(hwnd.DangerousGetHandle(), 5);
                 }
-            } else if (config.SnapshotMethod == SnapshotMethod.MagnificationAPIWithPrintWindow || config.SnapshotMethod == SnapshotMethod.MagnificationAPIWithCallback) {
+            } else if (config.SnapshotMethod == SnapshotMethod.MagnificationAPIWithPrintWindow ||
+                       config.SnapshotMethod == SnapshotMethod.MagnificationAPIWithCallback) {
                 if (!(OSVersion.GetOperatingSystem() >= OperatingSystem.Windows81))
                     throw new Exception("您的系統版本不支持 MagnificationAPI 截圖！");
-                bitmap = await SaveScreenshotToDesktopByMagnificationAPIAsync(ex.ToArray(),config.SnapshotMethod == SnapshotMethod.MagnificationAPIWithCallback);
+                bitmap = await SaveScreenshotToDesktopByMagnificationAPIAsync(ex.ToArray(),
+                    config.SnapshotMethod == SnapshotMethod.MagnificationAPIWithCallback);
             } else if (config.SnapshotMethod == SnapshotMethod.GraphicsAPICopyFromScreen) {
-                if (ex.Count != 0) foreach (var hwnd in ex) ShowWindow(hwnd.DangerousGetHandle(), 0);
+                if (ex.Count != 0)
+                    foreach (var hwnd in ex)
+                        ShowWindow(hwnd.DangerousGetHandle(), 0);
                 bitmap = GetScreenshotBitmap();
                 foreach (var hwnd in ex) ShowWindow(hwnd.DangerousGetHandle(), 5);
             }
+
             if (bitmap.Width == 1 && bitmap.Height == 1) throw new Exception("截圖失敗");
             try {
                 if (config.IsCopyToClipboard) Clipboard.SetImage(BitmapToImageSource(bitmap));
-            } catch (NotSupportedException e) {}
+            }
+            catch (NotSupportedException e) { }
+
             if (config.IsSaveToLocal) {
                 var fullPath = config.BitmapSavePath.FullName;
                 if (!config.BitmapSavePath.Exists) config.BitmapSavePath.Create();
@@ -486,10 +627,13 @@ namespace Ink_Canvas {
                     .Replace("[HH]", DateTime.Now.Hour.ToString()).Replace("[mm]", DateTime.Now.Minute.ToString())
                     .Replace("[ss]", DateTime.Now.Second.ToString()).Replace("[width]", bitmap.Width.ToString())
                     .Replace("[height]", bitmap.Height.ToString());
-                var finalPath = (fullPath.EndsWith("\\") ? fullPath.Substring(0, fullPath.Length - 1) : fullPath) + $"\\{fileName}";
-                bitmap.Save(finalPath, config.OutputMIMEType == OutputImageMIMEFormat.Png ? ImageFormat.Png : 
+                var finalPath = (fullPath.EndsWith("\\") ? fullPath.Substring(0, fullPath.Length - 1) : fullPath) +
+                                $"\\{fileName}";
+                bitmap.Save(finalPath, config.OutputMIMEType == OutputImageMIMEFormat.Png ? ImageFormat.Png :
                     config.OutputMIMEType == OutputImageMIMEFormat.Bmp ? ImageFormat.Bmp : ImageFormat.Jpeg);
             }
+            bitmap.Dispose();
+
             return bitmap;
         }
 

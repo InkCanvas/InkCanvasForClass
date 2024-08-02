@@ -186,7 +186,7 @@ namespace Ink_Canvas {
 
         public static Settings Settings = new Settings();
         public static string settingsFileName = "Settings.json";
-        private bool isLoaded = false;
+        public bool isLoaded = false;
 
         [DllImport("user32.dll")]
         static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);

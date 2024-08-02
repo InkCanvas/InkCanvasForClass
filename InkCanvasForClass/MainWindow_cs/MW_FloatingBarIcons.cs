@@ -1030,7 +1030,7 @@ namespace Ink_Canvas {
             HideSubPanelsImmediately();
             await Task.Delay(50);
             //SaveScreenShotToDesktop();
-            var scrwin = new ScreenshotWindow(this);
+            var scrwin = new ScreenshotWindow(this,Settings);
             scrwin.Show();
         }
 

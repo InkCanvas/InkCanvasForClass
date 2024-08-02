@@ -270,8 +270,11 @@ namespace Ink_Canvas {
         }
 
 
-
-        //private DirectoryInfo GetDirectoryBySettings()
+        private DirectoryInfo GetDirectoryBySettings() {
+            var si = Settings.Storage.StorageLocation;
+            throw new NotImplementedException();
+            return new DirectoryInfo("");
+        }
 
         private DirectoryInfo GetDirectoryInfoByIndex(int index) {
             var autoSavedInkPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\AutoSavedInk");
