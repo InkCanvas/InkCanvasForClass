@@ -1967,6 +1967,8 @@ namespace Ink_Canvas {
                 SettingsPPTGroupBox,
                 SettingsAdvancedGroupBox,
                 SettingsAutomationGroupBox,
+                SettingsStorageGroupBox,
+                SettingsSnapshotGroupBox,
                 SettingsRandWindowGroupBox,
                 SettingsAboutGroupBox
             };
@@ -1980,6 +1982,8 @@ namespace Ink_Canvas {
                 SettingsPPTJumpToGroupBoxButton,
                 SettingsAdvancedJumpToGroupBoxButton,
                 SettingsAutomationJumpToGroupBoxButton,
+                SettingsStorageJumpToGroupBoxButton,
+                SettingsSnapshotJumpToGroupBoxButton,
                 SettingsRandWindowJumpToGroupBoxButton,
                 SettingsAboutJumpToGroupBoxButton
             };

@@ -270,10 +270,21 @@ namespace Ink_Canvas {
         }
 
 
-        private DirectoryInfo GetDirectoryBySettings() {
-            var si = Settings.Storage.StorageLocation;
-            throw new NotImplementedException();
-            return new DirectoryInfo("");
+        private DirectoryInfo GetDirectory(string type) {
+            if (Settings.Storage.StorageLocation.Substring(0, 1) != "c") {
+                var autoSavedInkPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\AutoSavedInk");
+                var autoSavedSnapshotPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\AutoSavedSnapshot");
+                var exportedInkPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\ExportedInk");
+                var quotedPhotosPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\QuotedPhotos");
+                var cachesPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\caches");
+                if (type == "autosaveink") return autoSavedInkPath;
+                else if (type == "autosavesnapshot") return autoSavedSnapshotPath;
+                else if (type == "exportedink") return exportedInkPath;
+                else if (type == "quotedphotos") return quotedPhotosPath;
+                else if (type == "caches") return cachesPath;
+            }
+
+            return null;
         }
 
         private DirectoryInfo GetDirectoryInfoByIndex(int index) {
