@@ -14,6 +14,7 @@ using System.Windows.Ink;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using File = System.IO.File;
 using OperatingSystem = OSVersionExtension.OperatingSystem;
@@ -88,6 +89,16 @@ namespace Ink_Canvas {
                     AdministratorPrivilegeIndicateText.Text = "icc目前以管理员身份运行";
                     RunAsAdminButton.Visibility = Visibility.Collapsed;
                     RunAsUserButton.Visibility = Visibility.Visible;
+                    RegistryKey localKey;
+                    if(Environment.Is64BitOperatingSystem)
+                        localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+                    else
+                        localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
+
+                    int LUAValue = (int)(localKey.OpenSubKey("SOFTWARE").OpenSubKey("Microsoft").OpenSubKey("Windows")
+                        .OpenSubKey("CurrentVersion").OpenSubKey("Policies").OpenSubKey("System")
+                        .GetValue("EnableLUA", 1));
+                    CannotSwitchToUserPrivNotification.IsOpen = LUAValue == 0;
                 } else {
                     AdministratorPrivilegeIndicateText.Text = "icc目前以非管理员身份运行";
                     RunAsAdminButton.Visibility = Visibility.Visible;

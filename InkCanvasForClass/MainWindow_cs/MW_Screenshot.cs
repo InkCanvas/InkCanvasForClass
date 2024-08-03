@@ -18,6 +18,7 @@ using Encoder = System.Drawing.Imaging.Encoder;
 using OperatingSystem = OSVersionExtension.OperatingSystem;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using System.Management;
+using System.Reflection;
 using System.Windows.Shapes;
 using Path = System.IO.Path;
 using Rectangle = System.Drawing.Rectangle;
@@ -319,11 +320,10 @@ namespace Ink_Canvas {
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool GetLayeredWindowAttributes(IntPtr hwnd, out uint crKey, out byte bAlpha, out uint dwFlags);
         public delegate bool EnumWindowsProc(IntPtr hwnd, IntPtr lParam);
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool EnumChildWindows(IntPtr hwndParent, EnumWindowsProc lpEnumFunc, IntPtr lParam);
         [DllImport("user32.dll", SetLastError=true)]
         static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+        [DllImport("user32.dll")]
+        internal static extern int GetDpiForWindow(IntPtr hWnd);
 
         enum DwmWindowAttribute : uint {
             NCRenderingEnabled = 1,
@@ -382,6 +382,9 @@ namespace Ink_Canvas {
             public RECT RealRect { get; set; }
             public Rectangle ContentRect { get; set; }
             public IntPtr Handle { get; set; }
+            public int WindowDPI { get; set; }
+            public int SystemDPI { get; set; }
+            public double DPIScale { get; set; }
         }
 
         public struct WINDOWPLACEMENT {
@@ -426,6 +429,18 @@ namespace Ink_Canvas {
                         if ((windowLong & 0x00080000) != 0 && (dwFlags & 0x00000002) != 0 && bAlpha == 0) return true; //分层窗口且全透明
                         DwmGetWindowAttribute(hwnd, (int)DwmWindowAttribute.Cloaked, out bool isCloacked, Marshal.SizeOf(typeof(bool)));
                         DwmGetWindowAttribute(hwnd, DwmWindowAttribute.ExtendedFrameBounds, out RECT realRect, Marshal.SizeOf(typeof(RECT)));
+                        var pidRes = GetWindowThreadProcessId(hwnd, out uint pid);
+                        if (pid == 0 || pidRes == 0) return true;
+                        var dpiForHwnd = GetDpiForWindow(hwnd);
+                        var dpiXProperty = typeof(SystemParameters).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
+                        var dpiYProperty = typeof(SystemParameters).GetProperty("Dpi", BindingFlags.NonPublic | BindingFlags.Static);
+                        var dpiX = (int)dpiXProperty.GetValue(null, null);
+                        var dpiY = (int)dpiYProperty.GetValue(null, null);
+                        var dpi = (dpiX + dpiY) / 2;
+                        double scale = 1;
+                        if (dpi > dpiForHwnd) { // 说明该应用是win32应用，靠DWM的拉伸放大到高DPI
+                            scale = dpi / (double)dpiForHwnd;
+                        }
                         if (isCloacked) return true;
                         var icon = GetAppIcon(hwnd);
                         var length = GetWindowTextLength(hwnd) + 1;
@@ -441,7 +456,6 @@ namespace Ink_Canvas {
                         GetWindowRect(hwnd, out rect);
                         var w = rect.Width;
                         var h = rect.Height;
-                        Trace.WriteLine($"x: {realRect.X - rect.X} y: {realRect.Y - rect.Y} w: {realRect.Width} h: {realRect.Height}");
                         if (w == 0 || h == 0) return true;
                         Bitmap bmp = new Bitmap(rect.Width, rect.Height);
                         Graphics memoryGraphics = Graphics.FromImage(bmp);
@@ -458,7 +472,11 @@ namespace Ink_Canvas {
                             Placement = placement,
                             RealRect = realRect,
                             Handle = hwnd,
-                            ContentRect = new Rectangle(realRect.X - rect.X, realRect.Y - rect.Y, realRect.Width, realRect.Height),
+                            ContentRect = new Rectangle(realRect.X - rect.X, realRect.Y - rect.Y, (int)Math.Round(
+                                realRect.Width / scale ,0), (int)Math.Round(realRect.Height / scale, 0)),
+                            WindowDPI = dpiForHwnd,
+                            SystemDPI = dpi,
+                            DPIScale = scale
                         });
                         memoryGraphics.ReleaseHdc(hdc);
                         System.GC.Collect();

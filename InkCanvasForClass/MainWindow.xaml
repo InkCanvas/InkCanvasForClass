@@ -5753,6 +5753,13 @@
                                             </StackPanel>
                                         </Button>
                                     </ui:SimpleStackPanel>
+                                    <ui:InfoBar
+                                        IsOpen="True"
+                                        Name="CannotSwitchToUserPrivNotification"
+                                        IsClosable="False"
+                                        Severity="Warning"
+                                        Title="可能无法切换到普通用户权限"
+                                        Message="检测到您禁用了组策略项目：“用户帐户控制：以管理员批准模式运行所有管理员”，这可能会导致无法切换到普通用户权限" />
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
