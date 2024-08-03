@@ -243,6 +243,7 @@ namespace Ink_Canvas {
 
 
         private string pptName = null;
+        int currentShowPosition = -1;
 
         private void UpdatePPTBtnStyleSettingsStatus() {
             var sopt = Settings.PowerPointSettings.PPTSButtonsOption.ToString();
@@ -549,6 +550,17 @@ namespace Ink_Canvas {
                     File.WriteAllText(folderPath + "/Position", previousSlideID.ToString());
                 }
                 catch { }
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    try
+                    {
+                        MemoryStream ms = new MemoryStream();
+                        inkCanvas.Strokes.Save(ms);
+                        ms.Position = 0;
+                        memoryStreams[currentShowPosition] = ms;
+                    }
+                    catch { }
+                });
 
                 for (var i = 1; i <= Pres.Slides.Count; i++)
                     if (memoryStreams[i] != null)
@@ -627,6 +639,8 @@ namespace Ink_Canvas {
                     if (memoryStreams[Wn.View.CurrentShowPosition] != null &&
                         memoryStreams[Wn.View.CurrentShowPosition].Length > 0)
                         inkCanvas.Strokes.Add(new StrokeCollection(memoryStreams[Wn.View.CurrentShowPosition]));
+
+                    currentShowPosition = Wn.View.CurrentShowPosition;
                 }
                 catch {
                     // ignored
@@ -638,6 +652,7 @@ namespace Ink_Canvas {
                 //PptNavigationTextBlock.Text = $"{Wn.View.CurrentShowPosition}/{Wn.Presentation.Slides.Count}";
             });
             previousSlideID = Wn.View.CurrentShowPosition;
+
         }
 
         private bool _isPptClickingBtnTurned = false;

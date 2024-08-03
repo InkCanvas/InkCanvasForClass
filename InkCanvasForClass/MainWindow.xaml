@@ -2739,7 +2739,7 @@
                     </Grid>
                 </Viewbox>
                 <!-- 右下角 -->
-                <Viewbox x:Name="ViewboxBlackboardRightSide" Margin="3,0,0,0" Height="55" HorizontalAlignment="Right"
+                <Viewbox x:Name="ViewboxBlackboardRightSide" Margin="0,0,3,0" Height="55" HorizontalAlignment="Right"
                          VerticalAlignment="Bottom">
                     <Viewbox.LayoutTransform>
                         <ScaleTransform x:Name="ViewboxBlackboardRightSideScaleTransform" ScaleX="1" ScaleY="1" />
@@ -6663,7 +6663,7 @@
                                                          Toggled="ToggleSwitchRegistryShowBlackScreenLastSlideShow_Toggled" />
                                     </ui:SimpleStackPanel>
                                     <TextBlock
-                                        Text="# 以上功能会修改注册表，需要管理员权限运行。操作前请先备份注册表。选项仅支持最新Office 365，在其他版本上未经测试。"
+                                        Text="# 以上功能会修改注册表，需要管理员权限运行。操作前请先备份注册表。选项仅支持最新Office 365和WPS，其他版本未经测试。"
                                         TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
