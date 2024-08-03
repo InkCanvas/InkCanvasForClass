@@ -1558,11 +1558,6 @@ namespace Ink_Canvas {
             }
 
             isMouseDown = false;
-            if (ReplacedStroke != null || AddedStroke != null) {
-                timeMachine.CommitStrokeEraseHistory(ReplacedStroke, AddedStroke);
-                AddedStroke = null;
-                ReplacedStroke = null;
-            }
 
             if (_currentCommitType == CommitReason.ShapeDrawing && drawingShapeMode != 9) {
                 _currentCommitType = CommitReason.UserInput;

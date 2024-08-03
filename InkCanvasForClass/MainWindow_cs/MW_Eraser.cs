@@ -94,6 +94,14 @@ namespace Ink_Canvas {
 
             // end hittest
             hitTester.EndHitTesting();
+
+            // commit stroke erased history
+            // 我有受虐倾向，被这个bug硬控10秒钟，请大家嘲笑我
+            if (ReplacedStroke != null || AddedStroke != null) {
+                timeMachine.CommitStrokeEraseHistory(ReplacedStroke, AddedStroke);
+                AddedStroke = null;
+                ReplacedStroke = null;
+            }
         }
 
         private void EraserGeometry_StrokeHit(object sender,
