@@ -387,7 +387,7 @@ namespace Ink_Canvas {
 
             UnFoldFloatingBar_MouseUp(null, null);
 
-            if (inkCanvas.EditingMode == InkCanvasEditingMode.Select) PenIcon_Click(null, null);
+            if (SelectedMode == ICCToolsEnum.CursorMode) PenIcon_Click(null, null);
 
             if (currentMode == 0) {
                 LeftBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
@@ -746,8 +746,7 @@ namespace Ink_Canvas {
             RectangleSelectionHitTestBorder.Visibility = Visibility.Collapsed;
         }
 
-        private void PenIcon_Click(object sender, RoutedEventArgs e)
-        {
+        private void PenIcon_Click(object sender, RoutedEventArgs e) {
 
             if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
@@ -842,12 +841,11 @@ namespace Ink_Canvas {
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">MouseButtonEventArgs</param>
-        private void SymbolIconSelect_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-
+        private void SymbolIconSelect_MouseUp(object sender, MouseButtonEventArgs e) {
             if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == SymbolIconSelect && lastBorderMouseDownObject != SymbolIconSelect) return;
+            
 
             BtnSelect_Click(null, null);
             HideSubPanels("select");

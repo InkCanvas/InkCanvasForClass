@@ -4,10 +4,86 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
+
+        private Border lastBoardToolBtnDownBorder = null;
+        private Border lastBoardSideBtnDownBorder = null;
+
+        private void BoardToolBtnMouseDown(object sender, MouseButtonEventArgs e) {
+            if (lastBoardToolBtnDownBorder != null) return;
+            lastBoardToolBtnDownBorder = (Border)sender;
+            if (lastBoardToolBtnDownBorder.Name == "BoardPen") {
+                BoardMouseFeedbakBorder.Margin = new Thickness(60, 0, 0, 0);
+                ((Border)BoardMouseFeedbakBorder.Child).CornerRadius = new CornerRadius(0);
+            } else if (lastBoardToolBtnDownBorder.Name == "BoardSelect") {
+                BoardMouseFeedbakBorder.Margin = new Thickness(0);
+                ((Border)BoardMouseFeedbakBorder.Child).CornerRadius = new CornerRadius(4.5,0,0,4.5);
+            } else if (lastBoardToolBtnDownBorder.Name == "BoardEraser") {
+                BoardMouseFeedbakBorder.Margin = new Thickness(120, 0, 0, 0);
+                ((Border)BoardMouseFeedbakBorder.Child).CornerRadius = new CornerRadius(0);
+            } else if (lastBoardToolBtnDownBorder.Name == "BoardGeometry") {
+                BoardMouseFeedbakBorder.Margin = new Thickness(180, 0, 0, 0);
+                ((Border)BoardMouseFeedbakBorder.Child).CornerRadius = new CornerRadius(0);
+            } else if (lastBoardToolBtnDownBorder.Name == "BoardUndo") {
+                BoardMouseFeedbakBorder.Margin = new Thickness(240, 0, 0, 0);
+                ((Border)BoardMouseFeedbakBorder.Child).CornerRadius = new CornerRadius(0);
+            } else if (lastBoardToolBtnDownBorder.Name == "BoardRedo") {
+                BoardMouseFeedbakBorder.Margin = new Thickness(300, 0, 0, 0);
+                ((Border)BoardMouseFeedbakBorder.Child).CornerRadius = new CornerRadius(0,4.5,4.5,0);
+            }
+            BoardMouseFeedbakBorder.Visibility = Visibility.Visible;
+        }
+
+        private void BoardSideBtnMouseDown(object sender, MouseButtonEventArgs e) {
+            if (lastBoardSideBtnDownBorder != null) return;
+            lastBoardSideBtnDownBorder = (Border)sender;
+            if (lastBoardSideBtnDownBorder.Name == "BoardBackground") {
+                BoardSideBtnMouseFeedbakBorder.Margin = new Thickness(60, 0, 0, 0);
+                ((Border)BoardSideBtnMouseFeedbakBorder.Child).CornerRadius = new CornerRadius(0,4.5,4.5,0);
+                BoardSideBtnMouseFeedbakBorder.Visibility = Visibility.Visible;
+            } else if (lastBoardSideBtnDownBorder.Name == "BoardGesture") {
+                BoardSideBtnMouseFeedbakBorder.Margin = new Thickness(0);
+                ((Border)BoardSideBtnMouseFeedbakBorder.Child).CornerRadius = new CornerRadius(4.5,0,0,4.5);
+                BoardSideBtnMouseFeedbakBorder.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void BoardToolBtnMouseLeave(object sender, MouseEventArgs e) {
+            if (lastBoardToolBtnDownBorder == null) return;
+            lastBoardToolBtnDownBorder = null;
+            BoardMouseFeedbakBorder.Visibility = Visibility.Collapsed;
+        }
+
+        private void BoardSideBtnMouseLeave(object sender, MouseEventArgs e) {
+            if (lastBoardSideBtnDownBorder == null) return;
+            lastBoardSideBtnDownBorder = null;
+            BoardSideBtnMouseFeedbakBorder.Visibility = Visibility.Collapsed;
+        }
+
+        private void BoardPenMouseUp(object sender, MouseButtonEventArgs e) {
+            if (lastBoardToolBtnDownBorder == null) return;
+            BoardToolBtnMouseLeave(sender, null);
+            PenIcon_Click(null,null);
+        }
+
+        private void BoardSelectMouseUp(object sender, MouseButtonEventArgs e) {
+            if (lastBoardToolBtnDownBorder == null) return;
+            BoardToolBtnMouseLeave(sender, null);
+            SymbolIconSelect_MouseUp(null,null);
+        }
+
+        private void BoardGestureMouseUp(object sender, MouseButtonEventArgs e) {
+            if (lastBoardSideBtnDownBorder == null) return;
+            BoardSideBtnMouseLeave(sender, null);
+            TwoFingerGestureBorder_MouseUp(null, null);
+        }
+
         private void BoardChangeBackgroundColorBtn_MouseUp(object sender, RoutedEventArgs e) {
+            if (lastBoardSideBtnDownBorder == null) return;
+            BoardSideBtnMouseLeave(sender, null);
             UpdateBoardBackgroundPanelDisplayStatus();
             if (BoardBackgroundPopup.Visibility == Visibility.Visible) {
                 AnimationsHelper.HideWithSlideAndFade(BoardBackgroundPopup);
@@ -16,7 +92,9 @@ namespace Ink_Canvas {
             }
         }
 
-        private void BoardEraserIcon_Click(object sender, RoutedEventArgs e) {
+        private void BoardEraserMouseUp(object sender, RoutedEventArgs e) {
+            if (lastBoardToolBtnDownBorder == null) return;
+            BoardToolBtnMouseLeave(sender, null);
             if (inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint ||
                 inkCanvas.EditingMode == InkCanvasEditingMode.EraseByStroke) {
                 if (BoardEraserSizePanel.Visibility == Visibility.Collapsed) {
@@ -25,57 +103,26 @@ namespace Ink_Canvas {
                     AnimationsHelper.HideWithSlideAndFade(BoardEraserSizePanel);
                 }
             } else {
-                forceEraser = true;
-                forcePointEraser = true;
-                double k = 1;
-                if (Settings.Canvas.EraserShapeType == 0) {
-                    switch (BoardComboBoxEraserSize.SelectedIndex)
-                    {
-                        case 0:
-                            k = 0.5;
-                            break;
-                        case 1:
-                            k = 0.8;
-                            break;
-                        case 3:
-                            k = 1.25;
-                            break;
-                        case 4:
-                            k = 1.8;
-                            break;
-                    }
-                    inkCanvas.EraserShape = new EllipseStylusShape(k * 90, k * 90);
-                } else if (Settings.Canvas.EraserShapeType == 1) {
-                    switch (BoardComboBoxEraserSize.SelectedIndex)
-                    {
-                        case 0:
-                            k = 0.7;
-                            break;
-                        case 1:
-                            k = 0.9;
-                            break;
-                        case 3:
-                            k = 1.2;
-                            break;
-                        case 4:
-                            k = 1.6;
-                            break;
-                    }
-                    inkCanvas.EraserShape = new RectangleStylusShape(k * 90 * 0.6, k * 90);
-                }
-
-                // update tool selection
-                SelectedMode = ICCToolsEnum.EraseByGeometryMode;
-                ForceUpdateToolSelection(null);
-
-                inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
-                drawingShapeMode = 0;
-
-                inkCanvas_EditingModeChanged(inkCanvas, null);
-                CancelSingleFingerDragMode();
-
-                HideSubPanels("eraser");
+                EraserIcon_Click(null,null);
             }
+        }
+
+        private void BoardGeometryMouseUp(object sender, MouseButtonEventArgs e) {
+            if (lastBoardToolBtnDownBorder == null) return;
+            BoardToolBtnMouseLeave(sender, null);
+            ImageDrawShape_MouseUp(null,null);
+        }
+
+        private void BoardUndoMouseUp(object sender, MouseButtonEventArgs e) {
+            if (lastBoardToolBtnDownBorder == null) return;
+            BoardToolBtnMouseLeave(sender, null);
+            SymbolIconUndo_MouseUp(null,null);
+        }
+
+        private void BoardRedoMouseUp(object sender, MouseButtonEventArgs e) {
+            if (lastBoardToolBtnDownBorder == null) return;
+            BoardToolBtnMouseLeave(sender, null);
+            SymbolIconRedo_MouseUp(null,null);
         }
 
         private void BoardEraserIconByStrokes_Click(object sender, RoutedEventArgs e) {

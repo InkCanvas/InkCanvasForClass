@@ -21,7 +21,7 @@ namespace Ink_Canvas {
         }
 
         private CommitReason _currentCommitType = CommitReason.UserInput;
-        private bool IsEraseByPoint => inkCanvas.EditingMode == InkCanvasEditingMode.EraseByPoint;
+        private bool IsEraseByPoint => SelectedMode == ICCToolsEnum.EraseByGeometryMode;
         private StrokeCollection ReplacedStroke;
         private StrokeCollection AddedStroke;
         private StrokeCollection CuboidStrokeCollection;
