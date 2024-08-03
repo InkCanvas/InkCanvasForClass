@@ -1283,27 +1283,6 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
-        private void AutoSavedStrokesLocationTextBox_TextChanged(object sender, RoutedEventArgs e) {
-            if (!isLoaded) return;
-            Settings.Automation.AutoSavedStrokesLocation = AutoSavedStrokesLocation.Text;
-            SaveSettingsToFile();
-        }
-
-        private void AutoSavedStrokesLocationButton_Click(object sender, RoutedEventArgs e) {
-            var folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            folderBrowser.ShowDialog();
-            if (folderBrowser.SelectedPath.Length > 0) AutoSavedStrokesLocation.Text = folderBrowser.SelectedPath;
-        }
-
-        private void SetAutoSavedStrokesLocationToDiskDButton_Click(object sender, RoutedEventArgs e) {
-            AutoSavedStrokesLocation.Text = @"D:\Ink Canvas";
-        }
-
-        private void SetAutoSavedStrokesLocationToDocumentFolderButton_Click(object sender, RoutedEventArgs e) {
-            AutoSavedStrokesLocation.Text =
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ink Canvas";
-        }
-
         private void ToggleSwitchAutoDelSavedFiles_Toggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Automation.AutoDelSavedFiles = ToggleSwitchAutoDelSavedFiles.IsOn;
@@ -1632,6 +1611,14 @@ namespace Ink_Canvas {
             Settings.Startup.IsFoldAtStartup = false;
             Settings.Startup.EnableWindowChromeRendering = false;
 
+            Settings.Snapshot.CopyScreenshotToClipboard = true;
+            Settings.Snapshot.AttachInkWhenScreenshot = true;
+            Settings.Snapshot.OnlySnapshotMaximizeWindow = false;
+            Settings.Snapshot.ScreenshotFileName = "Screenshot-[YYYY]-[MM]-[DD]-[HH]-[mm]-[ss].png";
+            Settings.Snapshot.ScreenshotUsingMagnificationAPI = false;
+
+            Settings.Storage.StorageLocation = "fr";
+            Settings.Storage.UserStorageLocation = "";
         }
 
         private void BtnResetToSuggestion_Click(object sender, RoutedEventArgs e) {
@@ -1641,6 +1628,17 @@ namespace Ink_Canvas {
                 SaveSettingsToFile();
                 LoadSettings();
                 isLoaded = true;
+
+                isChangingUserStorageSelectionProgramically = true;
+                UpdateStorageLocations();
+                UpdateUserStorageSelection();
+                isChangingUserStorageSelectionProgramically = false;
+                HandleUserCustomStorageLocation();
+                InitStorageFoldersStructure(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path);
+                StartAnalyzeStorage();
+                CustomStorageLocationGroup.Visibility = ((StorageLocationItem)ComboBoxStoragePath.SelectedItem).SelectItem == "c-" ? Visibility.Visible : Visibility.Collapsed;
+                CustomStorageLocationCheckPanel.Visibility = ((StorageLocationItem)ComboBoxStoragePath.SelectedItem).SelectItem == "c-" ? Visibility.Visible : Visibility.Collapsed;
+                CustomStorageLocation.Text = Settings.Storage.UserStorageLocation;
 
                 ToggleSwitchRunAtStartup.IsOn = true;
             }
@@ -1656,7 +1654,6 @@ namespace Ink_Canvas {
                 SetSettingsToRecommendation();
                 Settings.Automation.AutoDelSavedFiles = true;
                 Settings.Automation.AutoDelSavedFilesDaysThreshold = 15;
-                SetAutoSavedStrokesLocationToDiskDButton_Click(null, null);
                 SaveSettingsToFile();
                 LoadSettings();
                 isLoaded = true;

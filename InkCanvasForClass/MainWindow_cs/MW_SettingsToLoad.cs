@@ -772,7 +772,6 @@ namespace Ink_Canvas {
 
                 SideControlMinimumAutomationSlider.Value = Settings.Automation.MinimumAutomationStrokeNumber;
 
-                AutoSavedStrokesLocation.Text = Settings.Automation.AutoSavedStrokesLocation;
                 ToggleSwitchAutoDelSavedFiles.IsOn = Settings.Automation.AutoDelSavedFiles;
                 ComboBoxAutoDelSavedFilesDaysThreshold.Text =
                     Settings.Automation.AutoDelSavedFilesDaysThreshold.ToString();

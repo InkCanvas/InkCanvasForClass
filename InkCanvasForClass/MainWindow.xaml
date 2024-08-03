@@ -7812,28 +7812,6 @@
                                             VerticalAlignment="Center" FontSize="14" FontFamily="Consolas"
                                             Margin="12,0,16,0" />
                                     </ui:SimpleStackPanel>
-                                    <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
-                                          StrokeThickness="1" Margin="0,4,0,4" />
-                                    <ui:SimpleStackPanel Orientation="Vertical" HorizontalAlignment="Left" Spacing="8">
-                                        <TextBlock Foreground="#fafafa" Text="墨迹与截图的保存路径" VerticalAlignment="Center"
-                                                   FontSize="14" Margin="0,0,16,0" />
-                                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="10">
-                                            <TextBox ui:TextBoxHelper.IsDeleteButtonVisible="False" Width="320" x:Name="AutoSavedStrokesLocation" Text="D:\Ink Canvas"
-                                                     TextWrapping="Wrap" AcceptsTab="False" AcceptsReturn="False" 
-                                                     TextChanged="AutoSavedStrokesLocationTextBox_TextChanged" />
-                                            <Button Name="AutoSavedStrokesLocationButton" Content="浏览"
-                                                    Click="AutoSavedStrokesLocationButton_Click" />
-                                        </ui:SimpleStackPanel>
-                                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="12">
-                                            <Button Name="SetAutoSavedStrokesLocationToDiskDButton"
-                                                    Content="设置保存到 D:\Ink Canvas"
-                                                    Click="SetAutoSavedStrokesLocationToDiskDButton_Click" />
-                                            <Button Name="SetAutoSavedStrokesLocationToDocumentFolderButton"
-                                                    Content="设置保存到 文档"
-                                                    Click="SetAutoSavedStrokesLocationToDocumentFolderButton_Click" />
-                                        </ui:SimpleStackPanel>
-                                        <TextBlock Text="# 请注意检查保存文件夹是否有写入权限" TextWrapping="Wrap" Foreground="#a1a1aa" />
-                                    </ui:SimpleStackPanel>
                                 </ui:SimpleStackPanel>
                             </GroupBox>
                             <GroupBox Name="SettingsStorageGroupBox">
@@ -7869,7 +7847,50 @@
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
-                                    <TextBlock Text="# 请注意检查文件夹是否有写入权限" TextWrapping="Wrap" Foreground="#a1a1aa" />
+                                    <ui:SimpleStackPanel Orientation="Vertical" HorizontalAlignment="Left" Spacing="8" Name="CustomStorageLocationGroup">
+                                        <TextBlock Foreground="#fafafa" Text="自定义存储路径" VerticalAlignment="Center"
+                                                   FontSize="14" Margin="0,0,16,0" />
+                                        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="10">
+                                            <TextBox ui:TextBoxHelper.IsDeleteButtonVisible="False" Width="320" x:Name="CustomStorageLocation" Text=""
+                                                     TextWrapping="NoWrap" AcceptsTab="False" AcceptsReturn="False" IsReadOnly="True" IsReadOnlyCaretVisible="True"/>
+                                            <Button Name="CustomStorageLocationButton" Content="浏览"
+                                                    Click="CustomStorageLocationButton_Click" />
+                                        </ui:SimpleStackPanel>
+                                        <WrapPanel Margin="0,2,0,0" Name="CustomStorageLocationCheckPanel">
+                                            <WrapPanel.Resources>
+                                                <DrawingImage x:Key="SuccessIcon">
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                            <GeometryDrawing Brush="#4ade80" Geometry="F1 M16,16z M0,0z M14.9248,2.88526L13.8496,1.81006 5.81979,9.88953 2.1504,6.15278 0,8.30318 5.81979,14.1903 16,3.96045 14.9248,2.88526z" />
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                                <DrawingImage x:Key="FailedIcon">
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                            <GeometryDrawing Brush="#facc15" Geometry="F1 M16,16z M0,0z M7.99988,0C7.74396,0,7.48812,0.0976987,7.29285,0.292969L0.292852,7.29297C-0.0976175,7.68352,-0.0976175,8.31648,0.292852,8.70703L7.29285,15.707C7.6834,16.0975,8.31636,16.0975,8.70691,15.707L15.705,8.70703C16.0954,8.31648,16.0954,7.68352,15.705,7.29297L8.70691,0.292969C8.51164,0.0977287,8.2558,0,7.99988,0z M6.99988,3L8.99988,3 8.99988,9C8.99988,9 8.99988,10 7.99988,10 6.99988,10 6.99988,9 6.99988,9L6.99988,3z M6.99988,11L8.99988,11 8.99988,13 6.99988,13 6.99988,11z" />
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                                <DrawingImage x:Key="LoadingIcon">
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                            <GeometryDrawing Brush="White" Geometry="F1 M16,16z M0,0z M7.97866,1.05463C7.88823,1.0548 7.798,1.06331 7.70913,1.08003 4.70969,1.23997 2.08169,3.30185 1.25795,6.20893 0.49488,9.22696 1.82645,12.4419 4.50014,14.0371 7.21817,15.5554 10.6675,15.1016 12.9005,12.9316 15.0709,10.6989 15.5243,7.25016 14.006,4.5312 15.5126,7.25687 15.038,10.6938 12.8712,12.9023 10.6434,15.0497 7.21718,15.4792 4.54116,13.9668 1.92311,12.3914 0.626806,9.23612 1.36147,6.29487 0.653131,9.24292 1.98362,12.3666 4.58217,13.8964 7.23613,15.3673 10.6076,14.9008 12.756,12.7871 14.8504,10.6193 15.2698,7.25855 13.7931,4.65425 15.2461,7.27223 14.7845,10.6101 12.6974,12.7285 10.5597,14.7962 7.23254,15.2126 4.6642,13.7539 2.14585,12.2446 0.888133,9.18174 1.59975,6.35737 0.914456,9.18855 2.2044,12.2197 4.70327,13.6835 7.24954,15.1008 10.5239,14.6473 12.5822,12.6132 14.5969,10.5356 15.0033,7.27391 13.5802,4.77729 14.9796,7.28759 14.531,10.5265 12.5236,12.5546 10.476,14.5427 7.2479,14.9461 4.78725,13.541 2.36858,12.0977 1.14946,9.12542 1.83803,6.41792 1.17578,9.13222 2.42714,12.0729 4.82631,13.4706 7.26489,14.8343 10.4402,14.3938 12.4083,12.4394 14.3433,10.4519 14.7367,7.28732 13.3673,4.89839 14.713,7.301 14.2775,10.4428 12.3498,12.3808 10.3924,14.2892 7.2613,14.6796 4.90835,13.3281 2.58936,11.9509 1.41078,9.07104 2.07631,6.48042 1.43711,9.07785 2.64987,11.926 4.94936,13.2578 7.28025,14.5677 10.3565,14.1402 12.2345,12.2656 14.0898,10.3682 14.4702,7.30267 13.1544,5.02143 14.4465,7.31636 14.024,10.3591 12.1759,12.207 10.3087,14.0357 7.27666,14.413 5.03139,13.1152 2.8121,11.804 1.67015,9.01472 2.31264,6.54097 1.69648,9.02152 2.87261,11.7792 5.07241,13.0449 7.29561,14.3012 10.2728,13.8867 12.0607,12.0918 13.8363,10.2845 14.2037,7.31803 12.9415,5.14448 14.18,7.33171 13.7705,10.2754 12.0021,12.0331 10.225,13.7822 7.29202,14.1465 5.15444,12.9023 3.03484,11.6571 1.93148,8.96035 2.55092,6.60347 1.9578,8.96716 3.09535,11.6323 5.19545,12.832 7.31097,14.0347 10.1891,13.6332 11.8869,11.9179 13.5828,10.2008 13.9371,7.33339 12.7287,5.26753 13.9134,7.34707 13.5169,10.1917 11.8283,11.8593 10.1413,13.5286 7.30738,13.88 5.27749,12.6894 3.25757,11.5103 2.19281,8.90403 2.7892,6.66401 2.21913,8.91084 3.31808,11.4854 5.3185,12.6191 7.32633,13.7681 10.1054,13.3797 11.713,11.7441 13.3293,10.1171 13.6706,7.34875 12.5158,5.39057 13.6469,7.36243 13.2634,10.108 11.6544,11.6855 10.0576,13.2751 7.32273,13.6134 5.40053,12.4765 3.48031,11.3634 2.45413,8.8477 3.02749,6.72456 2.48045,8.85451 3.54082,11.3386 5.44155,12.4062 7.34168,13.5016 10.0217,13.1262 11.5392,11.5703 13.0758,10.0334 13.4041,7.3641 12.3029,5.51362 13.3804,7.37778 13.0099,10.0243 11.4806,11.5117 9.97389,13.0216 7.3381,13.3469 5.52358,12.2636 3.70304,11.2166 2.71546,8.79333 3.26577,6.78706 2.74178,8.80014 3.76355,11.1917 5.5646,12.1933 7.35705,13.2351 9.93804,12.8727 11.3654,11.3964 12.8222,9.94974 13.1375,7.37946 12.09,5.63667 13.1138,7.39314 12.7564,9.94061 11.3068,11.3378 9.8902,12.7681 7.35345,13.0804 5.64663,12.0507 3.92578,11.0697 2.97483,8.73701 3.5021,6.84761 3.00115,8.74381 3.98629,11.0449 5.68764,11.9804 7.3724,12.9685 9.85435,12.6191 11.1915,11.2226 12.5687,9.86605 12.871,7.39482 11.8771,5.75972 12.8473,7.4085 12.5029,9.85692 11.133,11.164 9.80651,12.5146 7.36881,12.8138 5.76967,11.8378 4.14852,10.9229 3.23615,8.68263 3.74038,6.91011 3.26248,8.68944 4.20903,10.898 5.81069,11.7675 7.38776,12.702 9.77065,12.3656 11.0177,11.0488 12.3152,9.78235 12.6045,7.41019 11.6642,5.88276 12.5808,7.42387 12.2494,9.77322 10.9591,10.9902 9.72281,12.2611 7.38417,12.5473 5.89272,11.6249 4.37125,10.776 3.49748,8.62631 3.97866,6.97065 3.52413,8.63319 4.43201,10.7498 5.93374,11.5527 7.40284,12.433 9.68601,12.1097 10.8419,10.873 12.0588,9.69723 12.3356,7.42595 11.4494,6.00776 12.3234,7.43297 12.0258,9.69328 10.8126,10.8437 9.66222,12.0569 7.40191,12.3545 5.9767,11.4804 4.50712,10.6832 3.63409,8.57548 4.10952,6.97261 4.49922,5.34676 6.30735,3.95946 7.97866,4.00386L7.97866,3.99994C7.97932,3.99994 7.97999,3.99994 7.98066,3.99994 8.37116,3.9997 8.74559,3.84446 9.02172,3.56834 9.29784,3.29221 9.45307,2.91778 9.45331,2.52728 9.45307,2.13679 9.29784,1.76235 9.02171,1.48623 8.74559,1.21011 8.37116,1.05487 7.98066,1.05463 7.97999,1.05463 7.97932,1.05463 7.97866,1.05463z" />
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                            </WrapPanel.Resources>
+                                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4" Margin="0,0,16,0" Name="CustomStorageNonRemovableDriveTip">
+                                                <Image Width="18" Height="18" Source="{StaticResource SuccessIcon}"/>
+                                                <TextBlock FontSize="13" VerticalAlignment="Center" Text="非可移动存储介质"/>
+                                            </ui:SimpleStackPanel>
+                                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="4" Margin="0,0,13,0" Name="CustomStorageWritableTip">
+                                                <Image Width="18" Height="18" Source="{StaticResource FailedIcon}"/>
+                                                <TextBlock FontSize="13" VerticalAlignment="Center" Text="目录似乎没有写入权限"/>
+                                            </ui:SimpleStackPanel>
+                                        </WrapPanel>
+                                        <TextBlock Text="# 请注意检查存储文件夹是否有写入权限" TextWrapping="Wrap" Foreground="#a1a1aa" />
+                                    </ui:SimpleStackPanel>
                                     <ui:SimpleStackPanel Orientation="Vertical" Spacing="6" Name="StorageAnalazeWaitingGroup">
                                         <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0"
                                               Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4" />
@@ -8269,8 +8290,7 @@
                                             <TextBox ui:TextBoxHelper.IsDeleteButtonVisible="False" Width="320" x:Name="ScreenshotFileName" Text='Screenshot-[YYYY]-[MM]-[DD]-[HH]-[mm]-[ss].png'
                                                      TextWrapping="NoWrap" AcceptsTab="False" AcceptsReturn="False" 
                                                      TextChanged="ScreenshotFileName_TextChanged" />
-                                            <Button Name="ScreenshotFileNameResetButton" Content="重置"
-                                                    Click="AutoSavedStrokesLocationButton_Click" />
+                                            <Button Name="ScreenshotFileNameResetButton" Content="重置"/>
                                         </ui:SimpleStackPanel>
                                         <ui:SimpleStackPanel Orientation="Vertical" Spacing="2">
                                             <TextBlock Text="# 模板语法请参考下面可用的语法：" TextWrapping="Wrap" Foreground="#a1a1aa" />
@@ -8535,7 +8555,6 @@
                         <Canvas>
                             <Image Canvas.Top="12" Canvas.Right="-16" Width="98" Height="98" Opacity="0.4">
                                 <Image.RenderTransform>
-                                    <!-- giving the transform a name tells the framework not to freeze it -->
                                     <RotateTransform CenterX="49" CenterY="49" />
                                 </Image.RenderTransform>
                                 <Image.Source>

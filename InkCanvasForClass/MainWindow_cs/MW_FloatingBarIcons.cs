@@ -1021,8 +1021,15 @@ namespace Ink_Canvas {
         private void SymbolIconSettings_Click(object sender, RoutedEventArgs e) {
             if (isOpeningOrHidingSettingsPane != false) return;
             HideSubPanels();
+            isChangingUserStorageSelectionProgramically = true;
+            UpdateUserStorageSelection();
+            isChangingUserStorageSelectionProgramically = false;
+            HandleUserCustomStorageLocation();
             InitStorageFoldersStructure(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path);
             StartAnalyzeStorage();
+            CustomStorageLocationGroup.Visibility = ((StorageLocationItem)ComboBoxStoragePath.SelectedItem).SelectItem == "c-" ? Visibility.Visible : Visibility.Collapsed;
+            CustomStorageLocationCheckPanel.Visibility = ((StorageLocationItem)ComboBoxStoragePath.SelectedItem).SelectItem == "c-" ? Visibility.Visible : Visibility.Collapsed;
+            CustomStorageLocation.Text = Settings.Storage.UserStorageLocation;
             BtnSettings_Click(null, null);
         }
 

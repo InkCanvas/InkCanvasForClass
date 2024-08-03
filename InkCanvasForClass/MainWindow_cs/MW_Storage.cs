@@ -10,8 +10,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Ink_Canvas.Helpers;
+using JetBrains.Annotations;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -158,6 +161,9 @@ namespace Ink_Canvas {
             } else if (Settings.Storage.StorageLocation.Substring(0, 1) == "c") {
                 ComboBoxStoragePath.SelectedIndex = storageLocationItems.Count - 1;
             }
+
+            if (isLoaded) CustomStorageLocationGroup.Visibility = ((StorageLocationItem)ComboBoxStoragePath.SelectedItem).SelectItem == "c-" ? Visibility.Visible : Visibility.Collapsed;
+            if (isLoaded) CustomStorageLocation.Text = Settings.Storage.UserStorageLocation;
         }
 
         private void ComboBoxStoragePath_DropDownOpened(object sender, EventArgs e) {
@@ -172,7 +178,32 @@ namespace Ink_Canvas {
             return count;
         }
 
-        private void InitStorageFoldersStructure(string path) {
+        private void InitStorageFoldersStructure(string dirPath) {
+            string path;
+            if (storageLocationItems[ComboBoxStoragePath.SelectedIndex].SelectItem == "c-") {
+                if (Settings.Storage.StorageLocation != "c-") {
+                    var si = Settings.Storage.StorageLocation;
+                    var item = storageLocationItems.Where(i => i.SelectItem == si).ToArray()[0];
+                    path = item.Path;
+                } else {
+                    if (Settings.Storage.UserStorageLocation != "") {
+                        path = new DirectoryInfo(Settings.Storage.UserStorageLocation).FullName;
+                    } else {
+                        var item = storageLocationItems.Where(i => i.SelectItem == "fr").ToArray()[0];
+                        path = item.Path;
+                        Settings.Storage.StorageLocation = "fr";
+                        SaveSettingsToFile();
+                        UpdateStorageLocations();
+                        UpdateUserStorageSelection();
+                    }
+                }
+            } else {
+                if (dirPath == null) {
+                    var si = Settings.Storage.StorageLocation;
+                    var item = storageLocationItems.Where(i => i.SelectItem == si).ToArray()[0];
+                    path = item.Path;
+                } else path = dirPath;
+            }
             var basePath = new DirectoryInfo(path);
             var autoSavedInkPath = new DirectoryInfo(path+"\\AutoSavedInk");
             var autoSavedSnapshotPath = new DirectoryInfo(path+"\\AutoSavedSnapshot");
@@ -195,17 +226,30 @@ namespace Ink_Canvas {
             var item = storageLocationItems[ComboBoxStoragePath.SelectedIndex];
             StorageAnalazeWaitingGroup.Visibility = Visibility.Visible;
             StorageAnalazeGroup.Visibility = Visibility.Collapsed;
-            StorageNowLocationTextBlock.Text = $"当前位置：{item.Path}";
+
+            string path;
+            var runfolder = AppDomain.CurrentDomain.BaseDirectory;
+
+            if (item.SelectItem != "c-") {
+                path = item.Path;
+            } else if (Settings.Storage.UserStorageLocation != "") {
+                path = Settings.Storage.UserStorageLocation;
+            } else {
+                path = (runfolder.EndsWith("\\") ? runfolder.Substring(0, runfolder.Length - 1) : runfolder) +
+                       "\\InkCanvasForClass";
+            }
+
+            StorageNowLocationTextBlock.Text = $"当前位置：{path}";
             DriveInfo[] allDrives = DriveInfo.GetDrives();
-            var driveArr = allDrives.Where((info, i) => info.Name.Substring(0,1)==item.Path.Substring(0,1)).ToArray();
+            var driveArr = allDrives.Where((info, i) => info.Name.Substring(0,1)==path.Substring(0,1)).ToArray();
             if (driveArr.Length > 0) {
                 StorageDiskUsageTextBlock.Visibility = Visibility.Visible;
                 var freeSpace = driveArr[0].TotalFreeSpace;
                 var usedSpace = driveArr[0].TotalSize - driveArr[0].TotalFreeSpace;
                 StorageDiskUsageTextBlock.Text = $"磁盘使用情况：已用 {FormatBytes(usedSpace)}、剩余 {FormatBytes(freeSpace)}";
-                var dirsize = await GetDirectorySizeAsync(new DirectoryInfo(item.Path));
+                var dirsize = await GetDirectorySizeAsync(new DirectoryInfo(path));
                 var formatedDirSize = FormatBytes(dirsize);
-                var dirFilecount = await GetDirectoryFilesCount(item.Path);
+                var dirFilecount = await GetDirectoryFilesCount(path);
                 StorageDirectoryUsageTextBlock.Text = $"目录占用情况：已用 {formatedDirSize}，共 {dirFilecount} 个文件";
                 var usedBorderWidth = Math.Round(388 * ((double)usedSpace / (double)(driveArr[0].TotalSize)), 1);
                 var ICCUsedBorderWidth = Math.Round(usedBorderWidth * ((double)dirsize / (double)usedSpace), 1);
@@ -213,11 +257,11 @@ namespace Ink_Canvas {
                 ICCDirectoryStorageAnalyzeGroup.Visibility = dirsize == 0 ? Visibility.Collapsed : Visibility.Visible;
                 DiskUsageUsedSpaceBorder.Width = usedBorderWidth;
                 DiskUsageICCSpaceBorder.Width = ICCUsedBorderWidth;
-                var asiSize = await GetDirectorySizeAsync(new DirectoryInfo(item.Path + "\\AutoSavedInk"));
-                var assSize = await GetDirectorySizeAsync(new DirectoryInfo(item.Path + "\\AutoSavedSnapshot"));
-                var eiSize = await GetDirectorySizeAsync(new DirectoryInfo(item.Path + "\\ExportedInk"));
-                var qpSize = await GetDirectorySizeAsync(new DirectoryInfo(item.Path + "\\QuotedPhotos"));
-                var cachesSize = await GetDirectorySizeAsync(new DirectoryInfo(item.Path + "\\caches"));
+                var asiSize = await GetDirectorySizeAsync(new DirectoryInfo(path + "\\AutoSavedInk"));
+                var assSize = await GetDirectorySizeAsync(new DirectoryInfo(path + "\\AutoSavedSnapshot"));
+                var eiSize = await GetDirectorySizeAsync(new DirectoryInfo(path + "\\ExportedInk"));
+                var qpSize = await GetDirectorySizeAsync(new DirectoryInfo(path + "\\QuotedPhotos"));
+                var cachesSize = await GetDirectorySizeAsync(new DirectoryInfo(path + "\\caches"));
                 ClearCacheFilesButton.IsEnabled = cachesSize != 0;
                 ClearAutoSavedSnapshotButton.IsEnabled = assSize != 0;
                 StorageDirectoryAutoSavedInkUsageBorder.Width =
@@ -271,28 +315,33 @@ namespace Ink_Canvas {
 
 
         private DirectoryInfo GetDirectory(string type) {
-            if (Settings.Storage.StorageLocation.Substring(0, 1) != "c") {
-                var autoSavedInkPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\AutoSavedInk");
-                var autoSavedSnapshotPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\AutoSavedSnapshot");
-                var exportedInkPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\ExportedInk");
-                var quotedPhotosPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\QuotedPhotos");
-                var cachesPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\caches");
-                if (type == "autosaveink") return autoSavedInkPath;
-                else if (type == "autosavesnapshot") return autoSavedSnapshotPath;
-                else if (type == "exportedink") return exportedInkPath;
-                else if (type == "quotedphotos") return quotedPhotosPath;
-                else if (type == "caches") return cachesPath;
-            }
-
-            return null;
+            var path = "";
+            if (Settings.Storage.StorageLocation == "c-" && Settings.Storage.UserStorageLocation != "")
+                path = Settings.Storage.UserStorageLocation;
+            else path = storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path;
+            var autoSavedInkPath = new DirectoryInfo(path+"\\AutoSavedInk");
+            var autoSavedSnapshotPath = new DirectoryInfo(path+"\\AutoSavedSnapshot");
+            var exportedInkPath = new DirectoryInfo(path +"\\ExportedInk");
+            var quotedPhotosPath = new DirectoryInfo(path +"\\QuotedPhotos");
+            var cachesPath = new DirectoryInfo(path +"\\caches");
+            if (type == "autosaveink") return autoSavedInkPath;
+            if (type == "autosavesnapshot") return autoSavedSnapshotPath;
+            if (type == "exportedink") return exportedInkPath;
+            if (type == "quotedphotos") return quotedPhotosPath;
+            if (type == "caches") return cachesPath;
+            return new DirectoryInfo("");
         }
 
         private DirectoryInfo GetDirectoryInfoByIndex(int index) {
-            var autoSavedInkPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\AutoSavedInk");
-            var autoSavedSnapshotPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\AutoSavedSnapshot");
-            var exportedInkPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\ExportedInk");
-            var quotedPhotosPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\QuotedPhotos");
-            var cachesPath = new DirectoryInfo(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path+"\\caches");
+            var path = "";
+            if (Settings.Storage.StorageLocation == "c-" && Settings.Storage.UserStorageLocation != "")
+                path = Settings.Storage.UserStorageLocation;
+            else path = storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path;
+            var autoSavedInkPath = new DirectoryInfo(path +"\\AutoSavedInk");
+            var autoSavedSnapshotPath = new DirectoryInfo(path +"\\AutoSavedSnapshot");
+            var exportedInkPath = new DirectoryInfo(path +"\\ExportedInk");
+            var quotedPhotosPath = new DirectoryInfo(path +"\\QuotedPhotos");
+            var cachesPath = new DirectoryInfo(path +"\\caches");
             return (new DirectoryInfo[]
                 { autoSavedInkPath, quotedPhotosPath, exportedInkPath, cachesPath, autoSavedSnapshotPath })[index];
         }
@@ -327,6 +376,7 @@ namespace Ink_Canvas {
             UpdateStorageLocations();
             UpdateUserStorageSelection();
             isChangingUserStorageSelectionProgramically = false;
+            HandleUserCustomStorageLocation();
             InitStorageFoldersStructure(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path);
             StartAnalyzeStorage();
             var sb = new Border[] {
@@ -338,16 +388,135 @@ namespace Ink_Canvas {
                 btn.MouseDown += StorageJumpToFolderBtn_MouseDown;
                 btn.MouseLeave += StorageJumpToFolderBtn_MouseLeave;
             }
+            CustomStorageLocationGroup.Visibility = ((StorageLocationItem)ComboBoxStoragePath.SelectedItem).SelectItem == "c-" ? Visibility.Visible : Visibility.Collapsed;
+            CustomStorageLocationCheckPanel.Visibility = ((StorageLocationItem)ComboBoxStoragePath.SelectedItem).SelectItem == "c-" ? Visibility.Visible : Visibility.Collapsed;
+            CustomStorageLocation.Text = Settings.Storage.UserStorageLocation;
+        }
+
+        private async void HandleUserCustomStorageLocation([CanBeNull] string dirPath = null) {
+            var path = dirPath ?? (Settings.Storage.UserStorageLocation != ""
+                ? Settings.Storage.UserStorageLocation
+                : null);
+            if (path != null) {
+                CustomStorageLocationGroup.Visibility = Visibility.Visible;
+                CustomStorageLocationCheckPanel.Visibility = Visibility.Visible;
+                CustomStorageNonRemovableDriveTip.Visibility = Visibility.Visible;
+                CustomStorageWritableTip.Visibility = Visibility.Collapsed;
+                CustomStorageLocation.Text = "";
+
+                CustomStorageLocation.Text = new DirectoryInfo(path).FullName;
+                
+                // 加载动画
+                ((Image)CustomStorageNonRemovableDriveTip.Children[0]).Source =
+                    CustomStorageLocationCheckPanel.FindResource("LoadingIcon") as DrawingImage;
+                ((Image)CustomStorageNonRemovableDriveTip.Children[0]).RenderTransformOrigin = new Point(0.5, 0.5);
+                ((Image)CustomStorageNonRemovableDriveTip.Children[0]).RenderTransform = new RotateTransform(0, 8, 8);
+                var tg = new EventTrigger(LoadedEvent);
+                var sb = new Storyboard();
+                var da = new DoubleAnimation {
+                    To = -360,
+                    Duration = new Duration(new TimeSpan(0, 0, 1)),
+                    RepeatBehavior = RepeatBehavior.Forever,
+                };
+                sb.Children.Add(da);
+                Storyboard.SetTargetProperty(da, new PropertyPath("(Image.RenderTransform).(RotateTransform.Angle)"));
+                tg.Actions.Add(new BeginStoryboard() {
+                    Storyboard = sb
+                });
+                ((Image)CustomStorageNonRemovableDriveTip.Children[0]).Triggers.Add(tg);
+
+                // 检测是否在非可移动存储上
+                var drive = new DirectoryInfo(path).FullName.Substring(0, 1);
+                var allDrives = DriveInfo.GetDrives();
+                var ds = allDrives.Where(info => info.Name.StartsWith(drive) && info.DriveType == DriveType.Fixed);
+                if (ds.Any()) {
+                    ((Image)CustomStorageNonRemovableDriveTip.Children[0]).Source =
+                        CustomStorageLocationCheckPanel.FindResource("SuccessIcon") as DrawingImage;
+                    ((TextBlock)CustomStorageNonRemovableDriveTip.Children[1]).Text = "非可移动存储介质";
+                } else {
+                    ((Image)CustomStorageNonRemovableDriveTip.Children[0]).Source =
+                        CustomStorageLocationCheckPanel.FindResource("FailedIcon") as DrawingImage;
+                    ((TextBlock)CustomStorageNonRemovableDriveTip.Children[1]).Text = "路径在可移动存储介质上";
+                }
+                sb.Stop();
+                ((Image)CustomStorageNonRemovableDriveTip.Children[0]).Triggers.Remove(tg);
+
+                // 加载动画2
+                CustomStorageWritableTip.Visibility = Visibility.Visible;
+                ((Image)CustomStorageWritableTip.Children[0]).Source =
+                    CustomStorageLocationCheckPanel.FindResource("LoadingIcon") as DrawingImage;
+                ((Image)CustomStorageWritableTip.Children[0]).RenderTransformOrigin = new Point(0.5, 0.5);
+                ((Image)CustomStorageWritableTip.Children[0]).RenderTransform = new RotateTransform(0, 8, 8);
+                var tg2 = new EventTrigger(LoadedEvent);
+                var sb2 = new Storyboard();
+                var da2 = new DoubleAnimation {
+                    To = -360,
+                    Duration = new Duration(new TimeSpan(0, 0, 1)),
+                    RepeatBehavior = RepeatBehavior.Forever,
+                };
+                sb.Children.Add(da2);
+                Storyboard.SetTargetProperty(da2, new PropertyPath("(Image.RenderTransform).(RotateTransform.Angle)"));
+                tg.Actions.Add(new BeginStoryboard() {
+                    Storyboard = sb2
+                });
+                ((Image)CustomStorageWritableTip.Children[0]).Triggers.Add(tg2);
+
+                // 检查是否可写
+                var result = await DirectoryUtils.IsWritableAsync(path);
+                if (result) {
+                    ((Image)CustomStorageWritableTip.Children[0]).Source =
+                        CustomStorageLocationCheckPanel.FindResource("SuccessIcon") as DrawingImage;
+                    ((TextBlock)CustomStorageWritableTip.Children[1]).Text = "目录可写";
+                } else {
+                    ((Image)CustomStorageWritableTip.Children[0]).Source =
+                        CustomStorageLocationCheckPanel.FindResource("FailedIcon") as DrawingImage;
+                    ((TextBlock)CustomStorageWritableTip.Children[1]).Text = "目录权限错误";
+                }
+                sb2.Stop();
+                ((Image)CustomStorageWritableTip.Children[0]).Triggers.Remove(tg2);
+
+                if (ds.Any() && result) {
+                    Settings.Storage.StorageLocation = storageLocationItems[ComboBoxStoragePath.SelectedIndex].SelectItem;
+                    Settings.Storage.UserStorageLocation = new DirectoryInfo(path).FullName;
+                    SaveSettingsToFile();
+                    InitStorageFoldersStructure(null);
+                    StartAnalyzeStorage();
+                }
+            }
         }
 
         private void ComboBoxStoragePath_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (isChangingUserStorageSelectionProgramically) return;
             if (!isLoaded) return;
-            Trace.WriteLine(ComboBoxStoragePath.SelectedIndex);
-            Settings.Storage.StorageLocation = storageLocationItems[ComboBoxStoragePath.SelectedIndex].SelectItem;
-            SaveSettingsToFile();
-            InitStorageFoldersStructure(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path);
-            StartAnalyzeStorage();
+            if (storageLocationItems[ComboBoxStoragePath.SelectedIndex].SelectItem == "c-") {
+                if (Settings.Storage.UserStorageLocation == "") {
+                    var folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
+                    folderBrowser.Description = "请选择ICC的自定义存储目录。不支持存储到固定硬盘除外的设备和网络地址上！";
+                    folderBrowser.ShowDialog();
+                    if (folderBrowser.SelectedPath.Length > 0)
+                        HandleUserCustomStorageLocation(folderBrowser.SelectedPath);
+                    else {
+                        var si = Settings.Storage.StorageLocation;
+                        var item = storageLocationItems.Where(i => i.SelectItem == si).ToArray()[0];
+                        var index = storageLocationItems.IndexOf(item);
+                        ComboBoxStoragePath.SelectedIndex = index;
+                    }
+                } else HandleUserCustomStorageLocation();
+            } else {
+                if (isLoaded) CustomStorageLocationGroup.Visibility = ((StorageLocationItem)ComboBoxStoragePath.SelectedItem).SelectItem == "c-" ? Visibility.Visible : Visibility.Collapsed;
+                if (isLoaded) CustomStorageLocation.Text = Settings.Storage.UserStorageLocation;
+                Settings.Storage.StorageLocation = storageLocationItems[ComboBoxStoragePath.SelectedIndex].SelectItem;
+                SaveSettingsToFile();
+                InitStorageFoldersStructure(storageLocationItems[ComboBoxStoragePath.SelectedIndex].Path);
+                StartAnalyzeStorage();
+            }
+        }
+
+        private void CustomStorageLocationButton_Click(object sender, RoutedEventArgs e) {
+            var folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
+            folderBrowser.Description = "请选择ICC的自定义存储目录。不支持存储到固定硬盘除外的设备和网络地址上！";
+            folderBrowser.ShowDialog();
+            if (folderBrowser.SelectedPath.Length > 0) HandleUserCustomStorageLocation(folderBrowser.SelectedPath);
         }
     }
 }
