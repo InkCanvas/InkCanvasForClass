@@ -24,10 +24,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Shell;
 using System.Xml.Linq;
+using OSVersionExtension;
 using Vanara.PInvoke;
 using Color = System.Windows.Media.Color;
 using Shell32;
 using static Ink_Canvas.MainWindow;
+using OperatingSystem = OSVersionExtension.OperatingSystem;
 
 namespace Ink_Canvas.Popups
 {
@@ -51,6 +53,10 @@ namespace Ink_Canvas.Popups
                 SelectionIcon,
                 DesktopIcon
             };
+
+            WindowIcon.IsHitTestVisible = OSVersion.GetOperatingSystem() >= OperatingSystem.Windows10;
+            WindowIcon.Opacity = OSVersion.GetOperatingSystem() >= OperatingSystem.Windows10 ? 1 : 0.5;
+
             
             foreach (var b in iconList) {
                 b.MouseLeave += IconMouseLeave;

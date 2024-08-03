@@ -103,6 +103,7 @@ namespace Ink_Canvas {
                     AdministratorPrivilegeIndicateText.Text = "icc目前以非管理员身份运行";
                     RunAsAdminButton.Visibility = Visibility.Visible;
                     RunAsUserButton.Visibility = Visibility.Collapsed;
+                    CannotSwitchToUserPrivNotification.IsOpen = false;
                 }
             }
             catch (Exception e) {

@@ -7802,9 +7802,9 @@
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Foreground="#fafafa" Text="自动截图最小墨迹量" VerticalAlignment="Center"
                                                    FontSize="14" Margin="0,0,16,0" />
-                                        <Slider x:Name="SideControlMinimumAutomationSlider" Minimum="0.3"
-                                                Maximum="1" Width="168" FontFamily="Microsoft YaHei UI"
-                                                FontSize="20" IsSnapToTickEnabled="True" Value="1" TickFrequency="0.05"
+                                        <Slider x:Name="SideControlMinimumAutomationSlider" Minimum="1"
+                                                Maximum="24" Width="168" FontFamily="Microsoft YaHei UI"
+                                                FontSize="20" IsSnapToTickEnabled="True" Value="1" TickFrequency="1"
                                                 TickPlacement="None" AutoToolTipPlacement="None"
                                                 ValueChanged="SideControlMinimumAutomationSlider_ValueChanged" />
                                         <TextBlock

@@ -22,6 +22,7 @@ using System.Windows.Documents;
 using Ink_Canvas.Popups;
 using iNKORE.UI.WPF.Modern.Controls;
 using System.Windows.Forms;
+using System.Windows.Input;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using TextBox = System.Windows.Controls.TextBox;
@@ -201,6 +202,22 @@ namespace Ink_Canvas {
         const uint MF_GRAYED = 0x00000001;
         const uint SC_CLOSE = 0xF060;
 
+        private static void PreloadIALibrary(object state) {
+            GC.KeepAlive(typeof(InkAnalyzer));
+            GC.KeepAlive(typeof(AnalysisAlternate));
+            GC.KeepAlive(typeof(InkDrawingNode));
+            var analyzer = new InkAnalyzer();
+            analyzer.AddStrokes(new StrokeCollection() {
+                new Stroke(new StylusPointCollection() {
+                    new StylusPoint(114,514),
+                    new StylusPoint(191,9810),
+                    new StylusPoint(7,21),
+                    new StylusPoint(123,789),
+                })
+            });
+            analyzer.Analyze();
+        }
+
         private async void Window_Loaded(object sender, RoutedEventArgs e) {
             loadPenCanvas();
             //加载设置
@@ -231,10 +248,7 @@ namespace Ink_Canvas {
             BoardBackgroundPopup.Visibility = Visibility.Collapsed;
 
             // 提前加载IA库，优化第一笔等待时间
-            if (Settings.InkToShape.IsInkToShapeEnabled && !Environment.Is64BitProcess) {
-                var strokeEmpty = new StrokeCollection();
-                InkRecognizeHelper.RecognizeShape(strokeEmpty);
-            }
+            ThreadPool.QueueUserWorkItem(PreloadIALibrary);
 
             SystemEvents.DisplaySettingsChanged += SystemEventsOnDisplaySettingsChanged;
 

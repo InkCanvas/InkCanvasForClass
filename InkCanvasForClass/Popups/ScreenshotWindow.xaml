@@ -191,7 +191,7 @@
                 </Border>
             </Grid>
         </Border>
-        <Border Name="WindowScreenshotOverlay" Background="#dd09090b" Visibility="Visible">
+        <Border Name="WindowScreenshotOverlay" Background="#dd09090b" Visibility="Collapsed">
             <Grid>
                 <modern:SimpleStackPanel Margin="48,36" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
                     <TextBlock Text="窗口截图" FontWeight="Bold" Foreground="White" FontSize="48"/>

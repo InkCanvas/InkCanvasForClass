@@ -420,17 +420,33 @@ namespace Ink_Canvas {
             };
             excluded.AddRange(excludedHwnds);
             if (!EnumDesktopWindows(IntPtr.Zero, new EnumDesktopWindowsDelegate((hwnd, param) => {
+                        // 排除被過濾的窗體句柄
                         if (excluded.Contains(new HWND(hwnd))) return true;
+
+                        // 判斷窗體是否可見
                         var isvisible = IsWindowVisible(hwnd);
                         if (!isvisible) return true;
+
+                        // 判斷窗體透明度和額外樣式
                         var windowLong = (int)GetWindowLongPtr(hwnd, -20);
                         GetLayeredWindowAttributes(hwnd, out uint crKey, out byte bAlpha, out uint dwFlags);
                         if ((windowLong & 0x00000080L) != 0) return true;
                         if ((windowLong & 0x00080000) != 0 && (dwFlags & 0x00000002) != 0 && bAlpha == 0) return true; //分层窗口且全透明
-                        DwmGetWindowAttribute(hwnd, (int)DwmWindowAttribute.Cloaked, out bool isCloacked, Marshal.SizeOf(typeof(bool)));
+
+                        // Win8+專用，用於檢測UWP應用是否隱藏
+                        bool isCloacked = false;
+                        if (OSVersion.GetOperatingSystem() > OperatingSystem.Windows7)
+                            DwmGetWindowAttribute(hwnd, (int)DwmWindowAttribute.Cloaked, out isCloacked, Marshal.SizeOf(typeof(bool)));
+                        if (isCloacked) return true;
+
+                        // 獲取窗體實際大小
                         DwmGetWindowAttribute(hwnd, DwmWindowAttribute.ExtendedFrameBounds, out RECT realRect, Marshal.SizeOf(typeof(RECT)));
+
+                        // 獲取窗體的進程ID
                         var pidRes = GetWindowThreadProcessId(hwnd, out uint pid);
                         if (pid == 0 || pidRes == 0) return true;
+
+                        // 獲取窗體的DPI差異，scale為1則代表非DWM強制拉伸顯示窗體，實際截圖會根據窗體的DPI Awareness來截取
                         var dpiForHwnd = GetDpiForWindow(hwnd);
                         var dpiXProperty = typeof(SystemParameters).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
                         var dpiYProperty = typeof(SystemParameters).GetProperty("Dpi", BindingFlags.NonPublic | BindingFlags.Static);
@@ -441,26 +457,39 @@ namespace Ink_Canvas {
                         if (dpi > dpiForHwnd) { // 说明该应用是win32应用，靠DWM的拉伸放大到高DPI
                             scale = dpi / (double)dpiForHwnd;
                         }
-                        if (isCloacked) return true;
+
+                        // 獲取窗體應用程式圖標
                         var icon = GetAppIcon(hwnd);
+
+                        // 獲取應用程式標題，這裡空標題不略過，用於後續繼續判斷獲取標題
                         var length = GetWindowTextLength(hwnd) + 1;
                         var title = new StringBuilder(length);
                         GetWindowText(hwnd, title, length);
                         // if (title.ToString().Length == 0) return true;
-                        // 這裡懶得做 Alt Tab窗口的校驗了，直接窗體標題黑名單
+
+
+                        // 窗體標題黑名單，在黑名單中的窗體不會顯示
                         if (excludedWindowTitle.Equals(title.ToString())) return true;
-                        RECT rect;
+
+                        // 獲取窗體狀態，如果是最小化就跳過
                         WINDOWPLACEMENT placement = new WINDOWPLACEMENT();
                         GetWindowPlacement(hwnd, ref placement);
                         if (placement.showCmd == 2) return true;
+
+                        // 獲取窗口Rect，用於和DwmGetWindowAttribute方法獲取到的窗體大小進行Offset計算
+                        RECT rect;
                         GetWindowRect(hwnd, out rect);
                         var w = rect.Width;
                         var h = rect.Height;
                         if (w == 0 || h == 0) return true;
+
+                        // 使用PrintWindow（RENDER_FULL_CONTENT）來實現窗體圖片截取（支持D3D和DX）
                         Bitmap bmp = new Bitmap(rect.Width, rect.Height);
                         Graphics memoryGraphics = Graphics.FromImage(bmp);
                         IntPtr hdc = memoryGraphics.GetHdc();
                         PrintWindow(hwnd, hdc, 2);
+
+                        // 添加窗體信息
                         windows.Add(new WindowInformation() {
                             AppIcon = icon,
                             Title = title.ToString(),
@@ -478,7 +507,11 @@ namespace Ink_Canvas {
                             SystemDPI = dpi,
                             DPIScale = scale
                         });
+
+                        // 釋放HDC
                         memoryGraphics.ReleaseHdc(hdc);
+
+                        // 嘗試調用GC回收叻色
                         System.GC.Collect();
                         System.GC.WaitForPendingFinalizers();
                         return true;
