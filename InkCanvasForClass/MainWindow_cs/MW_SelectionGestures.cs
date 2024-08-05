@@ -438,7 +438,6 @@ namespace Ink_Canvas {
             var bd = new Binding("Visibility");
             bd.Source = GridInkCanvasSelectionCover;
             BorderStrokeSelectionControl.SetBinding(Border.VisibilityProperty, bd);
-            updateBorderStrokeSelectionControlLocation();
 
             // unlock
             isLockedStrokeSelectionHandle = false;
@@ -453,6 +452,10 @@ namespace Ink_Canvas {
 
             // resize toast
             StrokeSelectionSizeToast.Visibility = Visibility.Collapsed;
+
+            // update selection border size
+            UpdateStrokeSelectionBorder(true, inkCanvas.GetSelectionBounds());
+            updateBorderStrokeSelectionControlLocation();
         }
 
         private void StrokeSelectionBorderHandle_MouseMove(object sender, MouseEventArgs e) {

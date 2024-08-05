@@ -108,14 +108,20 @@ namespace Ink_Canvas {
             StrokeHitEventArgs args) {
             StrokeCollection eraseResult =
                 args.GetPointEraseResults();
-            StrokeCollection strokesToReplace = new StrokeCollection();
-            strokesToReplace.Add(args.HitStroke);
-   
+            StrokeCollection strokesToReplace = new StrokeCollection {
+                args.HitStroke
+            };
+
             // replace the old stroke with the new one.
-            if (eraseResult.Count > 0) {
-                inkCanvas.Strokes.Replace(strokesToReplace, eraseResult);
+            var filtered_2replace = strokesToReplace.Where(stroke => !stroke.ContainsPropertyData(IsLockGuid));
+            var filtered2Replace = filtered_2replace as Stroke[] ?? filtered_2replace.ToArray();
+            if (!filtered2Replace.Any()) return;
+            var filtered_result = eraseResult.Where(stroke=>!stroke.ContainsPropertyData(IsLockGuid));
+            var filteredResult = filtered_result as Stroke[] ?? filtered_result.ToArray();
+            if (filteredResult.Any()) {
+                inkCanvas.Strokes.Replace(new StrokeCollection(filtered2Replace), new StrokeCollection(filteredResult));
             } else {
-                inkCanvas.Strokes.Remove(strokesToReplace);
+                inkCanvas.Strokes.Remove(new StrokeCollection(filtered2Replace));
             }
         }
 
@@ -123,7 +129,10 @@ namespace Ink_Canvas {
             if (!isUsingGeometryEraser) return;
 
             if (isUsingStrokesEraser) {
-                inkCanvas.Strokes.Remove(inkCanvas.Strokes.HitTest(pt));
+                var _filtered = inkCanvas.Strokes.HitTest(pt).Where(stroke => !stroke.ContainsPropertyData(IsLockGuid));
+                var filtered = _filtered as Stroke[] ?? _filtered.ToArray();
+                if (!filtered.Any()) return;
+                inkCanvas.Strokes.Remove(new StrokeCollection(filtered));
             } else {
                 // draw eraser feedback
                 var ct = EraserOverlay_DrawingVisual.DrawingVisual.RenderOpen();

@@ -29,8 +29,7 @@ namespace Ink_Canvas
         public static string[] StartArgs = null;
         public static string RootPath = Environment.GetEnvironmentVariable("APPDATA") + "\\Ink Canvas\\";
 
-        public App()
-        {
+        public App() {
             this.Startup += new StartupEventHandler(App_Startup);
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
         }
