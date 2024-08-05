@@ -334,6 +334,7 @@ namespace Ink_Canvas {
 
             // new popup
             PenPaletteV2Popup.IsOpen = false;
+            SelectionPopupV2.IsOpen = false;
 
             await Task.Delay(10);
             isHidingSubPanelsWhenInking = false;
@@ -845,10 +846,23 @@ namespace Ink_Canvas {
             if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == SymbolIconSelect && lastBorderMouseDownObject != SymbolIconSelect) return;
-            
 
-            BtnSelect_Click(null, null);
-            HideSubPanels("select");
+            if (SelectedMode == ICCToolsEnum.LassoMode) {
+                if (SelectionPopupV2.IsOpen == false) {
+                    var transform = SymbolIconSelect.TransformToVisual(Main_Grid);
+                    var pt = transform.Transform(new Point(0, 0));
+                    SelectionPopupV2.VerticalOffset = pt.Y;
+                    SelectionPopupV2.HorizontalOffset = pt.X - 32;
+                }
+                SelectionPopupV2.IsOpen = !SelectionPopupV2.IsOpen;
+            } else HideSubPanels("select");
+
+            forceEraser = true;
+            drawingShapeMode = 0;
+            inkCanvas.IsManipulationEnabled = false;
+            if (inkCanvas.EditingMode != InkCanvasEditingMode.Select) {
+                inkCanvas.EditingMode = InkCanvasEditingMode.Select;
+            }
 
             // update tool selection
             SelectedMode = ICCToolsEnum.LassoMode;

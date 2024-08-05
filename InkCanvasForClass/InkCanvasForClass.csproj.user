@@ -20,6 +20,9 @@
     <Compile Update="Popups\ScreenshotWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Popups\SelectionPopup.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MainWindow_cs\MW_ContextMenus.xaml">
@@ -41,6 +44,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Popups\ScreenshotWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Popups\SelectionPopup.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Resources\GeometryIcons.xaml">

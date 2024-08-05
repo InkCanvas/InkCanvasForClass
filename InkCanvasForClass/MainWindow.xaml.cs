@@ -72,12 +72,6 @@ namespace Ink_Canvas {
             BoardBorderDrawShape.Visibility = Visibility.Collapsed;
             GridInkCanvasSelectionCover.Visibility = Visibility.Collapsed;
 
-            //if (!App.StartArgs.Contains("-o"))
-
-            // old ui
-            //ViewBoxStackPanelMain.Visibility = Visibility.Collapsed;
-            //ViewBoxStackPanelShapes.Visibility = Visibility.Collapsed;
-
             ViewboxFloatingBar.Margin = new Thickness((SystemParameters.WorkArea.Width - 284) / 2,
                 SystemParameters.WorkArea.Height - 60, -2000, -200);
             ViewboxFloatingBarMarginAnimation(100, true);
@@ -266,6 +260,7 @@ namespace Ink_Canvas {
             StylusInvertedListenerInit();
 
             PenPaletteV2Init();
+            SelectionV2Init();
 
             InitStorageManagementModule();
         }

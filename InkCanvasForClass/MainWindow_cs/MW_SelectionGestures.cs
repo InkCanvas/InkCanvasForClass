@@ -294,24 +294,35 @@ namespace Ink_Canvas {
             CancelCurrentStrokesSelection();
         }
 
-        private void RectangleSelectionHitTestBorder_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            RectangleSelectionHitTestBorder.CaptureMouse();
-            isRectangleSelectionMouseDown = true;
+        private void RectangleSelectionHitTestBorder_MouseDown(object sender, MouseButtonEventArgs e) {
             var pt = e.GetPosition(Main_Grid);
-            rectangleSelection_FirstPoint = pt;
+            var nt = inkCanvas.Strokes.HitTest(pt, 8);
+            if (nt.Count > 0) {
+                if (nt.Count > 1) {
+                    var nodia = nt.HitTest(pt);
+                    if (nodia.Count > 0) {
+                        inkCanvas.Select(new StrokeCollection() {nodia[nodia.Count-1]});
+                    } else {
+                        inkCanvas.Select(new StrokeCollection() { nt[0] });
+                    }
+                } else if (nt.Count == 1) {
+                    inkCanvas.Select(nt);
+                }
+            } else {
+                RectangleSelectionHitTestBorder.CaptureMouse();
+                isRectangleSelectionMouseDown = true;
+                rectangleSelection_FirstPoint = pt;
+            }
         }
 
-        private void RectangleSelectionHitTestBorder_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (!isRectangleSelectionMouseDown) return;
+        private void RectangleSelectionHitTestBorder_MouseMove(object sender, MouseEventArgs e) {
             var pt = e.GetPosition(Main_Grid);
+            if (!isRectangleSelectionMouseDown) return;
             rectangleSelection_LastPoint = pt;
             RectangleSelection.DrawSelectionBox(new Rect(rectangleSelection_FirstPoint, rectangleSelection_LastPoint));
         }
 
-        private void RectangleSelectionHitTestBorder_MouseUp(object sender, MouseButtonEventArgs e)
-        {
+        private void RectangleSelectionHitTestBorder_MouseUp(object sender, MouseButtonEventArgs e) {
             RectangleSelectionHitTestBorder.ReleaseMouseCapture();
             isRectangleSelectionMouseDown = false;
             var pt = e.GetPosition(Main_Grid);
@@ -337,28 +348,6 @@ namespace Ink_Canvas {
             });
 
             RectangleSelection.ClearDrawing();
-        }
-
-        private void BtnSelect_Click(object sender, RoutedEventArgs e) {
-            forceEraser = true;
-            drawingShapeMode = 0;
-            inkCanvas.IsManipulationEnabled = false;
-            if (inkCanvas.EditingMode == InkCanvasEditingMode.Select) {
-                if (inkCanvas.GetSelectedStrokes().Count == inkCanvas.Strokes.Count) {
-                    inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
-                    inkCanvas.EditingMode = InkCanvasEditingMode.Select;
-                }
-                else {
-                    var selectedStrokes = new StrokeCollection();
-                    foreach (var stroke in inkCanvas.Strokes)
-                        if (stroke.GetBounds().Width > 0 && stroke.GetBounds().Height > 0)
-                            selectedStrokes.Add(stroke);
-                    inkCanvas.Select(selectedStrokes);
-                }
-            }
-            else {
-                inkCanvas.EditingMode = InkCanvasEditingMode.Select;
-            }
         }
 
 
@@ -527,8 +516,9 @@ namespace Ink_Canvas {
             }
 
             if (final_w >= 1 && final_h >= 1) {
-                StrokeSelectionBorder.Width = final_w;
-                StrokeSelectionBorder.Height = final_h;
+                // 此處還需要修改行為，讓其能夠縮放到1x1；
+                StrokeSelectionBorder.Width = final_w >=1 ? final_w : 1;
+                StrokeSelectionBorder.Height = final_h >=1 ? final_h : 1;
                 
                 System.Windows.Controls.Canvas.SetLeft(StrokeSelectionBorder, l);
                 System.Windows.Controls.Canvas.SetTop(StrokeSelectionBorder, t);
@@ -1268,5 +1258,30 @@ namespace Ink_Canvas {
             }
             catch { }
         }
+
+        #region SelectionV2 Popup
+
+        private void SelectionV2Init() {
+            SelectionV2.SelectAllEvent += (sender, args) => {
+                inkCanvas.Select(inkCanvas.Strokes);
+                SelectionPopupV2.IsOpen = false;
+            };
+            SelectionV2.UnSelectEvent += (sender, args) => {
+                CancelCurrentStrokesSelection();
+                SelectionPopupV2.IsOpen = false;
+            };
+            SelectionV2.ReverseSelectEvent += (sender, args) => {
+                var strokes = new StrokeCollection(inkCanvas.Strokes.Where(stroke =>
+                    !inkCanvas.GetSelectedStrokes().Contains(stroke)).Where(stroke=>!stroke.ContainsPropertyData(IsLockGuid)));
+                if (strokes.Any()) {
+                    inkCanvas.Select(strokes);
+                } else {
+                    CancelCurrentStrokesSelection();
+                }
+                SelectionPopupV2.IsOpen = false;
+            };
+        }
+
+        #endregion
     }
 }
