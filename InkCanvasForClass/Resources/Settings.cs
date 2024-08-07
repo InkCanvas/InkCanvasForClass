@@ -75,30 +75,31 @@ namespace Ink_Canvas
         public bool FitToCurve { get; set; } = true;
         [JsonProperty("clearCanvasAndClearTimeMachine")]
         public bool ClearCanvasAndClearTimeMachine { get; set; } = false;
-
         [Obsolete("已经使用多背景色“blackboardBackgroundColor”替换该选项")]
         [JsonProperty("usingWhiteboard")]
         public bool UsingWhiteboard { get; set; }
-
         [JsonProperty("hyperbolaAsymptoteOption")]
         public OptionalOperation HyperbolaAsymptoteOption { get; set; } = OptionalOperation.Ask;
-
         [JsonProperty("blackboardBackgroundColor")]
         public BlackboardBackgroundColorEnum BlackboardBackgroundColor { get; set; } =
             BlackboardBackgroundColorEnum.White;
-
         [JsonProperty("blackboardBackgroundPattern")]
         public BlackboardBackgroundPatternEnum BlackboardBackgroundPattern { get; set; } =
             BlackboardBackgroundPatternEnum.None;
-
         [JsonProperty("useDefaultBackgroundColorForEveryNewAddedBlackboardPage")]
         public bool UseDefaultBackgroundColorForEveryNewAddedBlackboardPage { get; set; } = false;
-
         [JsonProperty("useDefaultBackgroundPatternForEveryNewAddedBlackboardPage")]
         public bool UseDefaultBackgroundPatternForEveryNewAddedBlackboardPage { get; set; } = false;
-
         [JsonProperty("isEnableAutoConvertInkColorWhenBackgroundChanged")]
         public bool IsEnableAutoConvertInkColorWhenBackgroundChanged { get; set; } = false;
+        [JsonProperty("ApplyScaleToStylusTip")]
+        public bool ApplyScaleToStylusTip { get; set; } = false;
+        [JsonProperty("onlyHitTestFullyContainedStrokes")]
+        public bool OnlyHitTestFullyContainedStrokes { get; set; } = false;
+        [JsonProperty("allowClickToSelectLockedStroke")]
+        public bool AllowClickToSelectLockedStroke { get; set; } = false;
+        [JsonProperty("selectionMethod")]
+        public int SelectionMethod { get; set; } = 0;
     }
 
     public enum OptionalOperation

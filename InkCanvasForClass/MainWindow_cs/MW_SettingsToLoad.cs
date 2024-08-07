@@ -122,6 +122,8 @@ namespace Ink_Canvas {
                 LogHelper.WriteLogToFile(ex.ToString(), LogHelper.LogType.Error);
             }
 
+            #region Startup
+
             if (Settings.Startup != null) {
                 if (isStartup) {
                     if (Settings.Automation.AutoDelSavedFiles) {
@@ -171,7 +173,10 @@ namespace Ink_Canvas {
                 Settings.Startup = new Startup();
             }
 
-            // Appearance
+            #endregion
+
+            #region Appearance
+
             if (Settings.Appearance != null) {
                 if (!Settings.Appearance.IsEnableDisPlayNibModeToggler) {
                     NibModeSimpleStackPanel.Visibility = Visibility.Collapsed;
@@ -328,7 +333,10 @@ namespace Ink_Canvas {
                 Settings.Appearance = new Appearance();
             }
 
-            // PowerPointSettings
+            #endregion
+
+            #region PowerPointSettings
+
             if (Settings.PowerPointSettings != null) {
                 
                 
@@ -431,7 +439,10 @@ namespace Ink_Canvas {
                 Settings.PowerPointSettings = new PowerPointSettings();
             }
 
-            // Gesture
+            #endregion
+
+            #region Gesture
+
             if (Settings.Gesture != null) {
                 ToggleSwitchEnableMultiTouchMode.IsOn = Settings.Gesture.IsEnableMultiTouchMode;
 
@@ -499,7 +510,10 @@ namespace Ink_Canvas {
                 Settings.Gesture = new Gesture();
             }
 
-            // Canvas
+            #endregion
+
+            #region Canvas
+
             if (Settings.Canvas != null) {
                 drawingAttributes.Height = Settings.Canvas.InkWidth;
                 drawingAttributes.Width = Settings.Canvas.InkWidth;
@@ -621,7 +635,10 @@ namespace Ink_Canvas {
                 Settings.Canvas = new Canvas();
             }
 
-            // Advanced
+            #endregion
+
+            #region Advanced
+
             if (Settings.Advanced != null) {
                 TouchMultiplierSlider.Value = Settings.Advanced.TouchMultiplier;
                 FingerModeBoundsWidthSlider.Value = Settings.Advanced.FingerModeBoundsWidth;
@@ -664,7 +681,10 @@ namespace Ink_Canvas {
                 Settings.Advanced = new Advanced();
             }
 
-            // InkToShape
+            #endregion
+
+            #region Ink Recognition
+
             if (Settings.InkToShape != null) {
                 ToggleSwitchEnableInkToShape.IsOn = Settings.InkToShape.IsInkToShapeEnabled;
 
@@ -683,15 +703,22 @@ namespace Ink_Canvas {
                 Settings.InkToShape = new InkToShape();
             }
 
-            // RandSettings
-            if (Settings.RandSettings != null) { } else {
-                Settings.RandSettings = new RandSettings();
+            #endregion
+
+            #region RandSettings
+
+            if (Settings.RandSettings != null) {
                 ToggleSwitchDisplayRandWindowNamesInputBtn.IsOn = Settings.RandSettings.DisplayRandWindowNamesInputBtn;
                 RandWindowOnceCloseLatencySlider.Value = Settings.RandSettings.RandWindowOnceCloseLatency;
                 RandWindowOnceMaxStudentsSlider.Value = Settings.RandSettings.RandWindowOnceMaxStudents;
+            } else {
+                Settings.RandSettings = new RandSettings();
             }
 
-            // Automation
+            #endregion
+
+            #region Automation
+
             if (Settings.Automation != null) {
                 StartOrStoptimerCheckAutoFold();
                 ToggleSwitchAutoFoldInEasiNote.IsOn = Settings.Automation.IsAutoFoldInEasiNote;
@@ -782,6 +809,23 @@ namespace Ink_Canvas {
             } else {
                 Settings.Automation = new Automation();
             }
+
+            #endregion
+
+            #region Snapshot
+
+            if (Settings.Snapshot != null) {
+                ToggleSwitchScreenshotUsingMagnificationAPI.IsOn = Settings.Snapshot.ScreenshotUsingMagnificationAPI;
+                ToggleSwitchCopyScreenshotToClipboard.IsOn = Settings.Snapshot.CopyScreenshotToClipboard;
+                ToggleSwitchHideMainWinWhenScreenshot.IsOn = Settings.Snapshot.HideMainWinWhenScreenshot;
+                ToggleSwitchAttachInkWhenScreenshot.IsOn = Settings.Snapshot.AttachInkWhenScreenshot;
+                ToggleSwitchOnlySnapshotMaximizeWindow.IsOn = Settings.Snapshot.OnlySnapshotMaximizeWindow;
+                ScreenshotFileName.Text = Settings.Snapshot.ScreenshotFileName;
+            } else {
+                Settings.Snapshot = new Snapshot();
+            }
+
+            #endregion
 
             // auto align
             if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) {

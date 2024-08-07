@@ -23,6 +23,9 @@ using System.Threading;
 using System.Timers;
 using Ink_Canvas.Popups;
 using Ookii.Dialogs.Wpf;
+using Microsoft.Office.Interop.PowerPoint;
+using Application = System.Windows.Application;
+using Point = System.Windows.Point;
 
 namespace Ink_Canvas {
     public partial class MainWindow : Window {
@@ -936,11 +939,38 @@ namespace Ink_Canvas {
         }
 
         private void ToggleSwitchIsEnableAutoConvertInkColorWhenBackgroundChanged_Toggled(object sender,
-            RoutedEventArgs e)
-        {
+            RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Canvas.IsEnableAutoConvertInkColorWhenBackgroundChanged =
                 ToggleSwitchIsEnableAutoConvertInkColorWhenBackgroundChanged.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchApplyScaleToStylusTip_OnToggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Canvas.ApplyScaleToStylusTip = ToggleSwitchApplyScaleToStylusTip.IsOn;
+            SelectionV2.ApplyScaleToStylusTip = ToggleSwitchApplyScaleToStylusTip.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchOnlyHitTestFullyContainedStrokes_OnToggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Canvas.OnlyHitTestFullyContainedStrokes = ToggleSwitchOnlyHitTestFullyContainedStrokes.IsOn;
+            SelectionV2.OnlyHitTestFullyContainedStrokes = ToggleSwitchOnlyHitTestFullyContainedStrokes.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchAllowClickToSelectLockedStroke_OnToggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Canvas.AllowClickToSelectLockedStroke = ToggleSwitchAllowClickToSelectLockedStroke.IsOn;
+            SelectionV2.AllowClickToSelectLockedStroke = ToggleSwitchAllowClickToSelectLockedStroke.IsOn;
+            SaveSettingsToFile();
+        }
+
+        private void ComboBoxSelectionMethod_SelectionChanged(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Canvas.SelectionMethod = ComboBoxSelectionMethod.SelectedIndex;
+            SelectionV2.SelectionModeSelected = (SelectionPopup.SelectionMode)ComboBoxSelectionMethod.SelectedIndex;
             SaveSettingsToFile();
         }
 
@@ -1580,6 +1610,10 @@ namespace Ink_Canvas {
             Settings.Canvas.IsEnableAutoConvertInkColorWhenBackgroundChanged = false;
             Settings.Canvas.UseDefaultBackgroundColorForEveryNewAddedBlackboardPage = false;
             Settings.Canvas.UseDefaultBackgroundPatternForEveryNewAddedBlackboardPage = false;
+            Settings.Canvas.SelectionMethod = 0;
+            Settings.Canvas.ApplyScaleToStylusTip = false;
+            Settings.Canvas.OnlyHitTestFullyContainedStrokes = false;
+            Settings.Canvas.AllowClickToSelectLockedStroke = false;
 
             Settings.Gesture.AutoSwitchTwoFingerGesture = true;
             Settings.Gesture.IsEnableTwoFingerTranslate = true;
@@ -1967,6 +2001,7 @@ namespace Ink_Canvas {
                 SettingsStorageGroupBox,
                 SettingsSnapshotGroupBox,
                 SettingsRandWindowGroupBox,
+                SettingsDonationGroupBox,
                 SettingsAboutGroupBox
             };
             
@@ -1982,6 +2017,7 @@ namespace Ink_Canvas {
                 SettingsStorageJumpToGroupBoxButton,
                 SettingsSnapshotJumpToGroupBoxButton,
                 SettingsRandWindowJumpToGroupBoxButton,
+                SettingsDonationJumpToGroupBoxButton,
                 SettingsAboutJumpToGroupBoxButton
             };
         }

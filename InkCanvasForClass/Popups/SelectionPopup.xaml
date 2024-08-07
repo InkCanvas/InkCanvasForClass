@@ -15,7 +15,7 @@
                 <modern:SimpleStackPanel Spacing="4" Margin="8,0" Height="40" VerticalAlignment="Top" Orientation="Horizontal">
                     <Border x:Name="LassoTabButton" VerticalAlignment="Bottom"
                             Background="#223b82f6" Height="34" Width="96"
-                            CornerRadius="6">
+                            CornerRadius="6" MouseDown="SelectionModeTabButton_MouseDown">
                         <Grid>
                             <modern:SimpleStackPanel
                                 x:Name="LassoTabButtonIndicator"
@@ -55,7 +55,7 @@
                     </Border>
                     <Border x:Name="RectangleTabButton" VerticalAlignment="Bottom"
                             Background="#223b82f6" Height="34" Width="96"
-                            CornerRadius="6">
+                            CornerRadius="6" MouseDown="SelectionModeTabButton_MouseDown">
                         <Grid>
                             <modern:SimpleStackPanel
                                 x:Name="RectangleTabButtonIndicator"
@@ -169,9 +169,9 @@
                                     </Button>
                                 </Grid>
                                 <modern:SimpleStackPanel Spacing="-4" Orientation="Vertical" Margin="11,4,0,0">
-                                    <CheckBox Content="将墨迹缩放应用于触笔笔尖" IsChecked="True"></CheckBox>
-                                    <CheckBox Content="仅命中全部包含的墨迹" IsChecked="True"></CheckBox>
-                                    <CheckBox Content="允许点选命中被锁定的墨迹" IsChecked="True"></CheckBox>
+                                    <CheckBox Name="cb1" Checked="cb1cked" Unchecked="cb1cked" Content="将墨迹缩放应用于触笔笔尖" IsChecked="True"></CheckBox>
+                                    <CheckBox Name="cb2" Checked="cb2cked" Unchecked="cb2cked" Content="仅命中全部包含的墨迹" IsChecked="True"></CheckBox>
+                                    <CheckBox Name="cb3" Checked="cb3cked" Unchecked="cb3cked" Content="允许点选命中被锁定的墨迹" IsChecked="True"></CheckBox>
                                 </modern:SimpleStackPanel>
                             </modern:SimpleStackPanel>
                         </Grid>

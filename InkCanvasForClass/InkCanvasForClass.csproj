@@ -567,6 +567,7 @@
 	<None Remove="Resources\PresentationExample\sidebar-dark.png" />
 	<None Remove="Resources\PresentationExample\sidebar-white.png" />
 	<None Remove="Resources\PresentationExample\toolbar.png" />
+	<None Remove="Resources\qrcodes.png" />
   </ItemGroup>
   <ItemGroup>
 	<Resource Include="Resources\Icons-png\idt.png" />
@@ -579,6 +580,7 @@
 	<Resource Include="Resources\PresentationExample\sidebar-dark.png" />
 	<Resource Include="Resources\PresentationExample\sidebar-white.png" />
 	<Resource Include="Resources\PresentationExample\toolbar.png" />
+	<Resource Include="Resources\qrcodes.png" />
   </ItemGroup>
   <ItemGroup>
 	<Compile Update="Properties\Settings.Designer.cs">

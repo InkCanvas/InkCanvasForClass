@@ -1,4 +1,5 @@
 ﻿using iNKORE.UI.WPF.Modern.Controls;
+using Microsoft.Office.Interop.PowerPoint;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +15,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Resources;
+using Ink_Canvas.Popups;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using Application = System.Windows.Application;
 using Matrix = System.Windows.Media.Matrix;
 using Point = System.Windows.Point;
 
@@ -190,8 +193,6 @@ namespace Ink_Canvas {
         private void ImageRotate_MouseUp(object sender, MouseButtonEventArgs e) {
             if (BorderStrokeSelectionToolButtonMouseDown != (Border)sender) return;
 
-            Trace.WriteLine("12323112323232323231123123");
-
             MatrixStrokes((m, cent) => {
                 m.RotateAt((((Border)sender).Name=="BorderImageRotate45"?45:90) * (StrokesRotateClockwise == 0 ? 1 : -1), cent.X, cent.Y);
                 return m;
@@ -282,8 +283,11 @@ namespace Ink_Canvas {
         private StrokeCollection StrokesSelectionClone = new StrokeCollection();
 
         private bool isRectangleSelectionMouseDown = false;
+        // 矩形框选
         private Point rectangleSelection_FirstPoint = new Point(0, 0);
         private Point rectangleSelection_LastPoint = new Point(0, 0);
+        // 套索框选
+        private PointCollection rectangleSelection_LassoPoints = new PointCollection();
 
         private void GridInkCanvasSelectionCover_MouseDown(object sender, MouseButtonEventArgs e) {
             isGridInkCanvasSelectionCoverMouseDown = true;
@@ -297,39 +301,52 @@ namespace Ink_Canvas {
         private void RectangleSelectionHitTestBorder_MouseDown(object sender, MouseButtonEventArgs e) {
             var pt = e.GetPosition(Main_Grid);
             var nt = inkCanvas.Strokes.HitTest(pt, 8);
-            if (nt.Count > 0) {
+            if (nt.Count > 0 && !(e.RightButton == MouseButtonState.Pressed)) {
                 if (nt.Count > 1) {
                     var nodia = nt.HitTest(pt);
                     if (nodia.Count > 0) {
+                        if (nodia[nodia.Count - 1].ContainsPropertyData(IsLockGuid) && Settings.Canvas.AllowClickToSelectLockedStroke) return;
                         inkCanvas.Select(new StrokeCollection() {nodia[nodia.Count-1]});
                     } else {
+                        if (nt[0].ContainsPropertyData(IsLockGuid) && Settings.Canvas.AllowClickToSelectLockedStroke) return;
                         inkCanvas.Select(new StrokeCollection() { nt[0] });
                     }
                 } else if (nt.Count == 1) {
+                    if (nt[0].ContainsPropertyData(IsLockGuid) && Settings.Canvas.AllowClickToSelectLockedStroke) return;
                     inkCanvas.Select(nt);
                 }
             } else {
                 RectangleSelectionHitTestBorder.CaptureMouse();
                 isRectangleSelectionMouseDown = true;
-                rectangleSelection_FirstPoint = pt;
+                if (Settings.Canvas.SelectionMethod == 1) {
+                    rectangleSelection_FirstPoint = pt;
+                } else {
+                    rectangleSelection_LassoPoints.Clear();
+                    rectangleSelection_LassoPoints.Add(pt);
+                }
+                
             }
         }
 
         private void RectangleSelectionHitTestBorder_MouseMove(object sender, MouseEventArgs e) {
             var pt = e.GetPosition(Main_Grid);
             if (!isRectangleSelectionMouseDown) return;
-            rectangleSelection_LastPoint = pt;
-            RectangleSelection.DrawSelectionBox(new Rect(rectangleSelection_FirstPoint, rectangleSelection_LastPoint));
+            if (Settings.Canvas.SelectionMethod == 1) {
+                rectangleSelection_LastPoint = pt;
+                RectangleSelection.DrawSelectionBox(new Rect(rectangleSelection_FirstPoint, rectangleSelection_LastPoint));
+            } else {
+                rectangleSelection_LassoPoints.Add(pt);
+                RectangleSelection.DrawLassoLine(rectangleSelection_LassoPoints);
+            }
         }
 
         private void RectangleSelectionHitTestBorder_MouseUp(object sender, MouseButtonEventArgs e) {
+            if (!isRectangleSelectionMouseDown) return;
             RectangleSelectionHitTestBorder.ReleaseMouseCapture();
             isRectangleSelectionMouseDown = false;
             var pt = e.GetPosition(Main_Grid);
-            rectangleSelection_LastPoint = pt;
 
-            var ilh = inkCanvas.Strokes.GetIncrementalLassoHitTester(1);
-            var rct = new Rect(rectangleSelection_FirstPoint, rectangleSelection_LastPoint);
+            var ilh = inkCanvas.Strokes.GetIncrementalLassoHitTester(Settings.Canvas.OnlyHitTestFullyContainedStrokes ? 100 : 1);
 
             void func(object s, LassoSelectionChangedEventArgs _e) {
                 var _ilh = s as IncrementalLassoHitTester;
@@ -339,13 +356,21 @@ namespace Ink_Canvas {
             }
 
             ilh.SelectionChanged += func;
-            ilh.AddPoints(new Point[] {
-                rct.TopLeft,
-                rct.TopRight,
-                rct.BottomRight,
-                rct.BottomLeft,
-                rct.TopLeft
-            });
+
+            if (Settings.Canvas.SelectionMethod == 1) {
+                rectangleSelection_LastPoint = pt;
+                var rct = new Rect(rectangleSelection_FirstPoint, rectangleSelection_LastPoint);
+                ilh.AddPoints(new Point[] {
+                    rct.TopLeft,
+                    rct.TopRight,
+                    rct.BottomRight,
+                    rct.BottomLeft,
+                    rct.TopLeft
+                });
+            } else {
+                rectangleSelection_LassoPoints.Add(pt);
+                ilh.AddPoints(rectangleSelection_LassoPoints);
+            }
 
             RectangleSelection.ClearDrawing();
         }
@@ -366,6 +391,7 @@ namespace Ink_Canvas {
         private Point? resizingLastPoint = null;
 
         private void StrokeSelectionBorderHandle_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (isStrokeSelectionBorderLocked) return;
             if (isLockedStrokeSelectionHandle || isLockedStrokeSelectionMove || isLockedStrokeSelectionRotate) return;
             // lock
             isLockedStrokeSelectionHandle = true;
@@ -416,6 +442,7 @@ namespace Ink_Canvas {
         }
 
         private void StrokeSelectionBorderHandle_MouseUp(object sender, MouseButtonEventArgs e) {
+            if (isStrokeSelectionBorderLocked) return;
             if (!isLockedStrokeSelectionHandle || isLockedStrokeSelectionMove || isLockedStrokeSelectionRotate) return;
 
             // resize strokes and preview strokes
@@ -448,7 +475,7 @@ namespace Ink_Canvas {
         }
 
         private void StrokeSelectionBorderHandle_MouseMove(object sender, MouseEventArgs e) {
-
+            if (isStrokeSelectionBorderLocked) return;
             if (!isLockedStrokeSelectionHandle || isLockedStrokeSelectionMove || isLockedStrokeSelectionRotate) return;
 
             var bd = (Border)sender;
@@ -555,6 +582,7 @@ namespace Ink_Canvas {
         private bool isProgramChangeStrokesSelection = false;
 
         private void StrokeSelectionBorder_MouseUp(object sender, MouseButtonEventArgs e) {
+            if (isStrokeSelectionBorderLocked) return;
             if (isLockedStrokeSelectionHandle || isLockedStrokeSelectionRotate || !isLockedStrokeSelectionMove) return;
 
             // release capture
@@ -620,6 +648,7 @@ namespace Ink_Canvas {
         }
 
         private void StrokeSelectionBorder_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (isStrokeSelectionBorderLocked) return;
             if (isLockedStrokeSelectionHandle || isLockedStrokeSelectionRotate || isLockedStrokeSelectionMove) return;
 
             // record first move point
@@ -643,6 +672,7 @@ namespace Ink_Canvas {
         private StrokeCollection clonedStrokes;
 
         private void StrokeSelectionBorder_MouseMove(object sender, MouseEventArgs e) {
+            if (isStrokeSelectionBorderLocked) return;
             if (isLockedStrokeSelectionHandle || isLockedStrokeSelectionRotate || !isLockedStrokeSelectionMove) return;
 
             // record last move point
@@ -699,6 +729,7 @@ namespace Ink_Canvas {
         private bool isLockedStrokeSelectionRotate = false;
 
         private void StrokeSelectionRotateHandle_MouseUp(object sender, MouseButtonEventArgs e) {
+            if (isStrokeSelectionBorderLocked) return;
             if (isLockedStrokeSelectionHandle || isLockedStrokeSelectionMove || !isLockedStrokeSelectionRotate) return;
 
             // unlock
@@ -758,6 +789,7 @@ namespace Ink_Canvas {
         }
 
         private void StrokeSelectionRotateHandle_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (isStrokeSelectionBorderLocked) return;
             if (isLockedStrokeSelectionHandle || isLockedStrokeSelectionMove || isLockedStrokeSelectionRotate) return;
 
             // lock
@@ -773,6 +805,7 @@ namespace Ink_Canvas {
         }
 
         private void StrokeSelectionRotateHandle_MouseMove(object sender, MouseEventArgs e) {
+            if (isStrokeSelectionBorderLocked) return;
             if (isLockedStrokeSelectionHandle || isLockedStrokeSelectionMove || !isLockedStrokeSelectionRotate) return;
 
             // record last point
@@ -898,10 +931,18 @@ namespace Ink_Canvas {
         }
 
         private void StrokeSelectionBorder_MouseEnter(object sender, MouseEventArgs e) {
+            if (isStrokeSelectionBorderLocked) {
+                StrokeSelectionCursorArea.Background = new SolidColorBrush(Color.FromArgb(5, 96, 165, 250));
+                return;
+            };
             StrokeSelectionCursorArea.Background = new SolidColorBrush(Color.FromArgb(17, 96, 165, 250));
         }
 
         private void StrokeSelectionBorder_MouseLeave(object sender, MouseEventArgs e) {
+            if (isStrokeSelectionBorderLocked) {
+                StrokeSelectionCursorArea.Background = new SolidColorBrush(Color.FromArgb(5, 96, 165, 250));
+                return;
+            };
             StrokeSelectionCursorArea.Background = new SolidColorBrush(Color.FromArgb(5, 96, 165, 250));
         }
 
@@ -972,7 +1013,7 @@ namespace Ink_Canvas {
             if (isPreview) {
                 InkSelectionStrokesOverlay.DrawStrokes(strokes, matrix);
             } else {
-                strokes.Transform(matrix, false);
+                strokes.Transform(matrix, Settings.Canvas.ApplyScaleToStylusTip);
             }
         }
 
@@ -984,7 +1025,7 @@ namespace Ink_Canvas {
             if (isPreview) {
                 InkSelectionStrokesOverlay.DrawStrokes(strokes, matrix);
             } else {
-                strokes.Transform(matrix, false);
+                strokes.Transform(matrix, Settings.Canvas.ApplyScaleToStylusTip);
             }
         }
 
@@ -1020,7 +1061,7 @@ namespace Ink_Canvas {
             if (isPreview) {
                 InkSelectionStrokesOverlay.DrawStrokes(strokes, matrix);
             } else {
-                strokes.Transform(matrix, false);
+                strokes.Transform(matrix, Settings.Canvas.ApplyScaleToStylusTip);
             }
 
             return strokes.GetBounds();
@@ -1109,7 +1150,6 @@ namespace Ink_Canvas {
         }
 
         private void updateBorderStrokeSelectionControlLocation() {
-
             if (currentMode == 0) BorderStrokeSelectionCloneToNewBoardTextBlock.Text = "克隆到白板";
                 else BorderStrokeSelectionCloneToNewBoardTextBlock.Text = "克隆到新页";
 
@@ -1159,11 +1199,22 @@ namespace Ink_Canvas {
             }
         }
 
+        private bool isStrokeSelectionBorderLocked = false;
+
         private void UpdateSelectionBorderHandlesLockStatus(bool isLocked) {
             var _v = !isLocked ? Visibility.Visible : Visibility.Collapsed;
             foreach (var hd in StrokeSelectionBorderHandles) hd.Visibility = _v;
             StrokeSelectionRotateHandleConnectLine.Visibility = _v;
-            StrokeSelectionBorder.IsHitTestVisible = !isLocked;
+            isStrokeSelectionBorderLocked = isLocked;
+            if (isLocked) {
+                StrokeSelectionCursorArea.ForceCursor = false;
+                StrokeSelectionCursorArea.Cursor = Cursors.Arrow;
+            } else {
+                StrokeSelectionCursorArea.ForceCursor = true;
+                StreamResourceInfo sri_move = Application.GetResourceStream(
+                    new Uri("Resources/Cursors/cursor-move.cur", UriKind.Relative));
+                StrokeSelectionCursorArea.Cursor = new Cursor(sri_move.Stream);
+            }
         }
 
         private void BorderStrokeSelectionLock_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -1278,6 +1329,37 @@ namespace Ink_Canvas {
                 } else {
                     CancelCurrentStrokesSelection();
                 }
+                SelectionPopupV2.IsOpen = false;
+            };
+            SelectionV2.ApplyScaleToStylusTip = Settings.Canvas.ApplyScaleToStylusTip;
+            SelectionV2.OnlyHitTestFullyContainedStrokes = Settings.Canvas.OnlyHitTestFullyContainedStrokes;
+            SelectionV2.AllowClickToSelectLockedStroke = Settings.Canvas.AllowClickToSelectLockedStroke;
+            SelectionV2.SelectionModeSelected = (SelectionPopup.SelectionMode)Settings.Canvas.SelectionMethod;
+            SelectionV2.ApplyScaleToStylusTipChanged += (sender, args) => {
+                if (!isLoaded) return;
+                Settings.Canvas.ApplyScaleToStylusTip = SelectionV2.ApplyScaleToStylusTip;
+                ToggleSwitchApplyScaleToStylusTip.IsOn = SelectionV2.ApplyScaleToStylusTip;
+                SaveSettingsToFile();
+            };
+            SelectionV2.OnlyHitTestFullyContainedStrokesChanged += (sender, args) => {
+                if (!isLoaded) return;
+                Settings.Canvas.OnlyHitTestFullyContainedStrokes = SelectionV2.OnlyHitTestFullyContainedStrokes;
+                ToggleSwitchOnlyHitTestFullyContainedStrokes.IsOn = SelectionV2.OnlyHitTestFullyContainedStrokes;
+                SaveSettingsToFile();
+            };
+            SelectionV2.AllowClickToSelectLockedStrokeChanged += (sender, args) => {
+                if (!isLoaded) return;
+                Settings.Canvas.AllowClickToSelectLockedStroke = SelectionV2.AllowClickToSelectLockedStroke;
+                ToggleSwitchAllowClickToSelectLockedStroke.IsOn = SelectionV2.AllowClickToSelectLockedStroke;
+                SaveSettingsToFile();
+            };
+            SelectionV2.SelectionModeChanged += (sender, args) => {
+                if (!isLoaded) return;
+                Settings.Canvas.SelectionMethod = (int)args.NowMode;
+                ComboBoxSelectionMethod.SelectedIndex = (int)args.NowMode;
+                SaveSettingsToFile();
+            };
+            SelectionV2.SelectionPopupShouldCloseEvent += (sender, args) => {
                 SelectionPopupV2.IsOpen = false;
             };
         }
