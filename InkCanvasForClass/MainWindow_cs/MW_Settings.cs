@@ -18,9 +18,12 @@ using System.Xml.Linq;
 using iNKORE.UI.WPF.Modern.Media.Animation;
 using System.Security.Principal;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Timers;
+using ColorPicker.Models;
 using Ink_Canvas.Popups;
 using Ookii.Dialogs.Wpf;
 using Microsoft.Office.Interop.PowerPoint;
@@ -789,6 +792,38 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
+        private void CheckboxFloatingBarIconsVisibility_CheckedChanged(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+
+            var items = new CheckBox[] {
+                CheckboxEnableFloatingBarShapes,
+                CheckboxEnableFloatingBarFreeze,
+                CheckboxEnableFloatingBarHand,
+                CheckboxEnableFloatingBarUndo,
+                CheckboxEnableFloatingBarRedo,
+                CheckboxEnableFloatingBarCAM,
+                CheckboxEnableFloatingBarLasso,
+                CheckboxEnableFloatingBarWhiteboard,
+                CheckboxEnableFloatingBarFold,
+                CheckboxEnableFloatingBarGesture
+            };
+
+            if (!items.Contains((CheckBox)sender)) return;
+            if (Settings.Appearance.FloatingBarIconsVisibility.Length != 10) {
+                Settings.Appearance.FloatingBarIconsVisibility =
+                    Settings.Appearance.FloatingBarIconsVisibility.PadRight(10, '1');
+                SaveSettingsToFile();
+            }
+            var value = Settings.Appearance.FloatingBarIconsVisibility;
+            var vsb = new StringBuilder(value);
+            vsb[Array.IndexOf(items, (CheckBox)sender)] = (bool)((CheckBox)sender).IsChecked ? '1' : '0';
+            Settings.Appearance.FloatingBarIconsVisibility = vsb.ToString();
+
+            UpdateFloatingBarIconsVisibility();
+
+            SaveSettingsToFile();
+        }
+
         #endregion
 
         #region Canvas
@@ -1520,6 +1555,7 @@ namespace Ink_Canvas {
             Settings.Advanced.IsEnableDPIChangeDetection = false;
             Settings.Advanced.IsEnableResolutionChangeDetection = false;
             Settings.Advanced.IsDisableCloseWindow = true;
+            Settings.Advanced.EnableForceTopMost = false;
 
             Settings.Appearance.IsEnableDisPlayNibModeToggler = false;
             Settings.Appearance.IsColorfulViewboxFloatingBar = false;
@@ -1540,7 +1576,7 @@ namespace Ink_Canvas {
             Settings.Appearance.ViewboxFloatingBarOpacityInPPTValue = 1.0;
             Settings.Appearance.EnableTrayIcon = true;
             Settings.Appearance.FloatingBarButtonLabelVisibility = true;
-            Settings.Advanced.EnableForceTopMost = false;
+            Settings.Appearance.FloatingBarIconsVisibility = "11111111";
 
             Settings.Automation.IsAutoFoldInEasiNote = true;
             Settings.Automation.IsAutoFoldInEasiNoteIgnoreDesktopAnno = true;
@@ -1603,7 +1639,7 @@ namespace Ink_Canvas {
             Settings.Canvas.HideStrokeWhenSelecting = false;
             Settings.Canvas.ClearCanvasAndClearTimeMachine = false;
             Settings.Canvas.FitToCurve = false;
-            Settings.Canvas.UsingWhiteboard = false;
+            //Settings.Canvas.UsingWhiteboard = false;
             Settings.Canvas.HyperbolaAsymptoteOption = 0;
             Settings.Canvas.BlackboardBackgroundColor = BlackboardBackgroundColorEnum.White;
             Settings.Canvas.BlackboardBackgroundPattern = BlackboardBackgroundPatternEnum.None;

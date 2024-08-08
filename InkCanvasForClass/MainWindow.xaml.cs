@@ -23,6 +23,7 @@ using Ink_Canvas.Popups;
 using iNKORE.UI.WPF.Modern.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Vanara.PInvoke;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using TextBox = System.Windows.Controls.TextBox;
@@ -143,6 +144,7 @@ namespace Ink_Canvas {
                 drawingAttributes.FitToCurve = Settings.Canvas.FitToCurve;
 
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+                inkCanvas.DeleteKeyCommandFired += InkCanvasDeleteCommandFiredEvent;
                 //inkCanvas.Gesture += InkCanvas_Gesture;
             }
             catch { }
@@ -196,7 +198,7 @@ namespace Ink_Canvas {
         const uint MF_GRAYED = 0x00000001;
         const uint SC_CLOSE = 0xF060;
 
-        private static void PreloadIALibrary(object state) {
+        private static void PreloadIALibrary() {
             GC.KeepAlive(typeof(InkAnalyzer));
             GC.KeepAlive(typeof(AnalysisAlternate));
             GC.KeepAlive(typeof(InkDrawingNode));
@@ -242,7 +244,7 @@ namespace Ink_Canvas {
             BoardBackgroundPopup.Visibility = Visibility.Collapsed;
 
             // 提前加载IA库，优化第一笔等待时间
-            ThreadPool.QueueUserWorkItem(PreloadIALibrary);
+            PreloadIALibrary();
 
             SystemEvents.DisplaySettingsChanged += SystemEventsOnDisplaySettingsChanged;
 
@@ -263,6 +265,10 @@ namespace Ink_Canvas {
             SelectionV2Init();
 
             InitStorageManagementModule();
+
+            InitFreezeWindow(new HWND[] {
+                new HWND(new WindowInteropHelper(this).Handle)
+            });
         }
 
         private void SystemEventsOnDisplaySettingsChanged(object sender, EventArgs e) {
@@ -318,7 +324,10 @@ namespace Ink_Canvas {
             }
 
             if (e.Cancel) LogHelper.WriteLogToFile("Ink Canvas closing cancelled", LogHelper.LogType.Event);
-                else Application.Current.Shutdown();
+            else {
+                DisposeFreezeFrame();
+                Application.Current.Shutdown();
+            }
         }
 
         [DllImport("user32.dll", SetLastError = true)]

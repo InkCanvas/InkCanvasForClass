@@ -121,15 +121,6 @@ namespace Ink_Canvas {
 
             // toolbutton
             BorderStrokeSelectionToolButton_MouseLeave(sender, e);
-
-            // cancel
-            GridInkCanvasSelectionCover.Visibility = Visibility.Collapsed;
-            inkCanvas.Opacity = 1;
-            InkSelectionStrokesOverlay.Visibility = Visibility.Collapsed;
-            InkSelectionStrokesBackgroundInkCanvas.Visibility = Visibility.Collapsed;
-            InkSelectionStrokesOverlay.DrawStrokes(new StrokeCollection(), new Matrix());
-            UpdateStrokeSelectionBorder(false, null);
-            RectangleSelectionHitTestBorder.Visibility = Visibility.Visible;
         }
 
 
@@ -296,6 +287,10 @@ namespace Ink_Canvas {
         private void GridInkCanvasSelectionCover_MouseUp(object sender, MouseButtonEventArgs e) {
             isGridInkCanvasSelectionCoverMouseDown = false;
             CancelCurrentStrokesSelection();
+        }
+
+        private void InkCanvasDeleteCommandFiredEvent(object sender, RoutedEventArgs e) {
+            SymbolIconDelete_MouseUp(null, null);
         }
 
         private void RectangleSelectionHitTestBorder_MouseDown(object sender, MouseButtonEventArgs e) {

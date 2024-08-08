@@ -230,9 +230,10 @@ namespace Ink_Canvas
         public bool IsShowModeFingerToggleSwitch { get; set; } = true;
         [JsonProperty("theme")]
         public int Theme { get; set; } = 0;
-
         [JsonProperty("floatingBarButtonLabelVisibility")]
         public bool FloatingBarButtonLabelVisibility = true;
+        [JsonProperty("FloatingBarIconsVisibility")]
+        public string FloatingBarIconsVisibility = "11111111";
     }
 
     public class PowerPointSettings

@@ -116,6 +116,10 @@ namespace Ink_Canvas {
         /// 控制是否顯示浮動工具欄的“手勢”按鈕
         /// </summary>
         private void CheckEnableTwoFingerGestureBtnVisibility(bool isVisible) {
+            if (CheckboxEnableFloatingBarGesture.IsChecked == false) {
+                EnableTwoFingerGestureBorder.Visibility = Visibility.Collapsed;
+                return;
+            }
             if (StackPanelCanvasControls.Visibility != Visibility.Visible
                 || BorderFloatingBarMainControls.Visibility != Visibility.Visible) {
                 EnableTwoFingerGestureBorder.Visibility = Visibility.Collapsed;
@@ -319,15 +323,15 @@ namespace Ink_Canvas {
 
             if (mode != null && autoAlignCenter) {
                 if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) {
-                    await Task.Delay(1);
+                    await Task.Delay(10);
                     ViewboxFloatingBarMarginAnimation(60);
                 } else if (Topmost == true) //非黑板
                 {
-                    await Task.Delay(1);
+                    await Task.Delay(10);
                     ViewboxFloatingBarMarginAnimation(100, true);
                 } else //黑板
                 {
-                    await Task.Delay(1);
+                    await Task.Delay(10);
                     ViewboxFloatingBarMarginAnimation(60);
                 }
             }
@@ -336,7 +340,7 @@ namespace Ink_Canvas {
             PenPaletteV2Popup.IsOpen = false;
             SelectionPopupV2.IsOpen = false;
 
-            await Task.Delay(10);
+            await Task.Delay(20);
             isHidingSubPanelsWhenInking = false;
         }
 
@@ -646,6 +650,54 @@ namespace Ink_Canvas {
                 iconLabelsWhiteboard[wmi].Foreground = new SolidColorBrush(Colors.GhostWhite);
             }
 
+            FloatingbarFreezeBtnBGCanvas.Visibility = mode != ICCToolsEnum.CursorMode ? Visibility.Visible : Visibility.Collapsed;
+            if (mode == ICCToolsEnum.CursorMode) IsAnnotationFreezeOn = false;
+        }
+
+        #endregion
+
+        #region 画面定格
+
+        private bool _isAnnotationFreezeOn { get; set; } = false;
+        
+        private bool IsAnnotationFreezeOn {
+            get => _isAnnotationFreezeOn;
+            set {
+                _isAnnotationFreezeOn = value;
+                UpdateFloatingBarFreezeIconCheckedStatus();
+                var t = new Thread(() => {
+                    ApplyFreezeFrame();
+                });
+                t.Start();
+            }
+        }
+
+        private async void ApplyFreezeFrame() {
+            if (!isFreezeFrameLoaded) return;
+            if (_isAnnotationFreezeOn) {
+                var bmp = await GetFreezedFrameAsync();
+                Dispatcher.InvokeAsync(() => {
+                    FreezeFrameBackgroundImage.Source = BitmapToImageSource(bmp);
+                    FreezeFrameBackgroundImage.Visibility = Visibility.Visible;
+                });
+            } else {
+                Dispatcher.InvokeAsync(() => {
+                    FreezeFrameBackgroundImage.Source = null;
+                    FreezeFrameBackgroundImage.Visibility = Visibility.Collapsed;
+                });
+            }
+        }
+
+        private void UpdateFloatingBarFreezeIconCheckedStatus() {
+            if (IsAnnotationFreezeOn) {
+                FreezeIconGeometry.Brush = new SolidColorBrush(Colors.White);
+                FreezeToolbarTextBlock.Foreground = new SolidColorBrush(Colors.White);
+                FloatingbarFreezeBtnBG.Visibility = Visibility.Visible;
+            } else {
+                FreezeIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
+                FreezeToolbarTextBlock.Foreground = new SolidColorBrush(Colors.Black);
+                FloatingbarFreezeBtnBG.Visibility = Visibility.Hidden;
+            }
         }
 
         #endregion
@@ -663,6 +715,14 @@ namespace Ink_Canvas {
                     ViewboxFloatingBarMarginAnimation(60);
                 }
             }
+        }
+
+        private void FreezeFloatingBarBtn_MouseUp(object sender, MouseButtonEventArgs e) {
+            if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
+                ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
+            if (sender == FreezeFloatingBarBtn && lastBorderMouseDownObject != FreezeFloatingBarBtn) return;
+
+            IsAnnotationFreezeOn = !IsAnnotationFreezeOn;
         }
 
         private async void CursorIcon_Click(object sender, RoutedEventArgs e)
@@ -753,8 +813,8 @@ namespace Ink_Canvas {
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == Pen_Icon && lastBorderMouseDownObject != Pen_Icon) return;
 
-            if (Pen_Icon.Background == null || StackPanelCanvasControls.Visibility == Visibility.Collapsed)
-            {
+            if (Pen_Icon.Background == null || StackPanelCanvasControls.Visibility == Visibility.Collapsed) {
+
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
 
                 GridTransparencyFakeBackground.Opacity = 1;
@@ -979,6 +1039,28 @@ namespace Ink_Canvas {
         #endregion
 
         #region 按钮布局更新
+
+        public void UpdateFloatingBarIconsVisibility() {
+
+            var items = new FrameworkElement[] {
+                ShapeDrawFloatingBarBtn,
+                FreezeFloatingBarBtn,
+                HandFloatingBarBtn,
+                SymbolIconUndo,
+                SymbolIconRedo,
+                CursorWithDelFloatingBarBtn,
+                SymbolIconSelect,
+                WhiteboardFloatingBarBtn,
+                Fold_Icon,
+                EnableTwoFingerGestureBorder
+            };
+
+            var floatingBarIconsVisibilityValue = Settings.Appearance.FloatingBarIconsVisibility;
+            var fbivca = floatingBarIconsVisibilityValue.ToCharArray();
+            for (var i = 0; i < fbivca.Length; i++) {
+                items[i].Visibility = fbivca[i] == '1' ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
 
         public void UpdateFloatingBarIconsLayout() {
             FrameworkElement[] IconsArray = new FrameworkElement[13] {
@@ -1388,10 +1470,10 @@ namespace Ink_Canvas {
 
         private bool isViewboxFloatingBarMarginAnimationRunning = false;
 
-        public async void ViewboxFloatingBarMarginAnimation(int MarginFromEdge,
+        public void ViewboxFloatingBarMarginAnimation(int MarginFromEdge,
             bool PosXCaculatedWithTaskbarHeight = false) {
             if (MarginFromEdge == 60) MarginFromEdge = 55;
-            await Dispatcher.InvokeAsync(() => {
+            Dispatcher.InvokeAsync(() => {
                 if (Topmost == false)
                     MarginFromEdge = -60;
                 else
@@ -1437,20 +1519,20 @@ namespace Ink_Canvas {
                     }
                 }
 
+                var sb = new Storyboard();
                 var marginAnimation = new ThicknessAnimation {
-                    Duration = TimeSpan.FromSeconds(0.35),
+                    Duration = TimeSpan.FromSeconds(0.20),
                     From = ViewboxFloatingBar.Margin,
                     To = new Thickness(pos.X, pos.Y, 0, -20)
                 };
                 marginAnimation.EasingFunction = new CircleEase();
-                ViewboxFloatingBar.BeginAnimation(MarginProperty, marginAnimation);
-            });
-
-            await Task.Delay(200);
-
-            await Dispatcher.InvokeAsync(() => {
-                ViewboxFloatingBar.Margin = new Thickness(pos.X, pos.Y, -2000, -200);
-                if (Topmost == false) ViewboxFloatingBar.Visibility = Visibility.Hidden;
+                sb.Children.Add(marginAnimation);
+                Storyboard.SetTargetProperty(sb, new PropertyPath(FrameworkElement.MarginProperty));
+                sb.Completed += (sender, args) => {
+                    ViewboxFloatingBar.Margin = new Thickness(pos.X, pos.Y, 0, -20);
+                    if (Topmost == false) ViewboxFloatingBar.Visibility = Visibility.Hidden;
+                };
+                sb.Begin(ViewboxFloatingBar);
             });
         }
 

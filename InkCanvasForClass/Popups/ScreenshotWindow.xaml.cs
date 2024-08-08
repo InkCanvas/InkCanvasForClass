@@ -167,7 +167,7 @@ namespace Ink_Canvas.Popups
             return result;
         }
 
-        private BitmapImage BitmapToImageSource(Bitmap bitmap)
+        public BitmapImage BitmapToImageSource(Bitmap bitmap)
         {
             using (MemoryStream memory = new MemoryStream())
             {

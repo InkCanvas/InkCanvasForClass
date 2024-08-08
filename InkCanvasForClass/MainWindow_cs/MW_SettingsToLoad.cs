@@ -5,8 +5,10 @@ using Ookii.Dialogs.Wpf;
 using OSVersionExtension;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -326,6 +328,33 @@ namespace Ink_Canvas {
                 ToggleSwitchFloatingBarButtonLabelVisibility.IsOn =
                     Settings.Appearance.FloatingBarButtonLabelVisibility;
 
+                var items = new CheckBox[] {
+                    CheckboxEnableFloatingBarShapes,
+                    CheckboxEnableFloatingBarFreeze,
+                    CheckboxEnableFloatingBarHand,
+                    CheckboxEnableFloatingBarUndo,
+                    CheckboxEnableFloatingBarRedo,
+                    CheckboxEnableFloatingBarCAM,
+                    CheckboxEnableFloatingBarLasso,
+                    CheckboxEnableFloatingBarWhiteboard,
+                    CheckboxEnableFloatingBarFold,
+                    CheckboxEnableFloatingBarGesture
+                };
+
+                if (Settings.Appearance.FloatingBarIconsVisibility.Length != 10) {
+                    Settings.Appearance.FloatingBarIconsVisibility =
+                        Settings.Appearance.FloatingBarIconsVisibility.PadRight(10, '1');
+                    SaveSettingsToFile();
+                }
+
+                var floatingBarIconsVisibilityValue = Settings.Appearance.FloatingBarIconsVisibility;
+                var fbivca = floatingBarIconsVisibilityValue.ToCharArray();
+                for (var i = 0; i < fbivca.Length; i++) {
+                    items[i].IsChecked = fbivca[i] == '1';
+                }
+
+                UpdateFloatingBarIconsVisibility();
+
                 FloatingBarTextVisibilityBindingLikeAPieceOfShit.Visibility = Settings.Appearance.FloatingBarButtonLabelVisibility ? Visibility.Visible : Visibility.Collapsed;
 
                 SystemEvents_UserPreferenceChanged(null, null);
@@ -631,6 +660,11 @@ namespace Ink_Canvas {
 
                 ToggleSwitchIsEnableAutoConvertInkColorWhenBackgroundChanged.IsOn =
                     Settings.Canvas.IsEnableAutoConvertInkColorWhenBackgroundChanged;
+
+                ComboBoxSelectionMethod.SelectedIndex = Settings.Canvas.SelectionMethod;
+                ToggleSwitchAllowClickToSelectLockedStroke.IsOn = Settings.Canvas.AllowClickToSelectLockedStroke;
+                ToggleSwitchOnlyHitTestFullyContainedStrokes.IsOn = Settings.Canvas.OnlyHitTestFullyContainedStrokes;
+                ToggleSwitchApplyScaleToStylusTip.IsOn = Settings.Canvas.ApplyScaleToStylusTip;
             } else {
                 Settings.Canvas = new Canvas();
             }
