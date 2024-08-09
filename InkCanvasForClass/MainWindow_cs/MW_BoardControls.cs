@@ -299,11 +299,11 @@ namespace Ink_Canvas {
             set {
                 _whiteboardModeNewPageButtonEnabled = value;
                 var geo = new GeometryDrawing[]
-                    { BtnWhiteboardAddGeometryLeft, BtnWhiteboardAddGeometryRight };
+                    { BtnWhiteboardAddGeometryLeft, BtnWhiteboardAddGeometryRight, BtnWhiteboardAddGeometryRightSecondary };
                 var label = new TextBlock[]
-                    { BtnWhiteboardAddTextBlockLeft, BtnWhiteboardAddTextBlockRight };
+                    { BtnWhiteboardAddTextBlockLeft, BtnWhiteboardAddTextBlockRight, BtnWhiteboardAddTextBlockRightSecondary };
                 var border = new Border[]
-                    { BtnWhiteboardAddLeft, BtnWhiteboardAddRight };
+                    { BtnWhiteboardAddLeft, BtnWhiteboardAddRight, BtnWhiteboardAddRightSecondary };
                 foreach (var gd in geo)
                     gd.Brush = new SolidColorBrush(Color.FromArgb((byte)(value ? 255 : 127), 24, 24, 27));
                 foreach (var tb in label) tb.Opacity = value ? 1 : 0.5;
@@ -317,6 +317,10 @@ namespace Ink_Canvas {
                 _whiteboardModeNewPageButtonMerged = value;
                 BtnWhiteBoardSwitchNextL.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
                 BtnLeftPageListWB.CornerRadius = value ? new CornerRadius(0, 5, 5, 0) : new CornerRadius(0);
+                BtnWhiteBoardSwitchNextR.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
+                BtnRightPageListWB.CornerRadius = value ? new CornerRadius(0, 5, 5, 0) : new CornerRadius(0);
+                BtnWhiteboardAddRightSecondary.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+                BtnWhiteboardAddRight.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
             }
         }
 

@@ -2,10 +2,6 @@
   "profiles": {
     "InkCanvasForClass": {
       "commandName": "Project"
-    },
-    "ICC v6": {
-      "commandName": "Project",
-      "commandLineArgs": "--v6"
     }
   }
 }
