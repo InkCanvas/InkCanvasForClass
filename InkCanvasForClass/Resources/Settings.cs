@@ -232,8 +232,12 @@ namespace Ink_Canvas
         public int Theme { get; set; } = 0;
         [JsonProperty("floatingBarButtonLabelVisibility")]
         public bool FloatingBarButtonLabelVisibility = true;
-        [JsonProperty("FloatingBarIconsVisibility")]
-        public string FloatingBarIconsVisibility = "11111111";
+        [JsonProperty("floatingBarIconsVisibility")]
+        public string FloatingBarIconsVisibility = "1111111111";
+        [JsonProperty("eraserButtonsVisibility")]
+        public int EraserButtonsVisibility = 0;
+        [JsonProperty("onlyDisplayEraserBtn")] 
+        public bool OnlyDisplayEraserBtn = false;
     }
 
     public class PowerPointSettings

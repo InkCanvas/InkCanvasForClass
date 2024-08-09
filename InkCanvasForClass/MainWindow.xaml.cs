@@ -239,7 +239,6 @@ namespace Ink_Canvas {
                 new SolidColorBrush(System.Windows.Media.Color.FromArgb(127, 24, 24, 27));
             BtnRightWhiteBoardSwitchPreviousLabel.Opacity = 0.5;
 
-            BtnWhiteBoardSwitchPrevious.IsEnabled = CurrentWhiteboardIndex != 1;
             BorderInkReplayToolBox.Visibility = Visibility.Collapsed;
             BoardBackgroundPopup.Visibility = Visibility.Collapsed;
 
@@ -269,6 +268,8 @@ namespace Ink_Canvas {
             InitFreezeWindow(new HWND[] {
                 new HWND(new WindowInteropHelper(this).Handle)
             });
+
+            UpdateIndexInfoDisplay();
         }
 
         private void SystemEventsOnDisplaySettingsChanged(object sender, EventArgs e) {

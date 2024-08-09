@@ -353,6 +353,9 @@ namespace Ink_Canvas {
                     items[i].IsChecked = fbivca[i] == '1';
                 }
 
+                ComboBoxEraserButton.SelectedIndex = Settings.Appearance.EraserButtonsVisibility;
+                ToggleSwitchOnlyDisplayEraserBtn.IsOn = Settings.Appearance.OnlyDisplayEraserBtn;
+
                 UpdateFloatingBarIconsVisibility();
 
                 FloatingBarTextVisibilityBindingLikeAPieceOfShit.Visibility = Settings.Appearance.FloatingBarButtonLabelVisibility ? Visibility.Visible : Visibility.Collapsed;

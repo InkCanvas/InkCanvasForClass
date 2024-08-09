@@ -1,5 +1,6 @@
 ﻿using Ink_Canvas.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -570,6 +571,15 @@ namespace Ink_Canvas {
                 LassoSelectIconGeometry
             };
 
+            SimpleStackPanel[] floatingBarIconsSimpleStackPanels = new SimpleStackPanel[] {
+                Cursor_Icon,
+                Pen_Icon,
+                EraserByStrokes_Icon,
+                Eraser_Icon,
+                SymbolIconSelect,
+                HandFloatingBarBtn,
+            };
+
             TextBlock[] iconTextBlocksFloatingBar = new TextBlock[] {
                 SelectionToolBarTextBlock,
                 PenToolbarTextBlock,
@@ -629,6 +639,26 @@ namespace Ink_Canvas {
 
             var highlightStepWidth = Settings.Appearance.FloatingBarButtonLabelVisibility ? 28 : 21;
 
+            var FloatingBarItemsCalc = new List<FrameworkElement>() {
+                Cursor_Icon,
+                Pen_Icon,
+                SymbolIconDelete,
+                EraserByStrokes_Icon,
+                Eraser_Icon,
+                SymbolIconSelect,
+                ShapeDrawFloatingBarBtn,
+                FreezeFloatingBarBtn,
+                HandFloatingBarBtn,
+                SymbolIconUndo,
+                SymbolIconRedo,
+                CursorWithDelFloatingBarBtn,
+            };
+
+            var final_items = new List<FrameworkElement>(); 
+            foreach (var fe in FloatingBarItemsCalc) {
+                if (fe.Visibility != Visibility.Collapsed) final_items.Add(fe);
+            }
+
             if (mode != ICCToolsEnum.CursorMode) {
                 // floating bar
                 var ngdf = iconGeometryDrawingsFloatingBar[(int)mode];
@@ -636,8 +666,7 @@ namespace Ink_Canvas {
                 iconTextBlocksFloatingBar[(int)mode].Foreground = new SolidColorBrush(Colors.White);
                 ngdf.Geometry = Geometry.Parse(iconGeometryPathStringsFloatingBar[(int)mode+5]);
                 FloatingbarSelectionBG.Visibility = Visibility.Visible;
-                var iconPosI = (int)mode == 1 ? highlightStepWidth :
-                    (int)mode > 1 ? highlightStepWidth * ((int)mode + 1) : 0;
+                var iconPosI = final_items.IndexOf(floatingBarIconsSimpleStackPanels[(int)mode])*28;
                 System.Windows.Controls.Canvas.SetLeft(FloatingbarSelectionBG, iconPosI);
 
                 // whiteboard
@@ -693,6 +722,9 @@ namespace Ink_Canvas {
                 FreezeIconGeometry.Brush = new SolidColorBrush(Colors.White);
                 FreezeToolbarTextBlock.Foreground = new SolidColorBrush(Colors.White);
                 FloatingbarFreezeBtnBG.Visibility = Visibility.Visible;
+                var transform = FloatingbarFreezeBtnBG.TransformToVisual(BorderFloatingBarMainControls);
+                var pt = transform.Transform(new Point(0, 0));
+                System.Windows.Controls.Canvas.SetLeft(FloatingbarFreezeBtnBG, pt.X-5);
             } else {
                 FreezeIconGeometry.Brush = new SolidColorBrush(Color.FromRgb(27, 27, 27));
                 FreezeToolbarTextBlock.Foreground = new SolidColorBrush(Colors.Black);
@@ -807,6 +839,14 @@ namespace Ink_Canvas {
             RectangleSelectionHitTestBorder.Visibility = Visibility.Collapsed;
         }
 
+        private bool ____isHideSubPanel = true;
+
+        private void PenIconFakeClickForToolBarSettings() {
+            ____isHideSubPanel = false;
+            PenIcon_Click(null, null);
+            ____isHideSubPanel = true;
+        }
+
         private void PenIcon_Click(object sender, RoutedEventArgs e) {
 
             if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
@@ -834,7 +874,7 @@ namespace Ink_Canvas {
                 CheckEnableTwoFingerGestureBtnVisibility(true);
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
                 ColorSwitchCheck();
-                HideSubPanels("pen", true);
+                if (____isHideSubPanel) HideSubPanels("pen", true);
 
                 // update tool selection
                 SelectedMode = ICCToolsEnum.PenMode;
@@ -887,7 +927,7 @@ namespace Ink_Canvas {
                 {
                     inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
                     ColorSwitchCheck();
-                    HideSubPanels("pen", true);
+                    if (____isHideSubPanel) HideSubPanels("pen", true);
 
                     // update tool selection
                     SelectedMode = ICCToolsEnum.PenMode;
@@ -1058,7 +1098,39 @@ namespace Ink_Canvas {
             var floatingBarIconsVisibilityValue = Settings.Appearance.FloatingBarIconsVisibility;
             var fbivca = floatingBarIconsVisibilityValue.ToCharArray();
             for (var i = 0; i < fbivca.Length; i++) {
+                if (items[i] == EnableTwoFingerGestureBorder) continue;
                 items[i].Visibility = fbivca[i] == '1' ? Visibility.Visible : Visibility.Collapsed;
+                if (!isLoaded) continue;
+                if (items[i] == FreezeFloatingBarBtn && IsAnnotationFreezeOn && fbivca[i] == '0') IsAnnotationFreezeOn = false;
+                if ((items[i] == HandFloatingBarBtn || items[i] == SymbolIconSelect) && fbivca[i] == '0' &&
+                    SelectedMode != ICCToolsEnum.PenMode &&
+                    SelectedMode != ICCToolsEnum.CursorMode) PenIconFakeClickForToolBarSettings();
+            }
+
+            if (StackPanelCanvasControls.Visibility == Visibility.Visible) {
+                EnableTwoFingerGestureBorder.Visibility = fbivca[9] == '1' ? Visibility.Visible : Visibility.Collapsed;
+            }
+            
+            Eraser_Icon.Visibility = Visibility.Visible;
+            EraserByStrokes_Icon.Visibility = Visibility.Visible;
+
+            if (Settings.Appearance.EraserButtonsVisibility == 1) EraserByStrokes_Icon.Visibility = Visibility.Collapsed;
+                else if (Settings.Appearance.EraserButtonsVisibility == 2) Eraser_Icon.Visibility = Visibility.Collapsed;
+
+            if (((SelectedMode == ICCToolsEnum.EraseByStrokeMode && Settings.Appearance.EraserButtonsVisibility == 1)
+                 || (SelectedMode == ICCToolsEnum.EraseByGeometryMode &&
+                     Settings.Appearance.EraserButtonsVisibility == 2)) && isLoaded) PenIconFakeClickForToolBarSettings();
+
+            SettingsOnlyDisplayEraserBtnPanel.Visibility = Settings.Appearance.EraserButtonsVisibility == 0
+                ? Visibility.Collapsed
+                : Visibility.Visible;
+
+            if (Settings.Appearance.OnlyDisplayEraserBtn && Settings.Appearance.EraserButtonsVisibility != 0) {
+                InkEraserToolbarTextBlock.Text = "橡皮";
+                CircleEraserToolbarTextBlock.Text = "橡皮";
+            } else {
+                InkEraserToolbarTextBlock.Text = "线擦";
+                CircleEraserToolbarTextBlock.Text = "板擦";
             }
         }
 

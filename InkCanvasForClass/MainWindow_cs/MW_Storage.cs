@@ -162,7 +162,7 @@ namespace Ink_Canvas {
                 ComboBoxStoragePath.SelectedIndex = storageLocationItems.Count - 1;
             }
 
-            if (isLoaded) CustomStorageLocationGroup.Visibility = ((StorageLocationItem)ComboBoxStoragePath.SelectedItem).SelectItem == "c-" ? Visibility.Visible : Visibility.Collapsed;
+            if (isLoaded) CustomStorageLocationGroup.Visibility = Settings.Storage.StorageLocation == "c-" ? Visibility.Visible : Visibility.Collapsed;
             if (isLoaded) CustomStorageLocation.Text = Settings.Storage.UserStorageLocation;
         }
 

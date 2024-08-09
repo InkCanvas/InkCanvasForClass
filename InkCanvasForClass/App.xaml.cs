@@ -101,7 +101,7 @@ namespace Ink_Canvas
 
             mainWin = new MainWindow();
 
-            if (isUsingWindowChrome) {
+            if (isUsingWindowChrome && DwmCompositionHelper.DwmIsCompositionEnabled()) {
                 mainWin.AllowsTransparency = false;
                 WindowChrome wc = new WindowChrome();
                 wc.GlassFrameThickness = new Thickness(-1);

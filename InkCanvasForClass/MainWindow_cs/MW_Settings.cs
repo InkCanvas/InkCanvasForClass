@@ -820,7 +820,36 @@ namespace Ink_Canvas {
             Settings.Appearance.FloatingBarIconsVisibility = vsb.ToString();
 
             UpdateFloatingBarIconsVisibility();
+            ForceUpdateToolSelection(null);
+            Dispatcher.InvokeAsync(async () => {
+                if (BorderFloatingBarExitPPTBtn.Visibility == Visibility.Visible) {
+                    await Task.Delay(10);
+                    ViewboxFloatingBarMarginAnimation(60);
+                } else if (Topmost == true) //非黑板
+                {
+                    await Task.Delay(10);
+                    ViewboxFloatingBarMarginAnimation(100, true);
+                } else //黑板
+                {
+                    await Task.Delay(10);
+                    ViewboxFloatingBarMarginAnimation(60);
+                }
+            });
 
+            SaveSettingsToFile();
+        }
+
+        private void ComboBoxEraserButton_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Appearance.EraserButtonsVisibility = ComboBoxEraserButton.SelectedIndex;
+            UpdateFloatingBarIconsVisibility();
+            SaveSettingsToFile();
+        }
+
+        private void ToggleSwitchOnlyDisplayEraserBtn_OnToggled(object sender, RoutedEventArgs e) {
+            if (!isLoaded) return;
+            Settings.Appearance.OnlyDisplayEraserBtn = ToggleSwitchOnlyDisplayEraserBtn.IsOn;
+            UpdateFloatingBarIconsVisibility();
             SaveSettingsToFile();
         }
 
@@ -1577,6 +1606,8 @@ namespace Ink_Canvas {
             Settings.Appearance.EnableTrayIcon = true;
             Settings.Appearance.FloatingBarButtonLabelVisibility = true;
             Settings.Appearance.FloatingBarIconsVisibility = "11111111";
+            Settings.Appearance.EraserButtonsVisibility = 0;
+            Settings.Appearance.OnlyDisplayEraserBtn = false;
 
             Settings.Automation.IsAutoFoldInEasiNote = true;
             Settings.Automation.IsAutoFoldInEasiNoteIgnoreDesktopAnno = true;
