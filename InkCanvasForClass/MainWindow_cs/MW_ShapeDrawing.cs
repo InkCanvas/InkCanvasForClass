@@ -1600,5 +1600,42 @@ namespace Ink_Canvas {
                     return false;
             return true;
         }
+
+
+        #region ShapeDrawingV2
+
+        public enum ShapeDrawingType {
+            Line,
+            DottedLine,
+            DashedLine,
+            ArrowOneSide,
+            ArrowTwoSide,
+            Rectangle,
+            Ellipse,
+            PieEllipse,
+            Triangle,
+            RightTriangle,
+            Diamond,
+            Parallelogram,
+            FourLine,
+            Staff,
+            Axis2D,
+            Axis2DA,
+            Axis2DB,
+            Axis2DC,
+            Axis3D,
+            Hyperbola,
+            HyperbolaF,
+            Parabola,
+            ParabolaA,
+            ParabolaAF,
+            Cylinder,
+            Cube,
+            Cone,
+            EllipseC,
+            RectangleC
+        }
+
+        #endregion
     }
 }

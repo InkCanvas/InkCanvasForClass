@@ -126,6 +126,10 @@
             <popups:SelectionPopup x:Name="SelectionV2" Width="300" />
         </Popup>
 
+        <Popup Name="ShapeDrawingPopupV2" PopupAnimation="Fade" IsOpen="True" StaysOpen="True" AllowsTransparency="True" Placement="AbsolutePoint">
+            <popups:ShapeDrawingPopup x:Name="ShapeDrawingV2" Width="570" />
+        </Popup>
+
         <!--// 黑/白 板幕布 //-->
         <Image Name="FreezeFrameBackgroundImage" Visibility="Collapsed"/>
         <Grid Name="GridBackgroundCoverHolder">

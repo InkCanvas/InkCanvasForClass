@@ -320,7 +320,6 @@ namespace Ink_Canvas {
                 BtnWhiteBoardSwitchNextR.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
                 BtnRightPageListWB.CornerRadius = value ? new CornerRadius(0, 5, 5, 0) : new CornerRadius(0);
                 BtnWhiteboardAddRightSecondary.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
-                BtnWhiteboardAddRight.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
             }
         }
 
