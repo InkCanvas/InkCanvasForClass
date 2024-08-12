@@ -340,6 +340,7 @@ namespace Ink_Canvas {
             // new popup
             PenPaletteV2Popup.IsOpen = false;
             SelectionPopupV2.IsOpen = false;
+            ShapeDrawingPopupV2.IsOpen = false;
 
             await Task.Delay(20);
             isHidingSubPanelsWhenInking = false;
@@ -393,7 +394,7 @@ namespace Ink_Canvas {
 
             UnFoldFloatingBar_MouseUp(null, null);
 
-            if (SelectedMode == ICCToolsEnum.CursorMode) PenIcon_Click(null, null);
+            if (SelectedMode == ICCToolsEnum.CursorMode || SelectedMode == ICCToolsEnum.LassoMode) PenIcon_Click(null, null);
 
             if (currentMode == 0) {
                 LeftBottomPanelForPPTNavigation.Visibility = Visibility.Collapsed;
@@ -868,7 +869,6 @@ namespace Ink_Canvas {
 
                 /*if (forceEraser && currentMode == 0)
                     BtnColorRed_Click(sender, null);*/
-
 
                 StackPanelCanvasControls.Visibility = Visibility.Visible;
                 CheckEnableTwoFingerGestureBtnVisibility(true);

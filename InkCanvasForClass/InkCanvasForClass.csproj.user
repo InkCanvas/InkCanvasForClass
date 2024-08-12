@@ -8,6 +8,9 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="MainWindow_cs\MW_ShapeDrawingLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MainWindow_cs\MW_Toast.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -32,6 +35,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow_cs\MW_Eraser.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainWindow_cs\MW_ShapeDrawingLayer.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow_cs\MW_Toast.xaml">

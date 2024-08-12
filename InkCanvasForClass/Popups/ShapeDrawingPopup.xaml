@@ -283,8 +283,7 @@
                     </Border>
                     <Grid Height="40" VerticalAlignment="Bottom" Margin="12,0">
                         <modern:SimpleStackPanel HorizontalAlignment="Left" Orientation="Horizontal" Spacing="16">
-                            <CheckBox Content="固定该面板" MinWidth="0"/>
-                            <CheckBox Content="绘制时显示工具栏" MinWidth="0"/>
+                            <CheckBox Content="仅单次绘制" MinWidth="0"/>
                         </modern:SimpleStackPanel>
                         <StackPanel Margin="0,0,6,0" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Foreground="#18181b" FontSize="14" Text="粗细 : " VerticalAlignment="Center"/>

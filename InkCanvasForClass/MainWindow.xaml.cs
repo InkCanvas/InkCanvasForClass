@@ -262,6 +262,7 @@ namespace Ink_Canvas {
 
             PenPaletteV2Init();
             SelectionV2Init();
+            ShapeDrawingV2Init();
 
             InitStorageManagementModule();
 
