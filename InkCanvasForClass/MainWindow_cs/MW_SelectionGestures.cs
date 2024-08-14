@@ -538,7 +538,7 @@ namespace Ink_Canvas {
             }
 
             if (final_w >= 1 && final_h >= 1) {
-                // 此處還需要修改行為，讓其能夠縮放到1x1；
+                // TODO 此處還需要修改行為，讓其能夠縮放到1x1；
                 StrokeSelectionBorder.Width = final_w >=1 ? final_w : 1;
                 StrokeSelectionBorder.Height = final_h >=1 ? final_h : 1;
                 

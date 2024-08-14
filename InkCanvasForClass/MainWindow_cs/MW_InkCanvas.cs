@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,6 +20,11 @@ namespace Ink_Canvas {
         public static Guid StrokeShapeTypeGuid = new Guid("6537b29c-557f-487f-800b-cb30a8f1de78");
         public static Guid StrokeIsShapeGuid = new Guid("40eff5db-9346-4e42-bd46-7b0eb19d0018");
 
+        public StylusPointCollection RawStylusPointCollection { get; set; }
+
+        public MainWindow.ShapeDrawingHelper.ArrowLineConfig ArrowLineConfig { get; set; } =
+            new MainWindow.ShapeDrawingHelper.ArrowLineConfig();
+
         // 自定义的墨迹渲染
         protected override void DrawCore(DrawingContext drawingContext,
             DrawingAttributes drawingAttributes) {
@@ -29,7 +35,14 @@ namespace Ink_Canvas {
             }
 
             if ((int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.DashedLine ||
-                (int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.DottedLine) {
+                (int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.Line ||
+                (int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.DottedLine ||
+                (int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.ArrowOneSide ||
+                (int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.ArrowTwoSide) {
+                if (StylusPoints.Count < 2) {
+                    base.DrawCore(drawingContext, drawingAttributes);
+                    return;
+                }
                 StreamGeometry geometry = new StreamGeometry();
                 var pts = new List<Point>(this.StylusPoints.ToPoints());
                 using (StreamGeometryContext ctx = geometry.Open()) {
@@ -42,8 +55,37 @@ namespace Ink_Canvas {
                     DashCap = PenLineCap.Round,
                     StartLineCap = PenLineCap.Round,
                     EndLineCap = PenLineCap.Round,
-                    DashStyle = (int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.DottedLine ? DashStyles.Dot : DashStyles.Dash
                 };
+                if ((int)this.GetPropertyData(StrokeShapeTypeGuid) != (int)MainWindow.ShapeDrawingType.Line && 
+                    (int)this.GetPropertyData(StrokeShapeTypeGuid) != (int)MainWindow.ShapeDrawingType.ArrowOneSide && 
+                    (int)this.GetPropertyData(StrokeShapeTypeGuid) != (int)MainWindow.ShapeDrawingType.ArrowTwoSide)
+                    pen.DashStyle = (int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.DottedLine ? DashStyles.Dot : DashStyles.Dash;
+                
+                if ((int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.ArrowOneSide) {
+                    pts = new List<Point>(this.StylusPoints.ToPoints());
+                    RawStylusPointCollection = StylusPoints.Clone();
+                    double w = ArrowLineConfig.ArrowWidth, h = ArrowLineConfig.ArrowHeight;
+                    var theta = Math.Atan2(pts[0].Y - pts[1].Y, pts[0].X - pts[1].X);
+                    var sint = Math.Sin(theta);
+                    var cost = Math.Cos(theta);
+                    var pointList = new List<Point> {
+                        new Point(pts[0].X, pts[0].Y),
+                        new Point(pts[1].X, pts[1].Y),
+                        new Point(pts[1].X + (w * cost - h * sint), pts[1].Y + (w * sint + h * cost)),
+                        new Point(pts[1].X, pts[1].Y),
+                        new Point(pts[1].X + (w * cost + h * sint), pts[1].Y - (h * cost - w * sint)),
+                    };
+                    StylusPoints = new StylusPointCollection(pointList);
+                    var _pts = new List<Point>(this.StylusPoints.ToPoints());
+                    using (StreamGeometryContext ctx = geometry.Open()) {
+                        ctx.BeginFigure(_pts[0], false , false);
+                        _pts.RemoveAt(0);
+                        ctx.PolyLineTo(_pts,true, true);
+                    }
+                    drawingContext.DrawGeometry(new SolidColorBrush(DrawingAttributes.Color),pen, geometry);
+                    return;
+
+                }
                 drawingContext.DrawGeometry(new SolidColorBrush(Colors.Transparent),pen, geometry);
             }
             

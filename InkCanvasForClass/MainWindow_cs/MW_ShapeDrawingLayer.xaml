@@ -8,7 +8,9 @@
              xmlns:helpers="clr-namespace:Ink_Canvas.Helpers"
              mc:Ignorable="d"
              d:DesignWidth="1920" d:DesignHeight="1080">
-    <Grid Name="FullscreenGrid">
+    <Grid>
+        <helpers:DrawingVisualCanvas IsHitTestVisible="False" x:Name="DrawingVisualCanvas"/>
+        <Grid Name="FullscreenGrid"/>
         <Border Name="Toolbar" Height="48" Width="728" Background="#fafafa" BorderBrush="#e4e4e7" BorderThickness="1" CornerRadius="6" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,36">
             <Grid>
                 <Border Name="ToolbarMoveHandle" Width="24" Height="48" Background="#d4d4d8" BorderBrush="#88a1a1aa" Margin="-1,-1,0,-1" CornerRadius="6,0,0,6" HorizontalAlignment="Left" BorderThickness="1">
@@ -24,7 +26,7 @@
                         </Image.Source>
                     </Image>
                 </Border>
-                <Button Foreground="White" Content="完成" Padding="16,6" FontSize="16"
+                <Button Foreground="White" Content="完成" Padding="16,6" FontSize="16" Click="DoneButtonClicked"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0">
                     <Button.Resources>
                         <SolidColorBrush
@@ -174,30 +176,29 @@
                     <Border Padding="12,0" Height="32" Background="#bb450a0a" CornerRadius="4">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock FontSize="14" Foreground="White" FontWeight="Bold" Text="形状绘制模式 : "/>
-                            <TextBlock FontSize="14" Foreground="White" Text="直线"/>
+                            <TextBlock Name="ShapeDrawingTypeText" FontSize="14" Foreground="White" Text="直线"/>
                         </StackPanel>
                     </Border>
-                    <Border Padding="12,0" Height="32" Background="#bb422006" CornerRadius="4">
+                    <Border Name="AngleTooltip" Padding="12,0" Height="32" Background="#bb422006" CornerRadius="4">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock FontSize="14" Foreground="White" Text="总数 : "/>
-                            <TextBlock FontSize="14" Foreground="White" FontWeight="Bold" Text="2"/>
+                            <TextBlock FontSize="14" Foreground="White" Text="角度 : "/>
+                            <TextBlock FontSize="14" Foreground="White" Name="AngleText" FontWeight="Bold" Text="0°"/>
                         </StackPanel>
                     </Border>
-                    <Border Padding="12,0" Height="32" Background="#bb052e16" CornerRadius="4">
+                    <Border Name="LengthTooltip" Padding="12,0" Height="32" Background="#bb052e16" CornerRadius="4">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock FontSize="14" Foreground="White" Text="长度 : "/>
-                            <TextBlock FontSize="14" Foreground="White" FontWeight="Bold" Text="128.98像素"/>
+                            <TextBlock FontSize="14" Foreground="White" Name="LengthText" FontWeight="Bold" Text="0.00 px"/>
                         </StackPanel>
                     </Border>
                     <Border Padding="12,0" Height="32" Background="#bb172554" CornerRadius="4">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock FontSize="14" Foreground="White" Text="粗细 : "/>
-                            <TextBlock FontSize="14" Foreground="White" FontWeight="Bold" Text="4像素"/>
+                            <TextBlock FontSize="14" Foreground="White" FontWeight="Bold" Name="PenSizeText" Text="4 像素"/>
                         </StackPanel>
                     </Border>
                 </modern:SimpleStackPanel>
             </Grid>
         </Border>
-        <helpers:DrawingVisualCanvas IsHitTestVisible="False" x:Name="DrawingVisualCanvas"/>
     </Grid>
 </UserControl>

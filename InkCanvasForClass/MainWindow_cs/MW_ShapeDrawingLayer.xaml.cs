@@ -45,10 +45,20 @@ namespace Ink_Canvas {
             }
 
             Toolbar.Visibility = Visibility.Collapsed;
+            AngleTooltip.Visibility = Visibility.Collapsed;
+            LengthTooltip.Visibility = Visibility.Collapsed;
 
             FullscreenGrid.MouseDown += FullscreenGrid_MouseDown;
             FullscreenGrid.MouseUp += FullscreenGrid_MouseUp;
             FullscreenGrid.MouseMove += FullscreenGrid_MouseMove;
+        }
+
+        private Point CaculateCenteredToolbarPosition() {
+            var aw = Toolbar.Width;
+            var ah = Toolbar.Height;
+            var left = (MainWindow.ActualWidth - aw) / 2;
+            var top = MainWindow.ActualHeight - ah - 128;
+            return new Point(left, top);
         }
 
         public MainWindow MainWindow { get; set; }
@@ -70,25 +80,43 @@ namespace Ink_Canvas {
         private void ToolbarMoveHandle_MouseDown(object sender, MouseButtonEventArgs e) {
             if (IsToolbarMoveHandleDown) return;
             MouseDownPointInHandle = FullscreenGrid.TranslatePoint(e.GetPosition(null),ToolbarMoveHandle);
-            ToolbarMoveHandle.CaptureMouse();
             IsToolbarMoveHandleDown = true;
-            Trace.WriteLine("MD");
+            ToolbarMoveHandle.CaptureMouse();
         }
 
         private void ToolbarMoveHandle_MouseUp(object sender, MouseButtonEventArgs e) {
-            if (IsToolbarMoveHandleDown == false) return;
-            ToolbarMoveHandle.ReleaseMouseCapture();
+            if (!IsToolbarMoveHandleDown) return;
             IsToolbarMoveHandleDown = false;
-            Trace.WriteLine("MU");
+            ToolbarMoveHandle.ReleaseMouseCapture();
+        }
+
+        private void ToolbarMoveHandle_MouseMove(object sender, MouseEventArgs e) {
+            if (!IsToolbarMoveHandleDown) return;
+            var ptInScreen = e.GetPosition(null);
+            ToolbarNowPosition = new Point(ptInScreen.X - MouseDownPointInHandle.X, ptInScreen.Y - MouseDownPointInHandle.Y);
+            UpdateToolbarPosition(ToolbarNowPosition);
         }
 
         private MainWindow.ShapeDrawingType? _shapeType;
 
-        public void StartShapeDrawing(MainWindow.ShapeDrawingType type) {
+        public bool IsInShapeDrawingMode {
+            get => _shapeType != null;
+        }
+
+        public void StartShapeDrawing(MainWindow.ShapeDrawingType type, string name) {
             _shapeType = type;
             FullscreenGrid.Background = new SolidColorBrush(Color.FromArgb(1,0,0,0));
             FullscreenGrid.Visibility = Visibility.Visible;
             Toolbar.Visibility = Visibility.Visible;
+            var pt = CaculateCenteredToolbarPosition();
+            ToolbarNowPosition = pt;
+            UpdateToolbarPosition(pt);
+            ShapeDrawingTypeText.Text = name ?? "未知形状";
+            PenSizeText.Text = $"{(MainWindow.inkCanvas.DefaultDrawingAttributes.Width + MainWindow.inkCanvas.DefaultDrawingAttributes.Height) / 2} 像素";
+        }
+
+        private void DoneButtonClicked(object sender, RoutedEventArgs e) {
+            EndShapeDrawing();
         }
 
         public void EndShapeDrawing() {
@@ -96,14 +124,6 @@ namespace Ink_Canvas {
             FullscreenGrid.Background = null;
             FullscreenGrid.Visibility = Visibility.Collapsed;
             Toolbar.Visibility = Visibility.Collapsed;
-        }
-
-        private void ToolbarMoveHandle_MouseMove(object sender, MouseEventArgs e) {
-            if (IsToolbarMoveHandleDown == false) return;
-            var ptInScreen = e.GetPosition(null);
-            Trace.WriteLine($"x:{ptInScreen.X} y:{ptInScreen.Y}");
-            ToolbarNowPosition = new Point(ptInScreen.X - MouseDownPointInHandle.X, ptInScreen.Y - MouseDownPointInHandle.Y);
-            UpdateToolbarPosition(ToolbarNowPosition);
         }
 
         private void ToolButton_MouseDown(object sender, MouseButtonEventArgs e) {
@@ -131,8 +151,8 @@ namespace Ink_Canvas {
             if (isFullscreenGridDown) return;
             points.Clear();
             points.Add(e.GetPosition(null));
-            FullscreenGrid.CaptureMouse();
             isFullscreenGridDown = true;
+            FullscreenGrid.CaptureMouse();
         }
 
         private void FullscreenGrid_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -141,8 +161,12 @@ namespace Ink_Canvas {
             isFullscreenGridDown = false;
             if (_shapeType == null) return;
             using (DrawingContext dc = DrawingVisualCanvas.DrawingVisual.RenderOpen()) {}
-            MainWindow.inkCanvas.Strokes.Add(MainWindow.DrawShapeCore(points, (MainWindow.ShapeDrawingType)_shapeType));
+
+            if (points.Count >= 2)
+                MainWindow.inkCanvas.Strokes.Add(MainWindow.DrawShapeCore(points, (MainWindow.ShapeDrawingType)_shapeType));
             points.Clear();
+            AngleTooltip.Visibility = Visibility.Collapsed;
+            LengthTooltip.Visibility = Visibility.Collapsed;
         }
 
         private void FullscreenGrid_MouseMove(object sender, MouseEventArgs e) {
@@ -154,8 +178,15 @@ namespace Ink_Canvas {
             using (DrawingContext dc = DrawingVisualCanvas.DrawingVisual.RenderOpen()) {
                 if ((_shapeType == MainWindow.ShapeDrawingType.Line ||
                        _shapeType == MainWindow.ShapeDrawingType.DashedLine ||
-                       _shapeType == MainWindow.ShapeDrawingType.DottedLine) && points.Count >= 2) {
+                       _shapeType == MainWindow.ShapeDrawingType.DottedLine ||
+                       _shapeType == MainWindow.ShapeDrawingType.ArrowOneSide ||
+                       _shapeType == MainWindow.ShapeDrawingType.ArrowTwoSide) && points.Count >= 2) {
                     MainWindow.DrawShapeCore(points, (MainWindow.ShapeDrawingType)_shapeType).Draw(dc);
+                    var angle = MainWindow.ShapeDrawingHelper.CaculateRotateAngleByGivenTwoPoints(points[0], points[1]);
+                    if (AngleTooltip.Visibility == Visibility.Collapsed) AngleTooltip.Visibility = Visibility.Visible;
+                    AngleText.Text = $"{angle}°";
+                    if (LengthTooltip.Visibility == Visibility.Collapsed) LengthTooltip.Visibility = Visibility.Visible;
+                    LengthText.Text = $"{Math.Round(Math.Sqrt(Math.Pow((points[1].Y - points[0].Y), 2) + Math.Pow((points[1].X - points[0].X), 2)),2)} 像素";
                 }
             }
         }

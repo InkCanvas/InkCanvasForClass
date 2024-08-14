@@ -738,6 +738,7 @@ namespace Ink_Canvas {
         #region 主要的工具按鈕事件
 
         private async void SymbolIconCursor_Click(object sender, RoutedEventArgs e) {
+            if (ShapeDrawingV2Layer.IsInShapeDrawingMode) ShapeDrawingV2Layer.EndShapeDrawing();
             if (currentMode != 0) {
                 ImageBlackboard_MouseUp(null, null);
             } else {
@@ -763,6 +764,8 @@ namespace Ink_Canvas {
             if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == Cursor_Icon && lastBorderMouseDownObject != Cursor_Icon) return;
+
+            if (ShapeDrawingV2Layer.IsInShapeDrawingMode) ShapeDrawingV2Layer.EndShapeDrawing();
 
             // 切换前自动截图保存墨迹
             if (inkCanvas.Strokes.Count > 0 &&
@@ -853,6 +856,8 @@ namespace Ink_Canvas {
             if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == Pen_Icon && lastBorderMouseDownObject != Pen_Icon) return;
+
+            if (ShapeDrawingV2Layer.IsInShapeDrawingMode) ShapeDrawingV2Layer.EndShapeDrawing();
 
             if (Pen_Icon.Background == null || StackPanelCanvasControls.Visibility == Visibility.Collapsed) {
 
@@ -947,6 +952,8 @@ namespace Ink_Canvas {
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == SymbolIconSelect && lastBorderMouseDownObject != SymbolIconSelect) return;
 
+            if (ShapeDrawingV2Layer.IsInShapeDrawingMode) ShapeDrawingV2Layer.EndShapeDrawing();
+
             if (SelectedMode == ICCToolsEnum.LassoMode) {
                 if (SelectionPopupV2.IsOpen == false) {
                     var transform = SymbolIconSelect.TransformToVisual(Main_Grid);
@@ -975,6 +982,8 @@ namespace Ink_Canvas {
             if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == Eraser_Icon && lastBorderMouseDownObject != Eraser_Icon) return;
+
+            if (ShapeDrawingV2Layer.IsInShapeDrawingMode) ShapeDrawingV2Layer.EndShapeDrawing();
 
             forceEraser = true;
             forcePointEraser = true;
@@ -1056,6 +1065,8 @@ namespace Ink_Canvas {
             if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == EraserByStrokes_Icon && lastBorderMouseDownObject != EraserByStrokes_Icon) return;
+
+            if (ShapeDrawingV2Layer.IsInShapeDrawingMode) ShapeDrawingV2Layer.EndShapeDrawing();
 
             forceEraser = true;
             forcePointEraser = false;

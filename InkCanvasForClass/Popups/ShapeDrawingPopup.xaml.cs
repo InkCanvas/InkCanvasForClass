@@ -177,6 +177,7 @@ namespace Ink_Canvas.Popups {
         public event EventHandler<RoutedEventArgs> ShapeDrawingPopupShouldCloseEvent;
         public class ShapeSelectedEventArgs : EventArgs {
             public MainWindow.ShapeDrawingType Type { get; set; }
+            public string Name { get; set; }
         }
         public event EventHandler<ShapeSelectedEventArgs> ShapeSelectedEvent;
         private void CloseButtonBorder_MouseDown(object sender, MouseButtonEventArgs e) {
@@ -209,7 +210,8 @@ namespace Ink_Canvas.Popups {
             ShapeDrawingButtonBorder_MouseLeave(sender, null);
             ShapeDrawingPopupShouldCloseEvent?.Invoke(this,new RoutedEventArgs());
             ShapeSelectedEvent?.Invoke(this, new ShapeSelectedEventArgs() {
-                Type = ((ShapeDrawingItem)((Border)sender).Tag).Type
+                Type = ((ShapeDrawingItem)((Border)sender).Tag).Type,
+                Name = ((ShapeDrawingItem)((Border)sender).Tag).Name
             });
         }
     }

@@ -1590,7 +1590,7 @@ namespace Ink_Canvas {
                 ShapeDrawingPopupV2.IsOpen = false;
             };
             ShapeDrawingV2.ShapeSelectedEvent += (sender, args) => {
-                ShapeDrawingV2Layer.StartShapeDrawing(args.Type);
+                ShapeDrawingV2Layer.StartShapeDrawing(args.Type, args.Name);
             };
         }
 
