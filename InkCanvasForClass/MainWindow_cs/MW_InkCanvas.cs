@@ -17,6 +17,13 @@ namespace Ink_Canvas {
         public IccStroke(StylusPointCollection stylusPoints, DrawingAttributes drawingAttributes)
             : base(stylusPoints, drawingAttributes) { }
 
+        public IccStroke(StylusPointCollection stylusPoints, DrawingAttributes drawingAttributes, IccInkCanvas hostElement)
+            : base(stylusPoints, drawingAttributes) {
+            if (hostElement != null) _hostInkCanvas = hostElement;
+        }
+
+        public IccInkCanvas _hostInkCanvas = null;
+
         public static Guid StrokeShapeTypeGuid = new Guid("6537b29c-557f-487f-800b-cb30a8f1de78");
         public static Guid StrokeIsShapeGuid = new Guid("40eff5db-9346-4e42-bd46-7b0eb19d0018");
 
@@ -25,9 +32,32 @@ namespace Ink_Canvas {
         public MainWindow.ShapeDrawingHelper.ArrowLineConfig ArrowLineConfig { get; set; } =
             new MainWindow.ShapeDrawingHelper.ArrowLineConfig();
 
+        /// <summary>
+        /// 根据这个属性判断当前 Stroke 是否是原始输入
+        /// </summary>
+        public bool IsRawStylusPoints = true;
+
+        /// <summary>
+        /// 根据这个属性决定在绘制 Stroke 时是否需要在直线形状中，在两点构成直线上分布点，用于墨迹的范围框选。
+        /// </summary>
+        public bool IsDistributePointsOnLineShape = true;
+
+        /// <summary>
+        /// 指示该墨迹是否来自一个完整墨迹被擦除后的一部分墨迹，仅用于形状墨迹。
+        /// </summary>
+        public bool IsErasedStrokePart = false;
+
+        /// <summary>
+        /// 指示当墨迹在屏幕外部时，是否停止渲染
+        /// </summary>
+        public bool IsStopOffScreenRender = true;
+
         // 自定义的墨迹渲染
         protected override void DrawCore(DrawingContext drawingContext,
             DrawingAttributes drawingAttributes) {
+
+            if (IsStopOffScreenRender && new StrokeCollection(){this}.HitTest(new Rect(new Point(0,0), new Size(_hostInkCanvas.ActualWidth,_hostInkCanvas.ActualHeight)), 1).Count == 0) return;
+
             if (!(this.ContainsPropertyData(StrokeIsShapeGuid) &&
                   (bool)this.GetPropertyData(StrokeIsShapeGuid) == true)) {
                 base.DrawCore(drawingContext, drawingAttributes);
@@ -43,8 +73,20 @@ namespace Ink_Canvas {
                     base.DrawCore(drawingContext, drawingAttributes);
                     return;
                 }
-                StreamGeometry geometry = new StreamGeometry();
+
                 var pts = new List<Point>(this.StylusPoints.ToPoints());
+                if (IsDistributePointsOnLineShape && (
+                    (int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.DashedLine ||
+                    (int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.Line ||
+                    (int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.DottedLine) && IsRawStylusPoints) {
+                    IsRawStylusPoints = false;
+                    RawStylusPointCollection = StylusPoints.Clone();
+                    var pointList = new List<Point> { new Point(StylusPoints[0].X, StylusPoints[0].Y) };
+                    pointList.AddRange(MainWindow.ShapeDrawingHelper.DistributePointsOnLine(new Point(StylusPoints[0].X, StylusPoints[0].Y),new Point(StylusPoints[1].X, StylusPoints[1].Y)));
+                    pointList.Add(new Point(StylusPoints[1].X, StylusPoints[1].Y));
+                    StylusPoints = new StylusPointCollection(pointList);
+                }
+                StreamGeometry geometry = new StreamGeometry();
                 using (StreamGeometryContext ctx = geometry.Open()) {
                     ctx.BeginFigure(pts[0], false , false);
                     pts.RemoveAt(0);
@@ -61,7 +103,8 @@ namespace Ink_Canvas {
                     (int)this.GetPropertyData(StrokeShapeTypeGuid) != (int)MainWindow.ShapeDrawingType.ArrowTwoSide)
                     pen.DashStyle = (int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.DottedLine ? DashStyles.Dot : DashStyles.Dash;
                 
-                if ((int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.ArrowOneSide) {
+                if ((int)this.GetPropertyData(StrokeShapeTypeGuid) == (int)MainWindow.ShapeDrawingType.ArrowOneSide && IsRawStylusPoints) {
+                    IsRawStylusPoints = false;
                     pts = new List<Point>(this.StylusPoints.ToPoints());
                     RawStylusPointCollection = StylusPoints.Clone();
                     double w = ArrowLineConfig.ArrowWidth, h = ArrowLineConfig.ArrowHeight;
@@ -70,11 +113,14 @@ namespace Ink_Canvas {
                     var cost = Math.Cos(theta);
                     var pointList = new List<Point> {
                         new Point(pts[0].X, pts[0].Y),
+                    };
+                    if (IsDistributePointsOnLineShape) pointList.AddRange(MainWindow.ShapeDrawingHelper.DistributePointsOnLine(new Point(pts[0].X, pts[0].Y),new Point(pts[1].X, pts[1].Y)));
+                    pointList.AddRange(new List<Point> {
                         new Point(pts[1].X, pts[1].Y),
                         new Point(pts[1].X + (w * cost - h * sint), pts[1].Y + (w * sint + h * cost)),
                         new Point(pts[1].X, pts[1].Y),
                         new Point(pts[1].X + (w * cost + h * sint), pts[1].Y - (h * cost - w * sint)),
-                    };
+                    });
                     StylusPoints = new StylusPointCollection(pointList);
                     var _pts = new List<Point>(this.StylusPoints.ToPoints());
                     using (StreamGeometryContext ctx = geometry.Open()) {
@@ -121,14 +167,16 @@ namespace Ink_Canvas {
                 }));
         }
 
-        protected override void OnStrokeCollected(InkCanvasStrokeCollectedEventArgs e)
-        {
-            // Remove the original stroke and add a custom stroke.
-            this.Strokes.Remove(e.Stroke);
-            IccStroke customStroke = new IccStroke(e.Stroke.StylusPoints, e.Stroke.DrawingAttributes);
-            this.Strokes.Add(customStroke);
+        protected override void OnStrokeCollected(InkCanvasStrokeCollectedEventArgs e) {
+            IccStroke customStroke = new IccStroke(e.Stroke.StylusPoints, e.Stroke.DrawingAttributes, this);
+            if (e.Stroke is IccStroke) {
+                if ((e.Stroke as IccStroke)._hostInkCanvas == null) (e.Stroke as IccStroke)._hostInkCanvas = this;
+                this.Strokes.Add(e.Stroke);
+            } else {
+                this.Strokes.Remove(e.Stroke);
+                this.Strokes.Add(customStroke);
+            }
 
-            // Pass the custom stroke to base class' OnStrokeCollected method.
             InkCanvasStrokeCollectedEventArgs args =
                 new InkCanvasStrokeCollectedEventArgs(customStroke);
             base.OnStrokeCollected(args);

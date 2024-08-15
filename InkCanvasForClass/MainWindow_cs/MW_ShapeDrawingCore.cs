@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Ink;
 using System.Windows.Input;
@@ -8,7 +9,7 @@ namespace Ink_Canvas {
 
     public partial class MainWindow : Window {
 
-        public StrokeCollection DrawShapeCore(PointCollection pts, ShapeDrawingType type) {
+        public StrokeCollection DrawShapeCore(PointCollection pts, ShapeDrawingType type, bool doNotDisturbutePoints) {
             // 线
             if (type == MainWindow.ShapeDrawingType.Line || 
                 type == MainWindow.ShapeDrawingType.DashedLine || 
@@ -19,7 +20,9 @@ namespace Ink_Canvas {
                 var stk = new IccStroke(new StylusPointCollection() {
                     new StylusPoint(pts[0].X, pts[0].Y),
                     new StylusPoint(pts[1].X, pts[1].Y),
-                }, inkCanvas.DefaultDrawingAttributes.Clone());
+                }, inkCanvas.DefaultDrawingAttributes.Clone()) {
+                    IsDistributePointsOnLineShape = !doNotDisturbutePoints
+                };
                 stk.AddPropertyData(IccStroke.StrokeIsShapeGuid, true);
                 stk.AddPropertyData(IccStroke.StrokeShapeTypeGuid, (int)type);
                 return new StrokeCollection() { stk };
@@ -49,6 +52,25 @@ namespace Ink_Canvas {
                 var isIn2And3Quadrant = lastPoint.X <= firstPoint.X;
                 var rotateAngle = Math.Round(180 + 180 * (angle / Math.PI) * (isIn2And3Quadrant ? 1 : -1), 0);
                 return rotateAngle;
+            }
+
+
+            public static List<Point> DistributePointsOnLine(Point start, Point end, double interval=16) {
+                List<Point> points = new List<Point>();
+
+                double dx = end.X - start.X;
+                double dy = end.Y - start.Y;
+                double distance = Math.Sqrt(dx * dx + dy * dy);
+                int numPoints = (int)(distance / interval);
+
+                for (int i = 0; i <= numPoints; i++) {
+                    double ratio = (interval * i) / distance;
+                    double x = start.X + ratio * dx;
+                    double y = start.Y + ratio * dy;
+                    points.Add(new Point(x, y));
+                }
+
+                return points;
             }
 
             public class ArrowLineConfig {

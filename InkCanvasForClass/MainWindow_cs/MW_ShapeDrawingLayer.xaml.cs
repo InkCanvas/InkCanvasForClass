@@ -163,7 +163,7 @@ namespace Ink_Canvas {
             using (DrawingContext dc = DrawingVisualCanvas.DrawingVisual.RenderOpen()) {}
 
             if (points.Count >= 2)
-                MainWindow.inkCanvas.Strokes.Add(MainWindow.DrawShapeCore(points, (MainWindow.ShapeDrawingType)_shapeType));
+                MainWindow.inkCanvas.Strokes.Add(MainWindow.DrawShapeCore(points, (MainWindow.ShapeDrawingType)_shapeType,false));
             points.Clear();
             AngleTooltip.Visibility = Visibility.Collapsed;
             LengthTooltip.Visibility = Visibility.Collapsed;
@@ -181,7 +181,7 @@ namespace Ink_Canvas {
                        _shapeType == MainWindow.ShapeDrawingType.DottedLine ||
                        _shapeType == MainWindow.ShapeDrawingType.ArrowOneSide ||
                        _shapeType == MainWindow.ShapeDrawingType.ArrowTwoSide) && points.Count >= 2) {
-                    MainWindow.DrawShapeCore(points, (MainWindow.ShapeDrawingType)_shapeType).Draw(dc);
+                    MainWindow.DrawShapeCore(points, (MainWindow.ShapeDrawingType)_shapeType,true).Draw(dc);
                     var angle = MainWindow.ShapeDrawingHelper.CaculateRotateAngleByGivenTwoPoints(points[0], points[1]);
                     if (AngleTooltip.Visibility == Visibility.Collapsed) AngleTooltip.Visibility = Visibility.Visible;
                     AngleText.Text = $"{angle}°";
