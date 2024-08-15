@@ -680,9 +680,12 @@ namespace Ink_Canvas {
                 TouchMultiplierSlider.Value = Settings.Advanced.TouchMultiplier;
                 FingerModeBoundsWidthSlider.Value = Settings.Advanced.FingerModeBoundsWidth;
                 NibModeBoundsWidthSlider.Value = Settings.Advanced.NibModeBoundsWidth;
-                ToggleSwitchIsLogEnabled.IsOn = Settings.Advanced.IsLogEnabled;
+                FingerModeBoundsWidthThresholdValueSlider.Value = Settings.Advanced.FingerModeBoundsWidthThresholdValue;
+                NibModeBoundsWidthThresholdValueSlider.Value = Settings.Advanced.NibModeBoundsWidthThresholdValue;
+                FingerModeBoundsWidthEraserSizeSlider.Value = Settings.Advanced.FingerModeBoundsWidthEraserSize;
+                NibModeBoundsWidthEraserSizeSlider.Value = Settings.Advanced.NibModeBoundsWidthEraserSize;
 
-                ToggleSwitchEraserBindTouchMultiplier.IsOn = Settings.Advanced.EraserBindTouchMultiplier;
+                ToggleSwitchIsLogEnabled.IsOn = Settings.Advanced.IsLogEnabled;
 
                 ToggleSwitchIsSpecialScreen.IsOn = Settings.Advanced.IsSpecialScreen;
 

@@ -1864,12 +1864,6 @@ namespace Ink_Canvas {
             SaveSettingsToFile();
         }
 
-        private void ToggleSwitchEraserBindTouchMultiplier_Toggled(object sender, RoutedEventArgs e) {
-            if (!isLoaded) return;
-            Settings.Advanced.EraserBindTouchMultiplier = ToggleSwitchEraserBindTouchMultiplier.IsOn;
-            SaveSettingsToFile();
-        }
-
         private void NibModeBoundsWidthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             if (!isLoaded) return;
             Settings.Advanced.NibModeBoundsWidth = (int)e.NewValue;
@@ -1891,6 +1885,34 @@ namespace Ink_Canvas {
             else
                 BoundsWidth = Settings.Advanced.FingerModeBoundsWidth;
 
+            SaveSettingsToFile();
+        }
+
+        private void NibModeBoundsWidthThresholdValueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!isLoaded) return;
+            Settings.Advanced.NibModeBoundsWidthThresholdValue = (double)e.NewValue;
+            SaveSettingsToFile();
+        }
+
+        private void FingerModeBoundsWidthThresholdValueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!isLoaded) return;
+            Settings.Advanced.FingerModeBoundsWidthThresholdValue = (double)e.NewValue;
+            SaveSettingsToFile();
+        }
+
+        private void NibModeBoundsWidthEraserSizeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!isLoaded) return;
+            Settings.Advanced.NibModeBoundsWidthEraserSize = (double)e.NewValue;
+            SaveSettingsToFile();
+        }
+
+        private void FingerModeBoundsWidthEraserSizeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!isLoaded) return;
+            Settings.Advanced.FingerModeBoundsWidthEraserSize = (double)e.NewValue;
             SaveSettingsToFile();
         }
 
