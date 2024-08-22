@@ -17,13 +17,6 @@ namespace Ink_Canvas {
         public IccStroke(StylusPointCollection stylusPoints, DrawingAttributes drawingAttributes)
             : base(stylusPoints, drawingAttributes) { }
 
-        public IccStroke(StylusPointCollection stylusPoints, DrawingAttributes drawingAttributes, IccInkCanvas hostElement)
-            : base(stylusPoints, drawingAttributes) {
-            if (hostElement != null) _hostInkCanvas = hostElement;
-        }
-
-        public IccInkCanvas _hostInkCanvas = null;
-
         public static Guid StrokeShapeTypeGuid = new Guid("6537b29c-557f-487f-800b-cb30a8f1de78");
         public static Guid StrokeIsShapeGuid = new Guid("40eff5db-9346-4e42-bd46-7b0eb19d0018");
 
@@ -47,17 +40,9 @@ namespace Ink_Canvas {
         /// </summary>
         public bool IsErasedStrokePart = false;
 
-        /// <summary>
-        /// 指示当墨迹在屏幕外部时，是否停止渲染
-        /// </summary>
-        public bool IsStopOffScreenRender = true;
-
         // 自定义的墨迹渲染
         protected override void DrawCore(DrawingContext drawingContext,
             DrawingAttributes drawingAttributes) {
-
-            if (IsStopOffScreenRender && new StrokeCollection(){this}.HitTest(new Rect(new Point(0,0), new Size(_hostInkCanvas.ActualWidth,_hostInkCanvas.ActualHeight)), 1).Count == 0) return;
-
             if (!(this.ContainsPropertyData(StrokeIsShapeGuid) &&
                   (bool)this.GetPropertyData(StrokeIsShapeGuid) == true)) {
                 base.DrawCore(drawingContext, drawingAttributes);
@@ -168,9 +153,8 @@ namespace Ink_Canvas {
         }
 
         protected override void OnStrokeCollected(InkCanvasStrokeCollectedEventArgs e) {
-            IccStroke customStroke = new IccStroke(e.Stroke.StylusPoints, e.Stroke.DrawingAttributes, this);
+            IccStroke customStroke = new IccStroke(e.Stroke.StylusPoints, e.Stroke.DrawingAttributes);
             if (e.Stroke is IccStroke) {
-                if ((e.Stroke as IccStroke)._hostInkCanvas == null) (e.Stroke as IccStroke)._hostInkCanvas = this;
                 this.Strokes.Add(e.Stroke);
             } else {
                 this.Strokes.Remove(e.Stroke);

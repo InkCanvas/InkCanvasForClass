@@ -53,7 +53,7 @@ namespace Ink_Canvas
             bool ret;
             mutex = new System.Threading.Mutex(true, "InkCanvasForClass", out ret);
 
-            if (!ret && !e.Args.Contains("-m")) //-m multiple
+            if (!ret && !(e.Args.Contains("-m")||e.Args.Contains("--multiple"))) //-m multiple
             {
                 LogHelper.NewLog("Detected existing instance");
 

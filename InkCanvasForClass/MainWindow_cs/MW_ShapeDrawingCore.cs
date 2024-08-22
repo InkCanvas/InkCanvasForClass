@@ -9,7 +9,7 @@ namespace Ink_Canvas {
 
     public partial class MainWindow : Window {
 
-        public StrokeCollection DrawShapeCore(PointCollection pts, ShapeDrawingType type, bool doNotDisturbutePoints) {
+        public StrokeCollection DrawShapeCore(PointCollection pts, ShapeDrawingType type, bool doNotDisturbutePoints, bool isPreview) {
             // 线
             if (type == MainWindow.ShapeDrawingType.Line || 
                 type == MainWindow.ShapeDrawingType.DashedLine || 
@@ -21,7 +21,7 @@ namespace Ink_Canvas {
                     new StylusPoint(pts[0].X, pts[0].Y),
                     new StylusPoint(pts[1].X, pts[1].Y),
                 }, inkCanvas.DefaultDrawingAttributes.Clone()) {
-                    IsDistributePointsOnLineShape = !doNotDisturbutePoints
+                    IsDistributePointsOnLineShape = !doNotDisturbutePoints,
                 };
                 stk.AddPropertyData(IccStroke.StrokeIsShapeGuid, true);
                 stk.AddPropertyData(IccStroke.StrokeShapeTypeGuid, (int)type);

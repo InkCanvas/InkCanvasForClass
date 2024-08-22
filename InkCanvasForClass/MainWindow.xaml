@@ -6321,32 +6321,30 @@
                                                 </DrawingImage>
                                             </Image.Source>
                                         </Image>
-                                        <TextBlock Foreground="#fafafa" Text="滑动鼠标滚轮缩放画布"
+                                        <TextBlock Foreground="#fafafa" Text="滑动鼠标滚轮"
                                                    VerticalAlignment="Center" FontSize="14" Margin="0,0,6,0" />
-                                        <Border Height="20" CornerRadius="3" Background="#1e3a8a" Margin="0,0,12,0"
-                                                Padding="4,0">
-                                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="3"
-                                                                 VerticalAlignment="Center">
-                                                <Image Width="16" Height="16" VerticalAlignment="Center">
-                                                    <Image.Source>
-                                                        <DrawingImage>
-                                                            <DrawingImage.Drawing>
-                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
-                                                                    <GeometryDrawing Brush="#dbeafe"
-                                                                                     Geometry="F0 M24,24z M0,0z M18.75,4C18.75,3.58579 18.4142,3.25 18,3.25 17.5858,3.25 17.25,3.58579 17.25,4 17.25,4.33152 17.1183,4.64946 16.8839,4.88388 16.6495,5.1183 16.3315,5.25 16,5.25 15.5858,5.25 15.25,5.58579 15.25,6 15.25,6.41421 15.5858,6.75 16,6.75 16.3315,6.75 16.6495,6.8817 16.8839,7.11612 17.1183,7.35054 17.25,7.66848 17.25,8 17.25,8.41421 17.5858,8.75 18,8.75 18.4142,8.75 18.75,8.41421 18.75,8 18.75,7.66848 18.8817,7.35054 19.1161,7.11612 19.3505,6.8817 19.6685,6.75 20,6.75 20.4142,6.75 20.75,6.41421 20.75,6 20.75,5.58579 20.4142,5.25 20,5.25 19.6685,5.25 19.3505,5.1183 19.1161,4.88388 18.8817,4.64946 18.75,4.33152 18.75,4z M9.75,6C9.75,5.58579 9.41421,5.25 9,5.25 8.58579,5.25 8.25,5.58579 8.25,6 8.25,7.39239 7.69688,8.72774 6.71231,9.71231 5.72774,10.6969 4.39239,11.25 3,11.25 2.58579,11.25 2.25,11.5858 2.25,12 2.25,12.4142 2.58579,12.75 3,12.75 4.39239,12.75 5.72774,13.3031 6.71231,14.2877 7.69688,15.2723 8.25,16.6076 8.25,18 8.25,18.4142 8.58579,18.75 9,18.75 9.41421,18.75 9.75,18.4142 9.75,18 9.75,16.6076 10.3031,15.2723 11.2877,14.2877 12.2723,13.3031 13.6076,12.75 15,12.75 15.4142,12.75 15.75,12.4142 15.75,12 15.75,11.5858 15.4142,11.25 15,11.25 13.6076,11.25 12.2723,10.6969 11.2877,9.71231 10.3031,8.72774 9.75,7.39239 9.75,6z M18.75,16C18.75,15.5858 18.4142,15.25 18,15.25 17.5858,15.25 17.25,15.5858 17.25,16 17.25,16.3315 17.1183,16.6495 16.8839,16.8839 16.6495,17.1183 16.3315,17.25 16,17.25 15.5858,17.25 15.25,17.5858 15.25,18 15.25,18.4142 15.5858,18.75 16,18.75 16.3315,18.75 16.6495,18.8817 16.8839,19.1161 17.1183,19.3505 17.25,19.6685 17.25,20 17.25,20.4142 17.5858,20.75 18,20.75 18.4142,20.75 18.75,20.4142 18.75,20 18.75,19.6685 18.8817,19.3505 19.1161,19.1161 19.3505,18.8817 19.6685,18.75 20,18.75 20.4142,18.75 20.75,18.4142 20.75,18 20.75,17.5858 20.4142,17.25 20,17.25 19.6685,17.25 19.3505,17.1183 19.1161,16.8839 18.8817,16.6495 18.75,16.3315 18.75,16z" />
-                                                                </DrawingGroup>
-                                                            </DrawingImage.Drawing>
-                                                        </DrawingImage>
-                                                    </Image.Source>
-                                                </Image>
-                                                <TextBlock Foreground="#dbeafe" Text="新功能" FontSize="12"
-                                                           VerticalAlignment="Center" />
-                                            </ui:SimpleStackPanel>
-                                        </Border>
+                                        <ComboBox Name="ComboBoxMouseWheelAction"
+                                                  FontFamily="Microsoft YaHei UI"
+                                                  SelectedIndex="0"  Margin="0,0,16,0"
+                                                  SelectionChanged="ComboBoxDefaultMultiPointHandWriting_SelectionChanged">
+                                            <ComboBoxItem Content="缩放画布" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="调整笔粗细" FontFamily="Microsoft YaHei UI" />
+                                        </ComboBox>
                                         <ui:ToggleSwitch OnContent="" OffContent=""
                                                          Name="ToggleSwitchEnableMouseWheelGesture" IsOn="True"
                                                          FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchEnableMouseWheelGesture_Toggled" />
+                                    </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="鼠标滚轮正方向" VerticalAlignment="Center"
+                                                   FontSize="14" Margin="0,0,16,0" />
+                                        <ComboBox Name="ComboBoxMousewheelForwardDirection"
+                                                  FontFamily="Microsoft YaHei UI"
+                                                  SelectedIndex="0"
+                                                  SelectionChanged="ComboBoxDefaultMultiPointHandWriting_SelectionChanged">
+                                            <ComboBoxItem Content="滚轮向上" FontFamily="Microsoft YaHei UI" />
+                                            <ComboBoxItem Content="滚轮向下" FontFamily="Microsoft YaHei UI" />
+                                        </ComboBox>
                                     </ui:SimpleStackPanel>
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
@@ -6471,6 +6469,13 @@
                                                              IsOn="True" FontFamily="Microsoft YaHei UI"
                                                              FontWeight="Bold"
                                                              Toggled="ToggleSwitchEnableInkToShapeNoFakePressureTriangle_Toggled" />
+                                        </ui:SimpleStackPanel>
+                                        <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#fafafa" Text="将识别的墨迹当作形状处理" VerticalAlignment="Center"
+                                                       FontSize="14" Margin="0,0,16,0" />
+                                            <ui:ToggleSwitch OnContent="" OffContent="" Name="ToggleSwitchEnableInkAsShape"
+                                                             IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                             Toggled="ToggleSwitchEnableInkToShape_Toggled" />
                                         </ui:SimpleStackPanel>
                                         <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0"
                                               Stroke="#3f3f46" StrokeThickness="1" Margin="0,4,0,4" />
@@ -7025,8 +7030,36 @@
                                                          FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchRegistryShowBlackScreenLastSlideShow_Toggled" />
                                     </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="PPT强制禁用两侧工具按钮"
+                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,6,0" />
+                                        <Border Height="20" CornerRadius="3" Background="#854d0e" Margin="0,0,12,0"
+                                                Padding="4,0">
+                                            <ui:SimpleStackPanel Orientation="Horizontal" Spacing="3"
+                                                                 VerticalAlignment="Center">
+                                                <Image Width="15" Height="15" VerticalAlignment="Center">
+                                                    <Image.Source>
+                                                        <DrawingImage>
+                                                            <DrawingImage.Drawing>
+                                                                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                                    <GeometryDrawing Brush="#fef9c3" Geometry="F1 M24,24z M0,0z M11.0128,12.0001L11.0128,21.7541C8.82443,21.0462 6.86303,19.7703 5.32881,18.0567 3.79459,16.3431 2.74247,14.2532 2.27982,12.0001L11.0138,12.0001 11.0128,12.0001z M20.2968,15.7941C18.6969,18.6172,16.0991,20.7399,13.0138,21.7451L13.0128,12.0001 21.7208,12.0001C21.448,13.3316,20.9675,14.6119,20.2968,15.7941z M11.0138,2.52612L11.0128,10.0001 2.02682,10.0001C1.95882,8.56812 2.12782,7.12012 2.54082,5.71812 2.60393,5.50338 2.73726,5.31601 2.91947,5.18602 3.10167,5.05603 3.32223,4.99092 3.54582,5.00112 6.13403,5.11958 8.68099,4.32065 10.7378,2.74512L11.0138,2.52612z M13.0128,10.0001L13.0128,2.54712 12.9228,2.47412C14.9401,4.14969,17.4897,5.04942,20.1118,5.01112L20.4538,5.00112C20.6774,4.99092 20.898,5.05603 21.0802,5.18602 21.2624,5.31601 21.3957,5.50338 21.4588,5.71812 21.8718,7.12112 22.0408,8.56812 21.9728,10.0001L13.0128,10.0001z" />
+                                                                </DrawingGroup>
+                                                            </DrawingImage.Drawing>
+                                                        </DrawingImage>
+                                                    </Image.Source>
+                                                </Image>
+                                                <TextBlock Foreground="#fef9c3" Text="管理员" FontSize="12"
+                                                           VerticalAlignment="Center">
+                                                </TextBlock>
+                                            </ui:SimpleStackPanel>
+                                        </Border>
+                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Name="ToggleSwitchRegistryDisableSlideShowSideToolButton" IsOn="True"
+                                                         FontFamily="Microsoft YaHei UI" FontWeight="Bold"
+                                                         Toggled="ToggleSwitchRegistryShowBlackScreenLastSlideShow_Toggled" />
+                                    </ui:SimpleStackPanel>
                                     <TextBlock
-                                        Text="# 以上功能会修改注册表，需要管理员权限运行。操作前请先备份注册表。选项仅支持最新Office 365和WPS，其他版本未经测试。"
+                                        Text="# 以上功能会修改注册表，需要管理员权限运行。操作前请先备份注册表。选项仅支持最新Office 365，其他版本未经测试。"
                                         TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
@@ -8184,11 +8217,6 @@
                                                          IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchAutoKillSeewoLauncher2DesktopAnnotation_Toggled" />
                                     </ui:SimpleStackPanel>
-                                    <TextBlock TextWrapping="Wrap" Foreground="#a1a1aa" Visibility="Collapsed">
-                                        <Run Text="# 由于希沃桌面2.0提供的桌面批注是64位应用程序，icc是32位程序无法访问，所以目前暂不做精准匹配，只匹配进程名称" />
-                                        <Run FontFamily="Consolas">DesktopAnnotation</Run>
-                                        <Run Text="，后面会考虑封装一套基于P/Invoke和WMI的综合进程识别方案。如果遇到同进程名的软件直接不开启该选项就行了，见谅！" />
-                                    </TextBlock>
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
                                     <TextBlock Margin="0,0,0,8" Text="同类软件查杀" FontWeight="Bold" Foreground="#fafafa"
@@ -8217,6 +8245,13 @@
                                                          IsOn="True" FontFamily="Microsoft YaHei UI" FontWeight="Bold"
                                                          Toggled="ToggleSwitchAutoKillICA_Toggled" />
                                     </ui:SimpleStackPanel>
+                                    <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
+                                          StrokeThickness="1" Margin="0,4,0,4" />
+                                    <TextBlock Margin="0,0,0,8" Text="批注弹窗拦截" FontWeight="Bold" Foreground="#fafafa"
+                                               FontSize="20" />
+                                    <TextBlock
+                                        Text="# 该功能可以自动隐藏其他白板软件在最小化时显示的桌面批注弹窗，并且可以使用icc无缝替代这些弹窗。希沃系列的悬浮窗拦截后可显示 “返回到希沃软件” 按钮。"
+                                        TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     <Line HorizontalAlignment="Center" X1="0" Y1="0" X2="400" Y2="0" Stroke="#3f3f46"
                                           StrokeThickness="1" Margin="0,4,0,4" />
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -8774,11 +8809,31 @@
                                     </Canvas>
                                 </GroupBox.Header>
                                 <ui:SimpleStackPanel Spacing="6">
+                                    <TextBlock Text="# 随机点名名单存放在 ICC 存储位置下的 LuckyRandom 目录下。支持多名单加载和切换，文件格式为txt，文件名必须以 .luckyrand.list.txt 结尾，否则不会识别！"
+                                               TextWrapping="Wrap" Foreground="#a1a1aa" />
                                     <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <TextBlock Foreground="#fafafa" Text="显示修改随机点名名单的按钮"
+                                        <TextBlock Foreground="#fafafa" Text="为 ICC 启用机器学习以提升渲染性能"
+                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
+                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Name="ToggleSwitchRandWindowSpecialConfig"
+                                                         IsOn="True" FontFamily="Microsoft YaHei UI"
+                                                         FontWeight="Bold"
+                                                         Toggled="ToggleSwitchDisplayRandWindowNamesInputBtn_OnToggled" />
+                                    </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="显示切换随机点名名单的按钮"
                                                    VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
                                         <ui:ToggleSwitch OnContent="" OffContent=""
                                                          Name="ToggleSwitchDisplayRandWindowNamesInputBtn"
+                                                         IsOn="True" FontFamily="Microsoft YaHei UI"
+                                                         FontWeight="Bold"
+                                                         Toggled="ToggleSwitchDisplayRandWindowNamesInputBtn_OnToggled" />
+                                    </ui:SimpleStackPanel>
+                                    <ui:SimpleStackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Foreground="#fafafa" Text="显示点名历史记录"
+                                                   VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" />
+                                        <ui:ToggleSwitch OnContent="" OffContent=""
+                                                         Name="ToggleSwitchDisplayRandWindowHistory"
                                                          IsOn="True" FontFamily="Microsoft YaHei UI"
                                                          FontWeight="Bold"
                                                          Toggled="ToggleSwitchDisplayRandWindowNamesInputBtn_OnToggled" />

@@ -69,11 +69,13 @@ namespace Ink_Canvas {
                             ? Settings.Advanced.NibModeBoundsWidthEraserSize
                             : Settings.Advanced.FingerModeBoundsWidthEraserSize);
                         if (Settings.Advanced.IsSpecialScreen) boundWidth *= Settings.Advanced.TouchMultiplier;
-                        inkCanvas.EraserShape = new EllipseStylusShape(boundWidth, boundWidth);
                         TouchDownPointsList[e.TouchDevice.Id] = InkCanvasEditingMode.EraseByPoint;
+                        eraserWidth = boundWidth;
+                        isEraserCircleShape = Settings.Canvas.EraserShapeType == 0;
+                        isUsingStrokesEraser = false;
                         inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
                     } else {
-                        inkCanvas.EraserShape = new EllipseStylusShape(5, 5);
+                        isUsingStrokesEraser = true;
                         inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
                     }
                 } else {
@@ -251,10 +253,12 @@ namespace Ink_Canvas {
                             ? Settings.Advanced.NibModeBoundsWidthEraserSize
                             : Settings.Advanced.FingerModeBoundsWidthEraserSize);
                         if (Settings.Advanced.IsSpecialScreen) boundsWidth *= Settings.Advanced.TouchMultiplier;
-                        inkCanvas.EraserShape = new EllipseStylusShape(boundsWidth, boundsWidth);
+                        eraserWidth = boundsWidth;
+                        isEraserCircleShape = Settings.Canvas.EraserShapeType == 0;
+                        isUsingStrokesEraser = false;
                         inkCanvas.EditingMode = InkCanvasEditingMode.EraseByPoint;
                     } else {
-                        inkCanvas.EraserShape = new EllipseStylusShape(5, 5);
+                        isUsingStrokesEraser = true;
                         inkCanvas.EditingMode = InkCanvasEditingMode.EraseByStroke;
                     }
                 } else {

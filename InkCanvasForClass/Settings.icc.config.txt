@@ -1,0 +1,68 @@
+# icc 的配置文件
+# ================================================
+# 语法说明:
+# 1. 井号后面是注释内容，不会被解释器识别
+# 2. 单个项目使用 Key=Value 的格式
+# 3. 有子项目的使用 Key:(subKey1=value1,subKey2=value2) 的格式
+# 4. 有子项目的且项目本身可以设置值的使用 Key=Value:(subKey1=value1,subKey2=value2) 的格式
+# 5. 开为 1 ，关为 0，字符串不需要刻意加引号，自动识别，也可以加上双引号。
+# ================================================
+
+{icc.config="Default"}
+
+[config="appearance"]
+floatingBar:(label=0,icons=1111111111,eraser=0,onlyEraser=0,logo=0,scale=1.00,alpha=1.00,alphaPpt=1.00)
+whiteBoard:(scale=0.80,time=1,cs=0;csSource=0)
+quickPanel=0:(icon=0)
+trayIcon=0
+
+[config="startup"]
+run=0:(fold=0,hide=0,admin=0,winChrome=0)
+
+[config="canvas"]
+canvas:(cursor=0,eraser=2,hideWExit=0,clearTm=0)
+whiteBoard:(color=0,pattern=0,defClr=0,defPtrn=0,inkClr=0)
+select:(mode=0,stylusTip=1,fully=0,clickLock=0)
+
+[config="gesture"]
+2fingerMove=0
+2fingerRotateInk=0
+oldTouchGesture=1:(spScreen=0,multiple=1,boundsW=5;20,threshold=2.5;2.5,eraserS=0.8;0.8,quadIr=0)
+mouseGesture=1:(right=1,wheel=0,fWheel=0)
+winInk:(eraser=0,barrel=0)
+
+[config="ink-recognition"]
+inkRecognition=1:(rectSP=1,triSP=1,asShape=1,triRecog=1,rectRecog=1,ellipseRecog=1)
+
+[config="powerpoint"]
+powerpoint=1
+wpsOffice=0
+slideShowToolBtn=1:(lb=1,rb=1,ls=1,rs=1,bConf=100,sConf=110,clickable=0,autoInk=0,2finger=1,autoSnap=0,autosave=1,memLastIndex=0,hiddenSlide=1,autoplayN=0)
+
+[config="experimental"]
+fullScreenHelper=0
+edgeGesture=0
+preventClose=1
+forceTopmost=1
+alwaysVisible=1
+floatingBarAlwaysV=1
+
+[config="automation"]
+autoFold=1011110011000000110
+autoKill=0000
+autoKillFr=00
+ddb=0001101
+
+[config="storage"]
+storage=fr
+userLocation=
+
+[config="snapshot"]
+magnificationApi=0
+hideIccWin=0
+clipboard=1
+ink=0
+onlyMaxmizeWin=0
+filename="Screenshot-[YYYY]-[MM]-[DD]-[HH]-[mm]-[ss].png"
+
+/{icc.config="Settings"}

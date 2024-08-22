@@ -1,0 +1,19 @@
+# icc 随机点名特殊配置文件
+# 这个语法是 icc 自己实现的，所以比较简陋
+
+[config="test.luckyrand.list.txt"]
+forceEnabled=true # 是否强制启用特殊配置，强制启用后不会隐藏设置中的开关，但是可以让开关失效（不保存到文件）
+
+whiteList[0]=孙笑川 # 井号后面是注释内容，不会识别
+whiteList[1]=蔡徐坤 # 此处设置的是全局白名单，这个白名单内的名字在所有情况下都不会被随机点名匹配到
+
+# 此处设置姓名的匹配模式，是包含还是全等于还是开头
+# 包含 contains ， 全等于 equals ， 开头 startsWith
+nameMatchingMode=contains
+
+# 设置动态白名单的开关和数据来源，目前仅支持配置内定义
+dynamicWhiteListEnabled=true
+dynamicWhiteListSource=specialConfig
+
+dynamicWhiteList[0][time]=Mon/Tue/Wed/Thur/Fri;(08:00:00-08:40:00|08:50:00-09:30:00|10:00:00-10:40:00|10:50:00-11:30:00|11:40:00-12:25:00|14:30:00-15:10:00|15:30:00-16:10:00|16:20:00-17:40:00|17:50:00-18:30:00|17:50:00-18:20:00|19:00:00-19:50:00|20:00:00-20:50:00)
+dynamicWhiteList[0][rule]=
