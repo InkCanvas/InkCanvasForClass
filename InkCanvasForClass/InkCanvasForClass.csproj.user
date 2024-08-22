@@ -17,9 +17,6 @@
     <Compile Update="Popups\ColorPalette.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Popups\FloatingBarWindowV2.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Popups\ScreenshotWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -27,6 +24,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Popups\ShapeDrawingPopup.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\SettingsWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -46,12 +46,6 @@
     <Page Update="Popups\ColorPalette.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Popups\FloatingBarV2Resources.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Popups\FloatingBarWindowV2.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Popups\ScreenshotWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -64,7 +58,7 @@
     <Page Update="Resources\GeometryIcons.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\Themes\DarkFloatingBarTheme.xaml">
+    <Page Update="Windows\SettingsWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

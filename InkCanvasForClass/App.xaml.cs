@@ -15,6 +15,8 @@ using Window = System.Windows.Window;
 using System.Windows.Shell;
 using Ookii.Dialogs.Wpf;
 using System.Diagnostics;
+using Ink_Canvas.Popups;
+using Ink_Canvas.Windows;
 using Lierda.WPFHelper;
 
 namespace Ink_Canvas
@@ -114,6 +116,9 @@ namespace Ink_Canvas
                 WindowChrome.SetWindowChrome(mainWin, null);
             }
             mainWin.Show();
+
+            var setW = new SettingsWindow();
+            setW.Show();
 
             _taskbar = (TaskbarIcon)FindResource("TaskbarTrayIcon");
 
