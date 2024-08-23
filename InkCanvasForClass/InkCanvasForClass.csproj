@@ -360,6 +360,9 @@
 	<Resource Include="Resources\Icons-png\windows-ink.png" />
 	<Resource Include="Resources\Icons-png\YiYunVisualPresenter.png" />
 	<Resource Include="Resources\Icons-png\YiYunWhiteboard.png" />
+	<Resource Include="Resources\Illustrations\wait-a-moment.png">
+	  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	</Resource>
 	<Resource Include="Resources\new-icons\chevron-left.png" />
 	<Resource Include="Resources\new-icons\end-slides-show.png">
 	  <CopyToOutputDirectory></CopyToOutputDirectory>
@@ -551,6 +554,7 @@
 	<None Remove="Resources\Icons-png\windows-ink.png" />
 	<None Remove="Resources\Icons-png\YiYunVisualPresenter.png" />
 	<None Remove="Resources\Icons-png\YiYunWhiteboard.png" />
+	<None Remove="Resources\Illustrations\wait-a-moment.png" />
 	<None Remove="Resources\new-icons\chevron-left.png" />
 	<None Remove="Resources\new-icons\end-slides-show.png" />
 	<None Remove="Resources\new-icons\eye.png" />

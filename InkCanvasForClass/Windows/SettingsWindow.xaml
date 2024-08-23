@@ -7,8 +7,63 @@
         xmlns:modern="http://schemas.inkore.net/lib/ui/wpf/modern"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d" WindowStyle="None" ResizeMode="CanMinimize" Background="Transparent"
-        Title="InkCanvasForClass 设置" Height="691" Width="910">
+        Title="InkCanvasForClass 设置" Height="691" Width="910" UseLayoutRounding="True">
     <Window.Resources>
+        <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <EventSetter Event="PreviewMouseDown" Handler="ScrollbarThumb_MouseDown"/>
+            <EventSetter Event="PreviewMouseUp" Handler="ScrollbarThumb_MouseUp"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border Name="ScrollbarThumbEx"
+                                SnapsToDevicePixels="True"
+                                Background="#c3c3c3"
+                                Opacity="0.5"
+                                CornerRadius="1.5"
+                                Height="{TemplateBinding Height}"
+                                Width="3" HorizontalAlignment="Center"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type ScrollBar}">
+            <EventSetter Event="Scroll" Handler="ScrollBar_Scroll"/>
+            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
+            <Setter Property="Width" Value="8"/>
+            <Setter Property="Margin" Value="-6 3 0 0" />
+            <Setter Property="MinWidth" Value="{Binding Height, RelativeSource={RelativeSource Self}}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Grid x:Name="ScrollbarGrid" SnapsToDevicePixels="true">
+                            <Border Width="3" CornerRadius="1.5" Background="#e0e0e0" Opacity="0" IsHitTestVisible="False" Margin="0 4 -2 4" x:Name="ScrollBarBorderTrackBackground"/>
+                            <Border Padding="0 4" Background="Transparent" MouseEnter="ScrollBarTrack_MouseEnter"
+                                    MouseLeave="ScrollBarTrack_MouseLeave">
+                                <Track x:Name="PART_Track"
+                                       IsDirectionReversed="true"
+                                       IsEnabled="True"
+                                       Width="6"
+                                       Margin="0,0,0,0"
+                                       HorizontalAlignment="Right">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Opacity="0" Command="{x:Static ScrollBar.PageUpCommand}" />
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Opacity="0" Command="{x:Static ScrollBar.PageDownCommand}" />
+                                    </Track.IncreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Style="{StaticResource ScrollBarThumb  }" />
+                                    </Track.Thumb>
+                                </Track>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <DrawingImage x:Key="StartupIcon">
             <DrawingImage.Drawing>
                 <DrawingGroup ClipGeometry="M0,0 V17 H17 V0 H0 Z">
@@ -183,29 +238,11 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        
                     </Grid>
                 </Border>
-                <!--Topbar-->
-                <Grid Height="48" VerticalAlignment="Top" Margin="250,0,0,0">
-                    <TextBlock FontSize="16" Text="设置标题" Name="SettingsWindowTitle" Foreground="#2e3436" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <Border CornerRadius="8" Background="#33ef4444" Width="34" Height="34" Margin="0,0,8,0" HorizontalAlignment="Right">
-                        <Image Width="12" Height="12">
-                            <Image.Source>
-                                <DrawingImage>
-                                    <DrawingImage.Drawing>
-                                        <DrawingGroup ClipGeometry="M0,0 V12 H12 V0 H0 Z">
-                                            <GeometryDrawing Brush="#991b1b" Geometry="F1 M12,12z M0,0z M0.999846,0C0.734646,4.07258E-05 0.480321,0.105424 0.292816,0.29297 0.105327,0.4805 0,0.734821 0,1 0,1.26518 0.105327,1.5195 0.292816,1.70703L4.58579,6 0.292816,10.293C0.105327,10.4805 0,10.7348 0,11 0,11.2652 0.105327,11.5195 0.292816,11.707 0.480347,11.8945 0.734668,11.9998 0.999846,11.9998 1.26503,11.9998 1.51935,11.8945 1.70688,11.707L5.99985,7.41406 10.2928,11.707C10.4803,11.8945 10.7347,11.9998 10.9998,11.9998 11.265,11.9998 11.5193,11.8945 11.7069,11.707 11.8944,11.5195 11.9997,11.2652 11.9997,11 11.9997,10.7348 11.8944,10.4805 11.7069,10.293L7.41391,6 11.7069,1.70703C11.8944,1.5195 11.9997,1.26518 11.9997,1 11.9997,0.734821 11.8944,0.4805 11.7069,0.29297 11.5194,0.105424 11.265,4.07258E-05 10.9998,0 10.7346,4.07258E-05 10.4803,0.105424 10.2928,0.29297L5.99985,4.58594 1.70688,0.29297C1.51937,0.105424,1.26505,4.07258E-05,0.999846,0z" />
-                                        </DrawingGroup>
-                                    </DrawingImage.Drawing>
-                                </DrawingImage>
-                            </Image.Source>
-                        </Image>
-                    </Border>
-                </Grid>
                 <!--AboutPanel-->
-                <Grid Margin="250,48,0,0">
-                    <modern:ScrollViewerEx IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
+                <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="AboutPane">
+                    <ScrollViewer ScrollChanged="ScrollViewerEx_ScrollChanged" IsManipulationEnabled="True" Name="AboutScrollViewerEx" IsDeferredScrollingEnabled="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
                         <StackPanel Margin="60,12,60,24">
                             <Border BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
                                 <Image Name="CopyrightBannerImage"/>
@@ -322,7 +359,179 @@
                                 </StackPanel>
                             </Border>
                         </StackPanel>
-                    </modern:ScrollViewerEx>
+                    </ScrollViewer>
+                </Grid>
+                <!--ExtensionsPanel-->
+                <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="ExtensionsPane">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image Width="300" Source="../Resources/Illustrations/wait-a-moment.png" HorizontalAlignment="Center"/>
+                        <TextBlock FontSize="20" FontWeight="UltraBold" Text="扩展和脚本系统还没写好" Foreground="#09090b" HorizontalAlignment="Center" Margin="0,24,0,0"/>
+                        <TextBlock FontSize="13" Text="稍安勿躁，已经新建文件夹了" Foreground="#71717a" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Grid>
+                <!--CanvasAndInkPanel-->
+                <Grid Margin="250,48,0,0" Visibility="Visible" Name="CanvasAndInkPane">
+                    <ScrollViewer ScrollChanged="ScrollViewerEx_ScrollChanged" IsManipulationEnabled="True" Name="CanvasAndInkScrollViewerEx" IsDeferredScrollingEnabled="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
+                        <StackPanel Margin="60,12,60,24">
+                            <Border BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="使用更加明显的画笔光标" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="绘制时将使用系统默认的鼠标指针样式" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border UseLayoutRounding="False" Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="退出批注模式后隐藏墨迹" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="切换到鼠标模式时隐藏现有墨迹（不是删除）" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border UseLayoutRounding="False" Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="清空墨迹时不保留时光机历史记录" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="开启后，清空墨迹后将无法通过“撤销”功能恢复" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border UseLayoutRounding="False" Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="AllowTransparency 使用黑色背景" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="使用不透明度为1的黑色背景阻止鼠标事件穿透" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border UseLayoutRounding="False" Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="白板模式" FontSize="15" FontWeight="Bold" Foreground="#2e3436" Margin="0,25,0,0"></TextBlock>
+                            <Border Margin="0,12,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="软件版本" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="18,0,0,0"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,18,0">
+                                            <TextBlock Foreground="#878787" FontSize="14.5" Text="InkCanvasForClass v2024.8.30" VerticalAlignment="Center" />
+                                            <Image Margin="12,0,0,0" Width="18" Height="18" VerticalAlignment="Center">
+                                                <Image.Source>
+                                                    <DrawingImage>
+                                                        <DrawingImage.Drawing>
+                                                            <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                                <DrawingGroup.Transform>
+                                                                    <TranslateTransform X="6.1023980379104614E-05" Y="0" />
+                                                                </DrawingGroup.Transform>
+                                                                <GeometryDrawing Brush="#FFFF7800" Geometry="F1 M16,16z M0,0z M8.00493,0C7.74518,0,7.49541,0.0999063,7.2956,0.289728L5.5872,1.99813 2.99963,1.99813C2.45014,1.99813,2.00056,2.44771,2.00056,2.99719L2.00056,5.58476 0.292165,7.29316C-0.0974697,7.6828,-0.0974697,8.31221,0.292165,8.70184L2.00056,10.4102 2.00056,12.9978C2.00056,13.5473,2.45014,13.9969,2.99963,13.9969L5.5872,13.9969 7.2956,15.7053C7.68523,16.0949,8.31464,16.0949,8.70428,15.7053L10.4127,13.9969 13.0003,13.9969C13.5497,13.9969,13.9993,13.5473,13.9993,12.9978L13.9993,10.4102 15.7077,8.70184C16.0973,8.31221,16.0973,7.6828,15.7077,7.29316L13.9993,5.58476 13.9993,2.99719C13.9993,2.44771,13.5497,1.99813,13.0003,1.99813L10.4127,1.99813 8.70428,0.289728C8.50447,0.0899157,8.2547,0,7.99494,0L8.00493,0z M8.00493,4.99532C8.26469,4.99532,8.51446,5.09522,8.71427,5.28505L10.7124,7.28317C10.9022,7.47299,11.0021,7.72276,11.0021,7.99251L11.0021,8.99157 9.004,8.99157 9.004,10.9897 7.00587,10.9897 7.00587,8.99157 5.00774,8.99157 5.00774,7.99251C5.00774,7.73275,5.10765,7.47299,5.29747,7.28317L7.2956,5.28505C7.49541,5.08523,7.74518,4.99532,8.00493,4.99532z" />
+                                                            </DrawingGroup>
+                                                        </DrawingImage.Drawing>
+                                                    </DrawingImage>
+                                                </Image.Source>
+                                            </Image>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="系统版本" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="18,0,0,0"/>
+                                        <TextBlock Foreground="#878787" FontSize="14.5" Text="Windows 10 专业版 19045.3758" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,18,0"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <Border Margin="0,25,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="ICC 官方网站" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="18,0,0,0"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,18,0">
+                                            <TextBlock Foreground="#1d4ed8" TextDecorations="Underline" FontSize="14.5" Text="icc.bliemhax.com" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                            <Image Margin="12,0,0,0" Width="16" Height="16" VerticalAlignment="Center">
+                                                <Image.Source>
+                                                    <DrawingImage>
+                                                        <DrawingImage.Drawing>
+                                                            <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                                <GeometryDrawing Brush="#FF222222" Geometry="F1 M16,16z M0,0z M3,2C1.338,2,0,3.338,0,5L0,13C0,14.662,1.338,16,3,16L11,16C12.662,16,14,14.662,14,13L14,9C13.9998,8.4477 13.5522,8 13,8 12.4478,8 12.0002,8.4477 12,9L12,13C12,13.554,11.554,14,11,14L3,14C2.446,14,2,13.554,2,13L2,5C2,4.446,2.446,4,3,4L7,4C7.5523,4 8,3.5523 8,3 8,2.4477 7.5523,2 7,2L3,2z M10,0C9.4477,0 9,0.4477 9,1 9,1.5523 9.4477,2 10,2L12.584,2 7.29303,7.29102C6.90133,7.68172 6.90133,8.31627 7.29303,8.70697 7.68353,9.09737 8.31659,9.09737 8.70709,8.70697L14,3.41412 14,6C14,6.5523 14.4477,7 15,7 15.5523,7 16,6.5523 16,6L16,1C15.9996,0.913 15.988,0.826187 15.965,0.742188 15.942,0.657187 15.909,0.576 15.865,0.5 15.822,0.424 15.768,0.35483 15.7068,0.29303 15.6918,0.28103 15.6758,0.268996 15.6598,0.257996 15.6048,0.207996 15.5433,0.164989 15.4782,0.129089 15.4412,0.110089 15.4022,0.0940781 15.363,0.0800781 15.312,0.0590781 15.2601,0.0431279 15.2067,0.0311279 15.1667,0.0211279 15.1267,0.0171226 15.0856,0.0131226 15.0566,0.00312256 15.0286,0.00309863 14.9996,0.00109863L10,0z" />
+                                                            </DrawingGroup>
+                                                        </DrawingImage.Drawing>
+                                                    </DrawingImage>
+                                                </Image.Source>
+                                            </Image>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="Github 仓库" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="18,0,0,0"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,18,0">
+                                            <TextBlock Foreground="#1d4ed8" TextDecorations="Underline" FontSize="14.5" Text="github.com/InkCanvas/InkCanvasForClass" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                            <Image Margin="12,0,0,0" Width="16" Height="16" VerticalAlignment="Center">
+                                                <Image.Source>
+                                                    <DrawingImage>
+                                                        <DrawingImage.Drawing>
+                                                            <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                                <GeometryDrawing Brush="#FF222222" Geometry="F1 M16,16z M0,0z M3,2C1.338,2,0,3.338,0,5L0,13C0,14.662,1.338,16,3,16L11,16C12.662,16,14,14.662,14,13L14,9C13.9998,8.4477 13.5522,8 13,8 12.4478,8 12.0002,8.4477 12,9L12,13C12,13.554,11.554,14,11,14L3,14C2.446,14,2,13.554,2,13L2,5C2,4.446,2.446,4,3,4L7,4C7.5523,4 8,3.5523 8,3 8,2.4477 7.5523,2 7,2L3,2z M10,0C9.4477,0 9,0.4477 9,1 9,1.5523 9.4477,2 10,2L12.584,2 7.29303,7.29102C6.90133,7.68172 6.90133,8.31627 7.29303,8.70697 7.68353,9.09737 8.31659,9.09737 8.70709,8.70697L14,3.41412 14,6C14,6.5523 14.4477,7 15,7 15.5523,7 16,6.5523 16,6L16,1C15.9996,0.913 15.988,0.826187 15.965,0.742188 15.942,0.657187 15.909,0.576 15.865,0.5 15.822,0.424 15.768,0.35483 15.7068,0.29303 15.6918,0.28103 15.6758,0.268996 15.6598,0.257996 15.6048,0.207996 15.5433,0.164989 15.4782,0.129089 15.4412,0.110089 15.4022,0.0940781 15.363,0.0800781 15.312,0.0590781 15.2601,0.0431279 15.2067,0.0311279 15.1667,0.0211279 15.1267,0.0171226 15.0856,0.0131226 15.0566,0.00312256 15.0286,0.00309863 14.9996,0.00109863L10,0z" />
+                                                            </DrawingGroup>
+                                                        </DrawingImage.Drawing>
+                                                    </DrawingImage>
+                                                </Image.Source>
+                                            </Image>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="贡献者名单" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="18,0,0,0"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,18,0">
+                                            <TextBlock Foreground="#1d4ed8" TextDecorations="Underline" FontSize="14.5" Text="icc.bliemhax.com/contributors" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                            <Image Margin="12,0,0,0" Width="16" Height="16" VerticalAlignment="Center">
+                                                <Image.Source>
+                                                    <DrawingImage>
+                                                        <DrawingImage.Drawing>
+                                                            <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                                                                <GeometryDrawing Brush="#FF222222" Geometry="F1 M16,16z M0,0z M3,2C1.338,2,0,3.338,0,5L0,13C0,14.662,1.338,16,3,16L11,16C12.662,16,14,14.662,14,13L14,9C13.9998,8.4477 13.5522,8 13,8 12.4478,8 12.0002,8.4477 12,9L12,13C12,13.554,11.554,14,11,14L3,14C2.446,14,2,13.554,2,13L2,5C2,4.446,2.446,4,3,4L7,4C7.5523,4 8,3.5523 8,3 8,2.4477 7.5523,2 7,2L3,2z M10,0C9.4477,0 9,0.4477 9,1 9,1.5523 9.4477,2 10,2L12.584,2 7.29303,7.29102C6.90133,7.68172 6.90133,8.31627 7.29303,8.70697 7.68353,9.09737 8.31659,9.09737 8.70709,8.70697L14,3.41412 14,6C14,6.5523 14.4477,7 15,7 15.5523,7 16,6.5523 16,6L16,1C15.9996,0.913 15.988,0.826187 15.965,0.742188 15.942,0.657187 15.909,0.576 15.865,0.5 15.822,0.424 15.768,0.35483 15.7068,0.29303 15.6918,0.28103 15.6758,0.268996 15.6598,0.257996 15.6048,0.207996 15.5433,0.164989 15.4782,0.129089 15.4412,0.110089 15.4022,0.0940781 15.363,0.0800781 15.312,0.0590781 15.2601,0.0431279 15.2067,0.0311279 15.1667,0.0211279 15.1267,0.0171226 15.0856,0.0131226 15.0566,0.00312256 15.0286,0.00309863 14.9996,0.00109863L10,0z" />
+                                                            </DrawingGroup>
+                                                        </DrawingImage.Drawing>
+                                                    </DrawingImage>
+                                                </Image.Source>
+                                            </Image>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+                <!--Topbar-->
+                <Grid Height="48" VerticalAlignment="Top" Margin="250,0,0,0">
+                    <Border Height="48" CornerRadius="0,6,0,0" Background="#fafafa">
+                        <Border.Clip>
+                            <RectangleGeometry Rect="0,0,641.6,56"/>
+                        </Border.Clip>
+                        <Border Height="48" CornerRadius="0,6,0,0" Background="#fafafa" >
+                            <Border.Effect>
+                                <DropShadowEffect Direction="-90" ShadowDepth="3" BlurRadius="4" Color="#000000" Opacity="0.25" x:Name="DropShadowEffectTopBar"/>
+                            </Border.Effect>
+                        </Border>
+                    </Border>
+                    <TextBlock FontSize="16" Text="设置标题" Name="SettingsWindowTitle" Foreground="#2e3436" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Border CornerRadius="8" Background="#33ef4444" Width="34" Height="34" Margin="0,0,8,0" HorizontalAlignment="Right">
+                        <Image Width="12" Height="12">
+                            <Image.Source>
+                                <DrawingImage>
+                                    <DrawingImage.Drawing>
+                                        <DrawingGroup ClipGeometry="M0,0 V12 H12 V0 H0 Z">
+                                            <GeometryDrawing Brush="#991b1b" Geometry="F1 M12,12z M0,0z M0.999846,0C0.734646,4.07258E-05 0.480321,0.105424 0.292816,0.29297 0.105327,0.4805 0,0.734821 0,1 0,1.26518 0.105327,1.5195 0.292816,1.70703L4.58579,6 0.292816,10.293C0.105327,10.4805 0,10.7348 0,11 0,11.2652 0.105327,11.5195 0.292816,11.707 0.480347,11.8945 0.734668,11.9998 0.999846,11.9998 1.26503,11.9998 1.51935,11.8945 1.70688,11.707L5.99985,7.41406 10.2928,11.707C10.4803,11.8945 10.7347,11.9998 10.9998,11.9998 11.265,11.9998 11.5193,11.8945 11.7069,11.707 11.8944,11.5195 11.9997,11.2652 11.9997,11 11.9997,10.7348 11.8944,10.4805 11.7069,10.293L7.41391,6 11.7069,1.70703C11.8944,1.5195 11.9997,1.26518 11.9997,1 11.9997,0.734821 11.8944,0.4805 11.7069,0.29297 11.5194,0.105424 11.265,4.07258E-05 10.9998,0 10.7346,4.07258E-05 10.4803,0.105424 10.2928,0.29297L5.99985,4.58594 1.70688,0.29297C1.51937,0.105424,1.26505,4.07258E-05,0.999846,0z" />
+                                        </DrawingGroup>
+                                    </DrawingImage.Drawing>
+                                </DrawingImage>
+                            </Image.Source>
+                        </Image>
+                    </Border>
                 </Grid>
             </Grid>
         </Border>
