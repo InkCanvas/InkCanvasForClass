@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ink_Canvas.Windows"
         xmlns:modern="http://schemas.inkore.net/lib/ui/wpf/modern"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterScreen" d:DesignHeight="1919"
         mc:Ignorable="d" WindowStyle="None" ResizeMode="CanMinimize" Background="Transparent"
         Title="InkCanvasForClass 设置" Height="691" Width="910" UseLayoutRounding="True">
     <Window.Resources>
@@ -175,12 +175,174 @@
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
+        <DrawingImage x:Key="TwoFingerMoveImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V256 H256 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF99C1F1" Geometry="F1 M256,256z M0,0z M107.776,62.2862C101.407,62.3087 95.2876,64.7719 90.6787,69.169 87.4741,67.7312 84.0016,66.9877 80.4893,66.9873 73.8863,66.9873 67.5538,69.6104 62.8848,74.2794 58.2158,78.9484 55.5928,85.2809 55.5928,91.8838 55.5928,98.4868 58.2158,104.819 62.8848,109.488 67.5538,114.157 73.8863,116.78 80.4893,116.78 86.8895,116.78 93.0439,114.315 97.6748,109.897 100.879,111.335 104.352,112.079 107.864,112.079 111.134,112.079 114.371,111.435 117.392,110.184 120.412,108.933 123.157,107.099 125.469,104.787 127.781,102.475 129.614,99.7307 130.866,96.7101 132.117,93.6896 132.761,90.4521 132.761,87.1827 132.761,83.9132 132.117,80.6758 130.866,77.6552 129.614,74.6346 127.781,71.89 125.469,69.5782 123.157,67.2663 120.412,65.4325 117.392,64.1813 114.371,62.9301 111.134,62.2862 107.864,62.2862 107.835,62.2861 107.806,62.2861 107.776,62.2862z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF3584E4" Thickness="10" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M256,256z M0,0z M80.6081,82.2521L81.0942,82.2521C84.0761,82.2521 86.9358,83.4366 89.0443,85.5451 91.1528,87.6536 92.3373,90.5133 92.3373,93.4952L92.3373,147.462C92.3373,147.757 92.3955,148.05 92.5085,148.323 92.6215,148.595 92.7871,148.843 92.9959,149.052 93.2047,149.261 93.4526,149.426 93.7254,149.539 93.9982,149.652 94.2907,149.711 94.586,149.711L95.5855,149.711C96.1819,149.711 96.7538,149.474 97.1755,149.052 97.5972,148.63 97.8341,148.058 97.8341,147.462L97.8341,89.2973C97.8341,86.5142 98.9397,83.8451 100.908,81.8772 102.876,79.9093 105.545,78.8037 108.328,78.8037 111.111,78.8037 113.78,79.9093 115.748,81.8772 117.716,83.8451 118.821,86.5142 118.821,89.2973L118.821,147.462C118.821,148.058 119.058,148.63 119.48,149.052 119.902,149.474 120.473,149.711 121.07,149.711L121.819,149.711C122.416,149.711 122.988,149.474 123.409,149.052 123.831,148.63 124.068,148.058 124.068,147.462L124.068,145.528C124.068,142.745 125.174,140.076 127.141,138.108 129.109,136.14 131.778,135.035 134.562,135.035 137.345,135.035 140.014,136.14 141.982,138.108 143.95,140.076 145.055,142.745 145.055,145.528L145.055,147.462C145.055,148.058 145.292,148.63 145.714,149.052 146.135,149.474 146.707,149.711 147.304,149.711L148.053,149.711C148.65,149.711 149.222,149.474 149.643,149.052 150.065,148.63 150.302,148.058 150.302,147.462L150.302,146.713C150.302,143.929 151.407,141.26 153.375,139.292 155.343,137.325 158.012,136.219 160.795,136.219 163.579,136.219 166.248,137.325 168.215,139.292 170.183,141.26 171.289,143.929 171.289,146.713L171.289,202.178C171.289,205.131 170.707,208.055 169.577,210.784 168.447,213.512 166.791,215.991 164.703,218.079 162.615,220.167 160.136,221.823 157.408,222.953 154.68,224.083 151.756,224.665 148.803,224.665L88.8396,224.665C84.087,224.665 79.3808,223.729 74.9899,221.91 70.599,220.091 66.6094,217.425 63.2487,214.065L27.6374,178.453C25.901,176.717 24.8492,174.412 24.6751,171.963 24.501,169.513 25.2163,167.083 26.6898,165.119L27.3155,164.284C28.7347,162.392 30.838,161.13 33.1756,160.768 35.5133,160.406 37.8997,160.973 39.8248,162.348L60.215,176.907C61.0803,177.524 62.099,177.892 63.1595,177.969 64.2199,178.046 65.2811,177.829 66.2264,177.342 67.1717,176.856 67.9648,176.118 68.5184,175.21 69.0721,174.303 69.365,173.26 69.365,172.197L69.365,93.4952C69.365,90.5133 70.5495,87.6536 72.658,85.5451 74.7665,83.4366 77.6262,82.2521 80.6081,82.2521z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF98C1F1" Thickness="4" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF3584E4" Geometry="F1 M256,256z M0,0z M189.114,31.3359L171.437,49.0137 181.792,49.0137 181.792,55.0508 181.792,68.9297 181.792,95.9668 171.437,95.9668 189.114,113.645 206.792,95.9668 196.905,95.9668 196.905,68.9297 196.905,55.0508 196.905,49.0137 206.792,49.0137 189.114,31.3359z" />
+                    <GeometryDrawing Brush="#FF3584E4" Geometry="F1 M256,256z M0,0z M149.042,72.4902L166.72,90.168 166.72,79.8125 172.757,79.8125 186.636,79.8125 213.673,79.8125 213.673,90.168 231.351,72.4902 213.673,54.8125 213.673,64.6992 186.636,64.6992 172.757,64.6992 166.72,64.6992 166.72,54.8125 149.042,72.4902z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="TwoFingerPinchToZoomImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V256 H256 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF99C1F1" Geometry="F1 M256,256z M0,0z M122.759,98.1016C136.509,98.1016 147.655,86.955 147.655,73.2051 147.655,59.4551 136.509,48.3086 122.759,48.3086 109.009,48.3086 97.8623,59.4551 97.8623,73.2051 97.8623,86.955 109.009,98.1016 122.759,98.1016z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF3584E4" Thickness="10" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF99C1F1" Geometry="F1 M256,256z M0,0z M87.2422,178.199C100.992,178.199 112.139,167.053 112.139,153.303 112.139,139.553 100.992,128.406 87.2422,128.406 73.4922,128.406 62.3457,139.553 62.3457,153.303 62.3457,167.053 73.4922,178.199 87.2422,178.199z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF3584E4" Thickness="10" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M256,256z M0,0z M120.46,65.342L120.929,65.2162C123.827,64.4397 126.914,64.8322 129.525,66.3091 132.137,67.786 134.063,70.2293 134.891,73.1129L144.181,105.475 144.181,130.489C144.181,131.085 144.417,131.657 144.839,132.079 145.261,132.501 145.833,132.738 146.429,132.738L147.429,132.738C148.025,132.738 148.597,132.501 149.019,132.079 149.44,131.657 149.677,131.085 149.677,130.489L149.677,124.493C149.677,123.115 149.949,121.75 150.476,120.477 151.003,119.204 151.776,118.047 152.751,117.073 153.725,116.098 154.882,115.325 156.155,114.798 157.428,114.271 158.793,113.999 160.171,113.999 162.954,113.999 165.623,115.105 167.591,117.073 169.559,119.041 170.664,121.71 170.664,124.493L170.664,130.489C170.664,131.085 170.901,131.657 171.323,132.079 171.745,132.501 172.317,132.738 172.913,132.738L173.663,132.738C174.259,132.738 174.831,132.501 175.253,132.079 175.674,131.657 175.911,131.085 175.911,130.489L175.911,124.493C175.911,123.115 176.183,121.75 176.71,120.477 177.237,119.204 178.01,118.047 178.985,117.073 179.959,116.098 181.116,115.325 182.389,114.798 183.662,114.271 185.027,113.999 186.405,113.999 189.188,113.999 191.857,115.105 193.825,117.073 195.793,119.041 196.898,121.71 196.898,124.493L196.898,130.489C196.898,131.085 197.135,131.657 197.557,132.079 197.979,132.501 198.551,132.738 199.147,132.738L199.897,132.738C200.493,132.738 201.065,132.501 201.487,132.079 201.908,131.657 202.145,131.085 202.145,130.489L202.145,129.739C202.145,126.956 203.251,124.287 205.219,122.319 207.187,120.351 209.856,119.246 212.639,119.246 215.422,119.246 218.091,120.351 220.059,122.319 222.027,124.287 223.132,126.956 223.132,129.739L223.132,185.205C223.132,188.158 222.551,191.082 221.421,193.811 220.291,196.539 218.634,199.018 216.546,201.106 214.458,203.194 211.979,204.85 209.251,205.98 206.523,207.11 203.599,207.692 200.646,207.692L140.683,207.692C135.93,207.692 131.224,206.756 126.833,204.937 122.442,203.118 118.453,200.452 115.092,197.092L79.4807,161.48C77.7443,159.744 76.6924,157.439 76.5184,154.99 76.3443,152.54 77.0596,150.11 78.533,148.146L79.1587,147.311C80.578,145.419 82.6813,144.157 85.0189,143.795 87.3565,143.433 89.743,144 91.6681,145.375L112.058,159.934C112.924,160.551 113.942,160.919 115.003,160.996 116.063,161.073 117.124,160.856 118.07,160.369 119.015,159.883 119.808,159.145 120.362,158.237 120.915,157.33 121.208,156.287 121.208,155.224L121.208,105.475 112.947,78.9852C112.514,77.5965 112.366,76.1346 112.512,74.6873 112.658,73.24 113.095,71.8371 113.796,70.5629 114.498,69.2886 115.45,68.1693 116.595,67.2722 117.74,66.375 119.055,65.7185 120.46,65.342z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF98C1F1" Thickness="4" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF3584E4" Geometry="F1 M256,256z M0,0z M76.2194,63.6475L51.2193,63.6475 58.5417,70.9699 54.2729,75.2388 44.459,85.0526 40.1901,89.3215 32.8677,81.9991 32.8677,106.999 57.8678,106.999 50.8768,100.008 55.1457,95.7393 64.9596,85.9255 69.2284,81.6566 76.2194,88.6476 76.2194,63.6475z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="TwoFingerRotateImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V256 H256 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF99C1F1" Geometry="F1 M256,256z M0,0z M138.412,97.8573C150.32,104.732 165.547,100.652 172.422,88.7446 179.297,76.8368 175.217,61.6103 163.309,54.7354 151.401,47.8604 136.175,51.9403 129.3,63.8481 122.425,75.7559 126.505,90.9824 138.412,97.8573z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF3584E4" Thickness="10" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF99C1F1" Geometry="F1 M256,256z M0,0z M67.6047,149.466C79.5125,156.341 94.7389,152.261 101.614,140.353 108.489,128.445 104.409,113.219 92.5012,106.344 80.5934,99.4688 65.3669,103.549 58.4919,115.456 51.617,127.364 55.6969,142.591 67.6047,149.466z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF3584E4" Thickness="10" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M256,256z M0,0z M152.801,68.3374L153.27,68.4632C156.168,69.2397 158.645,71.123 160.168,73.7077 161.691,76.2925 162.138,79.3719 161.413,82.283L153.277,114.955 140.77,136.617C140.472,137.133 140.391,137.747 140.546,138.323 140.7,138.899 141.077,139.39 141.593,139.689L142.459,140.188C142.975,140.487 143.589,140.567 144.165,140.413 144.741,140.259 145.232,139.882 145.531,139.365L148.529,134.172C149.218,132.979 150.135,131.933 151.228,131.094 152.322,130.255 153.569,129.64 154.9,129.283 156.232,128.926 157.62,128.835 158.986,129.015 160.352,129.195 161.67,129.642 162.863,130.331 165.273,131.723 167.032,134.015 167.752,136.703 168.473,139.391 168.096,142.256 166.704,144.666L163.706,149.859C163.408,150.375 163.327,150.989 163.481,151.565 163.636,152.141 164.013,152.632 164.529,152.93L165.178,153.305C165.695,153.603 166.308,153.684 166.884,153.53 167.46,153.376 167.952,152.999 168.25,152.482L171.248,147.289C171.937,146.096 172.854,145.05 173.948,144.211 175.041,143.372 176.289,142.757 177.62,142.4 178.951,142.043 180.339,141.952 181.705,142.132 183.072,142.312 184.389,142.759 185.582,143.448 187.993,144.84 189.751,147.132 190.472,149.82 191.192,152.508 190.815,155.373 189.423,157.783L186.425,162.976C186.127,163.492 186.046,164.106 186.2,164.682 186.355,165.258 186.732,165.749 187.248,166.047L187.897,166.422C188.414,166.72 189.028,166.801 189.604,166.647 190.18,166.493 190.671,166.116 190.969,165.599L191.344,164.95C192.735,162.54 195.027,160.781 197.716,160.061 200.404,159.341 203.268,159.718 205.678,161.109 208.088,162.501 209.847,164.793 210.567,167.481 211.288,170.169 210.911,173.033 209.519,175.444L181.786,223.479C180.31,226.036 178.344,228.277 176.001,230.075 173.659,231.873 170.985,233.191 168.132,233.955 165.28,234.72 162.305,234.915 159.378,234.529 156.45,234.144 153.627,233.185 151.069,231.709L99.1398,201.727C95.0239,199.351 91.4163,196.187 88.5231,192.417 85.6298,188.646 83.5076,184.343 82.2775,179.752L69.2429,131.106C68.6073,128.734 68.8486,126.212 69.9226,124.004 70.9966,121.796 72.8312,120.049 75.0895,119.084L76.0485,118.674C78.2238,117.745 80.6763,117.704 82.8817,118.559 85.0871,119.415 86.8704,121.099 87.8503,123.252L98.2292,146.055C98.6696,147.023 99.3681,147.851 100.248,148.448 101.128,149.044 102.155,149.387 103.217,149.439 104.279,149.49 105.335,149.247 106.268,148.738 107.202,148.229 107.977,147.472 108.508,146.552L133.382,103.468 139.473,76.3964C139.792,74.9772 140.395,73.6372 141.245,72.4568 142.095,71.2764 143.175,70.2799 144.42,69.5272 145.665,68.7745 147.049,68.2812 148.489,68.0767 149.929,67.8722 151.396,67.9609 152.801,68.3374z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF98C1F1" Thickness="4" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF3584E4" Geometry="F1 M256,256z M0,0z M90,20.6172L90,30.9727 90,31 83.0195,31C64.5133,31,49.3496,46.1617,49.3496,64.668L49.3496,70.4492 49.1602,70.4492 39.2734,70.4492 56.9512,88.127 74.6289,70.4492 64.3496,70.4492 64.3496,64.668C64.3496,54.2683,72.6199,46,83.0195,46L90,46 90,46.0859 90,55.9727 107.678,38.2949 90,20.6172z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="MouseRightButtonMoveImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V84 H118 V0 H0 Z">
+                    <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M118,84z M0,0z M91.2918,2.84009L91.2918,2.88813C91.1165,2.8804 90.9389,2.88067 90.7737,2.87614 90.7658,2.87595 90.7573,2.87612 90.749,2.87614L90.749,2.86415C76.7473,2.86415 70.1762,9.85088 67.646,16.52 66.0017,20.8537 66.6333,25.9674 67.2882,31.1487 67.5319,33.076 67.8366,35.1373 68.1764,37.262 68.197,37.8516 68.214,38.4233 68.201,38.8954 68.0108,45.8257 65.5413,54.3246 65.6847,59.5533 65.9503,69.2341 71.273,75.6244 78.3526,78.89 78.4639,78.9414 78.5734,78.9963 78.6856,79.0462 86.7899,82.8798 96.3851,83.1579 104.157,78.2775 110.869,74.8009 115.752,68.5166 115.752,59.5533 115.752,54.3228 113.426,45.8257 113.235,38.8954 113.158,36.0823 113.803,30.4761 113.803,30.4761 114.409,27.6924 114.845,24.7011 114.728,21.7926 114.726,21.7528 114.73,21.7122 114.728,21.6724 114.684,20.1904 114.475,18.7659 114.062,17.4328 114.015,17.2825 113.966,17.136 113.914,16.9884 113.874,16.8634 113.846,16.7401 113.803,16.6161 113.563,15.9275 113.241,15.2289 112.865,14.5383 112.839,14.4851 112.806,14.4348 112.779,14.3821 108.105,5.23774 100.145,2.84009 91.2918,2.84009z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF98C1F1" Thickness="3.95257" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Round" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="F1 M118,84z M0,0z M104.885,69.1824L111.877,31.518C112.731,26.8039 113.55,21.4244 111.911,17.2838 107.767,6.81594 99.9756,4.15649 91.2401,4.15649L90.7398,4.17573C77.8333,4.17573 71.7762,10.9297 69.4438,17.3766 67.9282,21.566 68.5104,26.5094 69.1141,31.518 70.0946,39.6534 72.0479,50.0504 73.8542,58.8341">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF98C1F1" Thickness="0.658761" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="F1 M118,84z M0,0z M90.7148,2.86035L90.7148,33.1634">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF98C1F1" Thickness="0.658761" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M118,84z M0,0z M90.7791,8.02271L90.6503,8.02271C88.2158,8.02271,86.2422,9.9963,86.2422,12.4308L86.2422,26.7551C86.2422,29.1896,88.2158,31.1632,90.6503,31.1632L90.7791,31.1632C93.2136,31.1632,95.1872,29.1896,95.1872,26.7551L95.1872,12.4308C95.1872,9.9963,93.2136,8.02271,90.7791,8.02271z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF98C1F1" Thickness="2.28315" StartLineCap="Square" EndLineCap="Square" LineJoin="Round" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="F1 M118,84z M0,0z M68.9756,36.4574C75.7537,34.7352 82.0644,33.1578 90.7052,33.1636 99.346,33.1578 105.657,34.7352 112.435,36.4574">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF98C1F1" Thickness="0.658761" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF457BBB" Geometry="F1 M118,84z M0,0z M91.374,32.846L91.374,31.1668C93.6851,31.0297,95.517,29.112,95.517,26.7665L95.517,12.4423C95.517,10.0968,93.6851,8.17909,91.374,8.04199L91.374,4.50407 91.5752,4.49634C95.9106,4.49698 99.9779,5.15819 103.467,7.0932 106.949,9.02501 109.886,12.2432 111.933,17.4154 112.729,19.4255 112.934,21.7535 112.828,24.182 112.723,26.6091 112.308,29.1129 111.881,31.469L111.095,35.7067C105.038,34.1863,99.1402,32.8781,91.374,32.846z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF457BBB" Thickness="1" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Round" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF3584E4" Geometry="F0 M118,84z M0,0z M11.6876,13.0008L20.5319,4.15649 29.3762,13.0008 24.4298,13.0008 24.4298,16.0212 24.4298,20.8484 32.8188,20.8484 32.8188,15.902 41.6631,24.7463 32.8188,33.5907 32.8188,28.4097 24.4298,28.4097 24.4298,36.4919 29.3762,36.4919 20.5319,45.3362 11.6876,36.4919 16.8685,36.4919 16.8685,28.4097 12.3481,28.4097 9.32772,28.4097 9.32772,33.5907 0.483398,24.7463 9.32772,15.902 9.32772,20.8484 12.3481,20.8484 16.8685,20.8484 16.8685,16.0212 16.8685,13.0008 11.6876,13.0008z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="MouseWheelZoomImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V90 H118 V0 H0 Z">
+                    <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M118,90z M0,0z M91.0994,8.84009L91.0994,8.88813C90.9242,8.8804 90.7465,8.88067 90.5813,8.87614 90.5734,8.87595 90.5649,8.87612 90.5566,8.87614L90.5566,8.86415C76.555,8.86415 69.9838,15.8509 67.4536,22.52 65.8093,26.8537 66.441,31.9674 67.0959,37.1487 67.3395,39.076 67.6443,41.1373 67.984,43.262 68.0046,43.8516 68.0216,44.4233 68.0086,44.8954 67.8184,51.8257 65.3489,60.3246 65.4923,65.5533 65.7579,75.2341 71.0807,81.6244 78.1602,84.89 78.2715,84.9414 78.381,84.9963 78.4932,85.0462 86.5975,88.8798 96.1927,89.1579 103.965,84.2775 110.677,80.8009 115.559,74.5166 115.559,65.5533 115.559,60.3228 113.233,51.8257 113.043,44.8954 112.966,42.0823 113.61,36.4761 113.61,36.4761 114.217,33.6924 114.653,30.7011 114.535,27.7926 114.534,27.7528 114.537,27.7122 114.535,27.6724 114.491,26.1904 114.283,24.7659 113.869,23.4328 113.823,23.2825 113.774,23.136 113.721,22.9884 113.682,22.8634 113.654,22.7401 113.61,22.6161 113.371,21.9275 113.048,21.2289 112.673,20.5383 112.646,20.4851 112.614,20.4348 112.587,20.3821 107.913,11.2377 99.9525,8.84009 91.0994,8.84009z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF98C1F1" Thickness="3.95257" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Round" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="F1 M118,90z M0,0z M104.693,75.1824L111.684,37.518C112.539,32.8039 113.357,27.4244 111.718,23.2838 107.575,12.8159 99.7832,10.1565 91.0477,10.1565L90.5474,10.1757C77.6409,10.1757 71.5838,16.9297 69.2515,23.3766 67.7358,27.566 68.318,32.5094 68.9217,37.518 69.9023,45.6534 71.8555,56.0504 73.6618,64.8341">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF98C1F1" Thickness="0.658761" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="F1 M118,90z M0,0z M90.5225,8.86035L90.5225,39.1634">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF98C1F1" Thickness="0.658761" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M118,90z M0,0z M90.5867,14.0227L90.458,14.0227C88.0234,14.0227,86.0498,15.9963,86.0498,18.4308L86.0498,32.7551C86.0498,35.1896,88.0234,37.1632,90.458,37.1632L90.5867,37.1632C93.0213,37.1632,94.9949,35.1896,94.9949,32.7551L94.9949,18.4308C94.9949,15.9963,93.0213,14.0227,90.5867,14.0227z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF457BBB" Thickness="2.28315" StartLineCap="Square" EndLineCap="Square" LineJoin="Round" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="F1 M118,90z M0,0z M68.7832,42.4574C75.5614,40.7352 81.872,39.1578 90.5128,39.1636 99.1536,39.1578 105.464,40.7352 112.242,42.4574">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF98C1F1" Thickness="0.658761" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M118,90z M0,0z M90.5232,48.009L83.9355,40.1038 87.8881,40.1038 90.5232,30.9224 93.1582,40.1038 97.1108,40.1038 90.5232,48.009z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FFFFFFFF" Thickness="3.95257" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF457BBB" Geometry="F1 M118,90z M0,0z M90.5232,48.009L83.9355,40.1038 87.8881,40.1038 90.5232,30.9224 93.1582,40.1038 97.1108,40.1038 90.5232,48.009z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF457BBB" Thickness="1.31752" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M118,90z M0,0z M90.5237,3.19903L97.1113,11.1042 93.1588,11.1042 90.5237,20.2856 87.8887,11.1042 83.9361,11.1042 90.5237,3.19903z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FFFFFFFF" Thickness="3.95257" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF457BBB" Geometry="F1 M118,90z M0,0z M90.5237,3.19903L97.1113,11.1042 93.1588,11.1042 90.5237,20.2856 87.8887,11.1042 83.9361,11.1042 90.5237,3.19903z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FF457BBB" Thickness="1.31752" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF3584E4" Geometry="F1 M118,90z M0,0z M41.5977,7.33594L17.8501,7.33594 24.8057,14.2915 20.7507,18.3465 11.4285,27.6687 7.37352,31.7237 0.417976,24.7681 0.417969,48.5156 24.1655,48.5156 17.5248,41.8749 21.5798,37.8199 30.902,28.4978 34.957,24.4428 41.5977,31.0835 41.5977,7.33594z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="GnomeSliderThumb">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V26 H23 V0 H0 Z">
+                    <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M23,26z M0,0z M22.4786,11.0274C22.4786,16.8264 16.782,20.2307 11.9786,24.5271 7.16102,20.2439 1.47852,16.8264 1.47852,11.0274 1.47852,5.22838 6.17959,0.527344 11.9786,0.527344 17.7776,0.527306 22.4786,5.22835 22.4786,11.0274z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#FFD5D5D5" Thickness="1" StartLineCap="Round" EndLineCap="Round" LineJoin="Miter" MiterLimit="1" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
     </Window.Resources>
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="-1" ResizeBorderThickness="0" CaptionHeight="0" CornerRadius="0" />
     </WindowChrome.WindowChrome>
     <Grid>
-        <Border Background="#fafafa" CornerRadius="7" BorderBrush="#d8d8d8" BorderThickness="2" Margin="8">
+        <Border Background="#fafafa" CornerRadius="7" BorderBrush="#3584e4" BorderThickness="2" Margin="8">
             <Grid>
                 <!--Sidebar-->
                 <Border Width="250" Background="#ebebeb" BorderBrush="#e1e1e1" CornerRadius="7,0,0,7" BorderThickness="0,0,2,0" HorizontalAlignment="Left">
@@ -370,7 +532,7 @@
                     </StackPanel>
                 </Grid>
                 <!--CanvasAndInkPanel-->
-                <Grid Margin="250,48,0,0" Visibility="Visible" Name="CanvasAndInkPane">
+                <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="CanvasAndInkPane">
                     <ScrollViewer ScrollChanged="ScrollViewerEx_ScrollChanged" IsManipulationEnabled="True" Name="CanvasAndInkScrollViewerEx" IsDeferredScrollingEnabled="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
                         <StackPanel Margin="60,12,60,24">
                             <Border BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
@@ -380,8 +542,12 @@
                                             <TextBlock Foreground="#2e3436" FontSize="14.5" Text="使用更加明显的画笔光标" HorizontalAlignment="Left"/>
                                             <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="绘制时将使用系统默认的鼠标指针样式" HorizontalAlignment="Left"/>
                                         </StackPanel>
-                                        <Border UseLayoutRounding="False" Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
-                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
                                         </Border>
                                     </Grid>
                                     <Border Height="1" Background="#ebebeb"/>
@@ -390,8 +556,26 @@
                                             <TextBlock Foreground="#2e3436" FontSize="14.5" Text="退出批注模式后隐藏墨迹" HorizontalAlignment="Left"/>
                                             <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="切换到鼠标模式时隐藏现有墨迹（不是删除）" HorizontalAlignment="Left"/>
                                         </StackPanel>
-                                        <Border UseLayoutRounding="False" Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
-                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <Border Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="禁用模拟笔锋" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="禁用模拟笔锋有助于提升性能" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
                                         </Border>
                                     </Grid>
                                     <Border Height="1" Background="#ebebeb"/>
@@ -400,8 +584,12 @@
                                             <TextBlock Foreground="#2e3436" FontSize="14.5" Text="清空墨迹时不保留时光机历史记录" HorizontalAlignment="Left"/>
                                             <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="开启后，清空墨迹后将无法通过“撤销”功能恢复" HorizontalAlignment="Left"/>
                                         </StackPanel>
-                                        <Border UseLayoutRounding="False" Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
-                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <Border Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
                                         </Border>
                                     </Grid>
                                     <Border Height="1" Background="#ebebeb"/>
@@ -410,9 +598,67 @@
                                             <TextBlock Foreground="#2e3436" FontSize="14.5" Text="AllowTransparency 使用黑色背景" HorizontalAlignment="Left"/>
                                             <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="使用不透明度为1的黑色背景阻止鼠标事件穿透" HorizontalAlignment="Left"/>
                                         </StackPanel>
-                                        <Border UseLayoutRounding="False" Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
-                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
                                         </Border>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <Border Margin="0,25,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="保留双曲线渐近线" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="祖传代码导致的Bug，等待修复" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="使用墨迹擦" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="将擦除整条墨迹而非墨迹的一部分" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="板擦橡皮大小" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0">
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="很小"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8" Background="#e1e1e1">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" FontWeight="Bold" Text="小"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="默认"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="大"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="很大"/>
+                                            </Border>
+                                        </StackPanel>
                                     </Grid>
                                 </StackPanel>
                             </Border>
@@ -420,85 +666,709 @@
                             <Border Margin="0,12,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
                                 <StackPanel Orientation="Vertical">
                                     <Grid Height="54">
-                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="软件版本" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="18,0,0,0"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,18,0">
-                                            <TextBlock Foreground="#878787" FontSize="14.5" Text="InkCanvasForClass v2024.8.30" VerticalAlignment="Center" />
-                                            <Image Margin="12,0,0,0" Width="18" Height="18" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <Image Height="19" Width="19" Margin="0,0,6,0">
                                                 <Image.Source>
                                                     <DrawingImage>
                                                         <DrawingImage.Drawing>
-                                                            <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
-                                                                <DrawingGroup.Transform>
-                                                                    <TranslateTransform X="6.1023980379104614E-05" Y="0" />
-                                                                </DrawingGroup.Transform>
-                                                                <GeometryDrawing Brush="#FFFF7800" Geometry="F1 M16,16z M0,0z M8.00493,0C7.74518,0,7.49541,0.0999063,7.2956,0.289728L5.5872,1.99813 2.99963,1.99813C2.45014,1.99813,2.00056,2.44771,2.00056,2.99719L2.00056,5.58476 0.292165,7.29316C-0.0974697,7.6828,-0.0974697,8.31221,0.292165,8.70184L2.00056,10.4102 2.00056,12.9978C2.00056,13.5473,2.45014,13.9969,2.99963,13.9969L5.5872,13.9969 7.2956,15.7053C7.68523,16.0949,8.31464,16.0949,8.70428,15.7053L10.4127,13.9969 13.0003,13.9969C13.5497,13.9969,13.9993,13.5473,13.9993,12.9978L13.9993,10.4102 15.7077,8.70184C16.0973,8.31221,16.0973,7.6828,15.7077,7.29316L13.9993,5.58476 13.9993,2.99719C13.9993,2.44771,13.5497,1.99813,13.0003,1.99813L10.4127,1.99813 8.70428,0.289728C8.50447,0.0899157,8.2547,0,7.99494,0L8.00493,0z M8.00493,4.99532C8.26469,4.99532,8.51446,5.09522,8.71427,5.28505L10.7124,7.28317C10.9022,7.47299,11.0021,7.72276,11.0021,7.99251L11.0021,8.99157 9.004,8.99157 9.004,10.9897 7.00587,10.9897 7.00587,8.99157 5.00774,8.99157 5.00774,7.99251C5.00774,7.73275,5.10765,7.47299,5.29747,7.28317L7.2956,5.28505C7.49541,5.08523,7.74518,4.99532,8.00493,4.99532z" />
+                                                            <DrawingGroup ClipGeometry="M0,0 V21 H21 V0 H0 Z">
+                                                                <GeometryDrawing Brush="#FF000000" Geometry="F1 M21,21z M0,0z M10.2236,19.8291C7.85248,19.8291 6.12441,19.828 4.8039,19.6505 3.49777,19.4749 2.6655,19.1349 2.04165,18.5111 1.4178,17.8872 1.07784,17.055 0.902232,15.7488 0.724695,14.4283 0.723633,12.7003 0.723633,10.3291 0.723633,7.95794 0.724695,6.22988 0.902232,4.90937 1.07784,3.60324 1.4178,2.77097 2.04165,2.14712 2.6655,1.52327 3.49777,1.18331 4.8039,1.0077 6.12441,0.830163 7.85248,0.829102 10.2236,0.829102 12.5948,0.829102 14.3229,0.830163 15.6434,1.0077 16.9495,1.18331 17.7818,1.52327 18.4056,2.14712 19.0295,2.77097 19.3694,3.60324 19.545,4.90937 19.7226,6.22988 19.7236,7.95794 19.7236,10.3291 19.7236,12.7003 19.7226,14.4283 19.545,15.7488 19.3694,17.055 19.0295,17.8872 18.4056,18.5111 17.7818,19.1349 16.9495,19.4749 15.6434,19.6505 14.3229,19.828 12.5948,19.8291 10.2236,19.8291z">
+                                                                    <GeometryDrawing.Pen>
+                                                                        <Pen Brush="#FF3584E4" Thickness="1" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                                                                    </GeometryDrawing.Pen>
+                                                                </GeometryDrawing>
                                                             </DrawingGroup>
                                                         </DrawingImage.Drawing>
                                                     </DrawingImage>
                                                 </Image.Source>
                                             </Image>
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="默认背景色" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0">
+                                            <Border Padding="13,7" CornerRadius="8" Background="#e1e1e1">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" FontWeight="Bold" Text="灰黑"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="黑板绿"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="白色"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="蓝黑"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="护眼色"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="纯黑"/>
+                                            </Border>
                                         </StackPanel>
                                     </Grid>
                                     <Border Height="1" Background="#ebebeb"/>
                                     <Grid Height="54">
-                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="系统版本" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="18,0,0,0"/>
-                                        <TextBlock Foreground="#878787" FontSize="14.5" Text="Windows 10 专业版 19045.3758" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,18,0"/>
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="默认稿纸格式" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0">
+                                            <Border Padding="13,7" CornerRadius="8" Background="#e1e1e1">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" FontWeight="Bold" Text="无"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="点"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="网格"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="创建新页时始终使用默认背景色" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="使用默认背景色而不是当前页的背景色" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="创建新页时始终使用默认背景稿纸格式" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="使用默认稿纸格式而不是当前页的稿纸格式" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="更换背景色也同时更换墨迹颜色" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="自动计算前景色并修改页面所有墨迹颜色为高对比度颜色" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
                                     </Grid>
                                 </StackPanel>
                             </Border>
-                            <Border Margin="0,25,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                            <TextBlock Text="墨迹选择" FontSize="15" FontWeight="Bold" Foreground="#2e3436" Margin="0,25,0,0"></TextBlock>
+                            <Border Margin="0,12,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
                                 <StackPanel Orientation="Vertical">
                                     <Grid Height="54">
-                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="ICC 官方网站" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="18,0,0,0"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,18,0">
-                                            <TextBlock Foreground="#1d4ed8" TextDecorations="Underline" FontSize="14.5" Text="icc.bliemhax.com" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                                            <Image Margin="12,0,0,0" Width="16" Height="16" VerticalAlignment="Center">
-                                                <Image.Source>
-                                                    <DrawingImage>
-                                                        <DrawingImage.Drawing>
-                                                            <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
-                                                                <GeometryDrawing Brush="#FF222222" Geometry="F1 M16,16z M0,0z M3,2C1.338,2,0,3.338,0,5L0,13C0,14.662,1.338,16,3,16L11,16C12.662,16,14,14.662,14,13L14,9C13.9998,8.4477 13.5522,8 13,8 12.4478,8 12.0002,8.4477 12,9L12,13C12,13.554,11.554,14,11,14L3,14C2.446,14,2,13.554,2,13L2,5C2,4.446,2.446,4,3,4L7,4C7.5523,4 8,3.5523 8,3 8,2.4477 7.5523,2 7,2L3,2z M10,0C9.4477,0 9,0.4477 9,1 9,1.5523 9.4477,2 10,2L12.584,2 7.29303,7.29102C6.90133,7.68172 6.90133,8.31627 7.29303,8.70697 7.68353,9.09737 8.31659,9.09737 8.70709,8.70697L14,3.41412 14,6C14,6.5523 14.4477,7 15,7 15.5523,7 16,6.5523 16,6L16,1C15.9996,0.913 15.988,0.826187 15.965,0.742188 15.942,0.657187 15.909,0.576 15.865,0.5 15.822,0.424 15.768,0.35483 15.7068,0.29303 15.6918,0.28103 15.6758,0.268996 15.6598,0.257996 15.6048,0.207996 15.5433,0.164989 15.4782,0.129089 15.4412,0.110089 15.4022,0.0940781 15.363,0.0800781 15.312,0.0590781 15.2601,0.0431279 15.2067,0.0311279 15.1667,0.0211279 15.1267,0.0171226 15.0856,0.0131226 15.0566,0.00312256 15.0286,0.00309863 14.9996,0.00109863L10,0z" />
-                                                            </DrawingGroup>
-                                                        </DrawingImage.Drawing>
-                                                    </DrawingImage>
-                                                </Image.Source>
-                                            </Image>
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="墨迹选择模式" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0">
+                                            <Border Padding="13,7" CornerRadius="8" Background="#e1e1e1">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" FontWeight="Bold" Text="套索套选"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="矩形框选"/>
+                                            </Border>
                                         </StackPanel>
                                     </Grid>
                                     <Border Height="1" Background="#ebebeb"/>
                                     <Grid Height="54">
-                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="Github 仓库" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="18,0,0,0"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,18,0">
-                                            <TextBlock Foreground="#1d4ed8" TextDecorations="Underline" FontSize="14.5" Text="github.com/InkCanvas/InkCanvasForClass" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                                            <Image Margin="12,0,0,0" Width="16" Height="16" VerticalAlignment="Center">
-                                                <Image.Source>
-                                                    <DrawingImage>
-                                                        <DrawingImage.Drawing>
-                                                            <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
-                                                                <GeometryDrawing Brush="#FF222222" Geometry="F1 M16,16z M0,0z M3,2C1.338,2,0,3.338,0,5L0,13C0,14.662,1.338,16,3,16L11,16C12.662,16,14,14.662,14,13L14,9C13.9998,8.4477 13.5522,8 13,8 12.4478,8 12.0002,8.4477 12,9L12,13C12,13.554,11.554,14,11,14L3,14C2.446,14,2,13.554,2,13L2,5C2,4.446,2.446,4,3,4L7,4C7.5523,4 8,3.5523 8,3 8,2.4477 7.5523,2 7,2L3,2z M10,0C9.4477,0 9,0.4477 9,1 9,1.5523 9.4477,2 10,2L12.584,2 7.29303,7.29102C6.90133,7.68172 6.90133,8.31627 7.29303,8.70697 7.68353,9.09737 8.31659,9.09737 8.70709,8.70697L14,3.41412 14,6C14,6.5523 14.4477,7 15,7 15.5523,7 16,6.5523 16,6L16,1C15.9996,0.913 15.988,0.826187 15.965,0.742188 15.942,0.657187 15.909,0.576 15.865,0.5 15.822,0.424 15.768,0.35483 15.7068,0.29303 15.6918,0.28103 15.6758,0.268996 15.6598,0.257996 15.6048,0.207996 15.5433,0.164989 15.4782,0.129089 15.4412,0.110089 15.4022,0.0940781 15.363,0.0800781 15.312,0.0590781 15.2601,0.0431279 15.2067,0.0311279 15.1667,0.0211279 15.1267,0.0171226 15.0856,0.0131226 15.0566,0.00312256 15.0286,0.00309863 14.9996,0.00109863L10,0z" />
-                                                            </DrawingGroup>
-                                                        </DrawingImage.Drawing>
-                                                    </DrawingImage>
-                                                </Image.Source>
-                                            </Image>
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="将墨迹缩放应用于触笔笔尖" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="调整墨迹大小时也同时调节笔尖笔锋处大小" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="仅命中全部包含的墨迹" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="只有全部被选取覆盖的墨迹才能被命中" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="允许点选命中被锁定的墨迹" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="关闭后只有单独选择被锁定的墨迹才能命中" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+                <!--GesturesPanel-->
+                <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="GesturesPane">
+                    <ScrollViewer ScrollChanged="ScrollViewerEx_ScrollChanged" IsManipulationEnabled="True" Name="GesturesScrollViewerEx" IsDeferredScrollingEnabled="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
+                        <StackPanel Margin="60,12,60,24">
+                            <Border BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="进退白板模式自动开关双指移动功能" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="退出白板自动关闭，进入白板自动开启" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="允许双指旋转与缩放选中的墨迹" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="允许选中墨迹后对墨迹进行双指或多指缩放操作" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="禁用IC祖传的手势橡皮" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="如果发生误触的情况觉得很烦可以关掉" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="多指书写功能" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="修改该功能的偏好" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0">
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="每次启动都开启"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="每次启动都关闭"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8" Background="#e1e1e1">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" FontWeight="Bold" Text="保持上次设置"/>
+                                            </Border>
                                         </StackPanel>
                                     </Grid>
                                     <Border Height="1" Background="#ebebeb"/>
                                     <Grid Height="54">
-                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="贡献者名单" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="18,0,0,0"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,18,0">
-                                            <TextBlock Foreground="#1d4ed8" TextDecorations="Underline" FontSize="14.5" Text="icc.bliemhax.com/contributors" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                                            <Image Margin="12,0,0,0" Width="16" Height="16" VerticalAlignment="Center">
-                                                <Image.Source>
-                                                    <DrawingImage>
-                                                        <DrawingImage.Drawing>
-                                                            <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
-                                                                <GeometryDrawing Brush="#FF222222" Geometry="F1 M16,16z M0,0z M3,2C1.338,2,0,3.338,0,5L0,13C0,14.662,1.338,16,3,16L11,16C12.662,16,14,14.662,14,13L14,9C13.9998,8.4477 13.5522,8 13,8 12.4478,8 12.0002,8.4477 12,9L12,13C12,13.554,11.554,14,11,14L3,14C2.446,14,2,13.554,2,13L2,5C2,4.446,2.446,4,3,4L7,4C7.5523,4 8,3.5523 8,3 8,2.4477 7.5523,2 7,2L3,2z M10,0C9.4477,0 9,0.4477 9,1 9,1.5523 9.4477,2 10,2L12.584,2 7.29303,7.29102C6.90133,7.68172 6.90133,8.31627 7.29303,8.70697 7.68353,9.09737 8.31659,9.09737 8.70709,8.70697L14,3.41412 14,6C14,6.5523 14.4477,7 15,7 15.5523,7 16,6.5523 16,6L16,1C15.9996,0.913 15.988,0.826187 15.965,0.742188 15.942,0.657187 15.909,0.576 15.865,0.5 15.822,0.424 15.768,0.35483 15.7068,0.29303 15.6918,0.28103 15.6758,0.268996 15.6598,0.257996 15.6048,0.207996 15.5433,0.164989 15.4782,0.129089 15.4412,0.110089 15.4022,0.0940781 15.363,0.0800781 15.312,0.0590781 15.2601,0.0431279 15.2067,0.0311279 15.1667,0.0211279 15.1267,0.0171226 15.0856,0.0131226 15.0566,0.00312256 15.0286,0.00309863 14.9996,0.00109863L10,0z" />
-                                                            </DrawingGroup>
-                                                        </DrawingImage.Drawing>
-                                                    </DrawingImage>
-                                                </Image.Source>
-                                            </Image>
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="触摸书写时隐藏鼠标指针" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="去掉WPF特有的烦人的触摸反馈指针" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>   
+                            <TextBlock Text="多指手势" FontSize="15" FontWeight="Bold" Foreground="#2e3436" Margin="0,25,0,0"></TextBlock>
+                            <Border Margin="0,12,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="启用多指书写功能" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="该选项和多指手势冲突，开启后支持多点触摸同时书写" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="210">
+                                        <Grid Height="54" VerticalAlignment="Top">
+                                            <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="启用多指手势" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="多指手势哪里都能用，也还比较好用" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                            <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                                <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                    </Border.Effect>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                        <Grid Margin="0,54,0,0">
+                                            <Border CornerRadius="6" VerticalAlignment="Top" Height="142" Margin="16,0" Background="#f6f5f4" BorderBrush="#deddda" BorderThickness="2">
+                                                <Grid>
+                                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                        <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                                                            <Image Height="84" Source="{StaticResource TwoFingerMoveImage}"/>
+                                                            <TextBlock Foreground="#71717a" FontSize="14" Margin="0,4,0,0" HorizontalAlignment="Center" Text="双指移动"></TextBlock>
+                                                        </StackPanel>
+                                                        <StackPanel VerticalAlignment="Center" Orientation="Vertical" Margin="16,0,0,0">
+                                                            <Image Height="84" Source="{StaticResource TwoFingerPinchToZoomImage}"/>
+                                                            <TextBlock Foreground="#71717a" FontSize="14" Margin="0,4,0,0" HorizontalAlignment="Center" Text="双指缩放"></TextBlock>
+                                                        </StackPanel>
+                                                        <StackPanel VerticalAlignment="Center" Orientation="Vertical" Margin="16,0,0,0">
+                                                            <Image Height="84" Source="{StaticResource TwoFingerRotateImage}"/>
+                                                            <TextBlock Foreground="#71717a" FontSize="14" Margin="0,4,0,0" HorizontalAlignment="Center" Text="双指旋转"></TextBlock>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="启用双指移动画布" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="开启后使用两根手指来移动画布，达到和漫游功能一样的效果" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="启用双指缩放画布" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="双指伸开和捏合来缩放画布（墨迹过多可能会导致缩放时卡顿）" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="启用双指旋转画布" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="双指旋转画布墨迹（墨迹过多可能会导致旋转时卡顿）" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="鼠标手势" FontSize="15" FontWeight="Bold" Foreground="#2e3436" Margin="0,25,0,0"></TextBlock>
+                            <Border Margin="0,12,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="232">
+                                        <Grid Height="54" VerticalAlignment="Top">
+                                            <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="启用鼠标手势" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="鼠标手势也是哪里都能用，比较好用" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                            <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                                <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                    </Border.Effect>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                        <Grid Margin="0,54,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Orientation="Vertical" Grid.Column="0">
+                                                <Border CornerRadius="6" VerticalAlignment="Top" Height="122" Margin="16,0" Background="#f6f5f4" BorderBrush="#deddda" BorderThickness="2">
+                                                    <Grid>
+                                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                            <Image Height="86" Source="{StaticResource MouseRightButtonMoveImage}"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                                <Grid Height="54">
+                                                    <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="右键移动画布" HorizontalAlignment="Left"/>
+                                                        <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="按住右键移动画布" HorizontalAlignment="Left"/>
+                                                    </StackPanel>
+                                                    <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,18,0" Padding="3,0">
+                                                        <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                            <Border.Effect>
+                                                                <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                            </Border.Effect>
+                                                        </Border>
+                                                    </Border>
+                                                </Grid>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Vertical" Grid.Column="1">
+                                                <Border CornerRadius="6" VerticalAlignment="Top" Height="122" Margin="16,0" Background="#f6f5f4" BorderBrush="#deddda" BorderThickness="2">
+                                                    <Grid>
+                                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                            <Image Height="86" Source="{StaticResource MouseWheelZoomImage}"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                                <Grid Height="54">
+                                                    <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="滚轮缩放画布" HorizontalAlignment="Left"/>
+                                                        <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="滑动滚轮原处缩放画布" HorizontalAlignment="Left"/>
+                                                    </StackPanel>
+                                                    <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,18,0" Padding="3,0">
+                                                        <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                            <Border.Effect>
+                                                                <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                            </Border.Effect>
+                                                        </Border>
+                                                    </Border>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="鼠标滚轮正方向" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="修改是向上滚为正方向还是向下滚是正方向" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0">
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="向下"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8" Background="#e1e1e1">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" FontWeight="Bold" Text="向上"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="滚轮缩放功能调整为修改画笔粗细" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="开启后使用 Ctrl 修饰建恢复滚轮缩放功能" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="Windows Ink" FontSize="15" FontWeight="Bold" Foreground="#2e3436" Margin="0,25,0,0"></TextBlock>
+                            <Border Margin="0,12,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="橡皮按钮行为" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0">
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="忽略"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="墨迹擦"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8" Background="#e1e1e1">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" FontWeight="Bold" Text="板擦"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="功能按钮行为" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="指笔上的筒形按钮" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0">
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="框选"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="套选"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="全选"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8" Background="#e1e1e1">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" FontWeight="Bold" Text="撤销"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="快捷面板"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+                <!--StartupPanel-->
+                <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="StartupPane">
+                    <ScrollViewer ScrollChanged="ScrollViewerEx_ScrollChanged" IsManipulationEnabled="True" Name="StartupScrollViewerEx" IsDeferredScrollingEnabled="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
+                        <StackPanel Orientation="Vertical">
+                            <Border Height="44" Background="#d7e5f6">
+                                <Grid Margin="0,1,0,0">
+                                    <TextBlock FontSize="14" FontWeight="Bold" Foreground="#2e3436" VerticalAlignment="Center" HorizontalAlignment="Center" Text="以管理员身份重启来修改部分设置"/>
+                                    <Border Background="#c1cedd" CornerRadius="6" Margin="0,0,8,0" HorizontalAlignment="Right" VerticalAlignment="Center" Height="30" Padding="12,0">
+                                        <TextBlock FontSize="13.5" FontWeight="Bold" Foreground="#2e3436" VerticalAlignment="Center" HorizontalAlignment="Center" Text="重启软件"/>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                            <StackPanel Margin="60,12,60,24">
+                                <Border BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                    <StackPanel Orientation="Vertical">
+                                        <Grid Height="54">
+                                            <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="登录时启动 InkCanvasForClass" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="将会在“启动”文件夹下创建软件的快捷方式" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                            <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                                <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                    </Border.Effect>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                        <Border Height="1" Background="#ebebeb"/>
+                                        <Grid Height="54">
+                                            <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="自动启动时进入收纳模式" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="自动启动 ICC 后会进入收纳模式隐藏到侧边" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                            <Border Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                                <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                    </Border.Effect>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                                <Border Margin="0,25,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                    <StackPanel Orientation="Vertical">
+                                        <Grid Height="54">
+                                            <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="Windows 启动时启动 InkCanvasForClass" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="该选项会将软件注册到开机自启项目中，需要管理员权限" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                            <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                                <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                    </Border.Effect>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                                <StackPanel Orientation="Horizontal" Margin="4,12,4,0">
+                                    <Image Width="20" Height="20" Margin="0,0,9,0">
+                                        <Image.Source>
+                                            <DrawingImage>
+                                                <DrawingImage.Drawing>
+                                                    <DrawingGroup ClipGeometry="M0,0 V17 H16 V0 H0 Z">
+                                                        <GeometryDrawing Brush="#979a9b" Geometry="F1 M16,17z M0,0z M8.00781,0.0195312C3.59765,0.0195312 0.0078125,3.60937 0.0078125,8.01953 0.0078125,12.4297 3.59765,16.0195 8.00781,16.0195 12.418,16.0195 16.0078,12.4297 16.0078,8.01953 16.0078,3.60937 12.418,0.0195312 8.00781,0.0195312z M8.00781,2.01953C11.3398,2.01953 14.0078,4.6875 14.0078,8.01953 14.0078,11.3516 11.3398,14.0195 8.00781,14.0195 4.67578,14.0195 2.00781,11.3516 2.00781,8.01953 2.00781,4.6875 4.67578,2.01953 8.00781,2.01953z M8.00781,3.89453C7.38672,3.89453 6.88281,4.39844 6.88281,5.01953 6.88281,5.64062 7.38672,6.14453 8.00781,6.14453 8.6289,6.14453 9.13281,5.64062 9.13281,5.01953 9.13281,4.39844 8.6289,3.89453 8.00781,3.89453z M6.48434,7.01953C6.21872,7.03123 6.00781,7.25 6.00781,7.51953 6.00781,7.79687 6.23047,8.01953 6.50781,8.01953L7.00781,8.01953 7.00781,11.0195 6.50781,11.0195C6.23047,11.0195 6.00781,11.2422 6.00781,11.5195 6.00781,11.7969 6.23047,12.0195 6.50781,12.0195L9.50781,12.0195C9.78515,12.0195 10.0078,11.7969 10.0078,11.5195 10.0078,11.2422 9.78515,11.0195 9.50781,11.0195L9.00781,11.0195 9.00781,7.01953 6.50781,7.01953C6.49981,7.01953,6.49214,7.01953,6.48434,7.01953z" />
+                                                    </DrawingGroup>
+                                                </DrawingImage.Drawing>
+                                            </DrawingImage>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock Foreground="#2e3436" Width="483" TextWrapping="Wrap" FontSize="13" Text="请注意，修改该选项您需要以管理员身份启动 InkCanvasForClass ，否则无法修改该选项！不建议开启该选项（除非普通方法出了问题）！"></TextBlock>
+                                </StackPanel>
+                                <Border Margin="0,25,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                    <StackPanel Orientation="Vertical">
+                                        <Grid Height="54">
+                                            <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="以 WindowChrome 模式启动" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="使用高！性！能！的透明窗口渲染方式" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                            <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                                <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                    </Border.Effect>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                        <Border Height="1" Background="#ebebeb"/>
+                                        <Grid Height="54">
+                                            <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="总是允许多开实例" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="我不知道你开这个选项是干什么，都你害的啦" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                            <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                                <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                    </Border.Effect>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+                <!--AppearancePanel-->
+                <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="AppearancePane">
+                    <ScrollViewer ScrollChanged="ScrollViewerEx_ScrollChanged" IsManipulationEnabled="True" Name="AppearanceScrollViewerEx" IsDeferredScrollingEnabled="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
+                        <StackPanel Margin="60,12,60,24">
+                            <Border BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="启用动态透明度" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="大幅度优化了控件透明的可见性" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="强调色" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="实时修改实时生效" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0">
+                                            <Border Width="24" Height="24" CornerRadius="12" Background="#2563eb">
+                                                <Border Margin="-5" BorderBrush="#2563eb" Opacity="0.7" BorderThickness="3" CornerRadius="18"></Border>
+                                            </Border>
+                                            <Border Width="24" Height="24" Margin="12,0,0,0" CornerRadius="12" Background="#dc2626"/>
+                                            <Border Width="24" Height="24" Margin="12,0,0,0" CornerRadius="12" Background="#16a34a"/>
+                                            <Border Width="24" Height="24" Margin="12,0,0,0" CornerRadius="12" Background="#9333ea"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="浮动工具栏" FontSize="15" FontWeight="Bold" Foreground="#2e3436" Margin="0,25,0,0"></TextBlock>
+                            <Border Margin="0,12,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="显示按钮文本标签" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="关闭后不会显示工具按钮下面的文字标签" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="浮动工具栏显示 ICC 图标" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="关闭后将无法缩小工具栏为单个图标" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="工具栏正常情况下缩放" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="当前缩放：1.3x" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,15,0">
+                                            <Grid>
+                                                <Border Height="4" VerticalAlignment="Center" Margin="0,0,0,8" Width="280" Background="#DEDEDE" CornerRadius="2">
+                                                    <Border Height="4" Width="80" HorizontalAlignment="Center" Margin="80,0,0,0" Background="#3584E4" CornerRadius="2"></Border>
+                                                </Border>
+                                                <Image RenderTransformOrigin="0.5,0.5" Width="21" Height="24" Source="{StaticResource GnomeSliderThumb}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,8">
+                                                    <Image.RenderTransform><TranslateTransform X="200"/></Image.RenderTransform>
+                                                    <Image.Effect><DropShadowEffect BlurRadius="0" Color="#EFEFEF" Opacity="0.5" ShadowDepth="2" Direction="-90"></DropShadowEffect></Image.Effect>
+                                                </Image>
+                                                <Line VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,8" Height="9" X1="0" X2="0" Y1="0" Y2="9" Stroke="#CDCDCD" StrokeThickness="2"></Line>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="工具栏PPT下缩放" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="当前缩放：0.7x" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,15,0">
+                                            <Grid>
+                                                <Border Height="4" VerticalAlignment="Center" Margin="0,0,0,8" Width="280" Background="#DEDEDE" CornerRadius="2">
+                                                    <Border Height="4" Width="80" HorizontalAlignment="Center" Margin="0,0,80,0" Background="#3584E4" CornerRadius="2"></Border>
+                                                </Border>
+                                                <Image RenderTransformOrigin="0.5,0.5" Width="21" Height="24" Source="{StaticResource GnomeSliderThumb}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,8">
+                                                    <Image.RenderTransform>
+                                                        <TranslateTransform X="50"/>
+                                                    </Image.RenderTransform>
+                                                    <Image.Effect>
+                                                        <DropShadowEffect BlurRadius="0" Color="#EFEFEF" Opacity="0.5" ShadowDepth="2" Direction="-90"></DropShadowEffect>
+                                                    </Image.Effect>
+                                                </Image>
+                                                <Line VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,8" Height="9" X1="0" X2="0" Y1="0" Y2="9" Stroke="#CDCDCD" StrokeThickness="2"></Line>
+                                            </Grid>
                                         </StackPanel>
                                     </Grid>
                                 </StackPanel>
