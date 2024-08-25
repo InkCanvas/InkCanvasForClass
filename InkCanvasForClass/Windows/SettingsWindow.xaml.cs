@@ -222,11 +222,15 @@ namespace Ink_Canvas.Windows {
             GesturesPane.Visibility = _selectedSidebarItemName == "GesturesItem" ? Visibility.Visible : Visibility.Collapsed;
             StartupPane.Visibility = _selectedSidebarItemName == "StartupItem" ? Visibility.Visible : Visibility.Collapsed;
             AppearancePane.Visibility = _selectedSidebarItemName == "AppearanceItem" ? Visibility.Visible : Visibility.Collapsed;
+            InkRecognitionPane.Visibility = _selectedSidebarItemName == "InkRecognitionItem" ? Visibility.Visible : Visibility.Collapsed;
+            AutomationPane.Visibility = _selectedSidebarItemName == "AutomationItem" ? Visibility.Visible : Visibility.Collapsed;
             AboutScrollViewerEx.ScrollToTop();
             CanvasAndInkScrollViewerEx.ScrollToTop();
             GesturesScrollViewerEx.ScrollToTop();
             StartupScrollViewerEx.ScrollToTop();
             AppearanceScrollViewerEx.ScrollToTop();
+            InkRecognitionScrollViewerEx.ScrollToTop();
+            AutomationScrollViewerEx.ScrollToTop();
         }
 
         public static class TouchTabletDetectHelper {
