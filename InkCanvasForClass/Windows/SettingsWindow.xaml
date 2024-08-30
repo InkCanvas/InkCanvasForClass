@@ -7,7 +7,7 @@
         xmlns:modern="http://schemas.inkore.net/lib/ui/wpf/modern"
         WindowStartupLocation="CenterScreen" d:DesignHeight="19198"
         mc:Ignorable="d" WindowStyle="None" ResizeMode="CanMinimize" Background="Transparent"
-        Title="InkCanvasForClass 设置" Height="691" Width="910" UseLayoutRounding="True">
+        Title="InkCanvasForClass 设置" Height="691" Width="910" UseLayoutRounding="False">
     <Window.Resources>
         <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
             <Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -555,7 +555,7 @@
                     </Grid>
                 </Border>
                 <!--AboutPanel-->
-                <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="AboutPane">
+                <Grid Margin="250,48,0,0" Visibility="Visible" Name="AboutPane">
                     <ScrollViewer ScrollChanged="ScrollViewerEx_ScrollChanged" IsManipulationEnabled="True" Name="AboutScrollViewerEx" IsDeferredScrollingEnabled="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
                         <StackPanel Margin="60,12,60,24">
                             <Border BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
@@ -672,6 +672,14 @@
                                     </Grid>
                                 </StackPanel>
                             </Border>
+                            <StackPanel Orientation="Vertical" Margin="0,16,0,0">
+                                <TextBlock Foreground="#2e3436" FontWeight="Bold" FontSize="12" Text="© Copyright 2024 Dubi906w 所有" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0"/>
+                                <TextBlock Foreground="#878787" FontSize="12" Text="© 2022-2024 HARKOTEK Studio 提供技术支持" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,6,15,0"/>
+                                <TextBlock Foreground="#878787" FontSize="12" Text="感谢 HARKOTEK Studio 的成员 “幻想熵K2ro_” 提供技术支持" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0"/>
+                                <TextBlock Foreground="#878787" Width="356" FlowDirection="RightToLeft" TextWrapping="Wrap" FontSize="12" Text="ICC 的部分元素设计参考来源于：© iNKORE! 名下产品 Inkways，已经过授权使用，最终解释权归 Yoojun Zhou 所有" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,6,15,0"/>
+                                <TextBlock Foreground="#878787" FontWeight="Bold" Width="276" FlowDirection="RightToLeft" TextWrapping="Wrap" FontSize="12" Text="ICC 小量地使用了 iNKORE! 开发的 UI 组件库：iNKORE.UI.WPF.Modern" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,6,15,0"/>
+                                <TextBlock Foreground="#878787" FontSize="12" Text="osu! 相关素材：© ppy powered 2007-2024" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,6,15,0"/>
+                            </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -2649,7 +2657,7 @@
                     </ScrollViewer>
                 </Grid>
                 <!--PowerPointPanel-->
-                <Grid Margin="250,48,0,0" Visibility="Visible" Name="PowerPointPane">
+                <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="PowerPointPane">
                     <ScrollViewer ScrollChanged="ScrollViewerEx_ScrollChanged" IsManipulationEnabled="True" Name="PowerPointScrollViewerEx" IsDeferredScrollingEnabled="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
                         <StackPanel Margin="60,12,60,24">
                             <Border BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
@@ -2935,6 +2943,386 @@
                                         </StackPanel>
                                         <Border Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
                                             <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="最后放映位置" FontSize="15" FontWeight="Bold" Foreground="#2e3436" Margin="0,25,0,0"/>
+                            <Border Margin="0,12,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0">
+                                            <Border Width="18" Height="18" CornerRadius="9" Background="#3584e4">
+                                                <Border Height="8" Width="8" CornerRadius="4" Background="#fafafa"></Border>
+                                            </Border>
+                                            <StackPanel Orientation="Vertical" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="弹窗提醒" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="打开 PPT 文件时使用弹窗询问用户是否跳转到上次放映位置" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0">
+                                            <Border Width="18" Height="18" CornerRadius="9" Background="#dedcda">
+                                                <Border Height="12" Width="12" CornerRadius="6" VerticalAlignment="Center" HorizontalAlignment="Center" Background="#fafafa"></Border>
+                                            </Border>
+                                            <StackPanel Orientation="Vertical" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="Toast 通知提示" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="打开 PPT 时窗口右下角弹出提示是否跳转到上次放映位置" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0">
+                                            <Border Width="18" Height="18" CornerRadius="9" Background="#dedcda">
+                                                <Border Height="12" Width="12" CornerRadius="6" VerticalAlignment="Center" HorizontalAlignment="Center" Background="#fafafa"></Border>
+                                            </Border>
+                                            <StackPanel Orientation="Vertical" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="静默" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="打开 PPT 时自动跳转到上次放映位置，没有任何通知" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="取消隐藏隐藏幻灯片" FontSize="15" FontWeight="Bold" Foreground="#2e3436" Margin="0,25,0,0"/>
+                            <Border Margin="0,12,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0">
+                                            <Border Width="18" Height="18" CornerRadius="9" Background="#3584e4">
+                                                <Border Height="8" Width="8" CornerRadius="4" Background="#fafafa"></Border>
+                                            </Border>
+                                            <StackPanel Orientation="Vertical" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="弹窗提醒" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="使用弹窗询问用户是否取消隐藏隐藏幻灯片" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0">
+                                            <Border Width="18" Height="18" CornerRadius="9" Background="#dedcda">
+                                                <Border Height="12" Width="12" CornerRadius="6" VerticalAlignment="Center" HorizontalAlignment="Center" Background="#fafafa"></Border>
+                                            </Border>
+                                            <StackPanel Orientation="Vertical" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="Toast 通知提示" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="窗口右下角弹出提示是否取消隐藏隐藏幻灯片" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0">
+                                            <Border Width="18" Height="18" CornerRadius="9" Background="#dedcda">
+                                                <Border Height="12" Width="12" CornerRadius="6" VerticalAlignment="Center" HorizontalAlignment="Center" Background="#fafafa"></Border>
+                                            </Border>
+                                            <StackPanel Orientation="Vertical" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="静默（不推荐）" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="自动取消隐藏所有的隐藏幻灯片，没有任何通知" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <Border Margin="0,25,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="惰性检测" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="仅在开始放映时检测是否有隐藏幻灯片" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="同时检测并修复启用了0秒自动换片时间的幻灯片" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="关闭0秒自动换片时间的幻灯片的自动翻页选项并启用单击鼠标换页" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="不取消隐藏开头和末尾的隐藏幻灯片" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="如题所述，只修复中间部分的隐藏幻灯片" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#e1e1e1" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="自动播放提醒" FontSize="15" FontWeight="Bold" Foreground="#2e3436" Margin="0,25,0,0"/>
+                            <Border Margin="0,12,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0">
+                                            <Border Width="18" Height="18" CornerRadius="9" Background="#3584e4">
+                                                <Border Height="8" Width="8" CornerRadius="4" Background="#fafafa"></Border>
+                                            </Border>
+                                            <StackPanel Orientation="Vertical" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="弹窗提醒" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="打开 PPT 文件时使用弹窗询问用户是否禁用自动播放" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0">
+                                            <Border Width="18" Height="18" CornerRadius="9" Background="#dedcda">
+                                                <Border Height="12" Width="12" CornerRadius="6" VerticalAlignment="Center" HorizontalAlignment="Center" Background="#fafafa"></Border>
+                                            </Border>
+                                            <StackPanel Orientation="Vertical" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="Toast 通知提示" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="打开 PPT 时窗口右下角弹出提示是否禁用自动播放" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0">
+                                            <Border Width="18" Height="18" CornerRadius="9" Background="#dedcda">
+                                                <Border Height="12" Width="12" CornerRadius="6" VerticalAlignment="Center" HorizontalAlignment="Center" Background="#fafafa"></Border>
+                                            </Border>
+                                            <StackPanel Orientation="Vertical" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="静默" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="打开 PPT 时自动禁用自动播放，没有任何通知" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="PPT 放映辅助" FontSize="15" FontWeight="Bold" Foreground="#2e3436" Margin="0,25,0,0"/>
+                            <Border Margin="0,12,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="启用 PPT 放映辅助" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="放映辅助可以让批注跟随 PPT 翻页，同时提供翻页按钮等功能" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0">
+                                            <Border Width="18" Height="18" CornerRadius="9" Background="#3584e4">
+                                                <Border Height="8" Width="8" CornerRadius="4" Background="#fafafa"></Border>
+                                            </Border>
+                                            <StackPanel Orientation="Vertical" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="完整" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="显示两侧和底部的翻页按钮，同时显示快捷按钮" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0">
+                                            <Border Width="18" Height="18" CornerRadius="9" Background="#dedcda">
+                                                <Border Height="12" Width="12" CornerRadius="6" VerticalAlignment="Center" HorizontalAlignment="Center" Background="#fafafa"></Border>
+                                            </Border>
+                                            <StackPanel Orientation="Vertical" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="简约" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="只显示底部的翻页按钮，不显示快捷按钮" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0">
+                                            <Border Width="18" Height="18" CornerRadius="9" Background="#dedcda">
+                                                <Border Height="12" Width="12" CornerRadius="6" VerticalAlignment="Center" HorizontalAlignment="Center" Background="#fafafa"></Border>
+                                            </Border>
+                                            <StackPanel Orientation="Vertical" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="最小化" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="只为 PPT 放映做基本支持，无任何附加的辅助控件显示" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Horizontal" Margin="18,0,0,0">
+                                            <Border Width="18" Height="18" CornerRadius="9" Background="#dedcda">
+                                                <Border Height="12" Width="12" CornerRadius="6" VerticalAlignment="Center" HorizontalAlignment="Center" Background="#fafafa"></Border>
+                                            </Border>
+                                            <StackPanel Orientation="Vertical" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="自定义" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="使用自定义的方案" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <Border Margin="0,25,0,0" BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid Height="248">
+                                        <Grid Height="54" VerticalAlignment="Top">
+                                            <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="启用翻页按钮" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="在放映 PPT 时，显示触摸友好的翻页按钮来代替软件自带的工具栏" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                            <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                                <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                    </Border.Effect>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                        <Grid Margin="0,54,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Orientation="Vertical" Grid.Column="0">
+                                                <Border CornerRadius="6" VerticalAlignment="Top" Height="152" Margin="16,0" Background="#f6f5f4" BorderBrush="#deddda" BorderThickness="2">
+                                                    <Grid>
+                                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                            <Image Height="126" RenderOptions.BitmapScalingMode="HighQuality" Source="../Resources/Illustrations/settingsv2-powerpoint-pagebtns-bottom.png"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                                <Grid Height="42">
+                                                    <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="底部翻页按钮" HorizontalAlignment="Left"/>
+                                                    </StackPanel>
+                                                    <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,18,0" Padding="3,0">
+                                                        <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                            <Border.Effect>
+                                                                <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                            </Border.Effect>
+                                                        </Border>
+                                                    </Border>
+                                                </Grid>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Vertical" Grid.Column="1">
+                                                <Border CornerRadius="6" VerticalAlignment="Top" Height="152" Margin="16,0" Background="#f6f5f4" BorderBrush="#deddda" BorderThickness="2">
+                                                    <Grid>
+                                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                            <Image Height="126" RenderOptions.BitmapScalingMode="HighQuality" Source="../Resources/Illustrations/settingsv2-powerpoint-pagebtns-side.png"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                                <Grid Height="42">
+                                                    <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                        <TextBlock Foreground="#2e3436" FontSize="14.5" Text="两侧翻页按钮" HorizontalAlignment="Left"/>
+                                                    </StackPanel>
+                                                    <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,18,0" Padding="3,0">
+                                                        <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                            <Border.Effect>
+                                                                <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                            </Border.Effect>
+                                                        </Border>
+                                                    </Border>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="页码按钮点击行为" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="“页面纵览”仅支持 Office，WPS 吃屎去吧" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0">
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="页面纵览"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="ICC 页面列表"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8" Background="#e1e1e1">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" FontWeight="Bold" Text="无"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="两侧翻页按钮可见性" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="仅开启“两侧翻页按钮”后生效" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0">
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="仅左侧"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="仅右侧"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8" Background="#e1e1e1">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" FontWeight="Bold" Text="两边都显示"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="底部翻页按钮可见性" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="仅开启“底部翻页按钮”后生效" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0">
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="仅左侧"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" Text="仅右侧"/>
+                                            </Border>
+                                            <Border Padding="13,7" CornerRadius="8" Background="#e1e1e1">
+                                                <TextBlock Foreground="#2e3436" FontSize="14" FontWeight="Bold" Text="两边都显示"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="两侧翻页按钮显示页码按钮" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="关闭后将禁用两侧翻页按钮的页码按钮" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                </Border.Effect>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                    <Border Height="1" Background="#ebebeb"/>
+                                    <Grid Height="54">
+                                        <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <TextBlock Foreground="#2e3436" FontSize="14.5" Text="底部翻页按钮显示页码按钮" HorizontalAlignment="Left"/>
+                                            <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="关闭后将禁用底部翻页按钮的页码按钮" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                        <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                            <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
                                                 <Border.Effect>
                                                     <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
                                                 </Border.Effect>

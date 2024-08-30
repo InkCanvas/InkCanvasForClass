@@ -18,6 +18,10 @@ namespace InkCanvasForClassPPTVsto
         {
         }
 
+        protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject() {
+            return new MainRibbon();
+        }
+
         #region VSTO 生成的代码
 
         /// <summary>

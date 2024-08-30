@@ -143,6 +143,29 @@ namespace Ink_Canvas.Windows {
             _selectedSidebarItemName = "AboutItem";
             UpdateSidebarItemsSelection();
 
+            SettingsPanes = new Grid[] {
+                AboutPane,
+                ExtensionsPane,
+                CanvasAndInkPane,
+                GesturesPane,
+                StartupPane,
+                AppearancePane,
+                InkRecognitionPane,
+                AutomationPane,
+                PowerPointPane
+            };
+
+            SettingsPaneScrollViewers = new ScrollViewer[] {
+                AboutScrollViewerEx,
+                CanvasAndInkScrollViewerEx,
+                GesturesScrollViewerEx,
+                StartupScrollViewerEx,
+                AppearanceScrollViewerEx,
+                InkRecognitionScrollViewerEx,
+                AutomationScrollViewerEx,
+                PowerPointScrollViewerEx
+            };
+
             // 关于页面图片横幅
             if (File.Exists(App.RootPath + "icc-about-illustrations.png")) {
                 try {
@@ -180,6 +203,9 @@ namespace Ink_Canvas.Windows {
             });
             _t_touch.Start();
         }
+
+        public Grid[] SettingsPanes = new Grid[] { };
+        public ScrollViewer[] SettingsPaneScrollViewers = new ScrollViewer[] { };
 
         public enum SidebarItemType {
             Item,
@@ -224,13 +250,10 @@ namespace Ink_Canvas.Windows {
             AppearancePane.Visibility = _selectedSidebarItemName == "AppearanceItem" ? Visibility.Visible : Visibility.Collapsed;
             InkRecognitionPane.Visibility = _selectedSidebarItemName == "InkRecognitionItem" ? Visibility.Visible : Visibility.Collapsed;
             AutomationPane.Visibility = _selectedSidebarItemName == "AutomationItem" ? Visibility.Visible : Visibility.Collapsed;
-            AboutScrollViewerEx.ScrollToTop();
-            CanvasAndInkScrollViewerEx.ScrollToTop();
-            GesturesScrollViewerEx.ScrollToTop();
-            StartupScrollViewerEx.ScrollToTop();
-            AppearanceScrollViewerEx.ScrollToTop();
-            InkRecognitionScrollViewerEx.ScrollToTop();
-            AutomationScrollViewerEx.ScrollToTop();
+            PowerPointPane.Visibility = _selectedSidebarItemName == "PowerPointItem" ? Visibility.Visible : Visibility.Collapsed;
+            foreach (var sv in SettingsPaneScrollViewers) {
+                sv.ScrollToTop();
+            }
         }
 
         public static class TouchTabletDetectHelper {
