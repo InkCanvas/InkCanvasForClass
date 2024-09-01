@@ -226,6 +226,7 @@
 	<Resource Include="Resources\Icons-png\eraser-outline.png" />
 	<Resource Include="Resources\Icons-png\HiteLightBoard.png" />
 	<Resource Include="Resources\Icons-png\ica.png" />
+	<Resource Include="Resources\Icons-png\icc-toolbar-v2.png" />
 	<Resource Include="Resources\Icons-png\icc-transparent-dark-small.png" />
 	<Resource Include="Resources\Icons-png\icc-transparent-dark.png" />
 	<Resource Include="Resources\Icons-png\icc-transparent.png" />
@@ -533,6 +534,7 @@
 	<None Remove="Resources\Icons-png\HiteAnnotation.png" />
 	<None Remove="Resources\Icons-png\HiteLightBoard.png" />
 	<None Remove="Resources\Icons-png\ica.png" />
+	<None Remove="Resources\Icons-png\icc-toolbar-v2.png" />
 	<None Remove="Resources\Icons-png\icc-transparent-dark-small.png" />
 	<None Remove="Resources\Icons-png\icc-transparent-dark.png" />
 	<None Remove="Resources\Icons-png\icc-transparent.png" />

@@ -270,6 +270,9 @@ namespace Ink_Canvas {
                 new HWND(new WindowInteropHelper(this).Handle)
             });
 
+            var ftv2 = new FloatingToolBarV2();
+            ftv2.Show();
+
             UpdateIndexInfoDisplay();
         }
 

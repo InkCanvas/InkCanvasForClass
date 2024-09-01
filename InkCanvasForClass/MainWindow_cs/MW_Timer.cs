@@ -195,7 +195,9 @@ namespace Ink_Canvas {
             if (isFloatingBarChangingHideMode) return;
             try {
                 var windowProcessName = ForegroundWindowInfo.ProcessName();
+                Trace.WriteLine(windowProcessName);
                 var windowTitle = ForegroundWindowInfo.WindowTitle();
+                Trace.WriteLine(windowTitle);
                 //LogHelper.WriteLogToFile("windowTitle | " + windowTitle + " | windowProcessName | " + windowProcessName);
 
                 if (windowProcessName == "EasiNote") {
@@ -207,8 +209,7 @@ namespace Ink_Canvas {
                         Trace.WriteLine(ForegroundWindowInfo.ProcessPath());
                         Trace.WriteLine(version);
                         Trace.WriteLine(prodName);
-                        if (version.StartsWith("5.") && Settings.Automation.IsAutoFoldInEasiNote && (!(windowTitle.Length == 0 && ForegroundWindowInfo.WindowRect().Height < 500) ||
-                                                         !Settings.Automation.IsAutoFoldInEasiNoteIgnoreDesktopAnno)) { // EasiNote5
+                        if (version.StartsWith("5.") && Settings.Automation.IsAutoFoldInEasiNote ) { // EasiNote5
                             if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
                         } else if (version.StartsWith("3.") && Settings.Automation.IsAutoFoldInEasiNote3) { // EasiNote3
                             if (!unfoldFloatingBarByUser && !isFloatingBarFolded) FoldFloatingBar_MouseUp(null, null);
