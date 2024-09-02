@@ -1013,28 +1013,28 @@ namespace Ink_Canvas {
         private void ToggleSwitchApplyScaleToStylusTip_OnToggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Canvas.ApplyScaleToStylusTip = ToggleSwitchApplyScaleToStylusTip.IsOn;
-            SelectionV2.ApplyScaleToStylusTip = ToggleSwitchApplyScaleToStylusTip.IsOn;
+            FloatingToolBarV2.SelectionV2.ApplyScaleToStylusTip = ToggleSwitchApplyScaleToStylusTip.IsOn;
             SaveSettingsToFile();
         }
 
         private void ToggleSwitchOnlyHitTestFullyContainedStrokes_OnToggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Canvas.OnlyHitTestFullyContainedStrokes = ToggleSwitchOnlyHitTestFullyContainedStrokes.IsOn;
-            SelectionV2.OnlyHitTestFullyContainedStrokes = ToggleSwitchOnlyHitTestFullyContainedStrokes.IsOn;
+            FloatingToolBarV2.SelectionV2.OnlyHitTestFullyContainedStrokes = ToggleSwitchOnlyHitTestFullyContainedStrokes.IsOn;
             SaveSettingsToFile();
         }
 
         private void ToggleSwitchAllowClickToSelectLockedStroke_OnToggled(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Canvas.AllowClickToSelectLockedStroke = ToggleSwitchAllowClickToSelectLockedStroke.IsOn;
-            SelectionV2.AllowClickToSelectLockedStroke = ToggleSwitchAllowClickToSelectLockedStroke.IsOn;
+            FloatingToolBarV2.SelectionV2.AllowClickToSelectLockedStroke = ToggleSwitchAllowClickToSelectLockedStroke.IsOn;
             SaveSettingsToFile();
         }
 
         private void ComboBoxSelectionMethod_SelectionChanged(object sender, RoutedEventArgs e) {
             if (!isLoaded) return;
             Settings.Canvas.SelectionMethod = ComboBoxSelectionMethod.SelectedIndex;
-            SelectionV2.SelectionModeSelected = (SelectionPopup.SelectionMode)ComboBoxSelectionMethod.SelectedIndex;
+            FloatingToolBarV2.SelectionV2.SelectionModeSelected = (SelectionPopup.SelectionMode)ComboBoxSelectionMethod.SelectedIndex;
             SaveSettingsToFile();
         }
 

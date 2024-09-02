@@ -699,32 +699,27 @@ namespace Ink_Canvas {
         #region PenPaletteV2
 
         private void PenPaletteV2Init() {
-            PenPaletteV2.ColorSelectionChanged += PenpaletteV2_ColorSelectionChanged;
-            PenPaletteV2.ColorModeChanged += PenpaletteV2_ColorModeChanged;
-            PenPaletteV2.CustomColorChanged += PenpaletteV2_CustomColorChanged;
-            PenPaletteV2.PaletteShouldCloseEvent += PenpaletteV2_PaletteShouldCloseEvent;
-            PenPaletteV2.PenModeChanged += PenpaletteV2_PenModeChanged;
-            PenPaletteV2.SelectedColor = ColorPalette.ColorPaletteColor.ColorRed;
+            FloatingToolBarV2.PenPaletteV2_ColorSelectionChanged += PenpaletteV2_ColorSelectionChanged;
+            FloatingToolBarV2.PenPaletteV2_ColorModeChanged += PenpaletteV2_ColorModeChanged;
+            FloatingToolBarV2.PenPaletteV2_CustomColorChanged += PenpaletteV2_CustomColorChanged;
+            FloatingToolBarV2.PenPaletteV2_PenModeChanged += PenpaletteV2_PenModeChanged;
+            FloatingToolBarV2.PenPaletteV2.SelectedColor = ColorPalette.ColorPaletteColor.ColorRed;
         }
 
         private void PenpaletteV2_ColorSelectionChanged(object sender, ColorPalette.ColorSelectionChangedEventArgs e) {
             if (e.TriggerMode == ColorPalette.TriggerMode.TriggeredByCode) return;
-            drawingAttributes.Color = PenPaletteV2.GetColor(e.NowColor, false, null);
+            drawingAttributes.Color = FloatingToolBarV2.PenPaletteV2.GetColor(e.NowColor, false, null);
         }
 
         private void PenpaletteV2_ColorModeChanged(object sender, ColorPalette.ColorModeChangedEventArgs e) {
             if (e.TriggerMode == ColorPalette.TriggerMode.TriggeredByCode) return;
-            drawingAttributes.Color = PenPaletteV2.GetColor(PenPaletteV2.SelectedColor, false, null);
+            drawingAttributes.Color = FloatingToolBarV2.PenPaletteV2.GetColor(FloatingToolBarV2.PenPaletteV2.SelectedColor, false, null);
         }
 
         private void PenpaletteV2_CustomColorChanged(object sender, ColorPalette.CustomColorChangedEventArgs e) {
             if (e.TriggerMode == ColorPalette.TriggerMode.TriggeredByCode) return;
-            if (PenPaletteV2.SelectedColor == ColorPalette.ColorPaletteColor.ColorCustom) 
+            if (FloatingToolBarV2.PenPaletteV2.SelectedColor == ColorPalette.ColorPaletteColor.ColorCustom) 
                 drawingAttributes.Color = e.NowColor??new Color();
-        }
-
-        private void PenpaletteV2_PaletteShouldCloseEvent(object sender, RoutedEventArgs e) {
-            PenPaletteV2Popup.IsOpen = false;
         }
 
         private void PenpaletteV2_PenModeChanged(object sender, ColorPalette.PenModeChangedEventArgs e) {

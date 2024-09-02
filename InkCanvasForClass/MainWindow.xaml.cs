@@ -214,6 +214,8 @@ namespace Ink_Canvas {
             analyzer.Analyze();
         }
 
+        public FloatingToolBarV2 FloatingToolBarV2;
+
         private async void Window_Loaded(object sender, RoutedEventArgs e) {
             loadPenCanvas();
             //加载设置
@@ -228,6 +230,9 @@ namespace Ink_Canvas {
             LogHelper.WriteLogToFile("Ink Canvas Loaded", LogHelper.LogType.Event);
 
             isLoaded = true;
+
+            FloatingToolBarV2 = new FloatingToolBarV2();
+            FloatingToolBarV2.Show();
 
             BlackBoardLeftSidePageListView.ItemsSource = blackBoardSidePageListViewObservableCollection;
             BlackBoardRightSidePageListView.ItemsSource = blackBoardSidePageListViewObservableCollection;
@@ -269,9 +274,6 @@ namespace Ink_Canvas {
             InitFreezeWindow(new HWND[] {
                 new HWND(new WindowInteropHelper(this).Handle)
             });
-
-            var ftv2 = new FloatingToolBarV2();
-            ftv2.Show();
 
             UpdateIndexInfoDisplay();
         }

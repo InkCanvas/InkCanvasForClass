@@ -4,13 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ink_Canvas"
+        xmlns:popups="clr-namespace:Ink_Canvas.Popups"
+        Topmost="True" Loaded="FloatingBarV2_Loaded"
         mc:Ignorable="d" WindowStyle="None" Background="Transparent" AllowsTransparency="True" ResizeMode="NoResize"
         Title="FloatingToolBarV2">
     <Window.Resources>
         <DrawingImage x:Key="CursorIcon">
             <DrawingImage.Drawing>
-                <DrawingGroup ClipGeometry="M0,0 V22 H22 V0 H0 Z">
-                    <GeometryDrawing Brush="#222222" Geometry="F1 M22,22z M0,0z M21.7989,9.16526L0.143036,0.143036 9.16526,21.7989 11.8305,13.9518 18.6892,20.8105 20.8105,18.6892 13.9518,11.8305 21.7989,9.16526z" />
+                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF222222" Geometry="F1 M24,24z M0,0z M5.19409,16.3124C5.46422,18.0658 5.69121,19.539 5.8351,20.4621 5.9631,21.2477 6.80568,21.3359 7.22902,20.5643 7.93608,19.3044 9.20443,17.1009 10.0921,15.5636L14.9921,22.5615C15.1915,22.8462,15.5839,22.9154,15.8687,22.716L17.9309,21.272C18.2157,21.0727,18.2848,20.6802,18.0854,20.3955L13.5037,13.8522C15.6284,13.8519 18.6266,13.8518 20.2609,13.8524 21.1847,13.8201 21.258,12.9461 20.5777,12.4184 16.9666,9.91811 8.45126,4.12632 4.34164,1.42431 3.63839,0.928666 2.78717,1.12985 3.00557,2.27077 3.59731,5.94841 4.52718,11.9839 5.19409,16.3124z" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
@@ -33,17 +35,16 @@
         <DrawingImage x:Key="TrashBinIcon">
             <DrawingImage.Drawing>
                 <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
-                    <GeometryDrawing Brush="#222222" Geometry="F1 M24,24z M0,0z M2.15454,7.07729L2.15454,5.1082 7.07727,5.1082 7.07727,4.12365C7.07727,3.30648 7.47109,2.57791 7.98305,2.0758 8.49501,1.56383 9.22358,1.17001 10.0309,1.17001L13.9691,1.17001C14.7863,1.17001 15.5148,1.56383 16.0169,2.0758 16.5289,2.58776 16.9227,3.31632 16.9227,4.12365L16.9227,5.1082 21.8454,5.1082 21.8454,7.07729 2.15454,7.07729z" />
-                    <GeometryDrawing Brush="#222222" Geometry="F0 M24,24z M0,0z M4.12363,19.7779C4.12363,20.6148 4.51745,21.3729 5.02941,21.8947 5.54138,22.4165 6.26994,22.83 7.07727,22.83L16.9227,22.83C17.7399,22.83 18.4685,22.4165 18.9706,21.8947 19.4825,21.3729 19.8764,20.6148 19.8764,19.7779L19.8764,8.06183 4.12363,8.06183 4.12363,19.7779z M12.9845,11.0155L14.9536,11.0155 14.9536,18.8918 12.9845,18.8918 12.9845,11.0155z M9.04636,11.0155L11.0154,11.0155 11.0154,18.8918 9.04636,18.8918 9.04636,11.0155z" />
+                    <GeometryDrawing Brush="#e01b24" Geometry="F0 M24,24z M0,0z M8.82358,1.16992C8.5646,1.16992,8.33468,1.33565,8.25279,1.58133L7.5877,3.57659 1.77159,3.57659C1.4393,3.57659,1.16992,3.84597,1.16992,4.17826L1.16992,5.38159C1.16992,5.71388,1.4393,5.98326,1.77159,5.98326L22.2283,5.98326C22.5605,5.98326,22.8299,5.71388,22.8299,5.38159L22.8299,4.17826C22.8299,3.84597,22.5605,3.57659,22.2283,3.57659L16.4122,3.57659 15.7471,1.58133C15.6652,1.33565,15.4352,1.16992,15.1762,1.16992L8.82358,1.16992z M3.57659,7.78826L20.4233,7.78826 19.3085,21.7225C19.2584,22.3479,18.7364,22.8299,18.109,22.8299L5.89083,22.8299C5.26346,22.8299,4.74137,22.3479,4.69133,21.7225L3.57659,7.78826z M8.99159,11.9999C8.6593,11.9999,8.38992,12.2693,8.38992,12.6016L8.38992,17.4149C8.38992,17.7472,8.6593,18.0166,8.99159,18.0166L9.59326,18.0166C9.9255,18.0166,10.1949,17.7472,10.1949,17.4149L10.1949,12.6016C10.1949,12.2693,9.9255,11.9999,9.59326,11.9999L8.99159,11.9999z M13.8049,12.6016C13.8049,12.2693,14.0743,11.9999,14.4066,11.9999L15.0083,11.9999C15.3405,11.9999,15.6099,12.2693,15.6099,12.6016L15.6099,17.4149C15.6099,17.7472,15.3405,18.0166,15.0083,18.0166L14.4066,18.0166C14.0743,18.0166,13.8049,17.7472,13.8049,17.4149L13.8049,12.6016z" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
         <DrawingImage x:Key="ShapesIcon">
             <DrawingImage.Drawing>
-                <DrawingGroup ClipGeometry="M0,0 V17 H16 V0 H0 Z">
-                    <GeometryDrawing Brush="#FF222222" Geometry="F1 M16,17z M0,0z M12.2976,7.55061L7.97358,0.466797 3.63956,7.55061 12.2976,7.55061z" />
-                    <GeometryDrawing Brush="#FF222222" Geometry="F1 M16,17z M0,0z M7.18147,9.38298L0.0976562,9.38298 0.0976562,16.4668 7.18147,16.4668 7.18147,9.38298z" />
-                    <GeometryDrawing Brush="#FF222222" Geometry="F1 M16,17z M0,0z M12.2976,9.38298C10.3414,9.38298 8.75565,10.9687 8.75565,12.9249 8.75565,14.881 10.3414,16.4668 12.2976,16.4668 14.2537,16.4668 15.8395,14.881 15.8395,12.9249 15.8395,10.9687 14.2537,9.38298 12.2976,9.38298z" />
+                <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF222222" Geometry="F1 M24,24z M0,0z M17.8613,10.7596L12.0077,1.16992 6.14056,10.7596 17.8613,10.7596z" />
+                    <GeometryDrawing Brush="#FF222222" Geometry="F1 M24,24z M0,0z M10.9354,13.2402L1.3457,13.2402 1.3457,22.8299 10.9354,22.8299 10.9354,13.2402z" />
+                    <GeometryDrawing Brush="#FF222222" Geometry="F1 M24,24z M0,0z M17.8613,13.2402C15.2132,13.2402 13.0665,15.3869 13.0665,18.0351 13.0665,20.6832 15.2132,22.8299 17.8613,22.8299 20.5094,22.8299 22.6562,20.6832 22.6562,18.0351 22.6562,15.3869 20.5094,13.2402 17.8613,13.2402z" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
@@ -77,12 +78,17 @@
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
-        <DrawingImage x:Key="GestureIcon">
+        <DrawingImage x:Key="WhiteboardIcon">
             <DrawingImage.Drawing>
                 <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
-                    <GeometryDrawing Brush="#222222" Geometry="F0 M24,24z M0,0z M7.82154,10.0753L7.82154,3.74613C7.82154,3.06603 8.08946,2.40655 8.57377,1.92224 9.05808,1.43793 9.70726,1.17001 10.3977,1.17001 11.0881,1.17001 11.7372,1.43793 12.2216,1.92224 12.7059,2.40655 12.9738,3.05573 12.9738,3.74613L12.9738,6.37308C13.1415,6.33947 13.3139,6.32225 13.489,6.32225 14.1794,6.32225 14.8286,6.59016 15.3129,7.07447 15.4484,7.21001 15.567,7.35845 15.6675,7.5171 15.9551,7.40916 16.2634,7.35269 16.5803,7.35269 17.2707,7.35269 17.9199,7.62061 18.4042,8.10492 18.5461,8.24683 18.6695,8.4029 18.7729,8.57001 19.6856,8.26338 20.7674,8.45871 21.4647,9.15599 21.949,9.6403 22.2169,10.2998 22.2169,10.9799L22.2169,15.6169C22.2169,17.5438 21.4647,19.3574 20.1045,20.7176 18.7443,22.0778 16.9307,22.83 15.0038,22.83L13.149,22.83C13.149,22.83 13.0039,22.83 12.7969,22.83 12.5898,22.83 10.7068,22.4694 9.75878,21.9541 8.70773,21.3874 7.81124,20.563 7.15175,19.5738L6.94566,19.2647C6.60562,18.7494 5.49273,16.8019 3.52458,13.3087 3.19484,12.7213 3.1021,12.0412 3.27727,11.3818 3.45245,10.7326 3.86463,10.1761 4.44168,9.83608 5.00842,9.49604 5.66791,9.35177 6.31709,9.43421 6.86548,9.50385 7.39181,9.7279 7.82154,10.0753z M10.037,3.38547C10.1297,3.28243 10.2637,3.23091 10.3977,3.23091 10.5316,3.23091 10.6656,3.29273 10.7583,3.38547 10.8614,3.47821 10.9129,3.61217 10.9129,3.74613L10.9129,11.4745C10.9129,12.0412 11.3766,12.5049 11.9433,12.5049 12.5101,12.5049 12.9738,12.0412 12.9738,11.4745L12.9738,8.89836C12.9738,8.7644 13.0356,8.63045 13.1283,8.53771 13.2211,8.43466 13.355,8.38314 13.489,8.38314 13.623,8.38314 13.7569,8.44497 13.8497,8.53771 13.9527,8.63045 14.0042,8.7644 14.0042,8.89836L14.0042,11.4745C14.0042,12.0412 14.4679,12.5049 15.0347,12.5049 15.6014,12.5049 16.0651,12.0412 16.0651,11.4745L16.0651,9.92881C16.0651,9.79485 16.1269,9.66089 16.2197,9.56815 16.3124,9.46511 16.4464,9.41359 16.5803,9.41359 16.7143,9.41359 16.8483,9.47541 16.941,9.56815 17.044,9.66089 17.0956,9.79485 17.0956,9.92881L17.0956,10.5869C17.0752,10.7163 17.0646,10.8477 17.0646,10.9799 17.0646,11.0661 17.0754,11.1499 17.0956,11.2301L17.0956,11.4745C17.0956,12.0412 17.5593,12.5049 18.126,12.5049 18.6928,12.5049 19.1565,12.0412 19.1565,11.4745L19.1565,10.8128C19.1834,10.7399 19.2266,10.6727 19.2801,10.6192 19.4759,10.4234 19.8159,10.4234 20.0117,10.6192 20.1148,10.712 20.1663,10.8459 20.1663,10.9799L20.1663,15.6169C20.1663,16.9977 19.6408,18.296 18.6618,19.2647 17.6829,20.2333 16.3949,20.7691 15.0141,20.7691L13.1593,20.7691C12.3143,20.7691 11.4796,20.5527 10.7274,20.1509 9.98548,19.749 9.3363,19.1616 8.8726,18.4506L8.66651,18.1415C8.35737,17.6675 7.23419,15.7096 5.31756,12.2989 5.24543,12.1752 5.23512,12.0412 5.26604,11.9073 5.30725,11.7733 5.38969,11.6703 5.50304,11.5981 5.66791,11.4951 5.874,11.4539 6.06978,11.4745 6.26557,11.5054 6.45105,11.5878 6.59531,11.7321L8.11007,13.2469C8.49419,13.631 9.10425,13.648 9.50833,13.2978 9.73651,13.1084 9.88244,12.8229 9.88244,12.5049L9.88244,3.74613C9.88244,3.61217,9.94426,3.47821,10.037,3.38547z" />
-                    <GeometryDrawing Brush="#222222" Geometry="F1 M24,24z M0,0z M2.99905,6.31195L1.78313,4.65293 2.61779,4.04497C3.46275,3.4267,4.37985,2.89087,5.33817,2.46838L6.27587,2.0459 7.12084,3.93162 6.18313,4.3541C5.35878,4.72506,4.56533,5.17846,3.83372,5.71429L2.99905,6.32225 2.99905,6.31195z" />
-                    <GeometryDrawing Brush="#222222" Geometry="F1 M24,24z M0,0z M18.2806,5.20935L19.1565,5.75549 20.259,4.01404 19.3832,3.4679C18.1157,2.67446,16.7452,2.0768,15.3026,1.68523L14.303,1.41731 13.7672,3.40607 14.7667,3.67399C16.0033,4.00373,17.1883,4.51895,18.2806,5.20935z" />
+                    <GeometryDrawing Brush="#FF222222" Geometry="F1 M24,24z M0,0z M10.6784,2.72682C10.6784,2.24019,11.0728,1.8457,11.5594,1.8457L12.5245,1.8457C13.0111,1.8457,13.4056,2.24019,13.4056,2.72682L13.4056,3.60777 23.4545,3.60777C23.7557,3.60777,24,3.85198,24,4.15323L24,5.78959C24,6.09083,23.7557,6.33505,23.4545,6.33505L21.8182,6.33505 21.8182,16.0171C21.8182,16.9962,21.019,17.7898,20.033,17.7898L13.3216,17.7898 13.3216,19.4261 15.8182,19.4261C16.1194,19.4261,16.3636,19.6703,16.3636,19.9715L16.3636,21.6079C16.3636,21.9092,16.1194,22.1533,15.8182,22.1533L8.1818,22.1533C7.88055,22.1533,7.63634,21.9092,7.63634,21.6079L7.63634,19.9715C7.63634,19.6703,7.88055,19.4261,8.1818,19.4261L10.5944,19.4261 10.5944,17.7898 3.96693,17.7898C2.98103,17.7898,2.1818,16.9962,2.1818,16.0171L2.1818,6.33505 0.545455,6.33505C0.244211,6.33505,0,6.09083,0,5.78959L0,4.15323C0,3.85198,0.244211,3.60777,0.545455,3.60777L10.6784,3.60777 10.6784,2.72682z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="GestureIcon">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V25 H24 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF222222" Geometry="F0 M24,25z M0,0z M5.23338,7.02449C5.23338,4.04984 7.67384,1.60938 10.6485,1.60938 13.6231,1.60938 16.0636,4.04984 16.0636,7.02449 16.0636,8.71614 15.2582,10.2172 14.0303,11.2128L13.6839,11.1255C13.5766,11.0989,13.4665,11.0856,13.356,11.0858L13.356,7.02449C13.356,5.54792 12.1251,4.31693 10.6485,4.31693 9.17192,4.31693 7.94093,5.54792 7.94093,7.02449L7.94093,11.6807C6.33328,10.7381,5.23338,9.00996,5.23338,7.02449z M10.1933,5.76784C10.3209,5.72261 10.4546,5.69679 10.5899,5.69122 10.68,5.68674 10.7704,5.69093 10.8596,5.70442 10.9041,5.71191 10.9482,5.72163 10.9918,5.73353 11.0356,5.74458 11.0788,5.75783 11.1213,5.77321 11.1637,5.78962 11.2052,5.80814 11.2456,5.82872 11.2863,5.84789 11.326,5.86907 11.3646,5.8922 11.4795,5.96446 11.5829,6.05361 11.6713,6.15663 11.7004,6.1905 11.7277,6.22578 11.7533,6.26235 11.832,6.37325 11.8935,6.49537 11.9357,6.62459 11.9776,6.75361 11.9999,6.8882 12.0018,7.02385L12.0018,12.439 13.3556,12.439C13.4661,12.4388,13.5762,12.4521,13.6835,12.4786L19.0986,13.8324C19.3917,13.9056 19.6519,14.0747 19.8378,14.3128 20.0237,14.5509 20.1246,14.8444 20.1245,15.1465L20.1245,20.5616C20.1245,21.6898 19.3607,22.6265 18.6993,22.9572 18.038,23.2879 17.417,23.2692 17.417,23.2692L10.6481,23.2692C10.6287,23.2688 10.6093,23.2681 10.5899,23.2669 10.5528,23.2657 10.5157,23.263 10.4788,23.2588 10.4674,23.2571 10.4559,23.2553 10.4445,23.2533 10.4179,23.2488 10.3914,23.2436 10.3651,23.2375 10.3421,23.2328 10.3192,23.2275 10.2964,23.2217 10.2831,23.2183 10.2699,23.2146 10.2567,23.2108 10.2282,23.2021 10.2,23.1924 10.1721,23.1817 10.1552,23.175 10.1385,23.168 10.1219,23.1606 10.0969,23.1499 10.0722,23.1384 10.0478,23.1262 10.0273,23.1162 10.007,23.1056 9.98704,23.0945 9.97099,23.0861 9.95513,23.0773 9.93944,23.0681 9.91789,23.0547 9.89673,23.0406 9.87598,23.0259 9.86261,23.0173 9.84939,23.0085 9.83632,22.9995L9.80724,22.9757 4.42121,18.9382C4.14989,18.7357 3.96425,18.439 3.90089,18.1064 3.83752,17.7739 3.90103,17.4297 4.07889,17.1417 4.25676,16.8536 4.53607,16.6427 4.86177,16.5504 5.18747,16.4581 5.53593,16.4912 5.83845,16.6431L9.29429,18.3723 9.29429,13.7927 9.29429,7.02385C9.2949,6.97253 9.29843,6.9213 9.30486,6.87039 9.3106,6.82593 9.31854,6.78179 9.32866,6.73812 9.36928,6.56187 9.4448,6.39554 9.55076,6.24896 9.63093,6.1391 9.7272,6.04194 9.83633,5.96076 9.87205,5.93338 9.90911,5.90782 9.94738,5.88414 10.0252,5.83722 10.1076,5.79825 10.1933,5.76784z" />
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
@@ -105,80 +111,114 @@
             </DrawingImage.Drawing>
         </DrawingImage>
     </Window.Resources>
-    <Grid Name="ToolbarV2" RenderTransformOrigin=".5,.5">
-        <Grid Name="ToolBarV2Grid" HorizontalAlignment="Left" Margin="6" Height="48">
-            <DockPanel>
-                <DockPanel.Effect>
-                    <DropShadowEffect Opacity="0.3" ShadowDepth="1"></DropShadowEffect>
-                </DockPanel.Effect>
-                <Image DockPanel.Dock="Left" Height="48" HorizontalAlignment="Left">
+    <Grid>
+        <Grid>
+            <Popup Name="PenPaletteV2Popup" PopupAnimation="Fade" IsOpen="False" StaysOpen="True" AllowsTransparency="True" Placement="Relative">
+                <popups:ColorPalette Loaded="PenPaletteV2_Loaded" x:Name="PenPaletteV2" Width="300" />
+            </Popup>
+        </Grid>
+        <Grid>
+            <Popup Name="SelectionPopupV2" PopupAnimation="Fade" IsOpen="False" StaysOpen="True" AllowsTransparency="True" Placement="Relative">
+                <popups:SelectionPopup Loaded="SelectionV2_Loaded" x:Name="SelectionV2" Width="300" />
+            </Popup>
+        </Grid>
+        <Grid>
+            <Popup Name="ShapeDrawingPopupV2" PopupAnimation="Fade" IsOpen="False" StaysOpen="True" AllowsTransparency="True" Placement="Relative">
+                <popups:ShapeDrawingPopup Loaded="ShapeDrawingV2_Loaded" x:Name="ShapeDrawingV2" Width="570" />
+            </Popup>
+        </Grid>
+
+        <Grid Name="ToolbarV2" RenderTransformOrigin=".5,.5">
+            <Grid Name="ToolBarV2Grid" HorizontalAlignment="Left" Margin="24" Height="48">
+                <DockPanel Name="FallbackBackgroundLayer">
+                    <DockPanel.Effect>
+                        <DropShadowEffect Opacity="0.01" Direction="0" ShadowDepth="0.1" BlurRadius="0.01"></DropShadowEffect>
+                    </DockPanel.Effect>
+                    <Image DockPanel.Dock="Left" Height="48" HorizontalAlignment="Left">
+                        <Image.Source>
+                            <DrawingImage>
+                                <DrawingImage.Drawing>
+                                    <DrawingGroup ClipGeometry="M0,0 V120 H63 V0 H0 Z">
+                                        <GeometryDrawing Brush="#fafafa" Geometry="F1 M63,120z M0,0z M62.6465,-0.00390625L60.3128,-0.00390625C34.3338,-0.00390625 21.3443,-0.00390625 12.5491,7.09435 10.7817,8.52078 9.17117,10.1313 7.74474,11.8988 0.646484,20.6939 0.646484,33.6834 0.646484,59.6624 0.646484,85.6414 0.646484,98.6309 7.74474,107.426 9.17117,109.194 10.7817,110.804 12.5491,112.23 21.3443,119.329 34.3338,119.329 60.3128,119.329L62.6465,119.329 62.6465,-0.00390625z"/>
+                                    </DrawingGroup>
+                                </DrawingImage.Drawing>
+                            </DrawingImage>
+                        </Image.Source>
+                    </Image>
+                    <Image DockPanel.Dock="Right" Height="48" HorizontalAlignment="Left">
+                        <Image.Source>
+                            <DrawingImage>
+                                <DrawingImage.Drawing>
+                                    <DrawingGroup ClipGeometry="M0,0 V120 H63 V0 H0 Z">
+                                        <GeometryDrawing Brush="#fafafa" Geometry="F1 M63,120z M0,0z M0.447266,119.495L2.78091,119.495C28.7599,119.495 41.7495,119.495 50.5446,112.396 52.312,110.97 53.9226,109.36 55.349,107.592 62.4473,98.797 62.4473,85.8074 62.4473,59.8284 62.4473,33.8494 62.4473,20.8599 55.349,12.0648 53.9226,10.2973 52.312,8.6868 50.5446,7.26037 41.7495,0.162109 28.7599,0.162109 2.78091,0.162109L0.447266,0.162109 0.447266,119.495z" />
+                                    </DrawingGroup>
+                                </DrawingImage.Drawing>
+                            </DrawingImage>
+                        </Image.Source>
+                    </Image>
+                    <Border Background="#fafafa" Height="48" Margin="-1,0,-1,0.25" VerticalAlignment="Center"></Border>
+                </DockPanel>
+                <Image Name="MainBackgroundLayer">
                     <Image.Source>
                         <DrawingImage>
                             <DrawingImage.Drawing>
-                                <DrawingGroup ClipGeometry="M0,0 V120 H63 V0 H0 Z">
-                                    <GeometryDrawing Brush="#fafafa" Geometry="F1 M63,120z M0,0z M62.6465,-0.00390625L60.3128,-0.00390625C34.3338,-0.00390625 21.3443,-0.00390625 12.5491,7.09435 10.7817,8.52078 9.17117,10.1313 7.74474,11.8988 0.646484,20.6939 0.646484,33.6834 0.646484,59.6624 0.646484,85.6414 0.646484,98.6309 7.74474,107.426 9.17117,109.194 10.7817,110.804 12.5491,112.23 21.3443,119.329 34.3338,119.329 60.3128,119.329L62.6465,119.329 62.6465,-0.00390625z" />
+                                <DrawingGroup x:Name="BackgroundBorderDrawingGroup">
+                                    <GeometryDrawing Brush="#fafafa" x:Name="ToolBarBackgroundBorder">
+                                        <GeometryDrawing.Pen>
+                                            <Pen Brush="#d4d4d8" Thickness="3"/>
+                                        </GeometryDrawing.Pen>
+                                    </GeometryDrawing>
                                 </DrawingGroup>
                             </DrawingImage.Drawing>
                         </DrawingImage>
                     </Image.Source>
                 </Image>
-                <Image DockPanel.Dock="Right" Height="48" HorizontalAlignment="Left">
-                    <Image.Source>
-                        <DrawingImage>
-                            <DrawingImage.Drawing>
-                                <DrawingGroup ClipGeometry="M0,0 V120 H63 V0 H0 Z">
-                                    <GeometryDrawing Brush="#fafafa" Geometry="F1 M63,120z M0,0z M0.447266,119.495L2.78091,119.495C28.7599,119.495 41.7495,119.495 50.5446,112.396 52.312,110.97 53.9226,109.36 55.349,107.592 62.4473,98.797 62.4473,85.8074 62.4473,59.8284 62.4473,33.8494 62.4473,20.8599 55.349,12.0648 53.9226,10.2973 52.312,8.6868 50.5446,7.26037 41.7495,0.162109 28.7599,0.162109 2.78091,0.162109L0.447266,0.162109 0.447266,119.495z" />
-                                </DrawingGroup>
-                            </DrawingImage.Drawing>
-                        </DrawingImage>
-                    </Image.Source>
-                </Image>
-                <Border Background="#fafafa" Height="48" Margin="-1,0,-1,0.25" VerticalAlignment="Center"></Border>
-            </DockPanel>
-            <StackPanel Orientation="Horizontal" Margin="4,0">
-                <Grid Name="HeadIcon" RenderTransformOrigin=".5,.5" MouseMove="HeadIconButton_MouseMove" MouseDown="HeadIconButton_MouseDown" MouseUp="HeadIconButton_MouseUp" Width="42" Height="42" Margin="0,0,2,0">
-                    <Image Name="HeadIconImage" Height="42" Width="42" Source="../Resources/Icons-png/icc-toolbar-v2.png" RenderOptions.BitmapScalingMode="HighQuality"></Image>
-                </Grid>
-                <ItemsControl Name="ToolBarItemsControl">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"></StackPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type local:FloatingBarItem}">
-                            <StackPanel Orientation="Horizontal">
-                                <Grid MouseDown="ToolbarButton_MouseDown" MouseUp="ToolbarButton_MouseUp" MouseLeave="ToolbarButton_MouseLeave" Tag="{Binding}"  Visibility="{Binding _itemVisibility}" Margin="2,0,0,0" Width="42" Height="42">
-                                    <Image Height="42" Width="42">
-                                        <Image.Source>
-                                            <DrawingImage>
-                                                <DrawingImage.Drawing>
-                                                    <DrawingGroup ClipGeometry="M0,0 V120 H120 V0 H0 Z">
-                                                        <GeometryDrawing Brush="{Binding _backgroundBrush}" Geometry="F1 M120,120z M0,0z M0.443359,59.9384C0.443359,33.9607 0.443359,20.9718 7.54095,12.1769 8.96777,10.4089 10.5788,8.79785 12.3468,7.37103 21.1418,0.273438 34.1306,0.273438 60.1084,0.273438 86.0861,0.273438 99.075,0.273438 107.87,7.37103 109.638,8.79785 111.249,10.4089 112.676,12.1769 119.773,20.9718 119.773,33.9607 119.773,59.9384 119.773,85.9162 119.773,98.905 112.676,107.7 111.249,109.468 109.638,111.079 107.87,112.506 99.075,119.603 86.0861,119.603 60.1084,119.603 34.1306,119.603 21.1418,119.603 12.3468,112.506 10.5788,111.079 8.96777,109.468 7.54095,107.7 0.443359,98.905 0.443359,85.9162 0.443359,59.9384z" />
-                                                    </DrawingGroup>
-                                                </DrawingImage.Drawing>
-                                            </DrawingImage>
-                                        </Image.Source>
-                                    </Image>
-                                    <Image Height="42" Width="42" Opacity="0">
-                                        <Image.Source>
-                                            <DrawingImage>
-                                                <DrawingImage.Drawing>
-                                                    <DrawingGroup ClipGeometry="M0,0 V120 H120 V0 H0 Z">
-                                                        <GeometryDrawing Brush="#e1e1e1" Geometry="F1 M120,120z M0,0z M0.443359,59.9384C0.443359,33.9607 0.443359,20.9718 7.54095,12.1769 8.96777,10.4089 10.5788,8.79785 12.3468,7.37103 21.1418,0.273438 34.1306,0.273438 60.1084,0.273438 86.0861,0.273438 99.075,0.273438 107.87,7.37103 109.638,8.79785 111.249,10.4089 112.676,12.1769 119.773,20.9718 119.773,33.9607 119.773,59.9384 119.773,85.9162 119.773,98.905 112.676,107.7 111.249,109.468 109.638,111.079 107.87,112.506 99.075,119.603 86.0861,119.603 60.1084,119.603 34.1306,119.603 21.1418,119.603 12.3468,112.506 10.5788,111.079 8.96777,109.468 7.54095,107.7 0.443359,98.905 0.443359,85.9162 0.443359,59.9384z" />
-                                                    </DrawingGroup>
-                                                </DrawingImage.Drawing>
-                                            </DrawingImage>
-                                        </Image.Source>
-                                    </Image>
-                                    <Image Height="21" Source="{Binding IconSource}"/>
-                                </Grid>
-                                <Border Visibility="{Binding _separatorVisibility}" Width="1" Height="28" CornerRadius="0.5" Background="#e1e1e1" Margin="3,0,1,0"></Border>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="4,0">
+                    <Grid Name="HeadIcon" RenderTransformOrigin=".5,.5" MouseMove="HeadIconButton_MouseMove" MouseDown="HeadIconButton_MouseDown" MouseUp="HeadIconButton_MouseUp" Width="42" Height="42" Margin="0,0,2,0">
+                        <Image Name="HeadIconImage" Height="42" Width="42" Source="../Resources/Icons-png/icc-toolbar-v2.png" RenderOptions.BitmapScalingMode="HighQuality"></Image>
+                    </Grid>
+                    <ItemsControl Name="ToolBarItemsControl">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type local:FloatingBarItem}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Grid RenderTransformOrigin=".5,.5" MouseDown="ToolbarButton_MouseDown" MouseUp="ToolbarButton_MouseUp" MouseLeave="ToolbarButton_MouseLeave" Tag="{Binding}"  Visibility="{Binding _itemVisibility}" Margin="2,0,0,0" Width="42" Height="42">
+                                        <Image Height="42" Width="42">
+                                            <Image.Source>
+                                                <DrawingImage>
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V120 H120 V0 H0 Z">
+                                                            <GeometryDrawing Brush="{Binding _backgroundBrush}" Geometry="F1 M120,120z M0,0z M0.443359,59.9384C0.443359,33.9607 0.443359,20.9718 7.54095,12.1769 8.96777,10.4089 10.5788,8.79785 12.3468,7.37103 21.1418,0.273438 34.1306,0.273438 60.1084,0.273438 86.0861,0.273438 99.075,0.273438 107.87,7.37103 109.638,8.79785 111.249,10.4089 112.676,12.1769 119.773,20.9718 119.773,33.9607 119.773,59.9384 119.773,85.9162 119.773,98.905 112.676,107.7 111.249,109.468 109.638,111.079 107.87,112.506 99.075,119.603 86.0861,119.603 60.1084,119.603 34.1306,119.603 21.1418,119.603 12.3468,112.506 10.5788,111.079 8.96777,109.468 7.54095,107.7 0.443359,98.905 0.443359,85.9162 0.443359,59.9384z" />
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                            </Image.Source>
+                                        </Image>
+                                        <Image Height="42" Width="42" Opacity="0">
+                                            <Image.Source>
+                                                <DrawingImage>
+                                                    <DrawingImage.Drawing>
+                                                        <DrawingGroup ClipGeometry="M0,0 V120 H120 V0 H0 Z">
+                                                            <GeometryDrawing Brush="{Binding _pressFeedbackColorBrush}" Geometry="F1 M120,120z M0,0z M0.443359,59.9384C0.443359,33.9607 0.443359,20.9718 7.54095,12.1769 8.96777,10.4089 10.5788,8.79785 12.3468,7.37103 21.1418,0.273438 34.1306,0.273438 60.1084,0.273438 86.0861,0.273438 99.075,0.273438 107.87,7.37103 109.638,8.79785 111.249,10.4089 112.676,12.1769 119.773,20.9718 119.773,33.9607 119.773,59.9384 119.773,85.9162 119.773,98.905 112.676,107.7 111.249,109.468 109.638,111.079 107.87,112.506 99.075,119.603 86.0861,119.603 60.1084,119.603 34.1306,119.603 21.1418,119.603 12.3468,112.506 10.5788,111.079 8.96777,109.468 7.54095,107.7 0.443359,98.905 0.443359,85.9162 0.443359,59.9384z" />
+                                                        </DrawingGroup>
+                                                    </DrawingImage.Drawing>
+                                                </DrawingImage>
+                                            </Image.Source>
+                                        </Image>
+                                        <Image Height="{Binding IconHeight}" Source="{Binding IconSource}"/>
+                                    </Grid>
+                                    <Border Opacity="{Binding _separatorOpacity}" Visibility="{Binding _separatorVisibility}" Width="1" Height="28" CornerRadius="0.5" Background="#e1e1e1" Margin="3,0,1,0"></Border>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
+    
 </Window>

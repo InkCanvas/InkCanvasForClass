@@ -118,18 +118,6 @@
 
     <Grid x:Name="Main_Grid">
 
-        <Popup Name="PenPaletteV2Popup" PopupAnimation="Fade" IsOpen="False" StaysOpen="True" AllowsTransparency="True" Placement="Bottom">
-            <popups:ColorPalette x:Name="PenPaletteV2" Width="300" />
-        </Popup>
-
-        <Popup Name="SelectionPopupV2" PopupAnimation="Fade" IsOpen="False" StaysOpen="True" AllowsTransparency="True" Placement="Bottom">
-            <popups:SelectionPopup x:Name="SelectionV2" Width="300" />
-        </Popup>
-
-        <Popup Name="ShapeDrawingPopupV2" PopupAnimation="Fade" IsOpen="False" StaysOpen="True" AllowsTransparency="True" Placement="Bottom">
-            <popups:ShapeDrawingPopup x:Name="ShapeDrawingV2" Width="570" />
-        </Popup>
-
         <!--// 黑/白 板幕布 //-->
         <Image Name="FreezeFrameBackgroundImage" Visibility="Collapsed" />
         <Grid Name="GridBackgroundCoverHolder">

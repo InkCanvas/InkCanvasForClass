@@ -381,6 +381,7 @@ namespace Ink_Canvas.Windows {
                     var _thumb = thumb as Border;
                     _thumb.CornerRadius = new CornerRadius(4);
                     _thumb.Width = 8;
+                    _thumb.Margin = new Thickness(-0.75, 0, 1, 0);
                     _thumb.Background = new SolidColorBrush(Color.FromRgb(138, 138, 138));
                 }
             }
@@ -406,6 +407,7 @@ namespace Ink_Canvas.Windows {
                     var _thumb = thumb as Border;
                     _thumb.CornerRadius = new CornerRadius(1.5);
                     _thumb.Width = 3;
+                    _thumb.Margin = new Thickness(0);
                     _thumb.Background = new SolidColorBrush(Color.FromRgb(195, 195, 195));
                 }
             }

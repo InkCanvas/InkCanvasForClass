@@ -21,16 +21,6 @@ namespace Ink_Canvas {
             if (lastBorderMouseDownObject != null && lastBorderMouseDownObject is Panel)
                 ((Panel)lastBorderMouseDownObject).Background = new SolidColorBrush(Colors.Transparent);
             if (sender == ShapeDrawFloatingBarBtn && lastBorderMouseDownObject != ShapeDrawFloatingBarBtn) return;
-
-            if (ShapeDrawingPopupV2.IsOpen == false) {
-                var transform = ShapeDrawFloatingBarBtn.TransformToVisual(Main_Grid);
-                var pt = transform.Transform(new Point(0, 0));
-                ShapeDrawingPopupV2.VerticalOffset = pt.Y;
-                ShapeDrawingPopupV2.HorizontalOffset = pt.X - 32;
-                ShapeDrawingPopupV2.IsOpen = true;
-            } else {
-                HideSubPanels();
-            }
         }
 
         #endregion Floating Bar Control
@@ -1586,10 +1576,7 @@ namespace Ink_Canvas {
 
         public void ShapeDrawingV2Init() {
             ShapeDrawingV2Layer.MainWindow = this;
-            ShapeDrawingV2.ShapeDrawingPopupShouldCloseEvent += (sender, args) => {
-                ShapeDrawingPopupV2.IsOpen = false;
-            };
-            ShapeDrawingV2.ShapeSelectedEvent += (sender, args) => {
+            FloatingToolBarV2.ShapeDrawingV2_ShapeSelectedEvent += (sender, args) => {
                 ShapeDrawingV2Layer.StartShapeDrawing(args.Type, args.Name);
             };
         }
