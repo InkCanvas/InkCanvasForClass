@@ -128,6 +128,15 @@
             </Popup>
         </Grid>
 
+        <!--这一部分是用于展示工具栏的对齐和贴边提示的Popup-->
+        <Grid Name="PlacementFeedbackPopups">
+            <Popup Name="PlacementFeedbackPopup" Placement="Absolute" StaysOpen="True" AllowsTransparency="True" IsOpen="False">
+                <Border Background="#883b82f6" IsHitTestVisible="False" Name="PlaceFeedbackBorder">
+                    <TextBlock Name="PlacementFeedbackTipText" FontSize="16" FontWeight="Bold" Foreground="#dbeafe" Margin="6"/>
+                </Border>
+            </Popup>
+        </Grid>
+
         <Grid Name="ToolbarV2" RenderTransformOrigin=".5,.5">
             <Grid Name="ToolBarV2Grid" HorizontalAlignment="Left" Margin="24" Height="48">
                 <DockPanel Name="FallbackBackgroundLayer">

@@ -38,14 +38,10 @@ namespace Ink_Canvas {
             if (e.Property.Name == nameof(Topmost) && isLoaded) {
                 if (Topmost && Settings.Advanced.IsEnableForceFullScreen) {
                     Trace.WriteLine("Topmost true");
-                    SetWindowPos(new WindowInteropHelper(this).Handle, new IntPtr(-1), 0, 0,
-                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width,
-                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height, 0x0040);
+                    SetWindowPos(new WindowInteropHelper(this).Handle, new IntPtr(-1), 0, 0, 0, 0, 0x0002|0x0040|0x0001);
                 } else if (!Topmost && Settings.Advanced.IsEnableForceFullScreen) {
                     Trace.WriteLine("Topmost false");
-                    SetWindowPos(new WindowInteropHelper(this).Handle, new IntPtr(-2), 0, 0,
-                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width,
-                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height, 0x0040);
+                    SetWindowPos(new WindowInteropHelper(this).Handle, new IntPtr(-2), 0, 0, 0, 0, 0x0002|0x0040|0x0001);
                 }
             }
         }
@@ -232,7 +228,9 @@ namespace Ink_Canvas {
             isLoaded = true;
 
             FloatingToolBarV2 = new FloatingToolBarV2();
+            FloatingToolBarV2.Topmost = false;
             FloatingToolBarV2.Show();
+            FloatingToolBarV2.Owner = this;
 
             BlackBoardLeftSidePageListView.ItemsSource = blackBoardSidePageListViewObservableCollection;
             BlackBoardRightSidePageListView.ItemsSource = blackBoardSidePageListViewObservableCollection;
@@ -276,6 +274,8 @@ namespace Ink_Canvas {
             });
 
             UpdateIndexInfoDisplay();
+
+            SetWindowPos(new WindowInteropHelper(this).Handle, new IntPtr(-1), 0, 0, 0, 0, 0x0002|0x0040|0x0001);
         }
 
         private void SystemEventsOnDisplaySettingsChanged(object sender, EventArgs e) {

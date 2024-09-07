@@ -2,7 +2,11 @@
 /InkCanvasForClass/bin
 /InkCanvasForClassX/obj
 /InkCanvasForClassX/bin
-/InkCanvasForClassPPTVsto/obj
-/InkCanvasForClassPPTVsto/bin
+/InkCanvasForClass.IACoreHelper/obj
+/InkCanvasForClass.IACoreHelper/bin
+/InkCanvasForClass.PowerPoint.InteropHelper/obj
+/InkCanvasForClass.PowerPoint.InteropHelper/bin
+/InkCanvasForClass.PowerPoint.Vsto/obj
+/InkCanvasForClass.PowerPoint.Vsto/bin
 /.vs
 /.idea

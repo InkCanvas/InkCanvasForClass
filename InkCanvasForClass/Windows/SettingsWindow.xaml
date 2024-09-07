@@ -555,7 +555,7 @@
                     </Grid>
                 </Border>
                 <!--AboutPanel-->
-                <Grid Margin="250,48,0,0" Visibility="Visible" Name="AboutPane">
+                <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="AboutPane">
                     <ScrollViewer ScrollChanged="ScrollViewerEx_ScrollChanged" IsManipulationEnabled="True" Name="AboutScrollViewerEx" IsDeferredScrollingEnabled="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
                         <StackPanel Margin="60,12,60,24">
                             <Border BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
@@ -1314,7 +1314,7 @@
                     </ScrollViewer>
                 </Grid>
                 <!--StartupPanel-->
-                <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="StartupPane">
+                <Grid Margin="250,48,0,0" Visibility="Visible" Name="StartupPane">
                     <ScrollViewer ScrollChanged="ScrollViewerEx_ScrollChanged" IsManipulationEnabled="True" Name="StartupScrollViewerEx" IsDeferredScrollingEnabled="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
                         <StackPanel Orientation="Vertical">
                             <Border Height="44" Background="#d7e5f6">
@@ -1394,6 +1394,34 @@
                                             <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
                                                 <TextBlock Foreground="#2e3436" FontSize="14.5" Text="以 WindowChrome 模式启动" HorizontalAlignment="Left"/>
                                                 <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="使用高！性！能！的透明窗口渲染方式" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                            <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                                <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                    </Border.Effect>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                        <Border Height="1" Background="#ebebeb"/>
+                                        <Grid Height="54">
+                                            <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="总是以管理员身份启动" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="如果以普通用户身份启动则自动重启为管理员权限" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                            <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
+                                                <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect BlurRadius="4" Direction="-45" Color="Black" Opacity="0.3" ShadowDepth="0"></DropShadowEffect>
+                                                    </Border.Effect>
+                                                </Border>
+                                            </Border>
+                                        </Grid>
+                                        <Border Height="1" Background="#ebebeb"/>
+                                        <Grid Height="54">
+                                            <StackPanel Orientation="Vertical" Margin="18,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                                <TextBlock Foreground="#2e3436" FontSize="14.5" Text="使用基于UIAccess和输入线程抢夺强制置顶 ICC" HorizontalAlignment="Left"/>
+                                                <TextBlock Foreground="#9a9996" FontSize="11" Margin="0,3.5,0,0" Text="非管理员使用输入线程抢夺和置顶守护，管理员使用 UIAccess" HorizontalAlignment="Left"/>
                                             </StackPanel>
                                             <Border Width="48" Height="25" Background="#3584e4" VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="12" Margin="0,0,15,0" Padding="3,0">
                                                 <Border Width="19" Height="19" Background="White" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center">

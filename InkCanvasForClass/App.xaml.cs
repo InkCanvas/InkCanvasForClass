@@ -1,31 +1,35 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using Ink_Canvas.Helpers;
 using iNKORE.UI.WPF.Modern.Controls;
-using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using iNKORE.UI.WPF.Helpers;
 using Newtonsoft.Json.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using MessageBox = System.Windows.MessageBox;
-using Window = System.Windows.Window;
 using System.Windows.Shell;
 using Ookii.Dialogs.Wpf;
 using System.Diagnostics;
-using Ink_Canvas.Popups;
 using Ink_Canvas.Windows;
 using Lierda.WPFHelper;
+using System.Runtime.InteropServices;
+using System.Security.Principal;
+using Windows.Data.Xml.Dom;
+using Windows.UI.Notifications;
 
-namespace Ink_Canvas
-{
+namespace Ink_Canvas {
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
-    {
+    public partial class App : Application {
+
+        [DllImport("UIAccessDLL_x86.dll", EntryPoint = "PrepareUIAccess", CallingConvention = CallingConvention.Cdecl)]
+        public static extern Int32 PrepareUIAccessX86();
+
+        [DllImport("UIAccessDLL_x64.dll", EntryPoint = "PrepareUIAccess", CallingConvention = CallingConvention.Cdecl)]
+        public static extern Int32 PrepareUIAccessX64();
+
         System.Threading.Mutex mutex;
 
         public static string[] StartArgs = null;
@@ -46,8 +50,16 @@ namespace Ink_Canvas
         private TaskbarIcon _taskbar;
         private MainWindow mainWin = null;
 
-        void App_Startup(object sender, StartupEventArgs e)
-        {
+        void App_Startup(object sender, StartupEventArgs e) {
+
+            var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            if (Environment.Is64BitProcess && principal.IsInRole(WindowsBuiltInRole.Administrator)) {
+                Trace.WriteLine(PrepareUIAccessX64());
+            } else if (principal.IsInRole(WindowsBuiltInRole.Administrator)) {
+                PrepareUIAccessX86();
+            }
+
             RootPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
 
             LogHelper.NewLog(string.Format("Ink Canvas Starting (Version: {0})", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
@@ -100,6 +112,8 @@ namespace Ink_Canvas
             } catch (Exception ex) {
                 LogHelper.WriteLogToFile(ex.ToString(), LogHelper.LogType.Error);
             }
+
+
 
             mainWin = new MainWindow();
 

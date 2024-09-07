@@ -92,7 +92,7 @@ namespace Ink_Canvas {
                     RunAsAdminButton.Visibility = Visibility.Collapsed;
                     RunAsUserButton.Visibility = Visibility.Visible;
                     RegistryKey localKey;
-                    if(Environment.Is64BitOperatingSystem)
+                    if (Environment.Is64BitOperatingSystem)
                         localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
                     else
                         localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);

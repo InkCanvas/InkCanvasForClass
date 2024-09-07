@@ -741,6 +741,8 @@ namespace Ink_Canvas
             _mouseDownButton = null;
         }
 
+        #region icc按钮
+
         public Point prevPoint = new Point(0,0);
         public bool isInMovingMode = false;
         public double winLeft = 0;
@@ -779,56 +781,124 @@ namespace Ink_Canvas
                 ToolbarV2.RenderTransform = null;
                 ToolBarV2Grid.RenderTransform = null;
                 HeadIconImage.RenderTransform = null;
+                UpdateToolbarPlacementFeedback();
                 Top = Math.Max(Math.Min(mp.Y * ScalingFactor - prevPoint.Y - 24, 
                     System.Windows.SystemParameters.PrimaryScreenHeight - ActualHeight +24),-24);
                 Left = Math.Max(Math.Min(mp.X * ScalingFactor - prevPoint.X - 24,
                     System.Windows.SystemParameters.PrimaryScreenWidth - ActualWidth +24),-24);
             } else {
                 double tbMovingX = deltaX/3, tbMovingY = deltaY/3;
-                if (_snapTypeTemp == ToolBarSnapType.LeftSide) {
-                    tbMovingX = Math.Max(deltaX / 3, 0);
-                    ToolBarV2Grid.RenderTransformOrigin = new Point(0, 0.5);
-                    ToolBarV2Grid.RenderTransform = new ScaleTransform(1 + tbMovingX /350, 1);
-                } else if (_snapTypeTemp == ToolBarSnapType.RightSide) {
-                    tbMovingX = Math.Min(deltaX / 3, 0);
-                    ToolBarV2Grid.RenderTransformOrigin = new Point(1, 0.5);
-                    ToolBarV2Grid.RenderTransform = new ScaleTransform(1 - tbMovingX /350, 1);
-                } else if (_snapTypeTemp == ToolBarSnapType.TopSide) {
-                    tbMovingY = Math.Max(deltaY / 3, 0);
-                    ToolBarV2Grid.RenderTransformOrigin = new Point(0.5, 0);
-                    ToolBarV2Grid.RenderTransform = new ScaleTransform(1, 1 + tbMovingY /120);
-                } else if (_snapTypeTemp == ToolBarSnapType.BottomSide) {
-                    tbMovingY = Math.Min(deltaY / 3, 0);
-                    ToolBarV2Grid.RenderTransformOrigin = new Point(0.5, 1);
-                    ToolBarV2Grid.RenderTransform = new ScaleTransform(1, 1 - tbMovingY /120);
-                } else if (_snapTypeTemp == ToolBarSnapType.LeftTopCorner) {
-                    tbMovingX = Math.Max(deltaX / 3, 0);
-                    tbMovingY = Math.Max(deltaY / 3, 0);
-                    ToolBarV2Grid.RenderTransformOrigin = new Point(0, 0);
-                    ToolBarV2Grid.RenderTransform = new ScaleTransform(1 + tbMovingX /350, 1 + tbMovingY /120);
-                } else if (_snapTypeTemp == ToolBarSnapType.LeftBottomCorner) {
-                    tbMovingX = Math.Max(deltaX / 3, 0);
-                    tbMovingY = Math.Min(deltaY / 3, 0);
-                    ToolBarV2Grid.RenderTransformOrigin = new Point(0, 1);
-                    ToolBarV2Grid.RenderTransform = new ScaleTransform(1 + tbMovingX /350, 1 - tbMovingY /120);
-                } else if (_snapTypeTemp == ToolBarSnapType.RightTopCorner) {
-                    tbMovingX = Math.Min(deltaX / 3, 0);
-                    tbMovingY = Math.Max(deltaY / 3, 0);
-                    ToolBarV2Grid.RenderTransformOrigin = new Point(1, 0);
-                    ToolBarV2Grid.RenderTransform = new ScaleTransform(1 - tbMovingX /350, 1 + tbMovingY /120);
-                } else if (_snapTypeTemp == ToolBarSnapType.RightBottomCorner) {
-                    tbMovingX = Math.Min(deltaX / 3, 0);
-                    tbMovingY = Math.Min(deltaY / 3, 0);
-                    ToolBarV2Grid.RenderTransformOrigin = new Point(1, 1);
-                    ToolBarV2Grid.RenderTransform = new ScaleTransform(1 - tbMovingX /350, 1 - tbMovingY /120);
-                } 
+                tbMovingX = (new int[] { 1, 3, 6 }).Contains((int)_snapTypeTemp)?Math.Max(deltaX / 3, 0):tbMovingX;
+                tbMovingX = (new int[] { 2, 4, 5 }).Contains((int)_snapTypeTemp)?Math.Min(deltaX / 3, 0):tbMovingX;
+                tbMovingY = (new int[] { 1, 2, 8 }).Contains((int)_snapTypeTemp)?Math.Max(deltaY / 3, 0):tbMovingY;
+                tbMovingY = (new int[] { 3, 4, 7 }).Contains((int)_snapTypeTemp)?Math.Min(deltaY / 3, 0):tbMovingY;
+                ToolBarV2Grid.RenderTransformOrigin = new Point(
+                    (new int[] { 1, 3, 6 }).Contains((int)_snapTypeTemp) ? 0 :
+                    (new int[] { 7, 8 }).Contains((int)_snapTypeTemp) ? 0.5 : 1,
+                    (new int[] { 1, 2, 8 }).Contains((int)_snapTypeTemp) ? 0 :
+                    (new int[] { 5, 6 }).Contains((int)_snapTypeTemp) ? 0.5 : 1
+                );
+                ToolBarV2Grid.RenderTransform = new ScaleTransform(
+                    1 + (tbMovingX /350)*((new int[] { 1, 3, 6 }).Contains((int)_snapTypeTemp)?1:(new int[] { 2, 4, 5 }).Contains((int)_snapTypeTemp)?-1:0),
+                    1 + (tbMovingY /120)*((new int[] { 1, 2, 8 }).Contains((int)_snapTypeTemp)?1:(new int[] { 3, 4, 7 }).Contains((int)_snapTypeTemp)?-1:0));
                 ToolbarV2.RenderTransform = new TranslateTransform(tbMovingX, tbMovingY);
                 HeadIconImage.RenderTransform = new TranslateTransform(tbMovingX / 2, tbMovingY / 2);
+            }
+        }
+        
+        #endregion
+
+        private CornerRadius _ltCornerRadius = new CornerRadius(0, 0, 4, 0);
+        private CornerRadius _lbCornerRadius = new CornerRadius(0, 4, 0, 0);
+        private CornerRadius _rtCornerRadius = new CornerRadius(0, 0, 0, 4);
+        private CornerRadius _rbCornerRadius = new CornerRadius(4, 0, 0, 0);
+        private CornerRadius _tsCornerRadius = new CornerRadius(0, 0, 4, 4);
+        private CornerRadius _bsCornerRadius = new CornerRadius(4, 4, 0, 0);
+
+        private void UpdateToolbarPlacementFeedback() {
+            var snapT = SnapType;
+            var xSideCenter = (System.Windows.SystemParameters.PrimaryScreenWidth - ActualWidth) / 2;
+            var xDeltaCenter = xSideCenter - Left;
+            PlaceFeedbackBorder.Width = ActualWidth - 16;
+            PlaceFeedbackBorder.Height = ActualHeight - 16;
+            PlacementFeedbackPopup.IsOpen = true;
+            if (Math.Abs(24 + Top) <= 24 && Math.Abs(24 + Left) <= 24) {
+                PlacementFeedbackPopup.VerticalOffset = 0;
+                PlacementFeedbackPopup.HorizontalOffset = 0;
+                PlaceFeedbackBorder.CornerRadius = _ltCornerRadius;
+                PlacementFeedbackTipText.VerticalAlignment = VerticalAlignment.Bottom;
+                PlacementFeedbackTipText.HorizontalAlignment = HorizontalAlignment.Left;
+                PlacementFeedbackTipText.Text = "左上角";
+            } else if (Math.Abs(24 + Left) <= 24 && 24 - (Top + ActualHeight - System.Windows.SystemParameters.PrimaryScreenHeight) <= 24) {
+                PlacementFeedbackPopup.VerticalOffset = System.Windows.SystemParameters.PrimaryScreenHeight - ActualHeight + 16;
+                PlacementFeedbackPopup.HorizontalOffset = 0;
+                PlaceFeedbackBorder.CornerRadius = _lbCornerRadius;
+                PlacementFeedbackTipText.VerticalAlignment = VerticalAlignment.Top;
+                PlacementFeedbackTipText.HorizontalAlignment = HorizontalAlignment.Left;
+                PlacementFeedbackTipText.Text = "左下角";
+            } else if (24 - (Left + ActualWidth - System.Windows.SystemParameters.PrimaryScreenWidth) <= 24 && Math.Abs(24 + Top) <= 24) {
+                PlacementFeedbackPopup.VerticalOffset = 0;
+                PlacementFeedbackPopup.HorizontalOffset = System.Windows.SystemParameters.PrimaryScreenWidth - ActualWidth + 16;
+                PlaceFeedbackBorder.CornerRadius = _rtCornerRadius;
+                PlacementFeedbackTipText.VerticalAlignment = VerticalAlignment.Bottom;
+                PlacementFeedbackTipText.HorizontalAlignment = HorizontalAlignment.Right;
+                PlacementFeedbackTipText.Text = "右上角";
+            } else if (24 - (Left + ActualWidth - System.Windows.SystemParameters.PrimaryScreenWidth) <= 24 &&
+                       24 - (Top + ActualHeight - System.Windows.SystemParameters.PrimaryScreenHeight) <= 24) {
+                PlacementFeedbackPopup.VerticalOffset = System.Windows.SystemParameters.PrimaryScreenHeight - ActualHeight + 16;
+                PlacementFeedbackPopup.HorizontalOffset = System.Windows.SystemParameters.PrimaryScreenWidth - ActualWidth + 16;
+                PlaceFeedbackBorder.CornerRadius = _rbCornerRadius;
+                PlacementFeedbackTipText.VerticalAlignment = VerticalAlignment.Top;
+                PlacementFeedbackTipText.HorizontalAlignment = HorizontalAlignment.Right;
+                PlacementFeedbackTipText.Text = "右下角";
+            } else if (snapT == ToolBarSnapType.TopSide && Math.Abs(xDeltaCenter)<=50) {
+                PlacementFeedbackPopup.VerticalOffset = 0;
+                PlacementFeedbackPopup.HorizontalOffset =
+                    (System.Windows.SystemParameters.PrimaryScreenWidth - ActualWidth + 16) / 2;
+                PlaceFeedbackBorder.CornerRadius = _tsCornerRadius;
+                PlacementFeedbackTipText.VerticalAlignment = VerticalAlignment.Bottom;
+                PlacementFeedbackTipText.HorizontalAlignment = HorizontalAlignment.Center;
+                PlacementFeedbackTipText.Text = "顶部居中";
+            } else if (snapT == ToolBarSnapType.BottomSide && Math.Abs(xDeltaCenter)<=90) {
+                PlacementFeedbackPopup.VerticalOffset = System.Windows.SystemParameters.PrimaryScreenHeight - ActualHeight + 16;
+                PlacementFeedbackPopup.HorizontalOffset =
+                    (System.Windows.SystemParameters.PrimaryScreenWidth - ActualWidth + 16) / 2;
+                PlaceFeedbackBorder.CornerRadius = _bsCornerRadius;
+                PlacementFeedbackTipText.VerticalAlignment = VerticalAlignment.Top;
+                PlacementFeedbackTipText.HorizontalAlignment = HorizontalAlignment.Center;
+                PlacementFeedbackTipText.Text = "底部居中";
+            } else {
+                PlacementFeedbackPopup.IsOpen = false;
             }
         }
 
         public FloatingBarItem SelectedItem {
             get => ToolbarItems.Single(item => item.Selected);
+        }
+
+        private void UseNearSnap() {
+            if (Math.Abs(24 + Top) <= 24 && Math.Abs(24 + Left) <= 24) {
+                Top = -24;
+                Left = -24;
+            } else if (
+                24 - (Left + ActualWidth - System.Windows.SystemParameters.PrimaryScreenWidth) <= 24 &&
+                Math.Abs(24 + Top) <= 24
+            ) {
+                Top = -24;
+                Left = System.Windows.SystemParameters.PrimaryScreenWidth - ActualWidth + 24;
+            } else if (
+                Math.Abs(24 + Left) <= 24 &&
+                24 - (Top + ActualHeight - System.Windows.SystemParameters.PrimaryScreenHeight) <= 24
+            ) {
+                Top = System.Windows.SystemParameters.PrimaryScreenHeight - ActualHeight + 24;
+                Left = -24;
+            } else if (
+                24 - (Left + ActualWidth - System.Windows.SystemParameters.PrimaryScreenWidth) <= 24 &&
+                24 - (Top + ActualHeight - System.Windows.SystemParameters.PrimaryScreenHeight) <= 24
+            ) {
+                Top = System.Windows.SystemParameters.PrimaryScreenHeight - ActualHeight + 24;
+                Left = System.Windows.SystemParameters.PrimaryScreenWidth - ActualWidth + 24;
+            }
         }
 
         private void HeadIconButton_MouseUp(object sender, MouseButtonEventArgs e) {
@@ -840,10 +910,12 @@ namespace Ink_Canvas
             ToolbarV2.RenderTransform = null;
             ToolBarV2Grid.RenderTransform = null;
             HeadIconImage.RenderTransform = null;
+            PlacementFeedbackPopup.IsOpen = false;
+            UseNearSnap();
             if (!isInMovingMode) {
                 var mp = System.Windows.Forms.Control.MousePosition;
                 var mpLogical = new Point(mp.X * ScalingFactor, mp.Y * ScalingFactor);
-                if (Math.Abs(mpLogical.X - prevPoint.X - winLeft - 24) < 4 || Math.Abs(mpLogical.Y - prevPoint.Y - winTop - 24) < 4) {
+                if (Math.Abs(mpLogical.X - prevPoint.X - winLeft - 24) < 2.5 || Math.Abs(mpLogical.Y - prevPoint.Y - winTop - 24) < 2.5) {
                     if (ToolBarNowVariantMode == 3) {
                         if (SelectedItem.ToolType != MainWindow.ICCToolsEnum.CursorMode)
                             UpdateToolBarVariant(0);
