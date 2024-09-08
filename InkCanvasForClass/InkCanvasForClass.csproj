@@ -184,6 +184,7 @@
 		<PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
 		<PackageReference Include="OSVersionExt" Version="3.0.0" />
 		<PackageReference Include="PixiEditor.ColorPicker" Version="3.4.1" />
+		<PackageReference Include="Tomlyn" Version="0.17.0" />
 		<PackageReference Include="Vanara.PInvoke.Magnification" Version="4.0.2" />
 	</ItemGroup>
 	<ItemGroup>
@@ -630,6 +631,9 @@
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
+		<None Update="icc.toml">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Properties\Settings.settings">
 			<Generator>SettingsSingleFileGenerator</Generator>
 			<LastGenOutput>Settings.Designer.cs</LastGenOutput>

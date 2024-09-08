@@ -29,6 +29,12 @@
     <Compile Update="Popups\ShapeDrawingPopup.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\SettingsViews\AboutPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\SettingsViews\SettingsBaseView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\SettingsWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -62,6 +68,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Resources\GeometryIcons.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\SettingsViews\AboutPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\SettingsViews\SettingsBaseView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\SettingsWindow.xaml">

@@ -83,6 +83,7 @@ namespace Ink_Canvas
             //var clonedDrawing = (FindResource("CursorIcon") as DrawingImage).Clone();
             //((clonedDrawing.Drawing as DrawingGroup).Children[0] as
             //    GeometryDrawing).Brush = new SolidColorBrush(Colors.Black);
+            
             ToolbarItems.Add(new FloatingBarItem() {
                 Name = "Cursor",
                 IconSource = FindResource("CursorIcon") as DrawingImage,

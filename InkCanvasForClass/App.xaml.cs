@@ -16,6 +16,8 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
+using Ink_Canvas.Properties;
+using Ink_Canvas.Resources.ICCConfiguration;
 
 namespace Ink_Canvas {
 
@@ -34,6 +36,7 @@ namespace Ink_Canvas {
 
         public static string[] StartArgs = null;
         public static string RootPath = Environment.GetEnvironmentVariable("APPDATA") + "\\Ink Canvas\\";
+        public static ICCConfiguration SettingsV2 = new ICCConfiguration();
 
         public App() {
             this.Startup += new StartupEventHandler(App_Startup);
@@ -61,6 +64,8 @@ namespace Ink_Canvas {
             }
 
             RootPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+
+            SettingsV2 = ConfigurationHelper.ReadConfiguration();
 
             LogHelper.NewLog(string.Format("Ink Canvas Starting (Version: {0})", Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
@@ -112,8 +117,6 @@ namespace Ink_Canvas {
             } catch (Exception ex) {
                 LogHelper.WriteLogToFile(ex.ToString(), LogHelper.LogType.Error);
             }
-
-
 
             mainWin = new MainWindow();
 

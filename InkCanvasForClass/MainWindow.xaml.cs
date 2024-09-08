@@ -23,6 +23,7 @@ using Ink_Canvas.Popups;
 using iNKORE.UI.WPF.Modern.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Ink_Canvas.Resources.ICCConfiguration;
 using Vanara.PInvoke;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
@@ -178,6 +179,7 @@ namespace Ink_Canvas {
         #region Definitions and Loading
 
         public static Settings Settings = new Settings();
+        public static ICCConfiguration SettingsV2 = new ICCConfiguration();
         public static string settingsFileName = "Settings.json";
         public bool isLoaded = false;
 
@@ -224,6 +226,8 @@ namespace Ink_Canvas {
 
             //TextBlockVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             LogHelper.WriteLogToFile("Ink Canvas Loaded", LogHelper.LogType.Event);
+
+            var app = Application.Current;
 
             isLoaded = true;
 
