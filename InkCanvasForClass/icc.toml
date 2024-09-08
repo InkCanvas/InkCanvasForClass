@@ -1,8 +1,6 @@
 # InkCanvasForClass 配置文件
 # 版本：v1.0 2024-9-12
 Version = 1.0
-# 
-# 
 [FloatingBar]                               # 浮动工具栏
 SemiTransparent = false                     # 半透明工具栏
 # 开启半透明工具栏后，所有按钮都会呈现为半透明状态
@@ -24,7 +22,6 @@ ClearButtonPressColor = [254, 226, 226]     # 清空按钮按下时颜色
 ToolButtonSelectedBgColor = [37, 99, 235]   # 工具按钮选中颜色
 MovingLimitationNoSnap = 12                 # 移动限制 无Snap，0 关闭
 MovingLimitationSnapped = 24                # 移动限制 Snaped，0 关闭
-# 
 [FloatingBar.NearSnapAreaSize]   # 浮动工具栏角落吸附区域大小
 TopLeft = 24                     # 左上角
 TopRight = 24                    # 右上角
@@ -32,7 +29,6 @@ BottomLeft = [24,24]             # 左下角
 BottomRight = [24,24]            # 右下角
 TopCenter = 24                   # 顶部
 BottomCenter = 24                # 底部
-# 
 [FloatingBar.ToolBarItems]       # 浮动工具栏工具按钮排序和显示
 CursorMode = [ "Cursor", "Pen", "Clear" , "Separator", "Whiteboard", "Gesture", "Menu", "Fold" ]
 MiniMode = [ "Cursor", "Pen", "Clear" ]
