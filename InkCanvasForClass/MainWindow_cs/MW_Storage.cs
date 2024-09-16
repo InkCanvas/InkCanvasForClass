@@ -17,7 +17,7 @@ using Ink_Canvas.Helpers;
 using JetBrains.Annotations;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
 
         public class StorageLocationItem {
             public string Path { get; set; }

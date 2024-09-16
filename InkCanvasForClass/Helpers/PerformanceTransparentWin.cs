@@ -108,7 +108,7 @@ namespace Ink_Canvas.Helpers
             ResizeMode = ResizeMode.NoResize;
 
             WindowChrome.SetWindowChrome(this,
-                new WindowChrome { GlassFrameThickness = WindowChrome.GlassFrameCompleteThickness, CaptionHeight = 0 });
+                new WindowChrome { GlassFrameThickness = WindowChrome.GlassFrameCompleteThickness, CaptionHeight = 0, CornerRadius = new CornerRadius(0), ResizeBorderThickness = new Thickness(0)});
 
             var visualTree = new FrameworkElementFactory(typeof(Border));
             visualTree.SetValue(Border.BackgroundProperty, new TemplateBindingExtension(Window.BackgroundProperty));

@@ -9,9 +9,10 @@ using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
+using Ink_Canvas.Helpers;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
 
         public bool isUsingGeometryEraser = false;
         private IncrementalStrokeHitTester hitTester = null;

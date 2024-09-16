@@ -16,7 +16,7 @@ using Ink_Canvas.Helpers;
 
 namespace Ink_Canvas
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : PerformanceTransparentWin
     {
         private class PageListViewItem
         {

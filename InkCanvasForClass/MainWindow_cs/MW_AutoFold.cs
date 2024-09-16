@@ -13,7 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
         public bool isFloatingBarFolded = false;
         private bool isFloatingBarChangingHideMode = false;
 

@@ -8,7 +8,7 @@ using System.Windows.Input;
 using File = System.IO.File;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
         private void SymbolIconSaveStrokes_MouseUp(object sender, MouseButtonEventArgs e) {
             if (lastBorderMouseDownObject != sender || inkCanvas.Visibility != Visibility.Visible) return;
 

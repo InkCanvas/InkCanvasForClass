@@ -15,7 +15,7 @@ using System.Windows.Media.Animation;
 using Ink_Canvas.Popups;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
         private int inkColor = 1;
 
         private void ColorSwitchCheck() {

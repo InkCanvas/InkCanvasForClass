@@ -6,11 +6,11 @@ using System.Security;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("InkCanvasForClassPPTVsto")]
+[assembly: AssemblyTitle("InkCanvasForClass.PowerPoint.VstoPlugin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("InkCanvasForClassPPTVsto")]
+[assembly: AssemblyProduct("InkCanvasForClass.PowerPoint.VstoPlugin")]
 [assembly: AssemblyCopyright("Copyright ©  2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -21,7 +21,7 @@ using System.Security;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("cfac1b17-2ab3-422a-9a48-a2d01a63f52d")]
+[assembly: Guid("d9844682-af03-445c-826b-7c1e2b7959a1")]
 
 // 程序集的版本信息由下列四个值组成:
 //

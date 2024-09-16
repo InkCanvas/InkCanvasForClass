@@ -583,18 +583,21 @@ namespace Ink_Canvas
             }
         }
 
+        public event EventHandler<EventArgs> FloatingBarToolSelectionChanged;
+        public event EventHandler<EventArgs> FloatingBarToolButtonClicked;
+
         private void OnToolSelectionChanged(FloatingBarItem sender) {
             if (ToolBarNowVariantMode == 3) return;
-            HideAllPopups();
+            Dispatcher.InvokeAsync(() => HideAllPopups());
             if (sender.Selected && sender.ToolType != MainWindow.ICCToolsEnum.CursorMode) {
                 if (ToolBarNowVariantMode != 0) UpdateToolBarVariant(0);
             } else {
                 if (ToolBarNowVariantMode != 1) UpdateToolBarVariant(1);
             }
+            FloatingBarToolSelectionChanged?.Invoke(sender,EventArgs.Empty);
         }
 
         private void OnToolButtonClicked(FloatingBarItem sender, Grid container) {
-            
             if (sender.ToolType == MainWindow.ICCToolsEnum.PenMode) {
                 if (PenPaletteV2Popup.IsOpen) {
                     HideAllPopups();
@@ -626,6 +629,7 @@ namespace Ink_Canvas
                     ShapeDrawingPopupV2.IsOpen = true;
                 }
             }
+            FloatingBarToolButtonClicked?.Invoke(sender,EventArgs.Empty);
         }
 
         private void ToolbarButton_MouseDown(object sender, MouseButtonEventArgs e) {

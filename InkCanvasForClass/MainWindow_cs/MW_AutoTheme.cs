@@ -3,10 +3,11 @@ using iNKORE.UI.WPF.Modern;
 using System;
 using System.Windows;
 using System.Windows.Media;
+using Ink_Canvas.Helpers;
 using Application = System.Windows.Application;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    /*public partial class MainWindow : PerformanceTransparentWin {
         private Color FloatBarForegroundColor = Color.FromRgb(102, 102, 102);
 
         private void SetTheme(string theme) {
@@ -82,5 +83,5 @@ namespace Ink_Canvas {
 
             return light;
         }
-    }
+    }*/
 }

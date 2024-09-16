@@ -20,9 +20,10 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using Application = System.Windows.Application;
 using Matrix = System.Windows.Media.Matrix;
 using Point = System.Windows.Point;
+using Ink_Canvas.Helpers;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
         #region Floating Control
 
         private object lastBorderMouseDownObject;

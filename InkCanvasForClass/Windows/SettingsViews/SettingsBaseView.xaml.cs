@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,16 +16,83 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ink_Canvas.Components;
 using iNKORE.UI.WPF.Helpers;
 
 namespace Ink_Canvas.Windows.SettingsViews {
-    /// <summary>
-    /// SettingsBaseView.xaml 的交互逻辑
-    /// </summary>
+
+    public class SettingsViewPanel {
+        public string Title { get; set; }
+        public Visibility _TitleVisibility => String.IsNullOrWhiteSpace(Title) ? Visibility.Collapsed : Visibility.Visible;
+        public Thickness _PanelMargin =>
+            String.IsNullOrWhiteSpace(Title) ? new Thickness(0) : new Thickness(0, 12, 0, 0);
+        public ObservableCollection<SettingsItem> Items { get; set; } = new ObservableCollection<SettingsItem>() { };
+    }
+
+    public enum SettingsItemType {
+        Plain, // 只显示Title和Description
+        SingleToggleSwtich,
+        ToggleSwitchWithArrowButton,
+        SelectionButtons,
+    }
+
+    public class SettingsItem : INotifyPropertyChanged {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public SettingsItemType Type { get; set; } = SettingsItemType.Plain;
+        public bool IsClickable { get; set; } = false;
+        public bool IsSeparatorVisible { get; set; } = true;
+        public Visibility _SeparatorVisibility => IsSeparatorVisible ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility _ToggleSwitchVisibility =>
+            Type == SettingsItemType.SingleToggleSwtich || Type == SettingsItemType.ToggleSwitchWithArrowButton ? Visibility.Visible : Visibility.Collapsed;
+        private bool _toggleSwitchToggled;
+        public bool ToggleSwitchToggled {
+            get => _toggleSwitchToggled;
+            set {
+                if (_toggleSwitchToggled != value) {
+                    _toggleSwitchToggled = value;
+                    OnPropertyChanged(nameof(ToggleSwitchToggled)); // 通知绑定控件属性变化
+                    OnToggleSwitchToggled?.Invoke(this, EventArgs.Empty); // 触发事件
+                }
+            }
+        }
+        public event EventHandler OnToggleSwitchToggled;
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private SolidColorBrush _toggleSwitchBackground = new SolidColorBrush(Color.FromRgb(53, 132, 228));
+        public SolidColorBrush ToggleSwitchBackground {
+            get => _toggleSwitchBackground;
+            set {
+                if (_toggleSwitchBackground != value) {
+                    _toggleSwitchBackground = value;
+                    OnPropertyChanged(nameof(ToggleSwitchBackground)); // 通知绑定控件属性变化
+                }
+            }
+        }
+
+        private bool _toggleSwitchEnabled = true;
+        public bool ToggleSwitchEnabled {
+            get => _toggleSwitchEnabled;
+            set {
+                if (_toggleSwitchEnabled != value) {
+                    _toggleSwitchEnabled = value;
+                    OnPropertyChanged(nameof(ToggleSwitchEnabled)); // 通知绑定控件属性变化
+                }
+            }
+        }
+    }
+    
     public partial class SettingsBaseView : UserControl {
         public SettingsBaseView() {
             InitializeComponent();
+            SettingsViewBaseItemsControl.ItemsSource = SettingsPanels;
         }
+
+        public ObservableCollection<SettingsViewPanel> SettingsPanels { get; set; } =
+            new ObservableCollection<SettingsViewPanel>() { };
 
         public event EventHandler<RoutedEventArgs> IsTopBarNeedShadowEffect; 
         public event EventHandler<RoutedEventArgs> IsTopBarNeedNoShadowEffect;
@@ -64,6 +134,12 @@ namespace Ink_Canvas.Windows.SettingsViews {
                     _thumb.Background = new SolidColorBrush(Color.FromRgb(138, 138, 138));
                 }
             }
+        }
+
+        private void ToggleSwitch_OnToggled(object sender, RoutedEventArgs e) {
+            var toggleswitch = sender as ToggleSwitch;
+            var item = toggleswitch.Tag as SettingsItem;
+            item.ToggleSwitchToggled = toggleswitch.IsOn;
         }
 
         private void ScrollBarTrack_MouseLeave(object sender, MouseEventArgs e) {

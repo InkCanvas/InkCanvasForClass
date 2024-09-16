@@ -568,7 +568,7 @@
                     </StackPanel>
                 </Grid>
                 <!--CanvasAndInkPanel-->
-                <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="CanvasAndInkPane">
+                <Grid Margin="250,48,0,0" Visibility="Visible" Name="CanvasAndInkPane">
                     <ScrollViewer ScrollChanged="ScrollViewerEx_ScrollChanged" IsManipulationEnabled="True" Name="CanvasAndInkScrollViewerEx" IsDeferredScrollingEnabled="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
                         <StackPanel Margin="60,12,60,24">
                             <Border BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
@@ -862,6 +862,7 @@
                                     </Grid>
                                 </StackPanel>
                             </Border>
+                            <settingsViews:FloatingBarDnDSettingsPanel/>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -1328,8 +1329,8 @@
                     </ScrollViewer>
                 </Grid>
                 <!--AppearancePanel-->
-                <Grid Margin="250,48,0,0" Visibility="Visible" Name="AppearancePane">
-                    <ScrollViewer ScrollChanged="ScrollViewerEx_ScrollChanged" IsManipulationEnabled="True" Name="AppearanceScrollViewerEx" IsDeferredScrollingEnabled="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
+                <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="AppearancePaneEx">
+                    <ScrollViewer ScrollChanged="ScrollViewerEx_ScrollChanged" IsManipulationEnabled="True" Name="AppearanceScrollViewerExEx" IsDeferredScrollingEnabled="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" IsTabStop="False" TabIndex="-1" Margin="0,0,2,2">
                         <StackPanel Margin="0,12,0,24" HorizontalAlignment="Center" Width="524">
                             <Border BorderBrush="#e6e6e6" BorderThickness="1.25,1.25,1.25,4" CornerRadius="8">
                                 <StackPanel Orientation="Vertical">
@@ -1842,6 +1843,9 @@
                             </Border>
                         </StackPanel>
                     </ScrollViewer>
+                </Grid>
+                <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="AppearancePane">
+                    <settingsViews:AppearancePanel/>
                 </Grid>
                 <!--InkRecognitionPanel-->
                 <Grid Margin="250,48,0,0" Visibility="Collapsed" Name="InkRecognitionPane">

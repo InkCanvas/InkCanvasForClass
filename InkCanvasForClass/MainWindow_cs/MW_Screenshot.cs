@@ -22,9 +22,10 @@ using System.Reflection;
 using System.Windows.Shapes;
 using Path = System.IO.Path;
 using Rectangle = System.Drawing.Rectangle;
+using Ink_Canvas.Helpers;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
         #region MagnificationAPI 获取屏幕截图并过滤ICC窗口
 
         #region Dubi906w 的轮子

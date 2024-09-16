@@ -22,6 +22,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Ink_Canvas.Popups;
+using Ink_Canvas.Windows.SettingsViews;
 using iNKORE.UI.WPF.Helpers;
 using iNKORE.UI.WPF.Modern.Controls;
 using OSVersionExtension;
@@ -161,7 +162,7 @@ namespace Ink_Canvas.Windows {
                 CanvasAndInkScrollViewerEx,
                 GesturesScrollViewerEx,
                 StartupScrollViewerEx,
-                AppearanceScrollViewerEx,
+                (AppearancePane.Children[0] as AppearancePanel).BaseView.SettingsViewScrollViewer,
                 InkRecognitionScrollViewerEx,
                 AutomationScrollViewerEx,
                 PowerPointScrollViewerEx

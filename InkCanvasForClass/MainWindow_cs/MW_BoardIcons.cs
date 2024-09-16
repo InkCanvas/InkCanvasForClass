@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
 
         private Border lastBoardToolBtnDownBorder = null;
         private Border lastBoardSideBtnDownBorder = null;

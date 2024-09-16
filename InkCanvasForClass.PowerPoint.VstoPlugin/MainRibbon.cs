@@ -26,7 +26,7 @@ using Office = Microsoft.Office.Core;
 // 有关详细信息，请参见 Visual Studio Tools for Office 帮助中的功能区 XML 文档。
 
 
-namespace InkCanvasForClassPPTVsto {
+namespace InkCanvasForClass.PowerPoint.VstoPlugin {
     [ComVisible(true)]
     public class MainRibbon : Office.IRibbonExtensibility {
         private Office.IRibbonUI ribbon;
@@ -37,7 +37,7 @@ namespace InkCanvasForClassPPTVsto {
         #region IRibbonExtensibility 成员
 
         public string GetCustomUI(string ribbonID) {
-            return GetResourceText("InkCanvasForClassPPTVsto.MainRibbon.xml");
+            return GetResourceText("InkCanvasForClass.PowerPoint.VstoPlugin.MainRibbon.xml");
         }
 
         #endregion

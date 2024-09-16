@@ -21,9 +21,6 @@ using Ink_Canvas.Resources.ICCConfiguration;
 
 namespace Ink_Canvas {
 
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application {
 
         [DllImport("UIAccessDLL_x86.dll", EntryPoint = "PrepareUIAccess", CallingConvention = CallingConvention.Cdecl)]
@@ -58,9 +55,9 @@ namespace Ink_Canvas {
             var identity = WindowsIdentity.GetCurrent();
             var principal = new WindowsPrincipal(identity);
             if (Environment.Is64BitProcess && principal.IsInRole(WindowsBuiltInRole.Administrator)) {
-                Trace.WriteLine(PrepareUIAccessX64());
+                //Trace.WriteLine(PrepareUIAccessX64());
             } else if (principal.IsInRole(WindowsBuiltInRole.Administrator)) {
-                PrepareUIAccessX86();
+                //PrepareUIAccessX86();
             }
 
             RootPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -119,23 +116,10 @@ namespace Ink_Canvas {
             }
 
             mainWin = new MainWindow();
-
-            if (isUsingWindowChrome && DwmCompositionHelper.DwmIsCompositionEnabled()) {
-                mainWin.AllowsTransparency = false;
-                WindowChrome wc = new WindowChrome();
-                wc.GlassFrameThickness = new Thickness(-1);
-                wc.CaptionHeight = 0;
-                wc.CornerRadius = new CornerRadius(0);
-                wc.ResizeBorderThickness = new Thickness(0);
-                WindowChrome.SetWindowChrome(mainWin, wc);
-            } else {
-                mainWin.AllowsTransparency = true;
-                WindowChrome.SetWindowChrome(mainWin, null);
-            }
             mainWin.Show();
 
-            var setW = new SettingsWindow();
-            setW.Show();
+            //var setW = new SettingsWindow();
+            //setW.Show();
 
             _taskbar = (TaskbarIcon)FindResource("TaskbarTrayIcon");
 

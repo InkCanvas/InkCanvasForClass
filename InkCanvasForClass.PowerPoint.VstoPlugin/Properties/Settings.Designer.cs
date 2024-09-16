@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace InkCanvasForClassPPTVsto.Properties {
+namespace InkCanvasForClass.PowerPoint.VstoPlugin.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

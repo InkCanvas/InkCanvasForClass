@@ -19,7 +19,7 @@ using iNKORE.UI.WPF.Modern;
 using Microsoft.Office.Core;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
         public static Microsoft.Office.Interop.PowerPoint.Application pptApplication = null;
         public static Presentation presentation = null;
         public static Slides slides = null;

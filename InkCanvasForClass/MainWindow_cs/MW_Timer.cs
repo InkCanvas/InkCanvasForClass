@@ -39,7 +39,7 @@ namespace Ink_Canvas {
         }
     }
 
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
         private Timer timerCheckPPT = new Timer();
         private Timer timerKillProcess = new Timer();
         private Timer timerCheckAutoFold = new Timer();

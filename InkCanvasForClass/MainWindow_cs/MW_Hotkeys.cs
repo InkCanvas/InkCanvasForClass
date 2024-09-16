@@ -2,10 +2,11 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
+using Ink_Canvas.Helpers;
 using static Ink_Canvas.Popups.ColorPalette;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
         private void Window_MouseWheel(object sender, MouseWheelEventArgs e) {
             if (BorderFloatingBarExitPPTBtn.Visibility != Visibility.Visible || currentMode != 0) return;
             if (e.Delta >= 120)

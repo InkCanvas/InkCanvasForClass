@@ -31,7 +31,7 @@ using Application = System.Windows.Application;
 using Point = System.Windows.Point;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
         #region Behavior
 
         private void ToggleSwitchIsAutoUpdate_Toggled(object sender, RoutedEventArgs e) {
@@ -1650,7 +1650,7 @@ namespace Ink_Canvas {
             Settings.PowerPointSettings.PowerPointSupport = true;
             Settings.PowerPointSettings.IsShowCanvasAtNewSlideShow = false;
             Settings.PowerPointSettings.IsNoClearStrokeOnSelectWhenInPowerPoint = true;
-            Settings.PowerPointSettings.IsShowStrokeOnSelectInPowerPoint = false;
+            //Settings.PowerPointSettings.IsShowStrokeOnSelectInPowerPoint = false;
             Settings.PowerPointSettings.IsAutoSaveStrokesInPowerPoint = true;
             Settings.PowerPointSettings.IsAutoSaveScreenShotInPowerPoint = true;
             Settings.PowerPointSettings.IsNotifyPreviousPage = false;

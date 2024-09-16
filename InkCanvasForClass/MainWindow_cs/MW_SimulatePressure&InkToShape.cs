@@ -14,7 +14,7 @@ using System.Windows.Threading;
 using Point = System.Windows.Point;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
         private StrokeCollection newStrokes = new StrokeCollection();
         private List<Circle> circles = new List<Circle>();
 

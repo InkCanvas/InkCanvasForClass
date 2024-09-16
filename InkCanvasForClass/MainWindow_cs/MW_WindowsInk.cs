@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ink_Canvas.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Windows.Input;
 
 namespace Ink_Canvas
 {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
 
         private bool _stylusInverted = false;
         private int _stylusInvertedInit = 0;

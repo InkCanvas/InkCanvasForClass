@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 using Office = Microsoft.Office.Core;
 
-namespace InkCanvasForClassPPTVsto
+namespace InkCanvasForClass.PowerPoint.VstoPlugin
 {
     public partial class ThisAddIn
     {

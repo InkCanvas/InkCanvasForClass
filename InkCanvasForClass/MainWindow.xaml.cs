@@ -30,7 +30,7 @@ using Button = System.Windows.Controls.Button;
 using TextBox = System.Windows.Controls.TextBox;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
 
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
@@ -108,7 +108,7 @@ namespace Ink_Canvas {
             timeMachine.OnUndoStateChanged += TimeMachine_OnUndoStateChanged;
             inkCanvas.Strokes.StrokesChanged += StrokesOnStrokesChanged;
 
-            Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+            //Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
             try {
                 if (File.Exists("SpecialVersion.ini")) SpecialVersionResetToSuggestion_Click();
             }
@@ -212,8 +212,6 @@ namespace Ink_Canvas {
             analyzer.Analyze();
         }
 
-        public FloatingToolBarV2 FloatingToolBarV2;
-
         private async void Window_Loaded(object sender, RoutedEventArgs e) {
             loadPenCanvas();
             //加载设置
@@ -222,7 +220,7 @@ namespace Ink_Canvas {
             if (Environment.Is64BitProcess) SettingsInkRecognitionGroupBox.Visibility = Visibility.Collapsed;
 
             ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
-            SystemEvents_UserPreferenceChanged(null, null);
+            //SystemEvents_UserPreferenceChanged(null, null);
 
             //TextBlockVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             LogHelper.WriteLogToFile("Ink Canvas Loaded", LogHelper.LogType.Event);
@@ -231,10 +229,7 @@ namespace Ink_Canvas {
 
             isLoaded = true;
 
-            FloatingToolBarV2 = new FloatingToolBarV2();
-            FloatingToolBarV2.Topmost = false;
-            FloatingToolBarV2.Show();
-            FloatingToolBarV2.Owner = this;
+            InitFloatingToolbarV2();
 
             BlackBoardLeftSidePageListView.ItemsSource = blackBoardSidePageListViewObservableCollection;
             BlackBoardRightSidePageListView.ItemsSource = blackBoardSidePageListViewObservableCollection;

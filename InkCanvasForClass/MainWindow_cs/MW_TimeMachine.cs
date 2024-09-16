@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.Windows.Media.Imaging;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
         private enum CommitReason {
             UserInput,
             CodeInput,

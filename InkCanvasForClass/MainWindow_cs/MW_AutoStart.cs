@@ -1,9 +1,10 @@
-﻿using IWshRuntimeLibrary;
+﻿using Ink_Canvas.Helpers;
+using IWshRuntimeLibrary;
 using System;
 using System.Windows;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
         public static bool StartAutomaticallyCreate(string exeName) {
             try {
                 var shell = new WshShell();

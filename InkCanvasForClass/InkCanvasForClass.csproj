@@ -166,6 +166,7 @@
 		<None Include="app.manifest" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
 		<PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
 		<PackageReference Include="ILRepack" Version="2.0.34">
 			<PrivateAssets>all</PrivateAssets>

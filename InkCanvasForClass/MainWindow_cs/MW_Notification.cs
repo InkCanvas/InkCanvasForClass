@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace Ink_Canvas
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : PerformanceTransparentWin
     {
         int lastNotificationShowTime = 0;
         int notificationShowTime = 2500;

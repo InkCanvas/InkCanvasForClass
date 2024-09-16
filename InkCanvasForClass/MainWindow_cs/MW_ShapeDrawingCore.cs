@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ink_Canvas.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Ink;
@@ -7,7 +8,7 @@ using System.Windows.Media;
 
 namespace Ink_Canvas {
 
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
 
         public StrokeCollection DrawShapeCore(PointCollection pts, ShapeDrawingType type, bool doNotDisturbutePoints, bool isPreview) {
             // 线

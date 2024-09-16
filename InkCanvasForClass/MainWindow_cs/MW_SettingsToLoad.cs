@@ -22,7 +22,7 @@ using File = System.IO.File;
 using OperatingSystem = OSVersionExtension.OperatingSystem;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : System.Windows.Window {
+    public partial class MainWindow : PerformanceTransparentWin {
 
         private void DisplayWelcomePopup() {
             if( TaskDialog.OSSupportsTaskDialogs ) {
@@ -360,7 +360,7 @@ namespace Ink_Canvas {
 
                 FloatingBarTextVisibilityBindingLikeAPieceOfShit.Visibility = Settings.Appearance.FloatingBarButtonLabelVisibility ? Visibility.Visible : Visibility.Collapsed;
 
-                SystemEvents_UserPreferenceChanged(null, null);
+                //SystemEvents_UserPreferenceChanged(null, null);
             } else {
                 Settings.Appearance = new Appearance();
             }

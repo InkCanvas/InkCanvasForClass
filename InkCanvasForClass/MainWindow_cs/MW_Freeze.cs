@@ -7,10 +7,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Ink_Canvas.Helpers;
 using Vanara.PInvoke;
 
 namespace Ink_Canvas {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : PerformanceTransparentWin {
 
         public IntPtr MagnificationWinHandle;
         public IntPtr MagnificationHostWindowHandle;

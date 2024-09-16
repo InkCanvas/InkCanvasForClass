@@ -276,8 +276,7 @@ namespace Ink_Canvas
         public bool IsShowCanvasAtNewSlideShow { get; set; } = true;
         [JsonProperty("isNoClearStrokeOnSelectWhenInPowerPoint")]
         public bool IsNoClearStrokeOnSelectWhenInPowerPoint { get; set; } = true;
-        [JsonProperty("isShowStrokeOnSelectInPowerPoint")]
-        public bool IsShowStrokeOnSelectInPowerPoint { get; set; } = false;
+
         [JsonProperty("isAutoSaveStrokesInPowerPoint")]
         public bool IsAutoSaveStrokesInPowerPoint { get; set; } = true;
         [JsonProperty("isAutoSaveScreenShotInPowerPoint")]
