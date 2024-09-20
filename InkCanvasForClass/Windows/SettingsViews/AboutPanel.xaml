@@ -181,12 +181,9 @@
                     </StackPanel>
                 </Border>
                 <StackPanel Orientation="Vertical" Margin="0,16,0,0">
-                    <TextBlock Foreground="#2e3436" FontWeight="Bold" FontSize="12" Text="© Copyright 2024 Dubi906w 所有" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0"/>
-                    <TextBlock Foreground="#878787" FontSize="12" Text="© 2022-2024 HARKOTEK Studio 提供技术支持" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,6,15,0"/>
-                    <TextBlock Foreground="#878787" FontSize="12" Text="感谢 HARKOTEK Studio 的成员 “幻想熵K2ro_” 提供技术支持" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0"/>
+                    <TextBlock Foreground="#2e3436" FontWeight="Bold" FontSize="12" Text="© Copyright 2024 Dubi906w(Doubx690i/kriastans) 所有" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0"/>
                     <TextBlock Foreground="#878787" Width="356" FlowDirection="RightToLeft" TextWrapping="Wrap" FontSize="12" Text="ICC 的部分元素设计参考来源于：© iNKORE! 名下产品 Inkways，已经过授权使用，最终解释权归 Yoojun Zhou 所有" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,6,15,0"/>
-                    <TextBlock Foreground="#878787" FontWeight="Bold" Width="276" FlowDirection="RightToLeft" TextWrapping="Wrap" FontSize="12" Text="ICC 小量地使用了 iNKORE! 开发的 UI 组件库：iNKORE.UI.WPF.Modern" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,6,15,0"/>
-                    <TextBlock Foreground="#878787" FontSize="12" Text="osu! 相关素材：© ppy powered 2007-2024" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,6,15,0"/>
+                    <TextBlock Foreground="#878787" FontWeight="Bold" Width="276" FlowDirection="RightToLeft" TextWrapping="Wrap" FontSize="12" Text="ICC 使用了 iNKORE! 开发的 UI 组件库：iNKORE.UI.WPF.Modern" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,6,15,0"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

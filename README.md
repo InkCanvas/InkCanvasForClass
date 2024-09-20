@@ -14,7 +14,7 @@ Elegant by Default. Based on `ChangSakura/InkCanvas` .
 ![Gitea Last Commit](https://img.shields.io/gitea/last-commit/kriastans/InkCanvasForClass?gitea_url=https%3A%2F%2Fgitea.bliemhax.com%2F)
 [![LICENSE](https://img.shields.io/badge/License-GPL--3.0-red.svg "LICENSE")](https://gitea.bliemhax.com/kriastans/InkCanvasForClass/src/branch/master/LICENSE)
 <br/>
-[![交流群](https://img.shields.io/badge/-%E4%BA%A4%E6%B5%81%E7%BE%A4%20825759306-blue?style=flat&logo=TencentQQ)]()
+[![交流群](https://img.shields.io/badge/-%E4%BA%A4%E6%B5%81%E7%BE%A4%20979119289-blue?style=flat&logo=TencentQQ)](https://qm.qq.com/q/X9ZAp5Ulky)
 [![Telegram](https://img.shields.io/badge/-Telegram%20@InkCanvasForClass-blue?style=flat&logo=Telegram)](https://t.me/InkCanvasForClass)
 
 </div>
@@ -173,10 +173,14 @@ ICC 可以支持 WPS，但目前无法同时支持 MSOffice 和 WPS。若要启�
 **本项目基于 GNU General Public License Version 3 进行开源**
 
 1. 你可以免费使用、复制、修改、分发受保护程序，但分发时一定要提供源码。
-2. 你可以收费。比如可以针对目标码、源码的分发收费，可以针对软件的维修保养（主要是提供技术支持，以下简称“维保”）收费；但不能收许可费、版税、专利许可费、授权费这类费用。
+2. 你可以收费。比如可以针对目标码、源码的分发收费，可以针对软件的维修保养（主要是提供技术支持）收费；但不能收许可费、版税、专利许可费、授权费这类费用。
 3. GPL程序的所有贡献者，自动免费提供了专利许可，承诺不会告人侵犯专利权（前提是你遵守了GPL）。
 4. GPL程序允许别人破解。如果是用在消费类硬件上，要允许人修改并安装程序。
 
 ## 开发者
 
 Doubx690i(Dubi906w/kriastans) `逗比的九百有六大不留`
+
+## 耻辱柱
+
+牢记 **`幻想熵K2ro`** 对本项目带来的影响。

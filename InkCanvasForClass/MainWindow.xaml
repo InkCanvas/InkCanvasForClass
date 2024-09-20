@@ -9033,20 +9033,11 @@
                                     <Image Source="Resources/contributors.png" />
                                     <ui:SimpleStackPanel Spacing="3" Orientation="Vertical">
                                         <TextBlock
-                                            Text="© 2024 Dubi906w(Kriastans) 版权所有" FontWeight="Bold"
+                                            Text="© 2024 Dubi906w(Doubx690i/kriastans) 版权所有" FontWeight="Bold"
                                             TextWrapping="Wrap" Foreground="White" />
-                                        <TextBlock
-                                            Text="© 2022-2024 HARKOTEK Studio 提供技术支持"
-                                            TextWrapping="Wrap" Foreground="#a1a1aa" />
-                                        <TextBlock
-                                            Text="感谢 HARKOTEK Studio 的成员 “幻想熵K2ro_” 提供技术支持"
-                                            TextWrapping="Wrap" Foreground="#a1a1aa" />
                                         <TextBlock
 
                                             Text="ICC的部分元素设计参考来源于：© iNKORE! 名下产品 Inkways，已经过授权使用，最终解释权归 Yoojun Zhou 所有"
-                                            TextWrapping="Wrap" Foreground="#a1a1aa" />
-                                        <TextBlock
-                                            Text="osu! 相关素材：© ppy powered 2007-2024"
                                             TextWrapping="Wrap" Foreground="#a1a1aa" />
                                         <TextBlock
                                             Text="We love Open-Source forever!" FontWeight="Bold"
