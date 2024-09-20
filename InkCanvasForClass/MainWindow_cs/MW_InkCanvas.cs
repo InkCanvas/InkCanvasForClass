@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
+using System.Windows.Input.StylusPlugIns;
 using System.Windows.Media;
 using iNKORE.UI.WPF.Helpers;
 
@@ -123,8 +125,104 @@ namespace Ink_Canvas {
         }
     }
 
+    class CustomDynamicRenderer : DynamicRenderer {
+
+        private Point prevPoint;
+
+        private List<StylusPoint> pointsList = new List<StylusPoint>();
+
+        private void ClearPointsList() {
+            pointsList.Clear();
+        }
+
+        private void PushPoint(StylusPoint point) {
+            pointsList.Add(point);
+            if (pointsList.Count > 15) {
+                pointsList.RemoveRange(0,pointsList.Count - 15);
+            }
+        }
+
+        protected override void OnStylusDown(RawStylusInput rawStylusInput) {
+            prevPoint = new Point(double.NegativeInfinity, double.NegativeInfinity);
+            ClearPointsList();
+            var pts = rawStylusInput.GetStylusPoints();
+            if (pts.Count == 1) {
+                PushPoint(pts.Single());
+            } else if (pts.Count > 1) {
+                PushPoint(pts[pts.Count-1]);
+            }
+            Trace.WriteLine(pointsList.Count);
+            base.OnStylusDown(rawStylusInput);
+        }
+
+        protected override void OnStylusMove(RawStylusInput rawStylusInput) {
+            base.OnStylusMove(rawStylusInput);
+            var pts = rawStylusInput.GetStylusPoints();
+            if (pts.Count == 1) {
+                PushPoint(pts.Single());
+            } else if (pts.Count > 1) {
+                PushPoint(pts[pts.Count-1]);
+            }
+            Trace.WriteLine(pointsList.Count);
+        }
+
+        protected override void OnDraw(DrawingContext drawingContext,
+            StylusPointCollection stylusPoints,
+            Geometry geometry, Brush fillBrush) {
+            try {
+                var sp = new StylusPointCollection();
+                var n = pointsList.Count - 1;
+                var pressure = 0.1;
+                var x = 10;
+                if (n == 1) return;
+                if (n >= x) {
+                    for (var i = 0; i < n - x; i++) {
+                        var point = new StylusPoint();
+
+                        point.PressureFactor = (float)0.5;
+                        point.X = pointsList[i].X;
+                        point.Y = pointsList[i].Y;
+                        sp.Add(point);
+                    }
+
+                    for (var i = n - x; i <= n; i++) {
+                        var point = new StylusPoint();
+
+                        point.PressureFactor = (float)((0.5 - pressure) * (n - i) / x + pressure);
+                        point.X = pointsList[i].X;
+                        point.Y = pointsList[i].Y;
+                        sp.Add(point);
+                    }
+                }
+                else {
+                    for (var i = 0; i <= n; i++) {
+                        var point = new StylusPoint();
+
+                        point.PressureFactor = (float)(0.4 * (n - i) / n + pressure);
+                        point.X = pointsList[i].X;
+                        point.Y = pointsList[i].Y;
+                        sp.Add(point);
+                    }
+                }
+
+                var da = DrawingAttributes.Clone();
+                da.Width *= 0.75;
+                da.Height *= 0.75;
+                var stk = new Stroke(sp,da);
+                stk.Draw(drawingContext);
+            }
+            catch { }
+            
+        }
+    }
+
     public class IccInkCanvas : InkCanvas {
+
+        CustomDynamicRenderer customDynamicRenderer = new CustomDynamicRenderer();
+
         public IccInkCanvas() {
+            DynamicRenderer = customDynamicRenderer;
+
             // 通过反射移除InkCanvas自带的默认 Delete按键事件
             var commandBindingsField =
                 typeof(CommandManager).GetField("_classCommandBindings", BindingFlags.NonPublic | BindingFlags.Static);

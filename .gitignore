@@ -8,5 +8,9 @@
 /InkCanvasForClass.PowerPoint.InteropHelper/bin
 /InkCanvasForClass.PowerPoint.Vsto/obj
 /InkCanvasForClass.PowerPoint.Vsto/bin
+/InkCanvasForClass.IccInkCanvas/obj
+/InkCanvasForClass.IccInkCanvas/bin
+/InkCanvasForClass.IccInkCanvas.Demo/obj
+/InkCanvasForClass.IccInkCanvas.Demo/bin
 /.vs
 /.idea
