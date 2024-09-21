@@ -94,5 +94,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InkCanvasForClass.IccInkCanvas\InkCanvasForClass.IccInkCanvas.csproj">
+      <Project>{43929d8f-5630-4786-b75d-e203ea3e992f}</Project>
+      <Name>InkCanvasForClass.IccInkCanvas</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

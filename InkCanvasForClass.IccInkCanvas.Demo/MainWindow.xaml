@@ -4,9 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InkCanvasForClass.IccInkCanvas.Demo"
+        xmlns:iccInkCanvas="clr-namespace:InkCanvasForClass.IccInkCanvas;assembly=InkCanvasForClass.IccInkCanvas"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="850" Width="800">
     <Grid>
-        
+        <StackPanel Orientation="Vertical" Margin="8">
+            <TextBlock FontSize="24">IccInkCanvasDemo</TextBlock>
+            <iccInkCanvas:IccBoard Name="IccBoard" Width="512" Height="512"/>
+            <WrapPanel Orientation="Horizontal">
+                <Button Content="EditingMode = None" Click="EditingModeChangeToNone_ButtonClick"/>
+                <Button Content="EditingMode = Writing" Click="EditingModeChangeToWriting_ButtonClick"/>
+            </WrapPanel>
+        </StackPanel>
     </Grid>
 </Window>

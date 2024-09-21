@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using InkCanvasForClass.IccInkCanvas.Settings;
 
 namespace InkCanvasForClass.IccInkCanvas.Demo {
     /// <summary>
@@ -20,6 +22,13 @@ namespace InkCanvasForClass.IccInkCanvas.Demo {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+        }
+
+        private void EditingModeChangeToNone_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.EditingMode = EditingMode.None;
+        }
+        private void EditingModeChangeToWriting_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.EditingMode = EditingMode.Writing;
         }
     }
 }

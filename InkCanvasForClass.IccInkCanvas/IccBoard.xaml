@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="InkCanvasForClass.IccInkCanvas.IccBoard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:InkCanvasForClass.IccInkCanvas"
+             mc:Ignorable="d">
+    <Grid Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualWidth}"
+          Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualHeight}">
+        <Canvas Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualWidth}"
+                Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualHeight}"
+                ClipToBounds="True" x:Name="InkCanvasHostCanvas" x:FieldModifier="private">
+            <local:IccInkCanvas  x:Name="InkCanvas" x:FieldModifier="private" Loaded="IccInkCanvas_Loaded"/>
+        </Canvas>
+    </Grid>
+</UserControl>

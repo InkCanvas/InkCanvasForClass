@@ -48,9 +48,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IccInkCanvas.xaml.cs">
-      <DependentUpon>IccInkCanvas.xaml</DependentUpon>
+    <Compile Include="Settings\BoardSettings.cs" />
+    <Compile Include="IccBoard.xaml.cs">
+      <DependentUpon>IccBoard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IccInkCanvas.cs" />
+    <Compile Include="IccStroke.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -64,6 +67,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Settings\EditingMode.cs" />
+    <Compile Include="Settings\Nib.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -74,10 +79,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="IccInkCanvas.xaml">
+    <Page Include="IccBoard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
