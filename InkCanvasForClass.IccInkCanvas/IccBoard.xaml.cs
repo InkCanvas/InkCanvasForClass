@@ -96,6 +96,16 @@ namespace InkCanvasForClass.IccInkCanvas {
 
         #endregion
 
+        #region BoardSettings
+
+        private void RegisterEventsForBoardSettings() {
+            BoardSettings.NibWidthChanged += (s,e)=>InkCanvas.DefaultDrawingAttributes.Width = BoardSettings.NibWidth;
+            BoardSettings.NibHeightChanged += (s,e)=>InkCanvas.DefaultDrawingAttributes.Height = BoardSettings.NibHeight;
+            BoardSettings.NibColorChanged += (s,e)=>InkCanvas.DefaultDrawingAttributes.Color = BoardSettings.NibColor;
+        }
+
+        #endregion
+
         public IccBoard() {
             InitializeComponent();
         }
@@ -123,6 +133,9 @@ namespace InkCanvasForClass.IccInkCanvas {
             ic.DefaultDrawingAttributes.Color = BoardSettings.NibColor;
 
             ic.BoardSettings = BoardSettings;
+
+            // BoardSettings 事件注册
+            RegisterEventsForBoardSettings();
         }
 
     }

@@ -10,7 +10,7 @@
         <Canvas Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualWidth}"
                 Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualHeight}"
                 ClipToBounds="True" x:Name="InkCanvasHostCanvas" x:FieldModifier="private">
-            <local:IccInkCanvas  x:Name="InkCanvas" x:FieldModifier="private" Loaded="IccInkCanvas_Loaded"/>
+            <local:IccInkCanvas x:Name="InkCanvas" x:FieldModifier="private" Loaded="IccInkCanvas_Loaded"/>
         </Canvas>
     </Grid>
 </UserControl>

@@ -25,11 +25,15 @@ namespace InkCanvasForClass.IccInkCanvas.Settings {
     /// </summary>
     public enum StrokeNibStyle {
         /// <summary>
-        /// 无笔锋
+        /// 默认，直接根据输入设备提供的压力值正常渲染
+        /// </summary>
+        Default,
+        /// <summary>
+        /// 强制无笔锋
         /// </summary>
         Solid,
         /// <summary>
-        /// 有笔锋，基于固定点集算法计算
+        /// 有笔锋，基于固定点集算法计算，触笔设备不套用算法
         /// </summary>
         Beautiful
     }

@@ -9,34 +9,103 @@ namespace InkCanvasForClass.IccInkCanvas.Settings {
     public class BoardSettings {
         public BoardSettings() {}
 
+        private double _NibWidth { get; set; } = 4.00;
+
         /// <summary>
         /// 笔尖长度
         /// </summary>
-        public double NibWidth { get; set; } = 4.00;
+        public double NibWidth {
+            get => _NibWidth;
+            set {
+                if (Math.Abs(_NibWidth - value) < 0.0001) return;
+                _NibWidth = value;
+                NibWidthChanged?.Invoke(this,EventArgs.Empty);
+            }
+        }
+
+        private double _NibHeight { get; set; } = 4.00;
 
         /// <summary>
         /// 笔尖高度
         /// </summary>
-        public double NibHeight { get; set; } = 4.00;
-
-        /// <summary>
-        /// 笔尖大小，适合笔尖类型为普通笔时使用
-        /// </summary>
-        public double NibSize {
-            get => (NibWidth + NibHeight) / 2;
-            set => NibWidth = NibHeight = value;
+        public double NibHeight { 
+            get => _NibWidth;
+            set {
+                if (Math.Abs(_NibHeight - value) < 0.0001) return;
+                _NibHeight = value;
+                NibHeightChanged?.Invoke(this,EventArgs.Empty);
+            }
         }
 
-        public NibType NibType { get; set; } = NibType.Default;
+        private NibType _NibType { get; set; } = NibType.Default;
+
+        public NibType NibType {
+            get => _NibType;
+            set {
+                if (_NibType == value) return;
+                _NibType = value;
+                NibTypeChanged?.Invoke(this,EventArgs.Empty);
+            }
+        }
+
+        private Color _NibColor { get; set; } = Colors.Black;
 
         /// <summary>
         /// 笔尖颜色
         /// </summary>
-        public Color NibColor { get; set; } = Colors.Black;
+        public Color NibColor {
+            get => _NibColor;
+            set {
+                if (_NibColor.Equals(value)) return;
+                _NibColor = value;
+                NibColorChanged?.Invoke(this,EventArgs.Empty);
+            }
+        }
+
+        private StrokeNibStyle _StrokeNibStyle { get; set; } = StrokeNibStyle.Beautiful;
 
         /// <summary>
         /// 笔锋样式类型，默认有笔锋
         /// </summary>
-        public StrokeNibStyle StrokeNibStyle { get; set; } = StrokeNibStyle.Beautiful;
+        public StrokeNibStyle StrokeNibStyle {
+            get => _StrokeNibStyle;
+            set {
+                if (_StrokeNibStyle == value) return;
+                _StrokeNibStyle = value;
+                StrokeNibStyleChanged?.Invoke(this,EventArgs.Empty);
+            }
+        }
+
+        private bool _IsForceIgnoreStylusPressure { get; set; } = false;
+
+        /// <summary>
+        /// 强制忽略支持压力传感的输入设备返回的真实压力值（比如支持压感的手写笔）
+        /// </summary>
+        public bool IsForceIgnoreStylusPressure {
+            get => _IsForceIgnoreStylusPressure;
+            set {
+                if (_IsForceIgnoreStylusPressure == value) return;
+                _IsForceIgnoreStylusPressure = value;
+                IsForceIgnoreStylusPressureChanged?.Invoke(this,EventArgs.Empty);
+            }
+        }
+
+        #region Events
+
+        public event EventHandler<EventArgs> NibWidthChanged;
+        public event EventHandler<EventArgs> NibHeightChanged;
+        public event EventHandler<EventArgs> NibColorChanged;
+        public event EventHandler<EventArgs> NibTypeChanged;
+        public event EventHandler<EventArgs> StrokeNibStyleChanged;
+        public event EventHandler<EventArgs> IsForceIgnoreStylusPressureChanged;
+
+        #endregion
+    }
+
+    public enum InputtingDeviceType {
+        None,
+        Mouse,
+        Touch,
+        Stylus
     }
 }

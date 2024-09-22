@@ -17,11 +17,20 @@ using InkCanvasForClass.IccInkCanvas.Settings;
 namespace InkCanvasForClass.IccInkCanvas {
     class CustomDynamicRenderer : DynamicRenderer {
 
+        private class StylusProcessedCallbackData {
+            public int StylusDeviceID;
+            public int TabletDeviceID;
+        }
+
         private Point prevPoint;
 
         private IccInkCanvas _inkCanvas;
 
         private List<StylusPoint> pointsList = new List<StylusPoint>();
+
+        private StylusProcessedCallbackData _stylusProcessedCallbackData;
+
+        public InputtingDeviceType InputType = InputtingDeviceType.None;
 
         private void ClearPointsList() {
             pointsList.Clear();
@@ -41,14 +50,38 @@ namespace InkCanvasForClass.IccInkCanvas {
         protected override void OnStylusDown(RawStylusInput rawStylusInput) {
             prevPoint = new Point(double.NegativeInfinity, double.NegativeInfinity);
             ClearPointsList();
+
+            // 判断当前设备类型
+            var styDevice = rawStylusInput.StylusDeviceId;
+            var tabletDevice = rawStylusInput.TabletDeviceId;
+
             var pts = rawStylusInput.GetStylusPoints();
             if (pts.Count == 1) {
                 PushPoint(pts.Single());
             } else if (pts.Count > 1) {
                 PushPoint(pts[pts.Count-1]);
             }
-            Trace.WriteLine(pointsList.Count);
+
             base.OnStylusDown(rawStylusInput);
+
+            _stylusProcessedCallbackData = new StylusProcessedCallbackData() {
+                StylusDeviceID = styDevice,
+                TabletDeviceID = tabletDevice,
+            };
+        }
+
+        protected override void OnStylusDownProcessed(object callbackData, bool targetVerified) {
+            var data = _stylusProcessedCallbackData;
+            var tabletDevices = Tablet.TabletDevices;
+            if (data.StylusDeviceID == 0 && data.TabletDeviceID == 0) InputType = InputtingDeviceType.Mouse;
+            foreach (TabletDevice tabletDevice in tabletDevices) {
+                if (tabletDevice.Id == data.TabletDeviceID && tabletDevice.Type == TabletDeviceType.Stylus)
+                    InputType = InputtingDeviceType.Stylus;
+                if (tabletDevice.Id == data.TabletDeviceID && tabletDevice.Type == TabletDeviceType.Touch)
+                    InputType = InputtingDeviceType.Touch;
+            }
+            
+            base.OnStylusDownProcessed(callbackData, targetVerified);
         }
 
         protected override void OnStylusMove(RawStylusInput rawStylusInput) {
@@ -57,56 +90,107 @@ namespace InkCanvasForClass.IccInkCanvas {
             if (pts.Count == 1) {
                 PushPoint(pts.Single());
             } else if (pts.Count > 1) {
-                PushPoint(pts[pts.Count-1]);
+                if (InputType != InputtingDeviceType.Stylus) PushPoint(pts[pts.Count-1]);
             }
-            Trace.WriteLine(pointsList.Count);
+        }
+
+        protected override void OnStylusUpProcessed(object callbackData, bool targetVerified) {
+            //InputType = InputtingDeviceType.None;
+            // TODO: 触摸支持
+            base.OnStylusUpProcessed(callbackData, targetVerified);
+        }
+
+        private void DrawBeautifulNibStroke(DrawingContext drawingContext) {
+            try {
+                var sp = new StylusPointCollection();
+                var n = pointsList.Count - 1;
+                var pressure = 0.1;
+                var x = 10;
+                if (n == 1) return;
+                if (n >= x) {
+                    for (var i = 0; i < n - x; i++) {
+                        var point = new StylusPoint();
+
+                        point.PressureFactor = (float)0.5;
+                        point.X = pointsList[i].X;
+                        point.Y = pointsList[i].Y;
+                        sp.Add(point);
+                    }
+
+                    for (var i = n - x; i <= n; i++) {
+                        var point = new StylusPoint();
+
+                        point.PressureFactor = (float)((0.5 - pressure) * (n - i) / x + pressure);
+                        point.X = pointsList[i].X;
+                        point.Y = pointsList[i].Y;
+                        sp.Add(point);
+                    }
+                } else {
+                    for (var i = 0; i <= n; i++) {
+                        var point = new StylusPoint();
+
+                        point.PressureFactor = (float)(0.4 * (n - i) / n + pressure);
+                        point.X = pointsList[i].X;
+                        point.Y = pointsList[i].Y;
+                        sp.Add(point);
+                    }
+                }
+
+                var da = DrawingAttributes.Clone();
+                da.Width -= 0.5;
+                da.Height -= 0.5;
+                var stk = new Stroke(sp, da);
+                stk.Draw(drawingContext);
+            } catch {}
+        }
+
+        private void DrawSolidNibStroke(DrawingContext drawingContext) {
+            try {
+                var sp = new StylusPointCollection();
+                foreach (var pt in pointsList) {
+                    var point = new StylusPoint();
+                    point.PressureFactor = (float)0.5;
+                    point.X = pt.X;
+                    point.Y = pt.Y;
+                    sp.Add(point);
+                }
+                var da = DrawingAttributes.Clone();
+                da.Width -= 0.5;
+                da.Height -= 0.5;
+                var stk = new Stroke(sp, da);
+                stk.Draw(drawingContext);
+            }
+            catch {}
+        }
+
+        private void DrawSolidNibStrokeForStylus(StylusPointCollection stylusPoints, DrawingContext drawingContext) {
+            try {
+                var sp = new StylusPointCollection();
+                foreach (var pt in stylusPoints) {
+                    var point = new StylusPoint();
+                    point.PressureFactor = (float)0.5;
+                    point.X = pt.X;
+                    point.Y = pt.Y;
+                    sp.Add(point);
+                }
+                var da = DrawingAttributes.Clone();
+                var stk = new Stroke(sp, da);
+                stk.Draw(drawingContext);
+            }
+            catch {}
         }
 
         protected override void OnDraw(DrawingContext drawingContext,
             StylusPointCollection stylusPoints,
             Geometry geometry, Brush fillBrush) {
-            if (_inkCanvas.BoardSettings.StrokeNibStyle == StrokeNibStyle.Beautiful) {
-                try {
-                    var sp = new StylusPointCollection();
-                    var n = pointsList.Count - 1;
-                    var pressure = 0.1;
-                    var x = 10;
-                    if (n == 1) return;
-                    if (n >= x) {
-                        for (var i = 0; i < n - x; i++) {
-                            var point = new StylusPoint();
-
-                            point.PressureFactor = (float)0.5;
-                            point.X = pointsList[i].X;
-                            point.Y = pointsList[i].Y;
-                            sp.Add(point);
-                        }
-
-                        for (var i = n - x; i <= n; i++) {
-                            var point = new StylusPoint();
-
-                            point.PressureFactor = (float)((0.5 - pressure) * (n - i) / x + pressure);
-                            point.X = pointsList[i].X;
-                            point.Y = pointsList[i].Y;
-                            sp.Add(point);
-                        }
-                    } else {
-                        for (var i = 0; i <= n; i++) {
-                            var point = new StylusPoint();
-
-                            point.PressureFactor = (float)(0.4 * (n - i) / n + pressure);
-                            point.X = pointsList[i].X;
-                            point.Y = pointsList[i].Y;
-                            sp.Add(point);
-                        }
-                    }
-
-                    var da = DrawingAttributes.Clone();
-                    da.Width -= 0.5;
-                    da.Height -= 0.5;
-                    var stk = new Stroke(sp, da);
-                    stk.Draw(drawingContext);
-                } catch {}
+            if (_inkCanvas.BoardSettings.StrokeNibStyle == StrokeNibStyle.Beautiful && InputType != InputtingDeviceType.Stylus) {
+                DrawBeautifulNibStroke(drawingContext);
+            } else if (_inkCanvas.BoardSettings.StrokeNibStyle == StrokeNibStyle.Solid && InputType != InputtingDeviceType.Stylus) {
+                DrawSolidNibStroke(drawingContext);
+            } else if (_inkCanvas.BoardSettings.StrokeNibStyle == StrokeNibStyle.Solid && InputType == InputtingDeviceType.Stylus) {
+                DrawSolidNibStrokeForStylus(stylusPoints, drawingContext);
+            } else if (_inkCanvas.BoardSettings.StrokeNibStyle == StrokeNibStyle.Default) {
+                base.OnDraw(drawingContext, stylusPoints, geometry, fillBrush);
             } else {
                 base.OnDraw(drawingContext, stylusPoints, geometry, fillBrush);
             }
@@ -160,7 +244,7 @@ namespace InkCanvasForClass.IccInkCanvas {
                 this.Strokes.Add(customStroke);
             }
 
-            if (BoardSettings.StrokeNibStyle == StrokeNibStyle.Beautiful) {
+            if (BoardSettings.StrokeNibStyle == StrokeNibStyle.Beautiful && customDynamicRenderer.InputType != InputtingDeviceType.Stylus) {
                 try {
                     var stylusPoints = new StylusPointCollection();
                     var n = customStroke.StylusPoints.Count - 1;
@@ -199,6 +283,18 @@ namespace InkCanvasForClass.IccInkCanvas {
 
                     customStroke.StylusPoints = stylusPoints;
                 } catch { }
+            } else if (BoardSettings.StrokeNibStyle == StrokeNibStyle.Solid) {
+                try {
+                    var sp = new StylusPointCollection();
+                    foreach (var pt in customStroke.StylusPoints) {
+                        var point = new StylusPoint();
+                        point.PressureFactor = (float)0.5;
+                        point.X = pt.X;
+                        point.Y = pt.Y;
+                        sp.Add(point);
+                    }
+                    customStroke.StylusPoints = sp;
+                } catch { }
             }
 
             InkCanvasStrokeCollectedEventArgs args =
@@ -207,5 +303,7 @@ namespace InkCanvasForClass.IccInkCanvas {
         }
 
         public event EventHandler<RoutedEventArgs> DeleteKeyCommandFired;
+
+        public InputtingDeviceType InputtingDeviceType { get; private set; }
     }
 }
