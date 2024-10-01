@@ -597,6 +597,8 @@ namespace InkCanvasForClass.IccInkCanvas {
             ca.MouseMove += ((o, args) => {
                 RectangleAreaEraserCanvas_PointerMove(sender, args.GetPosition(WrapperInkCanvas), args.GetPosition(this));
             });
+
+            AreaErasingFeedback.Visibility = Visibility.Collapsed;
         }
 
         private void RectangleAreaEraserCanvas_PointerDown(object sender) {
@@ -632,6 +634,8 @@ namespace InkCanvasForClass.IccInkCanvas {
             rectangleAreaEraserCanvas_firstPtInIC = null;
             rectangleAreaEraserCanvas_lastPtInIC = null;
 
+            AreaErasingFeedback.Visibility = Visibility.Collapsed;
+
         }
 
         private void RectangleAreaEraserCanvas_PointerMove(object sender, Point ptInInkCanvas, Point ptInEraserOverlay) {
@@ -649,6 +653,13 @@ namespace InkCanvasForClass.IccInkCanvas {
                 rectangleAreaEraserCanvas_firstPt ?? new Point(0, 0),
                 rectangleAreaEraserCanvas_lastPt ?? new Point(0, 0));
 
+            // update fedback
+            if (AreaErasingFeedback.Visibility == Visibility.Collapsed)
+                AreaErasingFeedback.Visibility = Visibility.Visible;
+            Canvas.SetTop(AreaErasingFeedback,Math.Min(((Point)rectangleAreaEraserCanvas_firstPt).Y,((Point)rectangleAreaEraserCanvas_lastPt).Y));
+            Canvas.SetLeft(AreaErasingFeedback,Math.Min(((Point)rectangleAreaEraserCanvas_firstPt).X,((Point)rectangleAreaEraserCanvas_lastPt).X));
+            AreaErasingFeedback.Width = Math.Abs(((Point)rectangleAreaEraserCanvas_firstPt).X - ((Point)rectangleAreaEraserCanvas_lastPt).X);
+            AreaErasingFeedback.Height = Math.Abs(((Point)rectangleAreaEraserCanvas_firstPt).Y - ((Point)rectangleAreaEraserCanvas_lastPt).Y);
         }
 
         #endregion
