@@ -51,6 +51,9 @@ namespace InkCanvasForClass.IccInkCanvas.Demo {
         private void EditingModeChangeToGeometryErasing_ButtonClick(object sender, RoutedEventArgs e) {
             IccBoard.EditingMode = EditingMode.GeometryErasing;
         }
+        private void EditingModeChangeToAreaErasing_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.EditingMode = EditingMode.AreaErasing;
+        }
         private void BoardSettingsNibSizeChangeTo2_ButtonClick(object sender, RoutedEventArgs e) {
             IccBoard.BoardSettings.NibWidth = 2;
             IccBoard.BoardSettings.NibHeight = 2;
@@ -92,6 +95,24 @@ namespace InkCanvasForClass.IccInkCanvas.Demo {
         }
         private async void RemoveCurrentPage_ButtonClick(object sender, RoutedEventArgs e) {
             await IccBoard.RemovePage();
+        }
+        private void BoardSettingsEraserSizeChangeTo16_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.BoardSettings.EraserSize = 16;
+        }
+        private void BoardSettingsEraserSizeChangeTo32_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.BoardSettings.EraserSize = 32;
+        }
+        private void BoardSettingsEraserSizeChangeTo48_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.BoardSettings.EraserSize = 48;
+        }
+        private void BoardSettingsEraserSizeChangeTo64_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.BoardSettings.EraserSize = 64;
+        }
+        private void BoardSettingsEraserTypeChangeToRectangle_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.BoardSettings.EraserType = EraserType.Rectangle;
+        }
+        private void BoardSettingsEraserTypeChangeToEllipse_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.BoardSettings.EraserType = EraserType.Ellipse;
         }
     }
 }

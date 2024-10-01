@@ -28,4 +28,16 @@ namespace InkCanvasForClass.IccInkCanvas.Settings {
         SwitchToPreviousPage,
         SwitchToNextPage,
     }
+
+    public enum InputtingDeviceType {
+        None,
+        Mouse,
+        Touch,
+        Stylus
+    }
+
+    public enum EraserType {
+        Rectangle,
+        Ellipse,
+    }
 }

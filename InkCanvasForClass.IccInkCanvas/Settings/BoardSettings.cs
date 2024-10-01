@@ -90,6 +90,35 @@ namespace InkCanvasForClass.IccInkCanvas.Settings {
             }
         }
 
+        private EraserType _EraserType { get; set; } = EraserType.Rectangle;
+
+        /// <summary>
+        /// 指定橡皮擦的形状，支持矩形和圆形
+        /// </summary>
+        public EraserType EraserType {
+            get => _EraserType;
+            set {
+                if (_EraserType == value) return;
+                _EraserType = value;
+                EraserTypeChanged?.Invoke(this,EventArgs.Empty);
+            }
+        }
+
+        private double _EraserSize { get; set; } = 32D;
+
+        /// <summary>
+        /// 指定橡皮擦的大小，矩形橡皮擦为宽度（高度自动确定），圆形橡皮擦为直径
+        /// </summary>
+        public double EraserSize {
+            get => _EraserSize;
+            set {
+                if (_EraserSize == value) return;
+                _EraserSize = value;
+                EraserSizeChanged?.Invoke(this,EventArgs.Empty);
+            }
+        }
+
+
         #region Events
 
         public event EventHandler<EventArgs> NibWidthChanged;
@@ -98,14 +127,9 @@ namespace InkCanvasForClass.IccInkCanvas.Settings {
         public event EventHandler<EventArgs> NibTypeChanged;
         public event EventHandler<EventArgs> StrokeNibStyleChanged;
         public event EventHandler<EventArgs> IsForceIgnoreStylusPressureChanged;
+        public event EventHandler<EventArgs> EraserTypeChanged;
+        public event EventHandler<EventArgs> EraserSizeChanged;
 
         #endregion
-    }
-
-    public enum InputtingDeviceType {
-        None,
-        Mouse,
-        Touch,
-        Stylus
     }
 }

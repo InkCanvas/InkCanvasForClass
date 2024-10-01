@@ -15,6 +15,7 @@
                 <Button Content="EditingMode = None" Click="EditingModeChangeToNone_ButtonClick"/>
                 <Button Content="EditingMode = Writing" Click="EditingModeChangeToWriting_ButtonClick"/>
                 <Button Content="EditingMode = GeometryErasing" Click="EditingModeChangeToGeometryErasing_ButtonClick"/>
+                <Button Content="EditingMode = AreaErasing" Click="EditingModeChangeToAreaErasing_ButtonClick"/>
             </WrapPanel>
             <TextBlock Name="BoardSettingsTextBlock"/>
             <WrapPanel Orientation="Horizontal">
@@ -34,6 +35,14 @@
                 <Button Content="SwitchToPreviousPage" Click="SwitchToPreviousPage_ButtonClick"/>
                 <Button Content="SwitchToNextPage" Click="SwitchToNextPage_ButtonClick"/>
                 <Button Content="RemoveCurrentPage" Click="RemoveCurrentPage_ButtonClick"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal">
+                <Button Content="BoardSettings.EraserSize = 16" Click="BoardSettingsEraserSizeChangeTo16_ButtonClick"/>
+                <Button Content="BoardSettings.EraserSize = 32" Click="BoardSettingsEraserSizeChangeTo32_ButtonClick"/>
+                <Button Content="BoardSettings.EraserSize = 48" Click="BoardSettingsEraserSizeChangeTo48_ButtonClick"/>
+                <Button Content="BoardSettings.EraserSize = 64" Click="BoardSettingsEraserSizeChangeTo64_ButtonClick"/>
+                <Button Content="BoardSettings.EraserType = Rectangle" Click="BoardSettingsEraserTypeChangeToRectangle_ButtonClick"/>
+                <Button Content="BoardSettings.EraserType = Ellipse" Click="BoardSettingsEraserTypeChangeToEllipse_ButtonClick"/>
             </WrapPanel>
         </StackPanel>
     </Grid>

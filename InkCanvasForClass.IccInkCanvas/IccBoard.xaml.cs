@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -76,6 +77,8 @@ namespace InkCanvasForClass.IccInkCanvas {
             IsHitTestVisible = EditingMode != EditingMode.None;
             if (EditingMode == EditingMode.Writing) WrapperInkCanvas.EditingMode = InkCanvasEditingMode.Ink;
             EraserCanvas.Visibility = EditingMode == EditingMode.GeometryErasing ? Visibility.Visible : Visibility.Collapsed;
+            RectangleAreaEraserCanvas.Visibility =
+                EditingMode == EditingMode.AreaErasing ? Visibility.Visible : Visibility.Collapsed;
         }
 
         #endregion
@@ -182,6 +185,7 @@ namespace InkCanvasForClass.IccInkCanvas {
         }
 
         private void UpdateInnerInkCanvasVisibility(IccBoardPage item) {
+            WrapperInkCanvas.Strokes.Clear();
             foreach (UIElement child in InkCanvasHostCanvas.Children) {
                 child.Visibility = Visibility.Collapsed;
                 if (child.Equals(item.Container)) child.Visibility = Visibility.Visible;
@@ -430,10 +434,13 @@ namespace InkCanvasForClass.IccInkCanvas {
         private void IccWrapperInkCanvas_StrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e) {
             var ic = (IccInkCanvas)sender;
 
-            ic.Strokes.Remove(e.Stroke);
-            BoardPages[CurrentPageIndex].Dispatcher.Invoke(() => {
-                var _c = (InkCanvas)BoardPages[CurrentPageIndex].Container.Child;
-                _c.Strokes.Add(e.Stroke);
+            Task.Run(() => {
+                BoardPages[CurrentPageIndex].Dispatcher.Invoke(() => {
+                    var _c = (InkCanvas)BoardPages[CurrentPageIndex].Container.Child;
+                    _c.Strokes.Add(e.Stroke);
+                });
+                Task.Delay(100);
+                Dispatcher.InvokeAsync(()=>ic.Strokes.Remove(e.Stroke));
             });
         }
 
@@ -441,6 +448,7 @@ namespace InkCanvasForClass.IccInkCanvas {
 
         #region Eraser Overlay
 
+        private IncrementalStrokeHitTester eraserStrokeHitTester;
         private bool isEraserOverlayPointerDown = false;
 
         private void EraserOverlayCanvas_Loaded(object sender, RoutedEventArgs e) {
@@ -457,7 +465,7 @@ namespace InkCanvasForClass.IccInkCanvas {
             });
             bd.StylusMove += ((o, args) => {
                 e.Handled = true;
-                EraserOverlay_PointerMove(sender, args.GetPosition(WrapperInkCanvas));
+                EraserOverlay_PointerMove(sender, args.GetPosition(WrapperInkCanvas), args.GetPosition(this));
             });
             bd.MouseDown += ((o, args) => {
                 ((Canvas)o).CaptureMouse();
@@ -468,20 +476,179 @@ namespace InkCanvasForClass.IccInkCanvas {
                 EraserOverlay_PointerUp(sender);
             });
             bd.MouseMove += ((o, args) => {
-                EraserOverlay_PointerMove(sender, args.GetPosition(WrapperInkCanvas));
+                EraserOverlay_PointerMove(sender, args.GetPosition(WrapperInkCanvas), args.GetPosition(this));
             });
+            BoardSettings.EraserTypeChanged += (o, args) => {
+                if (BoardSettings.EraserType == EraserType.Rectangle)
+                    EraserFeedback.Source = FindResource("RectangleEraserImageSource") as DrawingImage;
+                else if (BoardSettings.EraserType == EraserType.Ellipse)
+                    EraserFeedback.Source = FindResource("EllipseEraserImageSource") as DrawingImage;
+            };
+            EraserFeedback.Source = FindResource("RectangleEraserImageSource") as DrawingImage;
         }
 
         private void EraserOverlay_PointerDown(object sender) {
-            
+            if (isEraserOverlayPointerDown) return;
+            if (CurrentPageItem.Dispatcher.Invoke(() =>
+                    ((InkCanvas)CurrentPageItem.Container.Child).Strokes.Count) == 0) return;
+            isEraserOverlayPointerDown = true;
+            EraserFeedback.Width = Math.Max(BoardSettings.EraserSize,10);
+            EraserFeedback.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+
+
+            StylusShape stylusTipShape;
+            if (BoardSettings.EraserType == EraserType.Ellipse)
+                stylusTipShape = new EllipseStylusShape(Math.Max(BoardSettings.EraserSize-4, 10),
+                    Math.Max(BoardSettings.EraserSize-4, 10));
+            else stylusTipShape = new RectangleStylusShape(BoardSettings.EraserSize - 4, (BoardSettings.EraserSize-4) * 56 / 38);
+
+            // init hittester
+            Task.Run(() => {
+                eraserStrokeHitTester = CurrentPageItem.Dispatcher.Invoke(() =>
+                    ((InkCanvas)CurrentPageItem.Container.Child).Strokes.GetIncrementalStrokeHitTester(stylusTipShape));
+                CurrentPageItem.Dispatcher.Invoke(() => {
+                    eraserStrokeHitTester.StrokeHit += (obj, e) => {
+                        var stks = ((InkCanvas)CurrentPageItem.Container.Child).Strokes;
+                        StrokeCollection eraseResult = e.GetPointEraseResults();
+                        StrokeCollection strokesToReplace = new StrokeCollection { e.HitStroke };
+                        if (eraseResult.Any()) {
+                            stks.Replace(strokesToReplace, eraseResult);
+                        } else {
+                            stks.Remove(strokesToReplace);
+                        }
+                    };
+                });
+            });
         }
 
         private void EraserOverlay_PointerUp(object sender) {
+            if (!isEraserOverlayPointerDown) return;
+            isEraserOverlayPointerDown = false;
+            EraserFeedback.Visibility = Visibility.Collapsed;
+
+            Task.Run(() => {
+                CurrentPageItem.Dispatcher.Invoke(() => {
+                    eraserStrokeHitTester.EndHitTesting();
+                });
+                eraserStrokeHitTester = null;
+            });
+        }
+
+        private void EraserOverlay_PointerMove(object sender, Point ptInInkCanvas, Point ptInEraserOverlay) {
+            if (!isEraserOverlayPointerDown) return;
+            if (EraserFeedback.Visibility == Visibility.Collapsed) EraserFeedback.Visibility = Visibility.Visible;
+            EraserFeedbackTranslateTransform.X = ptInEraserOverlay.X - EraserFeedback.ActualWidth /2;
+            EraserFeedbackTranslateTransform.Y = ptInEraserOverlay.Y  - EraserFeedback.ActualHeight /2;
+
+            // erase stroke
+            try {
+                CurrentPageItem.Dispatcher.Invoke(() => {
+                    eraserStrokeHitTester.AddPoint(ptInInkCanvas);
+                });
+            }
+            catch{}
+        }
+
+        #endregion
+
+        #region Rectangle Area Eraser
+
+        private bool isRectangleAreaEraserCanvasPointerDown = false;
+        private Point? rectangleAreaEraserCanvas_firstPt;
+        private Point? rectangleAreaEraserCanvas_firstPtInIC;
+        private Point? rectangleAreaEraserCanvas_lastPt;
+        private Point? rectangleAreaEraserCanvas_lastPtInIC;
+
+
+        private void HostCanvas_Loaded(object sender, RoutedEventArgs e) {
+            var ca = (Canvas)sender;
+            HostCanvasClipGeometry1.Rect = new Rect(new Size(ca.Width, ca.Height));
+        }
+
+        private void HostCanvas_SizeChanged(object sender, SizeChangedEventArgs e) {
+            HostCanvasClipGeometry1.Rect = new Rect(e.NewSize);
+        }
+
+        private void RectangleAreaEraserCanvas_Loaded(object sender, RoutedEventArgs e) {
+            var ca = (Canvas)sender;
+
+            ca.StylusDown += ((o, args) => {
+                e.Handled = true;
+                if (args.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus) ((Canvas)o).CaptureStylus();
+                RectangleAreaEraserCanvas_PointerDown(sender);
+            });
+            ca.StylusUp += ((o, args) => {
+                e.Handled = true;
+                if (args.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus) ((Canvas)o).ReleaseStylusCapture();
+                RectangleAreaEraserCanvas_PointerUp(sender);
+            });
+            ca.StylusMove += ((o, args) => {
+                e.Handled = true;
+                RectangleAreaEraserCanvas_PointerMove(sender, args.GetPosition(WrapperInkCanvas), args.GetPosition(this));
+            });
+            ca.MouseDown += ((o, args) => {
+                ((Canvas)o).CaptureMouse();
+                RectangleAreaEraserCanvas_PointerDown(sender);
+            });
+            ca.MouseUp += ((o, args) => {
+                ((Canvas)o).ReleaseMouseCapture();
+                RectangleAreaEraserCanvas_PointerUp(sender);
+            });
+            ca.MouseMove += ((o, args) => {
+                RectangleAreaEraserCanvas_PointerMove(sender, args.GetPosition(WrapperInkCanvas), args.GetPosition(this));
+            });
+        }
+
+        private void RectangleAreaEraserCanvas_PointerDown(object sender) {
+            if (isRectangleAreaEraserCanvasPointerDown) return;
+            isRectangleAreaEraserCanvasPointerDown = true;
+
+            HostCanvasClipGeometry.Geometry2 = new RectangleGeometry();
+            rectangleAreaEraserCanvas_firstPt = null;
+            rectangleAreaEraserCanvas_lastPt = null;
+            rectangleAreaEraserCanvas_firstPtInIC = null;
+            rectangleAreaEraserCanvas_lastPtInIC = null;
+        }
+
+        private void RectangleAreaEraserCanvas_PointerUp(object sender) {
+            if (!isRectangleAreaEraserCanvasPointerDown) return;
+            isRectangleAreaEraserCanvasPointerDown = false;
+
+            HostCanvasClipGeometry.Geometry2 = Geometry.Empty;
+
+            var rect = new Rect(rectangleAreaEraserCanvas_firstPtInIC ?? new Point(0, 0),
+                rectangleAreaEraserCanvas_lastPtInIC ?? new Point(0, 0));
+
+            var stylusShape = new RectangleStylusShape(rect.Width, rect.Height);
+            Task.Run(() => {
+                CurrentPageItem.Dispatcher.Invoke(() => {
+                    ((InkCanvas)CurrentPageItem.Container.Child).Strokes.Erase(
+                        new Point[] { new Point(rect.Left + rect.Width / 2, rect.Top + rect.Height / 2) }, stylusShape);
+                });
+            });
+
+            rectangleAreaEraserCanvas_firstPt = null;
+            rectangleAreaEraserCanvas_lastPt = null;
+            rectangleAreaEraserCanvas_firstPtInIC = null;
+            rectangleAreaEraserCanvas_lastPtInIC = null;
 
         }
 
-        private void EraserOverlay_PointerMove(object sender, Point pt) {
-            
+        private void RectangleAreaEraserCanvas_PointerMove(object sender, Point ptInInkCanvas, Point ptInEraserOverlay) {
+            if (!isRectangleAreaEraserCanvasPointerDown) return;
+
+            if (rectangleAreaEraserCanvas_firstPt == null) {
+                rectangleAreaEraserCanvas_firstPt = ptInEraserOverlay;
+                rectangleAreaEraserCanvas_firstPtInIC = ptInInkCanvas;
+            }
+            rectangleAreaEraserCanvas_lastPt = ptInEraserOverlay;
+            rectangleAreaEraserCanvas_lastPtInIC = ptInInkCanvas;
+
+            // update geometry clip
+            ((RectangleGeometry)HostCanvasClipGeometry.Geometry2).Rect = new Rect(
+                rectangleAreaEraserCanvas_firstPt ?? new Point(0, 0),
+                rectangleAreaEraserCanvas_lastPt ?? new Point(0, 0));
+
         }
 
         #endregion
