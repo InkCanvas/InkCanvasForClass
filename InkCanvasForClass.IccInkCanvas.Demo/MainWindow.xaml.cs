@@ -24,6 +24,11 @@ namespace InkCanvasForClass.IccInkCanvas.Demo {
             InitializeComponent();
             RegisterEventsForBoardSettings();
             UpdateBoardSettingsTextBlock();
+
+            IccBoard.CurrentPageChanged += (sender, args) => {
+                Trace.WriteLine("Page Counter Updated");
+                BoardPageTextBlock.Text = $"{IccBoard.CurrentPage+1}/{IccBoard.PagesCount}  IsLast:{IccBoard.IsCurrentLastPage}  IsFirst:{IccBoard.IsCurrentFirstPage}";
+            };
         }
 
         private void UpdateBoardSettingsTextBlock() {
@@ -42,6 +47,9 @@ namespace InkCanvasForClass.IccInkCanvas.Demo {
         }
         private void EditingModeChangeToWriting_ButtonClick(object sender, RoutedEventArgs e) {
             IccBoard.EditingMode = EditingMode.Writing;
+        }
+        private void EditingModeChangeToGeometryErasing_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.EditingMode = EditingMode.GeometryErasing;
         }
         private void BoardSettingsNibSizeChangeTo2_ButtonClick(object sender, RoutedEventArgs e) {
             IccBoard.BoardSettings.NibWidth = 2;
@@ -72,6 +80,18 @@ namespace InkCanvasForClass.IccInkCanvas.Demo {
         }
         private void BoardSettingsStrokeNibStyleChangeToBeautiful_ButtonClick(object sender, RoutedEventArgs e) {
             IccBoard.BoardSettings.StrokeNibStyle = StrokeNibStyle.Beautiful;
+        }
+        private void AddPage_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.AddPage();
+        }
+        private void SwitchToPreviousPage_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.GoToPreviousPage();
+        }
+        private void SwitchToNextPage_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.GoToNextPage();
+        }
+        private async void RemoveCurrentPage_ButtonClick(object sender, RoutedEventArgs e) {
+            await IccBoard.RemovePage();
         }
     }
 }

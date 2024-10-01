@@ -198,7 +198,7 @@ namespace InkCanvasForClass.IccInkCanvas {
         }
     }
 
-    public class IccInkCanvas : InkCanvas {
+    internal class IccInkCanvas : InkCanvas {
 
         CustomDynamicRenderer customDynamicRenderer;
 
@@ -238,10 +238,10 @@ namespace InkCanvasForClass.IccInkCanvas {
         protected override void OnStrokeCollected(InkCanvasStrokeCollectedEventArgs e) {
             IccStroke customStroke = new IccStroke(e.Stroke.StylusPoints, e.Stroke.DrawingAttributes);
             if (e.Stroke is IccStroke) {
-                this.Strokes.Add(e.Stroke);
+                Strokes.Add(e.Stroke);
             } else {
-                this.Strokes.Remove(e.Stroke);
-                this.Strokes.Add(customStroke);
+                Strokes.Remove(e.Stroke);
+                Strokes.Add(customStroke);
             }
 
             if (BoardSettings.StrokeNibStyle == StrokeNibStyle.Beautiful && customDynamicRenderer.InputType != InputtingDeviceType.Stylus) {
@@ -300,6 +300,8 @@ namespace InkCanvasForClass.IccInkCanvas {
             InkCanvasStrokeCollectedEventArgs args =
                 new InkCanvasStrokeCollectedEventArgs(customStroke);
             base.OnStrokeCollected(args);
+
+            Trace.WriteLine("dfsffdsdfdfsfds");
         }
 
         public event EventHandler<RoutedEventArgs> DeleteKeyCommandFired;

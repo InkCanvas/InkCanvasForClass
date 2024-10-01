@@ -14,6 +14,7 @@
             <WrapPanel Orientation="Horizontal">
                 <Button Content="EditingMode = None" Click="EditingModeChangeToNone_ButtonClick"/>
                 <Button Content="EditingMode = Writing" Click="EditingModeChangeToWriting_ButtonClick"/>
+                <Button Content="EditingMode = GeometryErasing" Click="EditingModeChangeToGeometryErasing_ButtonClick"/>
             </WrapPanel>
             <TextBlock Name="BoardSettingsTextBlock"/>
             <WrapPanel Orientation="Horizontal">
@@ -26,6 +27,13 @@
                 <Button Content="BoardSettings.NibColor = Black" Click="BoardSettingsNibColorChangeToBlack_ButtonClick"/>
                 <Button Content="BoardSettings.StrokeNibStyle = Solid" Click="BoardSettingsStrokeNibStyleChangeToSolid_ButtonClick"/>
                 <Button Content="BoardSettings.StrokeNibStyle = Beautiful" Click="BoardSettingsStrokeNibStyleChangeToBeautiful_ButtonClick"/>
+            </WrapPanel>
+            <TextBlock Name="BoardPageTextBlock"/>
+            <WrapPanel Orientation="Horizontal">
+                <Button Content="AddPage" Click="AddPage_ButtonClick"/>
+                <Button Content="SwitchToPreviousPage" Click="SwitchToPreviousPage_ButtonClick"/>
+                <Button Content="SwitchToNextPage" Click="SwitchToNextPage_ButtonClick"/>
+                <Button Content="RemoveCurrentPage" Click="RemoveCurrentPage_ButtonClick"/>
             </WrapPanel>
         </StackPanel>
     </Grid>

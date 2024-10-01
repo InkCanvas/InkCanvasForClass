@@ -48,6 +48,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IccBoardPage.cs" />
+    <Compile Include="IccDispatcherInkCanvasInfo.cs" />
     <Compile Include="Settings\BoardSettings.cs" />
     <Compile Include="IccBoard.xaml.cs">
       <DependentUpon>IccBoard.xaml</DependentUpon>
@@ -68,7 +70,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Settings\EditingMode.cs" />
+    <Compile Include="Settings\Enums.cs" />
     <Compile Include="Settings\Nib.cs" />
+    <Compile Include="Utils\Threading\AwaiterInterfaces.cs" />
+    <Compile Include="Utils\Threading\DispatcherAsyncOperation.cs" />
+    <Compile Include="Utils\Threading\DispatcherContainer.cs" />
+    <Compile Include="Utils\Threading\InteractiveHostVisual.cs" />
+    <Compile Include="Utils\Threading\UIDispatcher.cs" />
+    <Compile Include="Utils\Threading\VisualTargetPresentationSource.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -84,6 +93,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations">
+      <Version>2024.2.0</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
