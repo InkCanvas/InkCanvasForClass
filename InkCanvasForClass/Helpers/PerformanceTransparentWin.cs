@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Shell;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Ink_Canvas.Helpers
@@ -106,6 +107,11 @@ namespace Ink_Canvas.Helpers
         {
             WindowStyle = WindowStyle.None;
             ResizeMode = ResizeMode.NoResize;
+
+            Stylus.SetIsFlicksEnabled(this, false);
+            Stylus.SetIsPressAndHoldEnabled(this, false);
+            Stylus.SetIsTapFeedbackEnabled(this, false);
+            Stylus.SetIsTouchFeedbackEnabled(this, false);
 
             WindowChrome.SetWindowChrome(this,
                 new WindowChrome { GlassFrameThickness = WindowChrome.GlassFrameCompleteThickness, CaptionHeight = 0, CornerRadius = new CornerRadius(0), ResizeBorderThickness = new Thickness(0)});
