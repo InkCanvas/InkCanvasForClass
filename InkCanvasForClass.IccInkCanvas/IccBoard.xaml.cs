@@ -19,6 +19,7 @@ using System.Windows.Threading;
 using InkCanvasForClass.IccInkCanvas.Settings;
 using InkCanvasForClass.IccInkCanvas.Utils.Threading;
 using JetBrains.Annotations;
+using MatrixTransform = System.Windows.Media.MatrixTransform;
 
 namespace InkCanvasForClass.IccInkCanvas {
 
@@ -98,6 +99,7 @@ namespace InkCanvasForClass.IccInkCanvas {
             EraserCanvas.Visibility = EditingMode == EditingMode.GeometryErasing ? Visibility.Visible : Visibility.Collapsed;
             RectangleAreaEraserCanvas.Visibility =
                 EditingMode == EditingMode.AreaErasing ? Visibility.Visible : Visibility.Collapsed;
+            RoamingHitTestBorder.Visibility = EditingMode == EditingMode.RoamingMode ? Visibility.Visible : Visibility.Collapsed;
         }
 
         #endregion
@@ -762,7 +764,6 @@ namespace InkCanvasForClass.IccInkCanvas {
         private Point? rectangleAreaEraserCanvas_lastPt;
         private Point? rectangleAreaEraserCanvas_lastPtInIC;
 
-
         private void HostCanvas_Loaded(object sender, RoutedEventArgs e) {
             var ca = (Canvas)sender;
             HostCanvasClipGeometry1.Rect = new Rect(new Size(ca.Width, ca.Height));
@@ -1135,6 +1136,95 @@ namespace InkCanvasForClass.IccInkCanvas {
             if (!_isTimeMachineThreadTaskDone) return;
             var history = CurrentPageItem.TimeMachine.Redo();
             if (history != null) ApplyHistoryToPage(CurrentPageItem,history);
+        }
+
+        #endregion
+
+        #region 漫游相关代码 Roaming
+
+        private bool isRoamingHitTestBorderPointerDown = false;
+
+        private Point? roamingFirstPoint;
+        private Point? roamingLastPoint;
+        private Matrix? roamingMatrix = null;
+
+        private void RoamingHitTestBorder_Loaded(object sender, RoutedEventArgs e) {
+            var rh = (Border)sender;
+
+            rh.StylusDown += ((o, args) => {
+                e.Handled = true;
+                if (args.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus) ((Border)o).CaptureStylus();
+                RoamingHitTestBorder_PointerDown(sender);
+            });
+            rh.StylusUp += ((o, args) => {
+                e.Handled = true;
+                if (args.StylusDevice.TabletDevice.Type == TabletDeviceType.Stylus) ((Border)o).ReleaseStylusCapture();
+                RoamingHitTestBorder_PointerUp(sender);
+            });
+            rh.StylusMove += ((o, args) => {
+                e.Handled = true;
+                RoamingHitTestBorder_PointerMove(sender, args.GetPosition(WrapperInkCanvas), args.GetPosition(null));
+            });
+            rh.MouseDown += ((o, args) => {
+                ((Border)o).CaptureMouse();
+                RoamingHitTestBorder_PointerDown(sender);
+            });
+            rh.MouseUp += ((o, args) => {
+                ((Border)o).ReleaseMouseCapture();
+                RoamingHitTestBorder_PointerUp(sender);
+            });
+            rh.MouseMove += ((o, args) => {
+                RoamingHitTestBorder_PointerMove(sender, args.GetPosition(WrapperInkCanvas), args.GetPosition(null));
+            });
+        }
+
+        /// <summary>
+        /// TODO: 设置页面的MatrixTransform（还没有正式完工）
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="matrix"></param>
+        private void _SetPageMatrixTransform(IccBoardPage page, Matrix matrix) {
+            if (page.Container.RenderTransformOrigin != new Point(0, 0))
+                page.Container.RenderTransformOrigin = new Point(0, 0);
+            page.Container.RenderTransform = new MatrixTransform(matrix);
+            WrapperInkCanvasMatrixTransform.Matrix = matrix;
+        }
+
+        private void RoamingHitTestBorder_PointerDown(object sender) {
+            if (isRoamingHitTestBorderPointerDown) return;
+            isRoamingHitTestBorderPointerDown = true;
+
+            roamingFirstPoint = null;
+            roamingLastPoint = null;
+            roamingMatrix = null;
+        }
+
+        private void RoamingHitTestBorder_PointerUp(object sender) {
+            if (!isRoamingHitTestBorderPointerDown) return;
+            isRoamingHitTestBorderPointerDown = false;
+
+            CurrentPageItem.TransformMatrix = (CurrentPageItem.Container.RenderTransform as MatrixTransform).Value;
+
+            roamingFirstPoint = null;
+            roamingLastPoint = null;
+            roamingMatrix = null;
+        }
+
+        private void RoamingHitTestBorder_PointerMove(object sender, Point ptInInkCanvas, Point ptAbsolute) {
+            if (!isRoamingHitTestBorderPointerDown) return;
+
+            if (roamingFirstPoint == null) roamingFirstPoint = ptAbsolute;
+            roamingLastPoint = ptAbsolute;
+
+            if (roamingMatrix == null) roamingMatrix = CurrentPageItem.TransformMatrix;
+            
+            var deltaX = (roamingLastPoint ?? new Point(0, 0)).X - (roamingFirstPoint ?? new Point(0, 0)).X;
+            var deltaY = (roamingLastPoint ?? new Point(0, 0)).Y - (roamingFirstPoint ?? new Point(0, 0)).Y;
+
+            var mt = roamingMatrix??new Matrix();
+            mt.Translate(deltaX,deltaY);
+            
+            _SetPageMatrixTransform(CurrentPageItem,mt);
         }
 
         #endregion

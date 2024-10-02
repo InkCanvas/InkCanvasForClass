@@ -57,6 +57,9 @@ namespace InkCanvasForClass.IccInkCanvas.Demo {
         private void EditingModeChangeToAreaErasing_ButtonClick(object sender, RoutedEventArgs e) {
             IccBoard.EditingMode = EditingMode.AreaErasing;
         }
+        private void EditingModeChangeToRoamingMode_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.EditingMode = EditingMode.RoamingMode;
+        }
         private void BoardSettingsNibSizeChangeTo2_ButtonClick(object sender, RoutedEventArgs e) {
             IccBoard.BoardSettings.NibWidth = 2;
             IccBoard.BoardSettings.NibHeight = 2;

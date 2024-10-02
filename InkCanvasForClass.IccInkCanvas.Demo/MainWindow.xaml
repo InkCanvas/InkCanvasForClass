@@ -16,6 +16,7 @@
                 <Button Content="EditingMode = Writing" Click="EditingModeChangeToWriting_ButtonClick"/>
                 <Button Content="EditingMode = GeometryErasing" Click="EditingModeChangeToGeometryErasing_ButtonClick"/>
                 <Button Content="EditingMode = AreaErasing" Click="EditingModeChangeToAreaErasing_ButtonClick"/>
+                <Button Content="EditingMode = RoamingMode" Click="EditingModeChangeToRoamingMode_ButtonClick"/>
             </WrapPanel>
             <TextBlock Name="BoardSettingsTextBlock"/>
             <WrapPanel Orientation="Horizontal">

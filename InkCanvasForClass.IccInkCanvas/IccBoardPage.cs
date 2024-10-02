@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace InkCanvasForClass.IccInkCanvas {
@@ -15,5 +16,6 @@ namespace InkCanvasForClass.IccInkCanvas {
         public InkCanvas InkCanvas { get; set; }
         public TimeMachine TimeMachine { get; set; } = new TimeMachine();
         public long LastStrokeID { get; set; } = 0;
+        public Matrix TransformMatrix { get; set; } = new Matrix();
     }
 }

@@ -63,7 +63,11 @@
         <Canvas Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualWidth}"
                 Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualHeight}"
                 ClipToBounds="True" x:Name="InkCanvasWrapperCanvas" x:FieldModifier="private" Visibility="Visible">
-            <local:IccInkCanvas x:Name="WrapperInkCanvas" Background="Transparent" x:FieldModifier="private" Loaded="WrapperInkCanvas_Loaded"/>
+            <local:IccInkCanvas x:Name="WrapperInkCanvas" Background="Transparent" x:FieldModifier="private" Loaded="WrapperInkCanvas_Loaded">
+                <local:IccInkCanvas.RenderTransform>
+                    <MatrixTransform x:Name="WrapperInkCanvasMatrixTransform" x:FieldModifier="private"/>
+                </local:IccInkCanvas.RenderTransform>
+            </local:IccInkCanvas>
         </Canvas>
         <Canvas Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualWidth}"
                 Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualHeight}"
@@ -83,5 +87,8 @@
                 </Border>
             </Border>
         </Canvas>
+        <Border Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualWidth}"
+                Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualHeight}"
+                x:Name="RoamingHitTestBorder" x:FieldModifier="private" Background="Transparent" Loaded="RoamingHitTestBorder_Loaded"/>
     </Grid>
 </UserControl>
