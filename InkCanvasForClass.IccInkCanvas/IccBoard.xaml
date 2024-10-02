@@ -77,7 +77,7 @@
         <Canvas Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualWidth}"
                 Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=ActualHeight}"
                 ClipToBounds="True" Loaded="RectangleAreaEraserCanvas_Loaded" x:Name="RectangleAreaEraserCanvas" Background="Transparent" x:FieldModifier="private">
-            <Border x:Name="AreaErasingFeedback" x:FieldModifier="private" Width="128" Height="128" BorderBrush="#9971717a" BorderThickness="1" Background="#3371717a">
+            <Border Visibility="Collapsed" x:Name="AreaErasingFeedback" x:FieldModifier="private" Width="128" Height="128" BorderBrush="#9971717a" BorderThickness="1" Background="#3371717a">
                 <Border VerticalAlignment="Center" HorizontalAlignment="Center" Width="68" Height="22" CornerRadius="10" Background="#b91c1c">
                     <TextBlock Margin="8,2" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">区域擦除</TextBlock>
                 </Border>

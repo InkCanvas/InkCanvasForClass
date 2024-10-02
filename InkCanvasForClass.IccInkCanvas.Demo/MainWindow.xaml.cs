@@ -29,6 +29,9 @@ namespace InkCanvasForClass.IccInkCanvas.Demo {
                 Trace.WriteLine("Page Counter Updated");
                 BoardPageTextBlock.Text = $"{IccBoard.CurrentPage+1}/{IccBoard.PagesCount}  IsLast:{IccBoard.IsCurrentLastPage}  IsFirst:{IccBoard.IsCurrentFirstPage}";
             };
+            IccBoard.UndoRedoStateChanged += (sender, args) => {
+                TimeMachineTextBlock.Text = $"CurrentPageHistoriesCount:{IccBoard.CurrentPageHistoriesCount}   CanUndo:{IccBoard.CanUndo}   CanRedo:{IccBoard.CanRedo}";
+            };
         }
 
         private void UpdateBoardSettingsTextBlock() {
@@ -113,6 +116,13 @@ namespace InkCanvasForClass.IccInkCanvas.Demo {
         }
         private void BoardSettingsEraserTypeChangeToEllipse_ButtonClick(object sender, RoutedEventArgs e) {
             IccBoard.BoardSettings.EraserType = EraserType.Ellipse;
+        }
+
+        private void Undo_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.Undo();
+        }
+        private void Redo_ButtonClick(object sender, RoutedEventArgs e) {
+            IccBoard.Redo();
         }
     }
 }

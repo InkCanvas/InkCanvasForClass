@@ -44,6 +44,11 @@
                 <Button Content="BoardSettings.EraserType = Rectangle" Click="BoardSettingsEraserTypeChangeToRectangle_ButtonClick"/>
                 <Button Content="BoardSettings.EraserType = Ellipse" Click="BoardSettingsEraserTypeChangeToEllipse_ButtonClick"/>
             </WrapPanel>
+            <TextBlock Name="TimeMachineTextBlock"/>
+            <WrapPanel Orientation="Horizontal">
+                <Button Content="Undo" Click="Undo_ButtonClick"/>
+                <Button Content="Redo" Click="Redo_ButtonClick"/>
+            </WrapPanel>
         </StackPanel>
     </Grid>
 </Window>

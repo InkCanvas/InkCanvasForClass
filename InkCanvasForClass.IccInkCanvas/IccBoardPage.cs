@@ -13,5 +13,7 @@ namespace InkCanvasForClass.IccInkCanvas {
         public Dispatcher Dispatcher { get; set; }
         public DispatcherContainer Container { get; set; }
         public InkCanvas InkCanvas { get; set; }
+        public TimeMachine TimeMachine { get; set; } = new TimeMachine();
+        public long LastStrokeID { get; set; } = 0;
     }
 }

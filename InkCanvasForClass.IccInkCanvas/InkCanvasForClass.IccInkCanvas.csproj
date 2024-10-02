@@ -72,6 +72,7 @@
     <Compile Include="Settings\EditingMode.cs" />
     <Compile Include="Settings\Enums.cs" />
     <Compile Include="Settings\Nib.cs" />
+    <Compile Include="TimeMachine.cs" />
     <Compile Include="Utils\Threading\AwaiterInterfaces.cs" />
     <Compile Include="Utils\Threading\DispatcherAsyncOperation.cs" />
     <Compile Include="Utils\Threading\DispatcherContainer.cs" />

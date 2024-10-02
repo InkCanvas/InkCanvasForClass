@@ -40,4 +40,32 @@ namespace InkCanvasForClass.IccInkCanvas.Settings {
         Rectangle,
         Ellipse,
     }
+
+    internal enum CommitReason {
+        /// <summary>
+        /// 由用户输入
+        /// </summary>
+        UserInput,
+        /// <summary>
+        /// 由代码手动添加
+        /// </summary>
+        CodeInput,
+        /// <summary>
+        /// 形状绘制
+        /// </summary>
+        ShapeDrawing,
+        /// <summary>
+        /// 墨迹识别
+        /// </summary>
+        ShapeRecognition,
+        /// <summary>
+        /// 清空画布
+        /// </summary>
+        ClearingCanvas,
+        /// <summary>
+        /// 已过时，不再直接对Stroke进行Transform来实现Manipulation
+        /// </summary>
+        [Obsolete]
+        Manipulation
+    }
 }
