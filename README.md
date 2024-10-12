@@ -1,3 +1,10 @@
+# 发生了什么？
+
+一切化成了灰烬。这曾经也是美好的一抹遐思...
+
+---
+
+
 ![annotation is just a click away](./icc-github-illustrations.png)
 
 <div align="center">
